@@ -10,12 +10,7 @@
   <meta property="og:title" content="{{ config.extra.author }}">
   <meta property="og:image" content="{{config.base_url ~ '/corrode.svg' }}">
   <meta property="og:description" content="Personal website of a web developer using zola static generator website.">
-  <link rel="preload"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="{{ get_url(path="style.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="{{ get_url(path="style.css") }}">
-    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-  </noscript>
+  <link rel="stylesheet" href="{{ get_url(path="style.css") }}">
 </head>
 
 <body>

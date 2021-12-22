@@ -23,8 +23,8 @@ years="2021"
 description = "by Matthias Endler"
 
 links = [
-    { url = "https://github.com/corrode", title="Github", icon = "fab fa-github"},
-    { url = "https://twitter.com/matthiasendler", title="Twitter", icon = "fab fa-twitter"},
-    { url = "https://www.linkedin.com/in/endlermatthias/", title="LinkedIn", icon = "fab fa-linkedin"},
-    { url = "mailto:", title="matthias@endler.dev", icon = "fas fa-envelope"}
+    { url = "https://github.com/corrode", title="Github", icon = "github.svg"},
+    { url = "https://twitter.com/matthiasendler", title="Twitter", icon = "twitter.svg"},
+    { url = "https://www.linkedin.com/in/endlermatthias/", title="LinkedIn", icon = "linkedin.svg"},
+    { url = "mailto:", title="matthias@endler.dev", icon = "envelope.svg"}
 ]
