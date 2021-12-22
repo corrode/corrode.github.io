@@ -1,0 +1,71 @@
+@keyframes skew {
+  0% {
+    transform: skew(0deg) rotate3D(0, 0, 1, 0deg);
+  }
+  25% {
+    transform: skew(6deg) rotate3D(0, 0.1, 1, 90deg);
+  }
+  50% {
+    transform: skew(3deg) rotate3D(0, 0, 1, 190deg);
+  }
+  75% {
+    transform: skew(5deg) rotate3D(0, 0.2, 1, 270deg);
+  }
+  100% {
+    transform: skew(1deg) rotate3D(0, 0, 1, 360deg);
+  }
+}
+
+@keyframes fluid-border {
+  0% {
+    border-radius: 165px 200px 180px 160px;
+  }
+  25% {
+    border-radius: 200px 150px 190px 200px;
+  }
+  50% {
+    border-radius: 190px 200px 100px 186px;
+  }
+  75% {
+    border-radius: 200px 175px 151px 180px;
+  }
+  100% {
+    border-radius: 165px 200px 180px 160px;
+  }
+}
+
+.homepage {
+  text-align: center;
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    margin-top: 2em;
+
+    & > * {
+      flex-basis: 1.5em;
+    }
+
+    .content-title {
+      display: flex;
+      flex-direction: column;
+      font-size: 2.8em;
+      font-weight: 600;
+    }
+
+    .content-subtitle {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-icons {
+      margin: 1em;
+      font-size: 1.75em;
+      a {
+        position: relative;
+        margin: 0 0.2em;
+      }
+    }
+  }
+}

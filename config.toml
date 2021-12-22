@@ -1,0 +1,30 @@
+# The URL the site will be built for
+base_url = "https://corrode.dev"
+
+theme = "ntun"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = false
+
+[extra]
+author = "Corrode Rust Consulting"
+hero_image="hero/future.svg"
+city="D&uuml;sseldorf"
+years="2021"
+
+description = "by Matthias Endler"
+
+links = [
+    { url = "https://github.com/corrode", title="Github", icon = "fab fa-github"},
+    { url = "https://twitter.com/matthiasendler", title="Twitter", icon = "fab fa-twitter"},
+    { url = "https://www.linkedin.com/in/endlermatthias/", title="LinkedIn", icon = "fab fa-linkedin"},
+    { url = "mailto:", title="matthias@endler.dev", icon = "fas fa-envelope"}
+]

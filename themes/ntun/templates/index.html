@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %}
+<div class="homepage">
+    <img class="hero"
+      src="/{{ config.extra.hero_image }}"
+    />
+  <div class="content">
+    <div class="content-title">{{ config.extra.author }}</div>
+    <div class="content-subtitle">
+      <span class="font-thin"> {{ config.extra.description }} </span>
+    </div>
+    <div class="content-icons">
+      {% for link in config.extra.links %}
+      <a
+        title="{{ link.title }}"
+        href="{{ link.url }}"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <i class="{{ link.icon }}"></i>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
