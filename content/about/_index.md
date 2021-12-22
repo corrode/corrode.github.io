@@ -16,3 +16,5 @@ He gave workshops at [emBO++](https://github.com/rust-embedded/wg/issues/235) in
 He is passionate about [Idiomatic Rust](https://github.com/mre/idiomatic-rust) and an avid [blogger](https://endler.dev/).
 
 With his solid knowledge around performance optimizations, scalability, concurrent- and parallel execution and WebAssembly, he helps clients around the world to get the most out of Rust.
+
+<a class="button" href="mailto:matthias@endler.dev">Get in contact</a>
