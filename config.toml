@@ -26,5 +26,5 @@ links = [
     { url = "https://github.com/corrode", title="Github", icon = "github.svg"},
     { url = "https://twitter.com/matthiasendler", title="Twitter", icon = "twitter.svg"},
     { url = "https://www.linkedin.com/in/endlermatthias/", title="LinkedIn", icon = "linkedin.svg"},
-    { url = "mailto:", title="matthias@endler.dev", icon = "envelope.svg"}
+    { url = "mailto:matthias@endler.dev", title="matthias@endler.dev", icon = "envelope.svg"}
 ]
