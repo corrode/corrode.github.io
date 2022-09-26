@@ -24,6 +24,16 @@
       flex-direction: column;
     }
 
+    .content-connect {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .content-connect a {
+      width: fit-content;
+    }
+
     .content-icons {
       margin: 1em;
       font-size: 1.75em;

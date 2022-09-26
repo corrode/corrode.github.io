@@ -1,12 +1,20 @@
 {% extends "base.html" %} {% block content %}
 <div class="homepage">
-    <img class="hero"
-      src="/{{ config.extra.hero_image }}"
-    />
+  <img class="hero" src="/{{ config.extra.hero_image }}" />
   <div class="content">
     <div class="content-title">{{ config.extra.author }}</div>
     <div class="content-subtitle">
       <span class="font-thin"> {{ config.extra.description }} </span>
+    </div>
+    <div class="content-connect">
+      <a
+        class="button"
+        href="https://cal.com/corrode"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Schedule Meeting
+      </a>
     </div>
     <div class="content-icons">
       {% for link in config.extra.links %}
