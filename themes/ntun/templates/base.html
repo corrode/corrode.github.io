@@ -27,6 +27,11 @@
         >
             <span>About</span>
         </a>
+        <a {% if current_path is containing("/legal") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
+            {% if lang == "en" %} href="{{ config.base_url ~ '/legal' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/legal'}}" {% endif %}
+        >
+            <span>Legal</span>
+        </a>
       </div>
     </nav>
     <main class="container">
