@@ -2,35 +2,8 @@
 <div class="homepage">
   <img class="hero" src="/{{ config.extra.hero_image }}" />
   <div class="content">
-    <div class="content-title">{{ config.extra.author }}</div>
-    <div class="content-subtitle">
-      <span class="font-thin"> {{ config.extra.description }} </span>
-    </div>
-    <div class="content-connect">
-      <!-- Cal inline embed code begins -->
-<div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline"></div>
-<script type="text/javascript">
-(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-Cal("init", {origin:"https://app.cal.com"});
-
-Cal("inline", {
-  elementOrSelector:"#my-cal-inline",
-  calLink: "corrode/30min"
-});
-
-Cal("ui", {"styles":{"branding":{"brandColor":"#000000"}},"hideEventTypeDetails":false});
-</script>
-<!-- Cal inline embed code ends -->
-
-<style>
-/* cal.com override */
-#my-cal-inline  {
-  overflow: hidden !important;
-}
-</style>
-
-
-    </div>
+    <h1>{{ config.extra.author }}</h1>
+    <h2>{{ config.extra.description }}</h2>
     <div class="content-icons">
       {% for link in config.extra.links %}
       <a
@@ -42,6 +15,56 @@ Cal("ui", {"styles":{"branding":{"brandColor":"#000000"}},"hideEventTypeDetails"
         <img class="content-icon" src="/icons/{{ link.icon }}" />
       </a>
       {% endfor %}
+    </div>
+  </div>
+  <div class="content dark">
+    <div class="content-connect">
+      <!-- Cal inline embed code begins -->
+      <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
+      <script type="text/javascript">
+        (function (C, A, L) {
+          let p = function (a, ar) {
+            a.q.push(ar);
+          };
+          let d = C.document;
+          C.Cal =
+            C.Cal ||
+            function () {
+              let cal = C.Cal;
+              let ar = arguments;
+              if (!cal.loaded) {
+                cal.ns = {};
+                cal.q = cal.q || [];
+                d.head.appendChild(d.createElement("script")).src = A;
+                cal.loaded = true;
+              }
+              if (ar[0] === L) {
+                const api = function () {
+                  p(api, arguments);
+                };
+                const namespace = ar[1];
+                api.q = api.q || [];
+                typeof namespace === "string"
+                  ? (cal.ns[namespace] = api) && p(api, ar)
+                  : p(cal, ar);
+                return;
+              }
+              p(cal, ar);
+            };
+        })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", { origin: "https://app.cal.com" });
+
+        Cal("inline", {
+          elementOrSelector: "#my-cal-inline",
+          calLink: "corrode/30min",
+        });
+
+        Cal("ui", {
+          styles: { branding: { brandColor: "#000000" } },
+          hideEventTypeDetails: false,
+        });
+      </script>
+      <!-- Cal inline embed code ends -->
     </div>
   </div>
 </div>

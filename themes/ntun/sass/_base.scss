@@ -1,3 +1,6 @@
+/*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
+html,body,p,ol,ul,li,dl,dt,dd,blockquote,figure,fieldset,legend,textarea,pre,iframe,hr,h1,h2,h3,h4,h5,h6{margin:0;padding:0}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}ul{list-style:none}button,input,select{margin:0}html{box-sizing:border-box}*,*::before,*::after{box-sizing:inherit}img,video{height:auto;max-width:100%}iframe{border:0}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
+
 *,
 *::before,
 *::after {
@@ -24,6 +27,17 @@ body {
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+h1 {
+  font-size: 2.8em;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 2.2em;
+  font-weight: 300;
+}
+
+
 .app {
   display: flex;
   flex-direction: column;
@@ -32,7 +46,7 @@ body {
 
 img.hero {
   max-width: 100%;
-  width: 800px;
+  width: 1000px;
 }
 
 .nav {
@@ -82,9 +96,6 @@ img.hero {
 
 .container {
   height: auto;
-  display: flex;
-  flex: 1 1 auto;
-  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
 }
@@ -105,9 +116,6 @@ img.hero {
   font-weight: 500;
 }
 
-.font-thin {
-  font-weight: 300;
-}
 
 a {
   color: $brightPrim;
@@ -125,4 +133,9 @@ a {
 
 .button a {
   color: white;
+}
+
+.dark {
+  color: $darkPrim;
+  background-color: $darkBgrd;
 }

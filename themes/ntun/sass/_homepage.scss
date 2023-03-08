@@ -6,33 +6,16 @@
     flex-direction: column;
     justify-content: space-between;
 
+    padding: 2em;
+
     margin-top: 2em;
 
     & > * {
       flex-basis: 1.5em;
     }
 
-    .content-title {
-      display: flex;
-      flex-direction: column;
-      font-size: 2.8em;
-      font-weight: 600;
-    }
-
-    .content-subtitle {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .content-connect {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .content-connect a {
-      width: fit-content;
-    }
+    // .content-connect {
+    // }
 
     .content-icons {
       margin: 1em;
