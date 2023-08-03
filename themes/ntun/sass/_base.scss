@@ -18,8 +18,9 @@ html {
 body {
   color: $brightPrim;
   background-color: $brightBgrd;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: 'Inter', Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 18px;
+  line-height: 2;
 }
 
 .app {
@@ -40,6 +41,12 @@ h2 {
 img.hero {
   max-width: 100%;
   width: 1000px;
+}
+
+a {
+  color: $brightPrim;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .nav {
@@ -84,12 +91,12 @@ section {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 20px 0;
+  margin: 3em 0; 
 }
 
 .section-content {
   display: flex;
-  max-width: 80%;
+  max-width: 70%;
   margin: auto;
 }
 
@@ -115,8 +122,6 @@ section {
   margin-bottom: 10px;
 }
 
-
-
 .footer {
   display: flex;
   align-items: center;
@@ -130,12 +135,6 @@ section {
 
 .font-medium {
   font-weight: 500;
-}
-
-a {
-  color: $brightPrim;
-  text-decoration: none;
-  font-weight: 600;
 }
 
 .button {
@@ -153,4 +152,9 @@ a {
 .dark {
   color: $darkPrim;
   background-color: $darkBgrd;
+}
+
+.dark a {
+  color: white;
+  border-bottom: 2px solid white;
 }
