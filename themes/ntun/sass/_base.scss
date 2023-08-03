@@ -28,6 +28,10 @@ body {
   flex-direction: column;
 }
 
+h1,h2,h3,h4,h5,h6{
+  margin:0;padding:0
+}
+
 h1 {
   font-size: 2.8em;
   font-weight: 600;
@@ -60,6 +64,7 @@ a {
 
   .nav-right {
     display: flex;
+    gap: 1em;
     align-items: center;
     margin-right: 4em;
   }

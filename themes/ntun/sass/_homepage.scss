@@ -15,11 +15,12 @@
     }
 
     .content-icons {
-      margin: 1em;
+      margin: auto;
       font-size: 1.75em;
+      display: flex;
+      gap: 0.6em;
       a {
         position: relative;
-        margin: 0 0.2em;
       }
     }
 
