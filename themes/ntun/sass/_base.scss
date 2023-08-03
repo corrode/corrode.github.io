@@ -20,7 +20,7 @@ body {
   background-color: $brightBgrd;
   font-family: 'Inter', Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 18px;
-  line-height: 2;
+  line-height: 1.7;
 }
 
 .app {
@@ -112,8 +112,12 @@ section {
 }
 
 .section-headline {
-  font-size: 2em;
-  margin-bottom: 10px;
+  color: white;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
+  text-decoration-color: $brightBgrd;
 }
 
 .section-paragraph {
@@ -123,10 +127,10 @@ section {
 }
 
 .footer {
-  display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  margin: 40px auto;
 
   .copyright {
     color: $brightScnd;
@@ -156,5 +160,8 @@ section {
 
 .dark a {
   color: white;
-  border-bottom: 2px solid white;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  text-decoration-color: $brightBgrd;
 }
