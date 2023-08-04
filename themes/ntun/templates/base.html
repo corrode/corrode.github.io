@@ -18,7 +18,7 @@
 <body>
   <div class="app">
     <nav class="nav">
-      <a {% if current_path == "/" or current_path == "fr/" %} class="nav-item active" {% else %} class="nav_item" {% endif %}
+      <a {% if current_path == "/" or current_path == "fr/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
           {% if lang == "en" %} href="{{ config.base_url ~ '/' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang}}" {% endif %}
       >
         <img src="{{ config.base_url ~ '/corrode.svg' }}" alt="corrode" width="200">
