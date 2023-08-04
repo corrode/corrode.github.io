@@ -5,5 +5,15 @@
     <h2 class="subheading">{{ section.extra.series }}</h2>
     <h1>{{ section.title }}</h1>
     <div>{{ section.content | safe }}</div>
+    <div class="callout">
+      <h2>Hey, let's be friends!</h2>
+      <p>
+        If you made it this far, I bet you'll like my future articles, too.
+        <strong>Sign up and we'll be best friends forever.</strong> I'll send you updates on my latest
+        articles and projects, and you have someone you can pair-program with.
+        We should go watch a movie together sometime. 🍿 
+      </p>
+      {% include "newsletter.html" %}
+    </div>
   </div>
 {% endblock content %}

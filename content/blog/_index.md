@@ -33,21 +33,22 @@ let user = User {
 };
 ```
 
-Intuitively, we know that this is not what we want, but the compiler can't help us.
+Intuitively, we know that this is **not** what we want, but the compiler can't help us.
 We did not give it enough information about user names.
-Already with this simple example, we managed to introduce illegal state.
+Already, with this simple example, we managed to introduce illegal state.
 
 Now, how can we fix this?
 
 ## The Type System Is Your Friend
 
 Consider the `String` type. It's a type that represents 
-an arbitrary sequence of unicode characters. In reality, we need much stricter
+an arbitrary sequence of unicode characters. In our case, we need much stricter
 constraints. For a start, we want to make sure that the name is *not
 empty*.
 
 Whenever you're uncertain how to model something in Rust,
 start by defining your basic types &mdash; your domain.
+That takes some practice, but your code will be much better for it.
 
 In our case, we want to define a type that represents a name.
 
@@ -142,6 +143,7 @@ Let's add some constraints.
 struct Birthdate(chrono::NaiveDate);
 
 impl Birthdate {
+    #[must_use]
     fn new(birthdate: chrono::NaiveDate) -> Result<Self, &'static str> {
         let today = chrono::Utc::today().naive_utc();
         if birthdate > today {
@@ -203,6 +205,25 @@ it doesn't contain any special characters or numbers:
 struct Name(String);
 
 impl Name {
+    /// Represents a user's name.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if
+    /// - the name is empty
+    /// - the name is longer than 100 characters
+    /// - the name contains non-alphabetic characters
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use yourcrate::name::Name;
+    /// assert!(Name::new(String::new()).is_err());
+    /// assert!(Name::new("123".into()).is_err());
+    /// assert!(Name::new("".into()).is_err());
+    /// assert!(Name::new("John Doe".into()).is_ok());
+    /// ```
+    #[must_use]
     fn new(name: String) -> Result<Self> {
         if name.is_empty() {
             return Err("name must not be empty");
@@ -216,20 +237,13 @@ impl Name {
         Ok(Self(name))
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_name() {
-        assert!(Name::new(String::new()).is_err());
-        assert!(Name::new("123".into()).is_err());
-        assert!(Name::new("".into()).is_err());
-        assert!(Name::new("John Doe".into()).is_ok());
-    }
-}
 ```
+
+I've added some documentation and examples, which will be shown in the
+documentation of the `Name` struct. This is a great way to document your
+constraints and to show how to use your types! As an added bonus, you can run
+these examples as tests by using `cargo test --doc`.
+
 
 ## Library Support
 

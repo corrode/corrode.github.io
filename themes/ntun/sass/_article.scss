@@ -8,6 +8,10 @@
   line-height: 1.5;
 }
 
+.article p {
+  margin-bottom: 2.0em;
+}
+
 details {
   border-top: 2px solid $brightScnd;
   border-bottom: 2px solid $brightScnd;
@@ -76,3 +80,60 @@ details[open] summary::before {
   text-decoration-color: $brightScnd
 }
 
+.callout {
+  width: 160%; 
+  margin-left: -30%;
+  padding: 1em;
+  margin-top: 2em;
+  border: 1px solid $brightScnd;
+  border-radius: 5px;
+  background-color: rgba(238, 56, 86, 0.1); /* This is a light version of your $brightScnd color */
+}
+
+.callout h2 {
+  color: $brightScnd;
+}
+
+.callout p {
+  color: $brightPrim;
+}
+
+.callout .postscript {
+  font-size: 0.9em;
+  margin-top: 1em;
+}
+
+.callout form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.callout input[type="text"] {
+  font-size: 1em;
+  padding: 0.8em;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.callout input[type="submit"] {
+  font-size: 1em;
+  padding: 0.8em;
+  border: none;
+  border-radius: 5px;
+  background-color: $brightScnd;
+  color: white;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .callout form {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .callout input[type="submit"] {
+    width: auto;
+  }
+}
