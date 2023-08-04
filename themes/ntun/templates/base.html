@@ -45,18 +45,11 @@
       {% block content %} {% endblock %}
     </main>
     <footer class="footer">
-      <div>
-
-      <span class="copyright">©</span>&nbsp;2023 - D&uuml;sseldorf, Germany
-      </div>
-      <div>
-        Icons Sources:
-        <ul>
-          <li>
-            <a href="https://www.vecteezy.com/free-vector/bolt">Bolt Vectors by Vecteezy</a>
-          </li>
-        </ul>
-      </div>
+      {% block footer %}
+        <div>
+          <span class="copyright">©</span>&nbsp;2023 - D&uuml;sseldorf, Germany
+        </div>
+      {% endblock footer %}
     </footer>
   </div>
 </body>
