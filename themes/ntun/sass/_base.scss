@@ -43,6 +43,13 @@ h1 {
 h2 {
   font-size: 2.2em;
   font-weight: 300;
+  margin-bottom: 25px;
+}
+
+h3 {
+  font-size: 1.5em;
+  font-weight: 300;
+  margin-bottom: 20px;
 }
 
 img.hero {
@@ -91,16 +98,11 @@ a {
   .nav-item {
     padding: 10px;
 
-    &.active span:before {
-      position: absolute;
-      height: 2px;
-      width: 50%;
-      left: 25%;
-      transform: translate(0, -50%);
-      bottom: -5px;
-      background: white;
-      content: "";
-      border-radius: 2px;
+    &.active {
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 6px;
+      text-decoration-color: black;
     }
   }
 }
