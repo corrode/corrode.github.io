@@ -1,6 +1,6 @@
 +++
 title = "Legal Information"
-template = "article.html"
+template = "page.html"
 sort_by = "date"
 +++
 

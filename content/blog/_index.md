@@ -1,13 +1,15 @@
 +++
-title = "Idiomatic Rust: Making Illegal States Unrepresentable"
+title = "Making Illegal States Unrepresentable"
 template = "article.html"
 sort_by = "date"
+[extra]
+series = "Idiomatic Rust"
 +++
 
 If you worked with Rust for a while, you probably heard the phrase *"making
 illegal states unrepresentable"*. It's a phrase that's often used when people
-praise Rust's type system. But what exactly does it mean? And how can we apply it to our
-own code?
+praise Rust's type system. But what exactly does it mean? And how can you apply
+it to your own code?
 
 ## What is illegal state?
 
@@ -31,7 +33,8 @@ let user = User {
 };
 ```
 
-Intuitively, we know that this is incorrect, but the compiler can't help us.
+Intuitively, we know that this is not what we want, but the compiler can't help us.
+We did not give it enough information about user names.
 Already with this simple example, we managed to introduce illegal state.
 
 Now, how can we fix this?
@@ -53,9 +56,9 @@ struct Name(String);
 
 impl Name {
     #[must_use]
-    fn new(name: String) -> Result<Self> {
+    fn new(name: String) -> Result<Self, &'static str> {
         if name.is_empty() {
-            None
+            Err("Name cannot be empty")
         } else {
             Ok(Self(name))
         }
@@ -64,10 +67,11 @@ impl Name {
 ```
 
 Note how the constructor returns a `Result`. 
+
 Furthermore, we're using the `#[must_use]` attribute to indicate that
 the return value of this function should be used.
-It's a good practice to use this attribute whenever you're returning a `Result`
-carrying a value. (What's the point of returning a value if you're not going to
+It's a good practice to add this attribute whenever you're returning a `Result`
+carrying a value. (After all, what's the point of returning a value if you're not going to
 use it?)
 
 We can now use this type in our `User` struct.
@@ -85,14 +89,15 @@ impl User {
 }
 ```
 
-Note how the compiler now guides us toward idiomatic Rust code?
-It's very subtle, but `name` is now of type `Name` instead of `String`.
+Note how the compiler now guides us towards idiomatic Rust code?
+It's subtle, but `name` is now of type `Name` instead of `String`.
 This means that we can't accidentally create a user with an empty name.
 The name has to be constructed before:
 
 ```rust
-let name = Name::new("John Doe".to_string()).expect("Failed to create Name");
-let user = User::new(name, chrono::NaiveDate::from_ymd(1990, 1, 1));
+let name = Name::new("John Doe".to_string())?;
+let birthdate = NaiveDate::from_ymd(1990, 1, 1);
+let user = User::new(name, birthdate);
 ```
 
 <details>
@@ -110,7 +115,22 @@ The code becomes
 
 ```rust
 let name = Name::new("John Doe")?;
-let user = User::new(name, 42);
+```
+
+You could also implement TryFrom:
+
+```rust
+use std::convert::TryFrom;
+
+impl<'a> TryFrom<&'a str> for Name<'a> {
+    type Error = &'static str;
+
+    fn try_from(value: &'a str) -> Result<Self, Self::Error> {
+        Self::new(value)
+    }
+}
+
+let user = User::new("John Doe".try_into()?, birthdate);
 ```
 </details>
 
@@ -128,7 +148,7 @@ impl Birthdate {
             return Err("Birthdate cannot be in the future")
         }
         if today.year() - birthdate.year() > 150 {
-            return Err("You're likely dead")
+            return Err("How are you not dead yet?")
         }
         if today.year() - birthdate.year() < 12 {
             return Err("Not old enough")
@@ -137,7 +157,26 @@ impl Birthdate {
         Ok(Self(birthdate))
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_birthdate() {
+        let today = chrono::Utc::today().naive_utc();
+        assert!(Birthdate::new(today).is_ok());
+        // Birthdate cannot be in the future
+        assert!(Birthdate::new(today + Duration::days(1)).is_err());
+        // Excuse me, how old are you?
+        assert!(Birthdate::new(today - Duration::days(365 * 150)).is_err());
+        // Not old enough
+        assert!(Birthdate::new(today - Duration::days(365 * 12)).is_err());
+    }
+}
 ```
+
+No mocking, no complicated setup, testing is a breeze.
 
 Our `User` struct now looks like this:
 
@@ -151,12 +190,12 @@ struct User {
 ## Adding More Constraints
 
 It might sound simple, trivial even, but this is a very powerful technique.
-What's important is that you're handling errors at the lowest level
-possible. In this case when you create the `Name` object &mdash; and
-not when you insert it into your database for example.
+What's important is that you're handling errors at the lowest possible level. In
+this case when you create the `Name` object &mdash; and not when you insert it
+into your database for example.
 
 This will make your code much more robust and easier to reason about and it's
-easy to add more constraints as you go along. For example, we might want
+quick to add more constraints as you go along. For example, we might want
 to make sure that the name is not longer than 100 characters and that
 it doesn't contain any special characters or numbers:
 
@@ -196,10 +235,13 @@ mod tests {
 
 I personally prefer to write my own validation functions as shown above
 but, you might want to consider using a validation library like
-[validator](https://crates.io/crates/validator):
+[validator](https://crates.io/crates/validator).
 
 ## Conclusion
 
-Use small, custom types to model your domain. This will make your code more
-robust, easier to test and reason about.
+This was just a small example to demonstrate what it means to make illegal
+states unrepresentable. 
 
+If possible, use self-contained, custom types to model your domain.
+It will make your code more robust, easier to test and reason about.
+Happy coding!

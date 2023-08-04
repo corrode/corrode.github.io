@@ -1,17 +1,11 @@
-
 .article {
   font-weight: 400;
   padding: 1em;
 
-  margin: 0 auto;
+  margin: 50px auto;
   max-width: 500px;
 
   line-height: 1.5;
-}
-
-.article h2 code {
-  font-size: 0.75em;
-  font-weight: 600;
 }
 
 details {
@@ -44,3 +38,41 @@ details summary::before {
 details[open] summary::before {
   transform: rotate(90deg);
 }
+
+.article pre {
+  position: relative;
+  overflow: auto;
+  width: 160%; 
+  margin-left: -30%;
+  background-color: $darkBgrd;
+  border-radius: 4px;
+  padding: 2.5em;
+  color: white;
+  line-height: 1.7;
+}
+
+/* Only apply to inline code */
+.article code:not(pre > code) {
+  background-color: rgba(87, 69, 28, 0.2);
+  border-radius: 4px;
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+  font-family: monospace;
+  line-height: 1.5;
+  color: $brightPrim; 
+}
+
+.article h2 code:not(pre > code) {
+  font-size: 0.7em;
+}
+
+.article .subheading {
+  font-size: 1.5em;
+  font-weight: normal;
+  margin-bottom: 0.3em;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
+  text-decoration-color: $brightScnd
+}
+
