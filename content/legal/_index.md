@@ -15,17 +15,14 @@ Send me an email at <hi@corrode.dev>.
 
 Responsible for this publication is Matthias Endler, according to §5 TMG (Germany).
 
-<div>
-    Icon Sources:
-    <ul>
-    <li><a href="https://www.vecteezy.com/free-vector/bolt" target="_blank" rel="nofollow">Bolt Vectors by Vecteezy</a></li>
-    <li><a href="https://thenounproject.com/browse/icons/term/high-five/" target="_blank" rel="nofollow">high five by HeadsOfBirds from Noun Project (CC BY 3.0)</a></li>
-    <li><a href="https://tokio.rs/" target="_blank" rel="nofollow">Tokio Icon by carllerche and contributors</a></li>
-    <li><a href="https://www.rust-lang.org/" target="_blank" rel="nofollow">Rust Logo by The Rust Foundation</a></li>
-    <li><a href="https://www.python.org/community/logos/" target="_blank" rel="nofollow">Python Logo by Python Software Foundation</a></li>
-    <li><a href="https://github.com/voodootikigod/logo.js" target="_blank" rel="nofollow">Unofficial JavaScript Logo by Chris Williams</a></li>
-    <li><a href="https://github.com/logos" target="_blank" rel="nofollow">GitHub Logo by GitHub</a></li>
-    <li><a href="https://bitbucket.org/product" target="_blank" rel="nofollow">Bitbucket Logo by Atlassian</a></li>
-    <li><a href="https://about.gitlab.com/press/" target="_blank" rel="nofollow">GitLab Logo by GitLab</a></li>
-    </ul>
-</div>
+### Icon Sources
+
+- [Bolt Vectors by Vecteezy](https://www.vecteezy.com/free-vector/bolt)
+- [high five by HeadsOfBirds from Noun Project (CC BY 3.0)](https://thenounproject.com/browse/icons/term/high-five/)
+- [Tokio Icon by carllerche and contributors](https://tokio.rs/)
+- [Rust Logo by The Rust Foundation](https://www.rust-lang.org/)
+- [Python Logo by Python Software Foundation](https://www.python.org/community/logos/)
+- [Unofficial JavaScript Logo by Chris Williams](https://github.com/voodootikigod/logo.js)
+- [GitHub Logo by GitHub](https://github.com/logos)
+- [Bitbucket Logo by Atlassian](https://bitbucket.org/product)
+- [GitLab Logo by GitLab](https://about.gitlab.com/press/)
