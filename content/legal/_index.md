@@ -4,13 +4,14 @@ template = "about.html"
 sort_by = "date"
 +++
 
-You can reach me at hi@corrode.dev.
+Corrode Rust Consulting  
+c/o Matthias Endler  
+Florastraße 41, 40217 Düsseldorf, Germany 
 
-You can write to me at: Florastraße 41, 40217 Düsseldorf, Germany
+Jurisdiction: Düsseldorf, Germany  
+VAT ID: DE 350 980 192  
 
-Jurisdiction: Düsseldorf, Germany
-
-VAT ID: DE 350 980 192
+Send me an email at <hi@corrode.dev>.
 
 Responsible for this publication is Matthias Endler, according to §5 TMG (Germany).
 
