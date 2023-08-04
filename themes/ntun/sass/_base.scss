@@ -139,15 +139,6 @@ section {
   text-align: left;
 }
 
-.section-headline {
-  color: white;
-  line-height: 1.2;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 6px;
-  text-decoration-color: $brightBgrd;
-}
-
 .section-paragraph {
   font-size: 1em;
   line-height: 1.5;
@@ -192,4 +183,20 @@ section {
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
   text-decoration-color: $brightBgrd;
+}
+
+.dark h1, .dark h2, .call-to-action h1 {
+  color: white;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
+  text-decoration-color: $brightBgrd;
+}
+
+.call-to-action {
+  padding: 100px 0;
+  background-color: $brightPrim;
+  color: white;
+  text-align: center;
 }
