@@ -30,6 +30,11 @@
         >
             <span>About</span>
         </a>
+        <a {% if current_path is containing("/blog") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
+            {% if lang == "en" %} href="{{ config.base_url ~ '/blog' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/blog'}}" {% endif %}
+        >
+            <span>Blog</span>
+        </a>
         <a {% if current_path is containing("/legal") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
             {% if lang == "en" %} href="{{ config.base_url ~ '/legal' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/legal'}}" {% endif %}
         >

@@ -1,0 +1,46 @@
+
+.article {
+  font-weight: 400;
+  padding: 1em;
+
+  margin: 0 auto;
+  max-width: 500px;
+
+  line-height: 1.5;
+}
+
+.article h2 code {
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+details {
+  border-top: 2px solid $brightScnd;
+  border-bottom: 2px solid $brightScnd;
+  padding-top: 1em;
+}
+
+details > summary {
+  list-style: none;
+}
+
+details summary {
+  position: relative;
+  display: flex;
+  align-items: flex-start; /* Align to the first line of the summary */
+}
+
+details summary::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpolyline points='1,1 5,5 1,9' stroke='%23000000' stroke-width='2' fill='none' /%3E%3C/svg%3E") no-repeat;
+  background-size: 20px 20px; /* Adjusts the size of the arrow */
+  position: absolute;
+  left: -40px; /* Adjust the position of the arrow */
+  top: 1.0em; /* Adjusts the top position of the arrow to align with the first line of the summary */
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
