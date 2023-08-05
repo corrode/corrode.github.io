@@ -201,3 +201,17 @@ section {
   color: white;
   text-align: center;
 }
+
+@media (max-width: 750px) {
+  .hero-headline {
+    font-size: 2em;
+  }
+
+  .hero-subheadline {
+    font-size: 1.2em;
+  }
+
+  img.hero {
+    width: 100%;
+  }
+}
