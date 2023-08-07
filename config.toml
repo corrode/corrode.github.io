@@ -15,7 +15,7 @@ highlight_theme = "kronuz"
 
 [extra]
 author = "Corrode Rust Consulting"
-hero_image="hero/future.svg"
+hero_image="hero/hero.svg"
 city="D&uuml;sseldorf"
 years="2023"
 
