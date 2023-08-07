@@ -93,10 +93,7 @@ let birthdate = NaiveDate::from_ymd(1990, 1, 1);
 let user = User::new(name, birthdate);
 ```
 
-<details>
-<summary>
-<h2>Side Note: How do we get rid of <code>to_string()</code>?</h2>
-</summary>
+## Side Note: How do we get rid of <code>to_string()</code>?
 
 You could implement `TryFrom`:
 
@@ -113,9 +110,9 @@ impl<'a> TryFrom<&'a str> for Name {
 
 let user = User::new("John Doe".try_into()?, birthdate);
 ```
-</details>
 
-Now let's think about the birthdate.
+## What About the Birthdate?
+
 A new user that is 1000 years old is probably not a valid user.
 Let's add some constraints.
 
