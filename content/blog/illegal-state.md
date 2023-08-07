@@ -1,7 +1,6 @@
 +++
 title = "Making Illegal States Unrepresentable"
 template = "article.html"
-sort_by = "date"
 [extra]
 series = "Idiomatic Rust"
 +++
