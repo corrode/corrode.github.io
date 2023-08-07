@@ -56,7 +56,6 @@ In our case, we want to define a type that represents a name.
 struct Name(String);
 
 impl Name {
-    #[must_use]
     fn new(name: String) -> Result<Self, &'static str> {
         if name.is_empty() {
             Err("Name cannot be empty")
@@ -67,14 +66,7 @@ impl Name {
 }
 ```
 
-Note how the constructor returns a `Result`. 
-
-Furthermore, we're using the `#[must_use]` attribute to indicate that
-the return value of this function should be used.
-It's a good practice to add this attribute whenever you're returning a `Result`
-carrying a value. (After all, what's the point of returning a value if you're not going to
-use it?)
-
+Note how the constructor returns a `Result`.   
 We can now use this type in our `User` struct.
 
 ```rust
@@ -106,28 +98,16 @@ let user = User::new(name, birthdate);
 <h2>Side Note: How do we get rid of <code>to_string()</code>?</h2>
 </summary>
 
-We can refactor our Name struct to accept any string reference:
-
-```rust
-struct Name<'a>(&'a str);
-```
-
-The code becomes
-
-```rust
-let name = Name::new("John Doe")?;
-```
-
-You could also implement TryFrom:
+You could implement `TryFrom`:
 
 ```rust
 use std::convert::TryFrom;
 
-impl<'a> TryFrom<&'a str> for Name<'a> {
+impl<'a> TryFrom<&'a str> for Name {
     type Error = &'static str;
 
     fn try_from(value: &'a str) -> Result<Self, Self::Error> {
-        Self::new(value)
+        Self::new(value.into())
     }
 }
 
