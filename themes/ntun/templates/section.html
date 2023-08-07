@@ -3,9 +3,18 @@
   <h1>Blog</h1>
   <div>{{ section.content | safe }}</div>
   <ul>
-  {% for page in section.pages  %}
-      <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
-  {% endfor %}
+    {% for page in section.pages %}
+    <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
+    {% endfor %}
   </ul>
+  <div class="callout">
+    <h2>Launching early</h2>
+    <p>
+      This looks pretty empty, but it won't be for long! I'm working on a bunch
+      of articles about idiomatic Rust that I think you'll like. If you want to be notified when I
+      publish them, you should sign up for my newsletter. You'll love it.
+    </p>
+    {% include "newsletter.html" %}
+  </div>
 </div>
 {% endblock content %}
