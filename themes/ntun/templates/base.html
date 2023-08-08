@@ -19,23 +19,23 @@
 <body>
   <div class="app">
     <nav class="nav">
-      <a {% if current_path == "/" or current_path == "fr/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+      <a {% if current_path and current_path == "/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
           {% if lang == "en" %} href="{{ config.base_url ~ '/' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang}}" {% endif %}
       >
         <img src="{{ config.base_url ~ '/corrode.svg' }}" alt="corrode" width="200" height="85">
       </a>
       <div class="nav-right">
-        <a {% if current_path is containing("/about") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
+        <a {% if current_path and current_path is containing("/about") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
             {% if lang == "en" %} href="{{ config.base_url ~ '/about' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}
         >
             <span>About</span>
         </a>
-        <a {% if current_path is containing("/blog") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
+        <a {% if current_path and current_path is containing("/blog") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
             {% if lang == "en" %} href="{{ config.base_url ~ '/blog' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/blog'}}" {% endif %}
         >
             <span>Blog</span>
         </a>
-        <a {% if current_path is containing("/legal") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
+        <a {% if  current_path and current_path is containing("/legal") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
             {% if lang == "en" %} href="{{ config.base_url ~ '/legal' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/legal'}}" {% endif %}
         >
             <span>Legal</span>

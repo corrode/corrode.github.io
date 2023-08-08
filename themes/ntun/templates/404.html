@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ get_url(path="style.css") }}">
-  <title>ERROOOOOOOORRR</title>
-</head>
-<body>
-  <div class="error-content">
-    <h1>
-      <span class="char1">E</span>
-      <span class="char2">R</span>
-      <span class="char3">R</span>
-      <span class="char4">O</span>
-      <span class="char5">R</span>
-      <span class="char7">4</span>
-      <span class="char8">0</span>
-      <span class="char9">4</span>
-    </h1>
-    <img src="/ronflex.png" />
+{% extends "base.html" %} {% block content %}
+<div class="article">
+  <h1>Bummer</h1>
+  <div>
+    <p>
+      I'm sorry, but I couldn't find the page you were looking for. Maybe you
+      mistyped the URL, or maybe I messed up. Either way, I'm sorry. 😞
+    </p>
+    <p>
+      Let's start over. You can go back to the <a href="/">home page</a> or
+      check out my <a href="/blog">blog</a>.
+    </p>
+
   </div>
-</body>
-</html>
+</div>
+{% endblock content %}
