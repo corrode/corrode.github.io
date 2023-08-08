@@ -6,14 +6,14 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-If you worked with Rust for a while, you probably heard the phrase *"making
-illegal states unrepresentable"*. It's a phrase that's often used when people
+If you've worked with Rust for a while, you've probably heard the phrase "making
+illegal states unrepresentable". It's a phrase that's often used when people
 praise Rust's type system. But what exactly does it mean? And how can you apply
 it to your own code?
 
 ## What is illegal state?
 
-Imagine we're writing a application which manages a list of users. 
+Imagine we're writing a application that manages a list of users. 
 
 ```rust
 struct User {
