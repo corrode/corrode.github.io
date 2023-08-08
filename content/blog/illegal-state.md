@@ -21,6 +21,7 @@ struct User {
     username: String,
     birthdate: chrono::NaiveDate,
 }
+```
 
 Looks simple enough, but is it correct?
 
