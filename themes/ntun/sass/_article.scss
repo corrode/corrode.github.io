@@ -163,20 +163,26 @@ details[open] summary::before {
   .article pre {
     width: 100%; 
     margin-left: 0;
+    padding: 10px;
+    font-size: 0.8em;
   }
 
   .callout {
     width: 100%; 
     margin-left: 0;
   }
-}
 
-@media (max-width: 750px) {
   .callout form {
     flex-direction: column;
   }
 
   .callout input[type="submit"] {
     width: 100%;
+  }
+
+  .social {
+    margin-top: 3em;
+    padding-top: 1em;
+    display: block;
   }
 }
