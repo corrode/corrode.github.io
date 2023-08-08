@@ -1,6 +1,7 @@
 +++
 title = "Using Enums to Represent State"
 template = "article.html"
+date = 2023-08-08
 [extra]
 series = "Idiomatic Rust"
 +++

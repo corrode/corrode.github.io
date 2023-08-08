@@ -1,5 +1,6 @@
 +++
 title = "Making Illegal States Unrepresentable"
+date = 2023-08-06
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
