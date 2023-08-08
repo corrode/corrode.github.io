@@ -4,17 +4,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> {{config.extra.author }} </title>
+  <title>{{ config.extra.author }}</title>
   <meta name="author" content="{{ config.extra.author }}">
-  <meta name=description content="Personal website of a web developer using zola static generator website.">
+  <meta name="description" content="Corrode Rust Consulting | Trainings and Contracting">
+
+  <!-- Open Graph tags -->
   <meta property="og:title" content="{{ config.extra.author }}">
-  <meta property="og:image" content="{{config.base_url ~ '/corrode.svg' }}">
-  <meta property="og:description" content="Personal website of a web developer using zola static generator website.">
+  <meta property="og:description" content="Rust consulting and development based in Germany that puts people first.">
+  <meta property="og:image" content="{{ config.base_url ~ '/social/social.png' }}">
+  <meta property="og:url" content="{{ config.base_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ config.extra.author }}">
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ config.extra.author }}">
+  <meta name="twitter:description" content="Rust consulting and development based in Germany that puts people first.">
+  <meta name="twitter:image" content="{{ config.base_url ~ '/social/social.png' }}">
+
   <link rel="me" href="https://mastodon.social/@mre">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ get_url(path="style.css") }}">
+  <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
 </head>
+
 
 <body>
   <div class="app">
