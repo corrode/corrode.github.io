@@ -5,7 +5,7 @@ if (
   window.location.hostname !== "localhost" &&
   window.location.hostname !== "127.0.0.1"
 ) {
-  const oxitraffic_base_url = "https://oxitraffic-corrode-dev.mo8it.com/";
+  const oxitraffic_base_url = "https://oxitraffic-corrode-dev.mo8it.com";
   const sleep_in_seconds = 20;
 
   // Register and get an ID.
