@@ -98,11 +98,12 @@ a {
 
   .nav-right {
     display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
     gap: 1em;
     align-items: center;
     margin-right: 4em;
   }
-
+  
   .nav-item {
     padding: 10px;
 
@@ -171,6 +172,7 @@ section {
   border-radius: 8px;
   background-color: $brightPrim;
   color: white;
+  white-space: nowrap;
 }
 
 .button a {
@@ -217,5 +219,19 @@ section {
 
   img.hero {
     width: 100%;
+  }
+
+  .nav {
+    flex-direction: column; /* Stack items vertically on small screens */
+
+    .nav-right {
+      gap: 0.3em;
+      margin-right: 0; /* Remove extra margin on small screens */
+      justify-content: center; /* Center items on small screens */
+    }
+
+    .nav-item {
+      padding: 5px; /* Reduce padding on small screens */
+    }
   }
 }
