@@ -14,28 +14,27 @@ it to your own code?
 
 ## What is illegal state?
 
-Imagine we're writing a application that manages a list of users. 
+Imagine we're writing an application that manages a list of users. 
 
 ```rust
 struct User {
-    name: String,
+    username: String,
     birthdate: chrono::NaiveDate,
 }
-```
 
 Looks simple enough, but is it correct?
 
-What happens if we create a user with an empty name?
+What happens if we create a user with an empty username?
 
 ```rust
 let user = User {
-    name: String::new(),
+    username: String::new(),
     birthdate: chrono::NaiveDate::from_ymd(1990, 1, 1),
 };
 ```
 
 Intuitively, we know that this is **not** what we want, but the compiler can't help us.
-We did not give it enough information about user names.
+We did not give it enough information about usernames.
 Already, with this simple example, we managed to introduce illegal state.
 
 Now, how can we fix this?
@@ -44,25 +43,24 @@ Now, how can we fix this?
 
 Consider the `String` type. It's a type that represents 
 an arbitrary sequence of unicode characters. In our case, we need much stricter
-constraints. For a start, we want to make sure that the name is *not
+constraints. For a start, we want to make sure that the username is *not
 empty*.
 
 Whenever you're uncertain how to model something in Rust,
 start by defining your basic types &mdash; your domain.
 That takes some practice, but your code will be much better for it.
 
-In our case, we want to define a type that represents a name.
+In our case, we want to define a type that represents a username.
 
 ```rust
-struct Name(String);
+struct Username(String);
 
-impl Name {
-    fn new(name: String) -> Result<Self, &'static str> {
-        if name.is_empty() {
-            Err("Name cannot be empty")
-        } else {
-            Ok(Self(name))
+impl Username {
+    fn new(username: String) -> Result<Self, &'static str> {
+        if username.is_empty() {
+            return Err("Username cannot be empty");
         }
+        Ok(Self(username))
     }
 }
 ```
@@ -72,26 +70,26 @@ We can now use this type in our `User` struct.
 
 ```rust
 struct User {
-    name: Name,
+    username: Username,
     birthdate: chrono::NaiveDate,
 }
 
 impl User {
-    fn new(name: Name, birthdate: chrono::NaiveDate) -> Self {
-        Self { name, birthdate }
+    fn new(username: Username, birthdate: chrono::NaiveDate) -> Self {
+        Self { username, birthdate }
     }
 }
 ```
 
 Note how the compiler now guides us towards idiomatic Rust code?
-It's subtle, but `name` is now of type `Name` instead of `String`.
-This means that we can't accidentally create a user with an empty name.
-The name has to be constructed before:
+It's subtle, but `username` is now of type `Username` instead of `String`.
+This means that we can't accidentally create a user with an empty username.
+The username has to be constructed before:
 
 ```rust
-let name = Name::new("John Doe".to_string())?;
+let username = Username::new("johndoe".to_string())?;
 let birthdate = NaiveDate::from_ymd(1990, 1, 1);
-let user = User::new(name, birthdate);
+let user = User::new(username, birthdate);
 ```
 
 ## Side Note: How do we get rid of <code>Name::new</code>?
@@ -109,7 +107,7 @@ impl<'a> TryFrom<&'a str> for Name {
     }
 }
 
-let user = User::new("John Doe".try_into()?, birthdate);
+let user = User::new("mre".try_into()?, birthdate);
 ```
 
 ## What About the Birthdate?
@@ -162,7 +160,7 @@ Our `User` struct now looks like this:
 
 ```rust
 struct User {
-    name: Name,
+    username: Username,
     birthdate: Birthdate,
 }
 ```
@@ -171,54 +169,55 @@ struct User {
 
 It might sound simple, trivial even, but this is a very powerful technique.
 What's important is that you're handling errors at the lowest possible level. In
-this case when you create the `Name` object &mdash; and not when you insert it
-into your database for example.
+this case, when you create the `Username` object &mdash; and not when you insert it into
+your database for example.
 
-This will make your code much more robust and easier to reason about and it's
-quick to add more constraints as you go along. For example, we might want
-to make sure that the name is not longer than 100 characters and that
-it doesn't contain any special characters or numbers:
+This will make your code much more robust and easier to reason about, and it's
+quick to add more constraints as you go along. For example, we might want to
+make sure that the username is not shorter than 3 characters, not longer than
+256 characters, and that it contains only alphanumeric characters or dashes and
+underscores:
 
 ```rust
-struct Name(String);
+struct Username(String);
 
-impl Name {
-    /// Represents a user's name.
+impl Username {
+    /// Represents a user's login name.
     ///
     /// # Errors
     ///
     /// Returns an error if
-    /// - the name is empty
-    /// - the name is longer than 100 characters
-    /// - the name contains non-alphabetic characters
+    /// - the username is shorter than 3 characters
+    /// - the username is longer than 256 characters
+    /// - the username contains characters other than 
+    ///   alphanumeric characters, dashes, or underscores
     ///
     /// # Examples
     ///
     /// ```rust
-    /// # use yourcrate::name::Name;
-    /// assert!(Name::new(String::new()).is_err());
-    /// assert!(Name::new("123".into()).is_err());
-    /// assert!(Name::new("".into()).is_err());
-    /// assert!(Name::new("John Doe".into()).is_ok());
+    /// # use yourcrate::username::Username;
+    /// assert!(Username::new("1".into()).is_err());
+    /// assert!(Username::new("".into()).is_err());
+    /// assert!(Username::new("user_name-123".into()).is_ok());
     /// ```
     #[must_use]
-    fn new(name: String) -> Result<Self> {
-        if name.is_empty() {
-            return Err("name must not be empty");
+    fn new(username: String) -> Result<Self> {
+        if username.len() < 3 {
+            return Err("username must be at least 3 characters long");
         }
-        if name.len() > 100 {
-            return Err("name must not be longer than 100 characters");
+        if username.len() > 256 {
+            return Err("username must not be longer than 256 characters");
         }
-        if name.chars().any(|c| !c.is_alphabetic()) {
-            return Err("name must only contain alphabetic characters");
+        if username.chars().any(|c| !c.is_alphanumeric() && c != '-' && c != '_') {
+            return Err("username must only contain alphanumeric characters, dashes, and underscores");
         }
-        Ok(Self(name))
+        Ok(Self(username))
     }
 }
 ```
 
 I've added some documentation and examples, which will be shown in the
-documentation of the `Name` struct. This is a great way to document your
+documentation of the `Username` struct. This is a great way to document your
 constraints and to show how to use your types! As an added bonus, you can run
 these examples as tests by using `cargo test --doc`.
 
