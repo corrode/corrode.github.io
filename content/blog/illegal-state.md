@@ -66,7 +66,10 @@ impl Username {
 }
 ```
 
-Note how the constructor returns a `Result`.   
+Note how the constructor now returns a `Result`.   
+Also note, that wrapping the `String` in a struct is a zero-cost abstraction.
+The compiler will optimize it away, so there's no performance penalty!
+
 We can now use this type in our `User` struct.
 
 ```rust
