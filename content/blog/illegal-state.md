@@ -202,7 +202,7 @@ impl Username {
     /// assert!(Username::new("user_name-123".into()).is_ok());
     /// ```
     #[must_use]
-    fn new(username: String) -> Result<Self> {
+    fn new(username: String) -> Result<Self, &'static str> {
         if username.len() < 3 {
             return Err("username must be at least 3 characters long");
         }
