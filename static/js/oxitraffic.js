@@ -1,6 +1,5 @@
 "use strict";
 
-// Check if the host is localhost or 127.0.0.1
 if (
   window.location.hostname !== "localhost" &&
   window.location.hostname !== "127.0.0.1"
