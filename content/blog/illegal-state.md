@@ -4,6 +4,7 @@ date = 2023-08-06
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+reviews = ["Wesley Moore (wezm)", "Nicolas Kosinski", "zSchön", "mo8bit"]
 +++
 
 If you've worked with Rust for a while, you've probably heard the phrase "making
