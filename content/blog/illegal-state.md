@@ -77,12 +77,6 @@ struct User {
     username: Username,
     birthdate: chrono::NaiveDate,
 }
-
-impl User {
-    fn new(username: Username, birthdate: chrono::NaiveDate) -> Self {
-        Self { username, birthdate }
-    }
-}
 ```
 
 Note how the compiler now guides us towards idiomatic Rust code?
@@ -93,7 +87,7 @@ The username has to be constructed before:
 ```rust
 let username = Username::new("johndoe".to_string())?;
 let birthdate = NaiveDate::from_ymd(1990, 1, 1);
-let user = User::new(username, birthdate);
+let user = User { username, birthdate };
 ```
 
 ## Side Note: How do we get rid of <code>Name::new</code>?
@@ -111,7 +105,10 @@ impl<'a> TryFrom<&'a str> for Name {
     }
 }
 
-let user = User::new("mre".try_into()?, birthdate);
+let user =  User {
+    username: "johndoe123".try_into()?,
+    birthdate: NaiveDate::from_ymd(1990, 1, 1),
+};
 ```
 
 ## What About the Birthdate?
