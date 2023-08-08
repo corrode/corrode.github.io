@@ -94,7 +94,7 @@ let birthdate = NaiveDate::from_ymd(1990, 1, 1);
 let user = User::new(name, birthdate);
 ```
 
-## Side Note: How do we get rid of <code>to_string()</code>?
+## Side Note: How do we get rid of <code>Name::new</code>?
 
 You could implement `TryFrom`:
 
