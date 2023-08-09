@@ -69,7 +69,7 @@
           Editor in Chief: Simon Brüggen {% if page.extra.reviews %} with reviews
           from {% for review in page.extra.reviews %} {%- if loop.last == false
           %}{{ review }}, {% endif %} {%- if loop.last == true %}and {{ review }}
-          {%- endif %} {%- endfor %} {%- endif %}.
+          {%- endif %} {%- endfor %}.{% endif %}
         </i>
       </p>
     </div>
