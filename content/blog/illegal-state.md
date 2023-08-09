@@ -117,6 +117,8 @@ A new user that is 1000 years old is probably not a valid user.
 Let's add some constraints.
 
 ```rust
+use chrono::Datelike;
+
 struct Birthdate(chrono::NaiveDate);
 
 impl Birthdate {
@@ -126,11 +128,12 @@ impl Birthdate {
         if birthdate > today {
             return Err("Birthdate cannot be in the future")
         }
-        if today.year() - birthdate.year() > 150 {
-            return Err("How are you not dead yet?")
+        let age = today.year() - birthdate.year();
+        if age < 12 {
+            return Err("Not old enough to register")
         }
-        if today.year() - birthdate.year() < 12 {
-            return Err("Not old enough")
+        if age >= 150 {
+            return Err("How are you not dead yet?")
         }
 
         Ok(Self(birthdate))
@@ -140,17 +143,19 @@ impl Birthdate {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::Duration;
 
     #[test]
     fn test_birthdate() {
         let today = chrono::Utc::today().naive_utc();
-        assert!(Birthdate::new(today).is_ok());
         // Birthdate cannot be in the future
         assert!(Birthdate::new(today + Duration::days(1)).is_err());
         // Excuse me, how old are you?
         assert!(Birthdate::new(today - Duration::days(365 * 150)).is_err());
         // Not old enough
-        assert!(Birthdate::new(today - Duration::days(365 * 12)).is_err());
+        assert!(Birthdate::new(today - Duration::days(365 * 11)).is_err());
+        // Ok
+        assert!(Birthdate::new(today - Duration::days(365 * 15)).is_ok());
     }
 }
 ```
