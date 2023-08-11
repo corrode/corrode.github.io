@@ -80,6 +80,7 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
+  text-decoration-color: rgba($brightPrim, 0.3);
 }
 
 .nav {
@@ -99,14 +100,17 @@ a {
   .nav-right {
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap */
-    gap: 1em;
+    gap: 2em;
     align-items: center;
     margin-right: 4em;
   }
-  
-  .nav-item {
-    padding: 10px;
 
+  .nav-right a {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-item {
     &.active {
       text-decoration: underline;
       text-decoration-thickness: 3px;
@@ -208,6 +212,18 @@ section {
   text-align: center;
 }
 
+#icon-moon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: none;
+}
+
+#icon-sun {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: none;
+}
+
 @media (max-width: 750px) {
   .hero-headline {
     font-size: 2em;
@@ -225,13 +241,51 @@ section {
     flex-direction: column; /* Stack items vertically on small screens */
 
     .nav-right {
-      gap: 0.3em;
+      gap: 1.4em;
       margin-right: 0; /* Remove extra margin on small screens */
       justify-content: center; /* Center items on small screens */
     }
+  }
+}
 
-    .nav-item {
-      padding: 5px; /* Reduce padding on small screens */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: $heroDark;
+    color: $darkPrim;
+
+    .logo-text {
+      fill: white;
     }
+
+    .nav {
+      .nav-item.active {
+        text-decoration-color: $brightBgrd 
+      }
+    }
+
+    .dark {
+      background-color: $darkBgrd;
+    }
+
+    .call-to-action {
+      background-color: $brightPrim;
+    }
+
+
+    a {
+      color: white;
+      text-decoration-color: rgba(white, 0.3);
+    }
+
+    .article code:not(pre > code) {
+      background-color: $darkPrim;
+      opacity: 0.5;
+      color: black;
+    }
+
+    .footer .copyright {
+      color: $darkPrim;
+    }
+
   }
 }

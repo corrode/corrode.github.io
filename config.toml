@@ -15,7 +15,11 @@ feed_filename = "rss.xml"
 
 [markdown]
 highlight_code = true
-highlight_theme = "kronuz"
+highlight_theme = "css"
+highlight_themes_css = [
+  { theme = "dracula", filename = "syntax-theme-dark.css" },
+  { theme = "kronuz", filename = "syntax-theme-light.css" },
+]
 
 [extra]
 author = "Corrode Rust Consulting"
