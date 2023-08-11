@@ -383,10 +383,11 @@ mod tests {
 
 ## Conclusion
 
-Enums are a powerful tool in Rust. They can be used to represent state
-transitions, to interact with C code, and much more.
+Enums in Rust are more powerful than in most other languages.
+They can be used to elegantly represent state transitions &mdash;
+even across language boundaries.
 
-You should consider to use enums whenever you need to represent a set of
-possible values, for example, the when representing the state of an object.
+You should consider using enums whenever you need to represent a set of possible
+values, like when representing the state of an object.
 
 
