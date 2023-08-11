@@ -283,16 +283,16 @@ pub enum UserStatus {
     Deleted,
 }
 
-impl From<u8> for UserStatus {
-    fn from(value: u8) -> Self {
+impl TryFrom<u8> for UserStatus {
+    type Error = ();
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
         match value {
-            0 => UserStatus::Active,
-            1 => UserStatus::Inactive,
-            2 => UserStatus::Suspended,
-            3 => UserStatus::Deleted,
-            // You could also implement `TryFrom` instead,
-            // to return a `Result` instead of panicking.
-            _ => panic!("Invalid value"),
+            0 => Ok(UserStatus::Active),
+            1 => Ok(UserStatus::Inactive),
+            2 => Ok(UserStatus::Suspended),
+            3 => Ok(UserStatus::Deleted),
+            _ => Err(()),
         }
     }
 }
