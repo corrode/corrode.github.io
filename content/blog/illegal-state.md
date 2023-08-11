@@ -128,6 +128,10 @@ impl Birthdate {
         if birthdate > today {
             return Err("Birthdate cannot be in the future")
         }
+
+        // Note, this age calculation is not 100% accurate, but you get the
+        // idea. Here's a more robust implementation:
+        // https://gist.github.com/mre/ee7a59491e2aee46d767bd3b5372c5c2
         let age = today.year() - birthdate.year();
         if age < 12 {
             return Err("Not old enough to register")
