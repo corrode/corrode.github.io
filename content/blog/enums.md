@@ -260,8 +260,8 @@ we can't accidentally delete a user twice or re-activate a deleted user.
 Earlier, I promised that you can still use enums, even if you have to interact
 with C code.
 
-Suppose you have a C library with a user status type.
-(I've omitted the other fields for brevity.)
+Suppose you have a C library with a user status type (I've omitted the other
+fields for brevity).
 
 ```c
 typedef struct {
