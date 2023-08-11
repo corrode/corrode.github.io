@@ -156,7 +156,17 @@ details[open] summary::before {
 
 .editor-credits {
   font-size: 0.9em;
-  opacity: 0.7;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.editor-credits a {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.editor-credits a:hover {
+  text-decoration: underline;
+  color: rgba(0, 0, 0, 1);
 }
 
 @media (max-width: 750px) {

@@ -4,10 +4,11 @@ template = "article.html"
 date = 2023-08-08
 [extra]
 series = "Idiomatic Rust"
+reviews = [ { link = "https://mastodon.social/@the@mkl.lol", name = "Maikel" } ]
 +++
 
 Many Rust beginners with a background in systems programming tend to use `bool`
-(or even `u8`) to represent *"state"*.
+(or even `u8` &mdash; an 8-bit unsigned integer type) to represent *"state"*.
 
 For example, how about a `bool` to indicate whether a user is active or not?
 

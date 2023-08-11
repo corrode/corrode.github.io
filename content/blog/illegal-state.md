@@ -4,7 +4,7 @@ date = 2023-08-06
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
-reviews = ["Wesley Moore (wezm)", "Nicolas Kosinski", "zSchön", "mo8bit"]
+reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" }, ]
 +++
 
 If you've worked with Rust for a while, you've probably heard the phrase "making

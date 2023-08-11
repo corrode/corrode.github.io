@@ -1,0 +1,23 @@
+<p>
+  <i>
+    Editor in Chief:
+    <a
+      href="https://github.com/M3t0r"
+      target="_blank"
+      rel="noopener"
+      rel="noreferrer"
+      >Simon Brüggen</a
+    >
+    {% if page.extra.reviews %} with reviews from {% for review in
+    page.extra.reviews %} {%- if loop.last == false %}<a
+      href="{{ review.link }}"
+      target="_blank"
+      rel="noopener"
+      rel="noreferrer"
+      >{{ review.name }}</a
+    >, {% endif %} {%- if loop.last == true %}and
+    <a href="{{ review.link }}" target="_blank" rel="noopener" rel="noreferrer"
+      >{{ review.name }}</a
+    >{% endif %} {%- endfor %}.{% endif %}
+  </i>
+</p>
