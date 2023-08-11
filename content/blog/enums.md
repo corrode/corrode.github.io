@@ -30,7 +30,7 @@ Another problem is that `bool` is not self-documenting. What does
 `active = false` mean? Is the user inactive? Or is the user
 deleted? Or is the user suspended? We don't know!
 
-Alternatively, you could use a `u8` to represent state:
+Alternatively, you could use an unsigned integer to represent state:
 
 ```rust
 struct User {
@@ -39,15 +39,10 @@ struct User {
 }
 ```
 
-This is slightly better, because we can now use different values
-to represent different states:
+This is *slightly* better, because we can now use different values
+to represent more states:
 
 ```rust
-struct User {
-    // ...
-    status: u8,
-}
-
 const ACTIVE: u8 = 0;
 const INACTIVE: u8 = 1;
 const SUSPENDED: u8 = 2;
@@ -59,9 +54,9 @@ let user = User {
 };
 ```
 
-You might write bindings to existing C code, which uses `u8` to
-represent state. In that case, using `u8` might seemingly be the
-only option. However, you can still wrap the `u8` in a newtype:
+A common use-case for `u8` is when you interface with C code.
+In that case, using `u8` might seemingly be the only option.
+However, we could still wrap that `u8` in a newtype!
 
 ```rust
 struct User {
@@ -83,8 +78,8 @@ let user = User {
 ```
 
 This way, we can still use `u8` to represent state, but we can
-also use the type system to our advantage. For example, we can
-now define methods on `UserStatus`:
+now also put the type system work (a common pattern in idiomatic Rust). For
+example, we can define methods on `UserStatus`:
 
 ```rust
 impl UserStatus {
@@ -94,7 +89,7 @@ impl UserStatus {
 }
 ```
 
-And we can also define a constructor that validates the input:
+And we can even define a constructor that validates the input:
 
 ```rust
 impl UserStatus {
@@ -110,8 +105,8 @@ impl UserStatus {
 }
 ```
 
-It's still not ideal, however. Not even if you interface with C code, as we will
-see in a bit.
+It's still not ideal, however! Not even if you interface with C code, as we will
+see in a bit. But first, let's look at the recommended way to represent state in Rust.
 
 ## Use Enums Instead!
 
@@ -122,7 +117,7 @@ express your intent in a very concise way.
 #[derive(Debug)]
 pub enum UserStatus {
     /// The user is active and has full access
-    // to their account and any associated features.
+    /// to their account and any associated features.
     Active,
     
     /// The user's account is inactive.
@@ -146,7 +141,7 @@ pub enum UserStatus {
 }
 ```
 
-We can now use this enum in our `User` struct:
+We can plug this enum into our `User` struct:
 
 ```rust
 struct User {
@@ -155,8 +150,8 @@ struct User {
 }
 ```
 
-In Rust, enums are much more powerful than in many other languages!  
-For example, we can add data to our enum variants:
+But that's not all; in Rust, enums are much more powerful than in many other
+languages. For example, we can add data to our enum variants:
 
 ```rust
 #[derive(Debug)]
@@ -168,7 +163,7 @@ pub enum UserStatus {
 }
 ```
 
-We can even represent state transitions:
+We can even represent **state transitions**:
 
 ```rust
 use chrono::{DateTime, Utc};
@@ -200,7 +195,7 @@ impl UserStatus {
         Ok(())
     }
 
-    /// Delete the user. This is a permanent action.
+    /// Delete the user. This is a permanent action!
     fn delete(&mut self) {
         if let UserStatus::Deleted { .. } = self {
             // Already deleted. Don't set the deleted_at field again.
@@ -262,30 +257,23 @@ we can't accidentally delete a user twice or re-activate a deleted user.
 
 ## Using Enums to Interact with C Code
 
-Earlier, I promised that you can still use enums to interact with C code.
+Earlier, I promised that you can still use enums, even if you have to interact
+with C code.
 
-Let's say we have a C library that exposes a function to
-create a new user:
+Suppose you have a C library with a user status type.
+(I've omitted the other fields for brevity.)
 
 ```c
 typedef struct {
-    char *name;
-    char *email;
     uint8_t status;
 } User;
 
-User *create_user(char *name, char *email, uint8_t status);
+User *create_user(uint8_t status);
 ```
 
-We can write a Rust wrapper around this function:
+You can write a Rust enum to represent the status:
 
 ```rust
-use std::convert::{TryFrom, TryInto};
-use std::ffi::c_char;
-use std::ffi::CString;
-
-// Our UserStatus enum definition, which will automatically
-// be converted to a C enum variant.
 #[repr(u8)]
 #[derive(Debug, PartialEq)]
 pub enum UserStatus {
@@ -295,92 +283,47 @@ pub enum UserStatus {
     Deleted,
 }
 
-impl TryFrom<u8> for UserStatus {
-    type Error = ();
-
-    fn try_from(value: u8) -> Result<Self, Self::Error> {
+impl From<u8> for UserStatus {
+    fn from(value: u8) -> Self {
         match value {
-            0 => Ok(UserStatus::Active),
-            1 => Ok(UserStatus::Inactive),
-            2 => Ok(UserStatus::Suspended),
-            3 => Ok(UserStatus::Deleted),
-            _ => Err(()),
+            0 => UserStatus::Active,
+            1 => UserStatus::Inactive,
+            2 => UserStatus::Suspended,
+            3 => UserStatus::Deleted,
+            // You could also implement `TryFrom` instead,
+            // to return a `Result` instead of panicking.
+            _ => panic!("Invalid value"),
         }
     }
 }
+```
 
-// Our User struct, which will be converted to a C struct.
-#[repr(C)]
-pub struct User {
-    name: *mut c_char,
-    email: *mut c_char,
-    status: UserStatus,
-}
+Noticed that `#[repr(u8)]` attribute? It tells the compiler to represent this
+enum as an unsigned 8-bit integer. This is critical for compatibility with the C
+code.
 
-impl User {
-    pub fn new(name: &str, email: &str, status: u8) -> Result<Self, &'static str> {
-        let name = CString::new(name).map_err(|_| "Invalid name")?;
-        let email = CString::new(email).map_err(|_| "Invalid email")?;
-        let status = status.try_into().map_err(|_| "Invalid status")?;
-        Ok(Self {
-            name: name.into_raw(),
-            email: email.into_raw(),
-            status,
-        })
-    }
-}
+Now, let's wrap the C function in a safe Rust wrapper:
 
-impl Drop for User {
-    fn drop(&mut self) {
-        // Convert the raw pointers back to CStrings (hence taking ownership)
-        // and immediately drop them to free the memory.
-        unsafe {
-            drop(CString::from_raw(self.name));
-            drop(CString::from_raw(self.email));
-        }
-    }
-}
-
+```rust
 extern "C" {
-    fn create_user(name: *const c_char, email: *const c_char, status: u8) -> *mut User;
+    fn create_user(status: u8) -> *mut User;
 }
 
-// A safe wrapper around the C function.
-pub fn create_user_wrapper(name: &str, email: &str, status: UserStatus) -> Result<User, &'static str> {
-    let status = status as u8;
-    let user = unsafe {
-        create_user(
-            CString::new(name).map_err(|_| "Invalid name")?.as_ptr(),
-            CString::new(email).map_err(|_| "Invalid email")?.as_ptr(),
-            status,
-        )
-    };
+pub fn create_user_wrapper(status: UserStatus) -> Result<User, &'static str> {
+    let user = unsafe { create_user(status as u8) };
     if user.is_null() {
         Err("Failed to create user")
     } else {
         Ok(unsafe { *Box::from_raw(user) })
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_create_user() {
-        let user = create_user_wrapper("John Doe", "mail@example.com", UserStatus::Active).unwrap();
-        // You can't directly compare `user.name` and `user.email` with strings here,
-        // you would need to convert them from raw pointers back to Rust strings.
-        assert_eq!(user.status, UserStatus::Active);
-    }
-
-    #[test]
-    fn test_create_user_invalid_name() {
-        assert!(create_user_wrapper("", "mail@example.com", UserStatus::Active).is_err());
-    }
-}
-
 ```
+
+The Rust code now communicates with the C code using a rich enum type, allowing
+for more expressive and type-safe code.
+
+If you want, you can play around with the code on the [Rust
+playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8973e5e655c92c725f0b2b00f7830385).
 
 ## Conclusion
 
