@@ -154,6 +154,11 @@ section {
   margin-bottom: 10px;
 }
 
+ul {
+  list-style-type: square;
+  line-height: 2em;
+}
+
 .footer {
   flex-shrink: 0;
   align-items: center;
