@@ -55,6 +55,9 @@
             {{ moon| safe }}
           </span>
         </a>
+        <a {% if current_path and current_path == "/" %}class="nav-item active"{% else %}class="nav-item"{% endif %}
+            href="{{ config.base_url ~ '/' }}"><span>Home</span>
+        </a>
         <a {% if current_path and current_path is containing("/about") %}class="nav-item active"{% else %}class="nav-item"{% endif %}
             {% if lang == "en" %} href="{{ config.base_url ~ '/about' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}
         >
