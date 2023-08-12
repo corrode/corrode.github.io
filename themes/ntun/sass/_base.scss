@@ -154,6 +154,10 @@ section {
   margin-bottom: 10px;
 }
 
+b {
+  color: black;
+}
+
 ul {
   list-style-type: square;
   line-height: 2em;
@@ -286,6 +290,10 @@ ul {
       background-color: $darkPrim;
       opacity: 0.5;
       color: black;
+    }
+
+    b {
+      color: white;
     }
 
     .footer .copyright {

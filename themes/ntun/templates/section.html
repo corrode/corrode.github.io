@@ -1,6 +1,11 @@
 {% extends "base.html" %} {% block content %}
 <div class="article">
   <h1>Blog</h1>
+  <p>
+    This is an ongoing series of articles about <b>Idiomatic Rust</b>.<br />
+    Sign up to my newsletter below to be notified when I publish new articles.
+  </p>
+
   <div>{{ section.content | safe }}</div>
   <ul>
     {% for page in section.pages %}
@@ -8,11 +13,11 @@
     {% endfor %}
   </ul>
   <div class="callout">
-    <h2>Launching early</h2>
+    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
     <p>
-      This looks pretty empty, but it won't be for long! I'm working on a bunch
-      of articles about idiomatic Rust that I think you'll like. If you want to be notified when I
-      publish them, you should sign up for my newsletter. You'll love it.
+      I will regularly write new articles about Idiomatic Rust.
+      If you want to be notified when I publish them, you should
+      sign up to my newsletter here. You'll love it.
     </p>
     {% include "newsletter.html" %}
   </div>
