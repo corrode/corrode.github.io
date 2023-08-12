@@ -27,8 +27,6 @@ hero_image="hero/hero.svg"
 city="D&uuml;sseldorf"
 years="2023"
 
-description = "by Matthias Endler"
-
 links = [
     { url = "https://github.com/corrode", title="Github", icon = "github.svg"},
     { url = "https://twitter.com/matthiasendler", title="Twitter", icon = "twitter.svg"},
