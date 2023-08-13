@@ -2,9 +2,12 @@
 
 {% block content %}
 <div class="homepage">
-  <img class="hero" src="/{{ config.extra.hero_image }}" width="1000px" height="539px"  />
+  <div class="hero">
+    <img class="hero-font" src="/hero/hero-font.svg"  />
+    <img class="hero-img" src="/hero/hero-img.svg" />
+  </div>
   <div class="content">
-    <h1 class="hero-headline">Friendly, professional Rust consutling</h1>
+    <h1 class="hero-headline">Friendly, professional Rust consulting</h1>
     <h2 class="hero-subheadline">by Matthias Endler</h2>
     <div class="content-icons">
       {% for link in config.extra.links %}
