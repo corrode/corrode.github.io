@@ -23,7 +23,6 @@ highlight_themes_css = [
 
 [extra]
 author = "Corrode Rust Consulting"
-hero_image="hero/hero.svg"
 city="D&uuml;sseldorf"
 years="2023"
 
