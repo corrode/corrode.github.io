@@ -1,16 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{lang}}">
 
+{%- if not page %}
+{%- set social_description = "Rust consulting and development based in Germany that puts people first" %}
+{%- elif page.extra.excerpt %}
+{%- set social_description = page.extra.excerpt %}
+{%- elif page.summary %}
+{%- set social_description = page.summary %}
+{%- else %}
+{%- set social_description = page.content | truncate(length=250) %}
+{%- endif %}
+
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if page and page.title %}
+  <title>{{ page.title }} | {{ config.extra.author }}</title>
+  {% else %}
   <title>{{ config.extra.author }}</title>
+  {% endif %}
   <meta name="author" content="{{ config.extra.author }}">
-  <meta name="description" content="Corrode Rust Consulting | Trainings and Contracting">
+  <meta name="description" content="{{ social_description | striptags | safe }}"">
 
   <!-- Open Graph tags -->
   <meta property="og:title" content="{{ config.extra.author }}">
-  <meta property="og:description" content="Rust consulting and development based in Germany that puts people first.">
+  <meta property="og:description" content="{{ social_description | striptags | safe }}>
   <meta property="og:image" content="{{ config.base_url ~ '/social/social.png' }}">
   <meta property="og:url" content="{{ config.base_url }}">
   <meta property="og:type" content="website">
@@ -19,7 +34,7 @@
   <!-- Twitter Card tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ config.extra.author }}">
-  <meta name="twitter:description" content="Rust consulting and development based in Germany that puts people first.">
+  <meta name="twitter:description" content="{{ social_description | striptags | safe }}>
   <meta name="twitter:image" content="{{ config.base_url ~ '/social/social.png' }}">
 
   <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
