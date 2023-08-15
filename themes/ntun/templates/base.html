@@ -55,8 +55,10 @@
       <a {% if current_path and current_path == "/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
           {% if lang == "en" %} href="{{ config.base_url ~ '/' }}" {% else %} href="{{ config.base_url ~ '/' ~ lang}}" {% endif %}
       >
-        {% set logo = load_data(path="static/corrode.svg") %}
-        {{ logo| safe }}
+        <span class="logo">
+          {% set logo = load_data(path="static/corrode.svg") %}
+          {{ logo| safe }}
+        </span>
       </a>
       <div class="nav-right">
         <a href="javascript:toggleColorScheme();">

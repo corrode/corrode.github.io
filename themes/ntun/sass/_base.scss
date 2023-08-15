@@ -309,12 +309,21 @@ ul {
   }
 }
 
+.logo {
+  fill: $darkBgrd;
+  transition: fill 0.2s;
+}
+
+.logo:hover {
+  fill: $brightScnd;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: $heroDark;
     color: $darkPrim;
 
-    .logo-text {
+    .logo {
       fill: white;
     }
 
