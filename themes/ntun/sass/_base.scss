@@ -148,7 +148,12 @@ a {
       text-decoration: underline;
       text-decoration-thickness: 3px;
       text-underline-offset: 6px;
-      text-decoration-color: black;
+      text-decoration-color: $brightScnd;
+    }
+
+    &:hover {
+      color: $brightScnd;
+      transition: color 0.3s;
     }
   }
 }
@@ -330,6 +335,10 @@ ul {
     .nav {
       .nav-item.active {
         text-decoration-color: $brightBgrd 
+      }
+
+      .nav-item:hover {
+        color: $brightBgrd;
       }
     }
 
