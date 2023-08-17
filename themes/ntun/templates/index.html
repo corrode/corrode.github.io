@@ -3,7 +3,10 @@
 {% block content %}
 <div class="homepage">
   <div class="hero">
-    <img class="hero-font" src="/hero/hero-font.svg"  />
+    <div class="hero-font">
+      {% set hero_font = load_data(path="static/hero/hero-font.svg") %}
+      {{ hero_font | safe }}
+    </div>
     <img class="hero-img" src="/hero/hero-img.svg" />
   </div>
   <div class="content">
