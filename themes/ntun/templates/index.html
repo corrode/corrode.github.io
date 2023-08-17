@@ -25,15 +25,72 @@
       {% endfor %}
     </div>
   </div>
+  <a id="contact"></a>
+  <div class="call-to-action">
+    <div class="cta-content">
+      <h1>Let's get in touch!</h1>
+      <p>
+        I provide <b>training</b> and <b>consulting</b> for companies that want
+        to use Rust in production<br />
+        (on-site or remote from Düsseldorf, Germany).
+      </p>
+      <!-- Cal inline embed code begins -->
+      <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
+      <script type="text/javascript">
+        (function (C, A, L) {
+          let p = function (a, ar) {
+            a.q.push(ar);
+          };
+          let d = C.document;
+          C.Cal =
+            C.Cal ||
+            function () {
+              let cal = C.Cal;
+              let ar = arguments;
+              if (!cal.loaded) {
+                cal.ns = {};
+                cal.q = cal.q || [];
+                d.head.appendChild(d.createElement("script")).src = A;
+                cal.loaded = true;
+              }
+              if (ar[0] === L) {
+                const api = function () {
+                  p(api, arguments);
+                };
+                const namespace = ar[1];
+                api.q = api.q || [];
+                typeof namespace === "string"
+                  ? (cal.ns[namespace] = api) && p(api, ar)
+                  : p(cal, ar);
+                return;
+              }
+              p(cal, ar);
+            };
+        })(window, "https://app.cal.com/embed/embed.js", "init");
+        Cal("init", { origin: "https://app.cal.com" });
+
+        Cal("inline", {
+          elementOrSelector: "#my-cal-inline",
+          calLink: "corrode/30min",
+        });
+
+        Cal("ui", {
+          styles: { branding: { brandColor: "#000000" } },
+          hideEventTypeDetails: false,
+        });
+      </script>
+      <!-- Cal inline embed code ends -->
+    </div>
+  </div>
   <div class="content dark">
     <section>
       <div class="section-content">
-        <img class="section-image" width="300" height="300" src="/sections/battery.svg" alt="Battery" />
+        <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="Battery" />
         <div class="section-text">
-          <h2 class="section-headline">Batteries Included</h2>
+          <h2 class="section-headline">Training, Refactoring & Beyond</h2>
           <p class="section-paragraph">
-            Whether your team is just getting started with Rust or you're
-            already using Rust in production, I can help you get the most out
+            Whether your team is <b>just getting started</b> with Rust or you're
+            already using <b>Rust in production</b>, I can help you get the most out
             of the language.
           </p>
           <p class="section-paragraph">
@@ -122,7 +179,7 @@
       <div class="section-content">
         <img class="section-image" width="300" height="300" src="/sections/human.svg" alt="Human Icon" />
         <div class="section-text">
-          <h2 class="section-headline">Human</h2>
+          <h2 class="section-headline">Beyond Code: Trust and Empathy</h2>
           <p class="section-paragraph">
             Code is the easy part.
             Beyond technical expertise, I value empathy, communication, and
@@ -134,79 +191,27 @@
             If you bring me on the team, I'll do my best to make engineering
             and product teams work together smoothly. I'll help you build a
             culture of trust, respect, and collaboration.
+          </p>
+          <p>
+            <a href="#contact">Let's get in touch!</a>
+          </p>
         </div>
       </div>
     </section>
 
-    <section>
-      <div class="section-content">
-        <div class="section-text">
-          <h2 class="section-headline">Ready, Set, Go!</h2>
-          <p class="section-paragraph">
-            If you're interested in working with me, please get in touch. I'm
-            looking forward to hearing about your project and getting to know
-            your team.
-          </p>
-          <p class="section-paragraph"> 
-            I'm based in Düsseldorf, Germany, but I'm happy to work
-            with you remotely and come to your office for on-site training and
-            workshops.
-          </p>
-        </div>
-        <img class="section-image" width="300" height="300" src="/sections/tokio.svg" alt="Tokio Logo" />
-      </div>
-    </section>
 
-  </div>
-
-  <div class="call-to-action">
-    <h1>Let's get in touch!</h1>
-    <!-- Cal inline embed code begins -->
-    <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
-    <script type="text/javascript">
-      (function (C, A, L) {
-        let p = function (a, ar) {
-          a.q.push(ar);
-        };
-        let d = C.document;
-        C.Cal =
-          C.Cal ||
-          function () {
-            let cal = C.Cal;
-            let ar = arguments;
-            if (!cal.loaded) {
-              cal.ns = {};
-              cal.q = cal.q || [];
-              d.head.appendChild(d.createElement("script")).src = A;
-              cal.loaded = true;
-            }
-            if (ar[0] === L) {
-              const api = function () {
-                p(api, arguments);
-              };
-              const namespace = ar[1];
-              api.q = api.q || [];
-              typeof namespace === "string"
-                ? (cal.ns[namespace] = api) && p(api, ar)
-                : p(cal, ar);
-              return;
-            }
-            p(cal, ar);
-          };
-      })(window, "https://app.cal.com/embed/embed.js", "init");
-      Cal("init", { origin: "https://app.cal.com" });
-
-      Cal("inline", {
-        elementOrSelector: "#my-cal-inline",
-        calLink: "corrode/30min",
-      });
-
-      Cal("ui", {
-        styles: { branding: { brandColor: "#000000" } },
-        hideEventTypeDetails: false,
-      });
-    </script>
-    <!-- Cal inline embed code ends -->
+</div>
+<div class="call-to-action">
+  <div class="cta-content">
+    <h1>Don't Miss Out!</h1>
+    <p>
+      Seize the opportunity to elevate your Rust projects and empower your team to
+      build the future of infrastructure. Let's embark on this journey together.
+    </p>
+    <p>
+      <a href="#contact" class="cta-button">Connect with Me Now!</a>
+    </p>
   </div>
 </div>
+
 {% endblock content %}

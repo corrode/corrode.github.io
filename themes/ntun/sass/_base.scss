@@ -196,6 +196,10 @@ b {
   color: black;
 }
 
+.dark b, .call-to-action b {
+  color: white;
+}
+
 ul {
   list-style-type: square;
   line-height: 2em;
@@ -262,8 +266,31 @@ ul {
 .call-to-action {
   padding: 100px 0;
   background-color: $brightPrim;
-  color: white;
   text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cta-content {
+  max-width: 900px;
+  margin: 0 auto;
+  color: white;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: $brightScnd;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+  background-color: darken($brightScnd, 10%);
 }
 
 #icon-moon {
