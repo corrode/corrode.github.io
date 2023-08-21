@@ -262,22 +262,22 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-  let currentTestimonial = 0;
-  const testimonials = document.querySelectorAll('.testimonial');
+    let currentTestimonial = 0;
+    const testimonials = document.querySelectorAll('.testimonial');
 
-  // Initially show the first testimonial
-  testimonials[currentTestimonial].classList.add('active');
-
-  // Function to change the testimonial
-  function changeTestimonial() {
-    testimonials[currentTestimonial].classList.remove('active');
-    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+    // Initially show the first testimonial
     testimonials[currentTestimonial].classList.add('active');
-  }
 
-  // Change the testimonial every 5 seconds
-  setInterval(changeTestimonial, 5000);
-});
+    // Function to change the testimonial
+    function changeTestimonial() {
+        testimonials[currentTestimonial].classList.remove('active');
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        testimonials[currentTestimonial].classList.add('active');
+    }
+
+    // Change the testimonial every 5 seconds
+    setInterval(changeTestimonial, 5000);
+  });
 </script>
 
 {% endblock content %}

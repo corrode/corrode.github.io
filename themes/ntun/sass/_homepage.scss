@@ -28,14 +28,26 @@
   }
 }
 
-.testimonial {
-  display: none;
-  flex-direction: column;
-  align-items: center; /* Centers children horizontally */
+.testimonial-carousel {
+  height: 400px;  // You can adjust this value based on your needs
+  position: relative;
+  overflow: hidden; /* Hide testimonials that are outside the container */
 }
 
-.testimonial.active {
-  display: block;
+.testimonial {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  transition: left 0.5s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.testimonial-carousel .testimonial.active {
+  left: 0;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .testimonial-text q {
