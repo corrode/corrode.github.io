@@ -28,8 +28,60 @@
   }
 }
 
+.call-to-action {
+  padding: 100px 0;
+  background-color: $brightPrim;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.call-to-action b {
+  color: white;
+}
+
+.call-to-action h1 {
+  color: white;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
+  text-decoration-color: $brightBgrd;
+}
+
+.cta-content {
+  max-width: 900px;
+  margin: 0 auto;
+  color: white;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: $brightScnd;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+  background-color: darken($brightScnd, 10%);
+}
+
+.testimonials {
+  padding: 100px 0;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .testimonial-carousel {
-  height: 400px;  // You can adjust this value based on your needs
+  height: 400px; 
+  margin: 0 auto;
+  max-width: 1000px;
   position: relative;
   overflow: hidden; /* Hide testimonials that are outside the container */
 }
@@ -48,6 +100,13 @@
   left: 0;
   opacity: 1;
   pointer-events: auto;
+}
+
+.testimonial-text {
+  background-image: url("data:image/svg+xml,%3Csvg width='500' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='10,10 490,10 480,190 20,170' fill='%23ffd885'/%3E%3C/svg%3E%0A");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 30px;
 }
 
 .testimonial-text q {
@@ -81,5 +140,20 @@
   .content-icons > a > img {
     filter: invert(1);
     opacity: 0.7;
+  }
+
+  .call-to-action {
+    background-color: $brightPrim;
+  }
+
+  .testimonial-text q {
+    color: $brightPrim;
+  }
+}
+
+
+@media (max-width: 900px) {
+  .testimonial-carousel {
+    height: 600px; 
   }
 }
