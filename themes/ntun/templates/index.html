@@ -10,8 +10,7 @@
     <img class="hero-img" src="/hero/hero-img.svg" />
   </div>
   <div class="content">
-    <h1 class="hero-headline">Let's build the future of infrastructure together</h1>
-    <h2 class="hero-subheadline">Matthias Endler</h2>
+    <h1 class="hero-headline">by Matthias Endler</h1>
     <div class="content-icons">
       {% for link in config.extra.links %}
       <a
@@ -23,6 +22,54 @@
         <img class="content-icon" src="/icons/{{ link.icon }}" />
       </a>
       {% endfor %}
+    </div>
+  </div>
+  <div class="content">
+    <!-- Testimonials section -->
+    <div class="testimonials">
+      <h1>What People Say</h1>
+      <div class="testimonial-carousel">
+        <div class="testimonial active">
+          <div class="testimonial-text">
+            <q>
+              I worked closely with Matthias to build a workshop for the Rust
+              community. He did an outstanding job in coming up with ideas and things
+              that made complex concepts easy to understand.
+              Not only was he a nice and fun person to work with, but the attendees
+              also found him engaging and entertaining.
+            </q>
+          </div>
+          <div class="testimonial-author">
+            <img
+              class="testimonial-avatar"
+              src="/testimonials/santiago.jpg"
+            />
+            <div>
+              <a class="testimonial-author-text" href="https://santiagopastorino.com/">Santiago Pastorino</a>
+              <div class="testimonial-author-role">Rust Core Team Member</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-text">
+            <q>
+              Matthias is reliable, good with people, and the kind of guy you can trust to
+              figure it out, whatever it happens to be. We've run some conference
+              workshops together, and I keep thinking that I should find an excuse to work
+              with him again!
+            </q>
+          </div>
+          <div class="testimonial-author">
+            <img
+              class="testimonial-avatar"
+              src="/testimonials/hanno.jpg"
+            />
+            <div class="testimonial-author-text">
+              <a href="https://hanno.braun-odw.eu/">Hanno Braun</a>
+            </div>
+          </div> 
+        </div>
+      </div>
     </div>
   </div>
   <a id="contact"></a>
@@ -198,8 +245,7 @@
         </div>
       </div>
     </section>
-
-
+  </div>
 </div>
 <div class="call-to-action">
   <div class="cta-content">
@@ -213,5 +259,25 @@
     </p>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  let currentTestimonial = 0;
+  const testimonials = document.querySelectorAll('.testimonial');
+
+  // Initially show the first testimonial
+  testimonials[currentTestimonial].classList.add('active');
+
+  // Function to change the testimonial
+  function changeTestimonial() {
+    testimonials[currentTestimonial].classList.remove('active');
+    currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+    testimonials[currentTestimonial].classList.add('active');
+  }
+
+  // Change the testimonial every 5 seconds
+  setInterval(changeTestimonial, 5000);
+});
+</script>
 
 {% endblock content %}

@@ -21,11 +21,11 @@
   <title>{{ config.extra.author }}</title>
   {% endif %}
   <meta name="author" content="{{ config.extra.author }}">
-  <meta name="description" content="{{ social_description | striptags | safe }}"">
+  <meta name="description" content="{{ social_description | striptags | safe }}">
 
   <!-- Open Graph tags -->
   <meta property="og:title" content="{{ config.extra.author }}">
-  <meta property="og:description" content="{{ social_description | striptags | safe }}>
+  <meta property="og:description" content="{{ social_description | striptags | safe }}">
   <meta property="og:image" content="{{ config.base_url ~ '/social/social.png' }}">
   <meta property="og:url" content="{{ config.base_url }}">
   <meta property="og:type" content="website">
@@ -34,7 +34,7 @@
   <!-- Twitter Card tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ config.extra.author }}">
-  <meta name="twitter:description" content="{{ social_description | striptags | safe }}>
+  <meta name="twitter:description" content="{{ social_description | striptags | safe }}">
   <meta name="twitter:image" content="{{ config.base_url ~ '/social/social.png' }}">
 
   <link rel="stylesheet" href="{{ get_url(path='style.css') }}">

@@ -28,6 +28,41 @@
   }
 }
 
+.testimonial {
+  display: none;
+  flex-direction: column;
+  align-items: center; /* Centers children horizontally */
+}
+
+.testimonial.active {
+  display: block;
+}
+
+.testimonial-text q {
+  font-size: 1.4em;
+  position: relative;
+  max-width: 80%; /* You can adjust this if the quote width is too wide or narrow */
+  text-align: center;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  justify-content: center; /* This ensures that the author contents are centered within their container */
+}
+
+.testimonial-avatar {
+  border-radius: 50%;
+  max-width: 150px;
+  margin-right: 15px;
+}
+
+.testimonial-author-text {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 
 @media (prefers-color-scheme: dark) {
   /* Make social icons white on the homepage in dark mode */
