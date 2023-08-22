@@ -196,7 +196,7 @@ b {
   color: black;
 }
 
-.dark b, .call-to-action b {
+.dark b {
   color: white;
 }
 
@@ -254,43 +254,13 @@ ul {
   text-decoration-color: $brightBgrd;
 }
 
-.dark h1, .dark h2, .call-to-action h1 {
+.dark h1, .dark h2 {
   color: white;
   line-height: 1.2;
   text-decoration: underline;
   text-decoration-thickness: 4px;
   text-underline-offset: 6px;
   text-decoration-color: $brightBgrd;
-}
-
-.call-to-action {
-  padding: 100px 0;
-  background-color: $brightPrim;
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.cta-content {
-  max-width: 900px;
-  margin: 0 auto;
-  color: white;
-}
-
-.cta-button {
-  display: inline-block;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  background-color: $brightScnd;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.cta-button:hover {
-  background-color: darken($brightScnd, 10%);
 }
 
 #icon-moon {
@@ -371,10 +341,6 @@ ul {
 
     .dark {
       background-color: $darkBgrd;
-    }
-
-    .call-to-action {
-      background-color: $brightPrim;
     }
 
 
