@@ -79,7 +79,7 @@
 }
 
 .testimonial-carousel {
-  height: 400px; 
+  height: 500px; 
   margin: 0 auto;
   max-width: 1000px;
   position: relative;
@@ -154,6 +154,13 @@
 
 @media (max-width: 900px) {
   .testimonial-carousel {
-    height: 600px; 
+    max-height: 780px;
+  }
+
+  .testimonial-text {
+    font-size: 0.80em;
+    padding: 40px;
+    background-image: none;
+    background-color: #ffd885;
   }
 }
