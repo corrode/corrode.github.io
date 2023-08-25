@@ -67,6 +67,10 @@ details[open] summary::before {
   color: $brightPrim; 
 }
 
+.article a code:not(pre > code) {
+  background-color: $brightScnd;
+}
+
 .article h2 code:not(pre > code) {
   font-size: 0.7em;
   vertical-align: middle;
@@ -157,6 +161,7 @@ details[open] summary::before {
 .editor-credits {
   font-size: 0.9em;
   color: rgba(0, 0, 0, 0.7);
+  text-align: right;
 }
 
 .editor-credits a {

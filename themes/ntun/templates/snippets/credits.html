@@ -1,5 +1,10 @@
 <p>
   <i>
+    Author:
+    <a href="/about"> Matthias Endler </a>
+  </i>
+  <br />
+  <i>
     Editor:
     <a
       href="https://mastodon.social/@m3t0r@hachyderm.io"
@@ -8,16 +13,22 @@
       rel="noreferrer"
       >Simon Brüggen</a
     >
-    {% if page.extra.reviews %} with reviews from {% for review in
-    page.extra.reviews %} {%- if loop.last == false %}<a
+  </i>
+  </i>
+    {% if page.extra.reviews %}
+    <br />
+    <i>Reviewers:
+      {% for review in page.extra.reviews %} {%- if loop.last == false %}<a
       href="{{ review.link }}"
       target="_blank"
       rel="noopener"
       rel="noreferrer"
       >{{ review.name }}</a
-    >, {% endif %} {%- if loop.last == true %}{%- if page.extra.reviews | length > 1 %}and{% endif %}
+    >, {% endif %} {%- if loop.last == true %}{%- if page.extra.reviews | length
+    > 1 %}and{% endif %}
     <a href="{{ review.link }}" target="_blank" rel="noopener" rel="noreferrer"
       >{{ review.name }}</a
-    >{% endif %} {%- endfor %}.{% endif %}
-  </i>
+    >{% endif %} {%- endfor %}
+    </i> 
+    {% endif %}
 </p>
