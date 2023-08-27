@@ -49,7 +49,7 @@ elements, which is exactly what we want!
 ## Type-driven development
 
 There's a deeper lesson here, which applies to idiomatic Rust code in general:  
-**Lean into the type system to enforce invariants at compile-time.**
+**If in doubt, lean into the type system to enforce invariants at compile-time.**
 
 An invariant is a condition that must always hold true. You want to enforce
 these invariants as early as possible.
@@ -58,7 +58,7 @@ I recently learned about the term [type-driven
 development](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/),
 a practice that emphasizes the use of types to ensure program correctness.
 
-To learn how it works, let's try to implement a basic version of `vec1` ourselves.
+To see how it works, let's try to implement a basic version of `vec1` ourselves.
 
 ## Implementing `vec1`
 
@@ -173,10 +173,12 @@ mod tests {
 }
 ```
 
-If you want to play around with that code, [here's a link to the Rust
+We now have a vector with at least one element.
+If you want to play around with the code, [here's a link to the Rust
 playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3c65cd2caaef8104914b8a6988bf2cb1).
 
-We now have a vector with at least one element, but we can do better!
+
+## Using an Array
 
 If we assume that the Kafka brokers don't change at runtime &mdash;
 a reasonable assumption, given that it's a configuration value &mdash; we could
@@ -186,9 +188,7 @@ array](https://doc.rust-lang.org/std/primitive.array.html).
 By using an array, we can statically allocate the whole collection, which is
 more efficient than using a `Vec` (which is dynamically allocated on the heap).
 
-## Using an Array
-
-Here is the same code as above, but using an array instead of a `Vec`:
+Here is the same code as above, but using an array instead of a `Vec`.
 
 ```rust
 use std::ops::Index;
