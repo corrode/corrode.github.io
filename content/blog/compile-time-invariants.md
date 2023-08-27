@@ -1,6 +1,6 @@
 +++
 title = "Compile-Time Invariants in Rust"
-date = 2023-08-26
+date = 2023-08-27
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -42,7 +42,6 @@ let kafka_brokers = vec1!["kafka:9092"]; // works
 let kafka_brokers = vec1![]; // compile error
 ```
 
-
 Now the program would not compile if we tried to use `vec1!` with zero
 elements, which is exactly what we want!
 
@@ -60,28 +59,78 @@ a practice that emphasizes the use of types to ensure program correctness.
 
 To see how it works, let's try to implement a basic version of `vec1` ourselves.
 
-## Implementing `vec1`
+## Variant 1: The `vec1` macro
 
-The trick is to make our `Vec1` look like a regular `Vec` on the outside, but
-internally we use two fields to enforce at least one element.
+Let's create a macro that behaves like `vec!`, but doesn't allow an empty vector.
 
-```rust
-pub struct Vec1<T> {
-    // Fields are not public, so we can enforce 
-    // invariants during construction
-    first: T,
-    rest: Vec<T>,
-}
-```
-
-To construct a `Vec1`, we can provide a macro that is similar to `vec!`:
+The macro handles two cases:
+- The first case matches a single element, followed by zero or more elements.
+- The second case matches an empty vector and will panic at compile-time.
 
 ```rust
 #[macro_export]
 macro_rules! vec1 {
     // The first element is mandatory, 
     // while additional elements are optional (denoted by the `*`).
-    // Just like `vec!`, we also allow a trailing comma.
+    // Just like `vec!`, we also allow a trailing comma (denoted by the `?`).
+    [$x:expr $(, $xs:expr)* $(,)?] => {{
+        // Just create an ordinary `Vec`
+        vec![$x, $($xs),*]
+    }};
+    [] => {
+        compile_error!("vec1! requires at least one element")
+    };
+}
+
+fn main() {
+    // This works
+    let _ = vec1!["Hello", "World"];
+
+    // This will fail to compile, which is what we want.
+    let _ = vec1![];
+}
+```
+
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=6449703583b75ea1a76a763be9a0ba5f))
+
+We use [`compile_error!`](https://doc.rust-lang.org/std/macro.compile_error.html),
+from the standard library, which will always fail to compile with the given
+error message.
+
+This does indeed look like it solves our problem!  
+However, it only does so superficially.
+
+Since we return an ordinary `Vec`, the information that there is at least one
+element is lost and the invariant is *not* enforced by the type system later on.
+Nothing keeps us from passing an empty vector to a function that requires at
+least one element, so we would still have to add a runtime check.
+We haven't gained much.
+
+Can we do better?
+
+## Variant 2: Implementing a `Vec1` type
+
+The trick is to create a new type, `Vec1`, that behaves like an ordinary `Vec`,
+but encapsulates the knowledge we just gained about our input. 
+
+We do this by using two fields internally, `first` and `rest`:
+
+```rust
+// Note: Fields are not public, so we can enforce 
+// invariants during construction
+pub struct Vec1<T> {
+    // The first element is mandatory
+    first: T,
+    // The rest of the elements are optional
+    rest: Vec<T>,
+}
+```
+
+Let's update our macro to return a `Vec1` instead of a `Vec`:
+
+```rust
+#[macro_export]
+macro_rules! vec1 {
     [$x:expr $(, $xs:expr)* $(,)?] => {{
         Vec1 {
             first: $x,
@@ -94,11 +143,7 @@ macro_rules! vec1 {
 }
 ```
 
-[`compile_error!`](https://doc.rust-lang.org/std/macro.compile_error.html) is a
-macro that will always fail to compile with the given error message.
-
-Finally let's implement a few traits to make our `Vec1` behave like a
-normal `Vec`.
+To make our `Vec1` behave like any ordinary `Vec`, we can implement the same traits.
 
 For example, we probably want to
 [iterate](https://doc.rust-lang.org/std/iter/trait.IntoIterator.html) over the
@@ -139,6 +184,15 @@ traits](https://doc.rust-lang.org/std/vec/struct.Vec.html#trait-implementations)
 but remember that the goal here is to learn about the general pattern of using
 types to enforce invariants.
 
+Note that we cannot simply implement `Deref` and `DerefMut` to
+delegate to the underlying `Vec`, because that would allow us to mutate the
+vector in a way that violates our invariant. Furthermore, we would need a custom
+implementation of `remove` and `pop` to make sure that the vector is never
+empty.
+
+On the other hand, your own types are probably very specific to your use-case,
+so you might not need to implement as many traits.
+
 With that, let's write some tests:
 
 ```rust
@@ -177,16 +231,18 @@ We now have a vector with at least one element.
 If you want to play around with the code, [here's a link to the Rust
 playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3c65cd2caaef8104914b8a6988bf2cb1).
 
+In any real-world scenario, you would probably want to use the `vec1` crate
+instead of rolling your own implementation.
 
-## Using an Array
 
-If we assume that the Kafka brokers don't change at runtime &mdash;
-a reasonable assumption, given that it's a configuration value &mdash; we could
-also use a [fixed-size
-array](https://doc.rust-lang.org/std/primitive.array.html).
+## Variant 3: Using an Array
+
+If we assume that the list of Kafka brokers doesn't change at runtime (a
+reasonable assumption, given that it's a configuration value) we could also use
+a [fixed-size array](https://doc.rust-lang.org/std/primitive.array.html).
 
 By using an array, we can statically allocate the whole collection, which is
-more efficient than using a `Vec` (which is dynamically allocated on the heap).
+more efficient than using a `Vec` (a dynamically allocated datatype on the heap).
 
 Here is the same code as above, but using an array instead of a `Vec`.
 
@@ -235,9 +291,9 @@ impl<T, const N: usize> Index<usize> for Array1<T, N> {
 }
 ```
 
-Note that we needed to introduce a special case for a single element.
+Note that we have to introduce a special case for a single element.
 That's because we need to know the value `N` for our type parameter, but
-we can only do so if the macro is called with at least two elements.
+it varies depending on the number of elements in `rest`.
 
 Our trait implementations now expect a `const` parameter, e.g.:
 
@@ -262,8 +318,9 @@ I like the fact that this avoids any runtime overhead,
 which can be helpful in memory-constrained environments or in situations
 where dynamic allocation is not possible.
 
-It depends on the use-case to decide whether this is a better approach than
-using a `vec1`. 
+It depends on your use-case to decide whether this is a better approach than
+using a `vec1`. It's fun how all of the guarantees can be enforced without any
+runtime overhead, though!
 
 ## Further Improvements
 
@@ -279,10 +336,9 @@ As a general rule of thumb, I like to follow this advice:
 
 ## Conclusion
 
-In this post, we saw how the type system can be used to 
-enforce invariants at compile-time. 
-Rust has great support for type-driven design, which can help you write more
-robust and idiomatic code.
+Rust has great support for type-driven design, which can guide you towards
+robust and idiomatic code to enforce invariants at compile-time. 
+
 Always be on the lookout for ways to let the type-system guide you towards
 stronger abstractions. 
 
