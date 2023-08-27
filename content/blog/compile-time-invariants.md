@@ -269,7 +269,13 @@ using a `vec1`.
 
 One could think of a few ways to add more checks. For example, since we know
 that Kafka brokers get represented as URLs, we could also enforce that invariant
-at compile-time; but we'll leave it at that for now.
+at compile-time.
+
+Which additional checks you want to add depends on your use-case.
+As a general rule of thumb, I like to follow this advice:
+
+> Model your data using the most precise data structure you reasonably can.  
+> &mdash; [Alexis King](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
 
 ## Conclusion
 
