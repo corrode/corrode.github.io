@@ -211,6 +211,12 @@ ul {
   justify-content: end;
 }
 
+blockquote {
+  font-style: italic;
+  margin: 20px 0;
+  padding: 0px 20px;
+  border-left: 8px solid $brightPrim;
+}
 
 .footer {
   flex-shrink: 0;
@@ -361,6 +367,10 @@ ul {
 
     .footer .copyright {
       color: $darkPrim;
+    }
+
+    blockquote {
+      border-left-color: $brightScnd;
     }
 
   }
