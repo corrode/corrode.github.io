@@ -22,8 +22,11 @@ Right now, the program would happily compile with an
 empty vector. We'd have to add a runtime check to make sure that the vector is not empty:
 
 ```rust
-if kafka_brokers.is_empty() {
-    panic!("At least one Kafka broker is required");
+fn connect_to_kafka(brokers: Vec<&str>) -> Result<KafkaClient, Box<dyn Error>> { 
+    if brokers.is_empty() {
+        return Err("At least one Kafka broker is required");
+    }
+    // Connect to brokers
 }
 ```
 
@@ -103,7 +106,9 @@ However, it only does so superficially.
 Since we return an ordinary `Vec`, the information that there is at least one
 element is lost and the invariant is *not* enforced by the type system later on.
 Nothing keeps us from passing an empty vector to a function that requires at
-least one element, so we would still have to add a runtime check.
+least one element, so we would still need our `brokers.is_empty()` runtime check
+from above.
+
 We haven't gained much.
 
 Can we do better?
