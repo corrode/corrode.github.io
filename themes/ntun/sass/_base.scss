@@ -119,8 +119,9 @@ a {
 .nav {
   z-index: 1;
   width: 100%;
+  max-width: 1100px;
   padding: 0.5em 1em;
-
+  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -135,7 +136,6 @@ a {
     flex-wrap: wrap; /* Allow items to wrap */
     gap: 2em;
     align-items: center;
-    margin-right: 4em;
   }
 
   .nav-right a {
