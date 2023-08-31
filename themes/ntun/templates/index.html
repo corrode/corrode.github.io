@@ -2,278 +2,268 @@
 
 {% block content %}
 <div class="homepage">
-  <div class="hero">
-    <div class="hero-font">
-      {% set hero_font = load_data(path="static/hero/hero-font.svg") %}
-      {{ hero_font | safe }}
+    <div class="hero">
+        <div class="hero-font">
+            {% set hero_font = load_data(path="static/hero/hero-font.svg") %}
+            {{ hero_font | safe }}
+        </div>
+        <img class="hero-img" src="/hero/hero-img.svg" />
     </div>
-    <img class="hero-img" src="/hero/hero-img.svg" />
-  </div>
-  <div class="content">
-    <h1 class="hero-headline">by Matthias Endler</h1>
-    <div class="content-icons">
-      {% for link in config.extra.links %}
-      <a
-        title="{{ link.title }}"
-        href="{{ link.url }}"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <img class="content-icon" src="/icons/{{ link.icon }}" />
-      </a>
-      {% endfor %}
+    <div class="content">
+        <h1 class="hero-headline">by Matthias Endler</h1>
+        <div class="content-icons">
+            {% for link in config.extra.links %}
+            <a title="{{ link.title }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
+                <img class="content-icon" src="/icons/{{ link.icon }}" />
+            </a>
+            {% endfor %}
+        </div>
     </div>
-  </div>
-  <div class="testimonials">
-    <div class="testimonial-carousel">
-      <div class="testimonial active">
-        <div class="testimonial-text">
-          <q>
-            I worked closely with Matthias to build a workshop for the Rust
-            community. He did an outstanding job in coming up with ideas and things
-            that made complex concepts easy to understand.
-            Not only was he a nice and fun person to work with, but the attendees
-            also found him engaging and entertaining.
-          </q>
+    <div class="testimonials">
+        <div class="testimonial-carousel">
+            <div class="testimonial active">
+                <div class="testimonial-text">
+                    <q>
+                        I worked closely with Matthias to build a workshop for the Rust
+                        community. He did an outstanding job in coming up with ideas and things
+                        that made complex concepts easy to understand.
+                        Not only was he a nice and fun person to work with, but the attendees
+                        also found him engaging and entertaining.
+                    </q>
+                </div>
+                <div class="testimonial-author">
+                    <img class="testimonial-avatar" src="/testimonials/santiago.jpg" />
+                    <div>
+                        <a class="testimonial-author-text" href="https://santiagopastorino.com/">Santiago Pastorino</a>
+                        <div class="testimonial-author-role">Rust Compiler Team Contributor</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text">
+                    <q>
+                        Matthias is reliable, good with people, and the kind of guy you can trust to
+                        figure it out, whatever it happens to be. We've run some conference
+                        workshops together, and I keep thinking that I should find an excuse to work
+                        with him again!
+                    </q>
+                </div>
+                <div class="testimonial-author">
+                    <img class="testimonial-avatar" src="/testimonials/hanno.jpg" />
+                    <div>
+                        <a class="testimonial-author-text" href="https://hanno.braun-odw.eu/">Hanno Braun</a>
+                        <div class="testimonial-author-role">Embedded Rust Developer</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="testimonial-author">
-          <img
-            class="testimonial-avatar"
-            src="/testimonials/santiago.jpg"
-          />
-          <div>
-            <a class="testimonial-author-text" href="https://santiagopastorino.com/">Santiago Pastorino</a>
-            <div class="testimonial-author-role">Rust Compiler Team Contributor</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-text">
-          <q>
-            Matthias is reliable, good with people, and the kind of guy you can trust to
-            figure it out, whatever it happens to be. We've run some conference
-            workshops together, and I keep thinking that I should find an excuse to work
-            with him again!
-          </q>
-        </div>
-        <div class="testimonial-author">
-          <img
-            class="testimonial-avatar"
-            src="/testimonials/hanno.jpg"
-          />
-          <div>
-            <a class="testimonial-author-text" href="https://hanno.braun-odw.eu/">Hanno Braun</a>
-            <div class="testimonial-author-role">Embedded Rust Developer</div>
-          </div>
-        </div> 
-      </div>
     </div>
-  </div>
-  <a id="contact"></a>
-  <div class="call-to-action">
-    <div class="cta-content">
-      <h1>Let's get in touch!</h1>
-      <p>
-        I provide <b>training</b> and <b>consulting</b> for companies that want
-        to use Rust in production<br />
-        (on-site or remote from Düsseldorf, Germany).
-      </p>
-      <!-- Cal inline embed code begins -->
-      <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
-      <script type="text/javascript">
-        (function (C, A, L) {
-          let p = function (a, ar) {
-            a.q.push(ar);
-          };
-          let d = C.document;
-          C.Cal =
-            C.Cal ||
-            function () {
-              let cal = C.Cal;
-              let ar = arguments;
-              if (!cal.loaded) {
-                cal.ns = {};
-                cal.q = cal.q || [];
-                d.head.appendChild(d.createElement("script")).src = A;
-                cal.loaded = true;
-              }
-              if (ar[0] === L) {
-                const api = function () {
-                  p(api, arguments);
-                };
-                const namespace = ar[1];
-                api.q = api.q || [];
-                typeof namespace === "string"
-                  ? (cal.ns[namespace] = api) && p(api, ar)
-                  : p(cal, ar);
-                return;
-              }
-              p(cal, ar);
-            };
-        })(window, "https://app.cal.com/embed/embed.js", "init");
-        Cal("init", { origin: "https://app.cal.com" });
+    <a id="contact"></a>
+    <div class="call-to-action">
+        <div class="cta-content">
+            <h1>Let's get in touch!</h1>
+            <p>
+                I provide <b>training</b> and <b>consulting</b> for companies that want
+                to use Rust in production<br />
+                (on-site or remote from Düsseldorf, Germany).
+            </p>
+            <!-- Cal inline embed code begins -->
+            <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
+            <script type="text/javascript">
+                (function (C, A, L) {
+                    let p = function (a, ar) {
+                        a.q.push(ar);
+                    };
+                    let d = C.document;
+                    C.Cal =
+                        C.Cal ||
+                        function () {
+                            let cal = C.Cal;
+                            let ar = arguments;
+                            if (!cal.loaded) {
+                                cal.ns = {};
+                                cal.q = cal.q || [];
+                                d.head.appendChild(d.createElement("script")).src = A;
+                                cal.loaded = true;
+                            }
+                            if (ar[0] === L) {
+                                const api = function () {
+                                    p(api, arguments);
+                                };
+                                const namespace = ar[1];
+                                api.q = api.q || [];
+                                typeof namespace === "string"
+                                    ? (cal.ns[namespace] = api) && p(api, ar)
+                                    : p(cal, ar);
+                                return;
+                            }
+                            p(cal, ar);
+                        };
+                })(window, "https://app.cal.com/embed/embed.js", "init");
+                Cal("init", {origin: "https://app.cal.com"});
 
-        Cal("inline", {
-          elementOrSelector: "#my-cal-inline",
-          calLink: "corrode/30min",
-        });
+                Cal("inline", {
+                    elementOrSelector: "#my-cal-inline",
+                    calLink: "corrode/30min",
+                });
 
-        Cal("ui", {
-          styles: { branding: { brandColor: "#000000" } },
-          hideEventTypeDetails: false,
-        });
-      </script>
-      <!-- Cal inline embed code ends -->
+                Cal("ui", {
+                    styles: {branding: {brandColor: "#000000"}},
+                    hideEventTypeDetails: false,
+                });
+            </script>
+            <!-- Cal inline embed code ends -->
+        </div>
     </div>
-  </div>
-  <div class="content dark">
-    <section>
-      <div class="section-content">
-        <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="Battery" />
-        <div class="section-text">
-          <h2 class="section-headline">Training, Refactoring & Beyond</h2>
-          <p class="section-paragraph">
-            Whether your team is <b>just getting started</b> with Rust or you're
-            already using <b>Rust in production</b>, I can help you get the most out
-            of the language.
-          </p>
-          <p class="section-paragraph">
-            I can teach your team to write <strong>idiomatic, well-tested, and
-            well-documented code</strong> that is easy to maintain and extend.
-            If you need help with a specific project, I can jump in and help
-            you get it done.
-          </p>
-          <p class="section-paragraph">
-            I specialize in:
-            <ul>
-              <li>Training / Pair Programming</li>
-              <li>Refactoring</li>
-              <li>Performance Optimizations</li>
-            </ul>
-          </p>
-        </div>
-      </div>
-    </section>
+    <div class="content dark">
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="Battery" />
+                <div class="section-text">
+                    <h2 class="section-headline">Training, Refactoring & Beyond</h2>
+                    <p class="section-paragraph">
+                        Whether your team is <b>just getting started</b> with Rust or you're
+                        already using <b>Rust in production</b>, I can help you get the most out
+                        of the language.
+                    </p>
+                    <p class="section-paragraph">
+                        I can teach your team to write <strong>idiomatic, well-tested, and
+                            well-documented code</strong> that is easy to maintain and extend.
+                        If you need help with a specific project, I can jump in and help
+                        you get it done.
+                    </p>
+                    <p class="section-paragraph">
+                        I specialize in:
+                    <ul>
+                        <li>Training / Pair Programming</li>
+                        <li>Refactoring</li>
+                        <li>Performance Optimizations</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
 
-    <section>
-      <div class="section-content">
-        <div class="section-text">
-          <h2 class="section-headline">Strong Integrations</h2>
-          <p class="section-paragraph">
-            No project exists in a vacuum. I can help you integrate Rust into
-            your existing infrastructure and tooling.
-            While I'm most comfortable writing Rust, I'm also proficient in
-            <a href="https://github.com/trivago/exporter-edgecast">Go</a>,
-            <a href="https://github.com/mre/kafka-influxdb">Python</a>, and
-            <a href="https://github.com/mre/vscode-snippet">TypeScript</a>.
-          </p>
-          <p class="section-paragraph">
-            If you're looking to migrate to Rust or optimize your existing Rust
-            codebases, I can provide the expertise you need.
-          </p>
-        </div>
-        <img class="section-image" width="300" height="300" src="/sections/gears.svg" alt="Gears icon" />
-      </div>
-    </section>
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2 class="section-headline">Strong Integrations</h2>
+                    <p class="section-paragraph">
+                        No project exists in a vacuum. I can help you integrate Rust into
+                        your existing infrastructure and tooling.
+                        While I'm most comfortable writing Rust, I'm also proficient in
+                        <a href="https://github.com/trivago/exporter-edgecast">Go</a>,
+                        <a href="https://github.com/mre/kafka-influxdb">Python</a>, and
+                        <a href="https://github.com/mre/vscode-snippet">TypeScript</a>.
+                    </p>
+                    <p class="section-paragraph">
+                        If you're looking to migrate to Rust or optimize your existing Rust
+                        codebases, I can provide the expertise you need.
+                    </p>
+                </div>
+                <img class="section-image" width="300" height="300" src="/sections/gears.svg" alt="Gears icon" />
+            </div>
+        </section>
 
-    <section>
-      <div class="section-content">
-        <img class="section-image" width="300" height="300" src="/sections/stars.svg" alt="GitHub stars" />
-        <div class="section-text">
-          <h2 class="section-headline">Passionate about Open Source</h2>
-          <p class="section-paragraph">
-            Modern software development happens in the open.
-            With over <a href="https://github.com/mre">27,000 stars on GitHub</a> and more
-            than 10 years of experience, I know how to build and maintain
-            successful open-source projects.
-          </p>
-          <p class="section-paragraph">
-            If you're looking to open-source your project, I can help you
-            navigate the process and build a community around your project.
-          </p>
-        </div>
-      </div>
-    </section>
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="300" height="300" src="/sections/stars.svg" alt="GitHub stars" />
+                <div class="section-text">
+                    <h2 class="section-headline">Passionate about Open Source</h2>
+                    <p class="section-paragraph">
+                        Modern software development happens in the open.
+                        With over <a href="https://github.com/mre">27,000 stars on GitHub</a> and more
+                        than 10 years of experience, I know how to build and maintain
+                        successful open-source projects.
+                    </p>
+                    <p class="section-paragraph">
+                        If you're looking to open-source your project, I can help you
+                        navigate the process and build a community around your project.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-    <section>
-      <div class="section-content">
-        <div class="section-text">
-          <h2 class="section-headline">Sharing Knowledge</h2>
-          <p class="section-paragraph">
-            My goal is to make your team productive and self-sufficient.
-          </p> 
-          <p class="section-paragraph"> 
-            I love sharing my knowledge and experience with others; for example
-            through my YouTube channel, <a
-            href="https://www.youtube.com/c/hellorust">Hello Rust</a>, where I
-            teach Rust in a fun and engaging way. Clear communication is important to me.
-            I've published many articles on Rust, and I'm a <a
-            href="https://endler.dev/talks/">regular speaker at conferences</a>
-            and meetups.
-          </p>
-          <p class="section-paragraph">
-            You can leverage my expertise to make your team more productive.
-          </p>
-        </div>
-        <img class="section-image" width="300" height="300" src="/sections/hello_rust.svg" alt="Hello Rust Logo" />
-      </div>
-    </section>
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2 class="section-headline">Sharing Knowledge</h2>
+                    <p class="section-paragraph">
+                        My goal is to make your team productive and self-sufficient.
+                    </p>
+                    <p class="section-paragraph">
+                        I love sharing my knowledge and experience with others; for example
+                        through my YouTube channel, <a href="https://www.youtube.com/c/hellorust">Hello Rust</a>, where
+                        I
+                        teach Rust in a fun and engaging way. Clear communication is important to me.
+                        I've published many articles on Rust, and I'm a <a href="https://endler.dev/talks/">regular
+                            speaker at conferences</a>
+                        and meetups.
+                    </p>
+                    <p class="section-paragraph">
+                        You can leverage my expertise to make your team more productive.
+                    </p>
+                </div>
+                <img class="section-image" width="300" height="300" src="/sections/hello_rust.svg"
+                    alt="Hello Rust Logo" />
+            </div>
+        </section>
 
-    <section>
-      <div class="section-content">
-        <img class="section-image" width="300" height="300" src="/sections/human.svg" alt="Human Icon" />
-        <div class="section-text">
-          <h2 class="section-headline">Beyond Code: Trust and Empathy</h2>
-          <p class="section-paragraph">
-            Code is the easy part.
-            Beyond technical expertise, I value empathy, communication, and
-            teamwork. I strive to understand not just the software, but also the
-            people who use it, the problems it solves, and the team that builds
-            it.
-          </p>
-          <p class="section-paragraph">
-            If you bring me on the team, I'll do my best to make engineering
-            and product teams work together smoothly. I'll help you build a
-            culture of trust, respect, and collaboration.
-          </p>
-          <p>
-            <a href="#contact">Let's get in touch!</a>
-          </p>
-        </div>
-      </div>
-    </section>
-  </div>
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="300" height="300" src="/sections/human.svg" alt="Human Icon" />
+                <div class="section-text">
+                    <h2 class="section-headline">Beyond Code: Trust and Empathy</h2>
+                    <p class="section-paragraph">
+                        Code is the easy part.
+                        Beyond technical expertise, I value empathy, communication, and
+                        teamwork. I strive to understand not just the software, but also the
+                        people who use it, the problems it solves, and the team that builds
+                        it.
+                    </p>
+                    <p class="section-paragraph">
+                        If you bring me on the team, I'll do my best to make engineering
+                        and product teams work together smoothly. I'll help you build a
+                        culture of trust, respect, and collaboration.
+                    </p>
+                    <p>
+                        <a href="#contact">Let's get in touch!</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
 <div class="call-to-action">
-  <div class="cta-content">
-    <h1>Don't Miss Out!</h1>
-    <p>
-      Seize the opportunity to elevate your Rust projects and empower your team to
-      build the future of infrastructure. Let's embark on this journey together.
-    </p>
-    <p>
-      <a href="#contact" class="cta-button">Connect with Me Now!</a>
-    </p>
-  </div>
+    <div class="cta-content">
+        <h1>Don't Miss Out!</h1>
+        <p>
+            Seize the opportunity to elevate your Rust projects and empower your team to
+            build the future of infrastructure. Let's embark on this journey together.
+        </p>
+        <p>
+            <a href="#contact" class="cta-button">Connect with Me Now!</a>
+        </p>
+    </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    let currentTestimonial = 0;
-    const testimonials = document.querySelectorAll('.testimonial');
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
 
-    // Initially show the first testimonial
-    testimonials[currentTestimonial].classList.add('active');
-
-    // Function to change the testimonial
-    function changeTestimonial() {
-        testimonials[currentTestimonial].classList.remove('active');
-        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        // Initially show the first testimonial
         testimonials[currentTestimonial].classList.add('active');
-    }
 
-    setInterval(changeTestimonial, 8000);
-  });
+        // Function to change the testimonial
+        function changeTestimonial() {
+            testimonials[currentTestimonial].classList.remove('active');
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            testimonials[currentTestimonial].classList.add('active');
+        }
+
+        setInterval(changeTestimonial, 8000);
+    });
 </script>
 
 {% endblock content %}
