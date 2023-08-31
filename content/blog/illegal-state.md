@@ -4,7 +4,8 @@ date = 2023-08-06
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
-reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" }, ]
+reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },
+{ link = "https://www.andreaskroepelin.de", name = "Andreas Kröpelin" } ]
 +++
 
 If you've worked with Rust for a while, you've probably heard the phrase "making
@@ -79,9 +80,9 @@ struct User {
 }
 ```
 
-Note how the compiler now guides us towards idiomatic Rust code?
+See how the compiler now guides us towards idiomatic Rust code?
 It's subtle, but `username` is now of type `Username` instead of `String`.
-This means that we can't accidentally create a user with an empty username.
+This means we have much stronger guarantees around our own type as we can't accidentally create a user with an empty username.
 The username has to be constructed before:
 
 ```rust
@@ -164,7 +165,7 @@ mod tests {
 }
 ```
 
-No mocking, no complicated setup, testing is a breeze.
+No mocking, no complicated setup, testing becomes a breeze.
 
 Our `User` struct now looks like this:
 
@@ -179,8 +180,7 @@ struct User {
 
 It might sound simple, trivial even, but this is a very powerful technique.
 What's important is that you're handling errors at the lowest possible level. In
-this case, when you create the `Username` object &mdash; and not when you insert it into
-your database for example.
+this case, when you create the `Username` object &mdash; and not when you insert it into your database for example.
 
 This will make your code much more robust and easier to reason about, and it's
 quick to add more constraints as you go along. For example, we might want to
@@ -231,6 +231,64 @@ documentation of the `Username` struct. This is a great way to document your
 constraints and to show how to use your types! As an added bonus, you can run
 these examples as tests by using `cargo test --doc`.
 
+## Does This Really Prevent Illegal States?
+
+The keen reader might have noticed that we could still create invalid objects
+manually:
+
+```rust
+let username = Username("".to_string()); // uh oh
+```
+
+In any real-world scenario, we would probably encapsulate our logic in a module and only expose a constructor function to the outside world:
+
+```rust
+mod user {
+    pub struct Username(String);
+
+    impl Username {
+        #[must_use]
+        pub fn new(username: String) -> Result<Self, &'static str> {
+            // ...
+        }
+    }
+}
+```
+
+If we now tried to create a `Username` object from the outside, we'd get a compiler error:
+
+```rust
+let username = user::Username("".to_string());
+
+error[E0603]: tuple struct constructor `Username` is private
+  --> src/main.rs:45:26
+   |
+2  |     pub struct Username(String);
+   |                         ------ a constructor is private if any of the fields is private
+```
+
+With that, the only way to create a `Username` object is by using our `new` function:
+
+```rust
+let username = user::Username::new("mre".to_string());
+```
+
+**This means, illegal states are avoided for users of our module.  
+In a way, we only made them "unconstructable", though.**
+
+If we really wanted, we could model our struct to avoid illegal states at compile time, but it would be rather tedious to work with.
+
+```rust
+struct Username {
+    // At least 3 characters required
+    prefix: [char; 3]
+    rest: String
+}
+```
+
+We get the benefit of compile-time safety, but at the cost of ergonomics.
+However, this pattern can be useful in some cases, as we will see in a 
+[future article](/blog/compile-time-invariants/).
 
 ## Library Support
 
@@ -239,9 +297,6 @@ but, you might want to consider using a validation library like
 [validator](https://crates.io/crates/validator).
 
 ## Conclusion
-
-This was just a small example to demonstrate what it means to make illegal
-states unrepresentable. 
 
 If possible, use self-contained, custom types to model your domain.
 It will make your code more robust, easier to test and reason about.
