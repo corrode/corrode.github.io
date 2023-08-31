@@ -7,3 +7,7 @@ help: ## This help message
 .PHONY: dev run serve
 dev run serve: ## Serve website locally
 	zola serve --drafts
+
+.PHONY: social
+social: ## Generate social images for blog posts
+	./social.sh
