@@ -226,10 +226,12 @@ impl Username {
 }
 ```
 
-I've added some documentation and examples, which will be shown in the
+I've added some usage examples, which will be shown in the
 documentation of the `Username` struct. This is a great way to document your
 constraints and to show how to use your types! As an added bonus, you can run
-these examples as tests by using `cargo test --doc`.
+these examples as tests with `cargo test --doc`.
+
+Here's a link to the code on the [Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=2a896bbfa9a25e76ceed2e15159643a8).
 
 ## Does This Really Prevent Illegal States?
 
@@ -297,6 +299,7 @@ but, you might want to consider using a validation library like
 [validator](https://crates.io/crates/validator).
 
 ## Conclusion
+
 
 If possible, use self-contained, custom types to model your domain.
 It will make your code more robust, easier to test and reason about.
