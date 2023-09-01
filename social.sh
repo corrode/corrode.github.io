@@ -17,7 +17,7 @@ generate_social_image() {
 # Iterate over blog posts
 for post in content/blog/*.md; do
     # Check if the file starts with an underscore or is .gitignore
-    if [[ $(basename "$post") == _* || $(basename "$post") == ".gitignore" ]]; then
+    if [[ $(basename "$post") == _* ]]; then
         continue
     fi
     
