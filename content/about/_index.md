@@ -4,8 +4,10 @@ template = "page.html"
 sort_by = "date"
 +++
 
-Hi, I'm Matthias Endler, a Rust developer and open source maintainer. I've built
-popular Rust crates like [tinysearch](https://github.com/tinysearch/tinysearch),
+Hi, I'm Matthias Endler, a Rust developer and open source maintainer.
+I love no-frills, easy-to-follow, [idiomatic Rust](https://github.com/mre/idiomatic-rust) code.
+
+Some popular Rust crates that I built are [tinysearch](https://github.com/tinysearch/tinysearch),
 [hyperjson](https://github.com/mre/hyperjson), and
 [lychee](https://github.com/lycheeverse/lychee).
 I'm a Rustacean since 2015 and I've been working with Rust professionally since 2019.
@@ -20,12 +22,10 @@ Bochum,
 in Columbus, OH and [RustFest](https://hackmd.io/ru4intliRlyJ9t8pU2F29A)
 Barcelona.
 
-I'm passionate about [Idiomatic Rust](https://github.com/mre/idiomatic-rust) and
-I love to [blog](https://endler.dev/).
-
 With my solid knowledge around performance optimizations, scalability,
 concurrent- and parallel execution and WebAssembly, I help clients around the
-world to get the most out of Rust.
+world to get the most out of Rust through teaching, consulting, and
+contracting.
 
 Feel free to [get in contact](mailto:hi@corrode.dev) with me, I'm always up for
 a chat!
