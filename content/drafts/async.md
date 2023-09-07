@@ -326,6 +326,9 @@ like [reqwest](https://github.com/seanmonstar/reqwest) and
 [sqlx](https://github.com/launchbadge/sqlx). In your own code, try to avoid
 async-only public APIs to make downstream usage easier.
 
+However, it's important to know that there are alternatives to Tokio
+and that they are worth exploring.
+
 ### Consider The Alternatives
 
 Currently, Rust's core language and its standard library offer just the absolute
