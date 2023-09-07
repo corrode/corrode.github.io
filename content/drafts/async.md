@@ -58,13 +58,11 @@ That leaves us with a situation that it unsatisfactory for everyone involved:
 
 ## The case of `async-std`
 
-`async-std` was an attempt to create a runtime that is closer to the Rust
-standard library. Its promise was that you could almost use it as a drop-in
-replacement for the standard library.
+`async-std` was an attempt to create an alternative runtime that is closer to
+the Rust standard library. Its promise was that you could almost use it as a
+drop-in replacement for the standard library.
 
-For example,
-[`File::open`](https://doc.rust-lang.org/std/fs/struct.File.html#method.open) is
-a blocking operation in the standard library.
+For example, consider the following code to read a file synchronously:
 
 ```rust
 use std::fs::File;
@@ -285,7 +283,7 @@ async fn main() {
 ([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7dc4bc6783691c42fbf4cd5a76251da2))
 
 In a recent benchmark, [async Rust was 2x
-faster than threads](https://vorner.github.io/async-bench.html), but the **absolute** difference
+faster than threads](https://vorner.github.io/async-bench.html), but the _absolute_ difference
 was only _10ms per request_. In other words, the difference is negligible for most
 applications.
 For comparison, [this about as long as Python or PHP take to start](https://github.com/bdrung/startup-time).
@@ -309,35 +307,16 @@ safety checks as the rest of your Rust code: It is protected from data races,
 null dereferences, and dangling references, ensuring a level of thread safety
 that prevents many common pitfalls found in concurrent programming,
 so some of the traditional arguments against threads do not apply to Rust.
-
-## How to Improve The State Of Async Rust
-
-Currently, Rust's core language and its standard library offer just the absolute
-essentials for `async/await` capabilities. The bulk of the work is done in
-crates developed by the Rust community. This is a good thing as it allows the
-community to iterate on async Rust before it is stabilized.
-
-The abstractions we have are relatively conservative in their
-guarantees.
-In the definition of the `Future` trait you provided, there are no constraints
-on the associated `Output` type to be `Send`, `Sync`, or `'static`.
-
-```rust
-pub trait Future {
-    type Output;
-
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output>;
-}
-```
-
-We should keep it that way as we continue to add new abstractions.
+Fearless concurrency is your friend.
 
 ## So What?
 
-My original intention was to advice people to just skip async Rust for now and
-wait until the ecosystem has matured. However, I since realized that this is not
-feasible given that lot of libraries are async-only and new users will get in
-touch with async Rust one way or another.
+### Use Async Rust Sparingly
+
+My original intention was to advice newcomers to just skip async Rust for now
+and wait until the ecosystem has matured. However, I since realized that this is
+not feasible given that lot of libraries are async-only and new users will get
+in touch with async Rust one way or another.
 
 Instead, I would recommend to use async Rust only when you really need it.
 Learn how to write synchronous Rust first and then maybe move on to async Rust.
@@ -347,20 +326,31 @@ like [reqwest](https://github.com/seanmonstar/reqwest) and
 [sqlx](https://github.com/launchbadge/sqlx). In your own code, try to avoid
 async-only public APIs to make downstream usage easier.
 
+### Consider The Alternatives
+
+Currently, Rust's core language and its standard library offer just the absolute
+essentials for `async/await` capabilities. The bulk of the work is done in
+crates developed by the Rust community. 
+We should make more use of this possibility to iterate on async Rust and
+experiment with different designs before we settle on a final solution.
+
 In binary crates, think twice if you really need to use async. It's probably
 easier to just spawn a thread and get away with blocking I/O. In case you have a
 CPU-bound workload, you can use [rayon](https://github.com/rayon-rs/rayon) to
 parallelize your code.
 
+### Isolate Async Code
+
 If you _really_ need async, consider isolating your
 async code from the rest of your application. Keep your domain logic synchronous
 and only use async for I/O and external services.
-
 Following these guideliens will make your code [more
 composable](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)
 and accessible.
 On top of that, the error messages of sync Rust are much easier to reason about
 than those of async Rust.
+
+### Keep It Simple
 
 **Inside Rust, there is a smaller, simpler language that is waiting to get out.
 It is this language that most Rust code should be written in.**
