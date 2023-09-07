@@ -18,7 +18,7 @@ community in the first place.
 Although I have fond memories about the energy and excitement around async Rust
 in 2016, I now have mixed feelings about the state of the ecosystem.
 
-## Why Write This?
+## Why Bother?
 
 With this article, I want to address three different audiences:
 
@@ -330,7 +330,7 @@ async-only public APIs to make downstream usage easier.
 
 Currently, Rust's core language and its standard library offer just the absolute
 essentials for `async/await` capabilities. The bulk of the work is done in
-crates developed by the Rust community. 
+crates developed by the Rust community.
 We should make more use of this possibility to iterate on async Rust and
 experiment with different designs before we settle on a final solution.
 
