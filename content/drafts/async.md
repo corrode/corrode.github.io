@@ -379,5 +379,7 @@ than those of async Rust.
 
 ### Keep It Simple
 
+The default mode for writing Rust should be synchronous.
+
 **Inside Rust, there is a smaller, simpler language that is waiting to get out.
 It is this language that most Rust code should be written in.**
