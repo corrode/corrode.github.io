@@ -22,13 +22,16 @@ in 2016, I now have mixed feelings about the state of the ecosystem.
 
 With this article, I want to address three different audiences:
 
-- People who are new to (async) Rust and want to get an overview of the current state of the ecosystem.
-- People who are already using async Rust and want to know my opinion about the current problems and challenges.
-- Library maintainers and contributors to the async ecosystem in the hope that my perspective can be the basis for a discussion about the future of async Rust.
+- People who are new to (async) Rust and want to get an overview of the
+  current state of the ecosystem.
+- People who are already using async Rust and want to know my opinion about
+  the current problems and challenges.
+- Library maintainers and contributors to the async ecosystem, in the hope that
+  my perspective can be a basis for discussion about the future of async Rust.
 
 ## One True Executor
 
-An unconvenient truth about async Rust is that [libraries still need to be
+An inconvenient truth about async Rust is that [libraries still need to be
 written against individual
 runtimes](https://github.com/rust-lang/areweasyncyet.rs/issues/34). Writing your
 async code in a runtime-agnostic fashion requires [conditional
@@ -116,12 +119,12 @@ was met with a [harsh community
 response](https://www.reddit.com/r/rust/comments/ebpzqx/do_not_stop_worrying_about_blocking_in_async)
 and later retracted.
 
-As of today, [1754 public crates have a dependency on
+As of this writing, [1754 public crates have a dependency on
 `async-std`](https://lib.rs/crates/async-std/rev) and there
-a companies that [rely on it in
+are companies that [rely on it in
 production](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1028879475).
 
-However, as of 2023, `async-std` is essentially abandoned as there is [no active
+However, as of late 2023, `async-std` is essentially abandoned as there is [no active
 development anymore](https://github.com/async-rs/async-std/graphs/contributors).
 
 Whoever relied on [`async-std`'s
@@ -184,8 +187,9 @@ course at this point. Tokio is too deeply ingrained in the ecosystem already
 and it feels like we're stuck with it.
 
 Chances are, one of your dependencies pulls in Tokio anyway, at which point
-you're forced to use it as well. [Tokio is used at runtime in 20,768 crates (of
-which 5,245 optionally)](https://lib.rs/crates/tokio/rev).
+you're forced to use it as well. At the time of writing, [Tokio is used at
+runtime in 20,768 crates (of which 5,245 depend on it
+optionally)](https://lib.rs/crates/tokio/rev).
 
 In spite of all this, we should not stop innovating in the async space!
 
@@ -198,7 +202,8 @@ In that spirit, there are three other runtimes that are worth highlighting:
   embedded systems.
 - [glommio](https://github.com/DataDog/glommio): An async runtime for I/O-bound workloads, built on top of io_uring and using a thread-per-core model.
 
-These runtimes are important, as they explore alternative paths for async Rust.
+These runtimes are important, as they explore alternative paths
+or open up new use cases for async Rust.
 [Similar to Rust's error handling story](https://mastodon.social/@mre/111019994687648975), the hope is that competing designs will lead to a more robust foundation in the long run.
 Especially iterating on smaller runtimes that are less invasive and
 single-threaded by default can help improve Rust's async story.
