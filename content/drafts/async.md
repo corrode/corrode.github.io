@@ -168,16 +168,21 @@ but the most trivial applications.
 >
 > &mdash; [Maciej Hirsz](https://maciej.codes/2022-06-09-local-async.html)
 
+Every time we use an `Arc` or a `Mutex` it's good idea to stop for a moment and
+think about the future implications of that decision.
+
 It's not only more inconvenient to write async code on top of these
 synchronization primitives, they are also more expensive from a performance
 perspective: Locking means runtime overhead and additional memory usage; in
 embedded environments, these mechanisms are often not available at all.
 
 On top of it, writing async code is a mental burden.
-The entirety of async Rust is a minefield of leaky abstractions.
 
 **Multi-threaded-by-default runtimes cause accidential complexity completely
 unrelated to the task of writing async code.**
+
+The entirety of async Rust is a minefield of leaky abstractions caused
+by bad defaults and overengineering.
 
 Maciej suggested to use a [local async
 runtime](https://maciej.codes/2022-06-09-local-async.html) which is
