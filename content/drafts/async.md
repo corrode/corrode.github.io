@@ -182,7 +182,8 @@ On top of it, writing async code is a mental burden.
 unrelated to the task of writing async code.**
 
 The entirety of async Rust is a minefield of leaky abstractions caused
-by bad defaults and overengineering.
+by overengineering and bad defaults.
+We should not have an explicit `spawn::blocking` , but a `spawn::async`.
 
 Maciej suggested to use a [local async
 runtime](https://maciej.codes/2022-06-09-local-async.html) which is
