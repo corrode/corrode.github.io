@@ -197,10 +197,14 @@ In spite of all this, we should not stop innovating in the async space!
 
 In that spirit, there are three other runtimes that are worth highlighting:
 
-- [smol](https://github.com/smol-rs/smol): A small async runtime, which is easy to understand. The entire executor is around [1000 lines of code](https://github.com/smol-rs/async-executor/blob/master/src/lib.rs).
+- [smol](https://github.com/smol-rs/smol): A small async runtime,
+  which is easy to understand. The entire executor is around
+  [1000 lines of code](https://github.com/smol-rs/async-executor/blob/master/src/lib.rs)
+  with other parts of the ecosystem being similarly small.
 - [embassy](https://github.com/embassy-rs/embassy): An async runtime for
   embedded systems.
-- [glommio](https://github.com/DataDog/glommio): An async runtime for I/O-bound workloads, built on top of io_uring and using a thread-per-core model.
+- [glommio](https://github.com/DataDog/glommio): An async runtime for I/O-bound
+  workloads, built on top of io_uring and using a thread-per-core model.
 
 These runtimes are important, as they explore alternative paths
 or open up new use cases for async Rust.
