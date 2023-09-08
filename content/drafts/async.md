@@ -294,9 +294,8 @@ and modern Linux can handle tens of [thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
 Turns out, computers are pretty good at doing multiple things at once nowadays.
-
-Async Rust is likely more memory-efficient than threads, at the cost of added
-complexity. Even the async book
+Async Rust is likely more memory-efficient than threads, at the cost of
+complexity and worse ergonomics. Even the async book
 [acknowledges this](https://rust-lang.github.io/async-book/01_getting_started/02_why_async.html#async-vs-threads-in-rust):
 
 > If you don't need async for performance reasons, threads can often be the
