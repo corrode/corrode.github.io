@@ -206,9 +206,10 @@ In that spirit, there are three other runtimes that are worth highlighting:
 - [glommio](https://github.com/DataDog/glommio): An async runtime for I/O-bound
   workloads, built on top of io_uring and using a thread-per-core model.
 
-These runtimes are important, as they explore alternative paths
-or open up new use cases for async Rust.
-[Similar to Rust's error handling story](https://mastodon.social/@mre/111019994687648975), the hope is that competing designs will lead to a more robust foundation in the long run.
+These runtimes are important, as they explore alternative paths or open up new
+use cases for async Rust. [Similar to Rust's error handling
+story](https://mastodon.social/@mre/111019994687648975), the hope is that
+competing designs will lead to a more robust foundation in the long run.
 Especially iterating on smaller runtimes that are less invasive and
 single-threaded by default can help improve Rust's async story.
 
@@ -303,6 +304,12 @@ and modern Linux can handle tens of [thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
 Turns out, computers are pretty good at doing multiple things at once nowadays.
+
+As an important caveat, threads are not avaible or feasible in all environments,
+such as embedded systems. My context for this article is primarily traditional
+server-side applications that run on top of operating systems like Linux or
+Windows.
+
 Async Rust is likely more memory-efficient than threads, at the cost of
 complexity and worse ergonomics. Even the async book
 [acknowledges this](https://rust-lang.github.io/async-book/01_getting_started/02_why_async.html#async-vs-threads-in-rust):
