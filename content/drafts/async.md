@@ -20,14 +20,16 @@ in 2016, I now have mixed feelings about the state of the ecosystem.
 
 ## Why Bother?
 
-With this article, I want to address three different audiences:
+With this article, I want to address two different audiences:
 
 - People who are new to (async) Rust and want to get an overview of the
   current state of the ecosystem.
-- People who are already using async Rust and want to know my opinion about
-  the current problems and challenges.
 - Library maintainers and contributors to the async ecosystem, in the hope that
   my perspective can be a basis for discussion about the future of async Rust.
+  
+Recently, I came across another article titled ['Async Rust Is A Bad Language'](https://bitbashing.io/async-rust.html). It's worth noting that the timing of our publications is purely coincidental. While that piece offers a hot-take on the subject, I felt that it was lacking in nuance and data.
+My intention with this blog is to provide a comprehensive view backed by 
+references for further reading, hoping to give readers the chance to form their own opinion.
 
 ## One True Executor
 
@@ -229,6 +231,12 @@ Especially iterating on smaller runtimes that are less invasive and
 single-threaded by default can help improve Rust's async story.
 
 ## Async vs Threads
+
+No matter the runtime, we end up doing part of the Kernel's job in user space.
+Modern operating systems come with highly optimized schedulers that are
+designed to run many tasks in parallel and support async I/O through
+[io_uring](https://lwn.net/Articles/776703/) and [splice](https://github.com/mre/fcat). We should make better use of these
+capabilities.
 
 The main alternative to async Rust is &mdash; you guessed it &mdash; using
 [threads](https://doc.rust-lang.org/std/thread/).
