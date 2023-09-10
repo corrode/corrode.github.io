@@ -63,6 +63,13 @@ details[open] summary::before {
   color: $brightPrim; 
 }
 
+.article img {
+  position: relative;
+  overflow: auto;
+  max-width: 110%;
+  margin-left: -5%;
+}
+
 .article a code:not(pre > code) {
   background-color: $brightScnd;
 }

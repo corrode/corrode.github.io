@@ -127,13 +127,16 @@ As of this writing, [1754 public crates have a dependency on
 are companies that [rely on it in
 production](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1028879475).
 
-However, as of late 2023, `async-std` is essentially abandoned as there is [no active
-development anymore](https://github.com/async-rs/async-std/graphs/contributors).
+However, looking at the commits over time `async-std` is essentially abandoned as there is [no active
+development anymore](https://github.com/async-rs/async-std/graphs/contributors):
+
+![Fading async-std contribution graph on Github](async-std-github.svg)
 
 This leaves those reliant on the [`async-std`
 API](https://docs.rs/async-std/latest/async_std/) – be it for concurrency mechanisms, extension traits, or otherwise – in an unfortunate situation,
 as is the case for libraries developed on top of `async-std`, such as
 [`surf`](https://github.com/http-rs/surf).
+The core of `async-std` is now powered by [`smol`](https://github.com/smol-rs/smol), but it is probably best to use it directly for new projects.
 
 ## Can't we just embrace Tokio?
 
@@ -209,6 +212,8 @@ you're forced to use it as well. At the time of writing, [Tokio is used at
 runtime in 20,768 crates (of which 5,245 depend on it
 optionally)](https://lib.rs/crates/tokio/rev).
 
+![Runtime popularity bar chart between tokio, async-std, and smol with Tokio greatly dominating](runtimes.svg)
+
 In spite of all this, we should not stop innovating in the async space!
 
 ## Other Runtimes
@@ -256,7 +261,7 @@ fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>> {
 }
 ```
 
-We can call this function from multiple [scoped threads](https://doc.rust-lang.org/std/thread/fn.scope.html):
+We can call this function in the new [scoped threads](https://doc.rust-lang.org/std/thread/fn.scope.html):
 
 ```rust
 use std::error::Error;
@@ -299,7 +304,9 @@ Notably, there are no `.await` calls.
 If `read_contents` was part of a public API, it could be used by both async and
 sync callers and you would not be forced to initialize a runtime to use it.
 
-If the function were _async_ however and you called it outside of a runtime, the code
+Async Rust is likely more memory-efficient than threads, at the cost of
+complexity and worse ergonomics. 
+As an example, if the function were _async_ and you called it outside of a runtime, the code
 would compile, but not do anything at runtime. Futures are _lazy_ and only run when being
 polled. This is a common footgun for newcomers.
 
@@ -310,7 +317,8 @@ async fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>
 
 #[tokio::main]
 async fn main() {
-    read_contents("foo.txt"); // This will print a warning, but it would compile
+    // This will print a warning, but not do anything at runtime
+    read_contents("foo.txt"); 
 }
 ```
 
@@ -334,12 +342,6 @@ such as embedded systems. My context for this article is primarily traditional
 server-side applications that run on top of operating systems like Linux or
 Windows.
 
-Async Rust is likely more memory-efficient than threads, at the cost of
-complexity and worse ergonomics. Even the async book
-[acknowledges this](https://rust-lang.github.io/async-book/01_getting_started/02_why_async.html#async-vs-threads-in-rust):
-
-> If you don't need async for performance reasons, threads can often be the
-> simpler alternative.
 
 I would like to add that threaded code in Rust undergoes the same stringent
 safety checks as the rest of your Rust code: It is protected from data races,
@@ -387,6 +389,11 @@ fn main() {
     }
 }
 ```
+
+As a summary, I would like to quote [the async book](https://rust-lang.github.io/async-book/01_getting_started/02_why_async.html#async-vs-threads-in-rust):
+
+> If you don't need async for performance reasons, threads can often be the
+> simpler alternative.
 
 ## Rust Web Frameworks
 
