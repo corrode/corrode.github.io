@@ -7,31 +7,30 @@ series = "Commentary"
 reviews = []
 +++
 
-Lately, I revisted the original blog post series by Aaron Turon
-about the creation of the Tokio async runtime for Rust, titled
-[Zero-cost futures in Rust](https://aturon.github.io/blog/2016/08/11/futures/).
+Recently, I found myself returning to a compelling series of blog posts 
+titled [Zero-cost futures in Rust](https://aturon.github.io/blog/2016/08/11/futures/) by Aaron Turon about what would become the foundation of Rust's async ecosystem.
 
-It is a seminal body of work and one of my favorite pieces of writing about Rust
-in general. People like Aaron are the reason why I wanted to be part of the Rust
+This series stands as a cornerstone in writings about Rust.
+People like Aaron are the reason why I wanted to be part of the Rust
 community in the first place.
 
-Although I have fond memories about the energy and excitement around async Rust
-in 2016, I now have mixed feelings about the state of the ecosystem.
+While 2016 evokes nostalgic memories of excitement and frevor surrounding async Rust, my sentiments regarding the current state of its ecosystem are now somewhat ambivalent.
 
 ## Why Bother?
 
-With this article, I want to address two different audiences:
+With this article, I hope to address two different audiences:
 
-- People who are new to (async) Rust and want to get an overview of the
-  current state of the ecosystem.
+- Newcomers to async Rust, seeking to get an overview of the current state of
+  the ecosystem.
 - Library maintainers and contributors to the async ecosystem, in the hope that
   my perspective can be a basis for discussion about the future of async Rust.
   
-Recently, I came across another article titled ['Async Rust Is A Bad Language'](https://bitbashing.io/async-rust.html). It's worth noting that the timing of our publications is purely coincidental. While that piece offers a hot-take on the subject, I felt that it was lacking in nuance and data.
-My intention with this blog is to provide a comprehensive view backed by 
-references for further reading, hoping to give readers the chance to form their own opinion.
+I recently came across an article titled ['Async Rust Is A Bad Language'](https://bitbashing.io/async-rust.html). Though that article presents a bold perspective, I found it somewhat wanting in depth and evidence. 
+My intention with this post is to provide a comprehensive view backed by 
+references, hoping to give readers a more nuanced perspective.
+It's worth noting that the timing of our publications is purely coincidental.
 
-## One True Executor
+## One True Runtime
 
 An inconvenient truth about async Rust is that [libraries still need to be
 written against individual
@@ -42,23 +41,22 @@ compilation](https://github.com/launchbadge/sqlx/blob/d0fbe7feff4b3a200cf0453417
 [handling
 edge-cases](https://github.com/seanmonstar/reqwest/issues/719#issuecomment-558758637).
 
-That's why most libraries only support a single runtime &mdash;
-[Tokio](https://tokio.rs/).
+This is the rationale behind most libraries gravitating towards the
+One True Runtime &mdash; [Tokio](https://tokio.rs/).
 
 Executor coupling is a big problem for async Rust as it breaks the ecosystem
 into silos. [Documentation and examples for one runtime don't work with the
 other
 runtimes](https://www.reddit.com/r/rust/comments/f10tcq/confusion_with_rusts_async_architecture_and_how/fh1oagw/).
 
-Speaking of which, documentation on async Rust is outdated and lacking behind in
-general. For example, the async book is still in draft status and important
-concepts like `FuturesUnordered` are not covered yet. (There is an open [pull
-request](https://github.com/rust-lang/async-book/pull/96), though.)
+Moreover, much of the existing documentation on async Rust feels outdated or incomplete. For example, the async book remains in draft,
+with concepts like `FuturesUnordered` yet to be covered.
+(There is an open [pull request](https://github.com/rust-lang/async-book/pull/96), though.)
 
 That leaves us with a situation that it unsatisfactory for everyone involved:
 
 - For new users, it is a big ask to [navigate this space](https://github.com/rust-netlink/netlink-proto/issues/7) and make future-proof (no pun intended) decisions.
-- For experienced users and library maintainers, [supporting multiple runtimes is a burden](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1032132220). That's why popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [require Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
+- For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1032132220). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
   This close coupling is a known issue, which is [acknowledged by the async working group](https://github.com/rust-lang/wg-async/issues/45).
 
 ## The case of `async-std`
@@ -67,7 +65,7 @@ That leaves us with a situation that it unsatisfactory for everyone involved:
 the Rust standard library. Its promise was that you could almost use it as a
 drop-in replacement for the standard library.
 
-For example, consider the following code to read a file synchronously:
+Take, for instance, this straightforward synchronous file-reading code:
 
 ```rust
 use std::fs::File;
@@ -115,7 +113,7 @@ library. Here are some examples of issues that are still open:
 It is an enormous effort to replicate the standard library and it is not clear
 to me if it is worth it.
 
-Even if it _were_ a drop-in replacement, I would still question the value of it.
+Even if it _were_ a drop-in replacement, I'd still ponder its actual merit.
 Rust is a language that values explicitness. This is especially true for
 reasoning about runtime behavior, such as allocations and blocking operations.
 The async-std's teams proposal to ["Stop worrying about
@@ -132,16 +130,16 @@ production](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1028879
 However, as of late 2023, `async-std` is essentially abandoned as there is [no active
 development anymore](https://github.com/async-rs/async-std/graphs/contributors).
 
-Whoever relied on [`async-std`'s
-API](https://docs.rs/async-std/latest/async_std/) (concurrency primitives,
-extension traits, etc.) is now stuck with a project that is not actively
-developed anymore and this is also true for the [libraries that were written
-against it](https://github.com/http-rs/surf).
+This leaves those reliant on the [`async-std`
+API](https://docs.rs/async-std/latest/async_std/) – be it for concurrency mechanisms, extension traits, or otherwise – in an unfortunate situation,
+as is the case for libraries developed on top of `async-std`, such as
+[`surf`](https://github.com/http-rs/surf).
 
 ## Can't we just embrace Tokio?
 
-Tokio is the canonical async runtime for Rust. In fact, Tokio is more than just
-a runtime; it has extra modules for
+Tokio stands as Rust's canonical async runtime.
+But to label Tokio merely as a runtime would be an understatement.
+It has extra modules for
 [fs](https://docs.rs/tokio/latest/tokio/fs/index.html),
 [io](https://docs.rs/tokio/latest/tokio/io/index.html),
 [net](https://docs.rs/tokio/latest/tokio/net/index.html),
@@ -151,12 +149,9 @@ handling](https://docs.rs/tokio/latest/tokio/signal/index.html) and
 That makes it more of a framework for asynchronous programming than just a
 runtime.
 
-Partially, this is because Tokio pioneered async Rust and had to explore the
-design space as it went along. And while you could exclusively use the runtime
-and ignore the rest, it is just easier to just buy into the whole ecosystem.
+Partially, this is because Tokio had a pioneering role in async Rust. It explored the design space as it went along. And while you could exclusively use the runtime and ignore the rest, it is easier and more common to buy into the entire ecosystem.
 
-My main concern with Tokio is that it makes a lot of assumptions about how async
-code should be written and where it runs.
+However, my main concern with Tokio is that it makes a lot of assumptions about how async code should be written and where it runs.
 For example, it assumes that you want to use a [multi-threaded
 runtime](https://docs.rs/tokio/latest/tokio/attr.main.html) (as per their
 default) and mandates that types are `Send` and `'static`, which makes it
