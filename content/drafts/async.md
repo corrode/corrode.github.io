@@ -109,6 +109,9 @@ library. Here are some examples of issues that are still open:
 - [OpenOptionsExt missing for Windows?](https://github.com/async-rs/async-std/issues/914)
 - [Spawned task is stuck during flushing in
   File.drop()](https://github.com/async-rs/async-std/issues/900)
+  
+It is an enormous effort to replicate the standard library and it is not clear
+to me if it is worth it.
 
 Even if it _were_ a drop-in replacement, I would still question the value of it.
 Rust is a language that values explicitness. This is especially true for
@@ -184,6 +187,8 @@ unrelated to the task of writing async code.**
 The entirety of async Rust is a minefield of leaky abstractions caused
 by overengineering and bad defaults.
 We should not have an explicit `spawn::blocking` , but a `spawn::async`.
+Futures should not be expected to have a `'static` lifetime, but
+exist within a small scope for a short period of time.
 
 Maciej suggested to use a [local async
 runtime](https://maciej.codes/2022-06-09-local-async.html) which is
@@ -332,7 +337,108 @@ safety checks as the rest of your Rust code: It is protected from data races,
 null dereferences, and dangling references, ensuring a level of thread safety
 that prevents many common pitfalls found in concurrent programming,
 so some of the traditional arguments against threads do not apply to Rust.
-Fearless concurrency is your friend.
+Fearless concurrency is your friend!
+
+And if you need to share state between threads, consider to use
+a channel:
+
+```rust
+use std::error::Error;
+use std::path::Path;
+use std::sync::mpsc;
+use std::thread;
+
+// Our error type needs to be `Send` to be used in a channel
+// That's the only change we need to make to our original code
+fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error + Send>> {
+    todo!()
+}
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::scope(|scope| {
+        scope.spawn(|| {
+            let contents = read_contents("foo.txt");
+            tx.send(contents).unwrap();
+        });
+        scope.spawn(|| {
+            let contents = read_contents("bar.txt");
+            tx.send(contents).unwrap();
+        });
+        scope.spawn(|| {
+            let contents = read_contents("baz.txt");
+            tx.send(contents).unwrap();
+        });
+    });
+
+    // Receive messages from the channel
+    for received in rx {
+        println!("Got: {:?}", received);
+    }
+}
+```
+
+## Rust Web Frameworks
+
+If you allow me one last digression, I would like to talk about Rust web
+frameworks for a moment.
+
+Why does every web framework in Rust have to be async-first?
+
+I don't know about your use cases, but I usually write simple CRUD applications
+that fetch data from a database and render it as HTML.
+From time to time, I might need to call an external API, but that's about it.
+An async-first web framework just isn't worth the trouble.
+
+And even if I had a use case for async, I would *still* prefer to use a
+single-threaded runtime to avoid the complexity of synchronization primitives.
+If your primary concern is I/O-bound work (like handling many simultaneous
+connections that are mostly waiting on I/O), then even a single-threaded Tokio
+runtime can handle thousands to tens of thousands of simultaneous connections,
+depending on the nature of the tasks and the specifics of the environment.
+
+I would like to see more web frameworks that are synchronous by default and
+allow you to opt into async when needed.
+We should resist the tendency to annotate our `main` function with `#[tokio::main]`.
+
+```rust
+#[get("/")]
+fn index() -> impl Response {
+    let users = db::get_users();
+    Response::ok().body(render_template("index.html", users))
+}
+
+// A route, which profits from concurrent IO
+// It sends multiple requests to an external API and aggregates the results
+// Note how the function itself is does not need to be async 
+#[get("/users")]
+fn users(count: usize) -> impl Response {
+    // Start a local, single-threaded runtime with smol's async-executor
+    let rt = smol::LocalExecutor::new();
+    
+    // Run the async code on the runtime
+    let results = rt.run(async {
+        let mut results = Vec::new();
+        for id in 0..count {
+            let result = reqwest::get(format!("https://api.example.com/users/{}", id)).await?;
+            results.push(result);
+        }
+        Ok(results)
+    });
+    
+    Response::ok().body(render_template("users.html", results))
+}
+
+// This does not need to be async either
+// In the background, it might use a thread pool to handle multiple requests
+fn main() -> Result<()> {
+    let app = App::new()
+        .mount("/", index)
+        .mount("/users", users)
+        .run();
+}
+```
 
 ## So What?
 
@@ -370,9 +476,10 @@ parallelize your code.
 ### Isolate Async Code
 
 If you _really_ need async, consider isolating your
-async code from the rest of your application. Keep your domain logic synchronous
+async code from the rest of your application. 
+Keep your domain logic synchronous
 and only use async for I/O and external services.
-Following these guideliens will make your code [more
+Following these guidelines will make your code [more
 composable](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)
 and accessible.
 On top of that, the error messages of sync Rust are much easier to reason about
