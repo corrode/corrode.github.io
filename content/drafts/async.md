@@ -152,10 +152,16 @@ runtime.
 Partially, this is because Tokio had a pioneering role in async Rust. It explored the design space as it went along. And while you could exclusively use the runtime and ignore the rest, it is easier and more common to buy into the entire ecosystem.
 
 However, my main concern with Tokio is that it makes a lot of assumptions about how async code should be written and where it runs.
-For example, it assumes that you want to use a [multi-threaded
-runtime](https://docs.rs/tokio/latest/tokio/attr.main.html) (as per their
-default) and mandates that types are `Send` and `'static`, which makes it
-necessary to know about synchronization primitives such as
+
+For example, [at the beginning of the Tokio documentation](https://docs.rs/tokio/latest/tokio/), they state:
+
+> The easiest way to get started is to enable all features. Do this by enabling the full feature flag:
+> ```rust
+> tokio = { version = "1", features = ["full"] }
+> ```
+
+This sets up a [multi-threaded runtime](https://docs.rs/tokio/latest/tokio/attr.main.html) and mandates that types are `Send` and `'static`, which makes it
+necessary to use synchronization primitives such as
 [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) and
 [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all
 but the most trivial applications.
