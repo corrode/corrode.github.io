@@ -154,16 +154,17 @@ runtime.
 
 Partially, this is because Tokio had a pioneering role in async Rust. It explored the design space as it went along. And while you could exclusively use the runtime and ignore the rest, it is easier and more common to buy into the entire ecosystem.
 
-However, my main concern with Tokio is that it makes a lot of assumptions about how async code should be written and where it runs.
+Yet, my main concern with Tokio is that it makes a lot of assumptions about how async code should be written and where it runs.
 
 For example, [at the beginning of the Tokio documentation](https://docs.rs/tokio/latest/tokio/), they state:
 
-> The easiest way to get started is to enable all features. Do this by enabling the full feature flag:
-> ```rust
-> tokio = { version = "1", features = ["full"] }
-> ```
+"The easiest way to get started is to enable all features. Do this by enabling the `full` feature flag":
 
-This sets up a [multi-threaded runtime](https://docs.rs/tokio/latest/tokio/attr.main.html) and mandates that types are `Send` and `'static`, which makes it
+```rust
+tokio = { version = "1", features = ["full"] }
+```
+
+By doing so, one would set up a [multi-threaded runtime](https://docs.rs/tokio/latest/tokio/attr.main.html) which mandates that types are `Send` and `'static` and makes it
 necessary to use synchronization primitives such as
 [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) and
 [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all
@@ -177,24 +178,18 @@ but the most trivial applications.
 >
 > &mdash; [Maciej Hirsz](https://maciej.codes/2022-06-09-local-async.html)
 
-Every time we use an `Arc` or a `Mutex` it's good idea to stop for a moment and
-think about the future implications of that decision.
+Any time we reach for an `Arc` or a `Mutex` it's good idea to stop for a moment and think about the future implications of that decision.
 
-It's not only more inconvenient to write async code on top of these
-synchronization primitives, they are also more expensive from a performance
-perspective: Locking means runtime overhead and additional memory usage; in
-embedded environments, these mechanisms are often not available at all.
+Beyond the complexities of architecting async code atop these synchronization mechanisms, they carry a performance cost: Locking means runtime overhead and additional memory usage; in embedded environments, these mechanisms are often not available at all.
 
-On top of it, writing async code is a mental burden.
+Moreoever, writing async code is a mental burden.
 
 **Multi-threaded-by-default runtimes cause accidential complexity completely
 unrelated to the task of writing async code.**
 
 The entirety of async Rust is a minefield of leaky abstractions caused
 by overengineering and bad defaults.
-We should not have an explicit `spawn::blocking` , but a `spawn::async`.
-Futures should not be expected to have a `'static` lifetime, but
-exist within a small scope for a short period of time.
+Ideally, we'd lean on an explicit `spawn::async` instead of `spawn::blocking`. Futures should be designed for brief, scoped lifespans rather than the 'static lifetime.
 
 Maciej suggested to use a [local async
 runtime](https://maciej.codes/2022-06-09-local-async.html) which is
@@ -204,11 +199,11 @@ single-threaded by default and does **not** require types to be `Send` and
 I fully agree.
 
 However, I have little hope that the Rust community will change
-course at this point. Tokio is too deeply ingrained in the ecosystem already
-and it feels like we're stuck with it.
+course at this point. Tokio's roots run deep within the ecosystem
+and it feels like for better or worse we're stuck with it.
 
-Chances are, one of your dependencies pulls in Tokio anyway, at which point
-you're forced to use it as well. At the time of writing, [Tokio is used at
+In the realms of networking and web operations, it's likely that one of your dependencies integrates Tokio, effectively nudging you towards its adoption. 
+At the time of writing, [Tokio is used at
 runtime in 20,768 crates (of which 5,245 depend on it
 optionally)](https://lib.rs/crates/tokio/rev).
 
@@ -218,7 +213,7 @@ In spite of all this, we should not stop innovating in the async space!
 
 ## Other Runtimes
 
-In that spirit, there are three other runtimes that are worth highlighting:
+Going beyond Tokio, several other runtimes deserve more attention:
 
 - [smol](https://github.com/smol-rs/smol): A small async runtime,
   which is easy to understand. The entire executor is around
@@ -230,24 +225,27 @@ In that spirit, there are three other runtimes that are worth highlighting:
   workloads, built on top of io_uring and using a thread-per-core model.
 
 These runtimes are important, as they explore alternative paths or open up new
-use cases for async Rust. [Similar to Rust's error handling
+use cases for async Rust. Drawing a parallel with, [Rust's error handling
 story](https://mastodon.social/@mre/111019994687648975), the hope is that
-competing designs will lead to a more robust foundation in the long run.
-Especially iterating on smaller runtimes that are less invasive and
+competing designs will lead to a more robust foundation overall.
+Especially, iterating on smaller runtimes that are less invasive and
 single-threaded by default can help improve Rust's async story.
 
 ## Async vs Threads
 
-No matter the runtime, we end up doing part of the Kernel's job in user space.
+Regardless of runtime choice, we end up doing part of the kernel's job in user space.
+
+If you allow me a play on [Greenspun's tenth rule](https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule):
+
+Any sufficiently advanced async Rust program contains an ad hoc, informally-specified, potentially bug-ridden implementation of half of an operating system's scheduler.
+
 Modern operating systems come with highly optimized schedulers that are
-designed to run many tasks in parallel and support async I/O through
+excellent at multitasking and support async I/O through
 [io_uring](https://lwn.net/Articles/776703/) and [splice](https://github.com/mre/fcat). We should make better use of these
 capabilities.
 
-The main alternative to async Rust is &mdash; you guessed it &mdash; using
-[threads](https://doc.rust-lang.org/std/thread/).
-Threads allow you to reuse existing synchronous code without significant code
-changes.
+Let's finally address the elephant in the room:
+[Threads](https://doc.rust-lang.org/std/thread/), with their familiarity, present a path to make synchronous code faster with minimal adjustments.
 
 For example, take our sync code to read a file from above and put it into a
 function:
@@ -301,14 +299,13 @@ fn main() {
 That code looks almost identical to the single-threaded version!
 Notably, there are no `.await` calls.
 
-If `read_contents` was part of a public API, it could be used by both async and
-sync callers and you would not be forced to initialize a runtime to use it.
+Were `read_contents` part of a public API, it could be used by both async and
+sync callers, eliminating the need for an asynchronous runtime.
 
-Async Rust is likely more memory-efficient than threads, at the cost of
+Async Rust might be more memory-efficient than threads, at the cost of
 complexity and worse ergonomics. 
-As an example, if the function were _async_ and you called it outside of a runtime, the code
-would compile, but not do anything at runtime. Futures are _lazy_ and only run when being
-polled. This is a common footgun for newcomers.
+As an example, if the function were *async* and you called it *outside* of a runtime, it would compile, but not run. Futures 
+do nothing unless being polled. This is a common footgun for newcomers.
 
 ```rust
 async fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>> {
@@ -325,21 +322,20 @@ async fn main() {
 ([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7dc4bc6783691c42fbf4cd5a76251da2))
 
 In a recent benchmark, [async Rust was 2x
-faster than threads](https://vorner.github.io/async-bench.html), but the _absolute_ difference
-was only _10ms per request_. In other words, the difference is negligible for most
-applications.
-For comparison, [this about as long as Python or PHP take to start](https://github.com/bdrung/startup-time).
+faster than threads](https://vorner.github.io/async-bench.html), but the _absolute_ difference was only _10ms per request_. 
+To put this into perspective, [this about as long as PHP takes to start](https://github.com/bdrung/startup-time).
+In other words, the difference is negligible for most applications.
 
 Frameworks based on threads can easily handle [tens of thousands
-of requests per second](https://github.com/iron/iron#performance)
-and modern Linux can handle tens of [thousands of
+of requests per second](https://github.com/iron/iron#performance).
+Additionally, modern Linux can manage tens of [thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
 Turns out, computers are pretty good at doing multiple things at once nowadays.
 
 As an important caveat, threads are not avaible or feasible in all environments,
-such as embedded systems. My context for this article is primarily traditional
-server-side applications that run on top of operating systems like Linux or
+such as embedded systems. My context for this article is primarily conventional
+server-side applications that run on top of platforms like Linux or
 Windows.
 
 I would like to add that threaded code in Rust undergoes the same stringent
@@ -347,7 +343,7 @@ safety checks as the rest of your Rust code: It is protected from data races,
 null dereferences, and dangling references, ensuring a level of thread safety
 that prevents many common pitfalls found in concurrent programming,
 Since there is no garbage collector, there never will be any stop-the-world pause to reclaim memory.
-Traditional arguments against threads simply don't apply to Rust;
+Traditional arguments against threads simply don't apply to Rust &mdash;
 fearless concurrency is your friend!
 
 And if you need to share state between threads, consider to use
@@ -397,26 +393,22 @@ As a summary, I would like to quote [the async book](https://rust-lang.github.io
 
 ## Rust Web Frameworks
 
-If you allow me one last digression, I would like to talk about Rust web
+If you allow me one last digression, I would like to rant about Rust web
 frameworks for a moment.
 
-Why does every web framework in Rust have to be async-first?
+Why does the Rust landscape seem obsessed with an async-first approach for every web framework?
 
-I don't know about your use cases, but I usually write simple CRUD applications
-that fetch data from a database and render it as HTML.
-From time to time, I might need to call an external API, but that's about it.
-An async-first web framework just isn't worth the trouble.
+In my experience, the majority of my projects involve straightforward CRUD operations: pulling data from databases and converting it into HTML. Occasionally, I need to make an external API call, but that's about it.
+For these tasks, the complexities of an async-first framework feel like overkill.
 
-And even if I had a use case for async, I would *still* prefer to use a
-single-threaded runtime to avoid the complexity of synchronization primitives.
-If your primary concern is I/O-bound work (like handling many simultaneous
+Even if there were a compelling case for async, I would *still* prefer 
+to sidestep the complexities of synchronization primitives.
+If my primary concern is I/O-bound work (like handling many simultaneous
 connections that are mostly waiting on I/O), then even a single-threaded Tokio
 runtime can handle thousands to tens of thousands of simultaneous connections,
 depending on the nature of the tasks and the specifics of the environment.
 
-I would like to see more web frameworks that are synchronous by default and
-allow you to opt into async when needed.
-We should resist the tendency to annotate our `main` function with `#[tokio::main]`.
+I would like to see more web frameworks that are *synchronous* by default and allow you to opt into async as needed.
 
 ```rust
 #[get("/")]
@@ -446,7 +438,7 @@ fn users(count: usize) -> impl Response {
     Response::ok().body(render_template("users.html", results))
 }
 
-// This does not need to be async either
+// This does not need to be async either!
 // In the background, it might use a thread pool to handle multiple requests
 fn main() -> Result<()> {
     let app = App::new()
@@ -455,6 +447,8 @@ fn main() -> Result<()> {
         .run();
 }
 ```
+
+We should resist the urge to annotate every `main` function with `#[tokio::main]`.
 
 ## So What?
 
