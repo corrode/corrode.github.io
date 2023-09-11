@@ -261,7 +261,7 @@ fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>> {
 }
 ```
 
-We can call this function in the new [scoped threads](https://doc.rust-lang.org/std/thread/fn.scope.html):
+We can call this function inside the new [scoped threads](https://doc.rust-lang.org/std/thread/fn.scope.html):
 
 ```rust
 use std::error::Error;
@@ -292,7 +292,8 @@ fn main() {
         });
     });
 
-    // Threads get joined automatically once the scope ends
+    // No join; threads get joined 
+    // automatically once the scope ends
 }
 ```
 
@@ -316,7 +317,7 @@ async fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>
 
 #[tokio::main]
 async fn main() {
-    // This will print a warning, but not do anything at runtime
+    // This will print a warning, but compile and do nothing at runtime
     read_contents("foo.txt"); 
 }
 ```
@@ -331,7 +332,7 @@ In other words, the difference is negligible for most applications.
 Thread-based frameworks, like the now-inactive  [iron](https://github.com/iron/iron), showcased the capability to effortlessly handle [tens of thousands of requests per second](https://github.com/iron/iron/wiki/How-to-Benchmark-hello.rs-Example). This is further complemented by the fact modern Linux systems can manage [tens of thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
-Turns out, computers are pretty good at doing multiple things at once nowadays.
+Turns out, computers are pretty good at doing multiple things at once nowadays!
 
 As an important caveat, threads are not avaible or feasible in all environments,
 such as embedded systems. My context for this article is primarily conventional
@@ -448,7 +449,7 @@ fn main() -> Result<()> {
 }
 ```
 
-We should resist the urge to annotate every `main` function with `#[tokio::main]`.
+Resist the urge to annotate every `main` function with `#[tokio::main]`.
 
 ## So What?
 
@@ -474,7 +475,7 @@ and that they are worth exploring.
 At its core, Rust and its standard library offer just the absolute
 essentials for `async/await`. The bulk of the work is done in
 crates developed by the Rust community.
-We should make more use of this possibility to iterate on async Rust and
+We should make more use of the ability to iterate on async Rust and
 experiment with different designs before we settle on a final solution.
 
 In binary crates, think twice if you really need to use async. It's probably
@@ -497,8 +498,7 @@ than those of async Rust.
 
 ### Keep It Simple
 
-The default mode for writing Rust should be synchronous.
-To paraphrase [Stroustup](https://news.ycombinator.com/item?id=22206779):
+The default mode for writing Rust should be synchronous. To paraphrase [Stroustup](https://news.ycombinator.com/item?id=22206779):
+**Inside Rust, there is a smaller, simpler language that is waiting to get out.**
 
-**Inside Rust, there is a smaller, simpler language that is waiting to get out.
-It is this language that most Rust code should be written in.**
+It is this language that most Rust code should be written in.
