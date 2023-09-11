@@ -55,9 +55,11 @@ with concepts like `FuturesUnordered` yet to be covered.
 
 That leaves us with a situation that it unsatisfactory for everyone involved:
 
-- For new users, it is a big ask to [navigate this space](https://github.com/rust-netlink/netlink-proto/issues/7) and make future-proof (no pun intended) decisions.
+- For new users, it is a big ask to [navigate this space](https://github.com/rust-netlink/netlink-proto/issues/7) and make future-proof decisions.
 - For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1032132220). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
-  This close coupling is a known issue, which is [acknowledged by the async working group](https://github.com/rust-lang/wg-async/issues/45).
+This close coupling is a known issue, which is [acknowledged by the async working group](https://github.com/rust-lang/wg-async/issues/45).
+
+This close coupling, [recognized by the async working group](https://github.com/rust-lang/wg-async/issues/45), has me worried about its potential long-term impact on the ecosystem.
 
 ## The case of `async-std`
 
@@ -326,9 +328,7 @@ faster than threads](https://vorner.github.io/async-bench.html), but the _absolu
 To put this into perspective, [this about as long as PHP takes to start](https://github.com/bdrung/startup-time).
 In other words, the difference is negligible for most applications.
 
-Frameworks based on threads can easily handle [tens of thousands
-of requests per second](https://github.com/iron/iron#performance).
-Additionally, modern Linux can manage tens of [thousands of
+Thread-based frameworks, like the now-inactive  [iron](https://github.com/iron/iron), showcased the capability to effortlessly handle [tens of thousands of requests per second](https://github.com/iron/iron/wiki/How-to-Benchmark-hello.rs-Example). This is further complemented by the fact modern Linux systems can manage [tens of thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
 Turns out, computers are pretty good at doing multiple things at once nowadays.
@@ -454,26 +454,25 @@ We should resist the urge to annotate every `main` function with `#[tokio::main]
 
 ### Use Async Rust Sparingly
 
-My original intention was to advice newcomers to just skip async Rust for now
-and wait until the ecosystem has matured. However, I since realized that this is
-not feasible given that lot of libraries are async-only and new users will get
-in touch with async Rust one way or another.
+My original intention was to advice newcomers to sidestep async Rust for,
+giving the ecosystem time to mature.
+However, I since realized that this is not feasible, given that lot of libraries are async-first and new users will encounter async Rust one way or another.
 
 Instead, I would recommend to use async Rust only when you really need it.
-Learn how to write synchronous Rust first and then maybe move on to async Rust.
+Learn how to write good synchronous Rust first and then, if necessary, transition to async Rust. Learn to walk before you run.
 
 If you have to use async Rust, stick to Tokio and well-established libraries
 like [reqwest](https://github.com/seanmonstar/reqwest) and
 [sqlx](https://github.com/launchbadge/sqlx). In your own code, try to avoid
 async-only public APIs to make downstream usage easier.
 
-However, it's important to know that there are alternatives to Tokio
+However, it's valuable to know that there are alternatives to Tokio
 and that they are worth exploring.
 
 ### Consider The Alternatives
 
-Currently, Rust's core language and its standard library offer just the absolute
-essentials for `async/await` capabilities. The bulk of the work is done in
+At its core, Rust and its standard library offer just the absolute
+essentials for `async/await`. The bulk of the work is done in
 crates developed by the Rust community.
 We should make more use of this possibility to iterate on async Rust and
 experiment with different designs before we settle on a final solution.
@@ -485,8 +484,9 @@ parallelize your code.
 
 ### Isolate Async Code
 
-If you _really_ need async, consider isolating your
+If async is truly indispensable, consider isolating your
 async code from the rest of your application. 
+
 Keep your domain logic synchronous
 and only use async for I/O and external services.
 Following these guidelines will make your code [more
@@ -498,6 +498,7 @@ than those of async Rust.
 ### Keep It Simple
 
 The default mode for writing Rust should be synchronous.
+To paraphrase [Stroustup](https://news.ycombinator.com/item?id=22206779):
 
 **Inside Rust, there is a smaller, simpler language that is waiting to get out.
 It is this language that most Rust code should be written in.**
