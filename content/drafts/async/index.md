@@ -342,13 +342,13 @@ such as embedded systems. My context for this article is primarily traditional
 server-side applications that run on top of operating systems like Linux or
 Windows.
 
-
 I would like to add that threaded code in Rust undergoes the same stringent
 safety checks as the rest of your Rust code: It is protected from data races,
 null dereferences, and dangling references, ensuring a level of thread safety
 that prevents many common pitfalls found in concurrent programming,
-so some of the traditional arguments against threads do not apply to Rust.
-Fearless concurrency is your friend!
+Since there is no garbage collector, there never will be any stop-the-world pause to reclaim memory.
+Traditional arguments against threads simply don't apply to Rust;
+fearless concurrency is your friend!
 
 And if you need to share state between threads, consider to use
 a channel:
