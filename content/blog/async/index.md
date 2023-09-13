@@ -500,7 +500,8 @@ than those of async Rust.
 
 [Async Rust feels like a different dialect](https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/async.html), significantly more brittle than the rest of the language.
 
-The default mode for writing Rust should be *synchronous*. To paraphrase [Stroustup](https://news.ycombinator.com/item?id=22206779):
+The default mode for writing Rust should be *synchronous*. 
+Freely after [Stroustup](https://news.ycombinator.com/item?id=22206779):
 **Inside Rust, there is a smaller, simpler language that is waiting to get out.**
 
 It is this language that most Rust code should be written in.
