@@ -7,14 +7,14 @@ series = "Commentary"
 reviews = []
 +++
 
-Recently, I found myself returning to a compelling series of blog posts 
+Recently, I found myself returning to a compelling series of blog posts
 titled [Zero-cost futures in Rust](https://aturon.github.io/blog/2016/08/11/futures/) by Aaron Turon about what would become the foundation of Rust's async ecosystem.
 
 This series stands as a cornerstone in writings about Rust.
 People like Aaron are the reason why I wanted to be part of the Rust
 community in the first place.
 
-While 2016 evokes nostalgic memories of excitement and frevor surrounding async Rust, my sentiments regarding the current state of its ecosystem are now somewhat ambivalent.
+While 2016 evokes nostalgic memories of excitement and fervor surrounding async Rust, my sentiments regarding the current state of its ecosystem are now somewhat ambivalent.
 
 ## Why Bother?
 
@@ -24,9 +24,9 @@ With this article, I hope to address two different audiences:
   the ecosystem.
 - Library maintainers and contributors to the async ecosystem, in the hope that
   my perspective can be a basis for discussion about the future of async Rust.
-  
-I recently came across an article titled ['Async Rust Is A Bad Language'](https://bitbashing.io/async-rust.html). Though that article presents a bold perspective, I found it somewhat wanting in depth and evidence. 
-My intention with this post is to provide a comprehensive view backed by 
+
+I recently came across an article titled ['Async Rust Is A Bad Language'](https://bitbashing.io/async-rust.html). Though that article presents a bold perspective, I found it somewhat wanting in depth and evidence.
+My intention with this post is to provide a comprehensive view backed by
 references, hoping to give readers a more nuanced perspective.
 It's worth noting that the timing of our publications is purely coincidental.
 
@@ -57,7 +57,7 @@ That leaves us with a situation that it unsatisfactory for everyone involved:
 
 - For new users, it is a big ask to [navigate this space](https://github.com/rust-netlink/netlink-proto/issues/7) and make future-proof decisions.
 - For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1032132220). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
-This close coupling is a known issue, which is [acknowledged by the async working group](https://github.com/rust-lang/wg-async/issues/45).
+  This close coupling is a known issue, which is [acknowledged by the async working group](https://github.com/rust-lang/wg-async/issues/45).
 
 This close coupling, [recognized by the async working group](https://github.com/rust-lang/wg-async/issues/45), has me worried about its potential long-term impact on the ecosystem.
 
@@ -111,7 +111,7 @@ library. Here are some examples of issues that are still open:
 - [OpenOptionsExt missing for Windows?](https://github.com/async-rs/async-std/issues/914)
 - [Spawned task is stuck during flushing in
   File.drop()](https://github.com/async-rs/async-std/issues/900)
-  
+
 It is an enormous effort to replicate the standard library and it is not clear
 to me if it is worth it.
 
@@ -184,9 +184,9 @@ Any time we reach for an `Arc` or a `Mutex` it's good idea to stop for a moment 
 
 Beyond the complexities of architecting async code atop these synchronization mechanisms, they carry a performance cost: Locking means runtime overhead and additional memory usage; in embedded environments, these mechanisms are often not available at all.
 
-Moreoever, writing async code is a mental burden.
+Moreover, writing async code is a mental burden.
 
-**Multi-threaded-by-default runtimes cause accidential complexity completely
+**Multi-threaded-by-default runtimes cause accidental complexity completely
 unrelated to the task of writing async code.**
 
 The entirety of async Rust is a minefield of [leaky abstractions](https://rust-lang.github.io/async-book/07_workarounds/02_err_in_async_blocks.html) caused
@@ -204,7 +204,7 @@ However, I have little hope that the Rust community will change
 course at this point. Tokio's roots run deep within the ecosystem
 and it feels like for better or worse we're stuck with it.
 
-In the realms of networking and web operations, it's likely that one of your dependencies integrates Tokio, effectively nudging you towards its adoption. 
+In the realms of networking and web operations, it's likely that one of your dependencies integrates Tokio, effectively nudging you towards its adoption.
 At the time of writing, [Tokio is used at
 runtime in 20,768 crates (of which 5,245 depend on it
 optionally)](https://lib.rs/crates/tokio/rev).
@@ -292,7 +292,7 @@ fn main() {
         });
     });
 
-    // No join; threads get joined 
+    // No join; threads get joined
     // automatically once the scope ends
 }
 ```
@@ -306,8 +306,8 @@ Were `read_contents` part of a public API, it could be used by both async and
 sync callers, eliminating the need for an asynchronous runtime.
 
 Async Rust might be more memory-efficient than threads, at the cost of
-complexity and worse ergonomics. 
-As an example, if the function were *async* and you called it *outside* of a runtime, it would compile, but not run. Futures 
+complexity and worse ergonomics.
+As an example, if the function were _async_ and you called it _outside_ of a runtime, it would compile, but not run. Futures
 do nothing unless being polled. This is a common footgun for newcomers.
 
 ```rust
@@ -318,23 +318,23 @@ async fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>
 #[tokio::main]
 async fn main() {
     // This will print a warning, but compile and do nothing at runtime
-    read_contents("foo.txt"); 
+    read_contents("foo.txt");
 }
 ```
 
 ([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7dc4bc6783691c42fbf4cd5a76251da2))
 
 In a recent benchmark, [async Rust was 2x
-faster than threads](https://vorner.github.io/async-bench.html), but the _absolute_ difference was only _10ms per request_. 
+faster than threads](https://vorner.github.io/async-bench.html), but the _absolute_ difference was only _10ms per request_.
 To put this into perspective, [this about as long as PHP takes to start](https://github.com/bdrung/startup-time).
 In other words, the difference is negligible for most applications.
 
-Thread-based frameworks, like the now-inactive  [iron](https://github.com/iron/iron), showcased the capability to effortlessly handle [tens of thousands of requests per second](https://github.com/iron/iron/wiki/How-to-Benchmark-hello.rs-Example). This is further complemented by the fact modern Linux systems can manage [tens of thousands of
+Thread-based frameworks, like the now-inactive [iron](https://github.com/iron/iron), showcased the capability to effortlessly handle [tens of thousands of requests per second](https://github.com/iron/iron/wiki/How-to-Benchmark-hello.rs-Example). This is further complemented by the fact modern Linux systems can manage [tens of thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
 Turns out, computers are pretty good at doing multiple things at once nowadays!
 
-As an important caveat, threads are not avaible or feasible in all environments,
+As an important caveat, threads are not available or feasible in all environments,
 such as embedded systems. My context for this article is primarily conventional
 server-side applications that run on top of platforms like Linux or
 Windows.
@@ -402,14 +402,14 @@ Why does the Rust landscape seem obsessed with an async-first approach for every
 In my experience, the majority of my projects involve straightforward CRUD operations: pulling data from databases and converting it into HTML. Occasionally, I need to make an external API call, but that's about it.
 For these tasks, the complexities of an async-first framework feel like overkill.
 
-Even if there were a compelling case for async, I would *still* prefer 
+Even if there were a compelling case for async, I would _still_ prefer
 to sidestep the complexities of synchronization primitives.
 If my primary concern is I/O-bound work (like handling many simultaneous
 connections that are mostly waiting on I/O), then even a single-threaded Tokio
 runtime can handle thousands to tens of thousands of simultaneous connections,
 depending on the nature of the tasks and the specifics of the environment.
 
-I would like to see more web frameworks that are *synchronous* by default and allow you to opt into async as needed.
+I would like to see more web frameworks that are _synchronous_ by default and allow you to opt into async as needed.
 
 ```rust
 #[get("/")]
@@ -420,12 +420,12 @@ fn index() -> impl Response {
 
 // A route, which profits from concurrent IO
 // It sends multiple requests to an external API and aggregates the results
-// Note how the function itself is does not need to be async 
+// Note how the function itself is does not need to be async
 #[get("/users")]
 fn users(count: usize) -> impl Response {
     // Start a local, single-threaded runtime with smol's async-executor
     let rt = smol::LocalExecutor::new();
-    
+
     // Run the async code on the runtime
     let results = rt.run(async {
         let mut results = Vec::new();
@@ -435,7 +435,7 @@ fn users(count: usize) -> impl Response {
         }
         Ok(results)
     });
-    
+
     Response::ok().body(render_template("users.html", results))
 }
 
@@ -486,7 +486,7 @@ parallelize your code.
 ### Isolate Async Code
 
 If async is truly indispensable, consider isolating your
-async code from the rest of your application. 
+async code from the rest of your application.
 
 Keep your domain logic synchronous
 and only use async for I/O and external services.
@@ -500,7 +500,7 @@ than those of async Rust.
 
 [Async Rust feels like a different dialect](https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/async.html), significantly more brittle than the rest of the language.
 
-The default mode for writing Rust should be *synchronous*. 
+The default mode for writing Rust should be _synchronous_.
 Freely after [Stroustup](https://news.ycombinator.com/item?id=22206779):
 **Inside Rust, there is a smaller, simpler language that is waiting to get out.**
 
