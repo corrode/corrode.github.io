@@ -1,6 +1,6 @@
 +++
 title = "The State of Async Rust"
-date = 2023-09-07
+date = 2023-09-13
 template = "article.html"
 [extra]
 series = "Commentary"
