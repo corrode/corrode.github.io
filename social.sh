@@ -14,29 +14,20 @@ generate_social_image() {
     magick static/social/social.png text.png -gravity northwest -geometry +20+80 -composite "$output_file"
 }
 
-# Iterate over blog posts
-for post in content/blog/*.md; do
-    # Skip files, which start with an underscore
-    if [[ $(basename "$post") == _* ]]; then
-        continue
-    fi
+process_post() {
+    local post="$1"
+    local post_filename="$2"
     
-    # Skip directories
-    if [[ -d "$post" ]]; then
-        continue
-    fi
-   
     # Extract the title from the frontmatter
     title=$(awk -F '= ' '/title/ {gsub(/"/, "", $2); print $2}' "$post")
 
     # Generate the output file path
-    post_filename=$(basename "$post" .md)
     output_path="static/social/rendered/${post_filename}.png"
     
     # Check if file exists; only overwrite if `--force` is passed
     if [[ -f "$output_path" && ( -z "${1:-}" || "${1:-}" != "--force" ) ]]; then
         echo "File already exists: $output_path. Skipping."
-        continue
+        return
     fi
     
     echo "$title"
@@ -45,6 +36,22 @@ for post in content/blog/*.md; do
 
     # Call the function to generate the social image
     generate_social_image "$title" "$output_path"
+}
+
+# Iterate over blog posts and folders
+for item in content/blog/*; do
+    # Skip files, which start with an underscore
+    if [[ $(basename "$item") == _* ]]; then
+        continue
+    fi
+
+    if [[ -d "$item" && -f "$item/index.md" ]]; then
+        # Process the index.md inside the folder
+        process_post "$item/index.md" "$(basename "$item")"
+    elif [[ -f "$item" ]]; then
+        # Process the individual markdown file
+        process_post "$item" "$(basename "$item" .md)"
+    fi
 done
 
 # Clean up temporary text image
