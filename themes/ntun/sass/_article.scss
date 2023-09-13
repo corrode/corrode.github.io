@@ -226,6 +226,10 @@ details[open] summary::before {
 }
 
 @media (prefers-color-scheme: dark) {
+  .article-content img[src$=".svg"] {
+      filter: invert(1);
+  }    
+
   .callout {
     background-color: $darkBgrd;
   }
