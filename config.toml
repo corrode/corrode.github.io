@@ -1,5 +1,7 @@
 # The URL the site will be built for
 base_url = "https://corrode.dev"
+title = "Corrode Rust Consulting Blog"
+description = "Friendly, professional Rust consulting and training"
 
 theme = "ntun"
 
