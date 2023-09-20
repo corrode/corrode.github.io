@@ -20,10 +20,11 @@ I personally get reminded of this every time I forget where I put my keys.
 Rust has a few ways to make state handling easier.
 One core principle is **immutability by default**, which is the topic of this article.
 
-## Why Are Variables Immutable By Default In Rust?
+## Why Did Rust Choose Immutability By Default?
 
 In Rust, variables are immutable by default, which means that once a
-variable is bound to a value, it cannot be changed.
+variable is bound to a value, it cannot be changed
+unless you [try really hard to shoot yourself in the foot](https://stackoverflow.com/a/54242058/270334).
 
 ```rust
 let x = 42;
@@ -34,9 +35,9 @@ Especially C and C++ programmers [tend to be surprised by that design
 decision](https://users.rust-lang.org/t/is-immutability-by-default-worth-the-hassle/83668)
 and their first Rust programs typically contain a lot of `mut` keywords.
 
-I think **immutability is a great default**, because it helps reduce mental
-complexity. If the default was mutability, you'd have to check every function
-call to see if it changes the value of a variable.
+In my opinion, **immutability is a great default**, because it helps reduce mental
+complexity. See, if the default was mutability, you'd have to check every function
+call to see if it changes the value of a variable:
 
 ```rust
 x = 42;
@@ -83,8 +84,10 @@ easier-to-understand code.
 
 ## Immutable Doesn't Mean Slow
 
+So why do people still use `mut`?
+
 One reason why some people are hesitant of immutability is _performance_.
-The story goes a bit like that:
+The story goes something like this:
 
 > "Copying data requires allocations. Allocations cost time and memory.
 > Therefore, you should avoid copying data."
@@ -120,17 +123,14 @@ fn copy_vector_100_times(b: &mut Bencher) {
 ```
 
 On my M1 Macbook Pro, this benchmark takes around 29,815,141 nanoseconds per iteration.
-**That's 29 milliseconds to copy a vector with 1 million values... 100 times!
-This means that you can copy a vector with 1 million values over 3 million times
+That's 29 milliseconds to copy a vector with 1 million values... 100 times in a row!
+**This means that you can copy a vector with 1 million values over 3 million times
 per second on a consumer laptop!**
-
-How many times do you need to copy a 4 MB data structure millions of times per
-second?
 
 Turns out, Computers are pretty good at copying things these days.
 
 Granted, this is quite a synthetic example. To make it more realistic, how about
-we look at a more common problem: sorting things.
+we look at something computers do all the time: sorting things.
 
 ## Quicksort: A Case Study In Immutability and Performance
 
@@ -172,14 +172,12 @@ pub fn quicksort_mut<T: Ord>(mut arr: Vec<T>) -> Vec<T> {
 }
 ```
 
-This looks like a pretty standard quicksort implementation that
-students might write in an introductory algorithms class
-and to those familiar with the subject, the flow is probably obvious.
-
-Yet, this code demands a lot of mental effort from the reader.
+Depending on your background, this code might either be idiomatic
+and easy to understand or it might look like a clown car in a Formula 1 race:
+pretty out of place.
 
 Since the algorithm mutates the original array, the program's state changes
-throughout its execution. Its imperative nature makes it easy to introduce bugs.
+throughout its execution, which demands a lot of mental effort from the reader.
 
 Here is a _functional quicksort_ version that doesn't use `mut` at all:
 
@@ -215,10 +213,7 @@ To test this, I created a [benchmark](https://github.com/mre/quicksort_bench)
 that would run both versions on a vector with 1 million random values.
 Here are the results:
 
-| Algorithm | Time per iteration |
-| --------- | ------------------ |
-| mutable   | 243ms              |
-| immutable | 355ms              |
+![Benchmark results](./quicksort.svg)
 
 The immutable version is about 50% slower than the mutable version.
 
@@ -228,7 +223,7 @@ makes the code's flow and intent unmistakable. A 112ms difference on a million
 values might seem notable, yet in many scenarios, the benefits of immutability
 outweigh the performance cost.
 
-## Immutability Helps with Parallelism
+## Immutability Makes Parallelism Easy
 
 Besides! Another nice property of the immutable version is that it is trivial to
 parallelize with [`rayon`](https://github.com/rayon-rs/rayon).
