@@ -12,7 +12,7 @@ Is the user logged in? Can this edge-case ever occur?
 Is the coffee pot empty again?
 
 The problem is, that humans are pretty bad at keeping track of state.
-That is unless you're a Chess Grandmaster or the parent of a toddler, of course.
+That is, unless you're a Chess Grandmaster or the parent of a toddler, of course.
 
 We forget things, we make mistakes, we get distracted...  
 I personally get reminded of this every time I forget where I put my keys.
