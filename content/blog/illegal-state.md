@@ -2,6 +2,7 @@
 title = "Making Illegal States Unrepresentable"
 date = 2023-08-06
 template = "article.html"
+draft = false
 [extra]
 series = "Idiomatic Rust"
 reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },

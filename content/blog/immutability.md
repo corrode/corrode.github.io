@@ -1,5 +1,6 @@
 +++
 title = "Aim for Immutability"
+draft = true
 date = 2023-09-20
 template = "article.html"
 [extra]
@@ -85,7 +86,7 @@ easier-to-understand code.
 One reason why some people are hesitant of immutability is _performance_.
 The story goes a bit like that:
 
-> "Copying data requires allocations. Allocations cost time and memory. 
+> "Copying data requires allocations. Allocations cost time and memory.
 > Therefore, you should avoid copying data."
 
 It's true that if you have a large enough data structure, you don't want to copy
@@ -198,7 +199,7 @@ fn quicksort<T: Ord + Clone>(array: &[T]) -> Vec<T> {
 
 To me, this code is a lot easier to reason about than the mutable version. I
 don't have to chase mutations of variables throughout the code or worry about
-indices and loops. 
+indices and loops.
 
 Instead, the above algorithm can be summarized in four simple steps:
 
@@ -220,16 +221,17 @@ Here are the results:
 | immutable | 355ms              |
 
 The immutable version is about 50% slower than the mutable version.
-However, it's still fast enough to sort a vector with 1 million values 
-thousands of times on consumer hardware and it's much closer to the
-algorithm's intent.
+
+While the mutable approach is faster, the immutable version shines in clarity
+and maintainability. The functional style not only reduces side effects but
+makes the code's flow and intent unmistakable. A 112ms difference on a million
+values might seem notable, yet in many scenarios, the benefits of immutability
+outweigh the performance cost.
 
 ## Immutability Helps with Parallelism
 
-Another nice property of immutable data structures is that they are easier to
-share between threads, which helps with parallelism.
-For instance, the above quicksort code can be trivially parallelized by using
-the [`rayon`](https://github.com/rayon-rs/rayon) crate.
+Besides! Another nice property of the immutable version is that it is trivial to
+parallelize with [`rayon`](https://github.com/rayon-rs/rayon).
 
 ```rust
 use rayon::prelude::*;
@@ -242,8 +244,9 @@ pub fn quicksort_par<T: Ord + Clone + Sync + Send>(array: &[T]) -> Vec<T> {
 }
 ```
 
-All we have to do is to use `par_iter` and add `Sync` and `Send` to the type bounds of the generic
-type `T`. The `rayon` crate takes care of the rest.
+All we have to do is to use `par_iter` and add `Sync` and `Send` to the type
+bounds of the generic type `T`. The `rayon` crate takes care of the rest.
+
 With mutable data structures, this would be a lot more complicated as we'd need
 to ensure that no two threads are trying to mutate the same piece of data
 at once. This requires synchronization primitives like

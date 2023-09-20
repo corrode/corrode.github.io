@@ -1,6 +1,7 @@
 +++
 title = "Compile-Time Invariants in Rust"
 date = 2023-08-27
+draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"

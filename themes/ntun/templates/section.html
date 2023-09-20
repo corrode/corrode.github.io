@@ -8,7 +8,7 @@
 
     <div>{{ section.content | safe }}</div>
     <ul>
-        {% for page in section.pages | sort(attribute="date") | reverse %}
+        {% for page in section.pages | filter(attribute="draft", value=false) | sort(attribute="date") | reverse %}
         <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
         {% endfor %}
     </ul>
