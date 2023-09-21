@@ -101,6 +101,25 @@ details[open] summary::before {
   margin-left: -5%;
 }
 
+.article-revisions {
+  margin-top: 3em;
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+.article-revisions::before {
+  content: '';
+  display: block;
+  width: 30%;
+  height: 1px;
+  background-color: black;
+  margin-bottom: 1em;
+}
+
+.revision-notes {
+  color: white;
+}
+
 .callout {
   width: 110%; 
   margin-left: -5%;
@@ -148,7 +167,7 @@ details[open] summary::before {
 }
 
 .social {
-  margin-top: 7em;
+  margin-top: 3em;
   padding-top: 1em;
   display: flex;
   border-top: 4px solid $brightScnd;
@@ -236,7 +255,11 @@ details[open] summary::before {
 @media (prefers-color-scheme: dark) {
   .article-content img[src$=".svg"] {
       filter: invert(1);
-  }    
+  }
+
+  .article-revisions::before {
+    background-color: white;
+  }
 
   .callout {
     background-color: $darkBgrd;
