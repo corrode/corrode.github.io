@@ -8,10 +8,10 @@ generate_social_image() {
     local output_file="$2"
     
     # Generate the caption image
-    magick -background none -fill '#333333' -font Inter-Bold -pointsize 80 -size 740x caption:"$title" text.png
+    magick -background none -fill '#000000' -font Inter-Bold -pointsize 80 -size 740x caption:"$title" text.png
 
     # Composite the caption over the background image
-    magick static/social/social.png text.png -gravity northwest -geometry +20+80 -composite "$output_file"
+    magick static/social/social-post-template.svg text.png -gravity northwest -geometry +100+80 -composite "$output_file"
 }
 
 process_post() {
@@ -24,8 +24,7 @@ process_post() {
     # Generate the output file path
     output_path="static/social/rendered/${post_filename}.png"
     
-    # Check if file exists; only overwrite if `--force` is passed
-    if [[ -f "$output_path" && ( -z "${1:-}" || "${1:-}" != "--force" ) ]]; then
+    if [[ -f "$output_path" ]]; then
         echo "File already exists: $output_path. Skipping."
         return
     fi
