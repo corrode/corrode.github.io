@@ -1,7 +1,6 @@
 +++
 title = "Aim for Immutability"
-draft = true
-date = 2023-09-20
+date = 2023-09-21
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -24,11 +23,11 @@ One core principle is **immutability by default**, which is the topic of this ar
 
 In Rust, variables are immutable by default, which means that once a
 variable is bound to a value, it cannot be changed
-unless you [try really hard to shoot yourself in the foot](https://stackoverflow.com/a/54242058/270334).
+(unless you [try excruciatingly hard to shoot yourself in the foot](https://stackoverflow.com/a/54242058/270334)).
 
 ```rust
 let x = 42;
-x = 13; // error: re-assignment of immutable variable `x`
+x = 23; // error: re-assignment of immutable variable `x`
 ```
 
 Especially C and C++ programmers [tend to be surprised by that design
@@ -36,22 +35,24 @@ decision](https://users.rust-lang.org/t/is-immutability-by-default-worth-the-has
 and their first Rust programs typically contain a lot of `mut` keywords.
 
 In my opinion, **immutability is a great default**, because it helps reduce mental
-complexity. See, if the default was mutability, you'd have to check every function
-call to see if it changes the value of a variable:
+overhead. If the default was mutability, you'd have to check every function
+to see if it changes the value of a variable:
 
 ```rust
-x = 42;
-black_box(x)
-// Is x still 42? Who knows! Better check.
+// Assume, Rust had mutability by default
+let text = "Aloha, Hawaii!".to_string();
+black_box(text)
+// Is `text` still "Aloha, Hawaii!"? Who knows! Better double-check.
 ```
 
 Rust is very explicit about mutability. It makes you write it out every time you
 create or pass a mutable variable.
 
 ```rust
-let mut x = 42;
-black_box(&mut x);
-// Is x still 42? Who knows! Better check.
+let mut text = "Aloha, Hawaii!".to_string();
+black_box(&mut text);
+// We know that this text is mutable so there is no guarantee that it will still
+// be "Aloha, Hawaii!" after this call.
 ```
 
 ...and it even warns you if something is mutable, but needn't be!
@@ -97,8 +98,9 @@ it every time you want to change something. Just _how big_ does a data structure
 have to be before you should start worrying about copies? And how many copies do
 you have to make for it to actually matter?
 
-To test this, let's write a benchmark that copies a vector with 1 million random
-values 100 times. Here is the code:
+To test this, let's write a
+[benchmark](https://doc.rust-lang.org/1.12.1/book/benchmark-tests.html) that
+copies a vector with 1 million random values 100 times. Here is the code:
 
 ```rust
 #![feature(test)]
@@ -127,7 +129,7 @@ That's 29 milliseconds to copy a vector with 1 million values... 100 times in a 
 **This means that you can copy a vector with 1 million values over 3 million times
 per second on a consumer laptop!**
 
-Turns out, Computers are pretty good at copying things these days.
+Turns out, Computers are *pretty good* at copying things these days.
 
 Granted, this is quite a synthetic example. To make it more realistic, how about
 we look at something computers do all the time: sorting things.
@@ -173,11 +175,11 @@ pub fn quicksort_mut<T: Ord>(mut arr: Vec<T>) -> Vec<T> {
 ```
 
 Depending on your background, this code might either be idiomatic
-and easy to understand or it might look like a clown car in a Formula 1 race:
-pretty out of place.
+and easy to understand or it might look like a a clown riding a unicycle on a
+minefield: slightly irritating and unnecessarily dangerous.
 
 Since the algorithm mutates the original array, the program's state changes
-throughout its execution, which demands a lot of mental effort from the reader.
+throughout its execution, which demands a lot of mental gymnastics from the reader.
 
 Here is a _functional quicksort_ version that doesn't use `mut` at all:
 
@@ -195,9 +197,8 @@ fn quicksort<T: Ord + Clone>(array: &[T]) -> Vec<T> {
 }
 ```
 
-To me, this code is a lot easier to reason about than the mutable version. I
-don't have to chase mutations of variables throughout the code or worry about
-indices and loops.
+To me, this version is a lot easier to reason about. I don't have to chase
+mutations of variables throughout the code or worry about indices and loops.
 
 Instead, the above algorithm can be summarized in four simple steps:
 
@@ -215,13 +216,19 @@ Here are the results:
 
 ![Benchmark results](./quicksort.svg)
 
-The immutable version is about 50% slower than the mutable version.
+Not surprisingly (or perhaps quite so!), the immutable version is about 50%
+slower than the mutable version.
 
-While the mutable approach is faster, the immutable version shines in clarity
-and maintainability. The functional style not only reduces side effects but
-makes the code's flow and intent unmistakable. A 112ms difference on a million
-values might seem notable, yet in many scenarios, the benefits of immutability
-outweigh the performance cost.
+While the mutable approach is faster difference in performance is not as
+dramatic as you might expect. After all, we clone the entire array in every
+recursive call of the immutable version. This is a lot of copying!
+But we learned earlier that computers are pretty okay with that.
+
+A 112ms difference on a million values might seem notable, yet in many scenarios
+the bottleneck is probably elsewhere.
+
+However, the immutable version excels in clarity and maintainability. Its
+functional style minimizes side effects and clarifies code intent.
 
 ## Immutability Makes Parallelism Easy
 
@@ -258,13 +265,27 @@ sprinkle your code with locks, which in turn can lead to other issues like
 deadlocks if not handled carefully.
 
 {% info() %}
+
+**The key takeaway is the ease of parallelism when we sidestep concerns
+about mutable and shared data.**
+
 Just because you _can_ parallelize something, doesn't mean you _should_.
 
-While the above code illustrates the simplicity of parallelism due to
-immutability, it's not automatically faster than the sequential version.
+While the above code demonstrates the simplicity of parallelism thanks to
+immutability, it's does not mean that there is a performance benefit.
 The cost of launching threads and distributing tasks might outweigh the
-benefits. The key takeaway is the ease of parallelism when we sidestep concerns
-about mutable and shared data. Always measure the impact of your changes.
+benefits. 
+
+In this case, the parallel version is actually slower than the sequential one.
+**54 times slower**, to be precise! It took 19 seconds to sort the array
+with rayon's default settings.
+I attributed this to the overhead of launching threads and distributing tasks
+having a much higher cost than copying data, but there's a good chance
+I just made a mistake somewhere. My [benchmark code is on
+GitHub](https://github.com/mre/quicksort_bench) if you want to take a look.
+
+In any case, the point is that immutability makes these experiments cheap.
+
 {% end %}
 
 ## Chaining Operations on Immutable Data Structures Is Efficient
@@ -291,8 +312,12 @@ is why you'll see this pattern a lot in idiomatic Rust code.
 
 ## Conclusion
 
-In summary, immutability is a great default, because it helps reduce complexity,
-makes your code easier to reason about and can even unlock performance
-optimizations.
+In summary, immutability is a great default.
+
+Immutable code is easier to test, parallelize, and reason about. It's also
+easier to refactor, because you don't have to worry about side effects.
+
+Don't worry about a few `.clone()` calls here and there. Instead,
+focus on writing code that is easy to understand and maintain.
 
 The use of `mut` should be the exception, not the rule.
