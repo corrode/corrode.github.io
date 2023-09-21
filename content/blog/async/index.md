@@ -4,7 +4,7 @@ date = 2023-09-13
 draft = false
 template = "article.html"
 [extra]
-series = "Commentary"
+series = "Rust Ecosystem"
 reviews = []
 +++
 
