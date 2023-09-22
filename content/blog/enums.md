@@ -57,7 +57,8 @@ let user = User {
 
 A common use-case for `u8` is when you interface with C code.
 In that case, using `u8` might seemingly be the only option.
-However, we could still wrap that `u8` in a newtype!
+However, we could still wrap that `u8` in a
+[newtype](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)!
 
 ```rust
 struct User {
@@ -79,7 +80,7 @@ let user = User {
 ```
 
 This way, we can still use `u8` to represent state, but we can
-now also put the type system work (a common pattern in idiomatic Rust). For
+now also put the type system to work (a common pattern in idiomatic Rust). For
 example, we can define methods on `UserStatus`:
 
 ```rust
