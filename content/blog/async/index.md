@@ -61,11 +61,10 @@ incomplete. For example, the async book remains in draft, with concepts like
 `FuturesUnordered` yet to be covered. (There is an open [pull
 request](https://github.com/rust-lang/async-book/pull/96), though.)
 
-That leaves us with a situation that it unsatisfactory for everyone involved:
+That leaves us with a situation that is unsatisfactory for everyone involved:
 
 - For new users, it is a big ask to [navigate this space](https://github.com/rust-netlink/netlink-proto/issues/7) and make future-proof decisions.
 - For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1032132220). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
-  This close coupling is a known issue, which is [acknowledged by the async working group](https://github.com/rust-lang/wg-async/issues/45).
 
 This close coupling, [recognized by the async working
 group](https://github.com/rust-lang/wg-async/issues/45), has me worried about
@@ -75,7 +74,7 @@ its potential long-term impact on the ecosystem.
 
 `async-std` was an attempt to create an alternative runtime that is closer to
 the Rust standard library. Its promise was that you could almost use it as a
-drop-in replacement for the standard library.
+drop-in replacement.
 
 Take, for instance, this straightforward synchronous file-reading code:
 
@@ -391,7 +390,8 @@ is no garbage collector, there never will be any stop-the-world pause to reclaim
 memory. Traditional arguments against threads simply don't apply to Rust &mdash;
 fearless concurrency is your friend!
 
-And if you need to share state between threads, consider to use a channel:
+If you find yourself needing to share state between threads, consider using a
+channel:
 
 ```rust
 use std::error::Error;
@@ -434,9 +434,9 @@ fn main() {
 
 ### Use Async Rust Sparingly
 
-My original intention was to advice newcomers to sidestep async Rust for, giving
-the ecosystem time to mature. However, I since realized that this is not
-feasible, given that lot of libraries are async-first and new users will
+My original intention was to advise newcomers to sidestep async Rust for now,
+giving the ecosystem time to mature. However, I since acknowledged that this is
+not feasible, given that a lot of libraries are async-first and new users will
 encounter async Rust one way or another.
 
 Instead, I would recommend to use async Rust only when you really need it. Learn
@@ -445,8 +445,14 @@ async Rust. Learn to walk before you run.
 
 If you have to use async Rust, stick to Tokio and well-established libraries
 like [reqwest](https://github.com/seanmonstar/reqwest) and
-[sqlx](https://github.com/launchbadge/sqlx). In your own code, try to avoid
-async-only public APIs to make downstream usage easier.
+[sqlx](https://github.com/launchbadge/sqlx).
+
+While it may seem surprising given the context of this article, we can't
+overlook Tokio's stronghold within the ecosystem. A vast majority of libraries
+are tailored specifically for it. Navigating compatibility crates can pose
+challenges, and sidestepping Tokio doesn't guarantee your dependencies won't
+bring it in. I'm hoping for a future shift towards leaner runtimes, but for now,
+Tokio stands out as the pragmatic choice for real-world implementations.
 
 However, it's valuable to know that there are alternatives to Tokio and that
 they are worth exploring.
@@ -477,6 +483,9 @@ services. Following these guidelines will make your code [more
 composable](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)
 and accessible. On top of that, the error messages of sync Rust are much easier
 to reason about than those of async Rust.
+
+In your public library code, avoid async-only interfaces to make downstream
+integration easier.
 
 ### Keep It Simple
 
