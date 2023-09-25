@@ -255,7 +255,8 @@ Going beyond Tokio, several other runtimes deserve more attention:
 - [embassy](https://github.com/embassy-rs/embassy): An async runtime for
   embedded systems.
 - [glommio](https://github.com/DataDog/glommio): An async runtime for I/O-bound
-  workloads, built on top of io_uring and using a thread-per-core model.
+  workloads, built on top of [io_uring](https://lwn.net/Articles/810414/) 
+  and using a thread-per-core model.
 
 These runtimes are important, as they explore alternative paths or open up new
 use cases for async Rust. Drawing a parallel with, [Rust's error handling
