@@ -367,6 +367,20 @@ difference was only _10ms per request_. To put this into perspective, [this
 about as long as PHP takes to start](https://github.com/bdrung/startup-time). In
 other words, the difference is negligible for most applications.
 
+{% info() %}
+
+A [clarification on the aforementioned
+benchmark](https://news.ycombinator.com/item?id=37641640): Upon a closer
+inspection, the disparity between async Rust and threads is notably smaller than
+initially mentioned. In scenarios with a limited number of threads, traditional
+threading even outperformed the async approach. This underscores the core
+premise that, in real-world applications, the performance distinctions between
+the two approaches are often negligible, if not slightly favoring threads. Thus,
+it's crucial not to gravitate towards async Rust driven solely by anticipated
+performance gains.
+
+{% end %}
+
 Thread-based frameworks, like the now-inactive
 [iron](https://github.com/iron/iron), showcased the capability to effortlessly
 handle [tens of thousands of requests per
