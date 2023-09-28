@@ -117,7 +117,7 @@ details[open] summary::before {
 }
 
 .revision-notes {
-  color: white;
+  color: black;
 }
 
 .callout {
@@ -259,6 +259,10 @@ details[open] summary::before {
 
   .article-revisions::before {
     background-color: white;
+  }
+
+  .revision-notes {
+    color: white;
   }
 
   .callout {
