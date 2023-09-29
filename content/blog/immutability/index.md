@@ -147,7 +147,7 @@ original array.
 Here is a quicksort implementation with a lot of mutations:
 
 ```rust
-pub fn quicksort_mut<T: Ord>(mut arr: Vec<T>) -> Vec<T> {
+pub fn quicksort_mut<T: PartialOrd>(mut arr: Vec<T>) -> Vec<T> {
     if arr.len() <= 1 {
         return arr;
     }
@@ -184,16 +184,20 @@ throughout its execution, which demands a lot of mental gymnastics from the read
 Here is a _functional quicksort_ version that doesn't use `mut` at all:
 
 ```rust
-fn quicksort<T: Ord + Clone>(array: &[T]) -> Vec<T> {
+pub fn quicksort_partition<T: PartialOrd + Clone>(array: &[T]) -> Vec<T> {
     if array.len() <= 1 {
         return array.to_vec();
     }
 
     let pivot = &array[0];
-    let higher: Vec<T> = array[1..].iter().cloned().filter(|x| x > pivot).collect();
-    let lower: Vec<T> = array[1..].iter().cloned().filter(|x| x <= pivot).collect();
+    let (higher, lower): (Vec<_>, Vec<_>) = array[1..].iter().cloned().partition(|x| x > pivot);
 
-    [quicksort(&lower), vec![pivot.clone()], quicksort(&higher)].concat()
+    [
+        quicksort_partition(&lower),
+        vec![pivot.clone()],
+        quicksort_partition(&higher),
+    ]
+    .concat()
 }
 ```
 
@@ -238,7 +242,7 @@ parallelize with [`rayon`](https://github.com/rayon-rs/rayon).
 ```rust
 use rayon::prelude::*;
 
-pub fn quicksort_par<T: Ord + Clone + Sync + Send>(array: &[T]) -> Vec<T> {
+pub fn quicksort_par<T: PartialOrd + Clone + Sync + Send>(array: &[T]) -> Vec<T> {
     // ...
     let higher: Vec<T> = array[1..].par_iter().cloned().filter(|x| x > pivot).collect();
     let lower: Vec<T> = array[1..].par_iter().cloned().filter(|x| x <= pivot).collect();
