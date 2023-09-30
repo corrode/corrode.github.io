@@ -15,17 +15,17 @@ optimizations, like enabling parallelization.
 I've observed this in Rust as well. Beginners frequently try to sidestep
 `.clone()` calls at every turn in an attempt to prematurely optimize their code.
 I believe this approach is misguided. It can lead to bugs, maintainability
-issues, and, ironically, could be the reason for *worse* performance.
+issues, and, ironically, could be the reason for worse performance.
 
 This article aims to convince you (or someone you know) that adopting
 immutability is central to writing idiomatic Rust. This approach results in
-clearer, more maintainable code, that is easy to refactor and parallelize.
-The use of `mut` should be limited and confined to tight local scopes.
+clearer, more maintainable code that is easy to refactor and parallelize. The
+use of `mut` should be limited and confined to tight local scopes.
 
 I hope to clear up the long-standing myth that mutability is faster and required
 to write performant systems code.
 
-But first, let's take a step back and look at the context of why this is important.
+But first, let's step back and understand why this is so crucial.
 
 ## Immutability and State
 
