@@ -6,6 +6,29 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
+In my experience with larger codebases, it seems that programmers often go to
+great lengths to avoid copying data — even if only once. This is especially true
+for systems programmers. They are deeply conscious of performance and memory
+usage, sometimes to the detriment of code readability or even potential compiler
+optimizations, like enabling parallelization.
+
+I've observed this in Rust as well. Beginners frequently try to sidestep
+`.clone()` calls at every turn in an attempt to prematurely optimize their code.
+I believe this approach is misguided. It can lead to bugs, maintainability
+issues, and, ironically, could be the reason for *worse* performance.
+
+This article aims to convince you (or someone you know) that adopting
+immutability is central to writing idiomatic Rust. This approach results in
+clearer, more maintainable code, that is easy to refactor and parallelize.
+The use of `mut` should be limited and confined to tight local scopes.
+
+I hope to clear up the long-standing myth that mutability is faster and required
+to write performant systems code.
+
+But first, let's take a step back and look at the context of why this is important.
+
+## Immutability and State
+
 As programmers, we think a lot about state.
 Is the user logged in? Can this edge-case ever occur?
 Is the coffee pot empty again?
@@ -36,26 +59,64 @@ and their first Rust programs typically contain a lot of `mut` keywords.
 
 In my opinion, **immutability is a great default**, because it helps reduce mental
 overhead. If the default was mutability, you'd have to check every function
-to see if it changes the value of a variable:
-
-```rust
-// Assume, Rust had mutability by default
-let text = "Aloha, Hawaii!".to_string();
-black_box(text)
-// Is `text` still "Aloha, Hawaii!"? Who knows! Better double-check.
-```
+to see if it changes the value of a variable.
 
 Rust is very explicit about mutability. It makes you write it out every time you
 create or pass a mutable variable.
 
 ```rust
-let mut text = "Aloha, Hawaii!".to_string();
-black_box(&mut text);
-// We know that this text is mutable so there is no guarantee that it will still
-// be "Aloha, Hawaii!" after this call.
+fn main() {
+    let mut x = 42;
+    // Pass a mutable reference of x to the black_box function
+    black_box(&mut x);
+    println!("{}", x);
+}
+
+fn black_box(x: &mut i32) {
+    *x = 23;
+}
 ```
 
-...and it even warns you if something is mutable, but needn't be!
+Oh, how awfully, painfully explicit!
+Just like a construction site: warning signs all over the place!
+
+Compare that to C++:
+
+```cpp
+#include <iostream>
+
+void black_box(int* x) {
+    *x = 23;
+}
+
+int main() {
+    int x = 42;
+    black_box(&x);
+    std::cout << x << std::endl;
+}
+```
+
+Silly example, but you get the point: In C++, you have to read the function
+body to see if it modifies the value of a variable. In Rust, you can see it
+in the function signature and when passing variables.
+
+As a side note, it's only fair to mention that in C++, you can use `const` to
+indicate that a pointer shouldn't modify the data it points to. This is somewhat
+analogous to Rust's immutability. However, it's opt-in in C++, meaning you have
+to remember to use it, whereas Rust enforces immutability by default.
+
+```cpp
+void black_box(const int* x) {
+    // This would be an error
+    // *x = 23;
+}
+```
+
+Rust's explicitness about mutability is one of its features that helps prevent
+certain classes of bugs, especially in concurrent programming!
+You can quickly see how immutability is helpful, e.g. when passing pointers.
+
+...and Rust even warns you if something is mutable, but needn't be!
 
 ```rust
 fn main() {
@@ -77,8 +138,9 @@ warning: variable does not need to be mutable
 ```
 
 To conclude, immutability by default in Rust is more than just a syntactic
-choice; it's a strategic decision that promotes clarity and safety in code. It
-nudges developers towards patterns that reduce ambiguities. By enforcing
+choice; it's a strategic decision that promotes clarity and safety in code!
+
+It nudges developers towards patterns that reduce ambiguities. By enforcing
 explicit mutability, Rust ensures that developers are always aware of when and
 where state is being modified, leading to more predictable and
 easier-to-understand code.
@@ -87,20 +149,23 @@ easier-to-understand code.
 
 So why do people still use `mut`?
 
-One reason why some people are hesitant of immutability is _performance_.
+One reason is _performance_.
 The story goes something like this:
 
 > "Copying data requires allocations. Allocations cost time and memory.
 > Therefore, you should avoid copying data."
 
 It's true that if you have a large enough data structure, you don't want to copy
-it every time you want to change something. Just _how big_ does a data structure
-have to be before you should start worrying about copies? And how many copies do
-you have to make for it to actually matter?
+it every time you want to change something. 
 
-To test this, let's write a
-[benchmark](https://doc.rust-lang.org/1.12.1/book/benchmark-tests.html) that
-copies a vector with 1 million random values 100 times. Here is the code:
+Or is it...?
+
+Just _how big_ does a data structure
+have to be before copies really become your main problem?
+
+To test this, let's run a totally arbitrary, contrived
+[benchmark](https://doc.rust-lang.org/1.12.1/book/benchmark-tests.html)
+in which we copy a vector with 1 million random values 100 times. 
 
 ```rust
 #![feature(test)]
@@ -112,7 +177,7 @@ use rand::random;
 
 #[bench]
 fn copy_vector_100_times(b: &mut Bencher) {
-    // Creating a vector of random values
+    // A vector of random values
     let vec: Vec<u32> = (0..1_000_000).map(|_| rand::random::<u32>()).collect();
 
     b.iter(|| {
@@ -126,23 +191,24 @@ fn copy_vector_100_times(b: &mut Bencher) {
 
 On my M1 Macbook Pro, this benchmark takes around 29,815,141 nanoseconds per iteration.
 That's 29 milliseconds to copy a vector with 1 million values... 100 times in a row!
-**This means that you can copy a vector with 1 million values over 3 million times
+**This means that you can copy a vector with 1 million values over 3000 times
 per second on a consumer laptop!**
 
 Turns out, Computers are *pretty good* at copying things these days.
 
-Granted, this is quite a synthetic example. To make it more realistic, how about
-we look at something computers do all the time: sorting things.
+A silly example indeed. To make it more realistic, how about we look at
+something computers do all the time: *sorting things*.
 
-## Quicksort: A Case Study In Immutability and Performance
+## Mutable Quicksort
 
-Entire algorithms can be written without a single `mut` keyword.
-To demonstrate this, let's look at the quicksort algorithm.
+Entire (useful!) algorithms can be written without a single `mut` keyword.
+Let's take quicksort as an example.
 
 Quicksort is a sorting algorithm that works by recursively partitioning an array
-around a pivot element. The pivot element is chosen arbitrarily and the
-algorithm is usually implemented in-place, which means that it mutates the
-original array.
+around a pivot element (the "comparison" element).
+
+The pivot element is chosen arbitrarily and the algorithm is usually implemented
+in-place, which means that it mutates the original array.
 
 Here is a quicksort implementation with a lot of mutations:
 
@@ -181,7 +247,9 @@ minefield: slightly irritating and unnecessarily dangerous.
 Since the algorithm mutates the original array, the program's state changes
 throughout its execution, which demands a lot of mental gymnastics from the reader.
 
-Here is a _functional quicksort_ version that doesn't use `mut` at all:
+## Immutable Quicksort
+
+Here is an "immutable" version which doesn't use `mut` at all:
 
 ```rust
 pub fn quicksort_partition<T: PartialOrd + Clone>(array: &[T]) -> Vec<T> {
