@@ -1,5 +1,5 @@
 +++
-title = "Aim For Immutability"
+title = "Aim For Immutability in Rust"
 date = 2023-09-21
 template = "article.html"
 [extra]
@@ -7,11 +7,11 @@ series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
 benefits of immutability. These were a better fit for an article about
-functional programming in Rust, so I will use them in a future article.
+functional programming in Rust, so I replaced them.
 """
 +++
 
-Some Rustaceans go to great lengths to avoid copying data — even once.
+Some Rustaceans go to great lengths to avoid copying data &mdash; even once.
 
 This is typically noticeable among those with a background in systems
 programming, who are deeply conscious of performance and memory usage, sometimes
@@ -26,7 +26,6 @@ preferably only in tight scopes.
 
 This article aims to convince you that **embracing immutability is central to
 writing idiomatic Rust**.
-
 
 ## Immutability and State
 
@@ -158,6 +157,8 @@ Consider the following (problematic) implementation of a `Mailbox`:
 ```rust
 pub struct Mailbox {
     /// The emails in the mailbox
+    // Obviously, don't represent emails as strings in real code!
+    // Use higher-level abstractions instead.
     emails: Vec<String>,
     /// The total number of words in all emails
     total_word_count: usize,
@@ -174,7 +175,7 @@ impl Mailbox {
     pub fn add_email(&mut self, email: &str) {
         self.emails.push(email.to_string());
 
-        // Optimization: Update the total word count
+        // Misguided optimization: Track the total word count
         let word_count: usize = email.split_whitespace().count();
         self.total_word_count += word_count;
     }
@@ -187,26 +188,31 @@ impl Mailbox {
 }
 ```
 
+{% info() %}
+
+This is a contrived example and not idiomatic Rust code! 
+In a real-world scenario, we should use better abstractions, such as a `Message`
+struct of some sort, which encapsulates the email's content and metadata, but
+bear with me for the sake of the argument.
+
+{% end %}
+
 Note how `add_email` takes a `&mut self`, changing both the `emails` and
 `total_word_count` fields. 
 
 The idea here was to optimize for performance by keeping track of the total word
 count on insertion, so that we don't have to iterate over all emails every time
-we want to get the word count later. As a result , `emails` and
-`total_word_count` are now tightly coupled. We might refactor the code and
-forget to update the `total_word_count` field, leading to bugs.
+we want to get the word count later. 
+In what may have been a well-intentioned effort to optimize, `emails` and
+`total_word_count` have become tightly coupled.
+We might refactor the code and forget to update the `total_word_count` field, causing bugs!
 
-{% info() %}
+## Interlude: Immutability and Functional Programming
 
-In a real-world scenario, we would probably have a `Message` struct of some
-sort, which encapsulates the email's content and metadata, but for the sake of
-the argument, I've omitted it here.
-
-{% end %}
-
-In functional programming paradigms or in languages that emphasize immutability,
-such issues are less prevalent. For example, 
-Haskell [doesn't even have mutable variables except when using the state monad](https://wiki.haskell.org/Mutable_variable). Therefore, the `Mailbox` type could look like this:
+In purely functional programming languages, such issues are less prevalent. For
+example, Haskell [doesn't even have mutable variables except when using the
+state monad](https://wiki.haskell.org/Mutable_variable). Therefore, our naive
+`Mailbox` type might look like this in Haskell:
 
 ```haskell
 newtype Mailbox = Mailbox [String]
@@ -220,18 +226,20 @@ getWordCount (Mailbox emails) = sum $ map (length . words) emails
 
 This returns a new `Mailbox` every time we add a message. 
 
-To the keen-eyed systems programmer, this might sound a tad excessive: "A fresh
-Mailbox for each email? Really?" But before dismissing it, remember that in
-purely functional languages like Haskell, such practices are not just common but
-effective:
+To the keen-eyed systems programmer, this might sound appalling: "A fresh
+Mailbox for each email? Really?" But before entirely dismissing that idea, remember that
+in purely functional languages like Haskell, such practices are quite common
+because they are quite efficient:
 
 * In the `addEmail` function, you're prepending an email to the list with the
   `:` operator. Prepending to a linked list in Haskell is an `O(1)` operation,
   so it's quite performant. 
-* While you're returning a new `Mailbox`, Haskell's lazy evaluation and the way
+* While we're returning a new `Mailbox`, Haskell's lazy evaluation and the way
   it handles memory can mitigate some of the potential inefficiencies. For
   instance, unchanged parts of a data structure might be shared between the old
   and new versions.
+* [Linked lists in Haskell are similar to "streams" in other languages](https://www.reddit.com/r/haskell/comments/w25rj7/how_does_haskell_internally_represent_lists/igpurex/),
+  which helps put the performance expectations into perspective.
 
 The functional approach pushed us towards a better design, because it made it
 obvious that we don't need the `totalWordCount` field at all: 
@@ -242,12 +250,14 @@ The code is a lot easier to reason about and it might not even be slower. While
 lazy evaluation has many advantages, its main drawback is that [memory usage
 becomes hard to predict](https://wiki.haskell.org/Lazy_evaluation).
 
-Rust does not have lazy evaluation (in part because of Rust's focus on predictable
-runtime behavior), so we can't rely on the same optimizations.
-Instead, using `mut` in this context is acceptable, because
-it offers a pragmatic trade-off between performance and readability.
-We mutate the original `Mailbox`, while still avoiding the `total_word_count`
-field from the original code.
+## Rust's Pragmatic Approach To Mutability
+
+Rust does not have lazy evaluation, in part due to its focus on predictable
+runtime behavior and its commitment to zero-cost abstractions. Thus, we can't
+rely on the same optimizations as in languages that support lazy evaluation.
+
+Instead, many Rust developers would probably opt for a mutable approach in this
+case.
 
 ```rust
 pub struct Mailbox {
@@ -268,6 +278,8 @@ impl Mailbox {
     pub fn get_word_count(&self) -> usize {
         self.emails
             .iter()
+            // In real code, `email` might have a `body` field with a
+            // `word_count()` method instead
             .map(|email| email.split_whitespace().count())
             .sum()
     }
@@ -276,93 +288,14 @@ impl Mailbox {
 }
 ```
 
-## Immutability in Concurrent Programming
+We mutate the original `Mailbox`, while now avoiding the `total_word_count`
+field from the original code. It's fast and the compiler prevents multiple
+mutable references to the same data, making this approach safe.
 
-One of the most compelling advantages of immutability surfaces when writing
-concurrent code. In multi-threaded environments, mutable shared state is a
-notorious source of complexity and bugs. When multiple threads can modify data
-simultaneously, ensuring that they don't step on each other's toes requires
-intricate synchronization mechanisms, like locks or semaphores. These not only
-add overhead but also introduce potential pitfalls like deadlocks.
-
-Immutable data structures sidestep these issues. Since the data can't be changed
-once it's created, there's no need to worry about one thread modifying it while
-another is reading. This means you can safely share immutable data across
-threads without any synchronization.
-
-In Rust, this is further enhanced by the language's ownership system. Rust's
-compiler ensures that references to data obey strict borrowing rules, preventing
-data races. Combine this with immutability, and you get a powerful toolset for
-writing safe, concurrent code with fewer headaches.
-
-By embracing immutability, developers can harness the full power of modern
-multi-core processors without getting entangled in the intricacies of thread
-synchronization. 
-
-### Example: Concurrent Summation
-
-Imagine you have a large vector of numbers, and you want to compute their sum.
-This is inherently a CPU-bound problem, so to speed up the process, you decide
-to use multiple threads, each computing the sum of a portion of the vector.
-
-In a mutable world, you might be tempted to let each thread update a shared
-total. But this would require locks to ensure that two threads don't try to
-update the total at the same time, complicating the code and potentially slowing
-down the computation:
-
-```rust
-use std::sync::{Arc, Mutex};
-use std::thread;
-
-fn main() {
-    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    let chunk_size = numbers.len() / 4;
-    let total = Arc::new(Mutex::new(0));
-
-    thread::scope(|scope| {
-        for chunk in numbers.chunks(chunk_size) {
-            // Clone the chunk for the thread
-            let chunk = chunk.to_vec();
-            let total_clone = Arc::clone(&total);
-            
-            scope.spawn(move || {
-                let sum: i32 = chunk.iter().sum();
-                let mut total_lock = total_clone.lock().unwrap();
-                *total_lock += sum;
-            });
-        }
-    });
-
-    println!("Total sum: {}", *total.lock().unwrap()); // 55
-}
-```
-
-([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=ab2fe1996c7dd596e2f6b0af722389a6))
-
-Without the `Mutex` and `mut`, the solution becomes simpler and more efficient:
-
-```rust
-use std::thread;
-
-fn main() {
-    let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    let chunk_size = numbers.len() / 4;
-
-    let total: i32 = thread::scope(|scope| {
-        numbers
-            .chunks(chunk_size)
-            .map(|chunk| {
-                let chunk = chunk.to_vec();
-                scope.spawn(move || chunk.iter().sum::<i32>())
-            })
-            .map(|handle| handle.join().unwrap())
-            .sum::<i32>()
-    });
-
-    println!("Total sum: {}", total); // 55
-}
-```
-
+Our Haskell example wasn't a mere detour; it highlighted how an immutable
+mindset can often lead to stronger application design, even outside purely
+functional contexts. By incorporating these principles, Rust guides developers
+towards better abstractions.
 
 ## Summary
 
@@ -390,7 +323,7 @@ Immutability can help you avoid a lot of headaches.
 The alternative is often to use locks and these have a runtime cost, too.
 On top of that, they are a common source of deadlocks.
 
-## Immutability Is A Great Default.
+## Immutability Is A Great Default
 
 Immutable code is easier to test, parallelize, and reason about. It's also
 easier to refactor, because you don't have to worry about side effects.
