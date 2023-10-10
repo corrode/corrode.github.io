@@ -1,23 +1,49 @@
 +++
-title = "Aim for Immutability"
+title = "Aim For Immutability in Rust"
 date = 2023-09-21
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+revisions = """
+An earlier version of this article chose different examples to illustrate the
+benefits of immutability. These were a better fit for an article about
+functional programming in Rust, so I replaced them.
+"""
 +++
 
+Some Rustaceans go to great lengths to avoid copying data &mdash; even once.
+
+This is typically noticeable among those with a background in systems
+programming, who are deeply conscious of performance and memory usage, sometimes
+to the detriment of code readability. They make heavy use of `mut` to mutate
+data in place and frequently try to sidestep `.clone()` calls at every turn in
+an attempt to (prematurely) optimize their code.
+
+I believe this approach is misguided. Immutability &mdash; which means once something
+is created, it can't be changed &mdash; results in code that is easier to
+understand, refactor and parallelize. The `mut` should be used sparingly; 
+preferably only in tight scopes.
+
+This article aims to convince you that **embracing immutability is central to
+writing idiomatic Rust**.
+
+## Immutability and State
+
 As programmers, we think a lot about state.
-Is the user logged in? Can this edge-case ever occur?
-Is the coffee pot empty again?
 
-The problem is, that humans are pretty bad at keeping track of state.
-That is, unless you're a Chess Grandmaster or the parent of a toddler, of course.
+The problem is, that humans are pretty bad at keeping track of state transitions
+and multiple moving parts.
+(That is, unless you're a chess grandmaster or the parent of a toddler, of course.)
 
-We forget things, we make mistakes, we get distracted...  
-I personally get reminded of this every time I forget where I put my keys.
+> A large fraction of the flaws in software development are due to programmers
+> not fully understanding all the possible states their code may execute in.  
+> &mdash; [John Carmack](http://www.sevangelatos.com/john-carmack-on/)
 
-Rust has a few ways to make state handling easier.
-One core principle is **immutability by default**, which is the topic of this article.
+Immutability can help us reduce the cognitive load of keeping track of state.
+Instead of having to keep track of all the ways in which a variable can change,
+we know that it can't change at all.
+
+This brings us to Rust, a language that has chosen to prioritize immutability.
 
 ## Why Did Rust Choose Immutability By Default?
 
@@ -34,28 +60,67 @@ Especially C and C++ programmers [tend to be surprised by that design
 decision](https://users.rust-lang.org/t/is-immutability-by-default-worth-the-hassle/83668)
 and their first Rust programs typically contain a lot of `mut` keywords.
 
-In my opinion, **immutability is a great default**, because it helps reduce mental
-overhead. If the default was mutability, you'd have to check every function
-to see if it changes the value of a variable:
+In my opinion, choosing immutability was a good decision, because it helps
+reduce mental overhead. It is a nod to [Rust's functional
+roots](https://doc.rust-lang.org/reference/influences.html) and a consequence of
+its focus on safety.
 
-```rust
-// Assume, Rust had mutability by default
-let text = "Aloha, Hawaii!".to_string();
-black_box(text)
-// Is `text` still "Aloha, Hawaii!"? Who knows! Better double-check.
-```
+If the default was mutability, you'd have to check every
+function to see if it changes the value of a variable.
 
-Rust is very explicit about mutability. It makes you write it out every time you
+Instead, Rust is very explicit about mutability. It makes you write it out every time you
 create or pass a mutable variable.
 
 ```rust
-let mut text = "Aloha, Hawaii!".to_string();
-black_box(&mut text);
-// We know that this text is mutable so there is no guarantee that it will still
-// be "Aloha, Hawaii!" after this call.
+fn main() {
+    let mut x = 42;
+    black_box(&mut x);
+    println!("{}", x);
+}
+
+fn black_box(x: &mut i32) {
+    *x = 23;
+}
 ```
 
-...and it even warns you if something is mutable, but needn't be!
+Oh, how awfully, painfully explicit!
+
+Warning signs all over the place, which indicate that we are leaking state
+changes to the outside world.
+
+Compare that to C++:
+
+```cpp
+#include <iostream>
+
+void black_box(int* x) {
+    *x = 23;
+}
+
+int main() {
+    int x = 42;
+    black_box(&x);
+    std::cout << x << std::endl;
+}
+```
+
+Here we have to read the function body to see if it modifies our 
+variable. We need to use the `const` keyword in C++ to indicate that a pointer
+shouldn't modify the data it points to.
+
+```cpp
+void black_box(const int* x) {
+    // This would be an error
+    // *x = 23;
+}
+```
+
+This is somewhat analogous to Rust's immutability, *but it is opt-in in C++*,
+meaning you have to remember to use it.
+
+In Rust, explicit mutability is part of the function signature, which makes it
+easier to understand the implications of that function call at a glance. It even
+warns you if something is mutable, but needn't be!
 
 ```rust
 fn main() {
@@ -76,252 +141,195 @@ warning: variable does not need to be mutable
   = note: `#[warn(unused_mut)]` on by default
 ```
 
-To conclude, immutability by default in Rust is more than just a syntactic
-choice; it's a strategic decision that promotes clarity and safety in code. It
-nudges developers towards patterns that reduce ambiguities. By enforcing
-explicit mutability, Rust ensures that developers are always aware of when and
-where state is being modified, leading to more predictable and
-easier-to-understand code.
+Rust's immutability-by-default is not just a syntactic choice; it's a deliberate
+decision to promote code clarity and safety. By requiring explicit mutability,
+Rust ensures developers are acutely aware of its implications, especially in
+concurrent programming where mutable states can introduce complexity.
 
-## Immutable Doesn't Mean Slow
+While immutability is often touted for its theoretical advantages, its
+real-world application can be less straightforward. Let's explore a concrete
+example to illustrate how an immutable approach can shape our design decisions.
 
-So why do people still use `mut`?
+## Mutability and Object-Oriented Programming
 
-One reason why some people are hesitant of immutability is _performance_.
-The story goes something like this:
-
-> "Copying data requires allocations. Allocations cost time and memory.
-> Therefore, you should avoid copying data."
-
-It's true that if you have a large enough data structure, you don't want to copy
-it every time you want to change something. Just _how big_ does a data structure
-have to be before you should start worrying about copies? And how many copies do
-you have to make for it to actually matter?
-
-To test this, let's write a
-[benchmark](https://doc.rust-lang.org/1.12.1/book/benchmark-tests.html) that
-copies a vector with 1 million random values 100 times. Here is the code:
+Consider the following (problematic) implementation of a `Mailbox`:
 
 ```rust
-#![feature(test)]
-
-extern crate test;
-
-use test::{black_box, Bencher};
-use rand::random;
-
-#[bench]
-fn copy_vector_100_times(b: &mut Bencher) {
-    // Creating a vector of random values
-    let vec: Vec<u32> = (0..1_000_000).map(|_| rand::random::<u32>()).collect();
-
-    b.iter(|| {
-        for _ in 0..100 {
-            // Copy the vector and use black_box to avoid compiler optimizations
-            let _copied_vec = black_box(vec.clone());
-        }
-    });
+pub struct Mailbox {
+    /// The emails in the mailbox
+    // Obviously, don't represent emails as strings in real code!
+    // Use higher-level abstractions instead.
+    emails: Vec<String>,
+    /// The total number of words in all emails
+    total_word_count: usize,
 }
-```
 
-On my M1 Macbook Pro, this benchmark takes around 29,815,141 nanoseconds per iteration.
-That's 29 milliseconds to copy a vector with 1 million values... 100 times in a row!
-**This means that you can copy a vector with 1 million values over 3 million times
-per second on a consumer laptop!**
-
-Turns out, Computers are *pretty good* at copying things these days.
-
-Granted, this is quite a synthetic example. To make it more realistic, how about
-we look at something computers do all the time: sorting things.
-
-## Quicksort: A Case Study In Immutability and Performance
-
-Entire algorithms can be written without a single `mut` keyword.
-To demonstrate this, let's look at the quicksort algorithm.
-
-Quicksort is a sorting algorithm that works by recursively partitioning an array
-around a pivot element. The pivot element is chosen arbitrarily and the
-algorithm is usually implemented in-place, which means that it mutates the
-original array.
-
-Here is a quicksort implementation with a lot of mutations:
-
-```rust
-pub fn quicksort_mut<T: PartialOrd>(mut arr: Vec<T>) -> Vec<T> {
-    if arr.len() <= 1 {
-        return arr;
-    }
-
-    let pivot = arr.remove(0);
-    let mut left = vec![];
-    let mut right = vec![];
-
-    for item in arr {
-        if item <= pivot {
-            left.push(item);
-        } else {
-            right.push(item);
+impl Mailbox {
+    pub fn new() -> Self {
+        Mailbox {
+            emails: Vec::new(),
+            total_word_count: 0,
         }
     }
 
-    let mut sorted_left = quicksort_mut(left);
-    let mut sorted_right = quicksort_mut(right);
+    pub fn add_email(&mut self, email: &str) {
+        self.emails.push(email.to_string());
 
-    sorted_left.push(pivot);
-    sorted_left.append(&mut sorted_right);
-
-    sorted_left
-}
-```
-
-Depending on your background, this code might either be idiomatic
-and easy to understand or it might look like a a clown riding a unicycle on a
-minefield: slightly irritating and unnecessarily dangerous.
-
-Since the algorithm mutates the original array, the program's state changes
-throughout its execution, which demands a lot of mental gymnastics from the reader.
-
-Here is a _functional quicksort_ version that doesn't use `mut` at all:
-
-```rust
-pub fn quicksort_partition<T: PartialOrd + Clone>(array: &[T]) -> Vec<T> {
-    if array.len() <= 1 {
-        return array.to_vec();
+        // Misguided optimization: Track the total word count
+        let word_count: usize = email.split_whitespace().count();
+        self.total_word_count += word_count;
     }
 
-    let pivot = &array[0];
-    let (higher, lower): (Vec<_>, Vec<_>) = array[1..].iter().cloned().partition(|x| x > pivot);
+    pub fn get_word_count(&self) -> usize {
+        self.total_word_count
+    }
 
-    [
-        quicksort_partition(&lower),
-        vec![pivot.clone()],
-        quicksort_partition(&higher),
-    ]
-    .concat()
+    // ... other methods ...
 }
 ```
-
-To me, this version is a lot easier to reason about. I don't have to chase
-mutations of variables throughout the code or worry about indices and loops.
-
-Instead, the above algorithm can be summarized in four simple steps:
-
-1. If the array is empty or has only one element, it is already sorted.
-2. Otherwise, pick the first element as the pivot.
-3. Create two new arrays: One with all elements smaller than the pivot and one
-   with all elements larger than the pivot.
-4. Recursively sort the two new arrays and concatenate them with the pivot in
-   the middle.
-
-Just how much slower is the immutable version compared to the mutable one?
-To test this, I created a [benchmark](https://github.com/mre/quicksort_bench)
-that would run both versions on a vector with 1 million random values.
-Here are the results:
-
-![Benchmark results](./quicksort.svg)
-
-Not surprisingly (or perhaps quite so!), the immutable version is about 50%
-slower than the mutable version.
-
-While the mutable approach is faster difference in performance is not as
-dramatic as you might expect. After all, we clone the entire array in every
-recursive call of the immutable version. This is a lot of copying!
-But we learned earlier that computers are pretty okay with that.
-
-A 112ms difference on a million values might seem notable, yet in many scenarios
-the bottleneck is probably elsewhere.
-
-However, the immutable version excels in clarity and maintainability. Its
-functional style minimizes side effects and clarifies code intent.
-
-## Immutability Makes Parallelism Easy
-
-Besides! Another nice property of the immutable version is that it is trivial to
-parallelize with [`rayon`](https://github.com/rayon-rs/rayon).
-
-```rust
-use rayon::prelude::*;
-
-pub fn quicksort_par<T: PartialOrd + Clone + Sync + Send>(array: &[T]) -> Vec<T> {
-    // ...
-    let higher: Vec<T> = array[1..].par_iter().cloned().filter(|x| x > pivot).collect();
-    let lower: Vec<T> = array[1..].par_iter().cloned().filter(|x| x <= pivot).collect();
-    // ...
-}
-```
-
-All we have to do is to use `par_iter` and add `Sync` and `Send` to the type
-bounds of the generic type `T`. The `rayon` crate takes care of the rest.
-
-With mutable data structures, this would be a lot more complicated as we'd need
-to ensure that no two threads are trying to mutate the same piece of data
-at once. This requires synchronization primitives like
-[locks](https://doc.rust-lang.org/std/sync/struct.Mutex.html),
-[semaphores](https://doc.rust-lang.org/std/sync/struct.Barrier.html),
-or [atomic operations](https://doc.rust-lang.org/std/sync/atomic/index.html),
-which can introduce both performance overhead and complexity.
-
-For example, imagine you had a mutable array that multiple threads were
-attempting to sort. If two threads tried to swap elements at the same time
-without proper synchronization, you could end up with data races, where the
-outcome is unpredictable and might even corrupt your data. This requires you to
-sprinkle your code with locks, which in turn can lead to other issues like
-deadlocks if not handled carefully.
 
 {% info() %}
 
-**The key takeaway is the ease of parallelism when we sidestep concerns
-about mutable and shared data.**
-
-Just because you _can_ parallelize something, doesn't mean you _should_.
-
-While the above code demonstrates the simplicity of parallelism thanks to
-immutability, it's does not mean that there is a performance benefit.
-The cost of launching threads and distributing tasks might outweigh the
-benefits. 
-
-In this case, the parallel version is actually slower than the sequential one.
-**54 times slower**, to be precise! It took 19 seconds to sort the array
-with rayon's default settings.
-I attributed this to the overhead of launching threads and distributing tasks
-having a much higher cost than copying data, but there's a good chance
-I just made a mistake somewhere. My [benchmark code is on
-GitHub](https://github.com/mre/quicksort_bench) if you want to take a look.
-
-In any case, the point is that immutability makes these experiments cheap.
+This is a contrived example and not idiomatic Rust code! 
+In a real-world scenario, we should use better abstractions, such as a `Message`
+struct of some sort, which encapsulates the email's content and metadata, but
+bear with me for the sake of the argument.
 
 {% end %}
 
-## Chaining Operations on Immutable Data Structures Is Efficient
+Note how `add_email` takes a `&mut self`, changing both the `emails` and
+`total_word_count` fields. 
 
-As a nice bonus, you get code, which can be chained together neatly.
-The Rust standard library provides a number of helpful combinators for iterators,
-which play nicely with immutable data structures:
+The idea here was to optimize for performance by keeping track of the total word
+count on insertion, so that we don't have to iterate over all emails every time
+we want to get the word count later. 
+In what may have been a well-intentioned effort to optimize, `emails` and
+`total_word_count` have become tightly coupled.
+We might refactor the code and forget to update the `total_word_count` field, causing bugs!
 
-```rust
-let v = vec![1, 2, 3].iter()
-            .map(|x| x + 1)
-            .filter(|x| x % 2 == 0)
-            .collect::<Vec<_>>();
-println!("{:?}", v); // v is [2, 4]
+## Interlude: Immutability and Functional Programming
+
+In purely functional programming languages, such issues are less prevalent. For
+example, Haskell [doesn't even have mutable variables except when using the
+state monad](https://wiki.haskell.org/Mutable_variable). Therefore, our naive
+`Mailbox` type might look like this in Haskell:
+
+```haskell
+newtype Mailbox = Mailbox [String]
+
+addEmail :: Mailbox -> String -> Mailbox
+addEmail (Mailbox emails) email = Mailbox (email : emails)
+
+getWordCount :: Mailbox -> Int
+getWordCount (Mailbox emails) = sum $ map (length . words) emails
 ```
 
-Under the hood, the `map` and `filter` methods create new iterators that operate on
-the previous iterator and do not incur any allocations.
-The actual computations (like adding 1 or filtering even
-numbers) are only executed when the final iterator is consumed, in this case by
-the `collect` method. The `collect` method makes a single allocation to store the
-results in a new vector. The result is clean, readable, and efficient, which
-is why you'll see this pattern a lot in idiomatic Rust code.
+This returns a new `Mailbox` every time we add a message. 
 
-## Conclusion
+To the keen-eyed systems programmer, this might sound appalling: "A fresh
+Mailbox for each email? Really?" But before entirely dismissing that idea, remember that
+in purely functional languages like Haskell, such practices are quite common
+because they are quite efficient:
 
-In summary, immutability is a great default.
+* In the `addEmail` function, you're prepending an email to the list with the
+  `:` operator. Prepending to a linked list in Haskell is an `O(1)` operation,
+  so it's quite performant. 
+* While we're returning a new `Mailbox`, Haskell's lazy evaluation and the way
+  it handles memory can mitigate some of the potential inefficiencies. For
+  instance, unchanged parts of a data structure might be shared between the old
+  and new versions.
+* [Linked lists in Haskell are similar to "streams" in other languages](https://www.reddit.com/r/haskell/comments/w25rj7/how_does_haskell_internally_represent_lists/igpurex/),
+  which helps put the performance expectations into perspective.
+
+The functional approach pushed us towards a better design, because it made it
+obvious that we don't need the `totalWordCount` field at all: 
+It was much easier to write a version which calculates the sum on the fly
+instead of mutating state.
+
+The code is a lot easier to reason about and it might not even be slower. While
+lazy evaluation has many advantages, its main drawback is that [memory usage
+becomes hard to predict](https://wiki.haskell.org/Lazy_evaluation).
+
+## Rust's Pragmatic Approach To Mutability
+
+Rust does not have lazy evaluation, in part due to its focus on predictable
+runtime behavior and its commitment to zero-cost abstractions. Thus, we can't
+rely on the same optimizations as in languages that support lazy evaluation.
+
+Instead, many Rust developers would probably opt for a mutable approach in this
+case.
+
+```rust
+pub struct Mailbox {
+    emails: Vec<String>,
+}
+
+impl Mailbox {
+    pub fn new() -> Self {
+        Mailbox {
+            emails: Vec::new(),
+        }
+    }
+
+    pub fn add_email(&mut self, email: &str) {
+        self.emails.push(email.to_string());
+    }
+
+    pub fn get_word_count(&self) -> usize {
+        self.emails
+            .iter()
+            // In real code, `email` might have a `body` field with a
+            // `word_count()` method instead
+            .map(|email| email.split_whitespace().count())
+            .sum()
+    }
+
+    // ... other methods ...
+}
+```
+
+We mutate the original `Mailbox`, while now avoiding the `total_word_count`
+field from the original code. It's fast and the compiler prevents multiple
+mutable references to the same data, making this approach safe.
+
+Our Haskell example wasn't a mere detour; it highlighted how an immutable
+mindset can often lead to stronger application design, even outside purely
+functional contexts. By incorporating these principles, Rust guides developers
+towards better abstractions.
+
+## Summary
+
+### Move instead of `mut`
+
+Lean into Rust's ownership model to avoid mutable state.
+
+It is safe to move variables into functions and structs, so use that to your
+advantage. This way you can avoid `mut` in many cases and avoid
+copies, which is especially important for large data structures.
+
+## Don't Be Afraid Of Copying Data.
+
+If you have the choice between a lot of `mut` and a few `.clone()` calls,
+copying data is not as expensive as you might think. 
+
+As computers get more cores and memory becomes cheaper, the benefits of
+immutability outweigh the costs: 
+especially in distributed systems, synchronization and coordination of
+mutable data structures is hard and has a runtime cost.
+Immutability can help you avoid a lot of headaches.
+
+[Don't worry about a few `.clone()` calls here and there.](http://xion.io/post/code/rust-borrowchk-tricks.html) Instead, write code that is easy to understand and maintain.
+
+The alternative is often to use locks and these have a runtime cost, too.
+On top of that, they are a common source of deadlocks.
+
+## Immutability Is A Great Default
 
 Immutable code is easier to test, parallelize, and reason about. It's also
 easier to refactor, because you don't have to worry about side effects.
 
-Don't worry about a few `.clone()` calls here and there. Instead,
-focus on writing code that is easy to understand and maintain.
+Rust pushes you towards immutability and offers `mut` as an opt in escape hatch
+hot paths. Many other languages do the opposite: they push you to `mut` and ask
+you to opt into immutability.
 
 The use of `mut` should be the exception, not the rule.
