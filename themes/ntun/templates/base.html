@@ -9,6 +9,18 @@
 {%- set social_title = "Corrode Rust Blog" %}
 {%- endif %}
 
+{# check for page permalink; otherwise use fallback (using path) #}
+{%- if page.permalink %}
+{%- set social_url = page.permalink %}
+{%- elif page.path %}
+{%- set social_url = config.base_url ~ page.path %}
+{%- elif current_path %}
+{%- set social_url = config.base_url ~ current_path %}
+{%- else %}
+{%- set social_url = config.base_url %}
+{%- endif %}
+
+
 {%- if not page %}
 {%- set social_description = "Rust consulting and development based in Germany that puts people first" %}
 {%- elif page.extra.excerpt %}
@@ -40,7 +52,7 @@
     <meta property="og:title" content="{{ social_title | safe }}">
     <meta property="og:description" content="{{ social_description | striptags | safe }}">
     <meta property="og:image" content="{{ social_image | safe }}">
-    <meta property="og:url" content="{{ config.base_url |safe }}">
+    <meta property="og:url" content="{{ social_url |safe }}">
     <meta property="og:site_name" content="{{ config.extra.author |safe }}">
     <meta property="og:type" content="website">
 
