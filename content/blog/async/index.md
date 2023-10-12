@@ -109,7 +109,7 @@ async fn read_file(path: &str) -> io::Result<()> {
 
 The only difference is the `await` keyword.
 
-While the the name might suggest it, `async-std` is not a drop-in replacement
+While the name might suggest it, `async-std` is not a drop-in replacement
 for the standard library as there are many [subtle differences between the
 two](https://github.com/seanmonstar/reqwest/issues/719#issuecomment-558758637).
 
