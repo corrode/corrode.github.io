@@ -21,8 +21,8 @@ an attempt to (prematurely) optimize their code.
 
 I believe this approach is misguided. Immutability &mdash; which means once something
 is created, it can't be changed &mdash; results in code that is easier to
-understand, refactor and parallelize. The `mut` should be used sparingly; 
-preferably only in tight scopes.
+understand, refactor and parallelize and it doesn't have to be slow either.
+The `mut` should be used sparingly; preferably only in tight scopes.
 
 This article aims to convince you that **embracing immutability is central to
 writing idiomatic Rust**.
@@ -150,7 +150,7 @@ While immutability is often touted for its theoretical advantages, its
 real-world application can be less straightforward. Let's explore a concrete
 example to illustrate how an immutable approach can shape our design decisions.
 
-## Mutability and Object-Oriented Programming
+## Controlling Mutability
 
 Consider the following (problematic) implementation of a `Mailbox`:
 
