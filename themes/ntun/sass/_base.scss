@@ -200,10 +200,18 @@ b {
   color: white;
 }
 
+ul, ol {
+  line-height: 1.5em;
+}
+
 ul {
   list-style-type: square;
-  line-height: 2em;
 }
+
+ul li {
+  margin-bottom: 0.8em;
+}
+
 
 .topbox {
   display: flex;
