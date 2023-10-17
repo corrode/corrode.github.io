@@ -9,6 +9,7 @@ An earlier version of this article chose different examples to illustrate the
 benefits of immutability. These were a better fit for an article about
 functional programming in Rust, so I replaced them.
 """
+reviews = [ { link = "https://llogiq.github.io/", name = "llogiq" } ]
 +++
 
 Some Rustaceans go to great lengths to avoid copying data &mdash; even once.
@@ -207,12 +208,12 @@ In what may have been a well-intentioned effort to optimize, `emails` and
 `total_word_count` have become tightly coupled.
 We might refactor the code and forget to update the `total_word_count` field, causing bugs!
 
-## Interlude: Immutability and Functional Programming
+## Immutability In Purely Functional Programming
 
-In purely functional programming languages, such issues are less prevalent. For
-example, Haskell [doesn't even have mutable variables except when using the
-state monad](https://wiki.haskell.org/Mutable_variable). Therefore, our naive
-`Mailbox` type might look like this in Haskell:
+Issues with mutable state are less prevalent in purely functional programming
+languages. For example, Haskell [doesn't even have mutable variables except when
+using the state monad](https://wiki.haskell.org/Mutable_variable). Therefore,
+our naive `Mailbox` type might look like this in Haskell:
 
 ```haskell
 newtype Mailbox = Mailbox [String]
@@ -289,13 +290,49 @@ impl Mailbox {
 ```
 
 We mutate the original `Mailbox`, while now avoiding the `total_word_count`
-field from the original code. It's fast and the compiler prevents multiple
+field from the original code. The compiler prevents multiple
 mutable references to the same data, making this approach safe.
 
 Our Haskell example wasn't a mere detour; it highlighted how an immutable
 mindset can often lead to stronger application design, even outside purely
 functional contexts. By incorporating these principles, Rust guides developers
 towards better abstractions.
+
+## A Word On Performance
+
+In case counting the words becomes expensive, an alternative would be to
+refactor the the code such that `add_email` takes a `Mail` struct, which contains
+the metadata:
+
+```rust
+pub struct Mail {
+    body: String,
+}
+
+impl Mail {
+    pub fn new(body: &str) -> Self {
+        Mail {
+            body: body.to_string(),
+        }
+    }
+
+    pub fn word_count(&self) -> usize {
+        self.body.split_whitespace().count()
+    }
+}
+```
+
+Then our `get_word_count` method could look like this:
+
+```rust
+pub fn get_word_count(&self) -> usize {
+    self.emails.iter().map(|email| email.word_count()).sum()
+}
+```
+
+As you can see, we don't need any mutable state to implement the global
+word count. By using better abstractions, we can achieve equal performance
+but better ergonomics.
 
 ## Summary
 
