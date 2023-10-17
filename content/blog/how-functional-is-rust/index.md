@@ -259,7 +259,10 @@ similar to the imperative version.
 
 ## Summary
 
-Here are my rules of thumb:
+I recommend delving into functional patterns, regardless of immediate
+application. It may change the path of least resistance for solving a problem.
+
+Here are my personal rules of thumb:
 
 * **Leverage functional patterns for data transformations.** Especially within
   smaller scopes like functions and closures, functional methods such as
