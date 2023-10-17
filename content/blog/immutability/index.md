@@ -369,4 +369,7 @@ Rust pushes you towards immutability and offers `mut` as an opt in escape hatch
 hot paths. Many other languages do the opposite: they push you to `mut` and ask
 you to opt into immutability.
 
+## Limit Mutability To Tight Scopes
+
+Good code keeps mutable state short-lived, making it easier to reason about.
 The use of `mut` should be the exception, not the rule.
