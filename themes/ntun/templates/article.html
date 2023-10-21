@@ -5,7 +5,7 @@
   <div class="article-content">{{ page.content | safe }}</div>
 
   {% if page.extra.revisions %}  
-  <div class="article-revisions"><span class="revision-notes">Revision notes:</span> {{ page.extra.revisions | safe }}</div>
+  <div class="article-revisions"><span class="revision-notes">Revision notes:</span> {{ page.extra.revisions | markdown(inline=true) | safe }}</div>
   {%- endif %}
 
   <div class="social">

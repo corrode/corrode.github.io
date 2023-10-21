@@ -10,6 +10,8 @@ revisions = """
 In an earlier version of this article, I discussed async web frameworks.
 However, to maintain focus, I've opted to address web frameworks in a dedicated
 follow-up article.
+Furthermore, I've added some clarifications regarding the performance
+characteristics of async Rust after a [discussion on Hacker News](https://news.ycombinator.com/item?id=37641640).
 """
 +++
 
@@ -129,9 +131,7 @@ Rust is a language that values explicitness. This is especially true for
 reasoning about runtime behavior, such as allocations and blocking operations.
 The async-std's teams proposal to ["Stop worrying about
 blocking"](https://www.reddit.com/r/rust/comments/ebfj3x/stop_worrying_about_blocking_the_new_asyncstd/)
-was met with a [harsh community
-response](https://www.reddit.com/r/rust/comments/ebpzqx/do_not_stop_worrying_about_blocking_in_async)
-and later retracted.
+was [met with noticeable community skepticism](https://www.reddit.com/r/rust/comments/ebpzqx/do_not_stop_worrying_about_blocking_in_async) and later retracted.
 
 As of this writing, [1754 public crates have a dependency on
 `async-std`](https://lib.rs/crates/async-std/rev) and there
@@ -362,25 +362,12 @@ async fn main() {
 
 ([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7dc4bc6783691c42fbf4cd5a76251da2))
 
-In a recent benchmark, [async Rust was 2x faster than
-threads](https://vorner.github.io/async-bench.html), but the _absolute_
-difference was only _10ms per request_. To put this into perspective, [this
-about as long as PHP takes to start](https://github.com/bdrung/startup-time). In
-other words, the difference is negligible for most applications.
-
-{% info() %}
-
-A [clarification on the aforementioned
-benchmark](https://news.ycombinator.com/item?id=37641640): Upon a closer
-inspection, the disparity between async Rust and threads is notably smaller than
-initially mentioned. In scenarios with a limited number of threads, traditional
-threading even outperformed the async approach. This underscores the core
-premise that, in real-world applications, the performance distinctions between
-the two approaches are often negligible, if not slightly favoring threads. Thus,
-it's crucial not to gravitate towards async Rust driven solely by anticipated
-performance gains.
-
-{% end %}
+In a [recent benchmark](https://vorner.github.io/async-bench.html), traditional
+threading outperformed the async approach in scenarios with a limited number of
+threads. This underscores the core premise that, in real-world applications, the
+performance difference between the two approaches is often negligible, if not
+slightly favoring threads. Thus, it's crucial not to gravitate towards async
+Rust driven solely by anticipated performance gains.
 
 Thread-based frameworks, like the now-inactive
 [iron](https://github.com/iron/iron), showcased the capability to effortlessly
