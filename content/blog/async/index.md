@@ -65,7 +65,7 @@ request](https://github.com/rust-lang/async-book/pull/96), though.)
 
 That leaves us with a situation that is unsatisfactory for everyone involved:
 
-- For new users, it is a big ask to [navigate this space](https://github.com/rust-netlink/netlink-proto/issues/7) and make future-proof decisions.
+- For new users, it is a big ask to [navigate this space](https://kevinhoffman.medium.com/rust-async-and-the-terrible-horrible-no-good-very-bad-day-348ebc836274) and make future-proof decisions.
 - For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/launchbadge/sqlx/issues/1669#issuecomment-1032132220). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
 
 This close coupling, [recognized by the async working
