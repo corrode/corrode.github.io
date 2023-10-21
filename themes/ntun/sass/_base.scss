@@ -289,6 +289,10 @@ blockquote {
   display: none;
 }
 
+del {
+  opacity: 0.6;
+}
+
 @media (max-width: 900px) {
   .hero-headline {
     font-size: 2em;
