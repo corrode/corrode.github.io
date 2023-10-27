@@ -4,9 +4,35 @@ template = "page.html"
 sort_by = "date"
 +++
 
-Hi, I'm Matthias Endler, a Rust developer and open source maintainer.
+<style>
+.img-stack {
+    position: relative;
+}
+
+.img-stack img {
+    border-radius: 4px;
+}
+
+.img-stack-hue {
+    filter: hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+    .img-stack-hue {
+        filter: hue-rotate(335deg);
+    }
+}
+</style>
+
+<div class="img-stack">
+  <img class="img-stack-hue" src="/about/endler-bg.jpg" alt="Background">
+  <img src="/about/endler-fg.png" alt="Foreground" style="position: absolute; top: 0; left: 0;">
+</div>
+
+Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open source maintainer.
+
 I support my clients around the world to get the most out of Rust through
-teaching, consulting, and contracting with no-frills, easy-to-follow, [idiomatic
+training, consulting, and contracting with no-frills, easy-to-follow, [idiomatic
 Rust](https://github.com/mre/idiomatic-rust) code.
 
 Some popular Rust crates that I built are [tinysearch](https://github.com/tinysearch/tinysearch),
