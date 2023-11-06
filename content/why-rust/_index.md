@@ -209,8 +209,7 @@ and faster than Go by a factor of 2-3x as well as Python by a factor of 70x.
 This translates to lower energy consumption as well. 
 Energy is an important cost factor for companies at scale.
 
-<img src="/why-rust/energy.svg" class="invert" alt="Energy Efficiency across Programming Languages">
-
+<img src="/why-rust/energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
 
 ## Reasons Against Using Rust In Production
 
