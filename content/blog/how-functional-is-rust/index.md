@@ -592,8 +592,9 @@ gets easier to test as well.
 
 ## Summary
 
-I recommend delving into functional patterns, regardless of immediate
-application. It may change the path of least resistance for solving a problem.
+Rust is a multi-paradigm language.
+Mixing object-oriented programming and functional programming is not only
+possible, but encouraged. It's up to you to find the right balance for your use case.
 
 Here are my personal rules of thumb:
 
@@ -615,9 +616,3 @@ Here are my personal rules of thumb:
   paradigm, always write code that's straightforward and easy to maintain. It
   benefits not only your future self but also your colleagues who might work on
   the same codebase.
-
-It is important to understand, that functional programming is not magic. It's
-another tool in your toolbox. You can still write bad, convoluted code.
-
-Rust is a multi-paradigm language, and it is a nice blend of different
-concepts. It's up to you to find the right balance for your use case.
