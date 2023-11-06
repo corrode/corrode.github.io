@@ -220,7 +220,7 @@ the previous section about developer happiness.)
 > about memory safety and security. - [State of the Developer Nation 24th Edition - Q1 2023 report](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023)
 
 <a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
-<img src="/why-rust/communities.svg" alt="Programming Language Communities Size">
+<img src="/why-rust/communities.svg" class="invert" alt="Programming Language Communities Size">
 </a>
 
 ### Tooling

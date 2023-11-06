@@ -388,6 +388,10 @@ tr:last-child td {
       background-color: $darkBgrd;
     }
 
+    /* Allow to explicitly invert colors in dark mode where needed */
+    .invert {
+      filter: invert(1);
+    }
 
     a {
       color: white;
