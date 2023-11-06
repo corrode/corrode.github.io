@@ -183,6 +183,13 @@ impact on productivity.
 ### Performance
 
 As stated earlier, performance often gets mentioned as a main reason for using Rust.
+Rust also has great support for multi-threaded workloads. Libraries like
+[rayon](https://github.com/rayon-rs/rayon) and [Tokio](https://tokio.rs/) are considered
+best-in-class for writing high-performance applications.
+
+Making efficient use of compute resources has much deeper implications for
+companies than just raw execution speed. One important aspect is energy efficiency.
+
 In the below benchmark, taken from ["Energy Efficiency across Programming Languages"](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf)
 by Pereira et al., Rust has superior runtime performance on par with C and C++
 and faster than Go by a factor of 2-3x as well as Python by a factor of 70x.
@@ -204,9 +211,6 @@ Energy is an important cost factor for companies at scale.
 
 <img src="/why-rust/energy.svg" class="invert" alt="Energy Efficiency across Programming Languages">
 
-Rust also has great support for multi-threaded workloads. Libraries like
-[rayon](https://github.com/rayon-rs/rayon) and [Tokio](https://tokio.rs/) are considered
-best-in-class for writing high-performance applications.
 
 ## Reasons Against Using Rust In Production
 
