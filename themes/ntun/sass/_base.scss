@@ -338,6 +338,29 @@ del {
   fill: $brightScnd;
 }
 
+table {
+  border-collapse: collapse; /* Ensures that there's no space between borders */
+  width: 100%; /* Adjust the width as needed */
+  margin-bottom: 25px;
+}
+
+th, td {
+  padding: 8px; /* Adjust the padding as needed */
+  text-align: left; /* Aligns text to the left, change as needed */
+  border-right: 1px solid rgba(white, 0.3); /* Adds vertical borders */
+  border-bottom: 1px solid rgba(white, 0.3); /* Adds horizontal borders */
+}
+
+th:last-child, td:last-child {
+  border-right: none; /* Removes the right border from the last cell */
+}
+
+tr:last-child td {
+  border-bottom: none; /* Removes the bottom border from the last row */
+}
+
+
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: $heroDark;
