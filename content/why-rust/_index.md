@@ -89,6 +89,22 @@ mention that Rust's predictable runtime behavior is a big reason for using it:
 a service open to the public, a peak performance of the I/O matters less than
 the ability to pace clients fairly.
 
+Furthermore, Rust shows excellent runtime behavior when handling network requests.
+In a [benchmark by Eugene Retunsky](https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f), Rust had the lowest tail latency and maximum throughput next to C and C++. 
+
+Here is the diagram from the benchmark, showing the p99.9 latency for each
+language under test. As the requests per second increase, the latency for Rust
+stays low and stable. Go and Java on the other hand have a higher baseline
+latency while Python shows latency spikes at a certain point.
+
+<img src="/why-rust/runtime.png" alt="Rust Runtime behavior">
+
+The author concludes:
+
+> In conclusion, Rust has a much lower latency variance than Golang, Python, and especially Java. 
+> [...] Rust might be a better alternative to Golang, Java, or Python if predictable performance is crucial for your service. Also, before starting to write a new service in C or C++, it’s worth considering Rust. - [Eugene Retunsky](https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f7)
+
+
 ### Cost Savings
 
 Rust has a low runtime overhead. This is especially important for services that
@@ -189,7 +205,6 @@ Energy is an important cost factor for companies at scale.
 | PHP         | 29.30               |
 | Ruby        | 69.91               |
 | Python      | 75.88               |
-
 
 ## Reasons Against Using Rust In Production
 
