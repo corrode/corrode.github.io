@@ -54,13 +54,13 @@ details[open] summary::before {
 
 /* Only apply to inline code */
 .article code:not(pre > code) {
-  background-color: rgba(87, 69, 28, 0.2);
   border-radius: 4px;
   padding: 0.2em 0.4em;
   font-size: 0.9em;
   font-family: monospace;
   line-height: 1.5;
   color: $brightPrim; 
+  border: 1px solid rgba(87, 69, 28, 0.8);
 }
 
 .article img {
