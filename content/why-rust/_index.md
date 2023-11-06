@@ -121,6 +121,14 @@ instance.
 
 The better hardware utilization translates to lower costs for companies.
 
+Firecracker allowed AWS to improve the efficiency of Fargate and help us pass on cost savings to customers.
+As a result, we are reducing the price of Fargate by up to 50%. 
+([Image source](https://shahbhargav.medium.com/firecracker-secure-and-fast-microvms-628e6043b572) and
+[AWS announcement](https://aws.amazon.com/blogs/compute/aws-fargate-price-reduction-up-to-50/))
+
+<img src="/why-rust/fargate.png" alt="Firecracker" />
+
+
 ### Ergonomics
 
 Rust has a great developer experience. Its type system is very powerful and
@@ -205,6 +213,10 @@ Energy is an important cost factor for companies at scale.
 | PHP         | 29.30               |
 | Ruby        | 69.91               |
 | Python      | 75.88               |
+
+Rust also has great support for multi-threaded workloads. Libraries like
+[rayon](https://github.com/rayon-rs/rayon) and [Tokio](https://tokio.rs/) are considered
+best-in-class for writing high-performance applications.
 
 ## Reasons Against Using Rust In Production
 
