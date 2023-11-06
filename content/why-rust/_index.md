@@ -202,17 +202,7 @@ and faster than Go by a factor of 2-3x as well as Python by a factor of 70x.
 This translates to lower energy consumption as well. 
 Energy is an important cost factor for companies at scale.
 
-| Lang        | Energy (Normalized) |
-|-------------|---------------------|
-| C           | 1.00                |
-| Rust        | 1.03                |
-| C++         | 1.34                |
-| Java        | 1.98                |
-| Go          | 3.23                |
-| JavaScript  | 4.45                |
-| PHP         | 29.30               |
-| Ruby        | 69.91               |
-| Python      | 75.88               |
+<img src="/why-rust/energy.svg" class="invert" alt="Energy Efficiency across Programming Languages">
 
 Rust also has great support for multi-threaded workloads. Libraries like
 [rayon](https://github.com/rayon-rs/rayon) and [Tokio](https://tokio.rs/) are considered
