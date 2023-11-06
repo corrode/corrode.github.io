@@ -20,8 +20,8 @@ feed_filename = "rss.xml"
 highlight_code = true
 highlight_theme = "css"
 highlight_themes_css = [
-  { theme = "dracula", filename = "syntax-theme-dark.css" },
-  { theme = "kronuz", filename = "syntax-theme-light.css" },
+  { theme = "dracula", filename = "syntax-theme-dark-custom.css" },
+  { theme = "kronuz", filename = "syntax-theme-light-custom.css" },
 ]
 
 [extra]
