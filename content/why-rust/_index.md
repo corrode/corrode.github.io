@@ -53,6 +53,9 @@ its strong type system, its focus on memory safety, its powerful tooling (cargo,
 rustfmt, clippy, etc.) and its stability guarantees (backwards compatibility)
 due to its edition system. All of that makes large-scale refactoring easier.
 
+> We always talk about the performance gains [...] when using Rust but honestly I
+> much more look for the stability gains. - [Stefan Baumgartner, Senior Product Architect at Dynatrace](https://www.youtube.com/watch?v=KTJIsicwW5s)
+
 ### Predictable Runtime Behavior
 
 Predictable runtime behavior is closely related to reliability and stability.
@@ -261,7 +264,6 @@ Compile times are a known issue and the Rust team is [working on improving them]
 For advice on how to improve compile times, see [my article on this topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
 
 ## Conclusion
-
 
 Rust is a great language for building large-scale, reliable, and stable
 applications. It is a good fit for companies that value productivity and
