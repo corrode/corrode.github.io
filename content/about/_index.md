@@ -13,20 +13,21 @@ sort_by = "date"
     border-radius: 4px;
 }
 
-.img-stack-hue {
+.img-stack-bg {
+    position: absolute;
     filter: hue-rotate(180deg);
 }
 
 @media (prefers-color-scheme: dark) {
-    .img-stack-hue {
+    .img-stack-bg {
         filter: hue-rotate(335deg);
     }
 }
 </style>
 
 <div class="img-stack">
-  <img class="img-stack-hue" src="/about/endler-bg.jpg" alt="Background">
-  <img src="/about/endler-fg.png" alt="Foreground" style="position: absolute; top: 0; left: 0;">
+  <img class="img-stack-bg" src="/about/endler-bg.jpg">
+  <img class="img-stack-fg" src="/about/endler-fg.png" style="position: absolute; bottom: 0; left: 0;">
 </div>
 
 Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open source maintainer.
@@ -50,5 +51,8 @@ Bochum,
 in Columbus, OH and [RustFest](https://hackmd.io/ru4intliRlyJ9t8pU2F29A)
 Barcelona.
 
-Feel free to [get in contact](mailto:hi@corrode.dev) with me, I'm always up for
-a chat!
+You can find more information about my work on [GitHub](https://github.com/mre)
+or on my [personal website](https://endler.dev/).
+
+Feel free to get in contact via [mail](mailto:hi@corrode.dev) or [LinkedIn](https://www.linkedin.com/in/endlermatthias/).
+I'm always up for a chat!
