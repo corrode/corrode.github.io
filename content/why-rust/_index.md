@@ -214,6 +214,15 @@ craft and are actively seeking out jobs that allow them to use Rust,
 so the market for Rust developers is growing. (Also see
 the previous section about developer happiness.)
 
+> Rust has more than tripled the size of its community over the past two years
+> and currently has 3.7M users, of which 0.6M joined in the last six months
+> alone.[...] Furthermore, Rust has built a loyal community of developers who care
+> about memory safety and security. - [State of the Developer Nation 24th Edition - Q1 2023 report](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023)
+
+<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
+<img src="/why-rust/communities.svg" alt="Programming Language Communities Size">
+</a>
+
 ### Tooling
 
 Cargo, rustfmt, clippy, and rust-analyzer
