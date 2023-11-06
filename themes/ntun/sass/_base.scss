@@ -314,6 +314,10 @@ del {
       margin-right: 0; /* Remove extra margin on small screens */
       justify-content: center; /* Center items on small screens */
     }
+
+    .nav-item.button {
+        display: none;
+    }
   }
 
   .section-image {
