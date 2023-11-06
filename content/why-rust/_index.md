@@ -73,8 +73,15 @@ predictable runtime behavior.
 > When we started load testing, we were instantly pleased with the results. The
 latency of the Rust version was just as good as Go’s and had no latency spikes!
 
+Here is a diagram from the above article by Discord.
+Notice how the latency spikes in the Go version are gone in the Rust version
+and how that impacts the 95th percentile response time, making it much more
+predictable and smooth.
+
+<img src="/why-rust/discord.png" alt="Discord Go vs Rust">
+
 Another example is
-[Cloudflare](https://blog.cloudflare.com/why-we-use-rust-to-power-cloudflares-edge/),
+[Cloudflare](https://blog.cloudflare.com/big-pineapple-intro/),
 which uses Rust to power their DNS service, [1.1.1.1](https://1.1.1.1/). They
 mention that Rust's predictable runtime behavior is a big reason for using it:
 
