@@ -63,8 +63,8 @@
     <meta name="twitter:image" content="{{ social_image |safe }}">
 
     <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
-    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark.css" media="(prefers-color-scheme: dark)" />
-    <link rel="stylesheet" type="text/css" href="/syntax-theme-light.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
 
     <link rel="me" href="https://mastodon.social/@mre">
     <link rel="alternate" type="application/rss+xml" title="Corrode RSS feed" href="/rss.xml">
@@ -104,6 +104,11 @@
                     %} href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
                     <span>About</span>
                 </a>
+                <a {% if current_path and current_path is containing("/why-rust") %}class="nav-item active" {% else
+                    %}class="nav-item" {% endif %} {% if lang=="en" %} href="{{ config.base_url ~ '/why-rust' }}" {% else
+                    %} href="{{ config.base_url ~ '/' ~ lang ~ '/why-rust'}}" {% endif %}>
+                    <span>Why Rust?</span>
+                </a>
                 <a {% if current_path and current_path is containing("/blog") %}class="nav-item active" {% else
                     %}class="nav-item" {% endif %} {% if lang=="en" %} href="{{ config.base_url ~ '/blog' }}" {% else %}
                     href="{{ config.base_url ~ '/' ~ lang ~ '/blog'}}" {% endif %}>
@@ -123,13 +128,13 @@
         <main class="container">
             {% block content %} {% endblock %}
         </main>
+        {% block footer %}
         <footer class="footer">
-            {% block footer %}
             <div>
                 <span class="copyright">©</span>&nbsp;2023 corrode &mdash; D&uuml;sseldorf, Germany
             </div>
-            {% endblock footer %}
         </footer>
+        {% endblock footer %}
     </div>
     <script>
         function getPreferredColorScheme() {
