@@ -99,11 +99,6 @@
                 <a {% if current_path and current_path=="/" %}class="nav-item active" {% else %}class="nav-item" {%
                     endif %} href="{{ config.base_url ~ '/' }}"><span>Home</span>
                 </a>
-                <a {% if current_path and current_path is containing("/about") %}class="nav-item active" {% else
-                    %}class="nav-item" {% endif %} {% if lang=="en" %} href="{{ config.base_url ~ '/about' }}" {% else
-                    %} href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
-                    <span>About</span>
-                </a>
                 <a {% if current_path and current_path is containing("/why-rust") %}class="nav-item active" {% else
                     %}class="nav-item" {% endif %} {% if lang=="en" %} href="{{ config.base_url ~ '/why-rust' }}" {% else
                     %} href="{{ config.base_url ~ '/' ~ lang ~ '/why-rust'}}" {% endif %}>
@@ -114,10 +109,10 @@
                     href="{{ config.base_url ~ '/' ~ lang ~ '/blog'}}" {% endif %}>
                     <span>Blog</span>
                 </a>
-                <a {% if current_path and current_path is containing("/legal") %}class="nav-item active" {% else
-                    %}class="nav-item" {% endif %} {% if lang=="en" %} href="{{ config.base_url ~ '/legal' }}" {% else
-                    %} href="{{ config.base_url ~ '/' ~ lang ~ '/legal'}}" {% endif %}>
-                    <span>Legal</span>
+                <a {% if current_path and current_path is containing("/about") %}class="nav-item active" {% else
+                    %}class="nav-item" {% endif %} {% if lang=="en" %} href="{{ config.base_url ~ '/about' }}" {% else
+                    %} href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
+                    <span>About</span>
                 </a>
                 <a class="nav-item button" {% if lang=="en" %} href="{{ config.base_url ~ '/quote' }}" {% else %}
                     href="{{ config.base_url ~ '/' ~ job ~ '/quote'}}" {% endif %}>
@@ -132,6 +127,8 @@
         <footer class="footer">
             <div>
                 <span class="copyright">©</span>&nbsp;2023 corrode &mdash; D&uuml;sseldorf, Germany
+                &middot;
+                <a href="/legal">Legal Notice</a>
             </div>
         </footer>
         {% endblock footer %}
