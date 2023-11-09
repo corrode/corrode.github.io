@@ -218,13 +218,17 @@ Energy is an important cost factor for companies at scale.
 Rust is a relatively young language. Version 1.0 was first released in 2015.
 This means that the ecosystem is still maturing. Many important libraries [did not see their 1.0 release yet](https://www.reddit.com/r/rust/comments/11byl6u/why_is_every_crate_pre10/).
 
-This phenomenon has been [brought up as a reason to be cautious when using Rust
-in
-production](https://www.reddit.com/r/rust/comments/11byl6u/why_is_every_crate_pre10/ja3auop/).
+This phenomenon has been [brought up as a reason to be cautious when using Rust in production](https://www.reddit.com/r/rust/comments/11byl6u/why_is_every_crate_pre10/ja3auop/).
 
-That said, breaking changes for heavily used libraries are rare and many
-important crates like `serde` or `tokio` are already past their 1.0
-release.
+In practice, it might be hard to find production-grade libraries for specific
+needs. Your team might be required to write custom crates or improve existing
+ones. Furthermore, [sponsoring open source maintainers](https://github.com/sponsors/explore?ecosystem=RUST) to work on critical
+dependencies is a good way to ensure that the long-term sustainability of the
+ecosystem.
+
+That said, libraries for common tasks like JSON parsing or network handling are
+very robust and stable and considered best-in-class. Breaking changes are rare
+and important crates like `serde` or `tokio` are already past their 1.0 release.
 
 ### Lack Of Developers
 
@@ -265,23 +269,38 @@ tooling for Rust developers and that they expect Rust to become more mainstream.
 ### Learning Curve
 
 Rust has a famously steep learning curve. It is a complex language with many
-advanced features. For reference, Go is a much simpler language and easier to
-learn.
+advanced features. 
 
-It is important to set clear expectations for your team when adopting Rust. Rust
+When asked why they don't use Rust, participants of the [2022 Annual Rust Survey](https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html#rust-usage)
+mentioned the learning curve as the main reason:
+
+<img src="/why-rust/why-not-rust.svg" class="invert" alt="Why not Rust?">
+
+In the [Rust 2020
+survey](https://blog.rust-lang.org/2020/12/16/rust-survey-2020.html#improved-learnability),
+participants were asked to rate the difficulty of various Rust concepts. Here
+are the results:
+
+<img src="/why-rust/topic-difficulty-ratings.svg" class="invert" alt="Difficulty by topic">
+
+Lifetime annotations, ownership, and borrowing are the most difficult topics to
+grasp for learners. These are important concepts, which need to be understood to
+become proficient in Rust.
+
+It is important to set clear expectations for your team when adopting Rust: Rust
 is not a language that you can learn in a few days. It requires practice to internalize
 the concepts around ownership and borrowing to become productive with it.
 Typically, it takes a few months to become productive with Rust:
 
-> Based on our studies, more than 2/3 of respondents are confident in >
-contributing to a Rust codebase within two months or less when learning Rust. >
-Further, a third of respondents become as productive using Rust as other
-> languages in two months or less. Within four months, that number increased to
-> over 50%. - [Google](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html)
+> Based on our studies, more than 2/3 of respondents are confident in
+> contributing to a Rust codebase within two months or less when learning Rust.
+> Further, a third of respondents become as productive using Rust as other
+> languages in two months or less. **Within four months, that number increased to
+> over 50%.** - [Google](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html)
 
 Depending on your immediate needs, this might be a deal-breaker for your team.
 Other languages like Go or Python have a much lower learning curve and are
-a good fit for experimentation and prototyping.
+a better fit for rapid prototyping.
 
 ### Compile Times
 
@@ -298,6 +317,8 @@ languages like Go or Python, where the feedback loop is much faster.
 
 Compile times are a known issue and the Rust team is [working on improving them](https://nnethercote.github.io/2023/03/24/how-to-speed-up-the-rust-compiler-in-march-2023.html).
 For advice on how to improve compile times, see [my article on this topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
+For medium-sized projects, compile times are less of an issue. 
+[Modern hardware can also mitigate the issue to some extent.](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/)
 
 ## Conclusion
 
