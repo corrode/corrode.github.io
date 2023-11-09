@@ -169,6 +169,15 @@ as well.
 The Kernel incorporating Rust is a major endorsement of the language. Notably,
 the Linux Kernel maintainers have previously [refused to integrate C++ in the Kernel](http://harmful.cat-v.org/software/c++/linus).
 
+In a landmark development for Rust, the open source [Ferrocene
+toolchain](https://ferrous-systems.com/blog/officially-qualified-ferrocene/) has
+achieved a significant milestone: Ferrocene, based on Rust 1.68, is now ISO
+26262 and IEC 61508 qualified. This certification means that the Rust compiler
+meets rigorous safety standards, making it fully usable in safety-critical
+environments like automotive or avionics. Few other languages have
+achieved this level of certification. It is another strong signal that Rust is
+here to stay.
+
 For another take on this, watch ["In It for the Long
 Haul"](https://www.youtube.com/watch?v=WnIWRks35Fk) by [Carol
 Nichols](https://twitter.com/carols10cents).
@@ -183,7 +192,7 @@ For teams that are looking to hire and retain talent, Rust is a great choice
 because developer happiness is a big factor in job satisfaction and has a positive
 impact on productivity.
 
-### Performance
+### Performance And Energy Efficiency
 
 As stated earlier, performance often gets mentioned as a main reason for using Rust.
 Rust also has great support for multi-threaded workloads. Libraries like
