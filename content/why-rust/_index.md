@@ -283,9 +283,12 @@ are the results:
 
 <img src="/why-rust/topic-difficulty-ratings.svg" class="invert" alt="Difficulty by topic">
 
-Lifetime annotations, ownership, and borrowing are the most difficult topics to
-grasp for learners. These are important concepts, which need to be understood to
-become proficient in Rust.
+Lifetime annotations, ownership, and borrowing were mentioned as the most
+difficult topics to grasp. In real-world applications, lifetimes
+are less of an issue, however, as the compiler can often infer them through
+[lifetime elision](https://doc.rust-lang.org/reference/lifetime-elision.html).
+Ownership and borrowing however are crucial concepts in Rust that need to be 
+understood to become proficient.
 
 It is important to set clear expectations for your team when adopting Rust: Rust
 is not a language that you can learn in a few days. It requires practice to internalize
