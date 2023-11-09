@@ -7,21 +7,21 @@ sort_by = "date"
 
 <img src="/why-rust/hero.svg" alt="Why Rust?">
 
-Interest in Rust has risen sharply in recent years, however, there is little
-information on why large organizations really use Rust in production. 
+Interest in Rust has surged in recent years, with tech leaders such as
+Microsoft, Google, and Amazon coming forward to share their experiences of
+leveraging Rust for critical systems.
 
-Much of the dialogue about Rust is driven by those who have not leveraged Rust
-in a significant production capacity, or have only done so for non-critical
-systems. Moreover, organizations heavily invested in Rust typically lack
-motivation to share their insights publicly. This results in a distorted
-understanding of Rust's application in production settings, with commentary
-frequently highlighting its performance benefits, but omitting other important
-factors driving its adoption.
+Much of the dialogue about Rust, however, is still driven by those who have not
+leveraged Rust in a significant production capacity or have only done so for
+non-critical systems. This results in a skewed understanding of Rust's
+application in production settings, especially for small and medium-sized
+businesses, where discussions tend to highlight performance benefits and gloss
+over other crucial aspects.
 
-Drawing from my consultations with companies that use Rust in production, I've
-gained insight into the true motivations for their use of Rust. 
-I found that companies value productivity, stability, and long-term
-maintainability over performance.
+In my role as a Rust consultant, I have had the opportunity to engage with many
+companies, both large and small. I found that companies value productivity,
+stability, and long-term maintainability over performance.
+
 This overview distills key insights, offering a resource for businesses to
 assess whether Rust is the right tool for their use-case or not.
 
