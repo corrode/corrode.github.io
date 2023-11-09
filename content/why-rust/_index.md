@@ -77,11 +77,11 @@ predictable runtime behavior.
 latency of the Rust version was just as good as Go’s and had no latency spikes!
 
 Here is a diagram from the above article by Discord.
-Notice how the latency spikes in the Go version are gone in the Rust version
-and how that impacts the 95th percentile response time, making it much more
-predictable and smooth.
+Notice how the latency spikes in the Go version (purple) are gone in the Rust
+version (blue) and how that impacts the 95th percentile response time, making it
+much more predictable and smooth.
 
-<img src="/why-rust/discord.png" alt="Discord Go vs Rust">
+<img src="/why-rust/discord.png" alt="Discord Go (purple) vs Rust (blue)">
 
 Another example is
 [Cloudflare](https://blog.cloudflare.com/big-pineapple-intro/),
