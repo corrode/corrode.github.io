@@ -93,7 +93,7 @@ a service open to the public, a peak performance of the I/O matters less than
 the ability to pace clients fairly.
 
 Furthermore, Rust shows excellent runtime behavior when handling network requests.
-In a [benchmark by Eugene Retunsky](https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f), Rust had the lowest tail latency and maximum throughput next to C and C++. 
+In a [benchmark by Eugene Retunsky](https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f7), Rust had the lowest tail latency and maximum throughput next to C and C++. 
 
 Here is the diagram from the benchmark, showing the p99.9 latency for each
 language under test. As the requests per second increase, the latency for Rust
