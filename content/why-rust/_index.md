@@ -48,7 +48,13 @@ load.
 > modification or refactor is likely to produce working programs that will run for
 > months with minimal supervision. - [xAI (formerly Twitter)](https://x.ai/)
 
-This results in real cost savings for companies.
+[Bugs cost more to fix the later they are found.](https://deepsource.com/blog/exponential-cost-of-fixing-bugs)
+Rust's strong type system and its borrow checker allow you to [catch bugs
+earlier in the development lifecycle, typically at compile-time](https://kerkour.com/bugs-rust-compiler-helps-prevent) (instead of
+runtime as in languages with less stringent type systems or static analysis
+capabilities). This results in real cost savings for companies.
+
+<img src="/why-rust/robustness.svg" class="invert" alt="Bug detection over time">
 
 As requirements grow, Rust is a great language for building larger applications
 that are maintained by a bigger team over a long period of time. This is due to
@@ -242,6 +248,17 @@ That said, libraries for common tasks like JSON parsing or network handling are
 very robust and stable and considered best-in-class. Breaking changes are rare
 and important crates like `serde` or `tokio` are already past their 1.0 release.
 
+A relatively recent addition to the Rust ecosystem is async/await support, a
+feature designed to streamline the writing of concurrent applications. This support
+represents a significant evolution in Rust's capabilities, but it is still
+in its early stages.
+If you're planning to write network applications in Rust, there is a high chance
+that you will need to use async/await. As such it's important to stay on top of
+its ongoing development and limitations. For a detailed exploration of where
+async/await in Rust stands today, including its practical implications, we
+invite you to read our comprehensive post detailing the current [state of
+async/await in Rust](/blog/async/).
+
 ### Lack Of Developers
 
 Related to the previous point, the Rust community is still relatively small.
@@ -313,6 +330,15 @@ Typically, it takes a few months to become productive with Rust:
 > languages in two months or less. **Within four months, that number increased to
 > over 50%.** - [Google](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html)
 
+Microsoft shared a [similar experience](https://msrc.microsoft.com/blog/2020/04/the-safety-boat-kubernetes-and-rust/):
+
+> **It takes several weeks of hard effort** learning how to code properly in Rust
+> before the learning curve levels out. However, that hard effort up front pays
+> off in dividends due to the aforementioned safety features. We also noticed that
+> once developers are over that initial curve, they are able to contribute to code
+> just as easily as with any other language. Just be aware that there will be some
+> initial pain.
+
 Depending on your immediate needs, this might be a deal-breaker for your team.
 Other languages like Go or Python have a much lower learning curve and are
 a better fit for rapid prototyping.
@@ -327,10 +353,15 @@ large projects with many dependencies.
 > speed acceptable. - [Google](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html)
 
 Rapid iteration is important for developers. Long compile times can be a
-productivity killer. This is especially true for developers that are used to
+productivity killer. This is most noticeable for developers that are used to
 languages like Go or Python, where the feedback loop is much faster.
 
-Compile times are a known issue and the Rust team is [working on improving them](https://nnethercote.github.io/2023/03/24/how-to-speed-up-the-rust-compiler-in-march-2023.html).
+Compile times are a known issue and the Rust team is [continously working on improving them](https://nnethercote.github.io/2023/03/24/how-to-speed-up-the-rust-compiler-in-march-2023.html).
+And these incremental improvements are paying off. The Rust compiler is getting
+faster over time:
+
+<img src="/why-rust/compile-times.svg" class="invert" alt="Rust Compile Times Over Time">
+
 For advice on how to improve compile times, see [my article on this topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
 For medium-sized projects, compile times are less of an issue. 
 [Modern hardware can also mitigate the issue to some extent.](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/)
