@@ -49,12 +49,20 @@ load.
 > months with minimal supervision. - [xAI (formerly Twitter)](https://x.ai/)
 
 [Bugs cost more to fix the later they are found.](https://deepsource.com/blog/exponential-cost-of-fixing-bugs)
+Below is the relative cost of fixing bugs at various stages of the development lifecycle.
+Bugs found in production are significantly more expensive to fix than bugs found
+during development. (Source: NIST [Costs of Software Defects](https://www.nist.gov/system/files/documents/director/planning/report02-3.pdf))
+
+<img src="/why-rust/bug-costs.svg" class="invert" alt="Cost of fixing bugs over time">
+
+In a survey, [Microsoft found that 70% of their bugs are due to memory safety
+issues](https://msrc.microsoft.com/blog/2019/07/a-proactive-approach-to-more-secure-code/).
+Rust couldn't have prevented all of these bugs, but it would have drastically
+reduced the total amount. 
 Rust's strong type system and its borrow checker allow you to [catch bugs
 earlier in the development lifecycle, typically at compile-time](https://kerkour.com/bugs-rust-compiler-helps-prevent) (instead of
 runtime as in languages with less stringent type systems or static analysis
 capabilities). This results in real cost savings for companies.
-
-<img src="/why-rust/robustness.svg" class="invert" alt="Bug detection over time">
 
 As requirements grow, Rust is a great language for building larger applications
 that are maintained by a bigger team over a long period of time. This is due to
@@ -71,6 +79,15 @@ Predictable runtime behavior is closely related to reliability and stability.
 It means that services run smoothly without any hiccups. This is especially
 important for latency-sensitive services like games, chat applications, or
 services that need to act on real-time data.
+
+Smooth operation is of uppermost importance for organizations as it is a
+significant cost factor and can impact customer satisfaction. According to a 
+[recent
+study](https://www.techrepublic.com/article/on-call-cloud-operations-cost-organizations-an-average-of-2-5-million-per-year/),
+organizations are spending an average of $2.5 million per year on on-call
+operations. [Compensation for on-call
+engineers](https://blog.pragmaticengineer.com/oncall-compensation/) is a big
+part of that cost.
 
 Discord has a [great
 article](https://discord.com/blog/why-discord-is-switching-from-go-to-rust)
@@ -116,9 +133,13 @@ The author concludes:
 
 ### Cost Savings
 
+We touched on cost savings already, but its significance warrants a dedicated
+section.
+
 Rust has a low runtime overhead. This is especially important for services that
 need to scale to handle a large number of requests.
-It can save a lot of money on cloud infrastructure costs.
+It can save a lot of money on cloud infrastructure costs if the same workload
+can be handled with fewer resources.
 
 For example, AWS has a service called
 [Firecracker](https://aws.amazon.com/blogs/aws/firecracker-lightweight-virtualization-for-serverless-computing/),
@@ -130,8 +151,9 @@ instance.
 
 The better hardware utilization translates to lower costs for companies.
 
-Firecracker allowed AWS to improve the efficiency of Fargate and help us pass on cost savings to customers.
-As a result, we are reducing the price of Fargate by up to 50%. 
+Firecracker allowed AWS to improve the efficiency of Fargate, which passed on
+cost savings to customers. As a result, they were able to reduce the price of Fargate by
+up to 50%. 
 ([Image source](https://shahbhargav.medium.com/firecracker-secure-and-fast-microvms-628e6043b572) and
 [AWS announcement](https://aws.amazon.com/blogs/compute/aws-fargate-price-reduction-up-to-50/))
 
@@ -140,18 +162,34 @@ As a result, we are reducing the price of Fargate by up to 50%.
 
 ### Ergonomics
 
-Rust has a great developer experience. Its type system is very powerful and
-allows you to encode complex invariants about your system in the type system.
-This allows you to catch bugs at compile-time instead of at runtime.
+Rust has great developer ergonomics. Its expressive type system allows
+developers to model their domain in a way that lets the compiler help with
+writing correct code.
 
-Furthermore, concepts like pattern matching, enums, `Result` and `Option` types
+Furthermore, functional concepts like pattern matching, enums, `Result` and `Option` types
 allow for concise and expressive code.
+
+Rust's robust error handling story, which requires the programmer to explicitly handle
+errors, is a big reason for its reliability.
+
+All these features make it easier to write correct code, reduce the cognitive
+load on developers and catch bugs at compile-time instead of runtime.
+Static analysis [shifts the quality assurance of code to the left](https://en.wikipedia.org/wiki/Shift-left_testing):
+
+<img src="/why-rust/robustness.svg" class="invert" alt="Bug detection over time">
 
 > Rust has been a force multiplier for our team, and betting on Rust was one of
 > the best decisions we made. More than performance, its ergonomics and focus on
 > correctness has helped us tame sync’s complexity. We can encode complex
 > invariants about our system in the type system and have the compiler check them
 > for us. - [Dropbox](https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine)
+
+An often mentioned benefit of Rust is the possibility to refactor code without
+fear. This should not be underestimated as it allows you to improve your
+codebase over time and make it more robust. Especially for applications that use
+multi-threading, this is a big advantage as [typical error scenarios of
+concurrent programming are detected by the
+compiler](https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html).
 
 ### Focus on Long-Term Sustainability
 
@@ -225,7 +263,7 @@ and faster than Go by a factor of 2-3x as well as Python by a factor of 70x.
 | Python      | 71.90             |
 
 This translates to lower energy consumption as well. 
-Energy is an important cost factor for companies at scale.
+Energy is another important cost factor for companies at scale.
 
 <img src="/why-rust/energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
 
