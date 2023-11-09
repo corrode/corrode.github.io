@@ -22,6 +22,9 @@ In my role as a Rust consultant, I have had the opportunity to engage with many
 companies, both large and small. I found that companies value productivity,
 stability, and long-term maintainability over performance.
 
+Much of my Rust consultancy is under NDA, so I use public data and surveys to
+back my insights. I'm working with past clients to share more in the future.
+
 This overview distills key insights, offering a resource for businesses to
 assess whether Rust is the right tool for their use-case or not.
 
