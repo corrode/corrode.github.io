@@ -360,6 +360,10 @@ understood to become proficient.
 It is important to set clear expectations for your team when adopting Rust: Rust
 is not a language that you can learn in a few days. It requires practice to internalize
 the concepts around ownership and borrowing to become productive with it.
+
+There is an upfront cost of learning the language and training your team with
+the expectation that it will pay off in the long run.
+
 Typically, it takes a few months to become productive with Rust:
 
 > Based on our studies, more than 2/3 of respondents are confident in
@@ -437,6 +441,7 @@ essential.
 * <a href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html" target="_blank">Rust Fact vs. Fiction: 5 Insights from Google’s Rust Journey</a>
 * <a href="https://survey.stackoverflow.co/" target="_blank">StackOverflow Developer Surveys</a>
 * <a href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html" target="_blank">Annual Rust Survey Results</a>
+* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank"><em>Considering Rust</em> &mdash; a talk by Jon Gjengset (YouTube link)</a>
 
 ---
 
