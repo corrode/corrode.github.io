@@ -2,28 +2,8 @@
 title = "About"
 template = "page.html"
 sort_by = "date"
+description = "Hi, I'm Matthias Endler, a Rust developer and open source maintainer. I support my clients around the world to get the most out of Rust through training, consulting, and contracting with no-frills, easy-to-follow, idiomatic Rust code."
 +++
-
-<style>
-.img-stack {
-    position: relative;
-}
-
-.img-stack img {
-    border-radius: 4px;
-}
-
-.img-stack-bg {
-    position: absolute;
-    filter: hue-rotate(180deg);
-}
-
-@media (prefers-color-scheme: dark) {
-    .img-stack-bg {
-        filter: hue-rotate(335deg);
-    }
-}
-</style>
 
 <div class="img-stack">
   <img class="img-stack-bg" src="/about/endler-bg.jpg">
@@ -56,3 +36,24 @@ or on my [personal website](https://endler.dev/).
 
 Feel free to get in contact via [mail](mailto:hi@corrode.dev) or [LinkedIn](https://www.linkedin.com/in/endlermatthias/).
 I'm always up for a chat!
+
+<style>
+.img-stack {
+    position: relative;
+}
+
+.img-stack img {
+    border-radius: 4px;
+}
+
+.img-stack-bg {
+    position: absolute;
+    filter: hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+    .img-stack-bg {
+        filter: hue-rotate(335deg);
+    }
+}
+</style>

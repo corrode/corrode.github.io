@@ -23,14 +23,18 @@
 {%- endif %}
 
 
-{%- if not page %}
-{%- set social_description = "Rust consulting and development based in Germany that puts people first" %}
-{%- elif page.extra.excerpt %}
+{%- if page.extra.excerpt %}
 {%- set social_description = page.extra.excerpt %}
 {%- elif page.summary %}
 {%- set social_description = page.summary %}
-{%- else %}
+{%- elif page and page.content | length > 0 %}
 {%- set social_description = page.content | truncate(length=250) %}
+{%- elif section and section.description %}
+{%- set social_description = section.description %}
+{%- elif section and section.content | length > 0 %}
+{%- set social_description = section.content | truncate(length=250) %}
+{%- else %}
+{%- set social_description = "Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software." %}
 {%- endif %}
 
 {%- if page %}
@@ -47,11 +51,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ generated_title }}</title>
     <meta name="author" content="{{ config.extra.author }}">
-    <meta name="description" content="{{ social_description | striptags | safe }}">
+    <meta name="description" content="{{ social_description | striptags | safe | trim }}">
 
     <!-- Open Graph tags -->
     <meta property="og:title" content="{{ generated_title | safe }}">
-    <meta property="og:description" content="{{ social_description | striptags | safe }}">
+    <meta property="og:description" content="{{ social_description | striptags | trim }}">
     <meta property="og:image" content="{{ social_image | safe }}">
     <meta property="og:url" content="{{ social_url |safe }}">
     <meta property="og:site_name" content="{{ config.extra.author |safe }}">
@@ -60,7 +64,7 @@
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ generated_title | safe }}">
-    <meta name="twitter:description" content="{{ social_description | striptags | safe }}">
+    <meta name="twitter:description" content="{{ social_description | striptags | safe | trim }}">
     <meta name="twitter:image" content="{{ social_image |safe }}">
 
     <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
