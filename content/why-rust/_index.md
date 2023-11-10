@@ -400,7 +400,14 @@ faster over time:
 
 <img src="/why-rust/compile-times.svg" class="invert" alt="Rust Compile Times Over Time">
 
-For advice on how to improve compile times, see [my article on this topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
+Very recently, the Rust compiler frontend also gained support for [parallel
+compilation](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html), which
+could drastically reduce compile times for large projects. The feature is
+currently in *nightly* only and highly experimental, but it promises speedups
+of up to 50%. Details on how to test it can be found in the announcement
+[blog post](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
+
+For more advice on how to improve compile times, see [my article on this topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
 For medium-sized projects, compile times are less of an issue. 
 [Modern hardware can also mitigate the issue to some extent.](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/)
 
