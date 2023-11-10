@@ -29,9 +29,7 @@ process_post() {
         return
     fi
     
-    echo "$title"
-    echo "$output_path"
-    echo
+    echo "Generating $title ($output_path)"
 
     # Call the function to generate the social image
     generate_social_image "$title" "$output_path"
@@ -50,6 +48,20 @@ for item in content/blog/*; do
     elif [[ -f "$item" ]]; then
         # Process the individual markdown file
         process_post "$item" "$(basename "$item" .md)"
+    fi
+done
+
+# Iterate over other folders in content
+for item in content/*; do
+    # Skip files, which start with an underscore
+    if [[ $(basename "$item") == _* ]]; then
+        continue
+    fi
+
+    # Include folders, which have an _index.md file
+    if [[ -d "$item" && -f "$item/_index.md" ]]; then
+        # Process the index.md inside the folder
+        process_post "$item/_index.md" "$(basename "$item")"
     fi
 done
 

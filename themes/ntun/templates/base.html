@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{lang}}">
 
-{%- if not page %}
-{%- set social_title = config.extra.author %}
-{%- elif page.title %}
-{%- set social_title = page.title %}
+{%- if page.title %}
+{%- set generated_title = page.title ~ " | Corrode Rust Consulting" %}
+{%- elif section and section.title and section.path != "/" %}
+{%- set generated_title = section.title ~ " | Corrode Rust Consulting" %}
+{%- elif section and section.path and section.path == "/" %}
+{%- set generated_title = "Home | Corrode Rust Consulting" %}
 {%- else %}
-{%- set social_title = "Corrode Rust Blog" %}
+{%- set generated_title = "Corrode Rust Consulting" %}
 {%- endif %}
 
 {# check for page permalink; otherwise use fallback (using path) #}
@@ -31,25 +33,24 @@
 {%- set social_description = page.content | truncate(length=250) %}
 {%- endif %}
 
-{%- if not page %}
-{%- set social_image = config.base_url ~ '/social/social.png' %}
-{%- else %}
+{%- if page %}
 {%- set social_image = config.base_url ~ '/social/rendered/' ~ page.slug ~ '.png' %}
+{%- elif section and section.path and section.path != "/" %}
+{%- set section_path = section.path | replace(from="/", to="") %}
+{%- set social_image = config.base_url ~ '/social/rendered/' ~ section_path ~ '.png' %}
+{%- else %}
+{%- set social_image = config.base_url ~ '/social/social.png' %}
 {%- endif %}
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% if page and page.title %}
-    <title>{{ page.title }} | {{ config.extra.author }}</title>
-    {% else %}
-    <title>{{ config.extra.author }}</title>
-    {% endif %}
+    <title>{{ generated_title }}</title>
     <meta name="author" content="{{ config.extra.author }}">
     <meta name="description" content="{{ social_description | striptags | safe }}">
 
     <!-- Open Graph tags -->
-    <meta property="og:title" content="{{ social_title | safe }}">
+    <meta property="og:title" content="{{ generated_title | safe }}">
     <meta property="og:description" content="{{ social_description | striptags | safe }}">
     <meta property="og:image" content="{{ social_image | safe }}">
     <meta property="og:url" content="{{ social_url |safe }}">
@@ -58,7 +59,7 @@
 
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ social_title | safe }}">
+    <meta name="twitter:title" content="{{ generated_title | safe }}">
     <meta name="twitter:description" content="{{ social_description | striptags | safe }}">
     <meta name="twitter:image" content="{{ social_image |safe }}">
 
