@@ -1,10 +1,11 @@
 +++
-title = "How Functional is Rust?"
-date = 2023-11-06
+title = "Mixing Programming Paradigms in Rust"
+date = 2023-11-12
 template = "article.html"
 draft = true
 [extra]
 series = "Idiomatic Rust"
+reviews = [ { link = "https://www.hannobraun.com/", name = "Hanno Braun" } ]
 +++
 
 Rust is a multi-paradigm programming language, accommodating imperative,
@@ -14,9 +15,17 @@ hinges on a developer's background and the specific problem they're addressing.
 With Rust attracting developers from varied backgrounds like C++, Java, Python,
 and Haskell, it has shaped its own unique set of styles and idioms. This
 diversity is a strength, but it can also spark a question: 
-*How do I decide which programming paradigm to use for a given problem?*
+*How do I decide which programming paradigm to use when?*
 
-Rust is not a pure functional programming language: it permits
+As the [Rust Book explains](https://doc.rust-lang.org/book/ch17-00-oop.html):
+> Many competing definitions describe what Object-Oriented Programming
+> is, and by some of these definitions Rust is object-oriented.
+
+Rust is certainly influenced by object-oriented programming concepts.
+One factor that sets it apart from other object-oriented languages is that it
+is composition based as opposed to inheritance based. Its trait system is
+
+It is not a pure functional programming language either, because it permits
 side effects everywhere, and doesn't strictly enforce [referential
 transparency](https://en.wikipedia.org/wiki/Referential_transparency) (the
 ability to replace an expression with its value without changing the program's
@@ -35,7 +44,7 @@ paradigms.
 > benefits. You should do it whenever it is convenient, and you should think hard
 > about the decision when it isn't convenient. &mdash; [John Carmack](https://www.gamasutra.com/view/news/169296/Indepth_Functional_programming_in_C.php)
 
-## Iteration In Rust
+## Starting Small
 
 There is nothing wrong with simple `for` loops in Rust.
 
@@ -58,8 +67,8 @@ let sum: u32 = (0..10).sum();
 ```
 
 Both approaches allow the compiler to optimize the code and compute the sum
-during compilation, making the solutions effectively the same. However, it's
-been observed that many experienced Rust developers lean towards the functional
+during compilation, making the solutions effectively the same. However, I have
+observed that many experienced Rust developers lean towards the functional
 style, even in straightforward scenarios.
 
 In small examples like this, it might not matter much, but when we start working
@@ -69,13 +78,13 @@ accidental complexity to rise quickly.
 
 ## Nested Loops And Bookkeeping
 
-Let's consider a slightly larger example: imagine you had a list of programming
+Let's consider a slightly bigger example. Imagine you had a list of programming
 languages, their supported paradigms, and the number of production users for
 each language. The task is to find the top five languages that support
 functional programming and have the most users.
 
 ```rust
-// All data is made up for the sake of this example!
+// All data is made up for the sake of this example! We love you, Haskell.
 let languages = vec![
     Language::new("Rust", vec![Paradigm::Functional, Paradigm::ObjectOriented], 100_000),
     Language::new("Go", vec![Paradigm::ObjectOriented], 200_000),
@@ -115,12 +124,12 @@ while functional_languages.len() > 5 {
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=d7c7bb1438a5dfb54c4b624a031f6fa6))
 
-This is a *very verbose*, imperative solution. While it's not incorrect, it may
-not be the most idiomatic Rust code either.
-We mutate the vector in-place and destroy the intermediate results in the process.
+This is a *very verbose*, imperative solution. We mutate the vector in-place and
+destroy the intermediate results in the process. While it's not incorrect, I
+would argue that it's not the most idiomatic Rust code either.
 
-In practice, you would probably use a few more helper methods from the standard
-library:
+In practice, you would probably reach for a few more helper methods from the
+standard library:
 
 ```rust
 let mut top_languages = vec![];
@@ -139,10 +148,9 @@ top_languages.truncate(5);
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f9b28b96acde1f9d11e8dd5957539826))
 
-Still not the prettiest code, but a bit more concise. It still requires a
+That's more concise already, but it still requires a
 mutable variable to keep track of the intermediate result.
-
-Now compare that to the functional approach:
+Now compare that to a more functional approach:
 
 ```rust
 let mut top_languages = languages.clone();
@@ -154,11 +162,11 @@ let top_languages: Vec<Language> = top_languages
     .filter(|language| language.paradigms.contains(&Paradigm::Functional))
     // Keep only the top 5 languages
     .take(5)
-    // Collect the results into a new vector
+    // Collect the results into a vector
     .collect();
 ```
 
-Or, if external crates are allowed, we can use the [`itertools`](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.sorted_by) to chain the intermediate operations:
+Or, if external crates are allowed, we could use `sorted_by_key` from [`itertools`](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.sorted_by) to chain all intermediate operations:
 
 ```rust
 let top_languages: Vec<Language> = languages
@@ -166,23 +174,27 @@ let top_languages: Vec<Language> = languages
     // Only keep functional languages
     .filter(|language| language.paradigms.contains(&Paradigm::Functional))
     // Sort our languages in descending order of popularity.
-    .sort_by_key(|lang| std::cmp::Reverse(lang.users))
+    .sorted_by_key(|lang| Reverse(lang.users))
     // Keep only the top 5 languages
     .take(5)
     // Collect the results into a new vector
     .collect();
 ```
 
-Arguably, this solution is easier to read and understand; at least
-to users who are familiar with functional programming patterns.
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8c1d45de856b6a7980ea48ebeaf43290))
 
-One could say that I picked a problem that is well-suited for functional
-programming and that is certainly true. The truth, however, is that this sort of
-method chaining just feels very natural for data transformations at some point.
+To me, this solution is easier to read and understand. I do admit, however, that
+it takes some getting used to, especially if you're not familiar with functional
+programming patterns.
+
+One could say that I hand-picked a problem that is well-suited for functional
+programming and that is certainly the case. The truth is, that this way of
+method chaining will feel natural after a while &mdash; especially for data
+transformations.
 
 There are a few reasons for this:
 
-* **Readability**: The operations are tidily aligned below each other.
+* **Readability**: The steps are neatly aligned below each other.
 * **Immutability**: The Rust standard library provides many helpful combinators for iterators,
   which play nicely with immutable data structures.
 * **Efficiency**: Under the hood, methods like `map` and `filter` create new 
@@ -190,22 +202,23 @@ There are a few reasons for this:
   The actual computations (like adding 1 or filtering even numbers) are only 
   executed when the final iterator is consumed, in this case by
   the `collect` method. The `collect` method makes a single allocation to store the
-  results in a new vector.
+  results in a new vector. Our higher-level abstractions incur no runtime
+  overhead.
 * **Parallelism**: The functional approach makes it easy to parallelize the
-  computation with the [`rayon`](https://github.com/rayon-rs/rayon) crate.
+  computation in the future with [`rayon`](https://github.com/rayon-rs/rayon).
 
 The result is clean, readable, and efficient code, which is why you'll see this
-pattern a lot.
-
-Certainly, this is a contrived example! Cases where the functional approach is
-no more readable than the imperative one are equally possible.
-The question is where to draw the line.
+pattern a lot. 
 
 ## Quicksort
 
+As we established before, Rust is not a pure functional programming language,
+but it is still possible to leverage most of the benefits of functional
+programming in Rust.
+
 Entire (useful!) algorithms can be written in a functional style and without a
-single `mut` keyword in Rust. To illustrate the differences, we can implement
-the quicksort algorithm both with and without mutation.
+single `mut` keyword in Rust. To illustrate the differences, we can compare
+quicksort implementations both with and without mutation.
 
 Quicksort is a sorting algorithm that works by recursively partitioning an array
 around a pivot element (the "comparison" element), which gets arbitrarily chosen.
@@ -215,10 +228,9 @@ until the array is sorted.
 
 
 
-
 ### Imperative Quicksort
 
-Here is a typical quicksort implementation, which mutates the original input:
+Here is a typical quicksort implementation, which mutates its input:
 
 ```rust
 pub fn quicksort<T: PartialOrd>(mut arr: Vec<T>) -> Vec<T> {
@@ -248,21 +260,20 @@ pub fn quicksort<T: PartialOrd>(mut arr: Vec<T>) -> Vec<T> {
 }
 ```
 
-Depending on your background, this code might either be straightforward or it
-might look like a a clown riding a unicycle on a minefield: unnecessarily
-dangerous and slightly irritating.
-
 Since the algorithm mutates the original array, the program's state changes
 throughout its execution, which demands a lot of mental gymnastics from the reader.
 
-Nonetheless, I would probably have written a quicksort implementation like this
-when I started learning Rust. It's a very direct translation of what the
-algorithm **does** on a lower level, which is what I was used to from other
-languages.
+Based on your experience, this code may seem either clear and simple, or it
+might look like a clown on a unicycle navigating a minefield: overly risky and
+somewhat perplexing.
+
+Nonetheless, it is completely okay to write a quicksort implementation like that.
+It's a very direct translation of what the algorithm **does** on a lower level,
+which is what I was used to from other languages.
 
 ### Functional Quicksort
 
-Here is an "immutable" version which doesn't use `mut` at all:
+Here is a more functional version which doesn't require mutation at all:
 
 ```rust
 pub fn quicksort<T: PartialOrd + Clone>(array: &[T]) -> Vec<T> {
@@ -271,7 +282,10 @@ pub fn quicksort<T: PartialOrd + Clone>(array: &[T]) -> Vec<T> {
     }
 
     let pivot = &array[0];
-    let (higher, lower): (Vec<_>, Vec<_>) = array[1..].iter().cloned().partition(|x| x > pivot);
+    let (higher, lower): (Vec<_>, Vec<_>) = array[1..]
+        .iter()
+        .cloned()
+        .partition(|x| x > pivot);
 
     [
         quicksort(&lower),
@@ -283,12 +297,15 @@ pub fn quicksort<T: PartialOrd + Clone>(array: &[T]) -> Vec<T> {
 ```
 
 It looks a lot more like what you'd expect from a functional programming
-language. In fact, the first time I encountered this version was in a book about
+language. In fact, the first time I encountered this version was in a great book about
 Haskell, titled [Learn You a Haskell for Great Good!](http://learnyouahaskell.com/recursion).
 
-To me, this version is a lot easier to reason about. I don't have to chase
-mutations of variables throughout the code or worry about indices and loops.
-Less code to understand means less room for bugs.
+Cynics will rightfully point out that this variant is not true quicksort
+implementation, [because it is not in-place](https://www.informit.com/articles/article.aspx?p=1407357&seqNum=3).
+
+The point I'm trying to make is that this version is a lot easier to *reason*
+about: I don't have to chase mutations of variables throughout the code or worry
+about indices and loops. Less code to understand means less room for bugs.
 
 Coincidentally, it is also the version that is closer to
 what the algorithm **does** on a higher level. It's a direct translation of the
@@ -301,31 +318,36 @@ algorithm's description:
 4. Recursively sort the two new arrays and concatenate them with the pivot in
    the middle.
 
+It is a very literal translation of the algorithm into code.
+As such, there is an inherent beauty to this version.
+
 ### Performance Comparison
 
 Maybe the functional version made you a little uneasy. After all, we clone the
 entire array in every recursive call. That's a lot of copying!
 Isn't that inefficient?
 
+In general, this is a valid concern. Before we completely dismiss the functional
+approach however, we should carefully consider the trade-offs.
+
 You might be wondering:
 Just how much slower is the immutable version compared to the mutable one?
 
-To test this, I created a [benchmark](https://github.com/mre/quicksort_bench)
+To test this, I created a quick [benchmark](https://github.com/mre/quicksort_bench)
 that would run both versions on a vector with 1 million random values.
 Here are the results:
 
-![Benchmark results](./quicksort.svg)
+<img src="./quicksort.svg" alt="Benchmark results" class="invert" />
 
 As you can see, the performance is about the same. Generally speaking,
 functional code isn't inherently slower than its imperative counterpart. Resist
 the urge to use iterative style purely for performance reasons. Instead, give
 Rust the chance to optimize the code for you. 
 
-Haskell has a tendency to look unfamiliar real quick if you try to maximize
-performance. Small differences in syntax can result in huge differences in
-behavior. 
-In contrast to that, Rust demonstrates more uniformity in this aspect, even
-when optimized for performance. Readable code is often fast code.
+[Haskell has a tendency to look unfamiliar real quick if you try to maximize
+performance.](https://softwareengineering.stackexchange.com/a/131860).
+In contrast to that, Rust demonstrates more uniformity in this aspect, even when
+optimized for performance. In Rust, readable code is often fast code.
 
 An thanks to the powerful compiler, Rust's functional abstractions incur no
 runtime performance cost, maintaining efficiency on par with hand-written code.
@@ -440,7 +462,7 @@ fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
 }
 ```
 
-It's a matter of taste, but I find this version a lot more readable.
+It's again a matter of taste, but I find this version a lot more readable.
 We map an entry to its path, filter out all non-XML files, and collect the
 results into a vector. No more temporary `mut` variable, and no conditional
 branching.
@@ -459,7 +481,7 @@ Let's take this a step further: what if we wanted to filter for arbitrary file
 conditions? For instance, we might want to find all files with a given prefix
 or any given extension.
 We could introduce a new parameter, `valid`, which would be a function that
-takes a `Path` and returns a `bool`. (This is also called a predicate in
+takes a `Path` and returns a `bool`. (This is also sometimes called a predicate in
 functional world.)
 
 ```rust
@@ -499,10 +521,10 @@ more concise, but so far there is no clear winner.
 
 ### Recursively Filtering Directories For Files
 
-Let's go another step further.
+Let's go one more step further.
 
 So far, our solutions only work for a single directory. What if we wanted to
-recursively filter a directory and all its subdirectories for files?
+*recursively* filter a directory and all its subdirectories for files?
 
 First, the imperative version:
 
@@ -592,9 +614,9 @@ gets easier to test as well.
 
 ## Summary
 
-Rust is a multi-paradigm language.
-Mixing object-oriented programming and functional programming is not only
-possible, but encouraged. It's up to you to find the right balance for your use case.
+Rust is a multi-paradigm language. Mixing object-oriented programming and
+functional programming is not only possible, but encouraged. The question is
+where to draw the line between different programming paradigms.
 
 Here are my personal rules of thumb:
 
@@ -616,3 +638,8 @@ Here are my personal rules of thumb:
   paradigm, always write code that's straightforward and easy to maintain. It
   benefits not only your future self but also your colleagues who might work on
   the same codebase.
+
+Lastly, avoid bias towards any particular paradigm. Don't prematurely
+optimize for performance at the cost of readability. The real bottleneck 
+might be elsewhere. Measure first, then optimize.
+It's not unusual for the most elegant solution to also be the fastest.
