@@ -57,8 +57,13 @@ during development. (Source: NIST [Costs of Software Defects](https://www.nist.g
 
 In a survey, [Microsoft found that 70% of their bugs are due to memory safety
 issues](https://msrc.microsoft.com/blog/2019/07/a-proactive-approach-to-more-secure-code/).
+In 2018, the number of CVEs (Common Vulnerabilities and Exposures) at Microsoft
+was 468. Each CVE costs an average of $150,000 to fix, which, as Microsoft
+points out, is a very conservative estimate. (Source: [Ryan Levick - Rust at
+Microsoft](https://www.youtube.com/watch?v=NQBVUjdkLAA&t=1s)).
 Rust couldn't have prevented all of these bugs, but it would have drastically
 reduced the total amount. 
+
 Rust's strong type system and its borrow checker allow you to [catch bugs
 earlier in the development lifecycle, typically at compile-time](https://kerkour.com/bugs-rust-compiler-helps-prevent) (instead of
 runtime as in languages with less stringent type systems or static analysis
