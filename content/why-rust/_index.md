@@ -191,7 +191,15 @@ errors, is a big reason for its reliability.
 
 All these features make it easier to write correct code, reduce the cognitive
 load on developers and catch bugs at compile-time instead of runtime.
-Static analysis [shifts the quality assurance of code to the left](https://en.wikipedia.org/wiki/Shift-left_testing):
+
+> More than its memory safety and thread safety guarantees, the language exposes
+> facilities to library designers for building abstractions that resist misuse.
+> The emergent safe library ecosystem enables “if it compiles, then it’s correct”
+> programming unmatched by other mainstream languages, even garbage collected
+> ones. - [David Tolnay, author of serde](https://docs.rs/dtolnay/0.0.11/dtolnay/macro._03__soundness_bugs.html)
+
+Rust's static analysis [shifts the quality assurance of code to the
+left](https://en.wikipedia.org/wiki/Shift-left_testing):
 
 <img src="/why-rust/robustness.svg" class="invert" alt="Bug detection over time">
 
