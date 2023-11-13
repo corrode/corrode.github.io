@@ -350,8 +350,11 @@ the previous section about developer happiness.)
 
 Cargo, rustfmt, clippy, and rust-analyzer
 are all great tools that make Rust development a joy. 
-However, [debugging support is still lacking](https://rustc-dev-guide.rust-lang.org/debugging-support-in-rustc.html).
-[The story for profiling support is similar.](https://www.jetbrains.com/lp/devecosystem-2021/rust/)
+Debugging support is still lacking, but it is [steadily improving](https://rustc-dev-guide.rust-lang.org/debugging-support-in-rustc.html).
+[The story for profiling support is similar.](https://www.jetbrains.com/lp/devecosystem-2021/rust/#Rust_what-profiling-tools-do-you-use-for-rust)
+It should be noted, that Rust integrates well with existing tools like [GDB](https://blog.logrocket.com/debugging-rust-apps-with-gdb/) or
+perf, although [the experience is not seamless on all platforms yet](https://github.com/rust-lang/rustup/issues/2838).
+For an up-to-date overview, see this list of [Rust profiling tools](https://nnethercote.github.io/perf-book/profiling.html).
 
 Recently, [JetBrains announced RustRover](https://www.jetbrains.com/rust/),
 a new IDE for Rust which is based on IntelliJ.
@@ -425,7 +428,9 @@ languages like Go or Python, where the feedback loop is much faster.
 
 Compile times are a known issue and the Rust team is [continously working on improving them](https://nnethercote.github.io/2023/03/24/how-to-speed-up-the-rust-compiler-in-march-2023.html).
 And these incremental improvements are paying off. The Rust compiler is getting
-faster over time:
+faster over time. For example, the Rust compiler is twice as fast than it was in
+2018 for `cargo check` (which is the most common command to quickly check
+for errors):
 
 <img src="/why-rust/compile-times.svg" class="invert" alt="Rust Compile Times Over Time">
 
@@ -436,9 +441,11 @@ currently in *nightly* only and highly experimental, but it promises speedups
 of up to 50%. Details on how to test it can be found in the announcement
 [blog post](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
 
-For more advice on how to improve compile times, see [my article on this topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
-For medium-sized projects, compile times are less of an issue. 
-[Modern hardware can also mitigate the issue to some extent.](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/)
+For more advice on how to improve compile times, see [my article on this
+topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
+For medium-sized projects, compile times are less of an issue. [Modern hardware
+can also mitigate the issue to some
+extent.](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/)
 
 ## Conclusion
 
