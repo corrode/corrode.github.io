@@ -412,6 +412,9 @@ Microsoft shared a [similar experience](https://msrc.microsoft.com/blog/2020/04/
 Depending on your immediate needs, this might be a deal-breaker for your team.
 Other languages like Go or Python have a much lower learning curve and are
 a better fit for rapid prototyping.
+[Think twice before adopting it in a fast-paced startup
+environment](https://mdwdotla.medium.com/using-rust-at-a-startup-a-cautionary-tale-42ab823d9454)
+, particularly if your team doesn't include seasoned Rust developers.
 
 ### Compile Times
 
