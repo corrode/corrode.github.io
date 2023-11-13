@@ -48,6 +48,18 @@ load.
 > modification or refactor is likely to produce working programs that will run for
 > months with minimal supervision. - [xAI (formerly Twitter)](https://x.ai/)
 
+As another example, the npm registry migrated to Rust in 2019. (See their whitepaper
+[here](https://www.rust-lang.org/static/pdfs/Rust-npm-Whitepaper.pdf).) As the
+largest software registry in the world, it sees upwards of 1.3 billion package
+downloads... *per day*. Npm is critical infrastructure for the JavaScript
+ecosystem, and the stability of its services is paramount. This focus on
+stability directly impacts the effectiveness and reliability of the entire
+JavaScript ecosystem.
+
+> My biggest compliment to Rust is that it's boring, and this is an amazing compliment. 
+> [Chris Dickinson](https://www.linkedin.com/in/christophersdickinson/), former Engineer at [npm, Inc](https://www.npmjs.com/about)
+
+
 [Bugs cost more to fix the later they are found.](https://deepsource.com/blog/exponential-cost-of-fixing-bugs)
 Below is the relative cost of fixing bugs at various stages of the development lifecycle.
 Bugs found in production are significantly more expensive to fix than bugs found
@@ -446,7 +458,7 @@ essential.
 * <a href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html" target="_blank">Rust Fact vs. Fiction: 5 Insights from Google’s Rust Journey</a>
 * <a href="https://survey.stackoverflow.co/" target="_blank">StackOverflow Developer Surveys</a>
 * <a href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html" target="_blank">Annual Rust Survey Results</a>
-* <a href="https://kerkour.com/rust-in-production-2021" target="_blank">List of companies using Rust in production (2021)</a>
+* <a href="https://kerkour.com/rust-in-production-2021" target="_blank">Quotes of companies using Rust in production (2021)</a>
 * <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank"><em>Considering Rust</em> &mdash; a talk by Jon Gjengset (YouTube link)</a>
 
 ---
