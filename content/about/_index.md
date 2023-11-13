@@ -16,6 +16,12 @@ I support my clients around the world to get the most out of Rust through
 training, consulting, and contracting with no-frills, easy-to-follow, [idiomatic
 Rust](https://github.com/mre/idiomatic-rust) code.
 
+In collaborating with me, you'll experience a comprehensive approach that
+considers the broader impacts of modifications to your codebase. I prioritize
+clear communication and thorough documentation. My approach is grounded in
+systems thinking, ensuring that any changes we implement are not only robust but
+also designed for long-term maintainability.
+
 Some popular Rust crates that I built are [tinysearch](https://github.com/tinysearch/tinysearch),
 [hyperjson](https://github.com/mre/hyperjson), and
 [lychee](https://github.com/lycheeverse/lychee).
