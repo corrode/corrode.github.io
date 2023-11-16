@@ -392,7 +392,7 @@ the concepts around ownership and borrowing to become productive with it.
 There is an upfront cost of learning the language and training your team with
 the expectation that it will pay off in the long run.
 
-Typically, it takes a few months to become productive with Rust:
+The time to become productive with Rust varies. Google's experience suggests:
 
 > Based on our studies, more than 2/3 of respondents are confident in
 > contributing to a Rust codebase within two months or less when learning Rust.
@@ -400,7 +400,7 @@ Typically, it takes a few months to become productive with Rust:
 > languages in two months or less. **Within four months, that number increased to
 > over 50%.** - [Google](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html)
 
-Microsoft shared a [similar experience](https://msrc.microsoft.com/blog/2020/04/the-safety-boat-kubernetes-and-rust/):
+Microsoft also shared a [similar experience](https://msrc.microsoft.com/blog/2020/04/the-safety-boat-kubernetes-and-rust/):
 
 > **It takes several weeks of hard effort** learning how to code properly in Rust
 > before the learning curve levels out. However, that hard effort up front pays
@@ -415,6 +415,13 @@ a better fit for rapid prototyping.
 [Think twice before adopting it in a fast-paced startup
 environment](https://mdwdotla.medium.com/using-rust-at-a-startup-a-cautionary-tale-42ab823d9454)
 , particularly if your team doesn't include seasoned Rust developers.
+
+> Assuming you're building a product in the right domain for Rust [...], even
+> then the answer is not clear-cut. [...] Development velocity and being able to
+> make rapid iterations is so important for an early stage startup that it
+> outweighs a lot of the benefits that Rust brings to the table. -
+> [Christos Hadjiaslanis - Founder of Shuttle](https://www.shuttle.rs/blog/2021/10/08/building-a-startup-with-rust)
+
 
 ### Compile Times
 
