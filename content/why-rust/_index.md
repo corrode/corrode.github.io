@@ -476,7 +476,7 @@ invaluable. Equally, if you are ready to embrace Rust and are seeking expertise
 in training or consulting to ensure a smooth transition, specialized support is
 essential.
 
-[Get in touch with me](/about/) to explore how Rust can contribute to your long-term success. 
+[Get in touch](/about/) to explore how Rust can contribute to your long-term success. 
 
 ## Further Reading
 
@@ -489,6 +489,7 @@ essential.
 ---
 
 <small>
+Last updated: 16 Nov 2023.
 Title image modified from
-<a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik
+<a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
 </small>

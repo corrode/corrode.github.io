@@ -293,6 +293,14 @@ del {
   opacity: 0.6;
 }
 
+hr {
+  margin: 40px 0 20px 0;
+  border: none;
+  height: 1px;
+  background-color: $darkBgrd;
+}
+
+
 @media (max-width: 900px) {
   .hero-headline {
     font-size: 2em;
