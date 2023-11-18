@@ -1,10 +1,11 @@
 +++
-title = "Making Illegal States Unrepresentable"
+title = "Make Illegal States Unrepresentable"
 date = 2023-08-06
 template = "article.html"
 draft = false
 [extra]
 series = "Idiomatic Rust"
+update = 2023-11-18
 reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },
 { link = "https://www.andreaskroepelin.de", name = "Andreas Kröpelin" } ]
 +++
@@ -92,14 +93,14 @@ let birthdate = NaiveDate::from_ymd(1990, 1, 1);
 let user = User { username, birthdate };
 ```
 
-## Side Note: How do we get rid of <code>Name::new</code>?
+## Side Note: How do we get rid of <code>Username::new</code>?
 
 You could implement `TryFrom`:
 
 ```rust
 use std::convert::TryFrom;
 
-impl<'a> TryFrom<&'a str> for Name {
+impl<'a> TryFrom<&'a str> for Username {
     type Error = &'static str;
 
     fn try_from(value: &'a str) -> Result<Self, Self::Error> {
@@ -124,7 +125,6 @@ use chrono::Datelike;
 struct Birthdate(chrono::NaiveDate);
 
 impl Birthdate {
-    #[must_use]
     fn new(birthdate: chrono::NaiveDate) -> Result<Self, &'static str> {
         let today = chrono::Utc::today().naive_utc();
         if birthdate > today {
@@ -211,7 +211,6 @@ impl Username {
     /// assert!(Username::new("".into()).is_err());
     /// assert!(Username::new("user_name-123".into()).is_ok());
     /// ```
-    #[must_use]
     fn new(username: String) -> Result<Self, &'static str> {
         if username.len() < 3 {
             return Err("username must be at least 3 characters long");
@@ -219,7 +218,11 @@ impl Username {
         if username.len() > 256 {
             return Err("username must not be longer than 256 characters");
         }
-        if username.chars().any(|c| !c.is_alphanumeric() && c != '-' && c != '_') {
+        // Note: we use `is_ascii_alphanumeric` instead of `is_alphanumeric`
+        // because we want to restrict usernames to ASCII characters only
+        // and exclude e.g. Chinese ideograms and Arabic-Indic digits.
+        // See https://doc.rust-lang.org/std/primitive.char.html#method.is_alphanumeric
+        if username.chars().any(|c| !c.is_ascii_alphanumeric() && c != '-' && c != '_') {
             return Err("username must only contain alphanumeric characters, dashes, and underscores");
         }
         Ok(Self(username))
@@ -243,14 +246,14 @@ manually:
 let username = Username("".to_string()); // uh oh
 ```
 
-In any real-world scenario, we would probably encapsulate our logic in a module and only expose a constructor function to the outside world:
+In any real-world scenario, we would probably encapsulate our logic in a module
+and only expose a constructor function to the outside world:
 
 ```rust
 mod user {
     pub struct Username(String);
 
     impl Username {
-        #[must_use]
         pub fn new(username: String) -> Result<Self, &'static str> {
             // ...
         }
@@ -258,7 +261,8 @@ mod user {
 }
 ```
 
-If we now tried to create a `Username` object from the outside, we'd get a compiler error:
+If we now tried to create a `Username` object from the outside, we'd get a
+compiler error:
 
 ```rust
 let username = user::Username("".to_string());
@@ -273,13 +277,14 @@ error[E0603]: tuple struct constructor `Username` is private
 With that, the only way to create a `Username` object is by using our `new` function:
 
 ```rust
-let username = user::Username::new("mre".to_string());
+let username = user::Username::new("mre".to_string())?;
 ```
 
 **This means, illegal states are avoided for users of our module.  
 In a way, we only made them "unconstructable", though.**
 
-If we really wanted, we could model our struct to avoid illegal states at compile time, but it would be rather tedious to work with.
+If we really wanted, we could model our struct to avoid illegal states at
+compile time, but it would be rather tedious to work with.
 
 ```rust
 struct Username {
@@ -290,18 +295,17 @@ struct Username {
 ```
 
 We get the benefit of compile-time safety, but at the cost of ergonomics.
-However, this pattern can be useful in some cases, as we will see in a 
-[future article](/blog/compile-time-invariants/).
+However, this pattern can be useful in other cases, as we will see in an 
+[article about compile-time invariants](/blog/compile-time-invariants/).
 
 ## Library Support
 
-I personally prefer to write my own validation functions as shown above
-but, you might want to consider using a validation library like
-[validator](https://crates.io/crates/validator).
+I personally prefer to write validation functions as shown above,
+but you could consider using a validation library like
+[validator](https://crates.io/crates/validator) instead.
 
 ## Conclusion
 
-
 If possible, use self-contained, custom types to model your domain.
-It will make your code more robust, easier to test and reason about.
-Happy coding!
+It will improve your system design, making it easier to test and reason
+about.
