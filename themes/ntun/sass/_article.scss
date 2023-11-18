@@ -70,10 +70,6 @@ details[open] summary::before {
   margin-left: -5%;
 }
 
-.article a code:not(pre > code) {
-  background-color: $darkBgrd;
-}
-
 .article h2 code:not(pre > code) {
   font-size: 0.7em;
   vertical-align: middle;
@@ -247,7 +243,15 @@ details[open] summary::before {
   }
 }
 
+.article a code:not(pre > code) {
+  background-color: $brightScndLight;
+}
+
 @media (prefers-color-scheme: dark) {
+  .article a code:not(pre > code) {
+    background-color: $darkBgrd;
+  }
+
   .article-content img[src$=".svg"] {
       filter: invert(1);
   }
