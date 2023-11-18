@@ -3,6 +3,7 @@ title = "Aim For Immutability in Rust"
 date = 2023-09-21
 template = "article.html"
 [extra]
+updated = 2023-11-18
 series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
@@ -307,17 +308,20 @@ the metadata:
 ```rust
 pub struct Mail {
     body: String,
+    // Cache word count for faster access
+    word_count: usize,
 }
 
 impl Mail {
     pub fn new(body: &str) -> Self {
         Mail {
             body: body.to_string(),
+            word_count: body.split_whitespace().count(),
         }
     }
 
     pub fn word_count(&self) -> usize {
-        self.body.split_whitespace().count()
+        self.word_count
     }
 }
 ```
@@ -330,9 +334,9 @@ pub fn get_word_count(&self) -> usize {
 }
 ```
 
-As you can see, we don't need any mutable state to implement the global
-word count. By using better abstractions, we can achieve equal performance
-but better ergonomics.
+As you can see, we don't need any mutable state to implement the global word
+count. By using better abstractions, we can achieve equal performance, but
+better ergonomics.
 
 ## Summary
 
@@ -365,9 +369,10 @@ On top of that, they are a common source of deadlocks.
 Immutable code is easier to test, parallelize, and reason about. It's also
 easier to refactor, because you don't have to worry about side effects.
 
-Rust pushes you towards immutability and offers `mut` as an opt in escape hatch
-hot paths. Many other languages do the opposite: they push you to `mut` and ask
-you to opt into immutability.
+Rust pushes you towards immutability and offers `mut` as an opt-in escape hatch
+for hot paths and tight loops. Many (perhaps most) other languages do the exact
+opposite: they use mutability as the default and require you to consciously 
+choose immutability.
 
 ## Limit Mutability To Tight Scopes
 
