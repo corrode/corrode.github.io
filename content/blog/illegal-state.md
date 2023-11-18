@@ -5,7 +5,7 @@ template = "article.html"
 draft = false
 [extra]
 series = "Idiomatic Rust"
-update = 2023-11-18
+updated = 2023-11-18
 reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },
 { link = "https://www.andreaskroepelin.de", name = "Andreas Kröpelin" } ]
 +++
