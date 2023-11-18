@@ -1,6 +1,6 @@
 <p>
-  <i>
-Published: {{ page.date }}
+  <i>Published: {{ page.date }}{%- if page.extra.update -%}. Last revision: {{ page.extra.update }}
+    {% endif %}
   </i>
   <br />
   <i>
@@ -10,13 +10,7 @@ Published: {{ page.date }}
   <br />
   <i>
     Editor:
-    <a
-      href="https://mastodon.social/@m3t0r@hachyderm.io"
-      target="_blank"
-      rel="noopener"
-      rel="noreferrer"
-      >Simon Brüggen</a
-    >
+    <a href="https://mastodon.social/@m3t0r@hachyderm.io" target="_blank" rel="noopener" rel="noreferrer" >Simon Brüggen</a >
   </i>
   </i>
     {% if page.extra.reviews %}

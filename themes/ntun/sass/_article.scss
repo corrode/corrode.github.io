@@ -169,11 +169,7 @@ details[open] summary::before {
 .social {
   margin-top: 3em;
   padding-top: 1em;
-  display: flex;
   border-top: 4px solid $brightScnd;
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
 }
 
 .share-icons {
@@ -195,7 +191,6 @@ details[open] summary::before {
 .editor-credits {
   font-size: 0.9em;
   color: rgba(0, 0, 0, 0.7);
-  text-align: right;
 }
 
 .editor-credits a {
