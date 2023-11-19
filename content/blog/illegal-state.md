@@ -308,4 +308,4 @@ but you could consider using a validation library like
 
 If possible, use self-contained, custom types to model your domain.
 It will improve your system design, making it easier to test and reason
-about.
+about. Handle errors at the lowest possible level (as early as possible).
