@@ -37,11 +37,21 @@ to help decision-makers understand its benefits and challenges.
 
 From experience, the majority of companies care less about uncompromising
 performance and more about [reliability and
-stability](https://talks.osfc.io/osfc2021/talk/JTWYEH/) of their services. More
-predictable and stable services are easier to maintain and cheaper to operate.
-Less time is spent on debugging and on-call, and more time on building new
-features. Scaling services is also easier when you know how systems behave under
-load. 
+stability](https://talks.osfc.io/osfc2021/talk/JTWYEH/) of their services.
+
+This is backed by the [*State of DevOps Report 2023*](https://cloud.google.com/devops/state-of-devops/)
+by Google Cloud, which states:
+
+> **Reliability unlocks performance.** [...]
+> Strong reliability practices predict better operational performance, team
+> performance, and organizational performance. [...]
+> Being able to operate the machine effectively allows teams to achieve more,
+> which allows organizations to thrive. - [*State of DevOps Report 2023*](https://cloud.google.com/devops/state-of-devops/)
+
+More predictable and stable services are easier to maintain and cheaper to
+operate. Less time is spent on debugging and on-call, and more time on building
+new features. Scaling services is also easier when you know how systems behave
+under load. 
 
 > Given our small team size, infrastructure reliability is crucial, otherwise,
 > maintenance starves innovation. Rust provides us with confidence that any code
@@ -58,7 +68,6 @@ JavaScript ecosystem.
 
 > My biggest compliment to Rust is that it's boring, and this is an amazing compliment. 
 > [Chris Dickinson](https://www.linkedin.com/in/christophersdickinson/), former Engineer at [npm, Inc](https://www.npmjs.com/about)
-
 
 [Bugs cost more to fix the later they are found.](https://deepsource.com/blog/exponential-cost-of-fixing-bugs)
 Below is the relative cost of fixing bugs at various stages of the development lifecycle.
