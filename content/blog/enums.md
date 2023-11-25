@@ -5,7 +5,9 @@ draft = false
 date = 2023-08-08
 [extra]
 series = "Idiomatic Rust"
-reviews = [ { link = "https://mastodon.social/@the@mkl.lol", name = "Maikel" } ]
+reviews = [ 
+    { link = "https://mastodon.social/@the@mkl.lol", name = "Maikel" }
+]
 +++
 
 Many Rust beginners with a background in systems programming tend to use `bool`

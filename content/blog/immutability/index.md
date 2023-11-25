@@ -10,7 +10,9 @@ An earlier version of this article chose different examples to illustrate the
 benefits of immutability. These were a better fit for an article about
 functional programming in Rust, so I replaced them.
 """
-reviews = [ { link = "https://llogiq.github.io/", name = "llogiq" } ]
+reviews = [
+    { link = "https://llogiq.github.io/", name = "llogiq" },
+]
 +++
 
 Some Rustaceans go to great lengths to avoid copying data &mdash; even once.

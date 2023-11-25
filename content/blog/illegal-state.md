@@ -6,8 +6,13 @@ draft = false
 [extra]
 series = "Idiomatic Rust"
 updated = 2023-11-18
-reviews = [ { link = "https://www.wezm.net", name = "Wesley Moore" }, { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" }, { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" }, { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },
-{ link = "https://www.andreaskroepelin.de", name = "Andreas Kröpelin" } ]
+reviews = [ 
+    { link = "https://www.wezm.net", name = "Wesley Moore" },
+    { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" },
+    { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" },
+    { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },
+    { link = "https://www.andreaskroepelin.de", name = "Andreas Kröpelin" },
+]
 +++
 
 If you've worked with Rust for a while, you've probably heard the phrase "making
