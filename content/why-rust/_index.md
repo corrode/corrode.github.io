@@ -90,14 +90,18 @@ earlier in the development lifecycle, typically at compile-time](https://kerkour
 runtime as in languages with less stringent type systems or static analysis
 capabilities). This results in real cost savings for companies.
 
+> We always talk about the performance gains [...] when using Rust but honestly I
+> much more look for the stability gains. - [Stefan Baumgartner, Senior Product Architect at Dynatrace](https://www.youtube.com/watch?v=KTJIsicwW5s)
+
 As requirements grow, Rust is a great language for building larger applications
 that are maintained by a bigger team over a long period of time. This is due to
 its strong type system, its focus on memory safety, its powerful tooling (cargo,
 rustfmt, clippy, etc.) and its stability guarantees (backwards compatibility)
 due to its edition system. All of that makes large-scale refactoring easier.
 
-> We always talk about the performance gains [...] when using Rust but honestly I
-> much more look for the stability gains. - [Stefan Baumgartner, Senior Product Architect at Dynatrace](https://www.youtube.com/watch?v=KTJIsicwW5s)
+> What I usually hear is that [efficiency is] what people are first excited about
+> but the reason that they keep using [Rust] is because actually it's better for
+> building more reliable systems. - [Nicholas Matsakis, Senior Principal Engineer at AWS and lead of the Rust language design team.](https://www.youtube.com/watch?v=oGN62EEHyn8)
 
 ### Predictable Runtime Behavior
 
@@ -485,7 +489,8 @@ invaluable. Equally, if you are ready to embrace Rust and are seeking expertise
 in training or consulting to ensure a smooth transition, specialized support is
 essential.
 
-[Get in touch](/about/) to explore how Rust can contribute to your long-term success. 
+[Get in touch](/about/) to explore if Rust is the right choice for your
+organization and how it can contribute to your long-term success. 
 
 ## Further Reading
 
@@ -493,12 +498,13 @@ essential.
 * <a href="https://survey.stackoverflow.co/" target="_blank">StackOverflow Developer Surveys</a>
 * <a href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html" target="_blank">Annual Rust Survey Results</a>
 * <a href="https://kerkour.com/rust-in-production-2021" target="_blank">Quotes of companies using Rust in production (2021)</a>
-* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank"><em>Considering Rust</em> &mdash; a talk by Jon Gjengset (YouTube link)</a>
+* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank"><em>Considering Rust</em> &mdash; a talk by Jon Gjengset, 2020 (YouTube link)</a>
+* <a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank"><em>How I Convinced the World's Largest Package Manager to Use Rust, and So Can You!</em> &mdash; a talk by Ashley Williams, 2017 (YouTube link)</a>
 
 ---
 
 <small>
-Last updated: 16 Nov 2023.
+Last updated: 26 Nov 2023.
 Title image modified from
 <a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
 </small>
