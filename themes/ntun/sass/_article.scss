@@ -61,6 +61,7 @@ details[open] summary::before {
   line-height: 1.5;
   color: $brightPrim; 
   border: 1px solid rgba(87, 69, 28, 0.8);
+  white-space: nowrap;
 }
 
 .article img {
