@@ -1,25 +1,26 @@
 {% extends "base.html" %} {% block content %}
 <div class="article">
-    <h1>Blog</h1>
-    <p>
-        This is an ongoing series of articles about <b>Idiomatic Rust</b>.<br />
-        Sign up to my newsletter below to be notified when I publish new articles.
-    </p>
+  <h1>Blog</h1>
+  <p>
+    This is an ongoing series of articles about <b>Idiomatic Rust</b>.<br />
+    Sign up to my newsletter below to be notified when I publish new articles.
+  </p>
 
-    <div>{{ section.content | safe }}</div>
-    <ul>
-        {% for page in section.pages | filter(attribute="draft", value=false) | sort(attribute="date") | reverse %}
-        <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
-        {% endfor %}
-    </ul>
-    <div class="callout">
-        <h2>Idiomatic Rust content. Straight to your inbox.</h2>
-        <p>
-            I will regularly write new articles about Idiomatic Rust.
-            If you want to be notified when I publish them, you should
-            sign up to my newsletter here. You'll love it.
-        </p>
-        {% include "newsletter.html" %}
-    </div>
+  <div>{{ section.content | safe }}</div>
+  <ul>
+    {% for page in section.pages | filter(attribute="draft", value=false) |
+    sort(attribute="date") | reverse %}
+    <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="callout">
+    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+      I will regularly write new articles about Idiomatic Rust. If you want to
+      be notified when I publish them, you should sign up to my newsletter here.
+      You'll love it.
+    </p>
+    {% include "newsletter.html" %}
+  </div>
 </div>
 {% endblock content %}
