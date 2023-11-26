@@ -119,6 +119,10 @@ operations. [Compensation for on-call
 engineers](https://blog.pragmaticengineer.com/oncall-compensation/) is a big
 part of that cost.
 
+> People just didn't like getting paged in the middle of the night, and Rust was
+> helping avoid that - [Nicholas Matsakis](https://www.youtube.com/watch?v=oGN62EEHyn8)
+> (in the context of npm migrating to Rust)
+
 Discord has a [great
 article](https://discord.com/blog/why-discord-is-switching-from-go-to-rust)
 about why they switched from Go to Rust. They mention that Go's garbage
