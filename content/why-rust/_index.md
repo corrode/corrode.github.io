@@ -270,13 +270,18 @@ Nichols](https://twitter.com/carols10cents).
 
 ### Productivity And Developer Happiness
 
+As mentioned in the [2021 JetBrains Developer Ecosystem
+Report](https://www.jetbrains.com/lp/devecosystem-2021/rust/#:~:text=Rust%20developers%20are%20generally%20more,senior%20positions%20than%20other%20developers),
+Rust developers are typically more proficient compared to developers in other
+languages, as many have more experience and often occupy senior roles.
+
 Many developers enjoy working with Rust. It is the most admired language for the
 6th year in a row according to the [StackOverflow Developer Survey](https://survey.stackoverflow.co/2023/#section-admired-and-desired-programming-scripting-and-markup-languages).
 More than 80% of developers that use it want to use it again next year.
 
-For teams that are looking to hire and retain talent, Rust is a great choice
-because developer happiness is a big factor in job satisfaction and has a positive
-impact on productivity.
+For teams that are looking to hire and retain talent, Rust can be a great choice
+because [developer happiness is a big factor in job satisfaction and has a positive
+impact on productivity](https://www.microsoft.com/en-us/research/publication/towards-a-theory-of-software-developer-job-satisfaction-and-perceived-productivity/).
 
 ### Performance And Energy Efficiency
 
@@ -309,7 +314,27 @@ Energy is another important cost factor for companies at scale.
 
 <img src="/why-rust/energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
 
+##  Gradual Adoption
+
+One often overlooked aspect of Rust is that it can be incrementally integrated
+into existing codebases. Interoperability is a key concern of Rust, allowing it
+to [natively interface with other languages like C, C++, or Python](https://users.rust-lang.org/t/tips-and-experiences-integrating-rust-into-other-projects/12091/12).
+
+This makes it possible for Rust to take on a supporting role in existing
+codebases, where it can be used for security- or performance-critical parts
+while the rest of the codebase remains in the original language. [This greatly
+reduces risks as big rewrites are avoided.](https://www.youtube.com/watch?v=l--5nx_q0_Y)
+
+Rust library code can be reused across projects from embedded programs to cloud
+services, which streamlines the development process and further reduces
+maintenance costs.
+
 ## Reasons Against Using Rust In Production
+
+Every technology comes with its own set of challenges, and Rust is no exception.
+The following points highlight some common concerns about using Rust in
+production. You need to weigh them against the benefits discussed earlier to
+make an informed decision for your team.
 
 ### Immature ecosystem
 
