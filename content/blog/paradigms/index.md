@@ -54,7 +54,8 @@ behavior.
 In conclusion, providing some guidance on using different paradigms in Rust
 might be helpful, especially for developers transitioning from other languages.
 This article explores my personal decision-making process when choosing between
-different paradigms in Rust, a process that has by now become almost subconscious.
+different paradigms in Rust, a process that has by now become almost second
+nature.
 
 ## A Small Example
 
@@ -152,7 +153,8 @@ top_languages.sort_by_key(|lang| std::cmp::Reverse(lang.users));
 top_languages.truncate(5);
 ```
 
-Since we're mutating `top_languages` anyway, we might as well be a little more concise:
+Since we're consuming `languages` anyway, we might as well be a little more
+concise when filtering:
 
 ```rust
 let mut top_languages = languages;
@@ -161,7 +163,7 @@ top_languages.retain(|language| language.paradigms.contains(&Paradigm::Functiona
 
 We still use a mutable variable, but now the code looks more succinct. `retain`
 is a higher-order method that takes a closure as an argument, so the code
-coincidentally became more functional as well. Let's continue down this path and
+naturally became a little more functional. Let's continue down this path and
 see where it takes us next.
 
 ```rust
@@ -261,13 +263,16 @@ fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
         // This line is necessary, because the file could have
         // been deleted since the call to `read_dir`.
         let f = f?;
-        if f.path().extension().and_then(OsStr::to_str) == Some("xml") {
+        if f.path().extension() == Some(OsStr::new("xml")) {
             files.push(f.path());
         }
     }
     Ok(files)
 }
 ```
+
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f3314816d1584ea372e8cdf6bdccd426))
+
 
 Not great, not terrible.
 
@@ -295,18 +300,21 @@ Let's see how we can solve this problem in a more functional style:
 
 ```rust
 fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
-    Ok(fs::read_dir(p)?
+    let entries = fs::read_dir(p)?
         .filter_map(Result::ok)
         .map(|entry| entry.path())
         .filter(|path| path.extension() == Some(OsStr::new("xml")))
-        .collect())
+        .collect();
+
+    Ok(entries)
 }
 ```
 
-It's again a matter of taste, but I find this version more readable.
-We map an entry to its path, filter out all non-XML files, and collect the
-results into a vector. No temporary `mut` variable, and no conditional
-branching.
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=448b6246dd4da2d1cd9b8cf1f4e1f09e))
+
+This implementation is arguably more streamlined. It maps directory
+entries to paths, filters out non-XML files, and collects the results, all
+without needing mutable variables or conditional branching.
 
 That said, the solution also has its drawbacks.
 Most importantly, it is not equivalent to the imperative version.
@@ -349,7 +357,10 @@ demonstrating that the line between functional and imperative programming is
 often blurry:
 
 ```rust
-fn filter_files(p: &Path, valid: &impl Fn(&Path) -> bool) -> Result<Vec<PathBuf>> {
+fn filter_files<F>(p: &Path, valid: &F) -> Result<Vec<PathBuf>> 
+where
+    F: Fn(&Path) -> bool,
+{
     let mut files = Vec::new();
     for f in fs::read_dir(p)? {
         let f = f?;
@@ -361,6 +372,7 @@ fn filter_files(p: &Path, valid: &impl Fn(&Path) -> bool) -> Result<Vec<PathBuf>
 }
 ```
 
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=d89eb67e614ad324de56b7d94204dc7f))
 
 ### Recursively Filtering Directories For Files
 
@@ -390,6 +402,8 @@ where
 }
 ```
 
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e55738f928e70d9f42e2408e10166e1e))
+
 While we have one more level of nesting, the imperative version holds up
 reasonably well.
 
@@ -408,7 +422,7 @@ where
             p if valid(&p) => vec![p],
             _ => vec![],
         })
-        .collect::<Vec<PathBuf>>())
+        .collect())
 }
 ```
 
