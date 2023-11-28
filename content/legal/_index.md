@@ -15,9 +15,9 @@ Send me an email at <hi@corrode.dev>.
 
 Responsible for this publication is Matthias Endler, according to §5 TMG (Germany).
 
-### Icon Sources
+### Image Sources
 
-- [Bolt Vectors by Vecteezy](https://www.vecteezy.com/free-vector/bolt)
+- [Isometric Vector Illustrations by Vecteezy](https://www.freepik.com/author/vectorpouch)
 - [high five by HeadsOfBirds from Noun Project (CC BY 3.0)](https://thenounproject.com/browse/icons/term/high-five/)
 - [Tokio Icon by carllerche and contributors](https://tokio.rs/)
 - [Rust Logo by The Rust Foundation](https://www.rust-lang.org/)
