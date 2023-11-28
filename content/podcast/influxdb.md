@@ -18,9 +18,6 @@ software that customers can depend on.
 
 <!-- more -->
 
-<iframe src="https://player.rss.com/myaskdjfkasjdf/1242897?theme=dark" style="width: 100%" title="My Podc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen><a href="https://rss.com/podcasts/myaskdjfkasjdf/1242897/">Episode 1: BooDB | RSS.com</a></iframe>
-
-
 ## Show Notes
 
 ### About InfluxData
