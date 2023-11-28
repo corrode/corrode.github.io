@@ -1,27 +1,4 @@
 {% extends "base.html" %} {% block content %}
-<style>
-  .podcast-list {
-    list-style-type: none;
-    padding: 0;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-  }
-
-  .podcast-list li {
-    padding: 10px 25px;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .podcast-list li:last-child {
-    border-bottom: none;
-  }
-
-  .podcast-list a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-</style>
 
 <div class="hero">
   <div class="hero-font">
@@ -33,25 +10,17 @@
 <div class="article">
   <div>{{ section.content | safe }}</div>
 
-  <div style="font-family: monospace; font-size: 0.9em; margin-bottom: 20px">
+  <div class="season-header">
     <code>Season 1</code>
   </div>
 
   <ol class="podcast-list">
     {% for episode in section.pages %}
     <li>
-      <a href="{{ episode.permalink }}">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <div style="text-align: left">
-            <div style="font-weight: bold">{{ episode.title }}</div>
-          </div>
-          <div style="text-align: right; font-size: 0.8em">
+      <a href="{{ episode.permalink }}" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-title">{{ episode.title }}</div>
+          <div class="podcast-details">
             <div>{{ episode.date }}</div>
             <div>
               <code
