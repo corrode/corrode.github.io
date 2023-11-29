@@ -15,7 +15,7 @@
   </div>
 
   <ol class="podcast-list">
-    {% for episode in section.pages %}
+    {% for episode in section.pages | filter(attribute="draft", value=false) %}
     <li>
       <a href="{{ episode.permalink }}" class="podcast-link">
         <div class="podcast-item">
