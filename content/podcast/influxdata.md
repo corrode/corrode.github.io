@@ -1,5 +1,5 @@
 +++
-title = "InfluxDB"
+title = "InfluxData"
 date = 2023-11-28
 template = "episode.html"
 draft = false
@@ -7,6 +7,7 @@ draft = false
 season = "01"
 episode = "01"
 series = "Podcast"
+logo = "influxdata.svg"
 +++
 
 In this episode, we talk to Paul Dix, founder and CTO of

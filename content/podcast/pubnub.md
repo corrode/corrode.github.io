@@ -2,7 +2,7 @@
 title = "PubNub"
 date = 2023-11-29
 template = "episode.html"
-draft = false
+draft = true
 [extra]
 season = "01"
 episode = "02"
