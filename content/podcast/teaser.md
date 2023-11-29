@@ -7,6 +7,7 @@ draft = false
 season = "01"
 episode = "00"
 series = "Podcast"
+logo = "placeholder.svg"
 +++
 
 Programmers start counting at zero, and we follow this convention.

@@ -6,6 +6,7 @@ draft = true
 [extra]
 season = "01"
 episode = "02"
+logo = "pubnub.png"
 +++
 
 In this episode, we talk to Stephen Blum, founder and CTO of

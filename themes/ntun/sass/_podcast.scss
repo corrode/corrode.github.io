@@ -37,6 +37,17 @@
     align-items: center;
   }
 
+  .logo-img {
+    height: auto;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .podcast-logo {
+    width: 32px;
+    height: 32px;
+  }
+
   .podcast-title {
     text-align: left;
     font-weight: bold;

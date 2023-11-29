@@ -19,6 +19,14 @@
     <li>
       <a href="{{ episode.permalink }}" class="podcast-link">
         <div class="podcast-item">
+          <div class="podcast-logo">
+            <img
+              decoding="async"
+              class="logo-img"
+              src="/podcast/{{ episode.extra.logo }}"
+              alt="{{ episode.title }} Logo"
+            />
+          </div>
           <div class="podcast-title">{{ episode.title }}</div>
           <div class="podcast-details">
             <div>{{ episode.date }}</div>

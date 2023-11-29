@@ -19,6 +19,7 @@ Responsible for this publication is Matthias Endler, according to §5 TMG (Germa
 
 - [Isometric Vector Illustrations by Vecteezy](https://www.freepik.com/author/vectorpouch)
 - [high five by HeadsOfBirds from Noun Project (CC BY 3.0)](https://thenounproject.com/browse/icons/term/high-five/)
+- [File icon by Nirmal Raj from Noun Project (CC BY 3.0)](https://thenounproject.com/browse/icons/term/file/)
 - [Tokio Icon by carllerche and contributors](https://tokio.rs/)
 - [Rust Logo by The Rust Foundation](https://www.rust-lang.org/)
 - [Python Logo by Python Software Foundation](https://www.python.org/community/logos/)
