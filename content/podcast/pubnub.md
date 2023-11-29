@@ -4,6 +4,8 @@ date = 2023-11-29
 template = "episode.html"
 draft = true
 [extra]
+guest = "Stephen Blum"
+role = "Founder and CTO"
 season = "01"
 episode = "02"
 logo = "pubnub.png"

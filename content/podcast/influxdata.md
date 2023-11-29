@@ -4,6 +4,8 @@ date = 2023-11-28
 template = "episode.html"
 draft = false
 [extra]
+guest = "Paul Dix"
+role = "Founder and CTO"
 season = "01"
 episode = "01"
 series = "Podcast"
