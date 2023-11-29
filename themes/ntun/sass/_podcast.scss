@@ -17,6 +17,10 @@
     border-bottom: 1px solid $heroDark;
   }
 
+  .podcast-list li:hover {
+      background-color: $brightScndLight;
+  }
+
   .podcast-list li:last-child {
     border-bottom: none;
   }
