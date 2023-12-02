@@ -484,9 +484,9 @@ In Rust, no two closures, even if identical, have the same type!
 > that cannot be written out. - [The Rust Reference](https://doc.rust-lang.org/reference/types/closure.html)
 
 To accommodate this in a collection like a Vec, we use a trait object with
-*dynamic dispatch*. By 'boxing' these closures, we create a `Box<dyn Predicate>`,
-which allows us to store different predicate closures in the same `Vec` despite
-their unique types.
+*dynamic dispatch*. By 'boxing' these closures, we create a `Box<Predicate>`
+(essentially `Box<dyn Fn(&Path) -> bool>`), which allows us to store different
+predicate closures in the same `Vec` despite their unique types.
 
 #### Adding Filters
 
