@@ -590,8 +590,11 @@ Here are my personal rules of thumb:
   paradigm, always write code that's straightforward and easy to maintain. It
   benefits not only your future self, but also your colleagues who might work on
   the same codebase.
+* **Avoid premature optimization.** Don't prematurely optimize for performance
+  at the cost of readability. The real bottleneck might be elsewhere. Measure
+  first, then optimize. Elegant solutions can be turned into fast ones, but
+  the reverse is not always true.
 
-Lastly, avoid bias towards any particular paradigm. Don't prematurely
-optimize for performance at the cost of readability. The real bottleneck
-might be elsewhere. Measure first, then optimize.
-It's not unusual for the most elegant solution to also be the fastest.
+Lastly, avoid bias towards any particular paradigm. You can write better code if
+you test your assumptions every now and then.
+
