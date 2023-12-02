@@ -60,7 +60,7 @@ details[open] summary::before {
   font-family: monospace;
   line-height: 1.5;
   color: $brightPrim; 
-  border: 1px solid rgba(87, 69, 28, 0.8);
+  border: 1px solid $heroDark;
   white-space: nowrap;
 }
 
@@ -93,9 +93,30 @@ details[open] summary::before {
 .info {
   padding: 20px 40px;
   border-radius: 5px;
-  background: $brightScndLight;
+  border: 1px solid $heroDark;
   width: 110%; 
   margin-left: -5%;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 
+  Ensure that the h4 tag inside .info-header does not 
+  have margins or padding that could offset its alignment.
+*/
+.info-header h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.icon-info {
+  width: 30px;
+  height: 30px;
+  background: url("/icons/info.svg") no-repeat;
 }
 
 .article-revisions {
@@ -251,6 +272,10 @@ details[open] summary::before {
 @media (prefers-color-scheme: dark) {
   .article a code:not(pre > code) {
     background-color: $darkBgrd;
+  }
+
+  .info {
+    border: 1px solid white;
   }
 
   .article-content img[src$=".svg"] {

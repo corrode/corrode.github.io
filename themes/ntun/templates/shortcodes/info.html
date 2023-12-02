@@ -1,3 +1,7 @@
 <div class="info">
-    {{ body | markdown() | safe }}
+  <div class="info-header">
+    <i class="icon icon-info"></i>
+    <h4>{{ headline | markdown() | safe }}</h4>
+  </div>
+  {{ body | markdown() | safe }}
 </div>
