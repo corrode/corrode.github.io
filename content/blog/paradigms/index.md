@@ -1,6 +1,6 @@
 +++
 title = "Navigating Programming Paradigms in Rust"
-date = 2023-11-26
+date = 2023-12-02
 template = "article.html"
 draft = true
 [extra]
@@ -229,8 +229,9 @@ There are a few reasons for this:
   the `collect` method. The `collect` method makes a single allocation to store the
   results in a new vector. Our higher-level abstractions incur no runtime
   overhead.
-* **Parallelism**: The functional approach makes it easy to parallelize the
-  computation in the future with [`rayon`](https://github.com/rayon-rs/rayon).
+* **Parallelism**: The functional approach lends itself to parallel computation.
+  Each chain of operations is independent of the others, allowing them
+  to be executed simultaneously on modern hardware.
 
 The result is clean, readable, and efficient code, which is why you'll see this
 pattern a lot.
@@ -495,7 +496,10 @@ impl Iterator for FileFilter {
     type Item = Result<PathBuf>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        // iteration logic to filter entries...
+        // Iteration logic to filter entries.
+        // This is outside the scope of this article
+        // Check out the full implementation on GitHub
+        // or on the Rust Playground
     }
 }
 ```
@@ -507,9 +511,9 @@ encapsulated
 *within* the object, abstracting away the details from the user.
 
 You can find the full implementation of `FileFilter` [on
-GitHub](https://github.com/corrode/filefilter) or [in the Rust
-Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=5edce4c1f5c52a4d79682e25a32ed86d).
-This code was closely modeled after the excellent
+GitHub](https://github.com/corrode/filefilter) or [on the Rust
+Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=671cc691f748dcf79db59e3b1ec96786).
+The code was closely modeled after the excellent
 [Walkdir](https://github.com/BurntSushi/walkdir) crate, which I recommend for
 production use.
 
