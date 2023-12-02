@@ -8,6 +8,7 @@ series = "Idiomatic Rust"
 reviews = [
     { link = "https://www.hannobraun.com/", name = "Hanno Braun" },
     { link = "https://github.com/guilliamxavier", name = "Guilliam Xavier"},
+    { link = "https://vlad-onis.github.io/", name = "Vlad Hategan" },
 ]
 +++
 
@@ -320,6 +321,18 @@ without needing mutable variables or conditional branching.
 That said, the solution also has its drawbacks.
 Most importantly, it is not equivalent to the imperative version.
 That is because `filter_map(Result::ok)` filters out all errors.
+
+{% info(headline="What is the difference between `filter` and `filter_map`?") %}
+In Rust, `filter` takes a closure that returns a `bool` to decide whether to
+include an element in the resulting iterator, whereas `filter_map` takes a
+closure that returns an `Option<T>`.
+
+For `filter_map`, if the closure returns `Some(value)`, that value is included
+in the new iterator; if it returns `None`, the element is excluded. Essentially,
+`filter_map` allows filtering and mapping in a single step.
+
+{% end %}
+
 Whether we want to ignore errors depends on the use case;
 it is a tradeoff between correctness and ergonomics.
 In production code, we should at least log all errors, though.
@@ -455,6 +468,25 @@ pub struct FileFilter {
 
 Each `FileFilter` object carries its state: a collection of predicates for
 filtering, a starting path, and a stack of directories for iteration. 
+
+"What is `Predicate`?", you might ask. 
+It is a type for our predicate functions, which takes a `Path` and returns a `bool`.
+We can use this for filtering files based on our custom criteria:
+
+```rust
+type Predicate = dyn Fn(&Path) -> bool;
+```
+
+You might be surprised to see a `dyn` here.
+In Rust, no two closures, even if identical, have the same type!
+
+> A closure expression produces a closure value with a unique, anonymous type
+> that cannot be written out. - [The Rust Reference](https://doc.rust-lang.org/reference/types/closure.html)
+
+To accommodate this in a collection like a Vec, we use a trait object with
+*dynamic dispatch*. By 'boxing' these closures, we create a `Box<dyn Predicate>`,
+which allows us to store different predicate closures in the same `Vec` despite
+their unique types.
 
 #### Adding Filters
 
