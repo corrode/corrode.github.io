@@ -561,13 +561,14 @@ Having these tools at our disposal makes the code more composable and reusable.
 
 ## Summary
 
-Rust is a multi-paradigm language. Mixing different styles is not only possible, but encouraged!
-This can also be seen by taking a look at [Rust's key influences on its language design](https://doc.rust-lang.org/reference/influences.html).
-Influences as diverse as C++, Haskell, OCaml, and Erlang have shaped Rust's
-design. In the beginning, Rust was even more functional in nature, but it has since
-evolved into a more balanced language.
+Mixing different styles is not only possible, but encouraged in Rust! This can
+also be seen by taking a look at [Rust's key influences on its language
+design](https://doc.rust-lang.org/reference/influences.html). Influences as
+diverse as C++, Haskell, OCaml, and Erlang have shaped Rust's design.
 
-The question is where to draw the line between different programming paradigms.
+In the beginning, Rust was more functional in nature, but it has since evolved
+into a more balanced language, supporting a variety of styles. The question is
+where to draw the line between different programming paradigms.
 
 Here are my personal rules of thumb:
 
