@@ -83,7 +83,7 @@ In small examples like this, it might not matter much, but when we start working
 with nested loops, we see that in the imperative approach, more lines are
 dedicated to bookkeeping than to the actual problem. This causes the code's
 accidental complexity (the unnecessary complexity we introduce ourselves)
-to increase.
+to increase. Complexity, no matter how small, costs attention.
 
 ## A Slightly Bigger Example: Nested Loops
 
