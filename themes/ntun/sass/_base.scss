@@ -234,7 +234,8 @@ blockquote {
 }
 
 .footer {
-  flex-shrink: 0;
+  display: flex;
+  gap: 0.5em;
   align-items: center;
   justify-content: center;
   font-weight: 600;
@@ -424,10 +425,6 @@ tr:last-child td {
 
     b {
       color: white;
-    }
-
-    .footer .copyright {
-      color: $darkPrim;
     }
 
     blockquote {

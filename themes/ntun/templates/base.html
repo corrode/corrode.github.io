@@ -127,10 +127,6 @@
                     %} href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
                     <span>About</span>
                 </a>
-                <a class="nav-item button" {% if lang=="en" %} href="{{ config.base_url ~ '/quote' }}" {% else %}
-                    href="{{ config.base_url ~ '/' ~ job ~ '/quote'}}" {% endif %}>
-                    <span>Get a Quote</span>
-                </a>
             </div>
         </nav>
         <main class="container">
@@ -138,11 +134,11 @@
         </main>
         {% block footer %}
         <footer class="footer">
-            <div>
-                <span class="copyright">©</span>&nbsp;2023 corrode &mdash; D&uuml;sseldorf, Germany
-                &middot;
-                <a href="/legal">Legal Notice</a>
-            </div>
+            <span>© 2023 corrode &mdash; D&uuml;sseldorf, Germany</span>
+            &middot;
+            <span><a href="/legal">Legal Notice</a></span>
+            &middot;
+            <span><a href="/quote">Business Inquiries</a></span>
         </footer>
         {% endblock footer %}
     </div>
