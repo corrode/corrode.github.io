@@ -8,10 +8,10 @@ generate_social_image() {
     local output_file="$2"
     
     # Generate the caption image
-    magick -background none -fill '#000000' -font Inter-Bold -pointsize 80 -size 740x caption:"$title" text.png
+    magick -background none -fill '#000000' -font Inter-Bold -pointsize 80 -size 670x caption:"$title" text.png
 
     # Composite the caption over the background image
-    magick static/social/social-post-template.svg text.png -gravity northwest -geometry +100+80 -composite "$output_file"
+    magick static/social/social-post-template.svg text.png -gravity northwest -geometry +80+80 -composite "$output_file"
 }
 
 process_post() {
