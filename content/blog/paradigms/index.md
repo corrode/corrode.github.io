@@ -237,8 +237,6 @@ There are a few reasons for this:
 The result is clean, readable, and efficient code, which is why you'll see this
 pattern a lot.
 
-I always liked John Carmack's open-minded take on this:
-
 > No matter what language you work in, programming in a functional style provides
 > benefits. You should do it whenever it is convenient, and you should think hard
 > about the decision when it isn't convenient. &mdash; [John Carmack](https://web.archive.org/web/20120427212006/www.altdevblogaday.com/2012/04/26/functional-programming-in-c/)
@@ -336,6 +334,29 @@ in the new iterator; if it returns `None`, the element is excluded. Essentially,
 Whether we want to ignore errors depends on the use case;
 it is a tradeoff between correctness and ergonomics.
 In production code, we should at least log all errors, though.
+We can use [`inspect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.inspect)
+to do that:
+
+```rust
+fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
+    let entries = fs::read_dir(p)?
+        // Logs each element of the iterator to stderr for debugging, then passes the value on.
+        .inspect(|entry| {
+            if let Err(e) = entry {
+                eprintln!("Error: {}", e);
+            }
+        })
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| path.extension() == Some(OsStr::new("xml")))
+        .collect();
+
+    Ok(entries)
+}
+```
+
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f3bd287c8c82ff661b9ec9616b5514a9))
+
 
 So far, I would still lean towards the functional version, but let's see
 how both approaches hold up as we add more complexity.
