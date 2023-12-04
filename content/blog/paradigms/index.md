@@ -95,12 +95,12 @@ functional programming and have the most users.
 ```rust
 // All data is made up for the sake of this example! We love you, Haskell.
 let languages = vec![
-	Language::new("Rust", vec![Paradigm::Functional, Paradigm::ObjectOriented], 100_000),
-	Language::new("Go", vec![Paradigm::ObjectOriented], 200_000),
-	Language::new("Haskell", vec![Paradigm::Functional], 5_000),
-	Language::new("Java", vec![Paradigm::ObjectOriented], 1_000_000),
-	Language::new("C++", vec![Paradigm::ObjectOriented], 1_000_000),
-	Language::new("Python", vec![Paradigm::ObjectOriented, Paradigm::Functional], 1_000_000),
+    Language::new("Rust", vec![Paradigm::Functional, Paradigm::ObjectOriented], 100_000),
+    Language::new("Go", vec![Paradigm::ObjectOriented], 200_000),
+    Language::new("Haskell", vec![Paradigm::Functional], 5_000),
+    Language::new("Java", vec![Paradigm::ObjectOriented], 1_000_000),
+    Language::new("C++", vec![Paradigm::ObjectOriented], 1_000_000),
+    Language::new("Python", vec![Paradigm::ObjectOriented, Paradigm::Functional], 1_000_000),
 ];
 ```
 
@@ -110,23 +110,23 @@ Here is a *painfully* explicit solution using nested `for` loops:
 // Filter languages to keep only the functional ones
 let mut functional_languages = vec![];
 for language in languages {
-	if language.paradigms.contains(&Paradigm::Functional) {
-    	functional_languages.push(language);
-	}
+    if language.paradigms.contains(&Paradigm::Functional) {
+        functional_languages.push(language);
+    }
 }
 
 // Sort the functional languages by the number of users in descending order
 for i in 1..functional_languages.len() {
-	let mut j = i;
-	while j > 0 && functional_languages[j].users > functional_languages[j - 1].users {
-    	functional_languages.swap(j, j - 1);
-    	j -= 1;
-	}
+    let mut j = i;
+    while j > 0 && functional_languages[j].users > functional_languages[j - 1].users {
+        functional_languages.swap(j, j - 1);
+        j -= 1;
+    }
 }
 
 // Keep only the top 5 languages
 while functional_languages.len() > 5 {
-	functional_languages.pop();
+    functional_languages.pop();
 }
 ```
 
@@ -142,9 +142,9 @@ standard library:
 ```rust
 let mut top_languages = vec![];
 for language in languages {
-	if language.paradigms.contains(&Paradigm::Functional) {
-    	top_languages.push(language);
-	}
+    if language.paradigms.contains(&Paradigm::Functional) {
+        top_languages.push(language);
+    }
 }
 
 // Sort our languages in descending order of popularity.
