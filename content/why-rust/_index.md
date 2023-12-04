@@ -19,11 +19,8 @@ businesses, where discussions tend to highlight performance benefits and gloss
 over other crucial aspects.
 
 In my role as a Rust consultant, I have had the opportunity to engage with many
-companies, both large and small. I found that companies value productivity,
+companies, large and small. I found that companies value productivity,
 stability, and long-term maintainability over performance.
-
-Much of my Rust consultancy is under NDA, so I use public data and surveys to
-back my insights. I'm working with past clients to share more in the future.
 
 This overview distills key insights, offering a resource for businesses to
 assess whether Rust is the right tool for their use-case or not.
@@ -533,7 +530,7 @@ organization and how it can contribute to your long-term success.
 ---
 
 <small>
-Last updated: 26 Nov 2023.
-Title image modified from
+Last updated: 4 Dec 2023.
+Title image adapted from
 <a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
 </small>
