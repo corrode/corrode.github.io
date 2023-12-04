@@ -16,10 +16,10 @@ Rust is a multi-paradigm programming language, accommodating imperative,
 object-oriented, and functional programming styles. The choice of style often
 depends on a developer's background and the specific problem they're addressing.
 
-With Rust attracting developers from varied backgrounds like C++, Java, Python,
-and Haskell, it has shaped its own *unique* set of styles and idioms. This
-diversity is a strength, but it also leads to uncertainty about which style to
-use in various scenarios.
+With Rust attracting developers from varied backgrounds such as C++, Java,
+Python, and Haskell, it has shaped its own *unique* set of styles and idioms.
+This diversity is a strength, but it also leads to uncertainty about which style
+to use in various scenarios.
 
 As the [Rust Book explains](https://doc.rust-lang.org/book/ch17-00-oop.html):
 > Many competing definitions describe what Object-Oriented Programming
