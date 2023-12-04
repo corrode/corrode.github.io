@@ -1,8 +1,8 @@
 +++
 title = "Navigating Programming Paradigms in Rust"
-date = 2023-12-02
+date = 2023-12-04
 template = "article.html"
-draft = true
+draft = false
 [extra]
 series = "Idiomatic Rust"
 reviews = [
