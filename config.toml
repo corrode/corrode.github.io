@@ -1,18 +1,11 @@
-# The URL the site will be built for
 base_url = "https://corrode.dev"
-title = "Corrode Rust Consulting Blog"
+title = "Corrode Rust Consulting"
 description = "Friendly, professional Rust consulting and training. Writing content about idiomatic Rust"
 author = "Matthias Endler"
 
 theme = "ntun"
-
-# Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
-
-# Whether to build a search index to be used later on by a JavaScript library
 build_search_index = false
-
-# Whether to generate a feed.xml file
 generate_feed = true
 feed_filename = "rss.xml"
 
