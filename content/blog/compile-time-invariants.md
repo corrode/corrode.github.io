@@ -5,7 +5,9 @@ draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
-reviews = []
+reviews = [
+    { link = "https://github.com/guilliamxavier", name = "Guilliam Xavier"},
+]
 +++
 
 Working on something completely unrelated, I stumbled across this comment in a
