@@ -1,16 +1,33 @@
-on:
-  - push
-  - workflow_dispatch
+name: Zola
 
-name: Build and deploy on push
+on:
+  push:
+    branches:
+      - master 
+  pull_request:
+  workflow_dispatch:
+
 jobs:
   build:
-    name: shalzz/zola-deploy-action
+    name: Build
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/master'
     steps:
-      - uses: actions/checkout@master
-      - name: shalzz/zola-deploy-action
-        uses: shalzz/zola-deploy-action@master
+      - uses: actions/checkout@v4
+      - uses: shalzz/zola-deploy-action@master
+        env:
+          PAGES_BRANCH: gh-pages
+          BUILD_DIR: .
+          BUILD_ONLY: true
+          BUILD_FLAGS: --drafts
+          
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shalzz/zola-deploy-action@master
         env:
           PAGES_BRANCH: gh-pages
           BUILD_DIR: .
