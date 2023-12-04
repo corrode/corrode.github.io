@@ -37,8 +37,8 @@ Bochum,
 in Columbus, OH and [RustFest](https://hackmd.io/ru4intliRlyJ9t8pU2F29A)
 Barcelona.
 
-You can find more information about my work on [GitHub](https://github.com/mre)
-or on my [personal website](https://endler.dev/).
+You can learn more about me on [GitHub](https://github.com/mre) or on my
+[personal website](https://endler.dev/).
 
 Feel free to get in contact via [mail](mailto:hi@corrode.dev) or [LinkedIn](https://www.linkedin.com/in/endlermatthias/).
 I'm always up for a chat!
