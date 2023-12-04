@@ -285,6 +285,7 @@ impl<T, const N: usize> Index<usize> for Array1<T, N> {
 ```
 
 The unit tests are the same as before.
+[Here's the entire code](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=88011ae90e333502c352e7a50d21c632).
 
 I like the fact that this avoids any runtime overhead, 
 which can be helpful in memory-constrained environments or in situations
