@@ -5,7 +5,9 @@ draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
-reviews = []
+reviews = [
+    { link = "https://github.com/guilliamxavier", name = "Guilliam Xavier"},
+]
 +++
 
 Working on something completely unrelated, I stumbled across this comment in a
@@ -77,10 +79,10 @@ macro_rules! vec1 {
     // The first element is mandatory, 
     // while additional elements are optional (denoted by the `*`).
     // Just like `vec!`, we also allow a trailing comma (denoted by the `?`).
-    [$x:expr $(, $xs:expr)* $(,)?] => {{
+    [$x:expr $(, $xs:expr)* $(,)?] => {
         // Just create an ordinary `Vec`
         vec![$x, $($xs),*]
-    }};
+    };
     [] => {
         compile_error!("vec1! requires at least one element")
     };
@@ -137,12 +139,12 @@ Let's update our macro to return a `Vec1` instead of a `Vec`:
 ```rust
 #[macro_export]
 macro_rules! vec1 {
-    [$x:expr $(, $xs:expr)* $(,)?] => {{
+    [$x:expr $(, $xs:expr)* $(,)?] => {
         Vec1 {
             first: $x,
             rest: vec![$($xs),*],
         }
-    }};
+    };
     [] => {
         compile_error!("vec1! requires at least one element");
     };
@@ -240,7 +242,6 @@ playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&g
 In any real-world scenario, you would probably want to use the `vec1` crate
 instead of rolling your own implementation.
 
-
 ## Variant 3: Using an Array
 
 If we assume that the list of Kafka brokers doesn't change at runtime (a
@@ -253,8 +254,6 @@ more efficient than using a `Vec` (a dynamically allocated datatype on the heap)
 Here is the same code as above, but using an array instead of a `Vec`.
 
 ```rust
-use std::ops::Index;
-
 pub struct Array1<T, const N: usize> {
     first: T,
     rest: [T; N],
@@ -262,63 +261,31 @@ pub struct Array1<T, const N: usize> {
 
 #[macro_export]
 macro_rules! array1 {
-    // Special case for a single element
-    [$x:expr] => {
-        Array1::<_, 0> {
+    [$x:expr $(, $xs:expr)* $(,)?] => {
+        Array1 {
             first: $x,
-            rest: [],
-        }
-    };
-    [$x:expr, $($xs:expr),+ $(,)?] => {
-        {
-            // Get the number of elements, N,
-            // in `rest` at compile-time.
-            const N: usize = [$($xs),+].len();
-            Array1::<_, N> {
-                first: $x,
-                rest: [$($xs),+],
-            }
+            rest: [$($xs),*],
         }
     };
     [] => {
         compile_error!("array1! requires at least one element")
     };
 }
-
-impl<T, const N: usize> Index<usize> for Array1<T, N> {
-    type Output = T;
-
-    fn index(&self, index: usize) -> &Self::Output {
-        match index {
-            0 => &self.first,
-            i => &self.rest[i - 1],
-        }
-    }
-}
 ```
 
-Note that we have to introduce a special case for a single element.
-That's because we need to know the value `N` for our type parameter, but
-it varies depending on the number of elements in `rest`.
+Note that the compiler will infer `N` (the number of elements in `rest`)
+as well as `T` (the type of elements).
 
 Our trait implementations now expect a `const` parameter, e.g.:
 
 ```rust
-impl<const N: usize> Index<usize> for Array1<N> {
-    type Output = &'static str;
-
-    fn index(&self, index: usize) -> &Self::Output {
-        match index {
-            0 => &self.first,
-            // We can use `index - 1` because we know that
-            // `index` is at least 1.
-            i => &self.rest[i - 1],
-        }
-    }
+impl<T, const N: usize> Index<usize> for Array1<T, N> {
+    // contents unchanged
 }
 ```
 
 The unit tests are the same as before.
+[Here's the entire code](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=88011ae90e333502c352e7a50d21c632).
 
 I like the fact that this avoids any runtime overhead, 
 which can be helpful in memory-constrained environments or in situations
@@ -350,5 +317,3 @@ stronger abstractions.
 
 You might also be interested in my previous post on [making illegal states
 unrepresentable in Rust](/blog/illegal-state).
-
-
