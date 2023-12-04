@@ -469,9 +469,7 @@ pub struct FileFilter {
 Each `FileFilter` object carries its state: a collection of predicates for
 filtering, a starting path, and a stack of directories for iteration. 
 
-"What is `Predicate`?", you might ask. 
-It is a type for our predicate functions, which takes a `Path` and returns a `bool`.
-We can use this for filtering files based on our custom criteria:
+A predicate is defined like this:
 
 ```rust
 type Predicate = dyn Fn(&Path) -> bool;
@@ -544,7 +542,7 @@ encapsulated
 
 You can find the full implementation of `FileFilter` [on
 GitHub](https://github.com/corrode/filefilter) or [on the Rust
-Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=671cc691f748dcf79db59e3b1ec96786).
+Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=d0b5ce70c858b39151ca46cf9dc07369).
 The code was closely modeled after the excellent
 [Walkdir](https://github.com/BurntSushi/walkdir) crate, which I recommend for
 production use.
