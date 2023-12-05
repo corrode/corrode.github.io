@@ -6,7 +6,10 @@ template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 reviews = [
-    { link = "https://github.com/guilliamxavier", name = "Guilliam Xavier"},
+    { name = "Guilliam Xavier", url = "https://github.com/guilliamxavier" },
+]
+resources  = [
+    "The [nonempty](https://github.com/cloudhead/nonempty) is a production-ready implementation of a non-empty list.",
 ]
 +++
 
@@ -160,15 +163,17 @@ elements:
 ```rust
 impl<T> IntoIterator for Vec1<T> {
     type Item = T;
-    type IntoIter = std::vec::IntoIter<Self::Item>;
+    type IntoIter = iter::Chain<iter::Once<T>, vec::IntoIter<Self::Item>>;
 
     fn into_iter(self) -> Self::IntoIter {
-        let mut v = vec![self.first];
-        v.extend(self.rest);
-        v.into_iter()
+        iter::once(self.first).chain(self.rest)
     }
 }
 ```
+
+The associated `IntoIter` type is a bit tricky, but it's just a way to chain
+together the first element and the rest of the elements without additional
+allocations.
 
 We also want to [index](https://doc.rust-lang.org/std/ops/trait.Index.html) into our `Vec1`:
 
@@ -237,7 +242,7 @@ mod tests {
 
 We now have a vector with at least one element.
 If you want to play around with the code, [here's a link to the Rust
-playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3c65cd2caaef8104914b8a6988bf2cb1).
+playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=316d933bfa7bf97eac0f4c8f152d5d61).
 
 In any real-world scenario, you would probably want to use the `vec1` crate
 instead of rolling your own implementation.
@@ -305,7 +310,7 @@ Which additional checks you want to add depends on your use-case.
 As a general rule of thumb, I like to follow this advice:
 
 > Model your data using the most precise data structure you reasonably can.  
-> &mdash; [Alexis King](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
+> &mdash; [Alexis King](https://lexi-lambda.github.io/about.html) in [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
 
 ## Conclusion
 
