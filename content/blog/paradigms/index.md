@@ -6,9 +6,9 @@ draft = false
 [extra]
 series = "Idiomatic Rust"
 reviews = [
-    { link = "https://www.hannobraun.com/", name = "Hanno Braun" },
-    { link = "https://github.com/guilliamxavier", name = "Guilliam Xavier"},
-    { link = "https://vlad-onis.github.io/", name = "Vlad Hategan" },
+    { name = "Hanno Braun", url = "https://www.hannobraun.com/" },
+    { name = "Guilliam Xavier", url = "https://github.com/guilliamxavier" },
+    { name = "Vlad Hategan", url = "https://vlad-onis.github.io/" },
 ]
 +++
 

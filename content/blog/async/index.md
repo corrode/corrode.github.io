@@ -5,7 +5,6 @@ draft = false
 template = "article.html"
 [extra]
 series = "Rust Ecosystem"
-reviews = []
 revisions = """
 In an earlier version of this article, I discussed async web frameworks.
 However, to maintain focus, I've opted to address web frameworks in a dedicated

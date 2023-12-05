@@ -7,11 +7,11 @@ draft = false
 series = "Idiomatic Rust"
 updated = 2023-11-18
 reviews = [ 
-    { link = "https://www.wezm.net", name = "Wesley Moore" },
-    { link = "https://github.com/nicokosi", name = "Nicolas Kosinski" },
-    { link = "https://mastodon.social/@TheAlgorythm@chaos.social", name = "zSchön" },
-    { link = "https://mastodon.social/@mo8it@fosstodon.org", name = "mo8it" },
-    { link = "https://www.andreaskroepelin.de", name = "Andreas Kröpelin" },
+    { name = "Wesley Moore", url = "https://www.wezm.net" },
+    { name = "Nicolas Kosinski", url = "https://github.com/nicokosi" },
+    { name = "zSchön", url = "https://mastodon.social/@TheAlgorythm@chaos.social" },
+    { name = "mo8it", url = "https://mastodon.social/@mo8it@fosstodon.org" },
+    { name = "Andreas Kröpelin", url = "https://www.andreaskroepelin.de" },
 ]
 +++
 

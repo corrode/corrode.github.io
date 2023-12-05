@@ -6,7 +6,7 @@ date = 2023-08-08
 [extra]
 series = "Idiomatic Rust"
 reviews = [ 
-    { link = "https://mastodon.social/@the@mkl.lol", name = "Maikel" }
+    { name = "Maikel", url = "https://mastodon.social/@the@mkl.lol" }
 ]
 +++
 

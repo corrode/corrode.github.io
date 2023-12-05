@@ -17,14 +17,14 @@
     <br />
     <i>Reviewers:
       {% for review in page.extra.reviews %} {%- if loop.last == false %}<a
-      href="{{ review.link }}"
+      href="{{ review.url }}"
       target="_blank"
       rel="noopener"
       rel="noreferrer"
       >{{ review.name }}</a
     >, {% endif %} {%- if loop.last == true %}{%- if page.extra.reviews | length
     > 1 %}and{% endif %}
-    <a href="{{ review.link }}" target="_blank" rel="noopener" rel="noreferrer"
+    <a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
       >{{ review.name }}</a
     >{% endif %} {%- endfor %}
     </i> 

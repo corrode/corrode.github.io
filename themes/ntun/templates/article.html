@@ -4,6 +4,19 @@
   <h1>{{ page.title }}</h1>
   <div class="article-content">{{ page.content | safe }}</div>
 
+  {% if page.extra.resources %}
+  <div class="article-resources">
+    <h2>Learning resources</h2>
+    <ul>
+      {% for resource in page.extra.resources %}
+      <li>
+        {{ resource | markdown() | safe }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
   {% if page.extra.revisions %}  
   <div class="article-revisions"><span class="revision-notes">Revision notes:</span> {{ page.extra.revisions | markdown(inline=true) | safe }}</div>
   {%- endif %}

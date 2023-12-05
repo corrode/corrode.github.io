@@ -11,7 +11,7 @@ benefits of immutability. These were a better fit for an article about
 functional programming in Rust, so I replaced them.
 """
 reviews = [
-    { link = "https://llogiq.github.io/", name = "llogiq" },
+    { name = "llogiq", url = "https://llogiq.github.io/" },
 ]
 +++
 
