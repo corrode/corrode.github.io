@@ -1,6 +1,6 @@
 +++
 title = "Composition over Inheritance"
-date = 2023-12-02
+date = 2023-12-07
 template = "article.html"
 draft = true
 [extra]
