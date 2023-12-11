@@ -13,4 +13,4 @@ brings those stories to light, focusing on the challenges these companies tackle
 with Rust as they solve some of the most complex technical problems in the
 world.
 
-Weekly episodes, hosted by [Matthias Endler](/about).
+Biweekly episodes, hosted by [Matthias Endler](/about).

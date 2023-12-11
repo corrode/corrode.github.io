@@ -40,7 +40,7 @@ And we're starting with a bang: In the
 first episode we will talk to Paul Dix, founder and CTO of
 [InfluxData](https://www.influxdata.com/), about how the company rewrote the
 core of their time series database in Rust. Stay tuned! We will release the
-first episode on December 1st and then weekly episodes every Thursday.
+first episode on Thurday, December 14th and then biweekly episodes every Thursday.
 
 <!-- more -->
 
