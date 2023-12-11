@@ -1,6 +1,6 @@
 +++
-title = "Teaser Episode"
-date = 2023-11-27
+title = "Teaser"
+date = 2023-12-11
 template = "episode.html"
 draft = false
 [extra]
@@ -10,11 +10,15 @@ series = "Podcast"
 logo = "placeholder.svg"
 +++
 
-here are a lot of awesome podcasts about Rust.
+<div><script id="letscast-player-a100f0a6" src="https://letscast.fm/podcasts/rust-in-production-82281512/player.js?size=s"></script></div>
+
+There are a lot of awesome podcasts about Rust.
 We loved listening to [New Rustacean](https://newrustacean.com/)
 and are excited about the new [Rustacean Station](https://rustacean-station.org/) and
-[Rustship](https://www.marcoieni.com/2023/08/rustship-a-new-rust-podcast/) 
-episodes. But we felt that there is a gap in the Rust podcast landscape: We
+[RustShip](https://www.marcoieni.com/2023/08/rustship-a-new-rust-podcast/) 
+episodes.
+
+But we felt that there is a gap in the Rust podcast landscape: We
 wanted to hear more about how companies use Rust in production.
 
 So we decided to sit down and create the content we wanted to listen to. We
@@ -42,23 +46,9 @@ first episode on December 1st and then weekly episodes every Thursday.
 
 ## Show Notes
 
-### About InfluxData
+### About corrode
 
-InfluxData is the creator of InfluxDB, the leading open source time series
-database. They offer a cloud service, InfluxDB Cloud, and a commercial
-on-premise product, InfluxDB Enterprise.
-
-### About Paul Dix
-
-Paul Dix is the founder and CTO of InfluxData. He has helped build software for
-startups, large companies and organizations like Microsoft, Google, McAfee,
-Thomson Reuters, and Air Force Space Command. He is the series editor for
-Addison Wesley's Data & Analytics book and video series. In 2010 Paul wrote the
-book "Service Oriented Design with Ruby and Rails" for Addison Wesley's
-Professional Ruby Series. In 2009 he started the NYC Machine Learning Meetup,
-which now has over 7,000 members. Paul holds a degree in computer science from
-Columbia University.
-
-### Links
-
-- [InfluxData](https://www.influxdata.com/)
+"Rust in Production" is a podcast by corrode, a company that helps teams adopt
+Rust. We offer training, consulting, and development services to help you
+succeed with Rust. If you want to learn more about how we can help you, [please
+get in touch](/about).

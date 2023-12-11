@@ -1,7 +1,10 @@
 {% extends "base.html" %} {% block content %}
 <div class="article">
   <h2 class="subheading"><a href="/podcast">Podcast</a></h2>
-  <h1>{{ page.title }}{% if page.extra.guest %} - {{page.extra.guest}}, {{page.extra.role}}{% endif %}</h1>
+  <h1>
+    {{ page.title }}{% if page.extra.guest %} - {{page.extra.guest}},
+    {{page.extra.role}}{% endif %}
+  </h1>
   <div class="article-meta-top">
     <code>S{{page.extra.season}} E{{page.extra.episode}}</code>
     Published on {{ page.date }}
@@ -11,11 +14,17 @@
   <div class="callout">
     <h2>Subscribe to Rust In Production</h2>
     <p>
-      Rust in Production is a weekly podcast by
-      <strong><a href="/">corrode</a></strong
-      >. You can subscribe to new episodes on <a href="#">Apple</a>,
-      <a href="#">Spotify</a>, <a href="#">YouTube</a> or through our
-      <a href="#">RSS feed</a>.
+      Rust in Production is a weekly podcast by corrode. You can subscribe to
+      new episodes on <a href="#">Apple</a>,
+      <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">Spotify</a
+      >, <a href="#">YouTube</a>,
+      <a
+        href="https://podcasters.amazon.com/podcasts/acc3a064-4c50-42de-940e-61726d73514a"
+        >Amazon</a
+      >, or through our
+      <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+        >RSS feed</a
+      >.
     </p>
   </div>
 
