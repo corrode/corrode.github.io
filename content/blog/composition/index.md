@@ -72,8 +72,8 @@ fn main() -> Result<()> {
 }
 ```
 
-This code works just fine.  
-Soon you're happily serving customers from your brand new online store.
+This code works just fine. Soon you're happily serving customers from your brand
+new online store.
 
 #### Adding XML Support
 
@@ -81,8 +81,8 @@ After a while, you get a call from a retail chain that wants to sell your
 products in their stores. That's good news! The only problem is that
 their system needs your product catalog as XML.
 
-"No problemo!", you say, "you'll get the file faster than you can say "Cargo
-Cotton Candy!".
+"No problemo!", you say, "you'll get the file faster than you can say 'Cargo
+Cotton Candy!'."
 
 ```rust
 /// New! An XML wrapper struct to define the root tag
@@ -119,7 +119,7 @@ fn main() -> Result<()> {
 ```
 
 Hold on, this is getting kind of messy.
-Hastily, you put the code into a function to avoid repeating yourself.
+Hastily, you refactor the code a bit to improve readability.
 
 ```rust
 fn main() -> Result<()> {
@@ -139,7 +139,7 @@ fn main() -> Result<()> {
 }
 ```
 
-And in fact, you can go one step further and extract the file type from the
+And in fact, you go one step further and extract the file type from the
 output file name.
 
 ```rust
@@ -158,17 +158,14 @@ fn main() -> Result<()> {
 }
 ```
 
-You commit the code and move on, but you can't shake the feeling that
-something is off. You've heard that Rust is a language that favors
-composition over inheritance, but you're not sure how that applies to your
-situation.
-The code feels... eerily imperative.
+You commit the code and move on, but you can't shake the feeling that something
+is off. You've heard that Rust is a language that favors composition over
+inheritance, but the code looks eerily imperative.
 
 #### Writing the Output to the Console
 
-While you wait for a delivery of "Rustic Raspberry Rock Candy" to arrive,
-you decide to add a feature to your program that prints the output to the
-console.
+While you wait for a delivery of "Rustic Raspberry Rock Candy" to arrive, you
+decide to add a feature to your program that prints the output to the console.
 
 ```rust
 fn main() -> Result<()> {
@@ -195,10 +192,9 @@ fn main() -> Result<()> {
 }
 ```
 
-Note how we create a `Box<dyn Write>` that abstracts over the output.
-This allows us to write to a file or to stdout depending on the value of
-`output_file`. We also introduce a `format` variable to hold the output
-format (JSON or XML).
+Note the  `Box<dyn Write>` that abstracts over the output. This allows to write
+to a file or to stdout depending on the value of `output_file`. The `format`
+variable holds the output format (JSON or XML).
 
 The two functions, `write_json` and `write_xml`, are defined as follows:
 
@@ -217,7 +213,7 @@ fn write_xml<W: Write>(writer: &mut W, candies: Vec<Candy>) -> Result<()> {
 }
 ```
 
-This allows us to reuse the same code for writing to a file or to stdout.
+This allows to reuse the same code for writing to a file or to stdout.
 Here are some examples of how to use the program:
 
 ```sh
@@ -278,7 +274,7 @@ There are a few problems with it:
 * It's hard to test. The functions are tightly coupled to the file system.
 * It's hard to extend. Adding support for new input or output formats requires
   changing the `main` function.
-* The code feels very imperative.
+* The code still feels very imperative.
 * The code is not very reusable. For example, we can't use the `read_csv`
   function in other programs.
 
@@ -294,6 +290,7 @@ There are a few ways to make the code more composable, but you decide to
 write the code again from bottom up.
 
 Essentially, there are a few responsibilities that need to be handled:
+
 - Reading from a file or stdin
 - Parsing the input to a vector of `Candy` structs
 - Converting to the desired output format
@@ -309,8 +306,8 @@ Let's start with the `Read` part.
 
 #### Reading from a file or stdin
 
-The `Read` part is responsible for reading the input file or stdin.
-This is already covered by Rust's standard library through the `Read` trait.
+Reading the input is already covered by Rust's standard library through the
+`Read` trait:
 
 ```rust
 use std::io::{self, Read};
@@ -327,6 +324,7 @@ We can use this function to read from a file or stdin:
 ```rust
 fn main() -> Result<()> {
     let input_file = std::env::args().nth(1).expect("missing input file");
+
     let mut reader: Box<dyn Read> = if input_file == "-" {
         Box::new(std::io::stdin())
     } else {
@@ -334,14 +332,99 @@ fn main() -> Result<()> {
     };
 
     let input = read(&mut reader)?;
-    println!("{}", input);
+    // Use the input here...
 
     Ok(())
 }
 ```
 
+However, we could also introduce an `Input` struct
+that abstracts over the input source:
 
+```rust
+fn main() -> Result<()> {
+    let input_file = std::env::args().nth(1).expect("missing input file");
+    let input = Input::new(&input_file);
+    // ...
 
+    Ok(())
+}
+```
+
+In order to achieve this, we need to implement the `Read` trait for `Input`:
+
+```rust
+use std::io::{self, Read};
+
+struct Input {
+    /// We only gurantee that the source implements the `Read` trait,
+    /// e.g. that it can be read from.
+    source: Box<dyn Read>,
+}
+
+impl Input {
+    fn new(source: &str) -> Result<Self> {
+        let source: Box<dyn Read> = match source {
+            "-" => Box::new(std::io::stdin()),
+            _ => Box::new(fs::File::open(source)?),
+        };
+
+        Ok(Self { source })
+    }
+}
+
+/// Implement the `Read` trait for `Input`
+impl Read for Input {
+    fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+        self.source.read(buf)
+    }
+}
+```
+
+Our readers now take the generic `Read` type and look like this:
+
+```rust
+fn read_csv<R: Read>(reader: R) -> Result<Vec<Candy>> {
+    let mut candies = Vec::new();
+    let mut reader = csv::Reader::from_reader(reader);
+    for result in reader.deserialize() {
+        let candy: Candy = result?;
+        candies.push(candy);
+    }
+    Ok(candies)
+}
+
+fn read_json<R: Read>(reader: R) -> Result<Vec<Candy>> {
+    let candies: Vec<Candy> = serde_json::from_reader(reader)?;
+    Ok(candies)
+}
+```
+
+In fact, they are parsers that take a `Read` type and return a `Vec<Candy>`.
+We should treat them as such.
+The contraint that they return a `Vec<Candy>` is unnecessary.
+We can change the return type to an iterator:
+
+```rust
+struct XmlParser<R: Read> {
+    reader: R,
+}
+
+impl<R: Read> XmlParser<R> {
+    fn new(reader: R) -> Self {
+        Self { reader }
+    }
+}
+
+impl<R: Read> Iterator for XmlParser<R> {
+    type Item = Result<Candy>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        // Parse the next item
+        // ...
+    }
+}
+```
 
 
 
