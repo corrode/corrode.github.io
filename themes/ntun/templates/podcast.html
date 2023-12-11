@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="hero">
+  <div class="hero-font">
+    {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{ hero_font
+    | safe }}
+  </div>
+  <img class="hero-img" src="/podcast/hero.svg" />
+</div>
+<div class="article">
+  <div>{{ section.content | safe }}</div>
+
+  <div class="season-header">
+    <code>Season 1</code>
+  </div>
+
+  <ol class="podcast-list">
+    {% for episode in section.pages | filter(attribute="draft", value=false) %}
+    <li>
+      <a href="{{ episode.permalink }}" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo">
+              <img
+                class="logo-img"
+                src="/podcast/{{ episode.extra.logo }}"
+                alt="{{ episode.title }} Logo"
+              />
+            </div>
+            <div class="podcast-title">{{ episode.title }}</div>
+          </div>
+          <div class="podcast-details">
+            <div>{{ episode.date }}</div>
+            <div>
+              <code
+                >S{{episode.extra.season}} E{{ episode.extra.episode }}</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+</div>
+{% endblock content %}
