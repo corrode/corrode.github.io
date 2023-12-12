@@ -13,14 +13,6 @@
     <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
     {% endfor %}
   </ul>
-  <div class="callout">
-    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
-    <p>
-      I will regularly write new articles about Idiomatic Rust. If you want to
-      be notified when I publish them, you should sign up to my newsletter here.
-      You'll love it.
-    </p>
-    {% include "newsletter.html" %}
-  </div>
+  {% include "snippets/newsletter.html" %}
 </div>
 {% endblock content %}
