@@ -426,6 +426,10 @@ impl<R: Read> Iterator for XmlParser<R> {
 }
 ```
 
+## Summary
+
+Traits are the building blocks of composable Rust code. They allow you to
+describe *behaviors*. 
 
 
 
