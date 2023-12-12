@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="{{lang}}">
+    <html lang="en">
 
     {%- if page.title %}
     {%- set generated_title = page.title ~ " | Corrode Rust Consulting" %}
@@ -92,8 +92,7 @@
                 <!-- Logo and Home Link -->
                 <div>
                     <a {% if current_path and current_path=="/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        {% if lang=="en" %} href="{{ config.base_url ~ '/' }}" {% else %}
-                        href="{{ config.base_url ~ '/' ~ lang }}" {% endif %}>
+                        href="{{ config.base_url ~ '/' }}">
                         <span class="logo">
                             {% set logo = load_data(path="static/corrode.svg") %}
                             {{ logo | safe }}
@@ -128,29 +127,25 @@
                     </li>
                     <li>
                         <a {% if current_path and current_path is containing("/why-rust") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            {% if lang=="en" %} href="{{ config.base_url ~ '/why-rust' }}" {% else %}
-                            href="{{ config.base_url ~ '/' ~ lang ~ '/why-rust'}}" {% endif %}>
+                            href="{{ config.base_url ~ '/why-rust' }}">
                             <span>Why Rust?</span>
                         </a>
                     </li>
                     <li>
                         <a {% if current_path and current_path is containing("/podcast") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            {% if lang=="en" %} href="{{ config.base_url ~ '/podcast' }}" {% else %}
-                            href="{{ config.base_url ~ '/' ~ lang ~ '/podcast'}}" {% endif %}>
+                            href="{{ config.base_url ~ '/podcast' }}">
                             <span>Podcast</span>
                         </a>
                     </li>
                     <li>
                         <a {% if current_path and current_path is containing("/blog") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            {% if lang=="en" %} href="{{ config.base_url ~ '/blog' }}" {% else %}
-                            href="{{ config.base_url ~ '/' ~ lang ~ '/blog'}}" {% endif %}>
+                            href="{{ config.base_url ~ '/blog' }}">
                             <span>Blog</span>
                         </a>
                     </li>
                     <li>
                         <a {% if current_path and current_path is containing("/about") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            {% if lang=="en" %} href="{{ config.base_url ~ '/about' }}" {% else %}
-                            href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
+                            href="{{ config.base_url ~ '/about' }}">
                             <span>About</span>
                         </a>
                     </li>
