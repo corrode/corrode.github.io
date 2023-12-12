@@ -127,13 +127,6 @@
                         </a>
                     </li>
                     <li>
-                        <a {% if current_path and current_path is containing("/about") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            {% if lang=="en" %} href="{{ config.base_url ~ '/about' }}" {% else %}
-                            href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
-                            <span>About</span>
-                        </a>
-                    </li>
-                    <li>
                         <a {% if current_path and current_path is containing("/why-rust") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
                             {% if lang=="en" %} href="{{ config.base_url ~ '/why-rust' }}" {% else %}
                             href="{{ config.base_url ~ '/' ~ lang ~ '/why-rust'}}" {% endif %}>
@@ -152,6 +145,13 @@
                             {% if lang=="en" %} href="{{ config.base_url ~ '/blog' }}" {% else %}
                             href="{{ config.base_url ~ '/' ~ lang ~ '/blog'}}" {% endif %}>
                             <span>Blog</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a {% if current_path and current_path is containing("/about") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
+                            {% if lang=="en" %} href="{{ config.base_url ~ '/about' }}" {% else %}
+                            href="{{ config.base_url ~ '/' ~ lang ~ '/about'}}" {% endif %}>
+                            <span>About</span>
                         </a>
                     </li>
                 </ul>
