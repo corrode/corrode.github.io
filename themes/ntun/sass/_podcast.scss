@@ -1,76 +1,82 @@
+.season-header {
+  font-family: monospace;
+  font-size: 0.9em;
+  margin-bottom: 20px;
+}
 
-  .season-header {
-    font-family: monospace;
-    font-size: 0.9em;
-    margin-bottom: 20px;
-  }
+.podcast-list {
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid $heroDark;
+  border-radius: 8px;
+}
 
+.podcast-list li {
+  padding: 10px 25px;
+  border-bottom: 1px solid $heroDark;
+}
+
+.podcast-list li:hover {
+  background-color: $brightScndLight;
+}
+
+.podcast-list li:last-child {
+  border-bottom: none;
+}
+
+.podcast-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.podcast-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.podcast-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+}
+
+.podcast-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.podcast-title {
+  text-align: left;
+  font-weight: bold;
+}
+
+.podcast-details {
+  text-align: right;
+  font-size: 0.8em;
+}
+
+.article-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
   .podcast-list {
-    list-style-type: none;
-    padding: 0;
-    border: 1px solid $heroDark;
-    border-radius: 8px;
+    color: white;
+    border: 1px solid rgba(white, 0.5);
   }
 
   .podcast-list li {
-    padding: 10px 25px;
-    border-bottom: 1px solid $heroDark;
+    border-bottom: 1px solid rgba(white, 0.5);
   }
-
-  .podcast-list li:hover {
-      background-color: $brightScndLight;
-  }
-
-  .podcast-list li:last-child {
-    border-bottom: none;
-  }
-
-  .podcast-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .podcast-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .podcast-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-img {
-    height: auto;
-    width: 100%;
-    object-fit: cover;
-  }
-
-  .podcast-logo {
-    width: 32px;
-    height: 32px;
-  }
-
-  .podcast-title {
-    text-align: left;
-    font-weight: bold;
-  }
-
-  .podcast-details {
-    text-align: right;
-    font-size: 0.8em;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .podcast-list {
-        color: white; 
-        border: 1px solid rgba(white, 0.5);
-    }
-
-    .podcast-list li {
-        border-bottom: 1px solid rgba(white, 0.5)
-    }
 }
