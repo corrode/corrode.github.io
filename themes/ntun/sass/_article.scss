@@ -160,6 +160,34 @@ details[open] summary::before {
   color: $brightPrim;
 }
 
+.callout ul {
+  padding: 20px 0px 0px 10px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.callout li {
+  display: flex;
+  align-items: center;
+}
+
+.callout img {
+  display: block;
+  margin-right: 5px;
+}
+
+.callout ul a {
+  display: flex;
+  align-items: center;
+  text-decoration: none; 
+  color: inherit; 
+}
+
+.callout li:hover {
+  color: $brightScnd;
+}
+
 .callout .postscript {
   font-size: 0.9em;
   margin-top: 1em;
