@@ -21,8 +21,6 @@
   margin: 0;
 }
 
-
-
 .podcast-list {
   list-style-type: none;
   padding: 0;
@@ -87,6 +85,29 @@
   align-items: center;
   gap: 20px;
   margin-bottom: 10px;
+  /* space between */
+  justify-content: space-between;
+}
+
+.article-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.article-meta-top ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.article-meta-top li {
+  display: flex;
+  align-items: center;
+  margin: 0;
 }
 
 @media (prefers-color-scheme: dark) {
