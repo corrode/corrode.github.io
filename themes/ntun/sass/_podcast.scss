@@ -1,8 +1,27 @@
 .season-header {
-  font-family: monospace;
   font-size: 0.9em;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.season-header ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.season-header li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+
 
 .podcast-list {
   list-style-type: none;
