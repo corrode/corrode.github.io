@@ -1,4 +1,3 @@
-
 .homepage {
   text-align: center;
   .content {
@@ -73,18 +72,17 @@
 }
 
 .testimonials {
-  padding: 100px 0;
   text-align: center;
   width: 100%;
   margin: 0 auto;
 }
 
 .testimonial-carousel {
-  height: 500px; 
+  height: 500px;
   margin: 0 auto;
   max-width: 1000px;
   position: relative;
-  overflow: hidden; /* Hide testimonials that are outside the container */
+  overflow: hidden;
 }
 
 .testimonial {
@@ -113,15 +111,16 @@
 .testimonial-text q {
   font-size: 1.4em;
   position: relative;
-  max-width: 80%; /* You can adjust this if the quote width is too wide or narrow */
+  max-width: 80%;
   text-align: center;
+  line-height: 1rem;
 }
 
 .testimonial-author {
   display: flex;
   align-items: center;
   margin-top: 15px;
-  justify-content: center; /* This ensures that the author contents are centered within their container */
+  justify-content: center;
 }
 
 .testimonial-avatar {
@@ -135,23 +134,20 @@
   font-weight: bold;
 }
 
-
 @media (prefers-color-scheme: dark) {
-  /* Make social icons white on the homepage in dark mode */
   .content-icons > a > img {
     filter: invert(1);
     opacity: 0.7;
   }
 
   .call-to-action {
-    background-color: $brightPrim;
+    background-color: #111;
   }
 
   .testimonial-text q {
-    color: $brightPrim;
+    color: #111;
   }
 }
-
 
 @media (max-width: 900px) {
   .testimonial-carousel {
@@ -159,8 +155,7 @@
   }
 
   .testimonial-text {
-    font-size: 0.80em;
-    padding: 40px;
+    font-size: 0.8em;
     background-image: none;
     background-color: #ffd885;
   }
