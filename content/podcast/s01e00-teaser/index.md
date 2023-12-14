@@ -7,10 +7,10 @@ draft = false
 season = "01"
 episode = "00"
 series = "Podcast"
-logo = "placeholder.svg"
+logo = "teaser.svg"
 +++
 
-<div><script id="letscast-player-a100f0a6" src="https://letscast.fm/podcasts/rust-in-production-82281512/player.js?size=s"></script></div>
+<div><script id="letscast-player-ff3abca4" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-series-teaser/player.js?size=s"></script></div>
 
 There are a lot of awesome podcasts about Rust.
 We loved listening to [New Rustacean](https://newrustacean.com/)
