@@ -2,47 +2,51 @@
     <html lang="en">
 
     {%- if page.title %}
-    {%- set generated_title = page.title ~ " | Corrode Rust Consulting" %}
+        {%- set generated_title = page.title ~ " | Corrode Rust Consulting" %}
     {%- elif section and section.title and section.path != "/" %}
-    {%- set generated_title = section.title ~ " | Corrode Rust Consulting" %}
+        {%- set generated_title = section.title ~ " | Corrode Rust Consulting" %}
     {%- elif section and section.path and section.path == "/" %}
-    {%- set generated_title = "Home | Corrode Rust Consulting" %}
+        {%- set generated_title = "Home | Corrode Rust Consulting" %}
     {%- else %}
-    {%- set generated_title = "Corrode Rust Consulting" %}
+        {%- set generated_title = "Corrode Rust Consulting" %}
     {%- endif %}
 
     {# check for page permalink; otherwise use fallback (using path) #}
     {%- if page.permalink %}
-    {%- set social_url = page.permalink %}
+        {%- set social_url = page.permalink %}
     {%- elif page.path %}
-    {%- set social_url = config.base_url ~ page.path %}
+        {%- set social_url = config.base_url ~ page.path %}
     {%- elif current_path %}
-    {%- set social_url = config.base_url ~ current_path %}
+        {%- set social_url = config.base_url ~ current_path %}
     {%- else %}
-    {%- set social_url = config.base_url %}
+        {%- set social_url = config.base_url %}
     {%- endif %}
 
     {%- if page.extra.excerpt %}
-    {%- set social_description = page.extra.excerpt %}
+        {%- set social_description = page.extra.excerpt %}
     {%- elif page.summary %}
-    {%- set social_description = page.summary %}
+        {%- set social_description = page.summary %}
     {%- elif page and page.content | length > 0 %}
-    {%- set social_description = page.content | truncate(length=250) %}
+        {%- set social_description = page.content | truncate(length=250) %}
     {%- elif section and section.description %}
-    {%- set social_description = section.description %}
+        {%- set social_description = section.description %}
     {%- elif section and section.content | length > 0 %}
-    {%- set social_description = section.content | truncate(length=250) %}
+        {%- set social_description = section.content | truncate(length=250) %}
     {%- else %}
-    {%- set social_description = "Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software." %}
+        {%- set social_description = "Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software." %}
     {%- endif %}
 
-    {%- if page %}
-    {%- set social_image = config.base_url ~ '/social/rendered/' ~ page.slug ~ '.png' %}
+    {%- if page and page.path is starting_with("/podcast") %}
+        {%- set social_image = config.base_url ~ '/social/podcast.png' %}
+    {%- elif page %}
+        {%- set social_image = config.base_url ~ '/social/rendered/' ~ page.slug ~ '.png' %}
+    {%- elif section and section.path is starting_with("/podcast") %}
+        {%- set social_image = config.base_url ~ '/social/podcast.png' %}
     {%- elif section and section.path and section.path != "/" %}
-    {%- set section_path = section.path | replace(from="/", to="") %}
-    {%- set social_image = config.base_url ~ '/social/rendered/' ~ section_path ~ '.png' %}
+        {%- set section_path = section.path | replace(from="/", to="") %}
+        {%- set social_image = config.base_url ~ '/social/rendered/' ~ section_path ~ '.png' %}
     {%- else %}
-    {%- set social_image = config.base_url ~ '/social/social.png' %}
+        {%- set social_image = config.base_url ~ '/social/social.png' %}
     {%- endif %}
 
     <head>
