@@ -43,6 +43,9 @@ Machine Learning Meetup](https://www.meetup.com/nyc-machine-learning/), which
 now has over 13,000 members. Paul holds a degree in computer science from
 Columbia University.
 
+You can find Paul on [Twitter](https://twitter.com/pauldix) and
+[GitHub](https://github.com/pauldix).
+
 ### Links
 
 - [InfluxData](https://www.influxdata.com/)
