@@ -12,7 +12,7 @@ series = "Podcast"
 logo = "influxdata.svg"
 +++
 
-<div><script id="letscast-player-ff3abca4" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-1-influxdata-s-paul-dix/player.js?size=s"></script></div>
+<div><script id="letscast-player-4f3d94e8" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-1-influxdata-s-paul-dix/player.js?size=s"></script></div>
 
 In this episode, we talk to Paul Dix, founder and CTO of
 [InfluxData](https://www.influxdata.com/), about how they use Rust to build the
