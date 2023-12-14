@@ -49,6 +49,7 @@ You can find Paul on [Twitter](https://twitter.com/pauldix) and
 ### Links
 
 - [InfluxData](https://www.influxdata.com/)
+- [Careers at InfluxData](https://www.influxdata.com/careers/)
 - Blog post: [Meet the Founders Who Rewrote in Rust](https://www.influxdata.com/blog/meet-founders-who-rewrote-in-rust/)
 - Reddit: [Details and discussion on the Rust rewrite](https://www.reddit.com/r/rust/comments/16v13l5/influxdb_officially_made_the_switch_from_go_rust/)
 - Blog post: [The Plan for InfluxDB 3.0 Open Source](https://www.influxdata.com/blog/the-plan-for-influxdb-3-0-open-source/)
