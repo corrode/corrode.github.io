@@ -14,9 +14,7 @@
     <code>Season 1</code>
 
     <ul>
-      <li>
-        Subscribe on
-      </li>
+      <li>Subscribe on</li>
       <li>
         <a
           href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
@@ -63,12 +61,17 @@
           <div class="podcast-header">
             <div class="podcast-logo">
               <img
-                class="logo-img"
-                src="/podcast/{{ episode.extra.logo }}"
+                class="logo-img invert"
+                src="{{ episode.permalink }}{{ episode.extra.logo }}"
                 alt="{{ episode.title }} Logo"
               />
             </div>
-            <div class="podcast-title">{{ episode.title }}</div>
+            <div class="podcast-title">
+              {{ episode.title }} {% if episode.extra.guest %}<span
+                style="opacity: 0.7"
+                >&ndash; {{episode.extra.guest}}</span
+              >{% endif %}
+            </div>
           </div>
           <div class="podcast-details">
             <div>{{ episode.date }}</div>
