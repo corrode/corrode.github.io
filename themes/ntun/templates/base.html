@@ -1,14 +1,16 @@
 <!DOCTYPE html>
     <html lang="en">
 
-    {%- if page.title %}
-        {%- set generated_title = page.title ~ " | Corrode Rust Consulting" %}
+    {%- if page and page.path is starting_with("/podcast") %}
+        {%- set generated_title = page.title ~ " - Rust in Production Podcast | corrode Rust Consulting" %}
+    {%- elif page.title %}
+        {%- set generated_title = page.title ~ " | corrode Rust Consulting" %}
     {%- elif section and section.title and section.path != "/" %}
-        {%- set generated_title = section.title ~ " | Corrode Rust Consulting" %}
+        {%- set generated_title = section.title ~ " | corrode Rust Consulting" %}
     {%- elif section and section.path and section.path == "/" %}
-        {%- set generated_title = "Home | Corrode Rust Consulting" %}
+        {%- set generated_title = "Home | corrode Rust Consulting" %}
     {%- else %}
-        {%- set generated_title = "Corrode Rust Consulting" %}
+        {%- set generated_title = "corrode Rust Consulting" %}
     {%- endif %}
 
     {# check for page permalink; otherwise use fallback (using path) #}
