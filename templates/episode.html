@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<div class="article">
+<article>
   <h2 class="subheading"><a href="/podcast">Podcast</a></h2>
   <h1>
     {{ page.title }}{% if page.extra.guest %} - {{page.extra.guest}},
@@ -65,5 +65,5 @@
   {% include "snippets/subscribe-podcast.html" %}
 
   <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
-</div>
+</article>
 {% endblock content %}

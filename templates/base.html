@@ -138,8 +138,9 @@
                         </a>
                     </li>
                     <li>
-                        <a {% if current_path and current_path=="/courses" %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            href="{{ config.base_url ~ '/courses' }}"><span>Courses</span>
+                        <a {% if current_path and current_path is containing("/courses") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
+                            href="{{ config.base_url ~ '/courses' }}">
+                            <span>Courses</span>
                         </a>
                     </li>
                     <li>
