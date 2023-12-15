@@ -94,7 +94,7 @@ img.hero-img {
   height: auto;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 750px) {
   div.hero {
     flex-direction: column;
     padding: 0;
@@ -225,7 +225,7 @@ nav {
     }
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     #icon-sun path {
       fill: white;
     }
