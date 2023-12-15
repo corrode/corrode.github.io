@@ -118,10 +118,17 @@ details[open] summary::before {
   padding: 0;
 }
 
-.icon-info {
+.icon {
   width: 30px;
   height: 30px;
+}
+
+.icon-info {
   background: url("/icons/info.svg") no-repeat;
+}
+
+.icon-radio {
+  background: url("/icons/radio.svg") no-repeat;
 }
 
 .article-revisions {

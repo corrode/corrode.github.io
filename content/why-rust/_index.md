@@ -518,14 +518,27 @@ essential.
 [Get in touch](/about/) to explore if Rust is the right choice for your
 organization and how it can contribute to your long-term success. 
 
+{% info(headline="Rust in Production Podcast", icon="radio") %}
+Real-world experiences are the best way to learn about the benefits and
+challenges of a technology. That's why we started <a href="/podcast">Rust in Production</a>, a
+podcast about companies that bet big on Rust.
+
+Listen to the first-hand accounts from decision-makers about why they chose Rust and how it
+impacted their business.
+Each episode is a deep dive into the motivations, challenges, and lessons learned
+from adopting Rust in production by companies that shape the future of infrastructure.
+
+<a href="/podcast">More information here</a>.
+{% end %}
+
 ## Further Reading
 
 * <a href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html" target="_blank">Rust Fact vs. Fiction: 5 Insights from Google’s Rust Journey</a>
 * <a href="https://survey.stackoverflow.co/" target="_blank">StackOverflow Developer Surveys</a>
 * <a href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html" target="_blank">Annual Rust Survey Results</a>
 * <a href="https://kerkour.com/rust-in-production-2021" target="_blank">Quotes of companies using Rust in production (2021)</a>
-* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank"><em>Considering Rust</em> &mdash; a talk by Jon Gjengset, 2020 (YouTube link)</a>
-* <a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank"><em>How I Convinced the World's Largest Package Manager to Use Rust, and So Can You!</em> &mdash; a talk by Ashley Williams, 2017 (YouTube link)</a>
+* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank">Considering Rust &mdash; a talk by Jon Gjengset, 2020 (YouTube link)</a>
+* <a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank">How I Convinced the World's Largest Package Manager to Use Rust, and So Can You! &mdash; a talk by Ashley Williams, 2017 (YouTube link)</a>
 
 ---
 

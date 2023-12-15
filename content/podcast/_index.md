@@ -12,6 +12,3 @@ stories of companies using it in production often remain untold. This podcast
 brings those stories to light, focusing on the challenges these companies tackle
 with Rust as they solve some of the most complex technical problems in the
 world.
-
-Biweekly episodes, hosted by [Matthias Endler](/about).  
-Podcast recordings are licensed under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0).
