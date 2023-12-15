@@ -6,12 +6,14 @@ template = "courses.html"
 # Ship From Day One
 
 In a sea of Rust courses, many offer quick, low-effort content. But you deserve
-better. You're worth a course that truly values your time.
+better! You're worth a course that is truly fun and pushes you to your limits.
 
-We believe in creating something more substantial,
-more motivating. Our courses are meticulously crafted, not just to teach Rust,
-but to immerse you in building real-world applications that go beyond of what you
-thought you were capable of.
+Our courses are meticulously crafted, not just to teach Rust,
+but to immerse you in building your first real-world application that goes beyond
+of the usual "Hello World" examples.
+
+The course material is designed to help you ship code as early as possible
+and learn Rust along the way.
 
 ## Our Courses
 
