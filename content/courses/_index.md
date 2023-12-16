@@ -6,57 +6,58 @@ template = "courses.html"
 # Ship On Day One
 
 In a sea of Rust courses, many offer quick, low-effort content. But you deserve
-better! You're worth a course that is truly fun and pushes you to your limits.
+better! You're worth a course that is truly *fun* and pushes you to your limits.
 
-Our courses are meticulously crafted, not just to teach Rust,
-but to immerse you in building your first real-world application that goes beyond
-of the usual "Hello World" examples.
+All our courses are meticulously hand-crafted, not just to teach Rust,
+but to immerse you in building your first real-world application from day one.
+We go beyond the usual "Hello World" examples and teach you the ropes of Rust
+while you're building something useful.
 
 The course material is designed to help you ship code as early as possible
 and learn Rust along the way.
 
 ## Our Courses
 
-"**Learning Rust by Counting Words**" isn’t just another basic programming
-course. We show you what makes Rust special, and why trivial programs can be
-challenging to write correctly. Almost playfully, you'll learn the fundamentals
-of Rust, and you'll be able to confidently write your own programs with Rust in
-the future.
+"**Learning Rust by Counting Words**" isn’t just another basic Rust
+course. We show how even trivial programs can be challenging to write correctly
+and how Rust can help you avoid common pitfalls. Almost playfully, you'll learn
+the fundamentals of Rust, and you'll be able to confidently write your own
+programs with Rust in a short time.
 
 "**Write Yourself a Shell in Rust**" takes you one step further. 
 You'll learn advanced Rust concepts, and you'll build a fully functional shell
-from scratch. 
-This course challenges and inspires, making the learning process not only
-educational but genuinely enjoyable.
+from scratch. You'll learn a lot about structuring bigger projects,
+parsing user input, spawning processes, and more.
 
-## What Makes Our Courses Different?
+## What Makes Our Courses Special?
 
 * We use a live mentorship model, not passive learning. You’ll be guided by
-  experienced Rust developers who will help you learn. Each course is split up
-  into two half-day sessions, where we will go through the material together,
-  work on the exercises, and answer your questions. You will also have access to
-  a dedicated Discord channel for each course, where you can ask questions and
-  discuss with your fellow students. On top of that, you will have access to the
-  course material and slides as well as a test suite that you can use to check
-  your solutions.
+  experienced Rust developers who will support you every step of the way. Each
+  course is split up into two half-day sessions, where we will go through the
+  material together, give you time to work on the exercises, and answer your
+  questions. You will also have access to a dedicated Discord channel for each
+  course, where you can ask questions and discuss with your fellow students. On
+  top of that, you will have access to the course material and slides as well as
+  a test suite that you can use to check your solutions.
 * We focus on practical projects, not theoretical knowledge. You’ll build
   real-world applications from day one.
 * We teach you how to use patterns and techniques that are unique to Rust, like
-  the borrow checker, ownership, error handling, pattern matching, and more.
+  ownership, error handling, pattern matching, and more.
 * The standard library will be your best friend. We won't need any external
   crates. You will learn how to build the abstractions yourself and how they
-  work. This will give you confidence and a better understanding of the
-  underlying concepts.
+  work. This will give you a solid grasp of the underlying concepts.
+  On top of that, this ensures that you won't have to deal with outdated
+  dependencies or breaking changes.
 
-## Fun and Engaging
-
-Forget passive learning and cookie-cutter courses. Our interactive, live
-mentorship model keeps you focused and engaged. You’re not just learning Rust;
-you're having fun and you'll want to keep going.
+## What You'll Get
 
 By the end of your journey with us, you won’t just have theoretical knowledge or
 demo code. You’ll have a functional project that you developed yourself and can
 proudly showcase. A testament to your hard work that you can build on.
+
+Forget generic courses. Our interactive, live mentorship model keeps you focused
+and engaged. You’re not just learning Rust; you're having fun and you'll want to
+keep going.
 
 ## Teams
 
