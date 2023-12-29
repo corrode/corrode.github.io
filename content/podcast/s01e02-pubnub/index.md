@@ -9,7 +9,7 @@ role = "Founder and CTO"
 season = "01"
 episode = "02"
 series = "Podcast"
-logo = "pubnub.png"
+logo = "pubnub.svg"
 +++
 
 <div><script id="letscast-player-99d93d84" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-2-pubnub-s-stephen-blum/player.js?size=s"></script></div>
