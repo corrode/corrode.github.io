@@ -30,7 +30,6 @@
 }
 
 .podcast-list li {
-  padding: 10px 25px;
   border-bottom: 1px solid $heroDark;
 }
 
@@ -46,6 +45,7 @@
   display: block;
   text-decoration: none;
   color: inherit;
+  padding: 20px;
 }
 
 .podcast-item {
