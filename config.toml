@@ -3,7 +3,6 @@ title = "Corrode Rust Consulting"
 description = "Friendly, professional Rust consulting and training. Writing content about idiomatic Rust"
 author = "Matthias Endler"
 
-theme = "ntun"
 compile_sass = true
 build_search_index = false
 generate_feed = true
@@ -19,8 +18,6 @@ highlight_themes_css = [
 
 [extra]
 author = "Corrode Rust Consulting"
-city = "D&uuml;sseldorf"
-years = "2023"
 
 links = [
   { url = "https://github.com/corrode", title = "Github", icon = "github.svg" },

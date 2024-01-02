@@ -8,5 +8,9 @@ My specialty is helping companies to adopt Rust and integrate it into their
 existing codebase.
 
 Check out my [consulting page](https://corrode.dev) for more details.
-This is the source code of my website. 🦀
+This is the source code of that website. 🦀
 
+## Credits
+
+The theme is based on [ntun](https://github.com/Netoun/ntun) by 
+[Nicolas Coulonnier](https://github.com/Netoun).
