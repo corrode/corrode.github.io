@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+<div class="article">
+  <h1>Blog</h1>
+  <p>
+    This is an ongoing series of articles about <b>Idiomatic Rust</b>.<br />
+    Sign up to my newsletter below to be notified when I publish new articles.
+  </p>
+
+  <div>{{ section.content | safe }}</div>
+  <ul>
+    {% for page in section.pages | filter(attribute="draft", value=false) |
+    sort(attribute="date") | reverse %}
+    <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
+    {% endfor %}
+  </ul>
+  {% include "snippets/newsletter.html" %}
+</div>
+{% endblock content %}

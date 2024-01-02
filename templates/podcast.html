@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="hero">
+  <div class="hero-font">
+    {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{ hero_font
+    | safe }}
+  </div>
+  <img class="hero-img" src="/podcast/hero.svg" />
+</div>
+<div class="article">
+  <div>{{ section.content | safe }}</div>
+
+  <div class="season-header">
+    <code>Season 1</code>
+
+    <ul>
+      <li>Subscribe on</li>
+      <li>
+        <a
+          href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+          ><img
+            class="invert"
+            src="/podcast/apple.svg"
+            alt="Apple Podcasts"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+          ><img
+            class="invert"
+            src="/podcast/spotify.svg"
+            alt="Spotify"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+          ><img
+            class="invert"
+            src="/podcast/youtube.svg"
+            alt="YouTube"
+            width="40"
+            height="40"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <ol class="podcast-list">
+    {% for episode in section.pages | filter(attribute="draft", value=false) %}
+    <li>
+      <a href="{{ episode.permalink }}" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo">
+              <img
+                class="logo-img invert"
+                src="{{ episode.permalink }}{{ episode.extra.logo }}"
+                alt="{{ episode.title }} Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              {{ episode.title }} {% if episode.extra.guest %}<span
+                style="opacity: 0.7"
+                >&ndash; {{episode.extra.guest}}</span
+              >{% endif %}
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>{{ episode.date }}</div>
+            <div>
+              <code
+                >S{{episode.extra.season}} E{{ episode.extra.episode }}</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+  <p class="podcast-footer">
+    Biweekly episodes, hosted by <a href="/about">Matthias Endler</a>.<br />
+    Podcast recordings are licensed under <a href="https://creativecommons.org/licenses/by-nd/4.0">CC BY-ND 4.0</a>.
+  </p>
+  {% include "snippets/subscribe-podcast.html" %}
+  <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</div>
+{% endblock content %}
