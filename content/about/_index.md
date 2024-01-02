@@ -6,8 +6,8 @@ description = "Hi, I'm Matthias Endler, a Rust developer and open source maintai
 +++
 
 <div class="img-stack">
-  <img class="img-stack-bg" src="/about/endler-bg.jpg">
-  <img class="img-stack-fg" src="/about/endler-fg.png" style="position: absolute; bottom: 0; left: 0;">
+  <img class="img-stack-bg" src="/about/endler-bg.jpg" />
+  <img class="img-stack-fg" src="/about/endler-fg.png" />
 </div>
 
 Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open source maintainer.
@@ -50,6 +50,11 @@ I'm always up for a chat!
 
 .img-stack img {
     border-radius: 4px;
+}
+
+.img-stack-fg {
+  bottom: 0;
+  left: 0;
 }
 
 .img-stack-bg {
