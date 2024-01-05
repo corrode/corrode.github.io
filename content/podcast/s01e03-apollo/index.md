@@ -43,7 +43,8 @@ He writes about Rust on his blog [n14n.dev](https://n14n.dev/).
 
 ### Links
 
-- [Apollo](https://www.apollographql.com/)
+- [Apollo Router - High-Performance Federation Runtime Announcement](https://www.apollographql.com/blog/apollo-router-our-new-high-performance-federation-runtime-is-now-available-in-open-preview)
+- [Learn more about Apollo](https://www.apollographql.com/)
 - [Apollo on Twitter](https://twitter.com/apollographql)
 - [Nicolas Moutschen on Twitter](https://twitter.com/NMoutschen)
 - [Nicolas Moutschen on LinkedIn](https://www.linkedin.com/in/nmoutschen/)
