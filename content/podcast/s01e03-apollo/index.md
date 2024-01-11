@@ -22,12 +22,10 @@ Apollo GraphQL Platform.
 
 ## Show Notes
 
-GraphQL is at the core of companies like GitHub, trivago, and Facebook. Apollo
-provides a GraphQL platform that helps developers build and ship apps faster
-with open source tools and a cloud service.
-The core of Apollo, its routing engine, is written in Rust. Nicolas explains
-how Rust is used at Apollo, how they use Rust to build a GraphQL engine, and
-how they use Rust to build a GraphQL engine.
+GraphQL is at the core of companies like GitHub, trivago, and Facebook. In this
+episode, Nicolas, a staff software engineer at Apollo GraphQL, discusses the
+company's products and how they use Rust in the core of their GraphQL
+engine: the Apollo router. 
 
 ### About Apollo
 
