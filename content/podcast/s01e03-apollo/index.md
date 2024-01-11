@@ -12,6 +12,8 @@ series = "Podcast"
 logo = "apollo.svg"
 +++
 
+<div><script id="letscast-player-b261a895" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-3-apollo-s-nicolas-moutschen/player.js?size=s"></script></div>
+
 In this episode, we talk to Nicolas Moutschen, Staff Software Engineer at
 [Apollo](https://www.apollographql.com/), about how they use Rust to build the
 Apollo GraphQL Platform. 
