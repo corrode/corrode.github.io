@@ -12,3 +12,5 @@ stories of companies using it in production often remain untold. This podcast
 brings those stories to light, focusing on the challenges these companies tackle
 with Rust as they solve some of the most complex technical problems in the
 world.
+
+New episodes air every other week on Thursdays at 4pm UTC.
