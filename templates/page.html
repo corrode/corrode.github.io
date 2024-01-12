@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="article">
+  <article>
     {% if section.title %}
       <h1>{{ section.title }}</h1>
     {% endif %}
     <div>{{ section.content | safe }}</div>
-  </div>
+  </article>
 {% endblock content %}
