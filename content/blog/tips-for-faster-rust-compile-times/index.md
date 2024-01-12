@@ -35,10 +35,16 @@ update it for 2024 and move it here.
   - [Invest In Better Hardware](#invest-in-better-hardware)
   - [Compile in the Cloud](#compile-in-the-cloud)
   - [Cache All Crates Locally](#cache-all-crates-locally)
-- [Faster Test Execution](#faster-test-execution)
+- [Test Execution](#test-execution)
   - [Use Cargo Nextest Instead of `cargo test`](#use-cargo-nextest-instead-of-cargo-test)
   - [Combine All Integration Tests Into A Single Binary](#combine-all-integration-tests-into-a-single-binary)
-- [Faster CI Builds](#faster-ci-builds)
+  - [Put slow tests behind an environment variable](#put-slow-tests-behind-an-environment-variable)
+- [CI Builds](#ci-builds)
+  - [Use A Cache For Your Dependencies](#use-a-cache-for-your-dependencies)
+  - [Split Up Compile And Test Steps](#split-up-compile-and-test-steps)
+  - [Disable Incremental Compilation](#disable-incremental-compilation)
+  - [Turn Off Debuginfo](#turn-off-debuginfo)
+  - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
 - [Faster Docker Builds](#faster-docker-builds)
 - [Further Reading](#further-reading)
 
@@ -54,7 +60,7 @@ rustup update
 
 Making the Rust compiler faster is an [ongoing process](https://blog.mozilla.org/nnethercote/2020/04/24/how-to-speed-up-the-rust-compiler-in-2020/).
 Thanks to their hard work, compiler speed has improved [30-40% across the board
-year-to-date, with some projects seeing up to 45%+ improvements](https://www.reddit.com/r/rust/comments/cezxjn/compiler_speed_has_improved_3040_across_the_board/).
+year-to-date, with some projects seeing up to 45%+ improvements](https://www.reddit.com/r/rust/comments/cezxjn/compiler_speed_has_improved_3040_across_the_board/). It pays off to keep your toolchain up-to-date.
 
 ### Use cargo check Instead Of cargo build
 
@@ -227,9 +233,17 @@ make heavy use of workspaces to reduce compile times.
 
 ### Disable Unused Features Of Crate Dependencies
 
-Check the feature flags of your dependencies. A lot of library maintainers take
-the effort to split their crate into separate features that can be toggled off
-on demand. Maybe you don't need all the default functionality from every crate?
+[`cargo-features-manager`](https://github.com/ToBinio/cargo-features-manager) is a relatively new tool that helps you to disable unused features of your dependencies. 
+
+```sh
+cargo install cargo-features-manager
+cargo features prune
+```
+
+From time to time, check the feature flags of your dependencies. A lot of
+library maintainers take the effort to split their crate into separate features
+that can be toggled off on demand. Maybe you don't need all the default
+functionality from every crate?
 
 For example, `tokio` has [a ton of
 features](https://github.com/tokio-rs/tokio/blob/2bc6bc14a82dc4c8d447521005e044028ae199fe/tokio/Cargo.toml#L26-L91)
@@ -251,14 +265,14 @@ It may still be a good idea for improving security by reducing the code's attack
 Furthermore, disabling features can help slim down the dependency tree.
 {% end %}
 
-A quick way to list all features of a crate is
-[cargo-feature-set](https://github.com/badboy/cargo-feature-set).
-As of recently, you also get a list of features of a crate when installing it with
-`cargo add`.
+You get a list of features of a crate when installing it with `cargo add`.
 
 If you want to look up the feature flags of a crate, they are listed on
 [docs.rs](https://docs.rs/). E.g. check out [tokio's feature
 flags](https://docs.rs/crate/tokio/latest/features).
+
+After you removed unused features, check the diff of your `Cargo.lock` file to
+see all the unnecessary dependencies that got cleaned up.
 
 ### Cache Dependencies With sccache
 
@@ -537,7 +551,7 @@ cargo run --release -- mine
 The archive size is surprisingly reasonable, with roughly **50GB of required disk
 space** (as of today).
 
-## Faster Test Execution
+## Test Execution
 
 ### Use Cargo Nextest Instead of `cargo test`
 
@@ -589,15 +603,90 @@ _This tip was brought to you by [Luca Palmieri](https://twitter.com/algo_luca),
 [Lucio Franco](https://twitter.com/lucio_d_franco), and [Azriel
 Hoh](https://twitter.com/im_azriel). Thanks!_
 
-## Faster CI Builds
+### Put slow tests behind an environment variable
 
-If you collaborate with others on a Rust project, chances are you use some sort
-of continuous integration like Github Actions. Optimizing a CI build processes
-is a whole subject on its own. Thankfully [Aleksey Kladov (matklad)](https://github.com/matklad)
-collected a few tips [on his blog](https://matklad.github.io/2021/09/04/fast-rust-builds.html).
-He touches on bors, caching, splitting build steps, disabling compiler features like
-incremental compilation or debug output, and more. It's a great read and you
-can find it [here](https://matklad.github.io/2021/09/04/fast-rust-builds.html).
+```rust
+#[test]
+fn completion_works_with_real_standard_library() {
+  if std::env::var("RUN_SLOW_TESTS").is_err() {
+    return;
+  }
+  ...
+}
+```
+
+If you have slow tests, you can put them behind an environment variable to
+disable them by default. This way, you can skip them locally and only run them
+on CI.
+
+(A nice trick I learned from [matklad's (Alex Kladov) post](https://matklad.github.io/2021/05/31/how-to-test.html).)
+
+## CI Builds
+
+### Use A Cache For Your Dependencies
+
+For GitHub actions in particular you can also use [Swatinem/rust-cache](https://github.com/Swatinem/rust-cache).
+
+It is as simple as adding a single step to your workflow:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --all
+```
+
+With that, your dependencies will be cached between builds, and you can expect
+a significant speedup.
+
+### Split Up Compile And Test Steps
+
+```yaml
+- name: Compile
+  run: cargo test --no-run --locked
+
+- name: Test
+  run: cargo test -- --nocapture --quiet
+```
+
+This makes it easier to find out how much time is spent on compilation and how
+much on running the tests.
+
+### Disable Incremental Compilation
+
+[Disable incremental compilation](https://github.com/rust-analyzer/rust-analyzer/blob/25368d24308d6a94ffe8b99f0122bcf5a2175322/.github/workflows/ci.yaml#L11) in CI.
+
+```yaml
+env:
+  CARGO_INCREMENTAL: 0
+```
+
+Since CI builds are more akin to from-scratch builds, incremental compilation adds unnecessary dependency-tracking and IO overhead, reducing caching effectiveness.
+
+### Turn Off Debuginfo
+
+```toml
+[profile.dev]
+debug = 0
+```
+
+[Disable debuginfo](https://github.com/rust-analyzer/rust-analyzer/blob/48f84a7b60bcbd7ec5fa6434d92d9e7a8eb9731b/Cargo.toml#L6-L10) to shrink the size of `./target`, improving caching efficiency. Consider disabling it unconditionally for benefits in local builds too.
+
+### Deny Warnings Through An Environment Variable
+
+Avoid using `#![deny(warnings)]` in your code to prevent repetitive declarations.
+Furthermore, it is fine to get warnings during local development.
+
+Instead, [add `-D warnings` to `RUSTFLAGS`](https://github.com/rust-analyzer/rust-analyzer/blob/3dae94bf2b3e496adb049da589c7efef272a39b8/.github/workflows/ci.yaml#L15) to globally deny warnings in all crates on CI.
+
+```yaml
+env:
+  RUSTFLAGS: -D warnings
+```
 
 ## Faster Docker Builds
 
