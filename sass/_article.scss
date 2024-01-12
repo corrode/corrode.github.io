@@ -118,6 +118,10 @@ details[open] summary::before {
   padding: 0;
 }
 
+.info-header p {
+  margin: 0.1em 0;
+}
+
 .icon {
   width: 30px;
   height: 30px;
@@ -129,6 +133,14 @@ details[open] summary::before {
 
 .icon-radio {
   background: url("/icons/radio.svg") no-repeat;
+}
+
+.icon-warning {
+  background: url("/icons/warning.svg") no-repeat;
+}
+
+.icon-crab {
+  background: url("/icons/crab.svg") no-repeat;
 }
 
 .article-revisions {
