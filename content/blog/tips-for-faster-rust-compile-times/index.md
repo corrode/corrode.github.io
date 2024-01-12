@@ -21,24 +21,25 @@ update it for 2024 and move it here.
   - [Remove Unused Dependencies](#remove-unused-dependencies)
   - [Update Dependencies](#update-dependencies)
   - [Find the slow crate in your codebase](#find-the-slow-crate-in-your-codebase)
-- [Profile Compile Times](#profile-compile-times)
+  - [Profile Compile Times](#profile-compile-times)
   - [Replace Heavy Dependencies](#replace-heavy-dependencies)
-  - [Split Big Crates Into Smaller Ones With Workspaces](#split-big-crates-into-smaller-ones-with-workspaces)
+  - [Split Big Crates Into Smaller Ones Using Workspaces](#split-big-crates-into-smaller-ones-using-workspaces)
   - [Disable Unused Features Of Crate Dependencies](#disable-unused-features-of-crate-dependencies)
   - [Cache Dependencies With sccache](#cache-dependencies-with-sccache)
   - [Cranelift: The Alternative Rust Compiler](#cranelift-the-alternative-rust-compiler)
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
-- [macOS Only: Faster Incremental Debug Builds](#macos-only-faster-incremental-debug-builds)
-- [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
-- [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
-- [Invest In Better Hardware](#invest-in-better-hardware)
-- [Compile in the Cloud](#compile-in-the-cloud)
-- [Cache All Crates Locally](#cache-all-crates-locally)
+  - [macOS Only: Faster Incremental Debug Builds](#macos-only-faster-incremental-debug-builds)
+  - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
+  - [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
+  - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
+  - [Invest In Better Hardware](#invest-in-better-hardware)
+  - [Compile in the Cloud](#compile-in-the-cloud)
+  - [Cache All Crates Locally](#cache-all-crates-locally)
 - [Faster Test Execution](#faster-test-execution)
   - [Use Cargo Nextest Instead of `cargo test`](#use-cargo-nextest-instead-of-cargo-test)
   - [Combine All Integration Tests Into A Single Binary](#combine-all-integration-tests-into-a-single-binary)
-- [Speed Up CI Builds](#speed-up-ci-builds)
-- [Speed Up Rust Docker Builds](#speed-up-rust-docker-builds)
+- [Faster CI Builds](#faster-ci-builds)
+- [Faster Docker Builds](#faster-docker-builds)
 - [Further Reading](#further-reading)
 
 ## General
@@ -149,7 +150,7 @@ The meaning of the colors:
 
 More info [in the documentation](https://doc.rust-lang.org/cargo/reference/timings.html).
 
-## Profile Compile Times
+### Profile Compile Times
 
 If you like to dig deeper than `cargo --timings`, Rust compilation can be profiled with [`cargo rustc -- -Zself-profile`](https://blog.rust-lang.org/inside-rust/2020/02/25/intro-rustc-self-profile.html#profiling-the-compiler).
 The resulting trace file can be visualized with a flamegraph or the Chromium
@@ -159,7 +160,9 @@ profiler:
 
 Another golden one is
 [`cargo-llvm-lines`](https://github.com/dtolnay/cargo-llvm-lines), which shows
-the number of lines generated and objects copied in the LLVM backend:
+the number of lines generated and the number of copies of each generic function in the
+final binary. This can help you identify which functions are the most expensive
+to compile.
 
 ```
 $ cargo llvm-lines | head -20
@@ -212,7 +215,7 @@ Here's an example where switching crates reduced compile times [from 2:22min to
 26
 seconds](https://blog.kodewerx.org/2020/06/the-rust-compiler-isnt-slow-we-are.html).
 
-### Split Big Crates Into Smaller Ones With Workspaces
+### Split Big Crates Into Smaller Ones Using Workspaces
 
 Cargo has that neat feature called [workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html), which allow you to split one
 big crate into multiple smaller ones. This code-splitting is great for avoiding
@@ -232,7 +235,7 @@ For example, `tokio` has [a ton of
 features](https://github.com/tokio-rs/tokio/blob/2bc6bc14a82dc4c8d447521005e044028ae199fe/tokio/Cargo.toml#L26-L91)
 that you can disable if not needed.
 
-Another example is bindgen, which enables `clap` support by default for its
+Another example is `bindgen`, which enables `clap` support by default for its
 binary usage. This isn't needed for library usage, which is the common use-case.
 Disabling that feature [improved compile time of rust-rocksdb by ~13s and ~9s
 for debug and release builds
@@ -245,6 +248,7 @@ It seems that switching off features doesn't always improve
 compile time. (See [tikv's experiences
 here](https://github.com/tikv/tikv/pull/4453#issuecomment-481789292).)
 It may still be a good idea for improving security by reducing the code's attack surface.
+Furthermore, disabling features can help slim down the dependency tree.
 {% end %}
 
 A quick way to list all features of a crate is
@@ -332,7 +336,7 @@ If the `link` step is slow, you can try to switch to a faster alternative:
 [Yes]: https://github.com/bluewhalesystems/sold
 [`zld`]: https://github.com/michaeleisel/zld
 
-## macOS Only: Faster Incremental Debug Builds
+### macOS Only: Faster Incremental Debug Builds
 
 Rust 1.51 added a flag for faster incremental debug builds on
 macOS. It can make debug builds multiple seconds faster (depending on your use-case).
@@ -348,7 +352,7 @@ split-debuginfo = "unpacked"
 The flag might become the standard for macOS soon. It is already the [default
 on nightly](https://github.com/rust-lang/cargo/pull/9298).
 
-## Tweak Codegen Options And Compiler Flags
+### Tweak Codegen Options And Compiler Flags
 
 Rust comes with a huge set of [settings for code
 generation](https://doc.rust-lang.org/rustc/codegen-options). It can help to
@@ -359,7 +363,7 @@ options](https://doc.rust-lang.org/rustc/codegen-options). For inspiration,
 here's [bevy's config for faster
 compilation](https://github.com/bevyengine/bevy/blob/3a2a68852c0a1298c0678a47adc59adebe259a6f/.cargo/config_fast_builds).
 
-## Avoid Procedural Macro Crates
+### Avoid Procedural Macro Crates
 
 If you heavily use procedural macros in your project (e.g., if you use serde),
 it might be worth it to play around with opt-levels in your `Cargo.toml`.
@@ -396,7 +400,75 @@ From the docs:
 
 Note that this crate is still experimental.
 
-## Invest In Better Hardware
+### Conditional Compilation for Procedural Macros
+
+Procedural macros need to parse Rust code, and that is a relatively complex
+task. Crates that depend on procedural macros will have to wait for the
+procedural macro to compile before they can compile. For example, `serde` can be
+a bottleneck in compilation times and can limit CPU utilization.
+
+To improve Rust compile times, consider a strategic approach to handling
+serialization with Serde, especially in projects with a shared crate structure.
+Instead of placing Serde directly in a shared crate used across different parts
+of the project, you can make Serde an optional dependency through Cargo
+features.
+
+Use the `cfg` or `cfg_attr` attributes to make Serde usage and `derive` in the
+shared crate feature-gated. This way, it becomes an optional dependency that is
+only enabled in leaf crates which actually perform
+serialization/deserialization. 
+
+This approach prevents the entire project from waiting on the compilation of
+Serde dependencies, which would be the case if Serde were a non-optional, direct
+dependency of the shared crate. 
+
+Let's illustrate this with a simplified example. Imagine you have a Rust project
+with a shared library crate and a few other crates that depend on it. You don't
+want to compile Serde unnecessarily when building parts of the project that
+don't need it.
+
+Here's how you can structure your project to use optional features in Cargo:
+
+In your `Cargo.toml` for the shared crate, declare serde as an optional dependency:
+
+```toml
+[package]
+name = "shared"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0", optional = true }
+```
+
+In this crate, use conditional compilation to include serde only when the feature is enabled:
+
+```rust
+#[cfg(feature = "serde")]
+use serde::{Serialize, Deserialize};
+
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+pub struct MySharedStruct {
+    // Your struct fields
+}
+```
+
+In the other crates, enable the `serde` feature for the shared crate if needed:
+
+```toml
+[package]
+name = "other"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+shared = { path = "../shared", features = ["serde"] }
+```
+
+You can now use `MySharedStruct` with Serde's functionality enabled
+without bloating the compilation of crates that don't need it.
+
+### Invest In Better Hardware
 
 If you reached this point, the easiest way to improve compile times even more is
 probably to spend money on top-of-the-line hardware.
@@ -425,7 +497,7 @@ that, I'm using my machine at home, a 6-core AMD FX 6300 with 12GB RAM, as a
 build machine. I can use it in combination with [Visual Studio Code Remote
 Development](https://code.visualstudio.com/docs/remote/remote-overview).
 
-## Compile in the Cloud
+### Compile in the Cloud
 
 If you don't have a dedicated machine yourself, you can offload the compilation
 process to the cloud instead.  
@@ -449,7 +521,7 @@ Prebuilds are quite customizable; take a look at the [`.gitpod.yml` config of
 nushell](https://github.com/nushell/nushell/blob/d744cf8437614cc6b95a4bb22731269a17fe9c80/.gitpod.yml) to get an
 idea.
 
-## Cache All Crates Locally
+### Cache All Crates Locally
 
 If you have a slow internet connection, a big part of the initial build
 process is fetching all those shiny crates from crates.io. To mitigate that,
@@ -517,7 +589,7 @@ _This tip was brought to you by [Luca Palmieri](https://twitter.com/algo_luca),
 [Lucio Franco](https://twitter.com/lucio_d_franco), and [Azriel
 Hoh](https://twitter.com/im_azriel). Thanks!_
 
-## Speed Up CI Builds
+## Faster CI Builds
 
 If you collaborate with others on a Rust project, chances are you use some sort
 of continuous integration like Github Actions. Optimizing a CI build processes
@@ -527,7 +599,7 @@ He touches on bors, caching, splitting build steps, disabling compiler features 
 incremental compilation or debug output, and more. It's a great read and you
 can find it [here](https://matklad.github.io/2021/09/04/fast-rust-builds.html).
 
-## Speed Up Rust Docker Builds
+## Faster Docker Builds
 
 Building Docker images from your Rust code?
 These can be notoriously slow, because cargo doesn't support building only a
