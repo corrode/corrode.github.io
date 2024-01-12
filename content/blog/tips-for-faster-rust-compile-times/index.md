@@ -1,6 +1,6 @@
 +++
 title = "Tips For Faster Rust Compile Times"
-date = 2024-01-10
+date = 2024-01-12
 draft = false
 template = "article.html"
 [extra]
