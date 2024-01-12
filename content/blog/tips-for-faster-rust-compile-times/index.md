@@ -195,7 +195,6 @@ $ cargo llvm-lines | head -20
     284 (0.9%)      4 (0.4%)  core::option::Option<T>::ok_or_else
 ```
 
-
 ### Replace Heavy Dependencies
 
 From time to time, it helps to shop around for more lightweight alternatives to
@@ -596,8 +595,7 @@ Then the linker will go ahead and build a single binary only. Sounds nice, but
 careful: it's still a trade-off as you'll need to expose your internal types and
 functions (i.e. make them `pub`).
 
-Might be worth a try, though because a recent [benchmark revealed a 1.9x
-speedup](https://azriel.im/will/2019/10/08/dev-time-optimization-part-1-1.9x-speedup-65-less-disk-usage/) for one project.
+If you have a lot of integration tests, this can [result in a 50% speedup](https://azriel.im/will/2019/10/08/dev-time-optimization-part-1-1.9x-speedup-65-less-disk-usage/).
 
 _This tip was brought to you by [Luca Palmieri](https://twitter.com/algo_luca),
 [Lucio Franco](https://twitter.com/lucio_d_franco), and [Azriel
