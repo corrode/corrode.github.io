@@ -3,6 +3,11 @@ title = "Learning Rust By Counting Words"
 date = 2023-12-11
 template = "article.html"
 draft = false
+description = """
+Learn the fundamentals of Rust by building a command line tool that counts the words in a text file.
+Sounds trivial, right? No worries, you will be challenged, no matter your level of experience.
+Almost playfully, you'll learn the fundamentals of Rust, and you'll be able to confidently write your own programs with Rust shortly after.
+"""
 [extra]
 series = "workshop"
 level = "beginner"
@@ -18,6 +23,20 @@ practices of the Rust community. You'll learn how to structure your code, how to
 handle errors, how to test your code, and how Rust can help you avoid common
 pitfalls. Almost playfully, you'll learn the fundamentals of Rust, and you'll be
 able to confidently write your own programs with Rust shortly after.
+
+## Course Material
+
+* Slides
+* Exercises
+* Test Suite
+* Chat Channel
+* Recording
+
+## Prerequisites
+
+* Basic knowledge of programming
+* Basic knowledge of the command line
+* Basic knowledge of Git
 
 ## What You'll Build
 
@@ -35,35 +54,6 @@ when writing a program like this. We will cover the following topics:
 * Navigating the Rust standard library
 * Object-oriented vs functional programming in Rust
 
-## Schedule
-
-The workshop is split up into two half-day sessions. We will meet on two
-consecutive days for four hours each. The workshop will be held in English.
-We limit the number of participants to 10 to ensure that everyone gets the
-attention they need.
-
-Once you sign up, we will reach out to you to send you the details.
-
-## Prerequisites
-
-* Basic knowledge of programming
-* Basic knowledge of the command line
-* Basic knowledge of Git
-
-## What You'll Need
-
-* A computer with a stable internet connection
-* A code editor of your choice
-* A terminal
-
-## Course Material
-
-* Slides
-* Exercises
-* Test Suite
-* Chat Channel
-* Recording
-
 ## How is the workshop structured?
 
 The workshop is split up into blocks of 45 minutes. Each block consists of a
@@ -74,6 +64,21 @@ We will be available to answer your questions throughout the workshop.
 For each block, you can start from a skeleton project that contains the code
 from the previous block. This way, you can focus on the new concepts and don't
 have to worry about getting stuck.
+
+## What You'll Need
+
+* A computer with a stable internet connection
+* A code editor of your choice
+* A terminal
+
+## Schedule
+
+The workshop is split up into two half-day sessions. We will meet on two
+consecutive days for four hours each. The workshop will be held in English.
+We limit the number of participants to 10 to ensure that everyone gets the
+attention they need.
+
+Once you sign up, we will reach out to you to send you the details.
 
 ## What Makes Our Workshops Special?
 
