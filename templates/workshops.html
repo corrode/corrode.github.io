@@ -1,8 +1,9 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 <div class="hero">
   <div class="hero-font">
-    {% set hero_font = load_data(path="/workshops/hero-font.svg") %} {{
-    hero_font | safe }}
+    {% set hero_font = load_data(path="/workshops/hero-font.svg") %} 
+    {{ hero_font | safe }}
   </div>
   <img class="hero-img" src="/workshops/hero.svg" />
 </div>

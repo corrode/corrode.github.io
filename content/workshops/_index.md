@@ -16,18 +16,7 @@ Hoist your sails and set course for Rust!
 
 ## Our Workshops
 
-"**Learning Rust by Counting Words**" isn’t just another basic Rust workshop. We
-show how you can write a useful program in Rust fast while following the best
-practices of the Rust community. You'll learn how to structure your code, how to
-handle errors, how to test your code, and how Rust can help you avoid common
-pitfalls. Almost playfully, you'll learn the fundamentals of Rust, and you'll be
-able to confidently write your own programs with Rust shortly after.
-
-"**Write Yourself a Shell in Rust**" takes you one step further. Throughout the
-workshop, you'll build a fully functional shell from scratch that you can extend
-and customize to your liking. You'll learn advanced concepts like lifetimes,
-parsing user input, and spawning processes. We leverage the Rust type system to
-build powerful and ergonomic abstractions that are both safe and easy to use. 
+{{ list_workshops() }}
 
 ## What Makes Our Workshops Special?
 

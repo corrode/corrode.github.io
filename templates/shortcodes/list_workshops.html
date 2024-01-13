@@ -1,0 +1,20 @@
+{% set workshops = load_data(path="content/workshops/workshops.json") %}
+
+{% for id, workshop in workshops %}
+    {% if workshop.active == false %}
+        {% continue %}
+    {% endif %}
+
+    <div class="card">
+    <a href="/workshops/{{ id }}" class="card-link">
+        <div class="card-image">
+        <img src="/workshops/{{ id }}/logo.svg" alt="{{ workshop.title }}" />
+        <div class="caption">{{ workshop.level | capitalize }}</div>
+        </div>
+        <div class="card-content">
+        <h3 class="card-title">{{ workshop.title }}</h3>
+        <p class="card-description">{{ workshop.description }}</p>
+        </div>
+    </a>
+    </div>
+{% endfor %}
