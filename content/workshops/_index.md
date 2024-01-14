@@ -3,7 +3,7 @@ title = "Workshops"
 template = "workshops.html"
 +++
 
-# Ship On Day One
+# Ship From Day One
 
 Amidst a sea of Rust learning material, it's time for something genuinely
 engaging and rewarding. 
