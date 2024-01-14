@@ -1,88 +1,23 @@
 +++
 title = "Learning Rust By Counting Words"
-date = 2023-12-11
-template = "article.html"
+description = "Learn the fundamentals of Rust by building a command line tool that counts the words in a text file. Sounds trivial, right? No worries, you will be challenged, no matter your level of experience. Almost playfully, you'll learn the fundamentals of Rust, and you'll be able to confidently write your own programs with Rust shortly after."
 draft = false
+template = "workshop.html"
+
 [extra]
-series = "workshop"
 level = "beginner"
 duration = "2 x 4 hours"
-image = "workshop.svg"
+price = "€ 1.000"
+location = "Remote"
+material = [ "slides", "code", "chat",]
+prerequisites = [ "basic programming skills",]
+topics = [ "Rust", "CLI", "Cargo", "Error Handling", "Testing", "Rustfmt", "Iterators",]
+slots = [ "2024-02-01", "2024-02-29",]
+[[extra.links]]
+title = "Github"
+url = "https://github.com/corrode/learning-rust-by-counting-words"
+description = "The code for the workshop"
+icon = "github"
+
 +++
 
-## What You'll Learn
-
-"**Learning Rust by Counting Words**" isn’t just another basic Rust workshop. We
-show how you can write a useful program in Rust fast while following the best
-practices of the Rust community. You'll learn how to structure your code, how to
-handle errors, how to test your code, and how Rust can help you avoid common
-pitfalls. Almost playfully, you'll learn the fundamentals of Rust, and you'll be
-able to confidently write your own programs with Rust shortly after.
-
-## What You'll Build
-
-We will build a command line tool that counts the words in a text file. The
-program will take a file as input and print the number of words in that file to
-the terminal. Sounds trivial, right? But there are a lot of things to consider
-when writing a program like this. We will cover the following topics:
-
-* How to structure your code
-* Proper error handling
-* How to make your code testable
-* Handling user input
-* Command line arguments
-* Performance considerations
-* Navigating the Rust standard library
-* Object-oriented vs functional programming in Rust
-
-## Schedule
-
-The workshop is split up into two half-day sessions. We will meet on two
-consecutive days for four hours each. The workshop will be held in English.
-We limit the number of participants to 10 to ensure that everyone gets the
-attention they need.
-
-Once you sign up, we will reach out to you to send you the details.
-
-## Prerequisites
-
-* Basic knowledge of programming
-* Basic knowledge of the command line
-* Basic knowledge of Git
-
-## What You'll Need
-
-* A computer with a stable internet connection
-* A code editor of your choice
-* A terminal
-
-## Course Material
-
-* Slides
-* Exercises
-* Test Suite
-* Chat Channel
-* Recording
-
-## How is the workshop structured?
-
-The workshop is split up into blocks of 45 minutes. Each block consists of a
-short presentation, followed by an exercise. You will have 30 minutes to work on
-the exercise. After that, we will go through the solution together. 
-We will be available to answer your questions throughout the workshop.
-
-For each block, you can start from a skeleton project that contains the code
-from the previous block. This way, you can focus on the new concepts and don't
-have to worry about getting stuck.
-
-## What Makes Our Workshops Special?
-
-* We use a live mentorship model, not passive learning. You’ll be guided by
-  experienced Rust developers who will support you every step of the way.
-
-* The workshop is split up into two half-day sessions, where we will go through
-  the material together, give you time to work on the exercises, and answer your
-  questions along the way.
-
-* You will also have access to a dedicated chat channel for the workshop, where
-  you can ask questions and share ideas with your fellow students.

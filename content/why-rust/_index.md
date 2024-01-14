@@ -491,7 +491,7 @@ of up to 50%. Details on how to test it can be found in the announcement
 [blog post](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
 
 For more advice on how to improve compile times, see [my article on this
-topic](https://endler.dev/2020/rust-compile-times/) with many practical tips.
+topic](/blog/tips-for-faster-rust-compile-times/) with many practical tips.
 For medium-sized projects, compile times are less of an issue. [Modern hardware
 can also mitigate the issue to some
 extent.](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/)

@@ -14,4 +14,8 @@ build: ## Build website
 
 .PHONY: social
 social: ## Generate social images for blog posts
-	./social.sh
+	./scripts/social.sh
+
+.PHONY: workshops
+workshops: ## Generate workshop pages
+	./scripts/workshops.py
