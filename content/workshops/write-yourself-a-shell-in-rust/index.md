@@ -16,6 +16,6 @@ slots = [ "2024-03-01", "2024-03-29",]
 [[extra.links]]
 title = "Github"
 url = "https://github.com/corrode/write-yourself-a-shell"
-
+icon = "github"
 +++
 

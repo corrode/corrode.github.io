@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block content %}
+<section class="workshop">
+  <div class="hero">
+    <div class="hero-font">
+      <h1 class="hero-headline">{{ page.title }}</h1>
+      <p class="hero-subheadline">{{ page.description }}</p>
+    </div>
+    <img
+      src="{{ page.permalink }}/logo.svg"
+      alt="Workshop Image"
+      class="hero-img"
+    />
+  </div>
+
+  <div class="container">
+    <article>
+      <h2 class="subheading">Workshop Details</h2>
+      <div class="section-content">
+        <div class="section-text">
+          <h3>Level: {{ page.extra.level }}</h3>
+          <h3>Duration: {{ page.extra.duration }}</h3>
+          <h3>Price: {{ page.extra.price }}</h3>
+          <h3>Location: {{ page.extra.location }}</h3>
+          <ul>
+            {% for material in page.extra.material %}
+            <li>{{ material }}</li>
+            {% endfor %}
+          </ul>
+          <h4>Prerequisites</h4>
+          <ul>
+            {% for prerequisite in page.extra.prerequisites %}
+            <li>{{ prerequisite }}</li>
+            {% endfor %}
+          </ul>
+          <h4>Topics Covered</h4>
+          <ul>
+            {% for topic in page.extra.topics %}
+            <li>{{ topic }}</li>
+            {% endfor %}
+          </ul>
+          <h4>Available Slots</h4>
+          <ul>
+            {% for slot in page.extra.slots %}
+            <li>{{ slot }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="section-image">
+          <!-- Placeholder for any workshop specific image -->
+          <img src="workshop-image.jpg" alt="Workshop" />
+        </div>
+      </div>
+
+      {% if page.extra.links %}
+      <div class="workshop-links">
+        <h2>Additional Resources</h2>
+        <ul>
+          {% for link in page.extra.links %}
+          <li>
+            <a href="{{ link.url }}" target="_blank">
+              <img
+                src="icons/{{ link.icon }}.svg"
+                alt="{{ link.title }} Icon"
+              />
+              {{ link.title }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </article>
+  </div>
+
+  <div class="social">
+    <div class="share-icons">{% include "snippets/social.html" %}</div>
+    <div class="editor-credits">{% include "snippets/credits.html" %}</div>
+  </div>
+
+  {% include "snippets/newsletter.html" %}
+
+  <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</section>
+{% endblock content %}
