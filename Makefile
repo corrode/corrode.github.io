@@ -14,4 +14,4 @@ build: ## Build website
 
 .PHONY: social
 social: ## Generate social images for blog posts
-	./social.sh
+	./scripts/social.sh

@@ -1,4 +1,4 @@
-.article {
+article {
   font-weight: 400;
   padding: 1em;
 
@@ -40,7 +40,7 @@ details[open] summary::before {
   transform: rotate(90deg);
 }
 
-.article pre {
+article pre {
   position: relative;
   overflow: auto;
   width: 110%;
@@ -54,7 +54,7 @@ details[open] summary::before {
 }
 
 /* Only apply to inline code */
-.article code:not(pre > code) {
+article code:not(pre > code) {
   border-radius: 4px;
   padding: 0.2em 0.4em;
   font-size: 0.9em;
@@ -65,14 +65,14 @@ details[open] summary::before {
   white-space: nowrap;
 }
 
-.article img {
+article img {
   position: relative;
   overflow: auto;
   max-width: 110%;
   margin-left: -5%;
 }
 
-.article h2 code:not(pre > code) {
+article h2 code:not(pre > code) {
   font-size: 0.7em;
   vertical-align: middle;
 }
@@ -81,7 +81,7 @@ details[open] summary::before {
   margin: 1.5em 0 0.5em 0;
 }
 
-.article .subheading {
+article .subheading {
   font-size: 1.5em;
   font-weight: normal;
   margin-bottom: 0.3em;
@@ -91,7 +91,7 @@ details[open] summary::before {
   text-decoration-color: $brightScnd;
 }
 
-.article .subheading a {
+article .subheading a {
   text-decoration: none;
 }
 
@@ -285,20 +285,20 @@ details[open] summary::before {
 }
 
 @media (max-width: 750px) {
-  .article pre {
+  article pre {
     width: 100%;
     margin-left: 0;
     padding: 10px;
     font-size: 0.8em;
   }
 
-  .article img {
+  article img {
     position: relative;
     max-width: 100%;
     margin-left: 0;
   }
 
-  .article img {
+  article img {
     position: relative;
     max-width: 100%;
     margin-left: 0;
@@ -334,12 +334,12 @@ details[open] summary::before {
   }
 }
 
-.article a code:not(pre > code) {
+article a code:not(pre > code) {
   background-color: $brightScndLight;
 }
 
 @media (prefers-color-scheme: dark) {
-  .article a code:not(pre > code) {
+  article a code:not(pre > code) {
     background-color: $darkBgrd;
   }
 

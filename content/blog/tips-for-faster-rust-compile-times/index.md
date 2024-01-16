@@ -5,6 +5,13 @@ draft = false
 template = "article.html"
 [extra]
 series = "Insights"
+resources = [
+ "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
+ "List of [articles on performance on Read Rust](https://readrust.net/performance).",
+ "[8 Solutions for Troubleshooting Your Rust Build Times](https://medium.com/@jondot/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e) is a great article by Dotan Nahum that I fully agree with.",
+ "Improving the build times of a bigger Rust project (lemmy) [by 30%](https://lemmy.ml/post/50089).",
+ "[arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler takes to compile common Rust programs."
+]
 +++
 
 ![Rust Compile Times](rust-compile-times.svg)
@@ -48,7 +55,6 @@ update it for 2024 and move it here.
   - [Turn Off Debuginfo](#turn-off-debuginfo)
   - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
 - [Faster Docker Builds](#faster-docker-builds)
-- [Further Reading](#further-reading)
 
 ## General
 
@@ -740,22 +746,6 @@ ENTRYPOINT ["/usr/local/bin/app"]
 [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) can help speed up
 your continuous integration with Github Actions or your deployment process to Google
 Cloud.
-
-
-## Further Reading
-
-- [The Rust Perf
-  Book](https://nnethercote.github.io/perf-book/compile-times.html) has a
-  section on compile times.
-- List of [articles on performance on Read
-  Rust](https://readrust.net/performance).
-- [8 Solutions for Troubleshooting Your Rust Build
-  Times](https://medium.com/@jondot/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e)
-  is a great article by Dotan Nahum that I fully agree with.
-- Improving the build times of a bigger Rust project (lemmy) [by
-  30%](https://lemmy.ml/post/50089).
-- [arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler
-  takes to compile common Rust programs.
 
 {% info(headline="Get Support", icon="crab") %}
 I can help you with performance problems and reducing your build times.

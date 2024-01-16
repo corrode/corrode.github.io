@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<div class="article">
+<article>
   <h2 class="subheading">{{ page.extra.series }}</h2>
   <h1>{{ page.title }}</h1>
   <div class="article-content">{{ page.content | safe }}</div>
@@ -9,16 +9,15 @@
     <h2>Learning resources</h2>
     <ul>
       {% for resource in page.extra.resources %}
-      <li>
-        {{ resource | markdown() | safe }}
-      </li>
+      <li>{{ resource | markdown() | safe }}</li>
       {% endfor %}
     </ul>
   </div>
-  {% endif %}
-
-  {% if page.extra.revisions %}  
-  <div class="article-revisions"><span class="revision-notes">Revision notes:</span> {{ page.extra.revisions | markdown(inline=true) | safe }}</div>
+  {% endif %} {% if page.extra.revisions %}
+  <div class="article-revisions">
+    <span class="revision-notes">Revision notes:</span> {{ page.extra.revisions
+    | markdown(inline=true) | safe }}
+  </div>
   {%- endif %}
 
   <div class="social">
@@ -29,5 +28,5 @@
   {% include "snippets/newsletter.html" %}
 
   <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
-</div>
+</article>
 {% endblock content %}
