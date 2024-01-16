@@ -5,12 +5,14 @@ sort_by = "date"
 description = "This is 'Rust in Production', a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world."
 +++
 
-## Real-World Stories of Companies Using Rust in Production
+# Rust in Production &mdash; The Podcast
 
-Rust is renowned for its exceptional safety and speed, but the real-world
-stories of companies using it in production often remain untold. This podcast
-brings those stories to light, focusing on the challenges these companies tackle
-with Rust as they solve some of the most complex technical problems in the
+
+Rust is renowned for its exceptional safety and speed, but the **real-world
+stories** of companies using it in production often remain untold. 
+
+*Rust in Production* brings those stories to light, focusing on the challenges
+these companies tackle with Rust as they solve some of the most complex technical problems in the
 world.
 
-New episodes air every other week on Thursdays at 4pm UTC.
+Stories of companies who bet big on Rust. Every other Thursday at 4 pm UTC.
