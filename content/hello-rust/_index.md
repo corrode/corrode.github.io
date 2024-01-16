@@ -15,7 +15,7 @@ Here are a few things that might be of interest to you:
 
 - I'm open for consulting work. [Get in touch](/about) with me if you're interested.
 - Want to read articles on idiomatic Rust? Check out my [article series](/blog).
-- Find the original Hello Rust website [here](hello-rust.github.io).
+- Find the original Hello Rust website [here](https://hello-rust.github.io).
 - Want to start your own YouTube channel? Here are my [lessons learned](https://github.com/hello-rust/show/blob/master/LESSONS_LEARNED.md).
 - For my personal projects, check out my [private blog](https://endler.dev).
 - Check out my new podcast, "[Rust in Production](https://corrode.dev/podcast)."
