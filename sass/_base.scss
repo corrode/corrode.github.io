@@ -349,7 +349,6 @@ ul li {
   margin-bottom: 1em;
 }
 
-
 .topbox {
   display: flex;
   margin-top: 20px;
@@ -475,9 +474,11 @@ hr {
 }
 
 table {
-  border-collapse: collapse; /* Ensures that there's no space between borders */
-  width: 100%; /* Adjust the width as needed */
-  margin-bottom: 25px;
+  width: 100%;
+  border-collapse: collapse;
+  /* Enable horizontal scrolling */
+  overflow-x: auto;
+  display: block;
 }
 
 th,
@@ -495,6 +496,15 @@ td:last-child {
 
 tr:last-child td {
   border-bottom: none; /* Removes the bottom border from the last row */
+}
+
+@media (max-width: 800px) {
+  table,
+  th,
+  td {
+    font-size: smaller;
+    padding: 4px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
