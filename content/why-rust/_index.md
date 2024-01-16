@@ -28,7 +28,7 @@ assess whether Rust is the right tool for their use-case or not.
 The intent is to provide an honest look at Rust's practicality for production
 to help decision-makers understand its benefits and challenges.
 
-{% info(headline="Interested in a Rust Podcast?", icon="radio") %}
+{% info(headline="New Podcast About Companies Using Rust in Production", icon="radio") %}
 Discover how Rust impacts businesses through <a href="/podcast">Rust in Production</a>, a podcast featuring insights from leaders on why they chose Rust. Hear about their challenges, motivations, and key learnings from using Rust in real-world scenarios.
 
 <a href="/podcast">Learn more here</a>.
