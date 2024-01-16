@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+{% block content %}
+<div class="hero">
+  <div class="hero-font">
+    {% set hero_font = load_data(path="/workshops/hero-font.svg") %} 
+    {{ hero_font | safe }}
+  </div>
+  <img class="hero-img" src="/workshops/hero.svg" />
+</div>
+<article>
+  <div>{{ section.content | safe }}</div>
+  {% include "snippets/faq.html" %}
+  <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</article>
+{% endblock content %}

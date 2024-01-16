@@ -8,12 +8,6 @@ article {
   line-height: 1.5;
 }
 
-details {
-  border-top: 4px solid $brightScnd;
-  border-bottom: 4px solid $brightScnd;
-  padding-top: 25px;
-}
-
 details > summary {
   list-style: none;
 }
@@ -28,12 +22,12 @@ details summary::before {
   content: "";
   width: 20px;
   height: 20px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpolyline points='1,1 5,5 1,9' stroke='%23000000' stroke-width='2' fill='none' /%3E%3C/svg%3E")
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpolyline points='1,1 5,5 1,9' stroke='black' stroke-width='2' fill='none' /%3E%3C/svg%3E")
     no-repeat;
-  background-size: 20px 20px; /* Adjusts the size of the arrow */
+  background-size: 16px 16px;
   position: absolute;
-  left: -40px; /* Adjust the position of the arrow */
-  top: 1em; /* Adjusts the top position of the arrow to align with the first line of the summary */
+  left: -30px;
+  top: 6px;
 }
 
 details[open] summary::before {
@@ -298,12 +292,6 @@ article .subheading a {
     margin-left: 0;
   }
 
-  article img {
-    position: relative;
-    max-width: 100%;
-    margin-left: 0;
-  }
-
   code {
     max-width: 100%;
   }
@@ -348,6 +336,10 @@ article a code:not(pre > code) {
   }
 
   .icon {
+    filter: invert(1);
+  }
+
+  details summary::before {
     filter: invert(1);
   }
 
