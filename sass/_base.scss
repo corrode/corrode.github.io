@@ -97,7 +97,7 @@ img.hero-img {
   height: auto;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 750px) {
   div.hero {
     flex-direction: column;
     padding: 0;
@@ -228,7 +228,7 @@ nav {
     }
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     #icon-sun path {
       fill: white;
     }
@@ -290,7 +290,7 @@ nav {
   flex: 1 0 auto;
 }
 
-section {
+.homepage section {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -564,5 +564,82 @@ tr:last-child td {
     blockquote {
       border-left-color: $brightScnd;
     }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.card-link {
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.card-image {
+  flex-basis: 40%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  margin-left: 0;
+  display: block;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+}
+
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  text-align: center;
+  padding: 5px;
+}
+
+.card-content {
+  padding: 1em;
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 1.7em;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.card-description {
+  font-size: 1em;
+  margin-bottom: 1em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+
+  .card-title {
+    color: $darkPrim;
+  }
+
+  .card-content {
+    background-color: $darkBgrd;
   }
 }

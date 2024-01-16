@@ -1,0 +1,80 @@
+{
+    "learning-rust-by-counting-words": {
+        "title": "Learning Rust By Counting Words",
+        "description": "Learn the fundamentals of Rust by building a command line tool that counts the words in a text file. Sounds trivial, right? No worries, you will be challenged, no matter your level of experience. Almost playfully, you'll learn the fundamentals of Rust, and you'll be able to confidently write your own programs with Rust shortly after.",
+        "draft": false,
+        "extra": {
+            "level": "beginner",
+            "duration": "2 x 4 hours",
+            "price": "€ 1.000",
+            "location": "Remote",
+            "material": [
+                "slides",
+                "code",
+                "chat"
+            ],
+            "prerequisites": [
+                "basic programming skills"
+            ],
+            "topics": [
+                "Rust",
+                "CLI",
+                "Cargo",
+                "Error Handling",
+                "Testing",
+                "Rustfmt",
+                "Iterators"
+            ],
+            "links": [
+                {
+                    "title": "Github",
+                    "url": "https://github.com/corrode/learning-rust-by-counting-words",
+                    "description": "The code for the workshop",
+                    "icon": "github"
+                }
+            ],
+            "slots": [
+                "2024-02-01",
+                "2024-02-29"
+            ]
+        }
+    },
+    "write-yourself-a-shell-in-rust": {
+        "title": "Write Yourself A Shell In Rust",
+        "draft": false,
+        "description": "Throughout the workshop, you'll build a fully functional shell from scratch that you can extend and customize to your liking. You'll learn advanced concepts like lifetimes, parsing user input, and spawning processes. We leverage the Rust type system to build powerful and ergonomic abstractions that are both safe and easy to use.",
+        "extra": {
+            "level": "intermediate",
+            "duration": "2 days",
+            "price": "€ 2.000",
+            "location": "Remote",
+            "material": [
+                "slides",
+                "code",
+                "chat"
+            ],
+            "prerequisites": [
+                "basic experience with Rust"
+            ],
+            "topics": [
+                "Rust",
+                "CLI",
+                "Cargo",
+                "Error Handling",
+                "Testing",
+                "Rustfmt",
+                "Iterators"
+            ],
+            "links": [
+                {
+                    "title": "Github",
+                    "url": "https://github.com/corrode/write-yourself-a-shell"
+                }
+            ],
+            "slots": [
+                "2024-03-01",
+                "2024-03-29"
+            ]
+        }
+    }
+}
