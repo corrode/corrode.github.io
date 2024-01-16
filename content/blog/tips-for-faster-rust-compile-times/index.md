@@ -7,6 +7,8 @@ template = "article.html"
 series = "Insights"
 +++
 
+![Rust Compile Times](rust-compile-times.svg)
+
 **Slow Rust Builds?**
 
 Here are some tips to speed up your compile times.
