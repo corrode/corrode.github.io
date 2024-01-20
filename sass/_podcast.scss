@@ -66,15 +66,17 @@
   opacity: 0.8;
 }
 
-.logo-img {
-  height: auto;
-  width: 100%;
-  object-fit: cover;
+
+.podcast-logo-wrapper {
+  width: 32px;
+  height: 32px;
 }
 
 .podcast-logo {
-  width: 32px;
-  height: 32px;
+  height: auto;
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
 }
 
 .podcast-title {

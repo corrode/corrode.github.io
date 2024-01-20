@@ -1,0 +1,63 @@
++++
+title = "Arroyo"
+date = 2024-02-25
+template = "episode.html"
+draft = false
+[extra]
+guest = "Micah Wylde"
+role = "Co-Founder and CEO"
+season = "01"
+episode = "04"
+series = "Podcast"
+logo = "arroyo.svg"
++++
+
+In this episode, we talk to Micah Wylde, Co-founder and CEO of 
+[Arroyo](https://www.arroyo.dev/), about how they simplified stream processing
+for data engineers with Rust.
+
+<!-- more -->
+
+## Show Notes
+
+Data engineers are responsible for building and maintaining the data
+infrastructure of a company. They are the ones who make sure that data is
+collected, stored, and processed in a way that is useful for the business.
+
+This poses a lot of challenges, especially when it comes to processing data
+in real-time. The data is often coming from different sources, in different
+formats, and at different rates. Visibility into the pipelines is often
+limited, and debugging is hard.
+
+Arroyo is a new stream processing engine that aims to solve these problems. It
+is built in Rust and uses WebAssembly to allow users to transform, filter,
+aggregate, and join streams using SQL, with sub-second results. It scales to
+millions of events per second.
+The Arroyo Streaming Engine is available as open source software on GitHub.
+
+In this episode, Micah Wylde, Founder of Arroyo, walks us through the
+architecture of the Arroyo Streaming Engine and explains why Rust is the
+best language for building data infrastructure.
+
+### About Arroyo
+
+Arroyo was founded in 2022 by Micah Wylde and is based in San Francisco, CA.
+It is backed by [Y Combinator](https://www.ycombinator.com/) (YC W23).
+The companies mission is to accelerate the transition from batch-processing to
+a streaming-first world.
+
+### About Micah Wylde
+
+Micah was previously tech lead for streaming compute at Splunk and Lyft, where
+he built real-time data infra powering Lyft's dynamic pricing, ETA, and safety
+features. He spends his time rock climbing, playing music, and bringing
+real-time data to companies that can't hire a streaming infra team.
+
+### Links
+
+- [Arroyo Homepage](https://www.arroyo.dev/)
+- [Arroyo Streaming Engine](https://github.com/ArroyoSystems/arroyo)
+- [Blog Post: Rust Is The Best Language For Data Infra](https://www.arroyo.dev/blog/rust-for-data-infra)
+- [Micah Wylde on LinkedIn](https://www.linkedin.com/in/wylde/)
+- [Micah Wylde on GitHub](https://github.com/mwylde)
+- [Micah Wylde's Personal Homepage](https://www.micahw.com/)

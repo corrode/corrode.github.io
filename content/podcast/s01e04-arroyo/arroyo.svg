@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 213 213"
+   id="svg6"
+   sodipodi:docname="arroyo.svg"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.6961561"
+     inkscape:cx="106.59723"
+     inkscape:cy="106.05613"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg6" />
+  <defs
+     id="defs1">
+    <style
+       id="style1">.cls-1{fill:none;}.cls-1,.cls-2,.cls-3,.cls-4{stroke-width:0px;}.cls-2{fill:#2c7a96;}.cls-3{fill:#3aa4ca;}.cls-4{fill:#7cbbd2;}</style>
+  </defs>
+  <path
+     class="cls-1"
+     d="m198 69.4c-5.07-12.2-12.6-23.2-21.9-32.3-52.2-11.6-105 52.8-157 23.3-4.09 7.54-7.21 15.7-9.2 24.2 62.6 47.2 125-56.9 187-15.2z"
+     id="path1" />
+  <path
+     class="cls-1"
+     d="m193 153c3.71-6.82 6.63-14.1 8.62-21.8-61.6-47.2-123 53.2-185 17.1 4.88 10.3 11.5 19.5 19.5 27.5 52.3 11 105-53.6 157-22.8z"
+     id="path2" />
+  <path
+     class="cls-1"
+     d="m128 202c5.46-1.19 10.8-2.83 15.9-4.88-5.27 1.27-10.6 2.95-15.9 4.88z"
+     id="path3" />
+  <path
+     class="cls-2"
+     d="M 176,37 C 158.2,19.5 133.6,8.8 106.6,8.8 69,8.8 36.2,29.7 19.6,60.3 71.8,89.8 124.6,25.5 176.6,37 Z"
+     id="path4"
+     style="fill:#000000;fill-opacity:1" />
+  <path
+     class="cls-3"
+     d="m 202,131 c 2.02,-7.79 3.11,-16 3.11,-24.4 0,-12.7 -1.67,-25.2 -6.73,-35.8 -0.0371,-0.0642 -0.0649,-0.138 -0.102,-0.202 -0.343,-0.715 -0.89,-1.33 -1.56,-1.76 -0.0556,-0.0367 -0.111,-0.0734 -0.176,-0.11 -60.8,-39.3 -124,62.9 -186,16 -1.63,7.03 -2.49,14.4 -2.49,21.9 0,14.7 3.29,28.6 9.17,41.1 0.0649,0.138 0.436,0.559 0.565,0.624 61.6,35.4 123,-64.6 184,-17.4 z"
+     id="path5"
+     style="fill:#000000;fill-opacity:1" />
+  <path
+     class="cls-4"
+     d="M 193,153 C 140.7,122.2 88,186.7 36,175.8 79.5,221.7 164,210 193,153 Z"
+     id="path6"
+     style="fill:#000000;fill-opacity:1" />
+</svg>
