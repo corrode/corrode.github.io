@@ -24,7 +24,7 @@ update it for 2024 and move it here.
 
 ## Table of Contents <!-- omit in toc -->
 
-- [General](#general)
+- [General Tips](#general-tips)
   - [Update The Rust Compiler And Toolchain](#update-the-rust-compiler-and-toolchain)
   - [Use cargo check Instead Of cargo build](#use-cargo-check-instead-of-cargo-build)
   - [Remove Unused Dependencies](#remove-unused-dependencies)
@@ -56,7 +56,7 @@ update it for 2024 and move it here.
   - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
 - [Faster Docker Builds](#faster-docker-builds)
 
-## General
+## General Tips
 
 ### Update The Rust Compiler And Toolchain
 
