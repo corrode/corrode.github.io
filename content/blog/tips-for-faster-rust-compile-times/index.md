@@ -14,7 +14,7 @@ resources = [
 ]
 +++
 
-![Rust Compile Times](rust-compile-times.svg)
+<img src="rust-compile-times.svg" alt="Rust Compile Times Hero Image" class="noinvert" />
 
 **Slow Rust Builds?**
 
@@ -22,7 +22,13 @@ Here are some tips to speed up your compile times.
 This list was originally released on my [private blog](https://endler.dev/), but I decided to 
 update it for 2024 and move it here.
 
-## Table of Contents <!-- omit in toc -->
+<h2>Table of Contents</h2>
+
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+
 
 - [General Tips](#general-tips)
   - [Update The Rust Compiler And Toolchain](#update-the-rust-compiler-and-toolchain)
@@ -55,6 +61,8 @@ update it for 2024 and move it here.
   - [Turn Off Debuginfo](#turn-off-debuginfo)
   - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
 - [Faster Docker Builds](#faster-docker-builds)
+
+</details>
 
 ## General Tips
 

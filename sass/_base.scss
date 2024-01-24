@@ -506,6 +506,17 @@ tr:last-child td {
   }
 }
 
+.toc > summary {
+    cursor: pointer;
+    color: white;
+    padding: 1.5em;
+    background-color: $darkBgrd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 110%;
+    margin-left: -5%;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: $heroDark;
