@@ -47,6 +47,7 @@ Click here to expand the table of contents.
   - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
   - [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
   - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
+  - [Generics: Use an Inner Non-Generic Function](#generics-use-an-inner-non-generic-function)
   - [Invest In Better Hardware](#invest-in-better-hardware)
   - [Compile in the Cloud](#compile-in-the-cloud)
   - [Cache All Crates Locally](#cache-all-crates-locally)
@@ -496,6 +497,33 @@ shared = { path = "../shared", features = ["serde"] }
 
 You can now use `MySharedStruct` with Serde's functionality enabled
 without bloating the compilation of crates that don't need it.
+
+### Generics: Use an Inner Non-Generic Function
+
+If you have a generic function, it will be compiled for every type you use it
+with. This can be a problem if you have a lot of different types.
+
+A common solution is to use an inner non-generic function. This way, the
+compiler will only compile the inner function once.
+
+This is a trick often used in the standard library. For example, here is the
+implementation of [`read_to_string`](https://github.com/rust-lang/rust/blob/ae612bedcbfc7098d1711eb35bc7ca994eb17a4c/library/std/src/fs.rs#L295-L304):
+
+```rust
+pub fn read_to_string<P: AsRef<Path>>(path: P) -> io::Result<String> {
+    fn inner(path: &Path) -> io::Result<String> {
+        let mut file = File::open(path)?;
+        let size = file.metadata().map(|m| m.len() as usize).ok();
+        let mut string = String::with_capacity(size.unwrap_or(0));
+        io::default_read_to_string(&mut file, &mut string, size)?;
+        Ok(string)
+    }
+    inner(path.as_ref())
+}
+```
+
+You can do the same in your code: the outer function is generic, while
+it calls the inner non-generic function, which does the actual work.
 
 ### Invest In Better Hardware
 
