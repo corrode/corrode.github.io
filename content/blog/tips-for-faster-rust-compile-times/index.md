@@ -40,6 +40,7 @@ Click here to expand the table of contents.
   - [Replace Heavy Dependencies](#replace-heavy-dependencies)
   - [Split Big Crates Into Smaller Ones Using Workspaces](#split-big-crates-into-smaller-ones-using-workspaces)
   - [Disable Unused Features Of Crate Dependencies](#disable-unused-features-of-crate-dependencies)
+  - [Add Features For Expensive Code](#add-features-for-expensive-code)
   - [Cache Dependencies With sccache](#cache-dependencies-with-sccache)
   - [Cranelift: The Alternative Rust Compiler](#cranelift-the-alternative-rust-compiler)
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
@@ -289,6 +290,34 @@ flags](https://docs.rs/crate/tokio/latest/features).
 
 After you removed unused features, check the diff of your `Cargo.lock` file to
 see all the unnecessary dependencies that got cleaned up.
+
+### Add Features For Expensive Code
+
+```toml
+[features]
+# Basic feature for default functionality
+default = []
+
+# Optional feature for JSON support
+json = ["serde_json"]
+
+# Another optional feature for more expensive or complex code
+complex_feature = ["some-expensive-crate"]
+```
+
+Not all the code in your project is equally expensive to compile. You can use
+Cargo features to split up your code into smaller chunks on a more granular
+level than crates. This way, you can compile only the functionality you need.
+
+This is a common practice for libraries. For example, `serde` has a feature
+called `derive` that enables code generation for serialization and
+deserialization. It's not always needed, so it's disabled by default.
+Similarly, `Tokio` and `reqwest` have a lot of features that can be enabled or
+disabled.
+
+You can do the same in your code. In the above example, the `json` feature
+in your `Cargo.toml` enables JSON support while the `complex_feature` feature
+enables another expensive code path.
 
 ### Cache Dependencies With sccache
 
