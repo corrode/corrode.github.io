@@ -12,6 +12,8 @@ series = "Podcast"
 logo = "arroyo.svg"
 +++
 
+<div><script id="letscast-player-9614e85c" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-4-arroyo-s-micah-wylde/player.js?size=s"></script></div>
+
 In this episode, we talk to Micah Wylde, Co-founder and CEO of 
 [Arroyo](https://www.arroyo.dev/), about how they simplified stream processing
 for data engineers with Rust.
