@@ -55,7 +55,24 @@ he built real-time data infra powering Lyft's dynamic pricing, ETA, and safety
 features. He spends his time rock climbing, playing music, and bringing
 real-time data to companies that can't hire a streaming infra team.
 
-### Links
+### Tools and Services Mentioned
+
+- [Apache Flink](https://flink.apache.org/)
+- [Tokio Discord](https://discord.gg/tokio)
+- [Clippy](https://github.com/rust-lang/rust-clippy)
+- [Zero to Production in Rust by Luca Palmieri](https://www.zero2prod.com/)
+- [Apache DataFusion](https://github.com/apache/arrow-datafusion)
+- [Axum web framework](https://github.com/tokio-rs/axum)
+- [`sqlx` crate](https://github.com/launchbadge/sqlx)
+- [`log` crate](https://github.com/rust-lang/log)
+- [`tokio tracing` crate](https://github.com/tokio-rs/tracing)
+- [wasmtime - A standalone runtime for WebAssembly](https://github.com/bytecodealliance/wasmtime)
+
+### References To Other Episodes
+
+- [Rust in Production Season 1 Episode 1: InfluxData](https://corrode.dev/podcast/s01e01-influxdata)
+
+### Official Links
 
 - [Arroyo Homepage](https://www.arroyo.dev/)
 - [Arroyo Streaming Engine](https://github.com/ArroyoSystems/arroyo)
