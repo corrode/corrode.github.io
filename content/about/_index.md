@@ -43,6 +43,19 @@ You can learn more about me on [GitHub](https://github.com/mre) or on my
 Feel free to get in contact via [mail](mailto:hi@corrode.dev) or [LinkedIn](https://www.linkedin.com/in/endlermatthias/).
 I'm always up for a chat!
 
+## Media
+
+From time to time, I give talks and interviews. Here are a few recent ones:
+
+
+- [Filtra.io Interview - Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
+- [RustShip Podcast Episode 5 - corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
+- [Engineering Kiosk Podcast - Der Hype um Rust (German)](https://engineeringkiosk.dev/podcast/episode/98-der-hype-um-rust-mit-matthias-endler/)
+- [Working Draft Podcast Revision 569 - Von Link-Checkern und Rabbit Holes (German)](https://workingdraft.de/569/)
+- [programmier.bar podcast - Rust Deep Dive (German)](https://www.programmier.bar/podcast/deep-dive-49-rust-mit-matthias-endler)
+
+
+
 <style>
 .img-stack {
     position: relative;
