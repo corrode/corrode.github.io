@@ -62,6 +62,7 @@ Click here to expand the table of contents.
   - [Disable Incremental Compilation](#disable-incremental-compilation)
   - [Turn Off Debuginfo](#turn-off-debuginfo)
   - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
+  - [Switch To A Faster Github Actions Runner](#switch-to-a-faster-github-actions-runner)
 - [Faster Docker Builds](#faster-docker-builds)
 
 </details>
@@ -758,6 +759,27 @@ Instead, [add `-D warnings` to `RUSTFLAGS`](https://github.com/rust-analyzer/rus
 env:
   RUSTFLAGS: -D warnings
 ```
+
+### Switch To A Faster Github Actions Runner
+
+```diff
+- runs-on: ubuntu-latest
++ runs-on: ubicloud
+```
+
+Services like [Ubicloud](https://www.ubicloud.com/use-cases/github-actions) or
+[BuildJet](https://buildjet.com) provide you with faster workers for your Github
+Actions builds. Especially for Rust pipelines, the number of cores can have a
+significant big impact on compile times, so it might be worth a try.
+
+Here is an example from the [Facebook Folly](https://github.com/facebook/folly)
+project using Ubicloud. Granted, this is a C++ project, but it shows the
+potential of faster runners:
+
+![facebook/folly build times](ubicloud-facebook-folly.svg)
+
+After signing up with the service, you only need to change the runner
+in your Github Actions workflow file.
 
 ## Faster Docker Builds
 
