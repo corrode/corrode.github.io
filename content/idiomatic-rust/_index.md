@@ -1251,6 +1251,55 @@ series = "Insights"
             ]
         });
 
+        // Object to keep track of active filters
+        var activeFilters = {};
+
+        // Define a custom filtering function
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+            // If no filters are active, show all rows
+            if (Object.keys(activeFilters).length === 0) {
+                return true;
+            }
+
+            // Get the tags for the current row (assuming they are in column 4)
+            var tags = data[4];
+
+            // All active filters must match
+            return Object.keys(activeFilters).every(function (tag) {
+                return tags.includes(tag);
+            });
+        });
+
+        // Add event listener to code tags for toggling filter
+        $('.dataTables_wrapper').on('click', 'code', function () {
+            var tag = $(this).text();
+
+            // Toggle the tag in active filters
+            if (activeFilters[tag]) {
+                delete activeFilters[tag];
+                $('code').filter(function () {
+                    return $(this).text().includes(tag);
+                }).removeClass('active');
+            } else {
+                activeFilters[tag] = true;
+                $('code').filter(function () {
+                    return $(this).text().includes(tag);
+                }).addClass('active');
+            }
+
+            if (Object.keys(activeFilters).length > 0) {
+                /* set display: block to the reset button */
+                $('.reset-filter').css('display', 'block');
+
+            } else {
+                /* set display: none to the reset button */
+                $('.reset-filter').css('display', 'none');
+            }
+
+            // Trigger a redraw to apply the new filter
+            table.draw();
+        });
+
         // Add event listener for opening and closing details
         table.on('click', 'td.dt-control', function (e) {
             let tr = e.target.closest('tr');
@@ -1266,6 +1315,14 @@ series = "Insights"
             }
         });
 
+        // Reset all filters when clicking the reset button
+        $('.reset-filter').on('click', function () {
+            activeFilters = {};
+            $('code').removeClass('active');
+            $('.reset-filter').css('display', 'none');
+            table.draw();
+        });
+
         document.querySelectorAll('a.toggle-vis').forEach((el) => {
             el.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1275,6 +1332,9 @@ series = "Insights"
         
                 // Toggle the visibility
                 column.visible(!column.visible());
+
+                // Toggle the active class for the a.toggle-vis element
+                e.target.classList.toggle('active');
             });
         });
     });
@@ -1284,16 +1344,19 @@ series = "Insights"
 Below is a list of resources that help you to write ergonomic Rust code.  
 The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome.
 
+<div style="margin-bottom: 20px">
+    <button class="reset-filter">Reset filters</button>
+</div>
+
 <div>
     Toggle column: 
     <a class="toggle-vis" data-column="4">Tags</a> - 
-    <a class="toggle-vis" data-column="5">Official Resource?</a> - 
+    <a class="toggle-vis" data-column="5">Official</a> - 
     <a class="toggle-vis" data-column="6">Year</a> - 
     <a class="toggle-vis" data-column="7">Difficulty Level</a> - 
     <a class="toggle-vis" data-column="8">Duration</a> - 
     <a class="toggle-vis" data-column="9">Interactivity Level</a> - 
-    <a class="toggle-vis" data-column="10">Access Type</a> - 
-    <a class="toggle-vis" data-column="11">Category</a>
+    <a class="toggle-vis" data-column="10">Access Type</a>
 </div>
 
 <table id="data-table" class="compact order-column hover stripe" style="width:100%">
@@ -1311,9 +1374,55 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
     margin: 0 0 0 10px;
     padding: 8px;
     width: 350px;
+    color: #111;
+    border: 1px solid #111;
+    background: rgb(255, 255, 255, 0.2);
 }
 
-/* .dataTables_wrapper code {
+.dataTables_wrapper code {
     cursor: pointer;
-} */
+}
+
+code {
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    font-size: 14px;
+    font-family: monospace;
+    color: #111;
+    cursor: pointer;
+}
+
+code.active {
+    color: white;
+    background-color: #111;
+}
+
+.reset-filter {
+    padding: 10px;
+    display: none;
+    margin-bottom: 20px;
+    color: white;
+    background-color: #111;
+    border: none;
+}
+
+.toggle-vis.active {
+    font-weight: bold;
+}
+
+/* If prefers color scheme is bright, change background color of code tags and filter input */
+@media (prefers-color-scheme: dark) {
+
+    .reset-filter {
+        background-color: #ee3856;
+    }
+
+    /* border white with 20% opacity */
+    .dataTables_filter input[type="search"] {
+        border: 1px solid rgb(255, 255, 255, 0.6);
+    }
+}
+
+
 </style>
