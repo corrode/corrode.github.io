@@ -1183,11 +1183,10 @@ series = "Insights"
     // Wait for dom content to be loaded with jquery
     $(document).ready(function () {
         // Create a new table with the data
-        const table = new DataTable('#myTable', {
+        const table = new DataTable('#data-table', {
             paging: false,
             data: data,
             scrollCollapse: true,
-            scrollY: '1000px',
             order: [[1, 'asc']],
             columns: [
                 {
@@ -1217,7 +1216,7 @@ series = "Insights"
                     title: 'Tags',
                     // Format as `<code>` tags
                     render: function (data) {
-                        return data.map((tag) => '<code>' + tag + '</code>').join(' ');
+                        return data.map((tag) => '<code style="margin:5px 0">' + tag + '</code>').join(' ');
                     },
                     visible: true
                 },
@@ -1297,9 +1296,24 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
     <a class="toggle-vis" data-column="11">Category</a>
 </div>
 
-
-<table id="myTable" class="compact order-column hover stripe" style="width:100%">
+<table id="data-table" class="compact order-column hover stripe" style="width:100%">
 </table>
 
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
 
+<style>
+.dataTables_wrapper .dataTables_filter {
+    margin: 20px 0 40px;
+}
+
+.dataTables_filter input[type="search"] {
+    font-size: 18px;
+    margin: 0 0 0 10px;
+    padding: 8px;
+    width: 350px;
+}
+
+/* .dataTables_wrapper code {
+    cursor: pointer;
+} */
+</style>
