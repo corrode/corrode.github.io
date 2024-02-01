@@ -7,14 +7,14 @@ template = "wide_page.html"
 series = "Writing Better Rust Code"
 +++
 
-Below is a list of resources that **help you to write ergonomic Rust code**.  
+Below is a list of resources to **help you to write ergonomic Rust code**.  
 
-The references offer a wealth of information on how to write better Rust code,
+The references offer a wealth of information on how to write better Rust,
 including tutorials, workshops, and articles by Rust experts. Each piece in the
-collection is peer-reviewed to adherence to Rust best practices.
+collection is peer-reviewed to adhere to Rust best practices.
 You can filter, sort, and search by tags, year, and difficulty level.
 
-The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome.
+The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome!
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -1256,7 +1256,14 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
                     },
                     visible: true
                 },
-                {data: 'official', title: 'Official', visible: false},
+                {
+                  data: 'official',
+                  title: 'Official',
+                  visible: false,
+                  render: function (data, type, row) {
+                      return data ? '✅' : '❌';
+                  }
+                },
                 {data: 'year', title: 'Year', visible: false},
                 {
                     data: 'difficultyLevel',
@@ -1264,37 +1271,43 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
                     // Render as emoji stars (beginner: 1, intermediate: 2, advanced: 3)
                     render (data) {
                         if (data === 'beginner' || data === 'all' || data === 'varied') {
-                            return '⭐';
+                            return '<span class="difficultyLevel">➕</span>';
                         } else if (data === 'intermediate') {
-                            return '⭐⭐';
+                            return '<span class="difficultyLevel">➕➕</span>';
                         } else if (data === 'advanced') {
-                            return '⭐⭐⭐';
+                            return '<span class="difficultyLevel">➕➕➕</span>';
                         } else {
                             return data;
                         }
                     },
 
                 },
-                {data: 'duration', title: 'Duration', visible: false},
-                {data: 'interactivityLevel', title: 'Interactivity',
-                    render (data) {
-                        if (data === 'low') {
-                            return '⚙️';
-                        } else if (data === 'medium') {
-                            return '⚙⚙️';
-                        } else if (data === 'high') {
-                            return '⚙️⚙️⚙️';
-                        } else {
-                            return data;
-                        }
-                    },
+                {
+                  data: 'duration',
+                  title: 'Duration',
+                  visible: false
                 },
                 {
-                   data: 'free',
-                   title: 'Free',
-                     render: function (data, type, row) {
-                          return data ? '✅' : '❌';
-                     }
+                  data: 'interactivityLevel',
+                  title: 'Interactivity',
+                  render (data) {
+                      if (data === 'low') {
+                          return '⚙️';
+                      } else if (data === 'medium') {
+                          return '️⚙⚙';
+                      } else if (data === 'high') {
+                          return '⚙⚙⚙';
+                      } else {
+                          return data;
+                      }
+                  },
+                },
+                {
+                  data: 'free',
+                  title: 'Free',
+                  render: function (data, type, row) {
+                      return data ? '✅' : '❌';
+                  }
                 },
             ]
         });
@@ -1402,7 +1415,7 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
     <a class="toggle-vis" data-column="7">Difficulty</a> - 
     <a class="toggle-vis" data-column="8">Duration</a> - 
     <a class="toggle-vis" data-column="9">Interactivity</a> - 
-    <a class="toggle-vis" data-column="10">Access Type</a>
+    <a class="toggle-vis" data-column="10">Free/Commercial</a>
 </div>
 
 <div>
@@ -1484,6 +1497,11 @@ table.dataTable td.dt-control::before {
 
     table.dataTable td.dt-control::before {
       color: white;
+    }
+
+    .difficultyLevel {
+      color: transparent;  
+      text-shadow: 0 0 0 #ee3856;
     }
 }
 </style>
