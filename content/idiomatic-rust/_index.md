@@ -4,7 +4,7 @@ date = 2024-01-28
 draft = false
 template = "wide_page.html"
 [extra]
-series = "Resources"
+series = "Writing Better Rust Code"
 +++
 
 Below is a list of resources that **help you to write ergonomic Rust code**.  
