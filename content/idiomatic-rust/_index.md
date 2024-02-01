@@ -1273,7 +1273,19 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
 
                 },
                 {data: 'duration', title: 'Duration', visible: false},
-                {data: 'interactivityLevel', title: 'Interactivity'},
+                {data: 'interactivityLevel', title: 'Interactivity',
+                    render (data) {
+                        if (data === 'low') {
+                            return '⚙️';
+                        } else if (data === 'medium') {
+                            return '⚙️';
+                        } else if (data === 'high') {
+                            return '⚙️⚙️⚙️';
+                        } else {
+                            return data;
+                        }
+                    },
+                },
                 {
                    data: 'free',
                    title: 'Free',
@@ -1384,9 +1396,9 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
     <a class="toggle-vis" data-column="4">Tags</a> - 
     <a class="toggle-vis" data-column="5">Official</a> - 
     <a class="toggle-vis" data-column="6">Year</a> - 
-    <a class="toggle-vis" data-column="7">Difficulty Level</a> - 
+    <a class="toggle-vis" data-column="7">Level</a> - 
     <a class="toggle-vis" data-column="8">Duration</a> - 
-    <a class="toggle-vis" data-column="9">Interactivity Level</a> - 
+    <a class="toggle-vis" data-column="9">Interactivity</a> - 
     <a class="toggle-vis" data-column="10">Access Type</a>
 </div>
 
