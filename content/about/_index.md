@@ -45,7 +45,7 @@ I'm always up for a chat!
 
 ## Media
 
-From time to time, I give talks and interviews. Here are a few recent ones:
+From time to time, I get invited to podcasts and interviews. Here are some of them:
 
 
 - [Filtra.io Interview - Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
@@ -54,6 +54,14 @@ From time to time, I give talks and interviews. Here are a few recent ones:
 - [Working Draft Podcast Revision 569 - Von Link-Checkern und Rabbit Holes (German)](https://workingdraft.de/569/)
 - [programmier.bar podcast - Rust Deep Dive (German)](https://www.programmier.bar/podcast/deep-dive-49-rust-mit-matthias-endler)
 
+## Talks
+
+- [RustLab 2023, Florence, Italy](https://rustlab.it/talks/lychee-writing-a-link-checker-in-a-weekend-plus-two-short-years)
+- [Rust Linz 2023, Linz, Austria](https://www.youtube.com/watch?v=BIguvia6AvM)
+- [FrOSCon 2023, Bonn, Germany](https://programm.froscon.org/2023/events/2867.html)
+- [Previous talks](https://endler.dev/talks/)
+
+Reach out for details on paid speaking engagements.
 
 
 <style>

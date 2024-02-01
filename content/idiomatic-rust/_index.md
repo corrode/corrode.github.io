@@ -1457,6 +1457,14 @@ code.active {
     font-weight: bold;
 }
 
+.dt-control {
+    font-family: Arial, sans-serif;
+}
+
+table.dataTable td.dt-control::before {
+  color: #111;
+}
+
 /* If prefers color scheme is bright, change background color of code tags and filter input */
 @media (prefers-color-scheme: dark) {
 
@@ -1468,7 +1476,9 @@ code.active {
     .dataTables_filter input[type="search"] {
         border: 1px solid rgb(255, 255, 255, 0.6);
     }
+
+    table.dataTable td.dt-control::before {
+      color: white;
+    }
 }
-
-
 </style>
