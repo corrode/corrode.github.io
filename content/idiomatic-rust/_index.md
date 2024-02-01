@@ -1260,7 +1260,7 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
                 {data: 'year', title: 'Year', visible: false},
                 {
                     data: 'difficultyLevel',
-                    title: 'Level',
+                    title: 'Difficulty',
                     // Render as emoji stars (beginner: 1, intermediate: 2, advanced: 3)
                     render (data) {
                         if (data === 'beginner' || data === 'all' || data === 'varied') {
@@ -1281,7 +1281,7 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
                         if (data === 'low') {
                             return '⚙️';
                         } else if (data === 'medium') {
-                            return '⚙️';
+                            return '⚙⚙️';
                         } else if (data === 'high') {
                             return '⚙️⚙️⚙️';
                         } else {
@@ -1399,7 +1399,7 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
     <a class="toggle-vis" data-column="4">Tags</a> - 
     <a class="toggle-vis" data-column="5">Official</a> - 
     <a class="toggle-vis" data-column="6">Year</a> - 
-    <a class="toggle-vis" data-column="7">Level</a> - 
+    <a class="toggle-vis" data-column="7">Difficulty</a> - 
     <a class="toggle-vis" data-column="8">Duration</a> - 
     <a class="toggle-vis" data-column="9">Interactivity</a> - 
     <a class="toggle-vis" data-column="10">Access Type</a>
