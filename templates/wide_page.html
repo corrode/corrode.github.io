@@ -2,6 +2,9 @@
 
 {% block content %}
   <article class="wide">
+    {% if section.extra.series %}
+    <h2 class="subheading">{{ section.extra.series }}</h2>
+    {% endif %}
     {% if section.title %}
       <h1>{{ section.title }}</h1>
     {% endif %}

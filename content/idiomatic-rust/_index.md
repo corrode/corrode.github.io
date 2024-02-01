@@ -1,14 +1,17 @@
 +++
-title = "Learn Idiomatic Rust: Comprehensive Guide and Resources"
+title = "Idiomatic Rust: Resources And Learning Material"
 date = 2024-01-28
 draft = false
 template = "wide_page.html"
 [extra]
-series = "Insights"
+series = "Resources"
 +++
 
-Below is a list of resources that help you to **write ergonomic Rust code**.  
-The references offer a wealth of information on how to write better Rust code, including tutorials, expert insights, and community discussions. Each piece in our collection is peer-reviewed and carefully hand-picked to enhance coding efficiency and adherence to Rust best practices.
+Below is a list of resources that **help you to write ergonomic Rust code**.  
+
+The references offer a wealth of information on how to write better Rust code,
+including tutorials, workshops, and articles by Rust experts. Each piece in the
+collection is peer-reviewed to adherence to Rust best practices.
 You can filter, sort, and search by tags, year, and difficulty level.
 
 The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome.
