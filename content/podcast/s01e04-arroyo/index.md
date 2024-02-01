@@ -1,6 +1,6 @@
 +++
 title = "Arroyo"
-date = 2024-02-25
+date = 2024-01-25
 template = "episode.html"
 draft = false
 [extra]
