@@ -50,6 +50,7 @@ Click here to expand the table of contents.
   - [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
   - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
   - [Generics: Use an Inner Non-Generic Function](#generics-use-an-inner-non-generic-function)
+  - [Improve Workspace Build Times with cargo-hakari](#improve-workspace-build-times-with-cargo-hakari)
   - [Invest In Better Hardware](#invest-in-better-hardware)
   - [Compile in the Cloud](#compile-in-the-cloud)
   - [Cache All Crates Locally](#cache-all-crates-locally)
@@ -592,6 +593,19 @@ pub fn read_to_string<P: AsRef<Path>>(path: P) -> io::Result<String> {
 
 You can do the same in your code: the outer function is generic, while
 it calls the inner non-generic function, which does the actual work.
+
+### Improve Workspace Build Times with cargo-hakari
+
+Do you have a large Rust workspace with a dependency that
+is used in multiple crates, but with different feature sets?
+
+This can lead to long build times, as Cargo will build the dependency multiple
+times with different features depending on the crate that gets built. This is
+where [`cargo-hakari`](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html) comes in.
+It is a tool designed to automatically manage "workspace-hack" crates. 
+
+In some scenarios, this can reduce consecutive build times by up to 50% or more.
+To learn more, take a look at the usage instructions and benchmarks on the [official cargo-hakari documentation](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html).
 
 ### Invest In Better Hardware
 
