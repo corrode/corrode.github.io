@@ -33,6 +33,7 @@ Click here to expand the table of contents.
 - [General Tips](#general-tips)
   - [Update The Rust Compiler And Toolchain](#update-the-rust-compiler-and-toolchain)
   - [Use cargo check Instead Of cargo build](#use-cargo-check-instead-of-cargo-build)
+  - [Switch To The New Parallel Compiler Frontend](#switch-to-the-new-parallel-compiler-frontend)
   - [Remove Unused Dependencies](#remove-unused-dependencies)
   - [Update Dependencies](#update-dependencies)
   - [Find the slow crate in your codebase](#find-the-slow-crate-in-your-codebase)
@@ -109,6 +110,43 @@ A sweet trick I use is to run it in the background with [`cargo watch`](https://
 whenever you change a file.
 
 **Bonus**: Use `cargo watch -c` to clear the screen before every run.
+
+### Switch To The New Parallel Compiler Frontend
+
+**In nightly**, you can now enable the new parallel compiler frontend.
+To try it out, run the nightly compiler with the `-Z threads=8` option:
+
+```sh
+RUSTFLAGS="-Z threads=8" cargo +nightly build
+```
+
+If you find that it works well for you, you can make it the default by adding
+`-Z threads=8` to your `~/.cargo/config.toml` file:
+
+```toml
+[build]
+rustflags = ["-Z", "threads=8"]
+```
+
+Alternatively, you can set an alias for `cargo`
+in your shell's config file (e.g., `~/.bashrc` or `~/.zshrc`):
+
+```sh
+alias cargo="RUSTFLAGS='-Z threads=8' cargo +nightly"
+```
+
+When the front-end is executed in a multi-threaded setting using `-Z threads=8`,
+benchmarks on actual code indicate that compilation times may decrease by as
+much as [50%](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
+However, the gains fluctuate depending on the code being compiled. It is
+certainly worth a try, though.
+
+Here is a visualization of the parallel compiler frontend in action:
+
+![Result of the parallel compiler](samply-parallel.png)
+
+Find out more on the official announcement [on the Rust
+blog](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
 
 ### Remove Unused Dependencies
 
