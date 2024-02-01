@@ -1,11 +1,17 @@
 +++
-title = "Resources for Idiomatic Rust"
+title = "Learn Idiomatic Rust: Comprehensive Guide and Resources"
 date = 2024-01-28
 draft = false
 template = "wide_page.html"
 [extra]
 series = "Insights"
 +++
+
+Below is a list of resources that help you to **write ergonomic Rust code**.  
+The references offer a wealth of information on how to write better Rust code, including tutorials, expert insights, and community discussions. Each piece in our collection is peer-reviewed and carefully hand-picked to enhance coding efficiency and adherence to Rust best practices.
+You can filter, sort, and search by tags, year, and difficulty level.
+
+The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome.
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -1182,8 +1188,8 @@ series = "Insights"
 
     // Wait for dom content to be loaded with jquery
     $(document).ready(function () {
-        // Create a new table with the data
         const table = new DataTable('#data-table', {
+            // Add dropdown filters for columns
             initComplete: function () {
                 this.api()
                     .columns([1,7,9, 10])
@@ -1214,7 +1220,7 @@ series = "Insights"
             paging: false,
             data: data,
             scrollCollapse: true,
-            order: [[1, 'asc']],
+            order: [[7, 'asc']],
             columns: [
                 {
                     className: 'dt-control',
@@ -1368,8 +1374,6 @@ series = "Insights"
 
 </script>
 
-Below is a list of resources that help you to write ergonomic Rust code.  
-The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome.
 
 <div style="margin-bottom: 20px">
     <button class="reset-filter">Reset filters</button>
