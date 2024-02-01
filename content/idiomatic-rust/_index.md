@@ -1405,6 +1405,11 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
     <a class="toggle-vis" data-column="10">Access Type</a>
 </div>
 
+<div>
+  Click on the triangle <span style="font-family: Arial, sans-serif">▶</span> to show more details for
+  each entry.
+</div>
+
 <table id="data-table" class="compact order-column hover stripe" style="width:100%">
 </table>
 
