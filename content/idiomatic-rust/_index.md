@@ -1184,6 +1184,33 @@ series = "Insights"
     $(document).ready(function () {
         // Create a new table with the data
         const table = new DataTable('#data-table', {
+            initComplete: function () {
+                this.api()
+                    .columns([1,7,9, 10])
+                    .every(function () {
+                        let column = this;
+        
+                        // Create select element
+                        let select = document.createElement('select');
+                        select.add(new Option(''));
+
+                        // Add select element to the table header
+                        $(column.header()).append(select);
+
+        
+                        // Apply listener for user change in value
+                        select.addEventListener('change', function () {
+                            var val = DataTable.util.escapeRegex(select.value);
+        
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+        
+                        // Add list of options
+                        column.cells('', column[0]).render('display').sort().unique().each( function ( d, j ) { select.add(new Option(d)); });
+                    });
+            },
             paging: false,
             data: data,
             scrollCollapse: true,
