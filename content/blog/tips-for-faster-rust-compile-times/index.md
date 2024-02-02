@@ -51,6 +51,7 @@ Click here to expand the table of contents.
   - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
   - [Generics: Use an Inner Non-Generic Function](#generics-use-an-inner-non-generic-function)
   - [Improve Workspace Build Times with cargo-hakari](#improve-workspace-build-times-with-cargo-hakari)
+  - [Speeding up incremental Rust compilation with dylibs](#speeding-up-incremental-rust-compilation-with-dylibs)
   - [Invest In Better Hardware](#invest-in-better-hardware)
   - [Compile in the Cloud](#compile-in-the-cloud)
   - [Cache All Crates Locally](#cache-all-crates-locally)
@@ -606,6 +607,34 @@ It is a tool designed to automatically manage "workspace-hack" crates.
 
 In some scenarios, this can reduce consecutive build times by up to 50% or more.
 To learn more, take a look at the usage instructions and benchmarks on the [official cargo-hakari documentation](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html).
+
+### Speeding up incremental Rust compilation with dylibs
+
+```sh
+# Install the tool
+cargo install cargo-add-dynamic
+
+# Add a dynamic library to your project
+cargo add-dynamic polars --features csv-file,lazy,list,describe,rows,fmt,strings,temporal
+```
+
+This will create a wrapper-crate around `polars` that is compiled as a dynamic
+library (`.so` on Linux, `.dylib` on macOS, `.dll` on Windows). 
+
+Essentially, it patches the dependency with
+
+```toml
+[lib]
+crate-type = ["dylib"]
+```
+
+With this trick, you can save yourself the linking time of a dependency 
+when you only change your own code. The dependency itself will only be
+recompiled when you change the features or the version.
+Of course, this works for any crate, not just `polars`.
+
+Read more about this on [this blog post by Robert Krahn](https://robert.kra.hn/posts/2022-09-09-speeding-up-incremental-rust-compilation-with-dylibs/)
+and the [tool's homepage](https://github.com/rksm/cargo-add-dynamic).
 
 ### Invest In Better Hardware
 
