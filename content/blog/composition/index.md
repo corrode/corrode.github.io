@@ -27,10 +27,6 @@ Imagine you're the owner of *Crustacean Candy*, an online store offering
 Rust-themed candy bars and other treats. Customers love your delights
 ranging from "Ferris' Fudgy Feast" to "Rusty ICE-cream."
 
-Next to one-time orders, you would also like to offer a subscription service,
-which allows customers to receive a box of candy every month.
-So you get to work.
-
 ## The Order Processing System
 
 Initially, the only order type you have is a one-time order. 
@@ -61,9 +57,9 @@ fn process_order(order: Order) {
 
 ## Adding Subscriptions
 
-How do we add subscriptions to our system?
+Next to one-time orders, you would also like to offer a subscription service, which allows customers to receive a box of candy every month. So you get to work.
 
-The most pragmatic way might be to add a `subscription` field to the `Order` struct.
+The most pragmatic way might be to add an `is_subscription` field to the `Order` struct.
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
@@ -75,24 +71,25 @@ struct Order {
 }
 ```
 
-Once per month, you go through the database to process all subscriptions.
+Once per month, a periodic job goes through the database to process all subscriptions.
 
 ```sql
 SELECT * FROM orders WHERE is_subscription = true;
 ```
 
-The system is simple and a joy to work with, which makes you happy.
+So far so good! The system is simple and a joy to work with.
 
 ## Adding Subscription Intervals
 
 One day you get an email from a customer who wants a different subscription
-interval. Instead of receiving a box of candy every month, they want to receive
+interval.
+
+Instead of receiving a box of candy every month, they want to receive
 one every two weeks, which is good news because it's twice the revenue for you.
 
-The only question is how you would implement this in your system. 
+The only question is how you would at this to your system. 
 
-Again, deciding on the most pragmatic solution, you quickly add a `subscription_interval`
-field to the `Order` struct.
+Again, deciding on the most pragmatic solution, you quickly replace the `is_subscription` field with an optional `subscription_interval` in the `Order` struct.
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
@@ -101,7 +98,7 @@ struct Order {
     customer_id: String,
     products: Vec<Product>,
     start_date: DateTime,
-    subscription_interval: Duration,
+    subscription_interval: Option<Duration>,
 }
 ```
 
@@ -110,7 +107,7 @@ Every day you run a query to process all subscriptions that are due for that day
 ```sql
 SELECT *
 FROM orders
-WHERE is_subscription = true
+WHERE subscription_interval != null
   AND DATE_ADD(last_processed, INTERVAL subscription_interval DAY) <= CURRENT_DATE();
 ```
 
@@ -128,8 +125,7 @@ struct Order {
     id: String,
     customer_id: String,
     products: Vec<Product>,
-    is_subscription: bool,
-    subscription_interval: Duration,
+    subscription_interval: Option<Duration>,
     discount: Option<f32>,
     is_gift: bool,
 }
@@ -149,7 +145,7 @@ fn process_order(order: Order) {
     println!("New order! {:?}", order);
 
     // Process the order.
-    if order.is_subscription {
+    if order.subscription_interval.is_some() {
         // Process the subscription.
         update_subscription_details(&order);
         apply_subscription_discounts(&order);
@@ -185,7 +181,6 @@ let order = Order {
         quantity: 1,
         price: 2.99,
     }],
-    is_subscription: false,
     subscription_interval: None
     discount: None,
     is_gift: false,
@@ -196,9 +191,10 @@ You get a feeling that the order processing system is getting harder and harder
 to maintain and extend. Suddenly, the joy of adding new features is gone, and
 you're spending more and more time fixing bugs. There are also more and more
 edge cases that you need to consider and customers who are unhappy with your
-service because of bugs in the system.
+service because incorrect orders.
 
 One day you sit down to refactor the order processing system.
+You realize that one core problem with the current solution was a lack of separation of concerns. The Order struct has too many responsibilities.
 How would a more composable solution look like?
 
 Starting out, you have a few goals in mind:
