@@ -56,6 +56,7 @@ From time to time, I get invited to podcasts and interviews. Here are some of th
 
 ## Talks
 
+- [FOSDEM 2024, Brussels, Belgium](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
 - [RustLab 2023, Florence, Italy](https://rustlab.it/talks/lychee-writing-a-link-checker-in-a-weekend-plus-two-short-years)
 - [Rust Linz 2023, Linz, Austria](https://www.youtube.com/watch?v=BIguvia6AvM)
 - [FrOSCon 2023, Bonn, Germany](https://programm.froscon.org/2023/events/2867.html)
