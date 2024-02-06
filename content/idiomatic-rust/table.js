@@ -38,7 +38,10 @@ $(document).ready(function () {
         .columns([1, 7, 9, 10])
         .every(function () {
           var column = this;
-          var select = $('<select><option value=""></option></select>')
+          var columnTitle = $(column.header()).text(); // Get the column title
+          var select = $(
+            '<select><option value="">' + columnTitle + "</option></select>"
+          )
             .appendTo($(column.header()).empty())
             .on("change", function () {
               var val = $.fn.dataTable.util.escapeRegex($(this).val());
@@ -50,14 +53,12 @@ $(document).ready(function () {
             .unique()
             .sort()
             .each(function (d, j) {
-              // For category and interactivityLevel, map the raw value to a user-friendly label for the dropdown
-              var label = d; // Default to using the raw value as the label
+              var label = d; // Use the raw value as the label by default
               if (column.index() === 1) {
                 // Assuming column 1 is 'category'
                 label = renderCategory(d).replace(/<[^>]+>/g, ""); // Strip HTML to get only text
               } else if (column.index() === 9) {
                 // Assuming column 9 is 'interactivityLevel'
-                // Map raw values to user-friendly labels without symbols for the dropdown
                 label =
                   d === "low"
                     ? "Low"
@@ -71,7 +72,6 @@ $(document).ready(function () {
             });
         });
     },
-
     paging: false,
     scrollCollapse: true,
     order: [[7, "asc"]],
