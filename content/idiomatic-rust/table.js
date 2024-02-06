@@ -37,30 +37,25 @@ $(document).ready(function () {
       this.api()
         .columns([1, 7, 9, 10])
         .every(function () {
-          let column = this;
+          var column = this;
+          var select = $('<select><option value=""></option></select>')
+            .appendTo($(column.header()).empty())
+            .on("change", function () {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? "^" + val + "$" : "", true, false).draw();
+            });
 
-          // Create select element
-          let select = document.createElement("select");
-          select.add(new Option(""));
-
-          // Add select element to the table header
-          $(column.header()).append(select);
-
-          // Apply listener for user change in value
-          select.addEventListener("change", function () {
-            var val = DataTable.util.escapeRegex(select.value);
-
-            column.search(val ? "^" + val + "$" : "", true, false).draw();
-          });
-
-          // Add list of options
           column
-            .cells("", column[0])
-            .render("display")
-            .sort()
+            .data()
             .unique()
+            .sort()
             .each(function (d, j) {
-              select.add(new Option(d));
+              function mapValueToLabel(value) {
+                return value;
+              }
+              select.append(
+                '<option value="' + d + '">' + mapValueToLabel(d) + "</option>"
+              );
             });
         });
     },
@@ -118,15 +113,23 @@ $(document).ready(function () {
       {
         data: "difficultyLevel",
         title: "Difficulty",
-        // Render as emoji stars (beginner: 1, intermediate: 2, advanced: 3)
-        render(data) {
-          if (data === "beginner" || data === "all" || data === "varied") {
-            return '<span class="difficultyLevel">➕</span>';
-          } else if (data === "intermediate") {
-            return '<span class="difficultyLevel">➕➕</span>';
-          } else if (data === "advanced") {
-            return '<span class="difficultyLevel">➕➕➕</span>';
+        render(data, type) {
+          if (type === "display") {
+            // Render as emoji stars for display purposes
+            switch (data) {
+              case "beginner":
+              case "all": // Assuming you want the same representation for 'all' and 'varied'
+              case "varied":
+                return '<span class="difficultyLevel">➕</span>';
+              case "intermediate":
+                return '<span class="difficultyLevel">➕➕</span>';
+              case "advanced":
+                return '<span class="difficultyLevel">➕➕➕</span>';
+              default:
+                return data; // Fallback to raw data if it doesn't match any case
+            }
           } else {
+            // For other types (like sorting or filtering), return the data as is
             return data;
           }
         },
