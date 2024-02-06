@@ -60,7 +60,9 @@ $(document).ready(function () {
             .sort()
             .unique()
             .each(function (d, j) {
-              select.add(new Option(d));
+              let option = new Option("");
+              option.innerHTML(d);
+              select.add(option);
             });
         });
     },
