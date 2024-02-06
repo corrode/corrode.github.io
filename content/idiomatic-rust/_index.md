@@ -85,6 +85,10 @@ code.active {
     border: none;
 }
 
+.toggle-vis {
+    cursor: pointer;
+}
+
 .toggle-vis.active {
     font-weight: bold;
 }

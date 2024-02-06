@@ -50,15 +50,28 @@ $(document).ready(function () {
             .unique()
             .sort()
             .each(function (d, j) {
-              function mapValueToLabel(value) {
-                return value;
+              // For category and interactivityLevel, map the raw value to a user-friendly label for the dropdown
+              var label = d; // Default to using the raw value as the label
+              if (column.index() === 1) {
+                // Assuming column 1 is 'category'
+                label = renderCategory(d).replace(/<[^>]+>/g, ""); // Strip HTML to get only text
+              } else if (column.index() === 9) {
+                // Assuming column 9 is 'interactivityLevel'
+                // Map raw values to user-friendly labels without symbols for the dropdown
+                label =
+                  d === "low"
+                    ? "Low"
+                    : d === "medium"
+                    ? "Medium"
+                    : d === "high"
+                    ? "High"
+                    : d;
               }
-              select.append(
-                '<option value="' + d + '">' + mapValueToLabel(d) + "</option>"
-              );
+              select.append('<option value="' + d + '">' + label + "</option>");
             });
         });
     },
+
     paging: false,
     scrollCollapse: true,
     order: [[7, "asc"]],
@@ -72,8 +85,12 @@ $(document).ready(function () {
       {
         data: "category",
         title: "Category",
-        render: function (data) {
-          return renderCategory(data);
+        render: function (data, type) {
+          if (type === "display") {
+            return renderCategory(data);
+          } else {
+            return data;
+          }
         },
       },
       {
@@ -142,13 +159,17 @@ $(document).ready(function () {
       {
         data: "interactivityLevel",
         title: "Interactivity",
-        render(data) {
-          if (data === "low") {
-            return "⚙";
-          } else if (data === "medium") {
-            return "️⚙⚙";
-          } else if (data === "high") {
-            return "⚙⚙⚙";
+        render(data, type) {
+          if (type === "display") {
+            if (data === "low") {
+              return "⚙";
+            } else if (data === "medium") {
+              return "️⚙⚙";
+            } else if (data === "high") {
+              return "⚙⚙⚙";
+            } else {
+              return data;
+            }
           } else {
             return data;
           }
