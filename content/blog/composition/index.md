@@ -38,154 +38,102 @@ use serde::{Deserialize, Serialize};
 struct Order {
     id: String,
     customer_id: String,
-    products: Vec<Product>,
+    date: DateTime<Utc>
+    items: Vec<Product>,
+    total_price: f64,
+    status: OrderStatus, // e.g., pending, shipped, or delivered
 }
 ```
 
 To process orders, you store them in a database and write them to the console.
 
 ```rust
-/// Stores the order in the database and writes it to the console.
 fn process_order(order: Order) {
-    // Store the order in the database.
+    println!("A new order was placed! {:?}", order);
+
+    // Store the order in the database
     // ...
 
-    // Write the order to the console.
-    println!("New order! {:?}", order);
 }
 ```
 
 ## Adding Subscriptions
 
-Next to one-time orders, you would also like to offer a subscription service, which allows customers to receive a box of candy every month. So you get to work.
-
-The most pragmatic way might be to add an `is_subscription` field to the `Order` struct.
+Next to one-time orders, you would also like to offer a subscription service,
+which allows customers to receive a box of candy every month. So you get to
+work.
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
 struct Order {
     id: String,
     customer_id: String,
-    products: Vec<Product>,
-    is_subscription: bool,
+    date: DateTime<Utc>
+    items: Vec<Product>,
+    total_price: f64,
+    status: OrderStatus,
+    subscription_details: Option<Subscription>, // new!
+}
+
+struct Subscription {
+    start_date: DateTime<Utc>,
+    last_processed: DateTime<Utc>,
+    status: SubscriptionStatus, // e.g., active, paused, or canceled
+    interval_days: u32, // Number of days between each delivery, e.g. 30
 }
 ```
 
-Once per month, a periodic job goes through the database to process all subscriptions.
+Every day you'd run a query to process all subscriptions that are due for that day.
 
 ```sql
-SELECT * FROM orders WHERE is_subscription = true;
+SELECT o.*
+FROM orders o
+WHERE o.subscription_status = 'active'
+  -- The order is due if the last processed date is further in the past than the interval days
+  AND DATE_ADD(o.last_processed, INTERVAL o.interval_days DAY) <= CURRENT_DATE();
 ```
 
-So far so good! The system is simple and a joy to work with.
+## Payments
 
-## Adding Subscription Intervals
+The other part of order processing is handling payments. You decide to add a
+`payment_method` field to the `Order` struct.
 
-One day you get an email from a customer who wants a different subscription
-interval.
+```rust
+#[derive(Debug, Deserialize, Serialize)]
+enum PaymentMethod {
+    // You probably don't want to store the actual credit card details in the database
+    CreditCard { card_number: String, expiry_date: String, cvv: String },
+    PayPal { account_id: String },
+    RustCoin { address: String },
+    GiftCard { code: String },
+}
+```
 
-Instead of receiving a box of candy every month, they want to receive
-one every two weeks, which is good news because it's twice the revenue for you.
-
-The only question is how you would at this to your system. 
-
-Again, deciding on the most pragmatic solution, you quickly replace the `is_subscription` field with an optional `subscription_interval` in the `Order` struct.
+You add the `payment_method` field to the `Order` struct.
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
 struct Order {
     id: String,
     customer_id: String,
-    products: Vec<Product>,
-    start_date: DateTime,
-    subscription_interval: Option<Duration>,
+    date: DateTime<Utc>
+    items: Vec<Product>,
+    total_price: f64,
+    status: OrderStatus,
+    subscription_details: Option<Subscription>,
+    payment_method: PaymentMethod, // new!
 }
 ```
 
-Every day you run a query to process all subscriptions that are due for that day.
+Our struct is getting longer and longer. It's starting to feel like a
+kitchen sink.
 
-```sql
-SELECT *
-FROM orders
-WHERE subscription_interval != null
-  AND DATE_ADD(last_processed, INTERVAL subscription_interval DAY) <= CURRENT_DATE();
-```
+And we haven't even covered
 
-## One-time discounts, and gifts
-
-Your business is booming, and you're getting more and more orders.
-
-One day you have the idea to add a special discount for customers who order
-more than 10 candy bars. You add a `discount` field to the `Order` struct.
-You also add the option to wrap orders as gifts.
-
-```rust
-#[derive(Debug, Deserialize, Serialize)]
-struct Order {
-    id: String,
-    customer_id: String,
-    products: Vec<Product>,
-    subscription_interval: Option<Duration>,
-    discount: Option<f32>,
-    is_gift: bool,
-}
-```
-
-You can see how your system now needs to handle orders that are vastly different
-in nature (one-time purchases, subscriptions, gifts, etc.), making the logic in
-functions like `process_order` convoluted and error-prone.
-
-
-```rust
-fn process_order(order: Order) {
-    // Store the order in the database.
-    // ...
-
-    // Write the order to the console.
-    println!("New order! {:?}", order);
-
-    // Process the order.
-    if order.subscription_interval.is_some() {
-        // Process the subscription.
-        update_subscription_details(&order);
-        apply_subscription_discounts(&order);
-
-        // Handle recurring billing
-        if let Some(billing_info) = get_billing_info(order.customer_id) {
-            process_recurring_payment(billing_info);
-        }
-    } else {
-        // Process the one-time order.
-        // ...
-    }
-
-    // Send an email to the customer.
-    if order.is_gift {
-        // Send a gift email.
-        // ...
-    } else {
-        // Send a regular email.
-        // ...
-    }
-}
-```
-
-Especially, simple one-time orders are now tiresome to handle.
-
-```rust
-let order = Order {
-    id: "123".to_string(),
-    customer_id: "456".to_string(),
-    products: vec![Product {
-        name: "Ferris' Fudgy Feast".to_string(),
-        quantity: 1,
-        price: 2.99,
-    }],
-    subscription_interval: None
-    discount: None,
-    is_gift: false,
-};
-```
+- Shipping methods
+- Discounts
+- Taxes
+- Refunds
 
 You get a feeling that the order processing system is getting harder and harder
 to maintain and extend. Suddenly, the joy of adding new features is gone, and
@@ -193,9 +141,10 @@ you're spending more and more time fixing bugs. There are also more and more
 edge cases that you need to consider and customers who are unhappy with your
 service because incorrect orders.
 
-One day you sit down to refactor the order processing system.
-You realize that one core problem with the current solution was a lack of separation of concerns. The Order struct has too many responsibilities.
-How would a more composable solution look like?
+One day you sit down to refactor the order processing system. You realize that
+one core problem with the current solution was a lack of separation of concerns.
+The `Order` struct has too many responsibilities. How would a more composable
+solution look like?
 
 Starting out, you have a few goals in mind:
 
