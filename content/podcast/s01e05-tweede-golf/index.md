@@ -52,12 +52,26 @@ low-level protocols that ensure the safety and security of the internet
 and devices connected to it. He is an open source maintainer and polyglot,
 working with and extending languages as diverse as Rust, Elm, and Roc.
 
+### Links From The Show
+
+- [The Roc programming language](https://www.roc-lang.org/)
+- [`ntpd-rs` - Implementation of the Network Time Protocol in Rust](https://github.com/pendulum-project/ntpd-rs)
+- [Network Time Protocol (NTP)](https://en.wikipedia.org/wiki/Network_Time_Protocol)
+- [Precision Time Protocol (PTP)](https://en.wikipedia.org/wiki/Precision_Time_Protocol)
+- [Simple Network Time Protocol (SNTP)](https://en.wikipedia.org/wiki/Network_Time_Protocol#SNTP)
+- [`sudo-rs` - A memory safe implementation of sudo and su](https://github.com/memorysafety/sudo-rs)
+- [Fuzzing in Rust with `cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz)
+- [Tokio Async Runtime](https://tokio.rs/)
+- [Internet Security Research Group](https://www.abetterinternet.org/)
+- [Sovereign Tech Fund](https://www.sovereigntechfund.de/)
+
 ### Official Links
 
 - [Tweede Golf](https://tweedegolf.nl/)
-- [RustNL](https://rustnl.org/)
+- [Tweede Golf - About Folkert de Vries](https://tweedegolf.nl/en/about/21/folkert)
 - [Folkert de Vries on GitHub](https://github.com/folkertdev)
 - [Folkert de Vries on Twitter](https://twitter.com/flokkievids)
 - [Folkert de Vries on LinkedIn](https://www.linkedin.com/in/folkert-de-vries-24ab691b7/)
 - [Prossimo Project](https://www.memorysafety.org/)
 - [Project Pendulum](https://tweedegolf.nl/en/pendulum)
+- [RustNL Conference, May 7 & 8, 2024](https://2024.rustnl.org/)
