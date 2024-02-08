@@ -12,6 +12,8 @@ series = "Podcast"
 logo = "tweede-golf.svg"
 +++
 
+<div><script id="letscast-player-b30f560a" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-5-tweede-golf-s-folkert-de-vries/player.js?size=s"></script></div>
+
 In this episode, we talk to Folkert de Vries, Systems Software Engineer at Tweede Golf, about how they use Rust to modernize the NTP protocol and build a new generation of time synchronization services.
 
 <!-- more -->
