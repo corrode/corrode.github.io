@@ -43,7 +43,7 @@ privacy-friendly software. They work on projects that are critical for creating
 a safe internet infrastructure, protecting citizens' privacy, and securing
 connected devices with Embedded Rust.
 
-Tweede Golf is also the organizer of [RustNL](https://2024.rustnl.org/), a
+Tweede Golf is also an organizing partner of [RustNL](https://2024.rustnl.org/), a
 conference about the Rust programming language, which takes place in the
 Netherlands.
 
