@@ -57,8 +57,9 @@ By the end of your journey with us, you’ll have a functional project that you
 developed yourself and can be proud of. A testament to your hard work that you
 can build upon.
 
-You will get a solid understanding of Rust and its unique features and
-will be able to apply them to your own projects.
+You will get a solid understanding of Rust and its unique features and will be
+able to apply them to your own projects. From the beginning, you will learn how
+to set up your project to make it easier to test.
 
 All participants will receive a certificate of completion.
 
