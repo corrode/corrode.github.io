@@ -1,7 +1,7 @@
 +++
 title = "Write Yourself A Shell In Rust"
 draft = false
-description = "Throughout the workshop, you'll build a fully functional shell from scratch that you can extend and customize to your liking. You'll learn advanced concepts like lifetimes, parsing user input, and spawning processes. We leverage the Rust type system to build powerful and ergonomic abstractions that are both safe and easy to use."
+description = "You'll build a fully functional shell from scratch that you can extend and customize to your liking. We'll look into advanced concepts like lifetimes, parsing user input, and spawning processes. On top of that, we'll leverage the Rust type system to build powerful and ergonomic abstractions that are both safe and easy to use."
 template = "workshop.html"
 
 [extra]
