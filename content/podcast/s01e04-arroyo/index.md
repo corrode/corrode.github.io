@@ -9,7 +9,6 @@ role = "Co-Founder and CEO"
 season = "01"
 episode = "04"
 series = "Podcast"
-logo = "arroyo.svg"
 +++
 
 <div><script id="letscast-player-9614e85c" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-4-arroyo-s-micah-wylde/player.js?size=s"></script></div>

@@ -9,7 +9,6 @@ role = "Senior Native Platform Engineer"
 season = "01"
 episode = "06"
 series = "Podcast"
-logo = "sentry.svg"
 +++
 
 In this episode, we talk to Arpad Borsos, Systems Software Engineer at Sentry,

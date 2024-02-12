@@ -9,7 +9,6 @@ role = "Founder and CTO"
 season = "01"
 episode = "01"
 series = "Podcast"
-logo = "influxdata.svg"
 +++
 
 <div><script id="letscast-player-4f3d94e8" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-1-influxdata-s-paul-dix/player.js?size=s"></script></div>

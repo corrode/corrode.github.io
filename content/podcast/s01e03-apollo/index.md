@@ -9,7 +9,6 @@ role = "Staff Software Engineer"
 season = "01"
 episode = "03"
 series = "Podcast"
-logo = "apollo.svg"
 +++
 
 <div><script id="letscast-player-b261a895" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-3-apollo-s-nicolas-moutschen/player.js?size=s"></script></div>
