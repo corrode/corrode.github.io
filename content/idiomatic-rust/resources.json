@@ -171,6 +171,22 @@
       "category": "workshop"
     },
     {
+      "title": "Hecto: Build your own text editor in Rust",
+      "url": "https://www.flenker.blog/hecto/",
+      "description": "This is a series of blog posts that shows you how to build a text editor in Rust",
+      "tags": [
+        "project",
+        "learning"
+      ],
+      "official": false,
+      "year": 2019,
+      "difficultyLevel": "all",
+      "duration": "variable",
+      "interactivityLevel": "high",
+      "free": true,
+      "category": "workshop"
+    },
+    {
       "title": "Build your own JIRA with Rust",
       "url": "https://github.com/LukeMathWalker/build-your-own-jira-with-rust/",
       "description": "A test-driven workshop to learn Rust by building your own JIRA clone!",
@@ -181,7 +197,7 @@
       "official": true,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "workshop"
@@ -214,7 +230,7 @@
       "official": true,
       "year": 2018,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "workshop"
@@ -230,7 +246,7 @@
       "official": true,
       "year": 2019,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "workshop"
@@ -247,7 +263,7 @@
       "official": true,
       "year": 2018,
       "difficultyLevel": "beginner",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "workshop"
@@ -264,7 +280,7 @@
       "official": true,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "workshop"
@@ -281,7 +297,7 @@
       "official": false,
       "year": 2019,
       "difficultyLevel": "beginner",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "workshop"
@@ -298,7 +314,7 @@
       "official": false,
       "year": 2024,
       "difficultyLevel": "all",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "book"
@@ -315,7 +331,7 @@
       "official": false,
       "year": 2022,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "book"
@@ -332,7 +348,7 @@
       "official": false,
       "year": 2023,
       "difficultyLevel": "beginner",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "book"
@@ -349,7 +365,7 @@
       "official": false,
       "year": 2022,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "book"
@@ -366,7 +382,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "book"
@@ -383,7 +399,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": false,
       "category": "book"
@@ -400,7 +416,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "all",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": false,
       "category": "book"
@@ -417,7 +433,7 @@
       "official": false,
       "year": 2023,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "book"
@@ -434,7 +450,7 @@
       "official": false,
       "year": 2023,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -451,7 +467,7 @@
       "official": false,
       "year": 2023,
       "difficultyLevel": "beginner",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -468,7 +484,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -484,7 +500,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -501,7 +517,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -518,7 +534,7 @@
       "official": false,
       "year": 2021,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -535,7 +551,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -552,7 +568,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -569,7 +585,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -586,7 +602,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "all",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -602,7 +618,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -619,7 +635,7 @@
       "official": false,
       "year": 2019,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -636,7 +652,7 @@
       "official": false,
       "year": 2019,
       "difficultyLevel": "beginner",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -653,7 +669,7 @@
       "official": false,
       "year": 2019,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -670,7 +686,7 @@
       "official": false,
       "year": 2018,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "article"
@@ -687,7 +703,7 @@
       "official": false,
       "year": 2017,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -704,7 +720,7 @@
       "official": false,
       "year": 2017,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -721,7 +737,7 @@
       "official": false,
       "year": 2017,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -732,13 +748,13 @@
       "description": "Writing safe, sound, idiomatic libraries despite the limitations of the borrow checker.",
       "tags": [
         "c-bindings",
-        "sdl2",
+        "sdl",
         "borrow-checker"
       ],
       "official": false,
       "year": 2017,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -755,7 +771,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -772,7 +788,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -788,7 +804,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -804,7 +820,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -821,7 +837,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -837,7 +853,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "beginner",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -853,7 +869,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -869,7 +885,7 @@
       "official": false,
       "year": 2016,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -886,7 +902,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "article"
@@ -901,7 +917,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -917,7 +933,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -933,7 +949,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -949,7 +965,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -965,7 +981,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -981,7 +997,7 @@
       "official": false,
       "year": 2015,
       "difficultyLevel": "advanced",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "medium",
       "free": true,
       "category": "article"
@@ -998,7 +1014,7 @@
       "official": false,
       "year": 2023,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1014,7 +1030,7 @@
       "official": false,
       "year": 2022,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1031,7 +1047,7 @@
       "official": false,
       "year": 2022,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1048,7 +1064,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1064,7 +1080,7 @@
       "official": false,
       "year": 2019,
       "difficultyLevel": "all",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1079,7 +1095,7 @@
       "official": false,
       "year": 2018,
       "difficultyLevel": "all",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1095,7 +1111,7 @@
       "official": false,
       "year": 2017,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "low",
       "free": true,
       "category": "talk"
@@ -1112,7 +1128,7 @@
       "official": false,
       "year": 2020,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "forum"
@@ -1129,7 +1145,7 @@
       "official": false,
       "year": 2017,
       "difficultyLevel": "all",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "forum"
@@ -1145,10 +1161,44 @@
       "official": false,
       "year": 2017,
       "difficultyLevel": "intermediate",
-      "duration": "variable",
+      "duration": null,
       "interactivityLevel": "high",
       "free": true,
       "category": "forum"
+    },
+    {
+      "title": "The Four Horsemen of Bad Rust Code",
+      "url": "https://github.com/corrode/four-horsemen-talk",
+      "description": "A talk about common pitfalls in Rust code like overengineering and premature optimization.",
+      "tags": [
+        "pitfalls",
+        "common-mistakes",
+        "patterns"
+      ],
+      "official": false,
+      "year": 2024,
+      "difficultyLevel": "beginner",
+      "duration": null,
+      "interactivityLevel": "low",
+      "free": true,
+      "category": "talk"
+    },
+    {
+      "title": "Idiomatic Rust Workshop",
+      "url": "https://fettblog.eu/slides/idiomatic-rust/",
+      "description": "A talk/workshop about idiomatic Rust code focusing on effective use of existing syntax and design patterns",
+      "tags": [
+        "tooling",
+        "syntax",
+        "design-patterns"
+      ],
+      "official": false,
+      "year": 2021,
+      "difficultyLevel": "beginner",
+      "duration": null,
+      "interactivityLevel": "low",
+      "free": true,
+      "category": "workshop"
     }
   ]
 }

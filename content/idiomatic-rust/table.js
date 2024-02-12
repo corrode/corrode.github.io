@@ -31,7 +31,7 @@ function renderCategory(category) {
 // Wait for dom content to be loaded with jquery
 $(document).ready(function () {
   const table = new DataTable("#data-table", {
-    ajax: "/idiomatic-rust/data.json",
+    ajax: "/idiomatic-rust/resources.json",
     // Add dropdown filters for columns
     initComplete: function () {
       this.api()
