@@ -1,6 +1,6 @@
 +++
 title = "Composition over Inheritance"
-date = 2023-01-21
+date = 2024-02-15
 template = "article.html"
 draft = false
 [extra]
@@ -27,151 +27,601 @@ Imagine you're the owner of *Crustacean Candy*, an online store offering
 Rust-themed candy bars and other treats. Customers love your delights
 ranging from "Ferris' Fudgy Feast" to "Rusty ICE-cream."
 
-## The Order Processing System
+## Products
 
-Initially, the only order type you have is a one-time order. 
+Initially, the only type of product you have is candy.
 
 ```rust
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Order {
-    id: String,
-    customer_id: String,
-    date: DateTime<Utc>
-    items: Vec<Product>,
-    total_price: f64,
-    status: OrderStatus, // e.g., pending, shipped, or delivered
+struct Product {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    weight: Weight,
 }
 ```
 
-To process orders, you store them in a database and write them to the console.
+where
 
 ```rust
-fn process_order(order: Order) {
-    println!("A new order was placed! {:?}", order);
+struct Id {
+    // The actual type is an implementation detail
+    // and subject to change.
+    id: uuid::Uuid,
+}
 
-    // Store the order in the database
-    // ...
+struct ProductName {
+    // This will be validated to be non-empty etc.
+    name: String,
+}
 
+struct Price {
+    amount: usize, // in cents
+    currency: Currency, // e.g., USD, EUR, GBP
+}
+
+struct Weight {
+    amount: usize, // in grams
+    unit: WeightUnit, // e.g., g, kg, oz, lb
 }
 ```
 
-## Adding Subscriptions
+With that, you can create a `Product` like this:
 
-Next to one-time orders, you would also like to offer a subscription service,
-which allows customers to receive a box of candy every month. So you get to
-work.
+```rust
+let product = Product {
+    id: Id::new(),
+    name: ProductName::new("Ferris' Fudgy Feast".to_string()),
+    price: Price::new(100, Currency::USD),
+    weight: Weight::new(100, WeightUnit::Gram),
+};
+```
+
+## Logging Orders
+
+Every time a user opens a product page, you want to log that event.
+You can do this by implementing the `Debug` trait for `Product`.
+
+```rust
+impl std::fmt::Debug for Product {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "Product {{ id: {:?}, name: {:?}, price: {:?}, weight: {:?} }}",
+            self.id, self.name, self.price, self.weight
+        )
+    }
+}
+```
+
+And with that, you can log the product like this:
+
+```rust
+fn log_product_view(product: &Product) {
+    println!("Product viewed: {:?}", product);
+}
+```
+
+You might not have noticed, but this is a form of composition. 
+The fact that `Product` implements `Debug` means that you can use it 
+whenever a function, method, or macro expects a type that is `Debug`.
+
+For instance, you can log other events like orders, payments, and shipments
+using the same `log` function.
+
+```rust
+fn log_event(event: impl std::fmt::Debug) {
+    println!("New Event: {:?}", event);
+}
+```
+
+There are many other helpful traits in the standard library that you 
+can use to compose your types. For example, you can implement `Display` to
+format your product for the user interface, `Clone` to create a copy of the
+product, and `PartialEq` to compare products. 
+There's `Iterator` to iterate over the products, `From` and `Into` to convert
+to and from other types, and `Error` to handle errors.
+[Here's the entire list.](https://doc.rust-lang.org/std/all.html#traits) It
+really isn't that long.
+
+Lesson: **The trait system leads you towards composition.**
+
+## Storing Products in a CSV File
+
+Your small shop system requires the list of products to be stored in a CSV file.
+
+That's why your `Product` struct and all its fields implement the `serde` traits
+`Serialize` and `Deserialize`.
+
+```rust
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Deserialize, Serialize)]
+struct Product {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    weight: Weight,
+}
+```
+
+This way, you can easily write the list of products to a CSV file.
+
+```rust
+use std::fs::File;
+
+fn write_products_to_csv(products: &[Product]) -> Result<(), Box<dyn std::error::Error>> {
+    let mut wtr = Writer::from_path("products.csv")?;
+    for product in products {
+        wtr.serialize(product)?;
+    }
+    wtr.flush()?;
+    Ok(())
+}
+```
+
+## The New Shop System
+
+Your shop is quite successful, and you decide to move to a different 
+shop system, which requires the products to be loaded from XML files.
+
+Since you already implemented the `Serialize` and `Deserialize` traits for
+`Product`, you can swiftly use the `serde_xml_rs` crate to create the file.
+
+```rust
+
+fn write_products_to_xml(products: &[Product]) -> Result<(), Box<dyn std::error::Error>> {
+    let xml = serde_xml_rs::so_string(products)?;
+    std::fs::write("products.xml", xml)?;
+    Ok(())
+}
+```
+
+This took no time at all, since we already did the hard work of thinking about
+the product structure and how to serialize and deserialize it before.
+
+If in the future we need to support a different format or store the products in a
+database, we can do so without changing the `Product` struct!
+
+Here we used traits that another crate thankfully provided. Some popular crates
+define their own traits, which we can implement for our types. This is very
+powerful: It allows us to focus on the business logic while other crates take care of the
+integration with the rest of the ecosystem.
+
+**Composition is Separation of Concerns.**
+
+## New Product Categories
+
+You decide to expand your product range to include &mdash; of all things &mdash;
+vegetables. (Well, I'm not here to judge.)
+
+Your first thought is to extend the existing `Product` struct:
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
-struct Order {
-    id: String,
-    customer_id: String,
-    date: DateTime<Utc>
-    items: Vec<Product>,
-    total_price: f64,
-    status: OrderStatus,
-    subscription_details: Option<Subscription>, // new!
-}
-
-struct Subscription {
-    start_date: DateTime<Utc>,
-    last_processed: DateTime<Utc>,
-    status: SubscriptionStatus, // e.g., active, paused, or canceled
-    interval_days: u32, // Number of days between each delivery, e.g. 30
+struct Product {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    price_per_kg: Price, // New!
+    weight: Weight,
+    category: Category, // New! Category of the vegetable
+    organic: bool, // New! Whether the vegetable is organic or not
 }
 ```
 
-Every day you'd run a query to process all subscriptions that are due for that day.
-
-```sql
-SELECT o.*
-FROM orders o
-WHERE o.subscription_status = 'active'
-  -- The order is due if the last processed date is further in the past than the interval days
-  AND DATE_ADD(o.last_processed, INTERVAL o.interval_days DAY) <= CURRENT_DATE();
-```
-
-## Payments
-
-The other part of order processing is handling payments. You decide to add a
-`payment_method` field to the `Order` struct.
+where
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
-enum PaymentMethod {
-    // You probably don't want to store the actual credit card details in the database
-    CreditCard { card_number: String, expiry_date: String, cvv: String },
-    PayPal { account_id: String },
-    RustCoin { address: String },
-    GiftCard { code: String },
+enum Category {
+    Leafy,
+    Root,
+    // Did you know that some vegetables are technically fruits?
+    Fruit, 
+    Stem,
+    Flower,
 }
 ```
 
-You add the `payment_method` field to the `Order` struct.
+Something feels off about this. The extra fields are only relevant for
+vegetables. Worse, if you add more product types, you'll have to add even more fields.
+(Have fun adding those Rust-themed T-shirt sizes!)
+
+What would be the value of these extra fields for your candy products?
+Of course, you could use an `Option` for each field, but that would make it even less
+appealing.
+
+It won't take long before you realize that the answer is right in front of you:
+**Traits**.
+
+## Traits to the Rescue
+
+You can define a trait for the common fields of all products:
+
+```rust
+trait Product {
+    fn id(&self) -> &Id;
+    fn name(&self) -> &ProductName;
+    fn price(&self) -> &Price;
+    // Note: weight is not always relevant for all products (e.g., digital products)
+}
+```
+
+Now both `Candy` and `Vegetable` can both implement `Product`:
 
 ```rust
 #[derive(Debug, Deserialize, Serialize)]
-struct Order {
-    id: String,
-    customer_id: String,
-    date: DateTime<Utc>
-    items: Vec<Product>,
-    total_price: f64,
-    status: OrderStatus,
-    subscription_details: Option<Subscription>,
-    payment_method: PaymentMethod, // new!
+struct Candy {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    weight: Weight,
+}
+
+impl Product for Candy {
+    fn id(&self) -> &Id {
+        &self.id
+    }
+
+    fn name(&self) -> &ProductName {
+        &self.name
+    }
+
+    fn price(&self) -> &Price {
+        &self.price
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+struct Vegetable {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    price_per_kg: Price,
+    weight: Weight,
+    category: Category,
+    organic: bool,
+}
+
+impl Product for Vegetable {
+    fn id(&self) -> &Id {
+        &self.id
+    }
+
+    fn name(&self) -> &ProductName {
+        &self.name
+    }
+
+    fn price(&self) -> &Price {
+        &self.price
+    }
 }
 ```
 
-Our struct is getting longer and longer. It's starting to feel like a
-kitchen sink.
+Now you can write functions that take *any* product:
 
-And we haven't even covered
+```rust
+fn handle_product(product: &impl Product) {
+    println!("Product: {:?}", product.name());
+    println!("Price: {:?}", product.price());
+}
+```
 
-- Shipping methods
-- Discounts
-- Taxes
-- Refunds
+As for our product catalog, we can now be more specific and not only
+required `Serialize`, but also `Product`:
 
-You get a feeling that the order processing system is getting harder and harder
-to maintain and extend. Suddenly, the joy of adding new features is gone, and
-you're spending more and more time fixing bugs. There are also more and more
-edge cases that you need to consider and customers who are unhappy with your
-service because incorrect orders.
+```rust
+fn write_products_to_csv(products: &[impl Product + Serialize]) -> Result<(), Box<dyn std::error::Error>> {
+    let mut wtr = Writer::from_path("products.csv")?;
+    for product in products {
+        wtr.serialize(product)?;
+    }
+    wtr.flush()?;
+    Ok(())
+}
+```
 
-One day you sit down to refactor the order processing system. You realize that
-one core problem with the current solution was a lack of separation of concerns.
-The `Order` struct has too many responsibilities. How would a more composable
-solution look like?
-
-Starting out, you have a few goals in mind:
-
-- Handling one-time orders should be trivial.
-- The `process_order` function should be straightforward to implement.
-- Adding extra functionality should not impact existing code.
-- Lastly, the system should be easy to test.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Neat! We introduced a notion of a `Product` and started to use that in our
+system.
+We could have done something similar with inheritance, but just imagine the
+headache of adding more product types and the fields they would require. 
+Especially when we start to introduce multiple inheritance for things like
+`OrganicCandy`.
+Inheritance is a rigid: idea: it can back your code into a corner.
 
 ## Summary
 
+Composition unlocks new use cases
+
 Traits are the building blocks of composable Rust code. They allow you to
 describe *behaviors*. 
+
+* Inheritance describes what something *is*.
+* Composition describes what something *does*.
+
+* Inheritance: mountain bike is a special bike. "Is a mountain bike"
+* Composition: A bike is composed from different parts. Like Lego bricks.
+  The sum of tiny blocks. "Has many mountain bike parts"
+
+It's a change of mindset. Different way of thinking
+
+fighting the concept of composition. doesn't feel natural
+(could be a good intro line)
+
+
+## Code
+
+Here is the entire, documented code (without any skipped parts)
+for the full shop system we built in this article.
+It is idiomatic and will just work when you paste it into a Rust file
+or the Rust Playground:
+
+```rust
+use serde::{Deserialize, Serialize};
+use csv::Writer;
+
+#[derive(Debug)]
+enum Error {
+    EmptyName,
+    InvalidPrice,
+    InvalidWeight,
+}
+
+impl std::error::Error for Error {
+    fn description(&self) -> &str {
+        match self {
+            Error::EmptyName => "Name must not be empty",
+            Error::InvalidPrice => "Price must be greater than zero",
+        }
+    }
+}
+
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.description())
+    }
+}
+
+/// A unique identifier for a product.
+#[derive(Debug, Deserialize, Serialize)]
+struct Id {
+    // The actual type is an implementation detail
+    id: uuid::Uuid,
+}
+
+impl Id {
+    fn new() -> Self {
+        Self {
+            id: uuid::Uuid::new_v4(),
+        }
+    }
+}
+
+/// The name of a product.
+#[derive(Debug, Deserialize, Serialize)]
+struct ProductName {
+    // This will be validated to be non-empty etc.
+    name: String,
+}
+
+impl ProductName {
+    fn new(name: String) -> Result<Self, Error> {
+        if name.is_empty() {
+            return Err(Error::EmptyName);
+        }
+        Ok(Self { name })
+    }
+}
+
+/// The price of a product.
+#[derive(Debug, Deserialize, Serialize)]
+struct Price {
+    amount: usize, // in cents
+    currency: Currency, // e.g., USD, EUR, GBP
+}
+
+impl Price {
+    fn new(amount: usize, currency: Currency) -> Result<Self, Error> { 
+        // Price can not be negative or zero
+        if amount <= 0 {
+            return Err(Error::InvalidPrice);
+        }
+        Ok(Self { amount, currency })
+    }
+}
+
+/// The weight of a product.
+#[derive(Debug, Deserialize, Serialize)]
+struct Weight {
+    amount: usize, // in grams
+    unit: WeightUnit, // e.g., g, kg, oz, lb
+}
+
+impl Weight {
+    fn new(amount: usize, unit: WeightUnit) -> Result<Self, Error> {
+        // Weight can not be negative or zero
+        if amount <= 0 {
+            return Err(Error::InvalidWeight);
+        }
+        Ok(Self { amount, unit })
+    }
+}
+
+/// The currency of a price.
+#[derive(Debug, Deserialize, Serialize)]
+enum Currency {
+    USD,
+    EUR,
+    GBP,
+}
+
+/// The unit of a weight.
+#[derive(Debug, Deserialize, Serialize)]
+enum WeightUnit {
+    Gram,
+    Kilogram,
+    Ounce,
+    Pound,
+}
+
+/// A candy
+#[derive(Debug, Deserialize, Serialize)]
+struct Candy {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    weight: Weight,
+}
+
+impl Candy {
+    fn new(
+        name: ProductName,
+        price: Price,
+        weight: Weight,
+
+    ) -> Result<Self, Error> {
+        Ok(Self {
+            id: Id::new(),
+            name,
+            price,
+            weight,
+        })
+    }
+}
+
+/// A vegetable product category.
+#[derive(Debug, Deserialize, Serialize)]
+enum Category {
+    Leafy,
+    Root,
+    Fruit,
+    Stem,
+    Flower,
+}
+
+/// A vegetable product.
+#[derive(Debug, Deserialize, Serialize)]
+struct Vegetable {
+    id: Id,
+    name: ProductName,
+    price: Price,
+    price_per_kg: Price,
+    weight: Weight,
+    category: Category,
+    organic: bool,
+}
+
+impl Vegetable {
+    fn new(
+        name: ProductName,
+        price: Price,
+        price_per_kg: Price,
+        weight: Weight,
+        category: Category,
+        organic: bool,
+    ) -> Result<Self, Error> {
+        Ok(Self {
+            id: Id::new(),
+            name,
+            price,
+            price_per_kg,
+            weight,
+            category,
+            organic,
+        })
+    }
+}
+
+/// A product.
+trait Product {
+    fn id(&self) -> &Id;
+    fn name(&self) -> &ProductName;
+    fn price(&self) -> &Price;
+}
+
+impl Product for Candy {
+    fn id(&self) -> &Id {
+        &self.id
+    }
+
+    fn name(&self) -> &ProductName {
+        &self.name
+    }
+
+    fn price(&self) -> &Price {
+        &self.price
+    }
+}
+
+impl Product for Vegetable {
+    fn id(&self) -> &Id {
+        &self.id
+    }
+
+    fn name(&self) -> &ProductName {
+        &self.name
+    }
+
+    fn price(&self) -> &Price {
+        &self.price
+    }
+}
+
+fn log_product_view(product: &impl Product) {
+    println!("Product viewed: {:?}", product);
+}
+
+fn log_event(event: impl std::fmt::Debug) {
+    println!("New Event: {:?}", event);
+}
+
+fn write_products_to_csv(products: &[impl Product + Serialize]) -> Result<(), Box<dyn std::error::Error>> {
+    let mut wtr = Writer::from_path("products.csv")?;
+    for product in products {
+        wtr.serialize(product)?;
+    }
+    wtr.flush()?;
+    Ok(())
+}
+
+fn write_products_to_xml(products: &[impl Product + Serialize]) -> Result<(), Box<dyn std::error::Error>> {
+    let xml = serde_xml_rs::so_string(products)?;
+    std::fs::write("products.xml", xml)?;
+    Ok(())
+}
+
+fn main() {
+    let candy = Candy::new(
+        ProductName::new("Ferris' Fudgy Feast".to_string()).unwrap(),
+        Price::new(100, Currency::USD).unwrap(),
+        Weight::new(100, WeightUnit::Gram).unwrap(),
+    ).unwrap();
+
+    let vegetable = Vegetable::new(
+        ProductName::new("Rusty Radish".to_string()).unwrap(),
+        Price::new(50, Currency::USD).unwrap(),
+        Price::new(10, Currency::USD).unwrap(),
+        Weight::new(200, WeightUnit::Gram).unwrap(),
+        Category::Root,
+        true,
+    ).unwrap();
+
+    log_product_view(&candy);
+    log_product_view(&vegetable);
+
+    log_event(candy);
+    log_event(vegetable);
+
+    write_products_to_csv(&[candy, vegetable]).unwrap();
+    write_products_to_xml(&[candy, vegetable]).unwrap();
+}
+```
+
+
+
 
 
 
