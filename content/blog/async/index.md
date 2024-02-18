@@ -336,15 +336,14 @@ fn main() {
 }
 ```
 
-Note that the code looks almost identical to the single-threaded version.
-Were it part of a public API, it would work for both sync and async callers,
-entirely eliminating the need for an asynchronous runtime.
-The scheduling burden is pushed to the operating system.
+If this code were placed into a function, it would serve both synchronous and
+asynchronous callers, completely removing the need for an asynchronous runtime.
+The scheduling burden would shift to the operating system.
 
-Async Rust might be more memory-efficient than threads, at the cost of
-complexity and worse ergonomics. As an example, if the function were _async_ and
-you called it _outside_ of a runtime, it would compile, but not run. Futures do
-nothing unless being polled. This is a common footgun for newcomers.
+Async Rust promises efficient resource handling, at the cost of complexity and
+worse ergonomics. As an example, if the function were _async_ and you called it
+_outside_ of a runtime, it would compile, but not run. Futures do nothing unless
+being polled; a common footgun for newcomers.
 
 ```rust
 use tokio::fs;
@@ -396,7 +395,7 @@ fn main() {
 
 ## Common Prejudice Against Threads
 
-Asynchrous programming is often seen as the solution to improving performance
+Asynchronous programming is often seen as the solution to improving performance
 and scalability of I/O-bound workloads.
 
 In a [recent benchmark](https://vorner.github.io/async-bench.html), traditional
@@ -493,6 +492,6 @@ and sync interfaces is not to be underestimated.
 
 
 The default mode for writing Rust should be _synchronous_. Freely after
-[Stroustup](https://news.ycombinator.com/item?id=22206779):  
+[Stroustrup](https://news.ycombinator.com/item?id=22206779):  
 *Inside Rust, there is a smaller, simpler language that is waiting to get out.*
 It is this language that most Rust code should be written in.
