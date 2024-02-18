@@ -182,12 +182,14 @@ the `full` feature flag":
 tokio = { version = "1", features = ["full"] }
 ```
 
-By doing so, one would set up a [multi-threaded
-runtime](https://docs.rs/tokio/latest/tokio/attr.main.html) which mandates that
-types are `Send` and `'static` and makes it necessary to use synchronization
-primitives such as [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html)
-and [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all but
-the most trivial applications.
+By doing so, one would set up a
+[work-stealing](https://rustmagazine.org/issue-4/how-tokio-schedule-tasks/),
+[multi-threaded runtime](https://docs.rs/tokio/latest/tokio/attr.main.html)
+which mandates that types are `Send` and `'static` and makes it necessary to use
+synchronization primitives such as
+[`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) and
+[`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all but the
+most trivial applications.
 
 > The Original Sin of Rust async programming is making it multi-threaded by
 > default. If premature optimization is the root of all evil, this is the mother
