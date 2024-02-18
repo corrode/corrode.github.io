@@ -1,6 +1,6 @@
 +++
 title = "The State of Async Rust: Runtimes"
-date = 2023-09-13
+date = 2024-02-18
 draft = false
 template = "article.html"
 [extra]
@@ -11,6 +11,7 @@ However, to maintain focus, I've opted to address web frameworks in a dedicated
 follow-up article.
 Furthermore, I've added some clarifications regarding the performance
 characteristics of async Rust after a [discussion on Hacker News](https://news.ycombinator.com/item?id=37641640).
+I've also extended the section on scoped threads for clarity.
 """
 +++
 
@@ -114,18 +115,16 @@ While the name might suggest it, `async-std` is not a drop-in replacement
 for the standard library as there are many [subtle differences between the
 two](https://github.com/seanmonstar/reqwest/issues/719#issuecomment-558758637).
 
-It is hard to create a runtime that is fully compatible with the standard
-library. Here are some examples of issues that are still open:
+Here are some examples of issues that are still open:
 
 - [New thread is spawned for every I/O request](https://github.com/async-rs/async-std/issues/731)
 - [OpenOptionsExt missing for Windows?](https://github.com/async-rs/async-std/issues/914)
 - [Spawned task is stuck during flushing in
   File.drop()](https://github.com/async-rs/async-std/issues/900)
 
-It is an enormous effort to replicate the standard library and it is not clear
-to me if it is worth it.
+It is hard to create a runtime that is fully compatible with the standard
+library. Even if it _were_ a drop-in replacement, I'd still ponder its actual merit.
 
-Even if it _were_ a drop-in replacement, I'd still ponder its actual merit.
 Rust is a language that values explicitness. This is especially true for
 reasoning about runtime behavior, such as allocations and blocking operations.
 The async-std's teams proposal to ["Stop worrying about
@@ -201,11 +200,11 @@ the most trivial applications.
 Any time we reach for an `Arc` or a `Mutex` it's good idea to stop for a moment
 and think about the future implications of that decision.
 
-The choice to use Arc or Mutex might be indicative of a design that
+The choice to use `Arc` or `Mutex` might be indicative of a design that
 hasn't fully embraced the ownership and borrowing principles that Rust
 emphasizes. It's worth reconsidering if the shared state is genuinely necessary
-or if there's an alternative design that could minimize or eliminate the need
-for shared mutable state.
+or if there's a simpler design that could minimize or eliminate the need
+for shared mutable state (for instance by using channels).
 
 The problem, of course, is that Tokio imposes this design on you. It's not your
 choice to make. 
@@ -218,9 +217,8 @@ not available at all.
 **Multi-threaded-by-default runtimes cause accidental complexity completely
 unrelated to the task of writing async code.**
 
-Ideally, we'd lean on an explicit
-`spawn::async` instead of `spawn::blocking`. Futures should be designed for
-brief, scoped lifespans rather than the 'static lifetime.
+Futures should be designed for brief, scoped lifespans rather than the `'static` lifetime.
+Ideally, we'd lean on an explicit `spawn::async` instead of `spawn::blocking`. 
 
 Maciej suggested to use a [local async
 runtime](https://maciej.codes/2022-06-09-local-async.html) which is
@@ -258,7 +256,7 @@ Going beyond Tokio, several other runtimes deserve more attention:
   and using a thread-per-core model.
 
 These runtimes are important, as they explore alternative paths or open up new
-use cases for async Rust. Drawing a parallel with, [Rust's error handling
+use cases for async Rust. Drawing a parallel with [Rust's error handling
 story](https://mastodon.social/@mre/111019994687648975), the hope is that
 competing designs will lead to a more robust foundation overall.
 Especially, iterating on smaller runtimes that are less invasive and
@@ -280,30 +278,16 @@ Modern operating systems come with highly optimized schedulers that are
 excellent at multitasking and support async I/O through
 [io_uring](https://lwn.net/Articles/776703/) and
 [splice](https://github.com/mre/fcat). We should make better use of these
-capabilities.
+capabilities. At least we should fully lean into the capabilities of modern
+operating systems.
 
-Let's finally address the elephant in the room:
-[Threads](https://doc.rust-lang.org/std/thread/), with their familiarity,
-present a path to make synchronous code faster with minimal adjustments.
-
-For example, take our sync code to read a file from above and put it into a
-function:
-
-```rust
-fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>> {
-    let mut file = File::open(file)?;
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)?;
-    return Ok(contents);
-}
-```
-
+Take our sync code to read a file from above for example.
 We can call this function inside the new [scoped
 threads](https://doc.rust-lang.org/std/thread/fn.scope.html):
 
 ```rust
 use std::error::Error;
-use std::fs::File;
+use std::fs;
 use std::io::Read;
 use std::path::Path;
 use std::{thread, time};
@@ -312,35 +296,50 @@ fn main() {
     thread::scope(|scope| {
         // worker thread 1
         scope.spawn(|| {
-            let contents = read_contents("foo.txt");
+            let contents = fs::read_to_string("foo.txt");
             // do something with contents
         });
 
         // worker thread 2
         scope.spawn(|| {
-            let contents = read_contents("bar.txt");
+            let contents = fs::read_to_string("bar.txt");
             // ...
         });
 
         // worker thread 3
         scope.spawn(|| {
-            let contents = read_contents("baz.txt");
+            let contents = fs::read_to_string("baz.txt");
             // ...
         });
     });
-
+    
     // No join; threads get joined
     // automatically once the scope ends
 }
 ```
 
-([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=890ada80a65e9057c4a0fc46199caf0c))
+([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=1bb9bbd9fdd4626bae93ac3d2cd81165))
 
-That code looks almost identical to the single-threaded version! Notably, there
-are no `.await` calls.
+Or, perhaps more aptly,
 
-Were `read_contents` part of a public API, it could be used by both async and
-sync callers, eliminating the need for an asynchronous runtime.
+```rust
+fn main() {
+    let files = ["foo.txt", "bar.txt", "baz.txt"];
+    thread::scope(|scope| {
+        for file in files {
+            scope.spawn(move || {
+                let contents = fs::read_to_string(file);
+                // ...
+            });
+        }
+    });
+}
+```
+
+Note that the code looks almost identical to the single-threaded version.
+Were it part of a public API, it would work for both sync and async callers,
+entirely eliminating the need for an asynchronous runtime.
+The scheduling burden is pushed to the operating system.
 
 Async Rust might be more memory-efficient than threads, at the cost of
 complexity and worse ergonomics. As an example, if the function were _async_ and
@@ -348,18 +347,57 @@ you called it _outside_ of a runtime, it would compile, but not run. Futures do
 nothing unless being polled. This is a common footgun for newcomers.
 
 ```rust
-async fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error>> {
-    // ...
-}
+use tokio::fs;
 
 #[tokio::main]
 async fn main() {
-    // This will print a warning, but compile and do nothing at runtime
-    read_contents("foo.txt");
+    // This will print a warning, but compile
+    // and do nothing at runtime
+    fs::read_to_string("foo.txt");
 }
 ```
 
-([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7dc4bc6783691c42fbf4cd5a76251da2))
+([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=dac468c7e7ea0f224e91b56ccadc8e43))
+
+If you find yourself needing to share state between threads, consider using a
+channel:
+
+```rust
+use std::error::Error;
+use std::fs;
+use std::io::Read;
+use std::path::Path;
+use std::{thread, time};
+use std::sync::mpsc;
+
+fn main() {
+    let (tx, rx) = mpsc::channel::<String>();
+
+    let files = ["foo.txt", "bar.txt", "baz.txt"];
+
+    thread::scope(|scope| {
+        for file in files {
+            scope.spawn(move || {
+                let contents = fs::read_to_string(file);
+                // ...
+            });
+        }
+    });
+
+    // Receive messages from the channel
+    for received in rx {
+        println!("Got: {:?}", received);
+    }
+}
+```
+
+([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=5b7fa587cf1796089ce7bb374539229e))
+
+
+## Common Prejudice Against Threads
+
+Asynchrous programming is often seen as the solution to improving performance
+and scalability of I/O-bound workloads.
 
 In a [recent benchmark](https://vorner.github.io/async-bench.html), traditional
 threading outperformed the async approach in scenarios with a limited number of
@@ -376,60 +414,15 @@ This is further complemented by the fact modern Linux systems can manage [tens
 of thousands of
 threads](https://thetechsolo.wordpress.com/2016/08/28/scaling-to-thousands-of-threads/).
 
-Turns out, computers are pretty good at doing multiple things at once!
+**Traditional arguments against threads simply don't apply to Rust.**
+Threaded code in Rust is protected from data races, null dereferences, and
+dangling references, ensuring a level of safety that prevents many common
+pitfalls found in other languages. 
 
 As an important caveat, threads are not available or feasible in all
 environments, such as embedded systems. My context for this article is primarily
 conventional server-side applications that run on top of platforms like Linux or
 Windows.
-
-I would like to add that threaded code in Rust undergoes the same stringent
-safety checks as the rest of your Rust code: It is protected from data races,
-null dereferences, and dangling references, ensuring a level of thread safety
-that prevents many common pitfalls found in concurrent programming, Since there
-is no garbage collector, there never will be any stop-the-world pause to reclaim
-memory. Traditional arguments against threads simply don't apply to Rust &mdash;
-fearless concurrency is your friend!
-
-If you find yourself needing to share state between threads, consider using a
-channel:
-
-```rust
-use std::error::Error;
-use std::path::Path;
-use std::sync::mpsc;
-use std::thread;
-
-// Our error type needs to be `Send` to be used in a channel
-// That's the only change we need to make to our original code
-fn read_contents<T: AsRef<Path>>(file: T) -> Result<String, Box<dyn Error + Send>> {
-    todo!()
-}
-
-fn main() {
-    let (tx, rx) = mpsc::channel();
-
-    thread::scope(|scope| {
-        scope.spawn(|| {
-            let contents = read_contents("foo.txt");
-            tx.send(contents).unwrap();
-        });
-        scope.spawn(|| {
-            let contents = read_contents("bar.txt");
-            tx.send(contents).unwrap();
-        });
-        scope.spawn(|| {
-            let contents = read_contents("baz.txt");
-            tx.send(contents).unwrap();
-        });
-    });
-
-    // Receive messages from the channel
-    for received in rx {
-        println!("Got: {:?}", received);
-    }
-}
-```
 
 ## Summary
 
@@ -492,7 +485,12 @@ integration easier.
 
 [Async Rust feels like a different
 dialect](https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/async.html),
-significantly more brittle than the rest of the language.
+that is significantly more brittle than the rest of the language at the moment.
+
+When writing libraries, [the maintenance
+overhead](https://nullderef.com/blog/rust-async-sync/) of supporting both async
+and sync interfaces is not to be underestimated.
+
 
 The default mode for writing Rust should be _synchronous_. Freely after
 [Stroustup](https://news.ycombinator.com/item?id=22206779):  
