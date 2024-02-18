@@ -59,7 +59,7 @@ runtimes](https://www.reddit.com/r/rust/comments/f10tcq/confusion_with_rusts_asy
 
 Moreover, much of the existing documentation on async Rust feels outdated or
 incomplete. For example, the async book remains in draft, with concepts like
-`FuturesUnordered` yet to be covered. (There is an open [pull
+cancellation, timeouts, and `FuturesUnordered` yet to be covered. (There is an open [pull
 request](https://github.com/rust-lang/async-book/pull/96), though.)
 
 That leaves us with a situation that is unsatisfactory for everyone involved:
