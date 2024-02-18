@@ -105,6 +105,7 @@ fn log_product_view(product: &Product) {
 ```
 
 You might not have noticed, but this is a form of composition. 
+
 The fact that `Product` implements `Debug` means that you can use it 
 whenever a function, method, or macro expects a type that is `Debug`.
 
@@ -304,14 +305,33 @@ impl Product for Vegetable {
 Now you can write functions that take *any* product:
 
 ```rust
-fn handle_product(product: &impl Product) {
-    println!("Product: {:?}", product.name());
-    println!("Price: {:?}", product.price());
+fn log_product_view(product: &impl Product) {
+    println!("Product viewed: {:?}", product);
 }
 ```
 
-As for our product catalog, we can now be more specific and not only
-required `Serialize`, but also `Product`:
+This is syntactic sugar for a trait bound:
+
+```rust
+fn log_product_view<T: Product>(product: &T) {
+    println!("Product viewed: {:?}", product);
+}
+```
+
+However, this is not quite enough. We also need to guarantee that the
+`product` implements `Debug`. We can do this by adding another trait bound:
+
+```rust
+fn log_product_view(product: &(impl Product + std::fmt::Debug)) {
+    println!("Product viewed: {:?}", product);
+}
+```
+
+Here, we require that `product` implements both `Product` and `Debug`.
+This is a form of trait-based composition: both constraints must be satisfied.
+
+As for our product catalog, we can now also be more specific and not only
+require `Serialize`, but also `Product`:
 
 ```rust
 fn write_products_to_csv(products: &[impl Product + Serialize]) -> Result<(), Box<dyn std::error::Error>> {
@@ -350,6 +370,15 @@ It's a change of mindset. Different way of thinking
 
 fighting the concept of composition. doesn't feel natural
 (could be a good intro line)
+
+Resist the urge to side-step the type system. Try to understand the constraints
+the compiler is enforcing. This will lead to better designs.
+
+## Further reading
+
+* [Rust Book: Traits](https://doc.rust-lang.org/book/ch10-02-traits.html)
+* [Rust Book: Using Trait Objects That Allow for Values of Different Types](https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types)
+* [Possible Rust: 3 Things to Try When You Can't Make a Trait Object](https://www.possiblerust.com/pattern/3-things-to-try-when-you-can-t-make-a-trait-object)
 
 
 ## Code
