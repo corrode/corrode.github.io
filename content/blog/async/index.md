@@ -1,6 +1,6 @@
 +++
 title = "The State of Async Rust: Runtimes"
-date = 2024-02-18
+date = 2024-02-21
 draft = false
 template = "article.html"
 [extra]
