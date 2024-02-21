@@ -191,6 +191,43 @@ synchronization primitives such as
 [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all but the
 most trivial applications.
 
+{% info(headline="Understanding 'static Lifetimes in Async Rust", icon="info") %}
+
+A `'static` trait bound mandates that the type does not contain any non-static
+references. This means the receiver can hold on to the type
+*indefinitely* without it becoming invalid until they decide to drop it.
+
+Here is an example of a async function that has a `'static` lifetime bound:
+
+```rust
+async fn process_data<T: 'static>(data: T) {
+    // ...
+}
+```
+
+Owned data passes a `'static` lifetime bound if it, and all of its contents, do
+not contain any non-static references &mdash; but, crucially, a *reference* to
+that owned data generally does not.
+
+Since tasks in async runtimes may outlive the scope they were created in
+(especially in multi-threaded contexts), ensuring that references remain valid
+for the duration of the task's execution is challenging. This is why async tasks
+often require `'static` data, to guarantee that the data lives long enough or to
+ensure ownership is transferred to the task.
+
+This makes it hard to use references in async code, as borrowed data must live
+as long as the task.
+
+For most practical use-cases, this means that futures cannot borrow
+data from the scope they are spawned from, unless the data lives long enough or
+ownership is transferred.
+
+This requirement marks a significant departure from
+synchronous Rust, where borrowing data across function calls is commonplace.
+It represents a fundamental shift in how we manage data lifetimes and ownership
+in asynchronous compared to synchronous Rust.
+{% end %}
+
 > The Original Sin of Rust async programming is making it multi-threaded by
 > default. If premature optimization is the root of all evil, this is the mother
 > of all premature optimizations, and it curses all your code with the unholy
