@@ -68,11 +68,19 @@ article .subheading a {
 }
 
 .info {
-  padding: 20px 40px;
+  padding: 40px;
   border-radius: 5px;
   border: 1px solid $heroDark;
-  width: 110%;
-  margin-left: -5%;
+  margin: 3em 0;
+}
+
+/*
+  Ensure that code blocks inside an `.info` element
+  are not wider than the parent container.
+*/
+.info pre {
+  margin: auto;
+  width: 100%;
 }
 
 @media (max-width: 800px) {
