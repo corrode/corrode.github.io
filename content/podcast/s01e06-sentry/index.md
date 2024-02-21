@@ -49,7 +49,7 @@ replay, profiling, cron monitoring, code coverage, and more.
 Arpad Borsos loves to work on high-performance, low-latency systems and
 maintains open source projects like the popular
 [`rust-cache`](https://github.com/Swatinem/rust-cache) GitHub Action, which is
-used by 20.000 GitHub repositories to cache Rust dependencies in CI. 
+used by over 20.000 GitHub repositories to cache Rust dependencies in CI. 
 
 He is an expert in asynchronous programming and gave a talk titled [async fn from Editor to
 Executable](https://www.youtube.com/watch?v=id38OaSPioA) at EuroRust 2023.
@@ -57,8 +57,20 @@ Executable](https://www.youtube.com/watch?v=id38OaSPioA) at EuroRust 2023.
 
 ### Links From The Show
 
-- [`symbolic` crate](https://github.com/getsentry/symbolic)
+- [`relay` project](https://github.com/getsentry/relay)
+- [`symbolic` project](https://github.com/getsentry/symbolic)
+- [`tracing` crate](https://crates.io/crates/tracing)
+- [Actix](https://actix.rs/)
+- [Mozilla Spidermonkey](https://firefox-source-docs.mozilla.org/js/index.html)
+- [Name Mangling on Wikipedia](https://en.wikipedia.org/wiki/Name_mangling)
+- [Neon bindings (Rust/JS interop)](https://neon-bindings.com/)
+- [PyO3/matruin](https://github.com/PyO3/maturin)
+- [Sentry SDK on docs.rs](https://docs.rs/sentry/latest/sentry/)
+- [Sentry SDK on GitHub](https://github.com/getsentry/sentry-rust)
+- [Source Maps on Wikipedia](https://en.wikipedia.org/wiki/Minification_(programming)#Source_mapping)
+- [Swatinem/rust-cache](https://github.com/Swatinem/rust-cache)
 - [Tokio Async Runtime](https://tokio.rs/)
+- [Windows MiniDump Specification](http://formats.kaitai.io/windows_minidump/)
 
 ### Official Links
 
