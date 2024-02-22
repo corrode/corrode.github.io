@@ -11,6 +11,8 @@ episode = "06"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-e098acdf" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-6-sentry-s-arpad-borsos/player.js?size=s"></script></div>
+
 In this episode, we talk to Arpad Borsos, Systems Software Engineer at Sentry,
 about how they use Rust to build a modern error monitoring platform for
 developers.
