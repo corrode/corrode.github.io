@@ -9,7 +9,6 @@ role = "Systems Software Engineer"
 season = "01"
 episode = "05"
 series = "Podcast"
-logo = "tweede-golf.svg"
 +++
 
 <div><script id="letscast-player-b30f560a" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-5-tweede-golf-s-folkert-de-vries/player.js?size=s"></script></div>

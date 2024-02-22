@@ -7,7 +7,6 @@ draft = false
 season = "01"
 episode = "00"
 series = "Podcast"
-logo = "teaser.svg"
 +++
 
 <div><script id="letscast-player-ff3abca4" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-series-teaser/player.js?size=s"></script></div>
