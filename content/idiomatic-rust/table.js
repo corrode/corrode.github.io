@@ -32,50 +32,10 @@ function renderCategory(category) {
 $(document).ready(function () {
   const table = new DataTable("#data-table", {
     ajax: "/idiomatic-rust/resources.json",
-    // Add dropdown filters for columns
-    initComplete: function () {
-      this.api()
-        .columns([1, 7, 9, 10])
-        .every(function () {
-          var column = this;
-          var columnTitle = $(column.header()).text(); // Get the column title
-          var select = $(
-            '<select><option value="">' + columnTitle + "</option></select>"
-          )
-            .appendTo($(column.header()).empty())
-            .on("change", function () {
-              var val = $.fn.dataTable.util.escapeRegex($(this).val());
-              column.search(val ? "^" + val + "$" : "", true, false).draw();
-            });
-
-          column
-            .data()
-            .unique()
-            .sort()
-            .each(function (d, j) {
-              var label = d; // Use the raw value as the label by default
-              if (column.index() === 1) {
-                // Assuming column 1 is 'category'
-                label = renderCategory(d).replace(/<[^>]+>/g, ""); // Strip HTML to get only text
-              } else if (column.index() === 9) {
-                // Assuming column 9 is 'interactivityLevel'
-                label =
-                  d === "low"
-                    ? "Low"
-                    : d === "medium"
-                    ? "Medium"
-                    : d === "high"
-                    ? "High"
-                    : d;
-              }
-              select.append('<option value="' + d + '">' + label + "</option>");
-            });
-        });
-    },
     paging: false,
     saveState: true,
     scrollCollapse: true,
-    order: [[7, "asc"]],
+    order: [[1, "asc"]],
     columns: [
       {
         className: "dt-control",
@@ -185,6 +145,46 @@ $(document).ready(function () {
         },
       },
     ],
+    // Add dropdown filters for columns
+    initComplete: function () {
+      this.api()
+        .columns([1, 7, 9, 10])
+        .every(function () {
+          var column = this;
+          var columnTitle = $(column.header()).text(); // Get the column title
+          var select = $(
+            '<select><option value="">' + columnTitle + "</option></select>"
+          )
+            .appendTo($(column.header()).empty())
+            .on("change", function () {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? "^" + val + "$" : "", true, false).draw();
+            });
+
+          column
+            .data()
+            .unique()
+            .sort()
+            .each(function (d, j) {
+              var label = d; // Use the raw value as the label by default
+              if (column.index() === 1) {
+                // Assuming column 1 is 'category'
+                label = renderCategory(d).replace(/<[^>]+>/g, ""); // Strip HTML to get only text
+              } else if (column.index() === 9) {
+                // Assuming column 9 is 'interactivityLevel'
+                label =
+                  d === "low"
+                    ? "Low"
+                    : d === "medium"
+                    ? "Medium"
+                    : d === "high"
+                    ? "High"
+                    : d;
+              }
+              select.append('<option value="' + d + '">' + label + "</option>");
+            });
+        });
+    },
   });
 
   // Object to keep track of active filters
