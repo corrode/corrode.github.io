@@ -73,6 +73,7 @@ $(document).ready(function () {
         });
     },
     paging: false,
+    saveState: true,
     scrollCollapse: true,
     order: [[7, "asc"]],
     columns: [
