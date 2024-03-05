@@ -1,6 +1,6 @@
 base_url = "https://corrode.dev"
 title = "Corrode Rust Consulting"
-description = "Friendly, professional Rust consulting and training. Writing content about idiomatic Rust"
+description = "Friendly, professional Rust consulting and training. Writing content about idiomatic Rust."
 author = "Matthias Endler"
 
 compile_sass = true
@@ -22,6 +22,6 @@ author = "Corrode Rust Consulting"
 links = [
   { url = "https://github.com/corrode", title = "Github", icon = "github.svg" },
   { url = "https://twitter.com/matthiasendler", title = "Twitter", icon = "twitter.svg" },
-  { url = "https://www.linkedin.com/in/endlermatthias/", title = "LinkedIn", icon = "linkedin.svg" },
+  { url = "https://www.linkedin.com/company/corrode", title = "LinkedIn", icon = "linkedin.svg" },
   { url = "mailto:hi@corrode.dev", title = "hi@corrode.dev", icon = "envelope.svg" },
 ]
