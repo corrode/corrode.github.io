@@ -32,6 +32,17 @@ body {
   line-height: 1.7;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -337,7 +348,6 @@ ul {
   list-style-type: square;
 }
 
-
 ol ol,
 ul ul {
   margin-top: 1em;
@@ -507,14 +517,14 @@ tr:last-child td {
 }
 
 .toc > summary {
-    cursor: pointer;
-    color: white;
-    padding: 1.5em;
-    background-color: $darkBgrd;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    width: 110%;
-    margin-left: -5%;
+  cursor: pointer;
+  color: white;
+  padding: 1.5em;
+  background-color: $darkBgrd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 110%;
+  margin-left: -5%;
 }
 
 @media (prefers-color-scheme: dark) {

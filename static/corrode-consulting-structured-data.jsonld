@@ -1,0 +1,60 @@
+{
+    "@context": "http://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Corrode Consulting",
+    "description": "Custom Rust consulting and development based in Germany that puts people first.",
+    "url": "https://corrode.dev/",
+    "logo": "https://corrode.dev/corrode.svg",
+    "image": "https://corrode.dev/social/social.png",
+    "telephone": "+4915231997564",
+    "email": "hi@corrode.dev",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Düsseldorf",
+        "addressCountry": "DE"
+    },
+    "serviceArea": {
+        "@type": "AdministrativeArea",
+        "name": "Global"
+    },
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Consulting Services",
+        "itemListElement": [
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Rust Programming Consulting"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Mentoring and Coaching"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Code Reviews"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Training"
+                }
+            }
+        ]
+    },
+    "areaServed": "Global",
+    "sameAs": [
+        "https://twitter.com/matthiasendler",
+        "https://github.com/mre",
+        "https://www.linkedin.com/company/corrode"
+    ]
+}
