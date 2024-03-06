@@ -23,14 +23,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="4.7775309"
-     inkscape:cx="55.467982"
-     inkscape:cy="75.143417"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
+     inkscape:zoom="5.6149786"
+     inkscape:cx="46.749955"
+     inkscape:cy="72.662788"
+     inkscape:window-width="1728"
+     inkscape:window-height="1051"
      inkscape:window-x="0"
-     inkscape:window-y="25"
-     inkscape:window-maximized="1"
+     inkscape:window-y="38"
+     inkscape:window-maximized="0"
      inkscape:current-layer="g20"
      showgrid="false" />
   <defs
@@ -42,12 +42,23 @@
     <g
        id="g20"
        transform="translate(-1.9868217e-8,-8.3622478)">
+      <text
+         xml:space="preserve"
+         style="font-size:9.66706px;line-height:1.25;font-family:Iosevka;-inkscape-font-specification:'Iosevka, Normal';fill:#ffffff;fill-opacity:1;stroke-width:0.241677"
+         x="9.6607332"
+         y="29.030655"
+         id="text1-7"><tspan
+           sodipodi:role="line"
+           id="tspan1-3"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.66706px;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.241677"
+           x="9.6607332"
+           y="29.030655">30K+</tspan></text>
       <rect
          style="fill:#fab71c;fill-opacity:1;stroke:none;stroke-width:0.305369;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;paint-order:stroke fill markers"
          id="rect11"
          width="23.546358"
          height="7.3041573"
-         x="1.4559878"
+         x="1.4559877"
          y="12.913889"
          rx="0.41942689"
          ry="0.50655222" />
@@ -74,12 +85,7 @@
          d="m -12.120777,2.1250713 -1.543982,1.4159288 0.375612,2.081147 -1.823745,-1.0308684 -1.863218,1.0003381 0.416846,-2.0530404 -1.527144,-1.462904 2.08137,-0.2379805 0.919391,-1.90446246 0.869511,1.90596046 z"
          inkscape:transform-center-x="-0.017720475"
          inkscape:transform-center-y="-0.62683143"
-         transform="matrix(1.2823011,0,0,1.2881049,24.315833,22.06923)" />
-      <path
-         style="font-size:9.84063px;line-height:1.25;font-family:'Bebas Neue';-inkscape-font-specification:'Bebas Neue, Normal';fill:#ffffff;stroke-width:0.246016"
-         d="m 9.8357461,28.39272 q 0,-0.738047 0.2361749,-1.259601 0.236175,-0.531394 0.846294,-1.171035 0.600279,-0.63964 0.826613,-1.092309 0.236175,-0.452669 0.236175,-0.944701 0,-0.442828 -0.147609,-0.610119 -0.137769,-0.177131 -0.413307,-0.177131 -0.560915,0 -0.560915,0.679003 v 0.738047 H 9.8357461 v -0.669162 q 0,-0.836454 0.4133069,-1.279282 0.413306,-0.452669 1.200556,-0.452669 0.787251,0 1.200557,0.452669 0.413307,0.442828 0.413307,1.279282 0,0.6298 -0.30506,1.230078 -0.295219,0.600279 -1.033266,1.377688 -0.482191,0.511713 -0.649482,0.836454 -0.16729,0.3149 -0.16729,0.679003 v 0.14761 h 2.056691 v 0.984063 H 9.8357461 Z m 6.0716649,-5.15649 h -2.18462 v -0.984063 h 3.247408 v 0.944701 l -1.692589,5.94374 h -1.10215 z m 1.820512,-0.984063 h 1.08247 v 2.902986 l 1.377688,-2.902986 h 1.082469 l -1.289122,2.529042 1.308803,4.359399 h -1.131672 l -0.915179,-3.070277 -0.432987,0.875816 v 2.194461 h -1.08247 z m 5.254892,3.828005 h -1.318644 v -0.767569 h 1.318644 v -1.328485 h 0.767569 v 1.328485 h 1.318645 v 0.767569 h -1.318645 v 1.348166 h -0.767569 z"
-         id="text12"
-         aria-label="27K+ " />
+         transform="matrix(1.2823011,0,0,1.2881049,24.648209,22.06923)" />
     </g>
   </g>
 </svg>
