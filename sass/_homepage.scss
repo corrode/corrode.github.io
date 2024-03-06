@@ -5,7 +5,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    padding: 2em;
+    padding: 4em;
 
     & > * {
       flex-basis: 1.5em;
@@ -25,6 +25,13 @@
       width: 32px;
     }
   }
+}
+
+/* Part above the fold should stretch the whole height */
+.fold {
+  min-height: calc(100vh - 90px); /* navigation bar */
+  display: flex;
+  flex-direction: column;
 }
 
 .call-to-action {
@@ -157,6 +164,10 @@
 }
 
 @media (max-width: 900px) {
+  .homepage .content {
+    padding: 2em;
+  }
+
   .testimonial-carousel {
     height: 470px;
   }
