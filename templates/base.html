@@ -134,6 +134,12 @@
                         </a>
                     </li>
                     <li>
+                        <a {% if current_path and current_path is containing("/services") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
+                            href="{{ config.base_url ~ '/services' }}">
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li>
                         <a {% if current_path and current_path is containing("/why-rust") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
                             href="{{ config.base_url ~ '/why-rust' }}">
                             <span>Why Rust?</span>
@@ -168,8 +174,6 @@
                 <span>© 2024 corrode &mdash; D&uuml;sseldorf, Germany</span>
                 &middot;
                 <span><a href="/legal">Legal Notice</a></span>
-                &middot;
-                <span><a href="/quote">Business Inquiries</a></span>
             </footer>
             {% endblock footer %}
         </div>

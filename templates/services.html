@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="question-container"></div>
+
+<button id="nextQuestion">Next</button>
+
+<script>
+    const questions = [
+    {
+        type: "input",
+        question:
+        "How many years of software development experience do you have?",
+        id: "devExperience",
+    },
+    {
+        type: "input",
+        question:
+        "What programming languages are you most proficient in? (Please list up to three.)",
+        id: "proficientLanguages",
+    },
+    {
+        type: "input",
+        question:
+        "What other languages besides Rust would you consider to be good alternatives for your applications?",
+        id: "alternativeLanguages",
+    },
+    {
+        type: "yesno",
+        question:
+        "Have you ever used Rust in any capacity (e.g., personal projects, open source contributions)?",
+        id: "usedRust",
+    },
+    {
+        type: "input",
+        question: "Please describe your experience with Rust.",
+        id: "rustExperience",
+    },
+    {
+        type: "scale",
+        question:
+        "On a scale from 1 (not interested) to 5 (very interested), how interested are you in learning Rust?",
+        id: "interestLearningRust",
+        scale: 5,
+    },
+    {
+        type: "checkbox",
+        question:
+        "What motivates your interest in Rust? (Multiple choices allowed)",
+        id: "motivationRust",
+        options: [
+        "Performance benefits",
+        "Memory safety without garbage collection",
+        "Curiosity about new technologies",
+        "Potential for career development",
+        ],
+    },
+    {
+        type: "radio",
+        question:
+        "Given the opportunity, how willing are you to be part of the early adopters' team for Rust within our organization?",
+        id: "willingnessAdoptRust",
+        options: [
+        "Very willing",
+        "Somewhat willing",
+        "Neutral",
+        "Somewhat unwilling",
+        "Very unwilling",
+        ],
+    },
+    {
+        type: "checkbox",
+        question:
+        "What roles are you interested in taking on in this adoption process? (Multiple choices allowed)",
+        id: "rolesInAdoption",
+        options: [
+        "Learning and experimentation with Rust",
+        "Developing pilot projects or prototypes",
+        "Mentoring colleagues in Rust",
+        "Leading a Rust adoption initiative or project",
+        "Writing documentation or best practices",
+        "Other (please specify)",
+        ],
+    },
+    {
+        type: "input",
+        question:
+        "What do you see as the biggest challenge in adopting Rust in our organization?",
+        id: "biggestChallenge",
+    },
+    {
+        type: "input",
+        question:
+        "Which systems / services / components / bounded contexts would benefit the most from Rust?",
+        id: "systemsBenefit",
+    },
+    {
+        type: "input",
+        question:
+        "What kind of support or resources would you need to successfully adopt Rust? (e.g., training courses, time allocation for learning, mentorship programs)",
+        id: "neededSupport",
+    },
+    {
+        type: "email",
+        question:
+        "Please enter your email to receive a customized proposal based on your needs.",
+        id: "email",
+    },
+    ];
+    let currentQuestionIndex = 0;
+
+    document.getElementById("nextQuestion").addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+        displayQuestion(currentQuestionIndex++);
+    } else {
+        submitQuiz();
+    }
+    });
+
+    function displayQuestion(index) {
+    const questionContainer = document.getElementById("question-container");
+    questionContainer.innerHTML = ""; // Clear existing content
+
+    const question = questions[index];
+    const label = document.createElement("label");
+    label.textContent = question.question;
+    questionContainer.appendChild(label);
+
+    let inputElement;
+
+    switch (question.type) {
+        case "input":
+        case "email":
+        inputElement = document.createElement("input");
+        inputElement.type = question.type === "email" ? "email" : "text";
+        inputElement.id = question.id;
+        questionContainer.appendChild(inputElement);
+        break;
+        case "yesno":
+        ["Yes", "No"].forEach((option) => {
+            inputElement = document.createElement("input");
+            inputElement.type = "radio";
+            inputElement.name = question.id;
+            inputElement.value = option.toLowerCase();
+            questionContainer.appendChild(inputElement);
+            questionContainer.appendChild(document.createTextNode(option));
+        });
+        break;
+        case "scale":
+        for (let i = 1; i <= question.scale; i++) {
+            inputElement = document.createElement("input");
+            inputElement.type = "radio";
+            inputElement.name = question.id;
+            inputElement.value = i.toString();
+            questionContainer.appendChild(inputElement);
+            questionContainer.appendChild(
+            document.createTextNode(i.toString())
+            );
+        }
+        break;
+        case "checkbox":
+        question.options.forEach((option) => {
+            inputElement = document.createElement("input");
+            inputElement.type = "checkbox";
+            inputElement.id = option;
+            inputElement.value = option;
+            questionContainer.appendChild(inputElement);
+            questionContainer.appendChild(document.createTextNode(option));
+        });
+        break;
+        case "radio":
+        question.options.forEach((option) => {
+            inputElement = document.createElement("input");
+            inputElement.type = "radio";
+            inputElement.name = question.id;
+            inputElement.value = option;
+            questionContainer.appendChild(inputElement);
+            questionContainer.appendChild(document.createTextNode(option));
+        });
+        break;
+    }
+
+    // Update visibility of next button
+    const nextButton = document.getElementById("nextQuestion");
+    if (index === questions.length - 1) {
+        nextButton.textContent = "Submit";
+        nextButton.onclick = submitQuiz;
+    } else {
+        nextButton.textContent = "Next";
+    }
+    }
+
+    function submitQuiz() {
+    // Gather responses and submit
+    // Placeholder for actual implementation
+    }
+
+    displayQuestion(0); // Initialize with the first question
+</script>
+{% endblock content %}
