@@ -1,200 +1,224 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div id="question-container"></div>
 
 <button id="nextQuestion">Next</button>
 
 <script>
-    const questions = [
+  const questions = [
     {
-        type: "input",
-        question:
+      type: "input",
+      question:
         "How many years of software development experience do you have?",
-        id: "devExperience",
+      id: "devExperience",
     },
     {
-        type: "input",
-        question:
-        "What programming languages are you most proficient in? (Please list up to three.)",
-        id: "proficientLanguages",
+      type: "multipleChoice",
+      question: "What programming languages are you most proficient in?",
+      id: "proficientLanguages",
+      options: ["Python", "Go", "TypeScript", "Java", "C++"],
     },
     {
-        type: "input",
-        question:
+      type: "input",
+      question:
         "What other languages besides Rust would you consider to be good alternatives for your applications?",
-        id: "alternativeLanguages",
+      id: "alternativeLanguages",
     },
     {
-        type: "yesno",
-        question:
+      type: "yesno",
+      question:
         "Have you ever used Rust in any capacity (e.g., personal projects, open source contributions)?",
-        id: "usedRust",
+      id: "usedRust",
     },
     {
-        type: "input",
-        question: "Please describe your experience with Rust.",
-        id: "rustExperience",
+      type: "input",
+      question: "Please describe your experience with Rust.",
+      id: "rustExperience",
     },
     {
-        type: "scale",
-        question:
+      type: "scale",
+      question:
         "On a scale from 1 (not interested) to 5 (very interested), how interested are you in learning Rust?",
-        id: "interestLearningRust",
-        scale: 5,
+      id: "interestLearningRust",
+      scale: 5,
     },
     {
-        type: "checkbox",
-        question:
+      type: "checkbox",
+      question:
         "What motivates your interest in Rust? (Multiple choices allowed)",
-        id: "motivationRust",
-        options: [
+      id: "motivationRust",
+      options: [
         "Performance benefits",
         "Memory safety without garbage collection",
         "Curiosity about new technologies",
         "Potential for career development",
-        ],
+      ],
     },
     {
-        type: "radio",
-        question:
+      type: "radio",
+      question:
         "Given the opportunity, how willing are you to be part of the early adopters' team for Rust within our organization?",
-        id: "willingnessAdoptRust",
-        options: [
+      id: "willingnessAdoptRust",
+      options: [
         "Very willing",
         "Somewhat willing",
         "Neutral",
         "Somewhat unwilling",
         "Very unwilling",
-        ],
+      ],
     },
     {
-        type: "checkbox",
-        question:
+      type: "checkbox",
+      question:
         "What roles are you interested in taking on in this adoption process? (Multiple choices allowed)",
-        id: "rolesInAdoption",
-        options: [
+      id: "rolesInAdoption",
+      options: [
         "Learning and experimentation with Rust",
         "Developing pilot projects or prototypes",
         "Mentoring colleagues in Rust",
         "Leading a Rust adoption initiative or project",
         "Writing documentation or best practices",
         "Other (please specify)",
-        ],
+      ],
     },
     {
-        type: "input",
-        question:
+      type: "input",
+      question:
         "What do you see as the biggest challenge in adopting Rust in our organization?",
-        id: "biggestChallenge",
+      id: "biggestChallenge",
     },
     {
-        type: "input",
-        question:
+      type: "input",
+      question:
         "Which systems / services / components / bounded contexts would benefit the most from Rust?",
-        id: "systemsBenefit",
+      id: "systemsBenefit",
     },
     {
-        type: "input",
-        question:
+      type: "input",
+      question:
         "What kind of support or resources would you need to successfully adopt Rust? (e.g., training courses, time allocation for learning, mentorship programs)",
-        id: "neededSupport",
+      id: "neededSupport",
     },
     {
-        type: "email",
-        question:
+      type: "email",
+      question:
         "Please enter your email to receive a customized proposal based on your needs.",
-        id: "email",
+      id: "email",
     },
-    ];
-    let currentQuestionIndex = 0;
+  ];
+  let currentQuestionIndex = 0;
 
-    document.getElementById("nextQuestion").addEventListener("click", () => {
+  document.getElementById("nextQuestion").addEventListener("click", () => {
     if (currentQuestionIndex < questions.length) {
-        displayQuestion(currentQuestionIndex++);
+      displayQuestion(currentQuestionIndex++);
     } else {
-        submitQuiz();
+      submitQuiz();
     }
-    });
+  });
 
-    function displayQuestion(index) {
+  function displayQuestion(index) {
     const questionContainer = document.getElementById("question-container");
     questionContainer.innerHTML = ""; // Clear existing content
 
     const question = questions[index];
-    const label = document.createElement("label");
-    label.textContent = question.question;
-    questionContainer.appendChild(label);
+    const questionElement = document.createElement("div");
+    questionElement.className = "question";
+    questionElement.innerHTML = `<p>${question.question}</p>`;
 
     let inputElement;
 
     switch (question.type) {
-        case "input":
-        case "email":
+      case "multipleChoice":
+        question.options.forEach((option) => {
+          const optionElement = document.createElement("label");
+          optionElement.innerHTML = `<input type="checkbox" name="${question.id}" value="${option}"> ${option}<br>`;
+          questionElement.appendChild(optionElement);
+        });
+        break;
+      case "input":
+      case "email":
         inputElement = document.createElement("input");
         inputElement.type = question.type === "email" ? "email" : "text";
         inputElement.id = question.id;
-        questionContainer.appendChild(inputElement);
+        // Append inputElement to questionElement, not directly to questionContainer
+        questionElement.appendChild(inputElement);
         break;
-        case "yesno":
+      case "yesno":
         ["Yes", "No"].forEach((option) => {
-            inputElement = document.createElement("input");
-            inputElement.type = "radio";
-            inputElement.name = question.id;
-            inputElement.value = option.toLowerCase();
-            questionContainer.appendChild(inputElement);
-            questionContainer.appendChild(document.createTextNode(option));
+          inputElement = document.createElement("input");
+          inputElement.type = "radio";
+          inputElement.name = question.id;
+          inputElement.value = option.toLowerCase();
+          questionElement.appendChild(inputElement);
+          questionElement.appendChild(document.createTextNode(option));
         });
         break;
-        case "scale":
+      case "scale":
         for (let i = 1; i <= question.scale; i++) {
-            inputElement = document.createElement("input");
-            inputElement.type = "radio";
-            inputElement.name = question.id;
-            inputElement.value = i.toString();
-            questionContainer.appendChild(inputElement);
-            questionContainer.appendChild(
-            document.createTextNode(i.toString())
-            );
+          inputElement = document.createElement("input");
+          inputElement.type = "radio";
+          inputElement.name = question.id;
+          inputElement.value = i.toString();
+          questionElement.appendChild(inputElement);
+          questionElement.appendChild(document.createTextNode(i.toString()));
         }
         break;
-        case "checkbox":
+      case "checkbox":
         question.options.forEach((option) => {
-            inputElement = document.createElement("input");
-            inputElement.type = "checkbox";
-            inputElement.id = option;
-            inputElement.value = option;
-            questionContainer.appendChild(inputElement);
-            questionContainer.appendChild(document.createTextNode(option));
+          inputElement = document.createElement("input");
+          inputElement.type = "checkbox";
+          inputElement.id = option;
+          inputElement.value = option;
+          questionElement.appendChild(inputElement);
+          questionElement.appendChild(document.createTextNode(option));
         });
         break;
-        case "radio":
+      case "radio":
         question.options.forEach((option) => {
-            inputElement = document.createElement("input");
-            inputElement.type = "radio";
-            inputElement.name = question.id;
-            inputElement.value = option;
-            questionContainer.appendChild(inputElement);
-            questionContainer.appendChild(document.createTextNode(option));
+          inputElement = document.createElement("input");
+          inputElement.type = "radio";
+          inputElement.name = question.id;
+          inputElement.value = option;
+          questionElement.appendChild(inputElement);
+          questionElement.appendChild(document.createTextNode(option));
         });
         break;
     }
 
-    // Update visibility of next button
-    const nextButton = document.getElementById("nextQuestion");
-    if (index === questions.length - 1) {
-        nextButton.textContent = "Submit";
-        nextButton.onclick = submitQuiz;
-    } else {
-        nextButton.textContent = "Next";
-    }
-    }
+    // Append the fully constructed questionElement to the questionContainer
+    questionContainer.appendChild(questionElement);
 
-    function submitQuiz() {
+    // Enable the 'Next' button as soon as any input is made
+    document.getElementById("nextQuestion").disabled = true; // Initially disabled
+
+    // Add a single change event listener to the questionContainer for all inputs
+    questionContainer.addEventListener("change", function (event) {
+      if (
+        event.target &&
+        event.target.matches(
+          "input[type='radio'], input[type='checkbox'], input[type='text'], input[type='email']"
+        )
+      ) {
+        // Check if any input/radio/checkbox is filled or selected
+        const anyFilled =
+          Array.from(
+            this.querySelectorAll("input[type='text'], input[type='email']")
+          ).some((input) => input.value.trim() !== "") ||
+          Array.from(
+            this.querySelectorAll(
+              "input[type='radio']:checked, input[type='checkbox']:checked"
+            )
+          ).length > 0;
+
+        document.getElementById("nextQuestion").disabled = !anyFilled;
+      }
+    });
+  }
+
+  function submitQuiz() {
     // Gather responses and submit
     // Placeholder for actual implementation
-    }
+  }
 
-    displayQuestion(0); // Initialize with the first question
+  displayQuestion(0); // Initialize with the first question
 </script>
 {% endblock content %}
