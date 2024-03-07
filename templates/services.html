@@ -139,11 +139,27 @@
 
     switch (question.type) {
       case "multipleChoice":
+        const gridContainer = document.createElement("div");
+        gridContainer.className = "checkbox-grid";
+
         question.options.forEach((option) => {
           const optionElement = document.createElement("label");
-          optionElement.innerHTML = `<input type="checkbox" name="${question.id}" value="${option}"> ${option}<br>`;
-          questionElement.appendChild(optionElement);
+          optionElement.className = "quiz-button"; // Apply button styling if desired
+          const inputElement = document.createElement("input");
+          inputElement.type = "checkbox";
+          inputElement.name = question.id;
+          inputElement.value = option;
+
+          // Append the input and text to the label
+          optionElement.appendChild(inputElement);
+          optionElement.append(" " + option); // Ensure space between checkbox and label text
+
+          // Append the label to the grid container
+          gridContainer.appendChild(optionElement);
         });
+
+        // Append the grid container to the questionElement
+        questionElement.appendChild(gridContainer);
         break;
       case "checkbox":
         question.options.forEach((option) => {
@@ -274,13 +290,14 @@
   .quiz-button {
     margin: 20px 0;
     padding: 50px 15px;
-    border-radius: 8px;
+    border-radius: 4px;
     background-color: #111; /*$brightPrim */
     color: white;
     white-space: nowrap;
     cursor: pointer;
     flex: 1; /* Makes buttons take up equal space */
     text-align: center;
+    cursor: pointer;
   }
 
   .quiz-button input[type="radio"] {
@@ -299,6 +316,37 @@
   /* Placeholder styling */
   .quiz-container input::placeholder {
     color: #ccc; /* Light grey placeholder text */
+  }
+
+  /* Grid layout for checkboxes */
+  .question .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  /* Custom styling for checkbox labels to differentiate from radio button labels */
+  .question label.checkbox-label {
+    background-color: #f0f0f0; /* Lighter background */
+    border: 2px solid #ddd; /* Lighter border */
+  }
+
+  /* Custom larger checkbox style */
+  .question input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd; /* Light border to match label */
+    border-radius: 4px;
+    vertical-align: middle;
+    background-color: white; /* White background for checkbox */
+  }
+
+  .question input[type="checkbox"]:checked {
+    background-color: #ddd; /* Light grey to indicate checked state */
   }
 
   /* Ensure inputs do not exceed the container's width on smaller screens */
