@@ -6,10 +6,17 @@
 <script>
   const questions = [
     {
-      type: "input",
+      type: "radio",
       question:
         "How many years of software development experience do you have?",
       id: "devExperience",
+      options: [
+        "Less than 1 year",
+        "1-3 years",
+        "3-5 years",
+        "5-10 years",
+        "More than 10 years",
+      ],
     },
     {
       type: "multipleChoice",
@@ -105,7 +112,7 @@
       id: "email",
     },
   ];
-  let currentQuestionIndex = 0;
+  let currentQuestionIndex = 1;
 
   document.getElementById("nextQuestion").addEventListener("click", () => {
     if (currentQuestionIndex < questions.length) {
