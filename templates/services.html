@@ -22,13 +22,40 @@
       type: "multipleChoice",
       question: "What programming languages are you most proficient in?",
       id: "proficientLanguages",
-      options: ["Python", "Go", "TypeScript", "Java", "C++"],
+      options: [
+        "Python",
+        "Go",
+        "TypeScript",
+        "Java",
+        "Kotlin",
+        "C++",
+        "C",
+        "C#",
+        "Haskell",
+        "Nim",
+        "Zig",
+        "Other",
+      ],
     },
     {
-      type: "input",
+      type: "multipleChoice",
       question:
         "What other languages besides Rust would you consider to be good alternatives for your applications?",
       id: "alternativeLanguages",
+      options: [
+        "Python",
+        "Go",
+        "TypeScript",
+        "Java",
+        "Kotlin",
+        "C++",
+        "C",
+        "C#",
+        "Haskell",
+        "Nim",
+        "Zig",
+        "Other",
+      ],
     },
     {
       type: "yesno",
@@ -185,6 +212,14 @@
           inputElement.type = "radio";
           inputElement.name = question.id;
           inputElement.value = option;
+          inputElement.addEventListener("change", () => {
+            // Automatically move to the next question on selecting a radio option
+            if (currentQuestionIndex < questions.length) {
+              displayQuestion(currentQuestionIndex++);
+            } else {
+              submitQuiz();
+            }
+          });
           questionElement.appendChild(inputElement);
           questionElement.appendChild(document.createTextNode(option));
         });
