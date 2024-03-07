@@ -26,7 +26,7 @@
       question:
         "Are you an individual developer or are you filling out this form on behalf of an organization?",
       id: "devExperience",
-      options: ["Individual developer", "Organization"],
+      options: ["Individual", "Organization"],
     },
     {
       type: "radio",
@@ -61,8 +61,7 @@
     },
     {
       type: "multipleChoice",
-      question:
-        "What motivates your interest in Rust?",
+      question: "What motivates your interest in Rust?",
       id: "motivationRust",
       options: [
         "Performance benefits",
@@ -128,7 +127,7 @@
     const question = questions[index];
     const questionElement = document.createElement("div");
     questionElement.className = "question";
-    questionElement.innerHTML = `<p>${question.question}</p>`;
+    questionElement.innerHTML = `<h2>${question.question}</h2>`;
 
     let inputElement;
 
@@ -242,4 +241,28 @@
     }
   });
 </script>
+
+<style>
+  .quiz-flex-container {
+    display: flex;
+    gap: 10px; /* Adjust based on your preference */
+  }
+
+  .quiz-button {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #007bff; /* Replace $brightPrim with actual color value */
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+    flex: 1; /* Makes buttons take up equal space */
+    text-align: center;
+  }
+
+  .quiz-button input[type="radio"] {
+    display: none; /* Hide the actual radio button */
+  }
+</style>
+
 {% endblock content %}
