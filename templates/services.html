@@ -144,21 +144,18 @@
 
         question.options.forEach((option) => {
           const optionElement = document.createElement("label");
-          optionElement.className = "quiz-button"; // Apply button styling if desired
+          optionElement.className = "checkbox-label"; // Use this class for checkbox labels
           const inputElement = document.createElement("input");
           inputElement.type = "checkbox";
           inputElement.name = question.id;
           inputElement.value = option;
 
-          // Append the input and text to the label
           optionElement.appendChild(inputElement);
-          optionElement.append(" " + option); // Ensure space between checkbox and label text
+          optionElement.append(" " + option);
 
-          // Append the label to the grid container
           gridContainer.appendChild(optionElement);
         });
 
-        // Append the grid container to the questionElement
         questionElement.appendChild(gridContainer);
         break;
       case "checkbox":
@@ -325,12 +322,6 @@
     gap: 10px;
   }
 
-  /* Custom styling for checkbox labels to differentiate from radio button labels */
-  .question label.checkbox-label {
-    background-color: #f0f0f0; /* Lighter background */
-    border: 2px solid #ddd; /* Lighter border */
-  }
-
   /* Custom larger checkbox style */
   .question input[type="checkbox"] {
     -webkit-appearance: none;
@@ -339,14 +330,14 @@
     margin-right: 10px;
     width: 20px;
     height: 20px;
-    border: 2px solid #ddd; /* Light border to match label */
+    border: 2px solid #111;
     border-radius: 4px;
     vertical-align: middle;
     background-color: white; /* White background for checkbox */
   }
 
   .question input[type="checkbox"]:checked {
-    background-color: #ddd; /* Light grey to indicate checked state */
+    background-color: #111; /* Light grey to indicate checked state */
   }
 
   /* Ensure inputs do not exceed the container's width on smaller screens */
