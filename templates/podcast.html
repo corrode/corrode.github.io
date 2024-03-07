@@ -1,4 +1,52 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block meta %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": "Rust in Production",
+  "description": "Rust in Production brings to light the real-world stories of companies using Rust in production, focusing on the challenges and complex technical problems solved with Rust. New episodes ever second Thursday.",
+  "url": "https://corrode.dev/podcast/",
+  "image": "https://corrode.dev/social/podcast.png",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Corrode Consulting",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://corrode.dev/corrode.svg"
+    },
+    "location": {
+      "@type": "PostalAddress",
+      "addressLocality": "Düsseldorf",
+      "addressCountry": "DE"
+    }
+  },
+  "license": "https://creativecommons.org/licenses/by-nd/4.0/",
+  "potentialAction": {
+    "@type": "ListenAction",
+    "target": [
+      "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
+      "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
+      "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
+      "https://www.amazon.de/Rust-in-Production/dp/B0CPYJ725K",
+      "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+    ],
+    "expectsAcceptanceOf": {
+      "@type": "Offer",
+      "eligibleRegion": [
+        {
+          "@type": "Country",
+          "name": "Global"
+        }
+      ]
+    }
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
 <div class="hero">
   <div class="hero-font">
     {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{ hero_font
