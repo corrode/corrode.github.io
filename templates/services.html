@@ -190,27 +190,19 @@
     // Enable the 'Next' button as soon as any input is made
     document.getElementById("nextQuestion").disabled = true; // Initially disabled
 
-    // Add a single change event listener to the questionContainer for all inputs
-    questionContainer.addEventListener("change", function (event) {
-      if (
-        event.target &&
-        event.target.matches(
-          "input[type='radio'], input[type='checkbox'], input[type='text'], input[type='email']"
-        )
-      ) {
-        // Check if any input/radio/checkbox is filled or selected
-        const anyFilled =
-          Array.from(
-            this.querySelectorAll("input[type='text'], input[type='email']")
-          ).some((input) => input.value.trim() !== "") ||
-          Array.from(
-            this.querySelectorAll(
-              "input[type='radio']:checked, input[type='checkbox']:checked"
-            )
-          ).length > 0;
-
-        document.getElementById("nextQuestion").disabled = !anyFilled;
-      }
+    // Attach event listeners directly to inputs for immediate feedback
+    const inputs = questionContainer.querySelectorAll(
+      "input[type='text'], input[type='email'], input[type='radio'], input[type='checkbox']"
+    );
+    inputs.forEach((input) => {
+      input.addEventListener("input", () => {
+        // For text and email fields, enable the Next button as soon as there is any input
+        document.getElementById("nextQuestion").disabled = false;
+      });
+      input.addEventListener("change", () => {
+        // For radio buttons and checkboxes, enable the Next button as soon as an option is selected
+        document.getElementById("nextQuestion").disabled = false;
+      });
     });
   }
 
