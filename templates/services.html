@@ -1,8 +1,11 @@
 {% extends "base.html" %} {% block content %}
-<div id="question-container"></div>
 
-<button id="prevQuestion" style="display: none">Previous</button>
-<button id="nextQuestion">Next</button>
+<div class="quiz-container">
+  <div id="question-container"></div>
+
+  <button id="prevQuestion" style="display: none">Previous</button>
+  <button id="nextQuestion">Next</button>
+</div>
 
 <script>
   const languageOptions = [
@@ -68,6 +71,9 @@
         "Memory safety without garbage collection",
         "Curiosity about new technologies",
         "Potential for career development",
+        "Exploration of Rust's zero-cost abstractions for efficient code.",
+        "Writing more reliable software.",
+        "Usage in embedded systems or IoT projects.",
       ],
     },
     {
@@ -178,22 +184,32 @@
         }
         break;
       case "radio":
+        const flexContainer = document.createElement("div");
+        flexContainer.className = "quiz-flex-container";
+
         question.options.forEach((option) => {
-          inputElement = document.createElement("input");
+          const optionLabel = document.createElement("label");
+          optionLabel.className = "quiz-button";
+          optionLabel.textContent = option;
+
+          const inputElement = document.createElement("input");
           inputElement.type = "radio";
           inputElement.name = question.id;
           inputElement.value = option;
-          inputElement.addEventListener("change", () => {
+          inputElement.onchange = () => {
             // Automatically move to the next question on selecting a radio option
             if (currentQuestionIndex < questions.length) {
               displayQuestion(currentQuestionIndex++);
             } else {
               submitQuiz();
             }
-          });
-          questionElement.appendChild(inputElement);
-          questionElement.appendChild(document.createTextNode(option));
+          };
+
+          optionLabel.appendChild(inputElement);
+          flexContainer.appendChild(optionLabel);
         });
+
+        questionElement.appendChild(flexContainer);
         break;
     }
 
@@ -243,16 +259,23 @@
 </script>
 
 <style>
+  .quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden; /* Add this to prevent content from overflowing */
+  }
+
   .quiz-flex-container {
     display: flex;
     gap: 10px; /* Adjust based on your preference */
+    flex-wrap: wrap; /* Allow items to wrap if they can't fit in a single line */
   }
 
   .quiz-button {
     margin: 20px 0;
-    padding: 15px;
+    padding: 50px 15px;
     border-radius: 8px;
-    background-color: #007bff; /* Replace $brightPrim with actual color value */
+    background-color: #111; /*$brightPrim */
     color: white;
     white-space: nowrap;
     cursor: pointer;
@@ -262,6 +285,28 @@
 
   .quiz-button input[type="radio"] {
     display: none; /* Hide the actual radio button */
+  }
+
+  .quiz-container input[type="text"],
+  .quiz-container input[type="email"] {
+    width: 100%; /* Fill the entire width */
+    padding: 15px; /* Comfortable padding */
+    border: 1px solid #000; /* 1px black border */
+    box-sizing: border-box; /* Padding and border included in the width */
+    margin-bottom: 20px; /* Space below each input */
+  }
+
+  /* Placeholder styling */
+  .quiz-container input::placeholder {
+    color: #ccc; /* Light grey placeholder text */
+  }
+
+  /* Ensure inputs do not exceed the container's width on smaller screens */
+  @media (max-width: 600px) {
+    .quiz-container input[type="text"],
+    .quiz-container input[type="email"] {
+      width: calc(100% - 30px); /* Adjust width to account for padding */
+    }
   }
 </style>
 
