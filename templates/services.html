@@ -12,6 +12,9 @@
 </div>
 
 <script>
+  // Track can be 'individual' or 'org'
+  let userTrack = null;
+
   const languageOptions = [
     "Python",
     "Go",
@@ -152,6 +155,7 @@
       type: "input",
       question: "How big is your development team?",
       id: "teamSize",
+      track: "org",
     },
     {
       type: "multipleChoice",
@@ -185,10 +189,27 @@
   let currentQuestionIndex = 1;
 
   document.getElementById("nextQuestion").addEventListener("click", () => {
-    if (currentQuestionIndex < questions.length) {
-      displayQuestion(currentQuestionIndex++);
-    } else {
-      submitQuiz();
+    // Set the userTrack based on the first question
+    if (currentQuestionIndex === 1) {
+      const devExperience = document.querySelector(
+        'input[name="devExperience"]:checked'
+      );
+      userTrack = devExperience.value.toLowerCase();
+    }
+
+    let foundNextQuestion = false;
+    while (currentQuestionIndex < questions.length && !foundNextQuestion) {
+      const nextQuestionTrack = questions[currentQuestionIndex].track;
+      if (!nextQuestionTrack || nextQuestionTrack === userTrack) {
+        displayQuestion(currentQuestionIndex++);
+        foundNextQuestion = true;
+      } else {
+        currentQuestionIndex++; // Skip questions not matching the track
+      }
+    }
+
+    if (!foundNextQuestion) {
+      submitQuiz(); // All questions have been answered
     }
   });
 
