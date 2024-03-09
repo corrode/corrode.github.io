@@ -4,7 +4,6 @@ template = "page.html"
 sort_by = "date"
 +++
 
-
 <img src="/why-rust/hero.svg" alt="Why Rust?">
 
 Interest in Rust has surged in recent years, with tech leaders such as
@@ -18,9 +17,9 @@ application in production settings, especially for small and medium-sized
 businesses, where discussions tend to highlight performance benefits and gloss
 over other crucial aspects.
 
-In my role as a Rust consultant, I have had the opportunity to engage with many
-companies, large and small. I found that companies value productivity,
-stability, and long-term maintainability over performance.
+In my role as a Rust consultant, [I have had the opportunity to engage with many
+companies, large and small](/podcast). I found that companies value Rust's
+stability, and long-term maintainability on par with its performance benefits.
 
 This overview distills key insights, offering a resource for businesses to
 assess whether Rust is the right tool for their use-case or not.
@@ -28,10 +27,19 @@ assess whether Rust is the right tool for their use-case or not.
 The intent is to provide an honest look at Rust's practicality for production
 to help decision-makers understand its benefits and challenges.
 
-{% info(headline="New Podcast About Companies Using Rust in Production", icon="radio") %}
-Discover how Rust impacts businesses through <a href="/podcast">Rust in Production</a>, a podcast featuring insights from leaders on why they chose Rust. Hear about their challenges, motivations, and key learnings from using Rust in real-world scenarios.
+{% info(headline="Streamline Your Decision-Making with Our Compact Audio Guide on Rust", icon="radio") %}
+Considering Rust for your production needs?  
+You might also want to listen to [this podcast episode of Rust in Production](/podcast/s01e07-season-finale/).
 
-<a href="/podcast">Learn more here</a>.
+Key Highlights:
+
+- Insights into hiring Rust engineers.
+- Navigating the steep learning curve.
+- Effective strategies for Rust adoption.
+- The significant impact of Rust's performance on user experience.
+- And much more.
+
+This episode offers a balanced perspective on the advantages and challenges of implementing Rust, supported by real-life experiences and insights from CTOs and lead engineers who have navigated this transition.
 {% end %}
 
 
@@ -547,10 +555,15 @@ from adopting Rust in production by companies that shape the future of infrastru
 * <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank">Considering Rust &mdash; a talk by Jon Gjengset, 2020 (YouTube link)</a>
 * <a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank">How I Convinced the World's Largest Package Manager to Use Rust, and So Can You! &mdash; a talk by Ashley Williams, 2017 (YouTube link)</a>
 
+## Next Steps
+
+* [Rust in Production Podcast](/podcast)
+* [Reach Out for Rust Training and Consulting](/about/)
+
 ---
 
 <small>
-Last updated: 4 Dec 2023.
+Last updated: 9 Mar 2024.
 Title image adapted from
 <a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
 </small>
