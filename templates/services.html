@@ -100,7 +100,7 @@
     {
       type: "input",
       question:
-        "What do you see as the biggest challenge in adopting Rust in your organization?",
+        "Do you see any big challenges in adopting Rust in your organization?",
       id: "biggestChallenge",
       track: "org",
     },
@@ -108,6 +108,7 @@
       type: "multipleChoice",
       question: "Which of the following concerns you the most about Rust?",
       id: "concerns",
+      direction: "column",
       options: [
         "Ecosystem maturity",
         "Lack of specific libraries and frameworks for your use case",
@@ -120,9 +121,10 @@
       ],
     },
     {
-      type: "radio",
+      type: "multipleChoice",
       question: "Which of the following best describes the industry you work in?",
       id: "industry",
+      direction: "column",
       options: [
         "Aerospace",
         "Automotive",
@@ -436,6 +438,7 @@
 
   .quiz-container input[type="text"],
   .quiz-container input[type="email"] {
+    font-size: larger;
     width: 100%; /* Fill the entire width */
     padding: 15px; /* Comfortable padding */
     border: 1px solid #000; /* 1px black border */
