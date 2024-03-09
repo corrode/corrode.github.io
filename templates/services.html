@@ -467,6 +467,12 @@
     cursor: pointer;
   }
 
+  /* If the next button is disabled, change the cursor to not-allowed */
+  #nextQuestion:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
   .quiz-button input[type="radio"] {
     display: none; /* Hide the actual radio button */
   }
