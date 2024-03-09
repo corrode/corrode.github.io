@@ -3,8 +3,12 @@
 <div class="quiz-container">
   <div id="question-container"></div>
 
-  <button id="prevQuestion" style="display: none">Previous</button>
-  <button id="nextQuestion">Next</button>
+  <div id="navigation-container">
+    <button class="navbutton" id="prevQuestion" style="display: none">
+      Previous
+    </button>
+    <button class="navbutton" id="nextQuestion">Next</button>
+  </div>
 </div>
 
 <script>
@@ -47,7 +51,7 @@
     {
       type: "multipleChoice",
       question:
-        "Which other languages besides Rust would you consider to be good alternatives for your applications?",
+        "What languages would you consider as good alternatives to Rust for your applications?",
       id: "alternativeLanguages",
       options: languageOptions,
     },
@@ -92,8 +96,17 @@
       direction: "column",
       options: [
         "Training courses",
-        "Mentorship programs",
+        "Mentorship",
+        "Code Reviews",
         "Hands-on implementation support",
+        "Open Sourcing Guidance",
+        "Documentation and Best Practices Guides",
+        "Tooling and Infrastructure Support",
+        "Project Templates and Examples",
+        "Security Analysis Tools and Support",
+        "Performance Optimization",
+        "Cross-platform Development Guidance",
+        "Enterprise Integration Support",
         "Other",
       ],
     },
@@ -137,6 +150,15 @@
     const questionElement = document.createElement("div");
     questionElement.className = "question";
     questionElement.innerHTML = `<h2>${question.question}</h2>`;
+
+    // Initially hide the navigation buttons for 'radio' type questions
+    const navContainer = document.getElementById("navigation-container");
+    if (question.type === "radio") {
+      navContainer.style.display = "none";
+    } else {
+      navContainer.style.display = "flex"; // Make sure to show them for other types
+      document.getElementById("nextQuestion").disabled = true; // Initially disabled for other types
+    }
 
     let inputElement;
 
@@ -314,6 +336,21 @@
     overflow: hidden; /* Add this to prevent content from overflowing */
   }
 
+  #navigation-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .navbutton {
+    padding: 10px 20px;
+    background-color: #111; /*$brightPrim */
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+
   .quiz-flex-container {
     display: flex;
     gap: 10px; /* Adjust based on your preference */
@@ -321,7 +358,6 @@
   }
 
   .quiz-button {
-    margin: 20px 0;
     padding: 50px 15px;
     border-radius: 4px;
     background-color: #111; /*$brightPrim */
