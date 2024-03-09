@@ -1,6 +1,9 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="quiz-container">
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+  </div>
   <div id="question-container"></div>
 
   <div id="navigation-container">
@@ -34,7 +37,7 @@
     {
       type: "radio",
       question:
-        "Are you an individual developer or are you filling out this form on behalf of an organization?",
+        "Are you an individual developer or representing an organization?",
       id: "devExperience",
       options: ["Individual", "Organization"],
     },
@@ -187,6 +190,9 @@
       id: "email",
     },
   ];
+
+  const progressBar = document.getElementById("progress-bar");
+  let totalQuestions = questions.length;
   let currentQuestionIndex = 1;
 
   document.getElementById("nextQuestion").addEventListener("click", () => {
@@ -223,12 +229,19 @@
     }
   });
 
+  function updateProgressBar() {
+    const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+  }
+
   function displayQuestion(index) {
     history.pushState(
       { index: index },
       `Question ${index}`,
       `?question=${index}`
     );
+
+    updateProgressBar();
 
     const questionContainer = document.getElementById("question-container");
     questionContainer.innerHTML = ""; // Clear existing content
@@ -421,6 +434,20 @@
     max-width: 600px;
     margin: 0 auto;
     overflow: hidden; /* Add this to prevent content from overflowing */
+  }
+
+  .progress-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 5px;
+    border-radius: 2px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background-color: #ee3856;
+    border-radius: 2px;
+    transition: width 0.5s ease-in-out; /* Smooth transition for width changes */
   }
 
   #navigation-container {
