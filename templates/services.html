@@ -37,7 +37,7 @@
     {
       type: "radio",
       question:
-        "Are you an individual developer or representing an organization?",
+        "Are you looking for services as an individual or on behalf of an organization?",
       id: "serviceType",
       options: ["Individual", "Organization"],
     },
@@ -253,13 +253,22 @@
     }
   }
 
-  document.getElementById("prevQuestion").addEventListener("click", () => {
-    if (currentQuestionIndex > 1) {
-      // Ensure there is a previous question
-      currentQuestionIndex -= 2; // Adjust because displayQuestion will increment
-      if (currentQuestionIndex < 0) currentQuestionIndex = 0; // Safety check
-      displayQuestion(currentQuestionIndex++);
+  // Get previous question based on current track
+  function previousQuestion() {
+    let foundPreviousQuestion = false;
+    while (currentQuestionIndex > 0 && !foundPreviousQuestion) {
+      const previousQuestionTrack = questions[currentQuestionIndex - 2].track;
+      if (!previousQuestionTrack || previousQuestionTrack === userTrack) {
+        displayQuestion(--currentQuestionIndex - 1);
+        foundPreviousQuestion = true;
+      } else {
+        currentQuestionIndex--; // Skip questions not matching the track
+      }
     }
+  }
+
+  document.getElementById("prevQuestion").addEventListener("click", () => {
+    previousQuestion();
   });
 
   function updateProgressBar() {
@@ -268,17 +277,6 @@
   }
 
   function displayQuestion(index) {
-    if (index == 1) {
-      console.log("TODO: Setting user track");
-      // userTrack = document.getElementById("serviceType").value.toLowerCase();
-
-      // const serviceType = document.querySelector(
-      //   'input[name="serviceType"]:checked'
-      // );
-      // userTrack = serviceType.value.toLowerCase();
-
-      // console.log("User track is", userTrack);
-    }
     history.pushState(
       { index: index },
       `Question ${index}`,
@@ -297,12 +295,15 @@
 
     // Initially hide the navigation buttons for 'radio' type questions
     const navContainer = document.getElementById("navigation-container");
-    if (question.type === "radio") {
+
+    // Hide navContainer for first question
+    if (index === 0) {
       navContainer.style.display = "none";
     } else {
-      navContainer.style.display = "flex"; // Make sure to show them for other types
-      document.getElementById("nextQuestion").disabled = true; // Initially disabled for other types
+      navContainer.style.display = "flex";
     }
+
+    document.getElementById("nextQuestion").disabled = true;
 
     let inputElement;
 
