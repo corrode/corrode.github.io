@@ -80,7 +80,7 @@
       type: "radio",
       question: "Please describe your organization's experience with Rust.",
       direction: "column",
-      id: "rustExperience",
+      id: "orgRustExperience",
       options: [
         "We have never used Rust",
         "We have deployed a small project in Rust",
@@ -191,6 +191,7 @@
     },
   ];
 
+  let answers = {};
   const progressBar = document.getElementById("progress-bar");
   let totalQuestions = questions.length;
   let currentQuestionIndex = 1;
@@ -227,16 +228,17 @@
   }
 
   function displayQuestion(index) {
+    console.log(answers);
     if (index == 1) {
-      console.log("Setting user track");
-      userTrack = document.getElementById("serviceType").value.toLowerCase();
+      console.log("TODO: Setting user track");
+      // userTrack = document.getElementById("serviceType").value.toLowerCase();
 
-      const serviceType = document.querySelector(
-        'input[name="serviceType"]:checked'
-      );
-      userTrack = serviceType.value.toLowerCase();
+      // const serviceType = document.querySelector(
+      //   'input[name="serviceType"]:checked'
+      // );
+      // userTrack = serviceType.value.toLowerCase();
 
-      console.log("User track is", userTrack);
+      // console.log("User track is", userTrack);
     }
     history.pushState(
       { index: index },
@@ -395,6 +397,7 @@
   }
 
   function submitQuiz() {
+    console.log(answers);
     const answers = questions.reduce((acc, question) => {
       const inputElements = document.getElementsByName(question.id);
       if (
@@ -426,7 +429,7 @@
     if (event.state) {
       displayQuestion(event.state.index);
     } else {
-      // You can decide what to do if there's no state; e.g., go back to the first question
+      // If there is no state, reset to the first question
       displayQuestion(0);
     }
   });
