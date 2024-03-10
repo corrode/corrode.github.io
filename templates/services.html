@@ -211,6 +211,32 @@
       console.log("User track is", userTrack);
     }
 
+    // This is a bit crude, but it gets the job done
+    // Get the quiz container and store the user's answers
+    const quizContainer = document.getElementById("question-container");
+    const inputs = quizContainer.querySelectorAll(
+      "input[type='text'], input[type='email'], input[type='radio'], input[type='checkbox']"
+    );
+
+    inputs.forEach((input) => {
+      if (input.type === "radio" || input.type === "email") {
+        if (input.checked) {
+          answers[input.name] = input.value;
+        }
+      } else if (input.type === "checkbox") {
+        if (input.checked) {
+          if (!answers[input.name]) {
+            answers[input.name] = [];
+          }
+          answers[input.name].push(input.value);
+        }
+      } else {
+        answers[input.id] = input.value;
+      }
+    });
+
+    console.log(answers);
+
     let foundNextQuestion = false;
     while (currentQuestionIndex < questions.length && !foundNextQuestion) {
       const nextQuestionTrack = questions[currentQuestionIndex].track;
@@ -242,7 +268,6 @@
   }
 
   function displayQuestion(index) {
-    console.log(answers);
     if (index == 1) {
       console.log("TODO: Setting user track");
       // userTrack = document.getElementById("serviceType").value.toLowerCase();
