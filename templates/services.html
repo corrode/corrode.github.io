@@ -86,7 +86,7 @@
         "We have deployed a small project in Rust",
         "We have deployed one or more large projects in Rust",
       ],
-      track: "org",
+      track: "organization",
     },
     {
       type: "multipleChoice",
@@ -108,7 +108,7 @@
       question:
         "Do you see any big challenges in adopting Rust in your organization?",
       id: "biggestChallenge",
-      track: "org",
+      track: "organization",
     },
     {
       type: "multipleChoice",
@@ -153,13 +153,13 @@
         "Travel",
         "Other",
       ],
-      track: "org",
+      track: "organization",
     },
     {
       type: "input",
       question: "How big is your development team?",
       id: "teamSize",
-      track: "org",
+      track: "organization",
     },
     {
       type: "multipleChoice",
@@ -197,6 +197,20 @@
   let currentQuestionIndex = 1;
 
   document.getElementById("nextQuestion").addEventListener("click", () => {
+    nextQuestion();
+  });
+
+  function nextQuestion() {
+    // If the user track is not set, set it based on the first question
+    if (!userTrack) {
+      // get input with name serviceType
+      const serviceType = document.querySelector(
+        'input[name="serviceType"]:checked'
+      );
+      userTrack = serviceType.value.toLowerCase();
+      console.log("User track is", userTrack);
+    }
+
     let foundNextQuestion = false;
     while (currentQuestionIndex < questions.length && !foundNextQuestion) {
       const nextQuestionTrack = questions[currentQuestionIndex].track;
@@ -211,7 +225,7 @@
     if (!foundNextQuestion) {
       submitQuiz(); // All questions have been answered
     }
-  });
+  }
 
   document.getElementById("prevQuestion").addEventListener("click", () => {
     if (currentQuestionIndex > 1) {
@@ -313,16 +327,6 @@
         // Append inputElement to questionElement, not directly to questionContainer
         questionElement.appendChild(inputElement);
         break;
-      case "yesno":
-        ["Yes", "No"].forEach((option) => {
-          inputElement = document.createElement("input");
-          inputElement.type = "radio";
-          inputElement.name = question.id;
-          inputElement.value = option.toLowerCase();
-          questionElement.appendChild(inputElement);
-          questionElement.appendChild(document.createTextNode(option));
-        });
-        break;
       case "radio":
         const flexContainer = document.createElement("div");
         flexContainer.className = "quiz-flex-container";
@@ -343,11 +347,7 @@
           inputElement.value = option;
           inputElement.onchange = () => {
             // Automatically move to the next question on selecting a radio option
-            if (currentQuestionIndex < questions.length) {
-              displayQuestion(currentQuestionIndex++);
-            } else {
-              submitQuiz();
-            }
+            nextQuestion();
           };
 
           optionLabel.appendChild(inputElement);
