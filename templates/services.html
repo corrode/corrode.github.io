@@ -323,16 +323,6 @@
           questionElement.appendChild(document.createTextNode(option));
         });
         break;
-      case "scale":
-        for (let i = 1; i <= question.scale; i++) {
-          inputElement = document.createElement("input");
-          inputElement.type = "radio";
-          inputElement.name = question.id;
-          inputElement.value = i.toString();
-          questionElement.appendChild(inputElement);
-          questionElement.appendChild(document.createTextNode(i.toString()));
-        }
-        break;
       case "radio":
         const flexContainer = document.createElement("div");
         flexContainer.className = "quiz-flex-container";
@@ -397,7 +387,6 @@
   }
 
   function submitQuiz() {
-    console.log(answers);
     const answers = questions.reduce((acc, question) => {
       const inputElements = document.getElementsByName(question.id);
       if (
