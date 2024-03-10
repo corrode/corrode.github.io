@@ -38,7 +38,7 @@
       type: "radio",
       question:
         "Are you an individual developer or representing an organization?",
-      id: "devExperience",
+      id: "serviceType",
       options: ["Individual", "Organization"],
     },
     {
@@ -196,14 +196,6 @@
   let currentQuestionIndex = 1;
 
   document.getElementById("nextQuestion").addEventListener("click", () => {
-    // Set the userTrack based on the first question
-    if (currentQuestionIndex === 1) {
-      const devExperience = document.querySelector(
-        'input[name="devExperience"]:checked'
-      );
-      userTrack = devExperience.value.toLowerCase();
-    }
-
     let foundNextQuestion = false;
     while (currentQuestionIndex < questions.length && !foundNextQuestion) {
       const nextQuestionTrack = questions[currentQuestionIndex].track;
@@ -235,6 +227,17 @@
   }
 
   function displayQuestion(index) {
+    if (index == 1) {
+      console.log("Setting user track");
+      userTrack = document.getElementById("serviceType").value.toLowerCase();
+
+      const serviceType = document.querySelector(
+        'input[name="serviceType"]:checked'
+      );
+      userTrack = serviceType.value.toLowerCase();
+
+      console.log("User track is", userTrack);
+    }
     history.pushState(
       { index: index },
       `Question ${index}`,
@@ -440,13 +443,12 @@
     width: 100%;
     background-color: #ddd;
     height: 5px;
-    border-radius: 2px;
+    margin-bottom: 20px;
   }
 
   .progress-bar {
     height: 100%;
     background-color: #ee3856;
-    border-radius: 2px;
     transition: width 0.5s ease-in-out; /* Smooth transition for width changes */
   }
 
@@ -520,6 +522,10 @@
     color: #ccc; /* Light grey placeholder text */
   }
 
+  .question h2 {
+    margin: 0;
+  }
+
   /* Grid layout for checkboxes */
   .question .checkbox-grid {
     display: grid;
@@ -538,11 +544,11 @@
     border: 2px solid #111;
     border-radius: 4px;
     vertical-align: middle;
-    background-color: white; /* White background for checkbox */
   }
 
   .question input[type="checkbox"]:checked {
-    background-color: #111; /* Light grey to indicate checked state */
+    border: 2px solid #111;
+    background-color: #ee3856;
   }
 
   /* Ensure inputs do not exceed the container's width on smaller screens */
@@ -562,6 +568,11 @@
 
     .question input[type="checkbox"] {
       border-color: #fff; /* Light border */
+    }
+
+    .question input[type="checkbox"]:checked {
+      border: 2px solid #fff;
+      background-color: #ee3856;
     }
   }
 </style>
