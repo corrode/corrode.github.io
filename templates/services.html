@@ -202,13 +202,16 @@
 
   function nextQuestion() {
     // If the user track is not set, set it based on the first question
-    if (!userTrack) {
+    // Allow the user to change the track if they go back to the first question
+    if (!userTrack || currentQuestionIndex === 1) {
       // get input with name serviceType
       const serviceType = document.querySelector(
         'input[name="serviceType"]:checked'
       );
       userTrack = serviceType.value.toLowerCase();
       console.log("User track is", userTrack);
+      // Reset answers if the user changes the track
+      answers = {};
     }
 
     // This is a bit crude, but it gets the job done
