@@ -1,6 +1,6 @@
 +++
 title = "Tips For Faster Rust Compile Times"
-date = 2024-02-02
+date = 2024-03-15
 draft = false
 template = "article.html"
 [extra]
@@ -67,6 +67,8 @@ Click here to expand the table of contents.
   - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
   - [Switch To A Faster Github Actions Runner](#switch-to-a-faster-github-actions-runner)
 - [Faster Docker Builds](#faster-docker-builds)
+  - [Use `cargo-chef` To Speed Up Docker Builds](#use-cargo-chef-to-speed-up-docker-builds)
+  - [Consider Earthly For Better Build Caching](#consider-earthly-for-better-build-caching)
 
 </details>
 
@@ -864,6 +866,8 @@ in your Github Actions workflow file.
 
 ## Faster Docker Builds
 
+### Use `cargo-chef` To Speed Up Docker Builds
+
 Building Docker images from your Rust code?
 These can be notoriously slow, because cargo doesn't support building only a
 project's dependencies yet, invalidating the Docker cache with every build if you
@@ -915,7 +919,49 @@ ENTRYPOINT ["/usr/local/bin/app"]
 your continuous integration with Github Actions or your deployment process to Google
 Cloud.
 
-{% info(headline="Get Support", icon="crab") %}
-I can help you with performance problems and reducing your build times.
-[Get in contact.](/about)
+### Consider Earthly For Better Build Caching
+
+Earthly is a relatively new build tool that is designed to be a replacement for
+Makefiles, Dockerfiles, and other build tools. It provides fast, incremental
+Rust builds for CI.
+
+> Earthly speeds up Rust builds in CI by effectively implementing Cargo's
+> caching and Rust's incremental compilation. This approach significantly
+> reduces unnecessary rebuilds in CI, mirroring the efficiency of local Rust
+> builds.
+>
+> Source: [Earthly for Rust](https://earthly.dev/rust)
+
+They use a system called Satellites, which are persistent remote build
+runners that retain cache data locally. This can drastically speed up CI build
+times by eliminating cache uploads and downloads. Instead of bringing the cache
+data to the compute, they colocate the cache data and compute, eliminating cache
+transfers altogether. Less I/O means faster builds.
+
+Earthly also provides a `lib/rust` library, which abstracts away cache
+configuration entirely. It ensures that Rust is caching correctly and building
+incrementally in CI. It can be used in your
+[`Earthfile`](https://docs.earthly.dev/docs/earthfile) like this:
+
+```Dockerfile
+IMPORT github.com/earthly/lib/rust
+```
+
+If you're curious, [Earthly’s Guide for Rust](https://earthly.dev/rust) details
+a simple Rust example with optimized caching and compilation steps.
+
+# Summary
+
+In this article, we've covered a lot of ground. We've looked at how to speed up
+your Rust builds by using better hardware, optimizing your code, and using
+better tools. 
+
+I hope that you were able to use some of these tips to speed up your Rust builds.
+In case you found other ways to speed up your Rust builds, or if you have any
+questions or feedback, I'd love to hear from you.
+
+{% info(headline="Get Professional Support", icon="crab") %}
+If you need support for commercial Rust projects,
+I can also help you with performance problems and reducing your build times.
+[Get in touch.](/about)
 {% end %}
