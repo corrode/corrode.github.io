@@ -58,7 +58,7 @@ Click here to expand the table of contents.
   - [Focus on Long-Term Sustainability](#focus-on-long-term-sustainability)
   - [Productivity And Developer Happiness](#productivity-and-developer-happiness)
   - [Performance And Energy Efficiency](#performance-and-energy-efficiency)
-  - [Gradual Adoption](#gradual-adoption)
+  - [Gradual Adoption and FFI](#gradual-adoption-and-ffi)
 - [Reasons Against Using Rust In Production](#reasons-against-using-rust-in-production)
   - [Immature ecosystem](#immature-ecosystem)
   - [Lack Of Developers](#lack-of-developers)
@@ -372,7 +372,7 @@ Energy is another important cost factor for companies at scale.
 
 <img src="/why-rust/energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
 
-###  Gradual Adoption
+###  Gradual Adoption and FFI
 
 One often overlooked aspect of Rust is that it can be incrementally integrated
 into existing codebases. Interoperability is a key concern of Rust, allowing it
@@ -383,9 +383,26 @@ codebases, where it can be used for security- or performance-critical parts
 while the rest of the codebase remains in the original language. [This greatly
 reduces risks as big rewrites are avoided.](https://www.youtube.com/watch?v=l--5nx_q0_Y)
 
-Rust library code can be reused across projects from embedded programs to cloud
-services, which streamlines the development process and further reduces
-maintenance costs.
+In a data science environment dominated by Python, integrating Rust offers
+significant performance enhancements.
+By using Rust to process data originally managed with Python libraries such as
+Pandas and NumPy, data can be strategically copied from Python into Rust
+structures, and leveraging Rust's powerful concurrency tools like Rayon for
+parallel processing. 
+
+As a case-study, this approach, [significantly accelerated a critical data
+processing task at
+Vortexa](https://youtu.be/1faOd6KH-w4?si=pdd04RikPpsohiza&t=1111), which wrote a
+Python extension in Rust to optimize the performance of a hot path in their data
+processing pipeline. The result was a reduction from 24 hours to 1 hour with 400
+lines of Rust code. The rest of the codebase remained intact.
+
+It shows Rust's potential to serve as a *surgical tool* within other ecosystems,
+dramatically optimizing performance with minimal intrusion.
+
+On top of that, the Rust library code could be reused across projects from
+embedded programs to cloud services, which streamlines the development process
+and further reduces maintenance costs.
 
 ## Reasons Against Using Rust In Production
 
