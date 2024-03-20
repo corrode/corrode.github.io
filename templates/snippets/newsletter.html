@@ -1,23 +1,56 @@
 <div class="callout">
   <h2>Idiomatic Rust content. Straight to your inbox.</h2>
   <p>
-    I regularly write new articles on idiomatic Rust. If you want to be
-    notified when I publish them, you should sign up to my newsletter here.
-    No spam. Unsubscribe at any time.
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
   </p>
-  <form
-    action="https://tinyletter.com/mre"
-    method="post"
-    target="popupwindow"
-    onsubmit="window.open('https://tinyletter.com/mre', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"
-  >
-    <input
-      type="text"
-      name="email"
-      placeholder="mail@example.com"
-      id="tlemail"
-    />
-    <input type="hidden" value="1" name="embed" />
-    <input type="submit" value="Subscribe" />
-  </form>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="text"
+        name="email"
+        placeholder="mail@example.com"
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <input type="submit" value="Subscribe" />
+    </form>
+  </div>
 </div>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
