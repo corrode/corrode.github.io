@@ -34,13 +34,42 @@ You might also want to listen to [this podcast episode of Rust in Production](/p
 Key Highlights:
 
 - Insights into hiring Rust engineers.
-- Navigating the steep learning curve.
+- Tips to flatten the learning curve.
 - Effective strategies for Rust adoption.
 - The significant impact of Rust's performance on user experience.
 - And much more.
 
 This episode offers a balanced perspective on the advantages and challenges of implementing Rust, supported by real-life experiences and insights from CTOs and lead engineers who have navigated this transition.
 {% end %}
+
+<h2>Table of Contents</h2>
+
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+
+- [Reasons For Using Rust In Production](#reasons-for-using-rust-in-production)
+  - [Reliability and Stability](#reliability-and-stability)
+  - [Maintainability](#maintainability)
+  - [Predictable Runtime Behavior](#predictable-runtime-behavior)
+  - [Cost Savings](#cost-savings)
+  - [Ergonomics](#ergonomics)
+  - [Focus on Long-Term Sustainability](#focus-on-long-term-sustainability)
+  - [Productivity And Developer Happiness](#productivity-and-developer-happiness)
+  - [Performance And Energy Efficiency](#performance-and-energy-efficiency)
+  - [Gradual Adoption](#gradual-adoption)
+- [Reasons Against Using Rust In Production](#reasons-against-using-rust-in-production)
+  - [Immature ecosystem](#immature-ecosystem)
+  - [Lack Of Developers](#lack-of-developers)
+  - [Tooling](#tooling)
+  - [Learning Curve](#learning-curve)
+  - [Compile Times](#compile-times)
+- [Conclusion](#conclusion)
+- [Further Reading](#further-reading)
+- [Next Steps](#next-steps)
+
+</details>
 
 
 ## Reasons For Using Rust In Production
@@ -115,6 +144,24 @@ due to its edition system. All of that makes large-scale refactoring easier.
 > but the reason that they keep using [Rust] is because actually it's better for
 > building more reliable systems. - [Nicholas Matsakis, Senior Principal Engineer at AWS and lead of the Rust language design team.](https://www.youtube.com/watch?v=oGN62EEHyn8)
 
+### Maintainability
+
+Rust's design principles significantly contribute to software maintainability.
+
+> We find that when we build things in Rust, they are pretty easy to maintain.
+> They just don't break. Our requirements can change; we may need to modify
+> them, but it's pretty reliable - [Edward Wright, Staff Engineer at Vortexa](https://www.youtube.com/watch?v=1faOd6KH-w4&t=740s)
+
+This ease of maintainability means that Rust applications require less effort to
+adapt and evolve over time, reducing overall technical debt and freeing up
+developer resources for new features rather than maintenance. 
+
+Emphasizing Rust's impact on development efficiency and time-to-market, Wright continues 
+
+> We're probably spending our time more focused on actually adding value for our
+> customers and changing things when the requirements change — work that we
+> should be doing rather than busy work. - [Edward Wright, Staff Engineer at Vortexa](https://www.youtube.com/watch?v=1faOd6KH-w4&t=761s)
+
 ### Predictable Runtime Behavior
 
 Predictable runtime behavior is closely related to reliability and stability.
@@ -175,7 +222,6 @@ The author concludes:
 
 > In conclusion, Rust has a much lower latency variance than Golang, Python, and especially Java. 
 > [...] Rust might be a better alternative to Golang, Java, or Python if predictable performance is crucial for your service. Also, before starting to write a new service in C or C++, it’s worth considering Rust. - [Eugene Retunsky](https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f7)
-
 
 ### Cost Savings
 
@@ -326,7 +372,7 @@ Energy is another important cost factor for companies at scale.
 
 <img src="/why-rust/energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
 
-##  Gradual Adoption
+###  Gradual Adoption
 
 One often overlooked aspect of Rust is that it can be incrementally integrated
 into existing codebases. Interoperability is a key concern of Rust, allowing it
@@ -563,7 +609,7 @@ from adopting Rust in production by companies that shape the future of infrastru
 ---
 
 <small>
-Last updated: 9 Mar 2024.
+Last updated: 20 Mar 2024.
 Title image adapted from
 <a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
 </small>
