@@ -1,9 +1,10 @@
 +++
 title = "Tips For Faster Rust Compile Times"
-date = 2024-03-15
+date = 2024-01-12
 draft = false
 template = "article.html"
 [extra]
+updated = 2024-03-24
 series = "Insights"
 resources = [
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
@@ -62,7 +63,7 @@ Click here to expand the table of contents.
 - [CI Builds](#ci-builds)
   - [Use A Cache For Your Dependencies](#use-a-cache-for-your-dependencies)
   - [Split Up Compile And Test Steps](#split-up-compile-and-test-steps)
-  - [Disable Incremental Compilation](#disable-incremental-compilation)
+  - [Disable Incremental Compilation In CI](#disable-incremental-compilation-in-ci)
   - [Turn Off Debuginfo](#turn-off-debuginfo)
   - [Deny Warnings Through An Environment Variable](#deny-warnings-through-an-environment-variable)
   - [Switch To A Faster Github Actions Runner](#switch-to-a-faster-github-actions-runner)
@@ -811,9 +812,8 @@ a significant speedup.
 This makes it easier to find out how much time is spent on compilation and how
 much on running the tests.
 
-### Disable Incremental Compilation
+### Disable Incremental Compilation In CI
 
-[Disable incremental compilation](https://github.com/rust-analyzer/rust-analyzer/blob/25368d24308d6a94ffe8b99f0122bcf5a2175322/.github/workflows/ci.yaml#L11) in CI.
 
 ```yaml
 env:
@@ -821,6 +821,7 @@ env:
 ```
 
 Since CI builds are more akin to from-scratch builds, incremental compilation adds unnecessary dependency-tracking and IO overhead, reducing caching effectiveness.
+[Here's how to disable it.](https://github.com/rust-analyzer/rust-analyzer/blob/25368d24308d6a94ffe8b99f0122bcf5a2175322/.github/workflows/ci.yaml#L11)
 
 ### Turn Off Debuginfo
 
