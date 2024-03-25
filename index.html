@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Home | corrode Rust Consulting</title>
+        <meta name="author" content="Corrode Rust Consulting">
+        <meta name="description" content="Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software.">
+
+        <!-- Open Graph tags -->
+        <meta property="og:title" content="Home | corrode Rust Consulting">
+        <meta property="og:description" content="Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software.">
+        <meta property="og:image" content="https://corrode.dev/social/social.png">
+        <meta property="og:url" content="https://corrode.dev/">
+        <meta property="og:site_name" content="Corrode Rust Consulting">
+        <meta property="og:type" content="website">
+
+        <!-- Twitter Card tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Home | corrode Rust Consulting">
+        <meta name="twitter:description" content="Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software.">
+        <meta name="twitter:image" content="https://corrode.dev/social/social.png">
+
+        <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+        <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+        <link rel="stylesheet" type="text/css" href="/style.css" />
+
+        <link rel="me" href="https://mastodon.social/@mre">
+        <link rel="alternate" type="application/rss+xml" title="Corrode RSS feed" href="/rss.xml">
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+        <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        
+    
+    <script type="application/ld+json">
+        {
+    "@context": "http://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Corrode Consulting",
+    "description": "Custom Rust consulting and development based in Germany that puts people first.",
+    "url": "https://corrode.dev/",
+    "logo": "https://corrode.dev/corrode.svg",
+    "image": "https://corrode.dev/social/social.png",
+    "telephone": "+4915231997564",
+    "email": "hi@corrode.dev",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Düsseldorf",
+        "addressCountry": "DE"
+    },
+    "serviceArea": {
+        "@type": "AdministrativeArea",
+        "name": "Global"
+    },
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Consulting Services",
+        "itemListElement": [
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Rust Programming Consulting"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Mentoring and Coaching"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Code Reviews"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Training"
+                }
+            }
+        ]
+    },
+    "areaServed": "Global",
+    "sameAs": [
+        "https://twitter.com/matthiasendler",
+        "https://github.com/corrode",
+        "https://www.linkedin.com/company/corrode"
+    ]
+}
+    </script>
+
+    </head>
+
+    <body>
+        <div class="app">
+            <nav>
+                <!-- Logo and Home Link -->
+                <div>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/">
+                        <span class="logo">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="85px" viewBox="0 0 200 85.5">
+   <g font-size="37.1">
+      <path d="M18.27 36.27c-4.75 0-8.5 1.37-11.25 4.12-2.83 2.84-4.25 6.46-4.25 10.85 0 4.25 1.33 7.76 3.99 10.5 2.61 2.75 6.16 4.13 10.64 4.13 3.2 0 5.94-.68 8.23-2.04-1-1.32-2.27-3.36-2.9-4.86l.01-.06c-1.45.73-3.08 1.1-4.88 1.1a8.3 8.3 0 0 1-5.91-2.26c-1.69-1.68-2.53-3.92-2.53-6.71 0-2.7.8-4.86 2.4-6.46A8.39 8.39 0 0 1 18 42.12c1.63 0 3.18.36 4.63 1.08v.03c.62-1.43 2.1-3.83 3.07-5.07a15.49 15.49 0 0 0-7.44-1.89z" class="logo-text"/>
+      <path d="M38.5 106q4.32-4.19 10.7-4.19 6.4 0 10.6 4.2 4.32 4.11 4.32 10.6 0 6.38-4.32 10.6-4.26 4.19-10.6 4.19-6.39 0-10.7-4.2-4.26-4.25-4.26-10.6 0-6.46 4.26-10.6zm4.65 17.2q2.27 2.4 6.06 2.4t6.05-2.4q2.26-2.46 2.26-6.52 0-4.45-2.46-6.72-2.4-2.26-5.85-2.26-3.46 0-5.92 2.26-2.4 2.27-2.4 6.72 0 4.06 2.26 6.52z" class="logo-text" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+      <path d="M76.81 36.27c-13.65.1-13.62 8.04-13.24 28.73h6.52V50.5c0-3.01.6-5.16 1.8-6.45a5.35 5.35 0 0 1 4.05-1.53c.81 0 1.6.17 2.37.5l3.6-5.43a9.92 9.92 0 0 0-5.1-1.32z" class="logo-text"/>
+      <path d="M111 106q4.32-4.19 10.7-4.19t10.6 4.2q4.33 4.11 4.33 10.6 0 6.38-4.33 10.6-4.25 4.19-10.6 4.19t-10.7-4.2q-4.27-4.25-4.27-10.6 0-6.46 4.26-10.6zm4.66 17.2q2.26 2.4 6.05 2.4 3.8 0 6.05-2.4 2.26-2.46 2.26-6.52 0-4.45-2.46-6.72-2.4-2.26-5.85-2.26-3.46 0-5.92 2.26-2.4 2.27-2.4 6.72 0 4.06 2.27 6.52z" class="logo-text" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+      <path d="M94.57 35.9c-13.6.1-13.6 8.04-13.2 28.7h6.52V50.1c0-3.01.6-5.16 1.8-6.45a5.35 5.35 0 0 1 4.05-1.53c.81 0 1.6.17 2.37.5l3.6-5.43a9.92 9.92 0 0 0-5.1-1.32z" class="logo-text"/>
+   </g>
+   <path d="M185.57 35.9c-4.75 0-8.5 1.37-11.2 4.12-2.84 2.84-4.26 6.46-4.26 10.8 0 4.25 1.33 7.76 4 10.5 2.61 2.75 6.15 4.13 10.6 4.13 3.2 0 5.94-.68 8.23-2.04a19.4 19.4 0 0 1-2.42-4.23l-.46-.7a10.6 10.6 0 0 1-4.88 1.1 8.3 8.3 0 0 1-5.92-2.25 8.3 8.3 0 0 1-2.24-4.06l19.7-2.83-.04-.2c.05-.04.1-.08.14-.14.91-11-7.55-14.2-11.2-14.2zm-.27 5.85c1.64 0 4.65.67 6.33 4.33l.13.33-14.8 2.14a8.05 8.05 0 0 1 2.21-4.34 8.39 8.39 0 0 1 6.18-2.46z" class="logo-text"/>
+   <path d="M165 83v20.6a14.9 14.9 0 0 0-8.32-2.32c-4.25 0-7.82 1.4-10.7 4.2-2.84 2.74-4.26 6.27-4.26 10.6 0 4.25 1.42 7.8 4.25 10.6a14.8 14.8 0 0 0 10.7 4.19c4.26 0 7.8-1.4 10.6-4.2a14.3 14.3 0 0 0 4.33-10.6v-33.1zm-8.32 24.2c2.3 0 4.26.76 5.86 2.26 1.64 1.51 2.46 3.75 2.46 6.72 0 2.7-.76 4.88-2.27 6.52-1.5 1.6-3.52 2.4-6.05 2.4s-4.54-.8-6.05-2.4c-1.5-1.64-2.26-3.81-2.26-6.52 0-2.97.8-5.2 2.4-6.72a8.44 8.44 0 0 1 5.91-2.26z" class="logo-text" font-size="37.1" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+</svg>
+                        </span>
+                    </a>
+                </div>
+
+                <input id="menu-toggle" type="checkbox" />
+                <label class="menu-button-container" for="menu-toggle">
+                    <div class="menu-button"></div>
+                </label>
+            
+                <!-- Menu Items -->
+                <ul class="menu">
+                    <li>
+                        <!-- Theme Toggle -->
+                        <a href="javascript:toggleColorScheme();">
+                            <span id="icon-moon">
+                                
+                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="white"/>
+</svg>
+                            </span>
+                            <span id="icon-sun">
+                                
+                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C12.4142 1.25 12.75 1.58579 12.75 2V4C12.75 4.41421 12.4142 4.75 12 4.75C11.5858 4.75 11.25 4.41421 11.25 4V2C11.25 1.58579 11.5858 1.25 12 1.25ZM3.66865 3.71609C3.94815 3.41039 4.42255 3.38915 4.72825 3.66865L6.95026 5.70024C7.25596 5.97974 7.2772 6.45413 6.9977 6.75983C6.7182 7.06553 6.2438 7.08677 5.9381 6.80727L3.71609 4.77569C3.41039 4.49619 3.38915 4.02179 3.66865 3.71609ZM20.3314 3.71609C20.6109 4.02179 20.5896 4.49619 20.2839 4.77569L18.0619 6.80727C17.7562 7.08677 17.2818 7.06553 17.0023 6.75983C16.7228 6.45413 16.744 5.97974 17.0497 5.70024L19.2718 3.66865C19.5775 3.38915 20.0518 3.41039 20.3314 3.71609ZM1.25 12C1.25 11.5858 1.58579 11.25 2 11.25H4C4.41421 11.25 4.75 11.5858 4.75 12C4.75 12.4142 4.41421 12.75 4 12.75H2C1.58579 12.75 1.25 12.4142 1.25 12ZM19.25 12C19.25 11.5858 19.5858 11.25 20 11.25H22C22.4142 11.25 22.75 11.5858 22.75 12C22.75 12.4142 22.4142 12.75 22 12.75H20C19.5858 12.75 19.25 12.4142 19.25 12ZM17.0255 17.0252C17.3184 16.7323 17.7933 16.7323 18.0862 17.0252L20.3082 19.2475C20.6011 19.5404 20.601 20.0153 20.3081 20.3082C20.0152 20.6011 19.5403 20.601 19.2475 20.3081L17.0255 18.0858C16.7326 17.7929 16.7326 17.3181 17.0255 17.0252ZM6.97467 17.0253C7.26756 17.3182 7.26756 17.7931 6.97467 18.086L4.75244 20.3082C4.45955 20.6011 3.98468 20.6011 3.69178 20.3082C3.39889 20.0153 3.39889 19.5404 3.69178 19.2476L5.91401 17.0253C6.2069 16.7324 6.68177 16.7324 6.97467 17.0253ZM12 19.25C12.4142 19.25 12.75 19.5858 12.75 20V22C12.75 22.4142 12.4142 22.75 12 22.75C11.5858 22.75 11.25 22.4142 11.25 22V20C11.25 19.5858 11.5858 19.25 12 19.25Z" fill="black"/>
+</svg>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item active" 
+                            href="https://corrode.dev/"><span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/why-rust">
+                            <span>Why Rust?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/podcast">
+                            <span>Podcast</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/blog">
+                            <span>Blog</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/about">
+                            <span>About</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <main class="container">
+                
+<div class="homepage">
+    <div class="fold">
+        <div class="hero">
+            <div class="hero-font">
+                
+                <?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 274 221" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+<title>Friendly, Professional Rust Consulting</title>
+<desc>High-quality consulting services for the Rust programming language.</desc>
+<g fill="#fff"><path d="m10.5 173 219-4.9-2.38 47.8-217 2.13z" fill="#ffd885" stroke-width=".944"/><path d="m11.3 0 194 0.302 5.14 45-201 2.72z" fill="#ffd885"/><path d="m7.31 57.1 250-0.539-1.13 48-249-0.539z" fill="#ffd885" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.06" style="paint-order:stroke fill markers"/><path d="m6.95 114 106-1.03 0.0946 45.7-106 3.62z" fill="#ffd885" stroke-linecap="round" stroke-linejoin="round" stroke-width=".779" style="paint-order:stroke fill markers"/></g><path d="m20.9 7.97h18.4v5.6h-12.6v6.68h10.9v5.6h-10.9v11.6h-5.8zm28.1 12 0.52 4.8-0.12-0.72q0.76-1.56 2.08-2.64 1.32-1.12 2.6-1.72 1.32-0.6 2-0.6l-0.28 5.6q-1.96-0.24-3.36 0.64t-2.16 2.32-0.76 2.96v6.84h-5.56v-17.5zm11.4 0h5.6v17.5h-5.6zm-0.12-6.2q0-1.24 0.96-2.04 1-0.8 2.12-0.8t2.04 0.8q0.96 0.8 0.96 2.04t-0.96 2.04q-0.92 0.76-2.04 0.76t-2.12-0.76q-0.96-0.8-0.96-2.04zm20.1 24.2q-3.2 0-5.44-1.2-2.2-1.2-3.36-3.32t-1.16-4.88q0-2.64 1.36-4.76t3.64-3.36q2.28-1.28 5.08-1.28 3.76 0 6.16 2.2 2.44 2.16 3.16 6.28l-13.6 4.32-1.24-3.04 9.84-3.32-1.16 0.52q-0.32-1.04-1.16-1.8-0.8-0.8-2.44-0.8-1.24 0-2.2 0.6-0.92 0.56-1.44 1.64-0.48 1.04-0.48 2.48 0 1.64 0.6 2.76 0.6 1.08 1.64 1.64t2.32 0.56q0.92 0 1.76-0.32 0.88-0.32 1.72-0.84l2.48 4.16q-1.4 0.8-3.04 1.28-1.6 0.48-3.04 0.48zm18.6-18 0.44 3.12-0.08-0.28q0.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-0.04-1.16-0.64-1.84-0.56-0.72-1.92-0.72-1.28 0-2.24 0.84t-1.48 2.28-0.52 3.32v7.12h-5.6v-17.5zm25.8 18q-2.44 0-4.36-1.12-1.92-1.16-3.04-3.32-1.08-2.16-1.08-5.12t1.2-5.04 3.28-3.16 4.72-1.08q1.68 0 3.2 0.52 1.56 0.52 2.6 1.6v1.76-17.1h5.56v31.6h-5.6v-3.4l0.44 1.2q-1.36 1.12-3.04 1.92-1.68 0.76-3.88 0.76zm1.84-4.72q1.12 0 1.96-0.28 0.88-0.32 1.52-0.88 0.68-0.6 1.16-1.48v-4.28q-0.32-0.88-1-1.48-0.64-0.64-1.6-0.96-0.92-0.36-2.04-0.36-1.24 0-2.32 0.64-1.04 0.6-1.68 1.68t-0.64 2.48 0.64 2.52 1.68 1.76q1.08 0.64 2.32 0.64zm16-27.3h5.6v31.6h-5.6zm12.8 40 11.6-25.9h5.04l-11.3 25.9zm4.68-8.32-8.56-17.6h6.28l6.6 14.8zm19.9-3.6q-0.88 2.12-1.76 4.2t-1.76 4.2h-4.48q0.8-2.12 1.56-4.2 0.8-2.08 1.6-4.2z" aria-label="Friendly,"/><path d="m30.1 93.4q-1.56 0-3.08-0.56-1.48-0.6-2.48-1.68l0.16-1.64v11.8h-5.56v-26.3h4.8l0.8 3.4-0.44-1.2q1.36-1.16 3.04-1.92t3.88-0.76q2.44 0 4.36 1.16 1.92 1.12 3 3.28 1.12 2.12 1.12 5.12 0 2.96-1.24 5.04t-3.4 3.16-4.96 1.08zm-1.12-4.4q1.36 0 2.48-0.6 1.16-0.6 1.84-1.68 0.72-1.12 0.72-2.52 0-1.48-0.64-2.56-0.6-1.12-1.68-1.72-1.04-0.64-2.32-0.64-1.12 0-2 0.32-0.84 0.28-1.52 0.88-0.64 0.56-1.12 1.44v4.28q0.32 0.84 0.92 1.48t1.44 1q0.88 0.32 1.88 0.32zm20.2-13.6 0.52 4.8-0.12-0.72q0.76-1.56 2.08-2.64 1.32-1.12 2.6-1.72 1.32-0.6 2-0.6l-0.28 5.6q-1.96-0.24-3.36 0.64t-2.16 2.32-0.76 2.96v6.84h-5.56v-17.5zm9.2 8.52q0-2.68 1.24-4.8 1.28-2.12 3.56-3.32 2.28-1.24 5.24-1.24 3 0 5.2 1.24 2.2 1.2 3.36 3.32 1.2 2.12 1.2 4.8t-1.2 4.84q-1.16 2.12-3.36 3.36t-5.28 1.24q-2.88 0-5.16-1.12-2.24-1.12-3.52-3.24t-1.28-5.08zm5.64 0.04q0 1.36 0.56 2.48 0.56 1.08 1.52 1.72t2.16 0.64q1.32 0 2.28-0.64t1.48-1.72q0.52-1.12 0.52-2.48 0-1.4-0.52-2.48t-1.48-1.72-2.28-0.64q-1.2 0-2.16 0.64t-1.52 1.72-0.56 2.48zm20.2 8.92v-12.6h-2.96v-4.96h2.96v-6.08q0-3.44 1.96-5.6 2-2.2 5.76-2.2 1.12 0 2.48 0.36 1.4 0.32 2.44 1.08l-2.36 4.04q-0.4-0.52-0.96-0.68-0.52-0.2-1-0.2-1.2 0-1.96 0.8t-0.76 2.56v5.92h5.28v4.96h-5.28v12.6zm23.1 0.48q-3.2 0-5.44-1.2-2.2-1.2-3.36-3.32t-1.16-4.88q0-2.64 1.36-4.76 1.36-2.12 3.64-3.36 2.28-1.28 5.08-1.28 3.76 0 6.16 2.2 2.44 2.16 3.16 6.28l-13.6 4.32-1.24-3.04 9.84-3.32-1.16 0.52q-0.32-1.04-1.16-1.8-0.8-0.8-2.44-0.8-1.24 0-2.2 0.6-0.92 0.56-1.44 1.64-0.48 1.04-0.48 2.48 0 1.64 0.6 2.76 0.6 1.08 1.64 1.64t2.32 0.56q0.92 0 1.76-0.32 0.88-0.32 1.72-0.84l2.48 4.16q-1.4 0.8-3.04 1.28-1.6 0.48-3.04 0.48zm19.2-0.12q-2.16 0-4.04-0.76-1.84-0.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12 0.48 2 0.48 0.68 0 1.2-0.12 0.56-0.16 0.88-0.44 0.32-0.32 0.32-0.8 0-0.68-0.56-1.08-0.52-0.4-1.36-0.64-0.84-0.28-1.8-0.56-2.4-0.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32 0.68-2.64 0.72-1.36 2.24-2.24 1.56-0.92 4-0.92 2.2 0 3.72 0.44t2.88 1.44l-2.12 3.28q-0.76-0.6-1.72-1-0.92-0.44-1.72-0.48-0.72-0.04-1.24 0.16-0.48 0.2-0.76 0.52t-0.28 0.68q-0.04 0.76 0.56 1.2 0.64 0.44 1.6 0.68t1.88 0.56q1.28 0.4 2.2 1.08t1.4 1.64q0.52 0.92 0.52 2.24 0 1.6-0.84 3.04-0.8 1.4-2.48 2.28-1.64 0.88-4.2 0.88zm17.9 0q-2.16 0-4.04-0.76-1.84-0.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12 0.48 2 0.48 0.68 0 1.2-0.12 0.56-0.16 0.88-0.44 0.32-0.32 0.32-0.8 0-0.68-0.56-1.08-0.52-0.4-1.36-0.64-0.84-0.28-1.8-0.56-2.4-0.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32 0.68-2.64 0.72-1.36 2.24-2.24 1.56-0.92 4-0.92 2.2 0 3.72 0.44t2.88 1.44l-2.12 3.28q-0.76-0.6-1.72-1-0.92-0.44-1.72-0.48-0.72-0.04-1.24 0.16-0.48 0.2-0.76 0.52t-0.28 0.68q-0.04 0.76 0.56 1.2 0.64 0.44 1.6 0.68t1.88 0.56q1.28 0.4 2.2 1.08t1.4 1.64q0.52 0.92 0.52 2.24 0 1.6-0.84 3.04-0.8 1.4-2.48 2.28-1.64 0.88-4.2 0.88zm12.2-17.8h5.6v17.5h-5.6zm-0.12-6.2q0-1.24 0.96-2.04 1-0.8 2.12-0.8t2.04 0.8q0.96 0.8 0.96 2.04t-0.96 2.04q-0.92 0.76-2.04 0.76t-2.12-0.76q-0.96-0.8-0.96-2.04zm10.1 14.7q0-2.68 1.24-4.8 1.28-2.12 3.56-3.32 2.28-1.24 5.24-1.24 3 0 5.2 1.24 2.2 1.2 3.36 3.32 1.2 2.12 1.2 4.8t-1.2 4.84q-1.16 2.12-3.36 3.36t-5.28 1.24q-2.88 0-5.16-1.12-2.24-1.12-3.52-3.24t-1.28-5.08zm5.64 0.04q0 1.36 0.56 2.48 0.56 1.08 1.52 1.72t2.16 0.64q1.32 0 2.28-0.64t1.48-1.72q0.52-1.12 0.52-2.48 0-1.4-0.52-2.48t-1.48-1.72-2.28-0.64q-1.2 0-2.16 0.64t-1.52 1.72-0.56 2.48zm23.6-8.56 0.44 3.12-0.08-0.28q0.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-0.04-1.16-0.64-1.84-0.56-0.72-1.92-0.72-1.28 0-2.24 0.84t-1.48 2.28-0.52 3.32v7.12h-5.6v-17.5zm26 18q-2.44 0-4.44-0.96-1.96-1-3.12-3.04t-1.16-5.2q0-2.96 1.2-5.12t3.16-3.32q1.96-1.2 4.16-1.2 2.6 0 3.92 0.88 1.36 0.84 2.24 1.88l-0.24 0.68 0.52-2.56h5.2v17.5h-5.6v-3.8l0.44 1.2q-0.08 0-0.48 0.48-0.4 0.44-1.2 1.08-0.76 0.6-1.92 1.04-1.12 0.48-2.68 0.48zm1.6-4.56q1 0 1.8-0.28 0.8-0.32 1.4-0.88 0.6-0.6 1.04-1.48v-4.28q-0.32-0.88-0.96-1.48-0.64-0.64-1.52-0.96-0.88-0.36-1.96-0.36-1.2 0-2.24 0.64-1 0.6-1.6 1.68t-0.6 2.48 0.64 2.52 1.68 1.76q1.08 0.64 2.32 0.64zm15.6-27.5h5.6v31.6h-5.6z" aria-label="professional"/><path d="m29 121q2.76 0 4.92 0.72 2.16 0.68 3.6 2 1.48 1.28 2.24 3.12 0.76 1.8 0.76 4.08 0 1.8-0.56 3.6-0.52 1.8-1.76 3.28-1.2 1.48-3.2 2.4-2 0.88-4.96 0.88h-4.16v9.36h-5.8v-29.4zm1 14.5q1.32 0 2.2-0.44t1.36-1.12q0.52-0.68 0.72-1.4 0.24-0.76 0.24-1.4 0-0.48-0.16-1.2-0.12-0.76-0.56-1.52t-1.36-1.28q-0.88-0.52-2.4-0.52h-4.16v8.88zm5.44 3.6 7.28 11.4h-6.76l-7.44-11.2zm16.8 12.2q-2.36 0-3.96-1.44-1.6-1.48-1.68-3.8v-13.1h5.6v11q0.08 1.16 0.6 1.88 0.52 0.68 1.76 0.68t2.12-0.84q0.92-0.84 1.4-2.28 0.52-1.48 0.52-3.32v-7.12h5.6v17.5h-5.08l-0.44-3.2 0.08 0.36q-0.6 1.08-1.52 1.92t-2.2 1.28q-1.24 0.48-2.8 0.48zm23.4-0.48q-2.16 0-4.04-0.76-1.84-0.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12 0.48 2 0.48 0.68 0 1.2-0.12 0.56-0.16 0.88-0.44 0.32-0.32 0.32-0.8 0-0.68-0.56-1.08-0.52-0.4-1.36-0.64-0.84-0.28-1.8-0.56-2.4-0.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32 0.68-2.64 0.72-1.36 2.24-2.24 1.56-0.92 4-0.92 2.2 0 3.72 0.44t2.88 1.44l-2.12 3.28q-0.76-0.6-1.72-1-0.92-0.44-1.72-0.48-0.72-0.04-1.24 0.16-0.48 0.2-0.76 0.52t-0.28 0.68q-0.04 0.76 0.56 1.2 0.64 0.44 1.6 0.68t1.88 0.56q1.28 0.4 2.2 1.08t1.4 1.64q0.52 0.92 0.52 2.24 0 1.6-0.84 3.04-0.8 1.4-2.48 2.28-1.64 0.88-4.2 0.88zm13.8-25.5h5.6v7.6h4.24v4.36h-4.24v13.2h-5.6v-13.2h-2.72v-4.36h2.72z" aria-label="Rust"/><path d="m42.1 204q-0.48 0.4-1.8 1.08-1.28 0.68-3.16 1.2t-4.16 0.48q-3.48-0.08-6.24-1.24-2.72-1.2-4.64-3.24-1.88-2.04-2.88-4.68t-1-5.64q0-3.36 1-6.16 1.04-2.8 2.92-4.84 1.92-2.04 4.56-3.16t5.84-1.12q2.96 0 5.24 0.8t3.72 1.72l-2.28 5.48q-1-0.76-2.68-1.56-1.64-0.84-3.8-0.84-1.68 0-3.24 0.72-1.52 0.68-2.72 1.96-1.16 1.28-1.84 3-0.68 1.68-0.68 3.68 0 2.12 0.6 3.88 0.64 1.76 1.8 3.04 1.16 1.24 2.76 1.92 1.64 0.68 3.68 0.68 2.36 0 4.04-0.76t2.56-1.6zm3.52-6.52q0-2.68 1.24-4.8 1.28-2.12 3.56-3.32 2.28-1.24 5.24-1.24 3 0 5.2 1.24 2.2 1.2 3.36 3.32 1.2 2.12 1.2 4.8t-1.2 4.84q-1.16 2.12-3.36 3.36t-5.28 1.24q-2.88 0-5.16-1.12-2.24-1.12-3.52-3.24t-1.28-5.08zm5.64 0.04q0 1.36 0.56 2.48 0.56 1.08 1.52 1.72t2.16 0.64q1.32 0 2.28-0.64t1.48-1.72q0.52-1.12 0.52-2.48 0-1.4-0.52-2.48t-1.48-1.72-2.28-0.64q-1.2 0-2.16 0.64t-1.52 1.72-0.56 2.48zm23.6-8.56 0.44 3.12-0.08-0.28q0.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-0.04-1.16-0.64-1.84-0.56-0.72-1.92-0.72-1.28 0-2.24 0.84t-1.48 2.28-0.52 3.32v7.12h-5.6v-17.5zm24.4 17.8q-2.16 0-4.04-0.76-1.84-0.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12 0.48 2 0.48 0.68 0 1.2-0.12 0.56-0.16 0.88-0.44 0.32-0.32 0.32-0.8 0-0.68-0.56-1.08-0.52-0.4-1.36-0.64-0.84-0.28-1.8-0.56-2.4-0.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32 0.68-2.64 0.72-1.36 2.24-2.24 1.56-0.92 4-0.92 2.2 0 3.72 0.44t2.88 1.44l-2.12 3.28q-0.76-0.6-1.72-1-0.92-0.44-1.72-0.48-0.72-0.04-1.24 0.16-0.48 0.2-0.76 0.52t-0.28 0.68q-0.04 0.76 0.56 1.2 0.64 0.44 1.6 0.68 0.96 0.24 1.88 0.56 1.28 0.4 2.2 1.08t1.4 1.64q0.52 0.92 0.52 2.24 0 1.6-0.84 3.04-0.8 1.4-2.48 2.28-1.64 0.88-4.2 0.88zm17.8 0.48q-2.36 0-3.96-1.44-1.6-1.48-1.68-3.8v-13.1h5.6v11q0.08 1.16 0.6 1.88 0.52 0.68 1.76 0.68t2.12-0.84q0.92-0.84 1.4-2.28 0.52-1.48 0.52-3.32v-7.12h5.6v17.5h-5.08l-0.44-3.2 0.08 0.36q-0.6 1.08-1.52 1.92t-2.2 1.28q-1.24 0.48-2.8 0.48zm17.7-32.4h5.6v31.6h-5.6zm13 6.4h5.6v7.6h4.24v4.36h-4.24v13.2h-5.6v-13.2h-2.72v-4.36h2.72zm14.1 7.68h5.6v17.5h-5.6zm-0.12-6.2q0-1.24 0.96-2.04 1-0.8 2.12-0.8t2.04 0.8q0.96 0.8 0.96 2.04t-0.96 2.04q-0.92 0.76-2.04 0.76t-2.12-0.76q-0.96-0.8-0.96-2.04zm16.6 6.2 0.44 3.12-0.08-0.28q0.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-0.04-1.16-0.64-1.84-0.56-0.72-1.92-0.72-1.28 0-2.24 0.84t-1.48 2.28-0.52 3.32v7.12h-5.6v-17.5zm27.7 26.3q-2.36 0-4-0.56-1.6-0.56-2.72-1.36t-2-1.52l3.28-3.84q0.92 0.84 2.12 1.6 1.24 0.8 3.24 0.8 1.32 0 2.44-0.48 1.16-0.44 1.84-1.32 0.72-0.88 0.72-2.2v-3.84l0.2 1q-0.64 1.36-2.32 2.4-1.68 1-4.4 1-2.36 0-4.4-1.2-2-1.24-3.2-3.32-1.2-2.12-1.2-4.8 0-2.76 1.28-4.88 1.28-2.16 3.32-3.4t4.32-1.24 3.92 0.68q1.68 0.64 2.52 1.6l-0.2 0.52 0.6-1.92h5.16v17.5q0 2.56-1.44 4.52-1.44 2-3.84 3.12-2.36 1.16-5.24 1.16zm-4.76-17.8q0 1.4 0.64 2.52t1.72 1.76q1.12 0.64 2.48 0.64 1.16 0 2.04-0.28 0.92-0.32 1.6-0.88 0.72-0.6 1.2-1.48v-4.28q-0.36-0.88-1.08-1.48-0.72-0.64-1.68-0.96-0.92-0.36-2.08-0.36-1.36 0-2.48 0.64-1.08 0.6-1.72 1.68t-0.64 2.48z" aria-label="Consulting"/></svg>
+
+            </div>
+            <img class="hero-img" src="/hero/hero-img.svg" />
+            <h1 class="visually-hidden">Friendly, Professional Rust Consulting</h1>
+        </div>
+        <div class="content">
+            <h1 class="hero-headline">by <a href="/about">Matthias Endler</a></h1>
+            <div class="content-icons">
+                
+                <a title="Github" href="https:&#x2F;&#x2F;github.com&#x2F;corrode" target="_blank" rel="noreferrer">
+                    <img class="content-icon" src="/icons/github.svg" />
+                </a>
+                
+                <a title="Twitter" href="https:&#x2F;&#x2F;twitter.com&#x2F;matthiasendler" target="_blank" rel="noreferrer">
+                    <img class="content-icon" src="/icons/twitter.svg" />
+                </a>
+                
+                <a title="LinkedIn" href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;company&#x2F;corrode" target="_blank" rel="noreferrer">
+                    <img class="content-icon" src="/icons/linkedin.svg" />
+                </a>
+                
+                <a title="hi@corrode.dev" href="mailto:hi@corrode.dev" target="_blank" rel="noreferrer">
+                    <img class="content-icon" src="/icons/envelope.svg" />
+                </a>
+                
+            </div>
+        </div>
+    </div>
+    <div class="call-to-action">
+        <div class="cta-content">
+            <h1>
+                Accelerate Your Team's Transition To Rust Today
+            </h1>
+            <p>
+                <a href="#contact" class="cta-button">
+                    Schedule A Free 15-Minute Call
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="content dark">
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="Battery" />
+                <div class="section-text">
+                    <h2>Training, Refactoring & Beyond</h2>
+                    <p class="section-paragraph">
+                        Whether your team is just getting started or you're
+                        already using Rust in production, <b>I can help you get the most out
+                        of the language</b>.
+                    </p>
+                    <p class="section-paragraph">
+                        I can teach your team everything they need to write <a href="/idiomatic-rust">idiomatic, well-tested, 
+                            well-documented code</a> that is a joy to maintain and extend.
+                        If you need help with a specific project, I can jump in and help
+                        you get it done.
+                    </p>
+                    <p class="section-paragraph">
+                        I specialize in:
+                    <ul>
+                        <li>Mentoring / Pair Programming</li>
+                        <li>Refactoring</li>
+                        <li>Performance Optimizations</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2>Strong Integrations</h2>
+                    <p class="section-paragraph">
+                        No project exists in a vacuum. I can help you integrate Rust into
+                        your existing infrastructure and tooling.
+                        While I'm most comfortable writing Rust, I'm also proficient in
+                        <a target="_blank" rel="noreferrer" href="https://github.com/trivago/exporter-edgecast">Go</a>,
+                        <a target="_blank" rel="noreferrer" href="https://github.com/mre/kafka-influxdb">Python</a>, and
+                        <a target="_blank" rel="noreferrer" href="https://github.com/mre/vscode-snippet">TypeScript</a>.
+                    </p>
+                    <p class="section-paragraph">
+                        If you're looking to migrate to Rust or optimize your existing Rust
+                        codebases, I can provide the expertise you need.
+                    </p>
+                </div>
+                <img class="section-image" width="300" height="300" src="/sections/gears.svg" alt="Gears icon" />
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="300" height="300" src="/sections/stars.svg" alt="GitHub stars" />
+                <div class="section-text">
+                    <h2>Passionate about Open Source</h2>
+                    <p class="section-paragraph">
+                        Modern software development happens in the open.
+                        With over <a href="https://github.com/mre">30,000 stars on GitHub</a> and more
+                        than 10 years of experience, I know how to build and maintain
+                        successful open-source projects.
+                    </p>
+                    <p class="section-paragraph">
+                        If you're looking to open-source your project, I can help you
+                        navigate the process and build a community around your project.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2>Sharing Knowledge</h2>
+                    <p class="section-paragraph">
+                        My goal is to make your team productive and self-sufficient.
+                    </p>
+                    <p class="section-paragraph">
+                        I love sharing my knowledge and experience with others; in the past
+                        through my YouTube channel, <a href="https://www.youtube.com/c/hellorust">Hello Rust</a>, where
+                        I taught Rust in a fun and engaging way and more recently through
+                        my podcast,
+                        <a href="/podcast">Rust in Production</a>, where I interview business leaders
+                        about their experience with Rust. Clear communication is important to me.
+                        I've published many articles on Rust, and I'm a <a href="https://endler.dev/talks/">regular
+                            speaker at conferences</a>
+                        and meetups.
+                    </p>
+                    <p class="section-paragraph">
+                        You can leverage my expertise to make your team more productive.
+                    </p>
+                </div>
+                <img class="section-image" width="300" height="300" src="/sections/hello_rust.svg"
+                    alt="Hello Rust Logo" />
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="300" height="300" src="/sections/human.svg" alt="Human Icon" />
+                <div class="section-text">
+                    <h2>Beyond Code: Trust and Empathy</h2>
+                    <p class="section-paragraph">
+                        Code is the easy part.
+                        Beyond technical expertise, I value empathy, communication, and
+                        teamwork. I strive to understand not just the software, but also the
+                        people behind it and the business goals it serves.
+                    </p>
+                    <p class="section-paragraph">
+                        I'm always focused on building close working
+                        relationships with my clients. If you bring me onto your
+                        team, expect a proactive player who is not afraid to ask
+                        questions and ensures everyone is on the same page.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="testimonials">
+                <h2 >What others say about me</h2>
+                <div class="testimonial-carousel">
+                    <div class="testimonial active">
+                        <div class="testimonial-text">
+                            <q>
+                                I worked closely with Matthias to build a workshop for the Rust
+                                community. He did an outstanding job in coming up with ideas and things
+                                that made complex concepts easy to understand.
+                                Not only was he a nice and fun person to work with, but the attendees
+                                also found him engaging and entertaining.
+                            </q>
+                        </div>
+                        <div class="testimonial-author">
+                            <img class="testimonial-avatar" src="/testimonials/santiago.jpg" />
+                            <div>
+                                <a class="testimonial-author-text" href="https://santiagopastorino.com/">Santiago Pastorino</a>
+                                <div class="testimonial-author-role">Rust Compiler Team Contributor</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">
+                            <q>
+                                Matthias is reliable, good with people, and the kind of guy you can trust to
+                                figure it out, whatever it happens to be. We've run some conference
+                                workshops together, and I keep thinking that I should find an excuse to work
+                                with him again!
+                            </q>
+                        </div>
+                        <div class="testimonial-author">
+                            <img class="testimonial-avatar" src="/testimonials/hanno.jpg" />
+                            <div>
+                                <a class="testimonial-author-text" href="https://hanno.braun-odw.eu/">Hanno Braun</a>
+                                <div class="testimonial-author-role">Embedded Rust Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="call-to-action">
+    <a id="contact"></a>
+    <div class="cta-content">
+        <h1>Let's get in touch!</h1>
+        <p>
+            I provide <b>training</b> and <b>consulting</b> for companies that want
+            to use Rust in production<br />
+            (on-site in Europe or remote from Düsseldorf, Germany).
+        </p>
+        <!-- Cal inline embed code begins -->
+        <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                const calContainer = document.getElementById('my-cal-inline');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            (function (C, A, L) {
+                                let p = function (a, ar) { a.q.push(ar); };
+                                let d = C.document;
+                                C.Cal = C.Cal || function () {
+                                    let cal = C.Cal;
+                                    let ar = arguments;
+                                    if (!cal.loaded) {
+                                        cal.ns = {};
+                                        cal.q = cal.q || [];
+                                        d.head.appendChild(d.createElement("script")).src = A;
+                                        cal.loaded = true;
+                                    }
+                                    if (ar[0] === L) {
+                                        const api = function () { p(api, arguments); };
+                                        const namespace = ar[1];
+                                        api.q = api.q || [];
+                                        typeof namespace === "string"
+                                            ? (cal.ns[namespace] = api) && p(api, ar)
+                                            : p(cal, ar);
+                                        return api;
+                                    }
+                                    p(cal, ar);
+                                };
+                            })(window, "https://app.cal.com/embed/embed.js", "init");
+                            Cal("init", {origin: "https://app.cal.com"});
+                            Cal("inline", {
+                                elementOrSelector: "#my-cal-inline",
+                                calLink: "corrode/30min",
+                            });
+                            Cal("ui", {
+                                styles: {branding: {brandColor: "#000000"}},
+                                hideEventTypeDetails: false,
+                            });
+
+                            observer.unobserve(calContainer); // Stop observing after load
+                        }
+                    });
+                }, {
+                    rootMargin: "0px",
+                    threshold: 0.1
+                });
+                observer.observe(calContainer);
+            });
+        </script>
+        <!-- Cal inline embed code ends -->
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+
+        // Initially show the first testimonial
+        testimonials[currentTestimonial].classList.add('active');
+
+        // Function to change the testimonial
+        function changeTestimonial() {
+            testimonials[currentTestimonial].classList.remove('active');
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            testimonials[currentTestimonial].classList.add('active');
+        }
+
+        setInterval(changeTestimonial, 8000);
+    });
+</script>
+
+
+            </main>
+            
+            <footer class="footer">
+                <span>© 2024 corrode &mdash; D&uuml;sseldorf, Germany</span>
+                &middot;
+                <span><a href="/legal">Legal Notice</a></span>
+                &middot;
+                <span><a href="/quote">Business Inquiries</a></span>
+            </footer>
+            
+        </div>
+        <script>
+            function getPreferredColorScheme() {
+                let systemScheme = 'light';
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    systemScheme = 'dark';
+                }
+                let chosenScheme = systemScheme;
+
+                if (localStorage.getItem("scheme")) {
+                    chosenScheme = localStorage.getItem("scheme");
+                }
+
+                if (systemScheme === chosenScheme) {
+                    localStorage.removeItem("scheme");
+                }
+
+                return chosenScheme;
+            }
+
+            function savePreferredColorScheme(scheme) {
+                let systemScheme = 'light';
+
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    systemScheme = 'dark';
+                }
+
+                if (systemScheme === scheme) {
+                    localStorage.removeItem("scheme");
+                }
+                else {
+                    localStorage.setItem("scheme", scheme);
+                }
+            }
+
+            function toggleColorScheme() {
+                let newScheme = "light";
+                let scheme = getPreferredColorScheme();
+                if (scheme === "light") {
+                    newScheme = "dark";
+                }
+
+                applyPreferredColorScheme(newScheme);
+                savePreferredColorScheme(newScheme);
+            }
+
+            function applyPreferredColorScheme(scheme) {
+                for (var s = 0; s < document.styleSheets.length; s++) {
+                    try {
+                        var rules = document.styleSheets[s].cssRules;
+                        for (var i = 0; i < rules.length; i++) {
+                            var rule = rules[i];
+                            if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                                switch (scheme) {
+                                    case "light":
+                                        rule.media.appendMedium("original-prefers-color-scheme");
+                                        if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                        if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                        break;
+                                    case "dark":
+                                        rule.media.appendMedium("(prefers-color-scheme: light)");
+                                        rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                        if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                        break;
+                                    default:
+                                        rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                        if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                        if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                        break;
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        // Ignore third-party stylesheets
+                    }
+                }
+
+                if (scheme === "dark") {
+                    document.getElementById("icon-moon").style.display = 'inline';
+                    document.getElementById("icon-sun").style.display = 'none';
+                } else {
+                    document.getElementById("icon-sun").style.display = 'inline';
+                    document.getElementById("icon-moon").style.display = 'none';
+                }
+            }
+
+            applyPreferredColorScheme(getPreferredColorScheme());
+        </script>
+    </body>
+</html>

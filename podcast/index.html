@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rust in Production Podcast | corrode Rust Consulting</title>
+        <meta name="author" content="Corrode Rust Consulting">
+        <meta name="description" content="This is &#x27;Rust in Production&#x27;, a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world.">
+
+        <!-- Open Graph tags -->
+        <meta property="og:title" content="Rust in Production Podcast | corrode Rust Consulting">
+        <meta property="og:description" content="This is &#x27;Rust in Production&#x27;, a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world.">
+        <meta property="og:image" content="https://corrode.dev/social/podcast.png">
+        <meta property="og:url" content="https://corrode.dev/podcast/">
+        <meta property="og:site_name" content="Corrode Rust Consulting">
+        <meta property="og:type" content="website">
+
+        <!-- Twitter Card tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Rust in Production Podcast | corrode Rust Consulting">
+        <meta name="twitter:description" content="This is &#x27;Rust in Production&#x27;, a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world.">
+        <meta name="twitter:image" content="https://corrode.dev/social/podcast.png">
+
+        <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+        <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+        <link rel="stylesheet" type="text/css" href="/style.css" />
+
+        <link rel="me" href="https://mastodon.social/@mre">
+        <link rel="alternate" type="application/rss+xml" title="Corrode RSS feed" href="/rss.xml">
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+        <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": "Rust in Production",
+  "description": "Rust in Production brings to light the real-world stories of companies using Rust in production, focusing on the challenges and complex technical problems solved with Rust. New episodes ever second Thursday.",
+  "url": "https://corrode.dev/podcast/",
+  "image": "https://corrode.dev/social/podcast.png",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Corrode Consulting",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://corrode.dev/corrode.svg"
+    },
+    "location": {
+      "@type": "PostalAddress",
+      "addressLocality": "Düsseldorf",
+      "addressCountry": "DE"
+    }
+  },
+  "license": "https://creativecommons.org/licenses/by-nd/4.0/",
+  "potentialAction": {
+    "@type": "ListenAction",
+    "target": [
+      "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
+      "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
+      "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
+      "https://www.amazon.de/Rust-in-Production/dp/B0CPYJ725K",
+      "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+    ],
+    "expectsAcceptanceOf": {
+      "@type": "Offer",
+      "eligibleRegion": [
+        {
+          "@type": "Country",
+          "name": "Global"
+        }
+      ]
+    }
+  }
+}
+</script>
+
+    </head>
+
+    <body>
+        <div class="app">
+            <nav>
+                <!-- Logo and Home Link -->
+                <div>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/">
+                        <span class="logo">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="85px" viewBox="0 0 200 85.5">
+   <g font-size="37.1">
+      <path d="M18.27 36.27c-4.75 0-8.5 1.37-11.25 4.12-2.83 2.84-4.25 6.46-4.25 10.85 0 4.25 1.33 7.76 3.99 10.5 2.61 2.75 6.16 4.13 10.64 4.13 3.2 0 5.94-.68 8.23-2.04-1-1.32-2.27-3.36-2.9-4.86l.01-.06c-1.45.73-3.08 1.1-4.88 1.1a8.3 8.3 0 0 1-5.91-2.26c-1.69-1.68-2.53-3.92-2.53-6.71 0-2.7.8-4.86 2.4-6.46A8.39 8.39 0 0 1 18 42.12c1.63 0 3.18.36 4.63 1.08v.03c.62-1.43 2.1-3.83 3.07-5.07a15.49 15.49 0 0 0-7.44-1.89z" class="logo-text"/>
+      <path d="M38.5 106q4.32-4.19 10.7-4.19 6.4 0 10.6 4.2 4.32 4.11 4.32 10.6 0 6.38-4.32 10.6-4.26 4.19-10.6 4.19-6.39 0-10.7-4.2-4.26-4.25-4.26-10.6 0-6.46 4.26-10.6zm4.65 17.2q2.27 2.4 6.06 2.4t6.05-2.4q2.26-2.46 2.26-6.52 0-4.45-2.46-6.72-2.4-2.26-5.85-2.26-3.46 0-5.92 2.26-2.4 2.27-2.4 6.72 0 4.06 2.26 6.52z" class="logo-text" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+      <path d="M76.81 36.27c-13.65.1-13.62 8.04-13.24 28.73h6.52V50.5c0-3.01.6-5.16 1.8-6.45a5.35 5.35 0 0 1 4.05-1.53c.81 0 1.6.17 2.37.5l3.6-5.43a9.92 9.92 0 0 0-5.1-1.32z" class="logo-text"/>
+      <path d="M111 106q4.32-4.19 10.7-4.19t10.6 4.2q4.33 4.11 4.33 10.6 0 6.38-4.33 10.6-4.25 4.19-10.6 4.19t-10.7-4.2q-4.27-4.25-4.27-10.6 0-6.46 4.26-10.6zm4.66 17.2q2.26 2.4 6.05 2.4 3.8 0 6.05-2.4 2.26-2.46 2.26-6.52 0-4.45-2.46-6.72-2.4-2.26-5.85-2.26-3.46 0-5.92 2.26-2.4 2.27-2.4 6.72 0 4.06 2.27 6.52z" class="logo-text" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+      <path d="M94.57 35.9c-13.6.1-13.6 8.04-13.2 28.7h6.52V50.1c0-3.01.6-5.16 1.8-6.45a5.35 5.35 0 0 1 4.05-1.53c.81 0 1.6.17 2.37.5l3.6-5.43a9.92 9.92 0 0 0-5.1-1.32z" class="logo-text"/>
+   </g>
+   <path d="M185.57 35.9c-4.75 0-8.5 1.37-11.2 4.12-2.84 2.84-4.26 6.46-4.26 10.8 0 4.25 1.33 7.76 4 10.5 2.61 2.75 6.15 4.13 10.6 4.13 3.2 0 5.94-.68 8.23-2.04a19.4 19.4 0 0 1-2.42-4.23l-.46-.7a10.6 10.6 0 0 1-4.88 1.1 8.3 8.3 0 0 1-5.92-2.25 8.3 8.3 0 0 1-2.24-4.06l19.7-2.83-.04-.2c.05-.04.1-.08.14-.14.91-11-7.55-14.2-11.2-14.2zm-.27 5.85c1.64 0 4.65.67 6.33 4.33l.13.33-14.8 2.14a8.05 8.05 0 0 1 2.21-4.34 8.39 8.39 0 0 1 6.18-2.46z" class="logo-text"/>
+   <path d="M165 83v20.6a14.9 14.9 0 0 0-8.32-2.32c-4.25 0-7.82 1.4-10.7 4.2-2.84 2.74-4.26 6.27-4.26 10.6 0 4.25 1.42 7.8 4.25 10.6a14.8 14.8 0 0 0 10.7 4.19c4.26 0 7.8-1.4 10.6-4.2a14.3 14.3 0 0 0 4.33-10.6v-33.1zm-8.32 24.2c2.3 0 4.26.76 5.86 2.26 1.64 1.51 2.46 3.75 2.46 6.72 0 2.7-.76 4.88-2.27 6.52-1.5 1.6-3.52 2.4-6.05 2.4s-4.54-.8-6.05-2.4c-1.5-1.64-2.26-3.81-2.26-6.52 0-2.97.8-5.2 2.4-6.72a8.44 8.44 0 0 1 5.91-2.26z" class="logo-text" font-size="37.1" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+</svg>
+                        </span>
+                    </a>
+                </div>
+
+                <input id="menu-toggle" type="checkbox" />
+                <label class="menu-button-container" for="menu-toggle">
+                    <div class="menu-button"></div>
+                </label>
+            
+                <!-- Menu Items -->
+                <ul class="menu">
+                    <li>
+                        <!-- Theme Toggle -->
+                        <a href="javascript:toggleColorScheme();">
+                            <span id="icon-moon">
+                                
+                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="white"/>
+</svg>
+                            </span>
+                            <span id="icon-sun">
+                                
+                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C12.4142 1.25 12.75 1.58579 12.75 2V4C12.75 4.41421 12.4142 4.75 12 4.75C11.5858 4.75 11.25 4.41421 11.25 4V2C11.25 1.58579 11.5858 1.25 12 1.25ZM3.66865 3.71609C3.94815 3.41039 4.42255 3.38915 4.72825 3.66865L6.95026 5.70024C7.25596 5.97974 7.2772 6.45413 6.9977 6.75983C6.7182 7.06553 6.2438 7.08677 5.9381 6.80727L3.71609 4.77569C3.41039 4.49619 3.38915 4.02179 3.66865 3.71609ZM20.3314 3.71609C20.6109 4.02179 20.5896 4.49619 20.2839 4.77569L18.0619 6.80727C17.7562 7.08677 17.2818 7.06553 17.0023 6.75983C16.7228 6.45413 16.744 5.97974 17.0497 5.70024L19.2718 3.66865C19.5775 3.38915 20.0518 3.41039 20.3314 3.71609ZM1.25 12C1.25 11.5858 1.58579 11.25 2 11.25H4C4.41421 11.25 4.75 11.5858 4.75 12C4.75 12.4142 4.41421 12.75 4 12.75H2C1.58579 12.75 1.25 12.4142 1.25 12ZM19.25 12C19.25 11.5858 19.5858 11.25 20 11.25H22C22.4142 11.25 22.75 11.5858 22.75 12C22.75 12.4142 22.4142 12.75 22 12.75H20C19.5858 12.75 19.25 12.4142 19.25 12ZM17.0255 17.0252C17.3184 16.7323 17.7933 16.7323 18.0862 17.0252L20.3082 19.2475C20.6011 19.5404 20.601 20.0153 20.3081 20.3082C20.0152 20.6011 19.5403 20.601 19.2475 20.3081L17.0255 18.0858C16.7326 17.7929 16.7326 17.3181 17.0255 17.0252ZM6.97467 17.0253C7.26756 17.3182 7.26756 17.7931 6.97467 18.086L4.75244 20.3082C4.45955 20.6011 3.98468 20.6011 3.69178 20.3082C3.39889 20.0153 3.39889 19.5404 3.69178 19.2476L5.91401 17.0253C6.2069 16.7324 6.68177 16.7324 6.97467 17.0253ZM12 19.25C12.4142 19.25 12.75 19.5858 12.75 20V22C12.75 22.4142 12.4142 22.75 12 22.75C11.5858 22.75 11.25 22.4142 11.25 22V20C11.25 19.5858 11.5858 19.25 12 19.25Z" fill="black"/>
+</svg>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/"><span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/why-rust">
+                            <span>Why Rust?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item active" 
+                            href="https://corrode.dev/podcast">
+                            <span>Podcast</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/blog">
+                            <span>Blog</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/about">
+                            <span>About</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <main class="container">
+                
+<div class="hero">
+  <div class="hero-font">
+     <?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 274 221" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m24.7 110 230 5.28-0.0274 40.2-230 2.26z" fill="#ffd885"/><path d="m45.7 119q3.86 0 6.53 1.31 2.67 1.27 4.07 3.64 1.4 2.33 1.4 5.55 0 1.91-0.593 3.86-0.551 1.91-1.82 3.48-1.23 1.57-3.35 2.54-2.08 0.932-5.13 0.932h-4.41v9.87h-6.15v-31.2zm1.06 15.3q1.4 0 2.33-0.466 0.932-0.509 1.44-1.23 0.551-0.763 0.763-1.57 0.254-0.805 0.254-1.4 0-0.466-0.17-1.23-0.127-0.805-0.593-1.61-0.466-0.805-1.44-1.36-0.932-0.551-2.54-0.551h-4.41v9.41zm20.8-2.67 0.551 5.09-0.127-0.763q0.805-1.65 2.2-2.8 1.4-1.19 2.75-1.82 1.4-0.636 2.12-0.636l-0.297 5.93q-2.08-0.254-3.56 0.678t-2.29 2.46q-0.805 1.53-0.805 3.14v7.25h-5.89v-18.5zm9.75 9.03q0-2.84 1.31-5.09 1.36-2.25 3.77-3.52 2.42-1.31 5.55-1.31 3.18 0 5.51 1.31 2.33 1.27 3.56 3.52 1.27 2.25 1.27 5.09t-1.27 5.13q-1.23 2.25-3.56 3.56-2.33 1.31-5.59 1.31-3.05 0-5.47-1.19-2.37-1.19-3.73-3.43t-1.36-5.38zm5.98 0.0424q0 1.44 0.593 2.63 0.593 1.14 1.61 1.82 1.02 0.678 2.29 0.678 1.4 0 2.42-0.678 1.02-0.678 1.57-1.82 0.551-1.19 0.551-2.63 0-1.48-0.551-2.63t-1.57-1.82-2.42-0.678q-1.27 0-2.29 0.678-1.02 0.678-1.61 1.82t-0.593 2.63zm27.2 9.96q-2.59 0-4.62-1.19-2.03-1.23-3.22-3.52-1.14-2.29-1.14-5.42t1.27-5.34 3.48-3.35 5-1.14q1.78 0 3.39 0.551 1.65 0.551 2.75 1.7v1.86-18.1h5.89v33.4h-5.93v-3.6l0.466 1.27q-1.44 1.19-3.22 2.03-1.78 0.805-4.11 0.805zm1.95-5q1.19 0 2.08-0.297 0.932-0.339 1.61-0.932 0.72-0.636 1.23-1.57v-4.53q-0.339-0.932-1.06-1.57-0.678-0.678-1.7-1.02-0.975-0.381-2.16-0.381-1.31 0-2.46 0.678-1.1 0.636-1.78 1.78-0.678 1.14-0.678 2.63t0.678 2.67q0.678 1.19 1.78 1.86 1.14 0.678 2.46 0.678zm22.9 5.38q-2.5 0-4.2-1.53-1.7-1.57-1.78-4.03v-13.9h5.93v11.7q0.0848 1.23 0.636 1.99 0.551 0.72 1.86 0.72 1.31 0 2.25-0.89 0.975-0.89 1.48-2.42 0.551-1.57 0.551-3.52v-7.54h5.93v18.5h-5.38l-0.466-3.39 0.0848 0.381q-0.636 1.14-1.61 2.03t-2.33 1.36q-1.31 0.509-2.97 0.509zm34.5-2.54q-1.23 0.975-3.09 1.57-1.82 0.593-3.6 0.593-3.18 0-5.55-1.14-2.33-1.19-3.64-3.35-1.27-2.2-1.27-5.3t1.4-5.26q1.4-2.2 3.64-3.35 2.29-1.14 4.79-1.14 2.5 0 4.32 0.678 1.86 0.678 3.18 1.78l-2.88 3.81q-0.593-0.466-1.65-0.932-1.02-0.509-2.42-0.509-1.23 0-2.25 0.636-1.02 0.636-1.61 1.74t-0.593 2.54q0 1.36 0.636 2.5t1.74 1.82q1.14 0.636 2.67 0.636 0.975 0 1.78-0.254 0.848-0.297 1.44-0.805zm6.31-25h5.93v8.05h4.49v4.62h-4.49v14h-5.93v-14h-2.88v-4.62h2.88zm15 8.14h5.93v18.5h-5.93zm-0.127-6.57q0-1.31 1.02-2.16 1.06-0.848 2.25-0.848t2.16 0.848q1.02 0.848 1.02 2.16 0 1.31-1.02 2.16-0.975 0.805-2.16 0.805t-2.25-0.805q-1.02-0.848-1.02-2.16zm10.7 15.6q0-2.84 1.31-5.09 1.36-2.25 3.77-3.52 2.42-1.31 5.55-1.31 3.18 0 5.51 1.31 2.33 1.27 3.56 3.52 1.27 2.25 1.27 5.09t-1.27 5.13q-1.23 2.25-3.56 3.56-2.33 1.31-5.59 1.31-3.05 0-5.47-1.19-2.37-1.19-3.73-3.43-1.36-2.25-1.36-5.38zm5.98 0.0424q0 1.44 0.593 2.63 0.593 1.14 1.61 1.82 1.02 0.678 2.29 0.678 1.4 0 2.42-0.678 1.02-0.678 1.57-1.82 0.551-1.19 0.551-2.63 0-1.48-0.551-2.63-0.551-1.14-1.57-1.82t-2.42-0.678q-1.27 0-2.29 0.678t-1.61 1.82q-0.593 1.14-0.593 2.63zm25-9.07 0.466 3.31-0.0848-0.297q0.975-1.74 2.75-2.8 1.78-1.1 4.37-1.1 2.63 0 4.37 1.57 1.78 1.53 1.82 3.98v13.9h-5.93v-11.7q-0.0424-1.23-0.678-1.95-0.593-0.763-2.03-0.763-1.36 0-2.37 0.89-1.02 0.89-1.57 2.42-0.551 1.53-0.551 3.52v7.54h-5.93v-18.5z" stroke-width="1.06" aria-label="Production"/><g transform="matrix(1.12 0 0 1.12 72.2 -113)"><path d="m6.95 114 106-1.03 0.0946 45.7-106 3.62z" fill="#ffd885" stroke-linecap="round" stroke-linejoin="round" stroke-width=".779" style="paint-order:stroke fill markers"/><path d="m29 121q2.76 0 4.92 0.72 2.16 0.68 3.6 2 1.48 1.28 2.24 3.12 0.76 1.8 0.76 4.08 0 1.8-0.56 3.6-0.52 1.8-1.76 3.28-1.2 1.48-3.2 2.4-2 0.88-4.96 0.88h-4.16v9.36h-5.8v-29.4zm1 14.5q1.32 0 2.2-0.44t1.36-1.12q0.52-0.68 0.72-1.4 0.24-0.76 0.24-1.4 0-0.48-0.16-1.2-0.12-0.76-0.56-1.52t-1.36-1.28q-0.88-0.52-2.4-0.52h-4.16v8.88zm5.44 3.6 7.28 11.4h-6.76l-7.44-11.2zm16.8 12.2q-2.36 0-3.96-1.44-1.6-1.48-1.68-3.8v-13.1h5.6v11q0.08 1.16 0.6 1.88 0.52 0.68 1.76 0.68t2.12-0.84q0.92-0.84 1.4-2.28 0.52-1.48 0.52-3.32v-7.12h5.6v17.5h-5.08l-0.44-3.2 0.08 0.36q-0.6 1.08-1.52 1.92t-2.2 1.28q-1.24 0.48-2.8 0.48zm23.4-0.48q-2.16 0-4.04-0.76-1.84-0.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12 0.48 2 0.48 0.68 0 1.2-0.12 0.56-0.16 0.88-0.44 0.32-0.32 0.32-0.8 0-0.68-0.56-1.08-0.52-0.4-1.36-0.64-0.84-0.28-1.8-0.56-2.4-0.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32 0.68-2.64 0.72-1.36 2.24-2.24 1.56-0.92 4-0.92 2.2 0 3.72 0.44t2.88 1.44l-2.12 3.28q-0.76-0.6-1.72-1-0.92-0.44-1.72-0.48-0.72-0.04-1.24 0.16-0.48 0.2-0.76 0.52t-0.28 0.68q-0.04 0.76 0.56 1.2 0.64 0.44 1.6 0.68t1.88 0.56q1.28 0.4 2.2 1.08t1.4 1.64q0.52 0.92 0.52 2.24 0 1.6-0.84 3.04-0.8 1.4-2.48 2.28-1.64 0.88-4.2 0.88zm13.8-25.5h5.6v7.6h4.24v4.36h-4.24v13.2h-5.6v-13.2h-2.72v-4.36h2.72z" aria-label="Rust"/></g><path d="m135 72.6 39.7-1.93 0.729 34.6-37.7 1.02z" fill="#ffd885" stroke-linecap="round" stroke-linejoin="round" stroke-width=".576" style="paint-order:stroke fill markers"/><path d="m148 85.9h4.14v12.9h-4.14zm-0.0887-4.58q0-0.917 0.71-1.51 0.739-0.592 1.57-0.592t1.51 0.592q0.71 0.592 0.71 1.51 0 0.917-0.71 1.51-0.68 0.562-1.51 0.562t-1.57-0.562q-0.71-0.592-0.71-1.51zm12.2 4.58 0.325 2.31-0.0592-0.207q0.68-1.21 1.92-1.95 1.24-0.769 3.05-0.769 1.83 0 3.05 1.09 1.24 1.06 1.27 2.78v9.67h-4.14v-8.13q-0.0296-0.858-0.473-1.36-0.414-0.532-1.42-0.532-0.946 0-1.66 0.621-0.71 0.621-1.09 1.69-0.384 1.06-0.384 2.45v5.26h-4.14v-12.9z" stroke-width=".739" aria-label="in"/><path d="m50.6 172 183-6.5-2.19 49.4-178 3.46z" fill="#ffd885" stroke-width=".868"/><path d="m76.6 179q3.86 0 6.53 1.31 2.67 1.27 4.07 3.64 1.4 2.33 1.4 5.55 0 1.91-0.593 3.86-0.551 1.91-1.82 3.48-1.23 1.57-3.35 2.54-2.08 0.932-5.13 0.932h-4.41v9.87h-6.15v-31.2zm1.06 15.3q1.4 0 2.33-0.466 0.932-0.509 1.44-1.23 0.551-0.763 0.763-1.57 0.254-0.805 0.254-1.4 0-0.466-0.17-1.23-0.127-0.805-0.593-1.61-0.466-0.805-1.44-1.36-0.932-0.551-2.54-0.551h-4.41v9.41zm14 6.36q0-2.84 1.31-5.09 1.36-2.25 3.77-3.52 2.42-1.31 5.55-1.31 3.18 0 5.51 1.31 2.33 1.27 3.56 3.52 1.27 2.25 1.27 5.09 0 2.84-1.27 5.13-1.23 2.25-3.56 3.56t-5.59 1.31q-3.05 0-5.47-1.19-2.37-1.19-3.73-3.43t-1.36-5.38zm5.98 0.0424q0 1.44 0.593 2.63 0.593 1.14 1.61 1.82 1.02 0.678 2.29 0.678 1.4 0 2.42-0.678t1.57-1.82q0.551-1.19 0.551-2.63 0-1.48-0.551-2.63-0.551-1.14-1.57-1.82-1.02-0.678-2.42-0.678-1.27 0-2.29 0.678-1.02 0.678-1.61 1.82-0.593 1.14-0.593 2.63zm27.2 9.96q-2.59 0-4.62-1.19-2.03-1.23-3.22-3.52-1.14-2.29-1.14-5.42t1.27-5.34q1.27-2.2 3.48-3.35 2.2-1.14 5-1.14 1.78 0 3.39 0.551 1.65 0.551 2.75 1.7v1.86-18.1h5.89v33.4h-5.93v-3.6l0.466 1.27q-1.44 1.19-3.22 2.03-1.78 0.805-4.11 0.805zm1.95-5q1.19 0 2.08-0.297 0.932-0.339 1.61-0.932 0.72-0.636 1.23-1.57v-4.53q-0.339-0.932-1.06-1.57-0.678-0.678-1.7-1.02-0.975-0.381-2.16-0.381-1.31 0-2.46 0.678-1.1 0.636-1.78 1.78-0.678 1.14-0.678 2.63 0 1.48 0.678 2.67 0.678 1.19 1.78 1.86 1.14 0.678 2.46 0.678zm32.7 2.84q-1.23 0.975-3.09 1.57-1.82 0.593-3.6 0.593-3.18 0-5.55-1.14-2.33-1.19-3.64-3.35-1.27-2.2-1.27-5.3t1.4-5.26q1.4-2.2 3.64-3.35 2.29-1.14 4.79-1.14 2.5 0 4.32 0.678 1.86 0.678 3.18 1.78l-2.88 3.81q-0.593-0.466-1.65-0.932-1.02-0.509-2.42-0.509-1.23 0-2.25 0.636-1.02 0.636-1.61 1.74-0.593 1.1-0.593 2.54 0 1.36 0.636 2.5t1.74 1.82q1.14 0.636 2.67 0.636 0.975 0 1.78-0.254 0.848-0.297 1.44-0.805zm12.4 2.16q-2.59 0-4.7-1.02-2.08-1.06-3.31-3.22t-1.23-5.51q0-3.14 1.27-5.42t3.35-3.52q2.08-1.27 4.41-1.27 2.75 0 4.15 0.932 1.44 0.89 2.37 1.99l-0.254 0.72 0.551-2.71h5.51v18.5h-5.93v-4.03l0.466 1.27q-0.0848 0-0.509 0.509-0.424 0.466-1.27 1.14-0.805 0.636-2.03 1.1-1.19 0.509-2.84 0.509zm1.7-4.83q1.06 0 1.91-0.297 0.848-0.339 1.48-0.932 0.636-0.636 1.1-1.57v-4.53q-0.339-0.932-1.02-1.57-0.678-0.678-1.61-1.02-0.932-0.381-2.08-0.381-1.27 0-2.37 0.678-1.06 0.636-1.7 1.78-0.636 1.14-0.636 2.63 0 1.48 0.678 2.67 0.678 1.19 1.78 1.86 1.14 0.678 2.46 0.678zm22.5 4.7q-2.29 0-4.28-0.805-1.95-0.805-3.31-2.25l2.46-3.26q1.36 1.23 2.5 1.78 1.19 0.509 2.12 0.509 0.72 0 1.27-0.127 0.593-0.17 0.932-0.466 0.339-0.339 0.339-0.848 0-0.72-0.593-1.14-0.551-0.424-1.44-0.678-0.89-0.297-1.91-0.593-2.54-0.805-3.69-2.33-1.1-1.57-1.1-3.39 0-1.4 0.72-2.8 0.763-1.44 2.37-2.37 1.65-0.975 4.24-0.975 2.33 0 3.94 0.466 1.61 0.466 3.05 1.53l-2.25 3.48q-0.805-0.636-1.82-1.06-0.975-0.466-1.82-0.509-0.763-0.0424-1.31 0.17-0.509 0.212-0.805 0.551-0.297 0.339-0.297 0.72-0.0424 0.805 0.593 1.27 0.678 0.466 1.7 0.72 1.02 0.254 1.99 0.593 1.36 0.424 2.33 1.14 0.975 0.72 1.48 1.74 0.551 0.975 0.551 2.37 0 1.7-0.89 3.22-0.848 1.48-2.63 2.42-1.74 0.932-4.45 0.932zm14.7-27h5.93v8.05h4.49v4.62h-4.49v14h-5.93v-14h-2.88v-4.62h2.88z" fill="#ee3756" stroke-width="1.06" aria-label="Podcast"/></svg>
+
+  </div>
+  <img class="hero-img" src="/podcast/hero.svg" />
+</div>
+<article>
+  <div><h1 id="rust-in-production-the-podcast">Rust in Production — The Podcast</h1>
+<p>Rust is renowned for its exceptional safety and speed, but the <strong>real-world
+stories</strong> of companies using it in production often remain untold. </p>
+<p><em>Rust in Production</em> brings those stories to light, focusing on the challenges
+these companies tackle with Rust as they solve some of the most complex technical problems in the
+world.</p>
+<p>Stories of companies who bet big on Rust. Every other Thursday at 4 pm UTC.</p>
+</div>
+
+  <div class="season-header">
+    <code>Season 1</code>
+
+    <ul>
+      <li>Subscribe on</li>
+      <li>
+        <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+          ><img
+            class="invert"
+            src="/podcast/rss.svg"
+            alt="RSS"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+          ><img
+            class="invert"
+            src="/podcast/apple.svg"
+            alt="Apple Podcasts"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+          ><img
+            class="invert"
+            src="/podcast/spotify.svg"
+            alt="Spotify"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+          ><img
+            class="invert"
+            src="/podcast/youtube.svg"
+            alt="YouTube"
+            width="40"
+            height="40"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <ol class="podcast-list">
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e07-season-finale&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e07-season-finale&#x2F;/logo.svg"
+                alt="Season Finale Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              Season Finale 
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2024-03-07</div>
+            <div>
+              <code
+                >S01 E07</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e06-sentry&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e06-sentry&#x2F;/logo.svg"
+                alt="Sentry Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              Sentry <span
+                style="opacity: 0.7"
+                >&ndash; Arpad Borsos</span
+              >
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2024-02-22</div>
+            <div>
+              <code
+                >S01 E06</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e05-tweede-golf&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e05-tweede-golf&#x2F;/logo.svg"
+                alt="Tweede Golf Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              Tweede Golf <span
+                style="opacity: 0.7"
+                >&ndash; Folkert de Vries</span
+              >
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2024-02-08</div>
+            <div>
+              <code
+                >S01 E05</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e04-arroyo&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e04-arroyo&#x2F;/logo.svg"
+                alt="Arroyo Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              Arroyo <span
+                style="opacity: 0.7"
+                >&ndash; Micah Wylde</span
+              >
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2024-01-25</div>
+            <div>
+              <code
+                >S01 E04</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e03-apollo&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e03-apollo&#x2F;/logo.svg"
+                alt="Apollo Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              Apollo <span
+                style="opacity: 0.7"
+                >&ndash; Nicolas Moutschen</span
+              >
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2024-01-11</div>
+            <div>
+              <code
+                >S01 E03</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e02-pubnub&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e02-pubnub&#x2F;/logo.svg"
+                alt="PubNub Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              PubNub <span
+                style="opacity: 0.7"
+                >&ndash; Stephen Blum</span
+              >
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2023-12-28</div>
+            <div>
+              <code
+                >S01 E02</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e01-influxdata&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e01-influxdata&#x2F;/logo.svg"
+                alt="InfluxData Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              InfluxData <span
+                style="opacity: 0.7"
+                >&ndash; Paul Dix</span
+              >
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2023-12-14</div>
+            <div>
+              <code
+                >S01 E01</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e00-teaser&#x2F;" class="podcast-link">
+        <div class="podcast-item">
+          <div class="podcast-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e00-teaser&#x2F;/logo.svg"
+                alt="Teaser Logo"
+              />
+            </div>
+            <div class="podcast-title">
+              Teaser 
+            </div>
+          </div>
+          <div class="podcast-details">
+            <div>2023-12-11</div>
+            <div>
+              <code
+                >S01 E00</code
+              >
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    
+  </ol>
+  <p class="podcast-footer">
+    Podcast recordings are licensed under
+    <a href="https://creativecommons.org/licenses/by-nd/4.0">CC BY-ND 4.0</a>.
+  </p>
+  <div class="callout">
+  <h2>Subscribe to Rust In Production</h2>
+  <p>
+    Rust in Production is a bi-weekly podcast by corrode. New episodes are
+    released every other Thursday at 4pm UTC. You can subscribe to new episodes
+    on
+    <a
+      href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+      >Apple</a
+    >,
+    <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">Spotify</a>,
+    <a
+      href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+      >YouTube</a
+    >,
+    <a
+      href="https://podcasters.amazon.com/podcasts/acc3a064-4c50-42de-940e-61726d73514a"
+      >Amazon</a
+    >, or through our
+    <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+      >RSS feed</a
+    >.
+  </p>
+  <ul>
+    <li>
+      <a
+        href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+        ><img
+          class="invert"
+          src="/podcast/rss.svg"
+          alt="RSS"
+          width="25"
+          height="25"
+        />
+        RSS
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+        ><img
+          class="invert"
+          src="/podcast/apple.svg"
+          alt="Apple Podcasts"
+          width="25"
+          height="25"
+        />
+        Apple Podcasts
+      </a>
+    </li>
+    <li>
+      <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+        ><img
+          class="invert"
+          src="/podcast/spotify.svg"
+          alt="Spotify"
+          width="25"
+          height="25"
+        />
+        Spotify
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+        ><img
+          class="invert"
+          src="/podcast/youtube.svg"
+          alt="YouTube"
+          width="25"
+          height="25"
+        />
+        YouTube
+      </a>
+    </li>
+  </ul>
+</div>
+
+  <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</article>
+
+            </main>
+            
+            <footer class="footer">
+                <span>© 2024 corrode &mdash; D&uuml;sseldorf, Germany</span>
+                &middot;
+                <span><a href="/legal">Legal Notice</a></span>
+                &middot;
+                <span><a href="/quote">Business Inquiries</a></span>
+            </footer>
+            
+        </div>
+        <script>
+            function getPreferredColorScheme() {
+                let systemScheme = 'light';
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    systemScheme = 'dark';
+                }
+                let chosenScheme = systemScheme;
+
+                if (localStorage.getItem("scheme")) {
+                    chosenScheme = localStorage.getItem("scheme");
+                }
+
+                if (systemScheme === chosenScheme) {
+                    localStorage.removeItem("scheme");
+                }
+
+                return chosenScheme;
+            }
+
+            function savePreferredColorScheme(scheme) {
+                let systemScheme = 'light';
+
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    systemScheme = 'dark';
+                }
+
+                if (systemScheme === scheme) {
+                    localStorage.removeItem("scheme");
+                }
+                else {
+                    localStorage.setItem("scheme", scheme);
+                }
+            }
+
+            function toggleColorScheme() {
+                let newScheme = "light";
+                let scheme = getPreferredColorScheme();
+                if (scheme === "light") {
+                    newScheme = "dark";
+                }
+
+                applyPreferredColorScheme(newScheme);
+                savePreferredColorScheme(newScheme);
+            }
+
+            function applyPreferredColorScheme(scheme) {
+                for (var s = 0; s < document.styleSheets.length; s++) {
+                    try {
+                        var rules = document.styleSheets[s].cssRules;
+                        for (var i = 0; i < rules.length; i++) {
+                            var rule = rules[i];
+                            if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                                switch (scheme) {
+                                    case "light":
+                                        rule.media.appendMedium("original-prefers-color-scheme");
+                                        if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                        if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                        break;
+                                    case "dark":
+                                        rule.media.appendMedium("(prefers-color-scheme: light)");
+                                        rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                        if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                        break;
+                                    default:
+                                        rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                        if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                        if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                        break;
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        // Ignore third-party stylesheets
+                    }
+                }
+
+                if (scheme === "dark") {
+                    document.getElementById("icon-moon").style.display = 'inline';
+                    document.getElementById("icon-sun").style.display = 'none';
+                } else {
+                    document.getElementById("icon-sun").style.display = 'inline';
+                    document.getElementById("icon-moon").style.display = 'none';
+                }
+            }
+
+            applyPreferredColorScheme(getPreferredColorScheme());
+        </script>
+    </body>
+</html>

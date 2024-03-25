@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+    <html lang="en">
+
+    
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Teaser - Rust in Production Podcast | corrode Rust Consulting</title>
+        <meta name="author" content="Corrode Rust Consulting">
+        <meta name="description" content="There are a lot of awesome podcasts about Rust.
+We loved listening to New Rustacean
+and are excited about the new Rustacean Station and
+RustShip 
+episodes.
+But we felt that there is a gap in the Rust podcast landscape: We
+wanted to hear more about how companies use Rust in production.
+So we decided to sit down and create the content we wanted to listen to. We
+interviewed people from companies that use Rust in production and asked them
+the tough questions that you want to hear answered but never get the chance to
+ask:
+
+Why did they choose Rust?
+What are the real challenges of using Rust in production?
+How did your team get up to speed with Rust?
+Did you notice any performance improvements?
+
+These and other questions are top of mind for developers and decision makers
+who are considering Rust for their next project. We want to help them
+understand the benefits and challenges of using Rust in production before
+they head down that path. 
+And we&#x27;re starting with a bang: In the
+first episode we will talk to Paul Dix, founder and CTO of
+InfluxData, about how the company rewrote the
+core of their time series database in Rust. Stay tuned! We will release the
+first episode on Thurday, December 14th and then biweekly episodes every Thursday.">
+
+        <!-- Open Graph tags -->
+        <meta property="og:title" content="Teaser - Rust in Production Podcast | corrode Rust Consulting">
+        <meta property="og:description" content="There are a lot of awesome podcasts about Rust.
+We loved listening to New Rustacean
+and are excited about the new Rustacean Station and
+RustShip 
+episodes.
+But we felt that there is a gap in the Rust podcast landscape: We
+wanted to hear more about how companies use Rust in production.
+So we decided to sit down and create the content we wanted to listen to. We
+interviewed people from companies that use Rust in production and asked them
+the tough questions that you want to hear answered but never get the chance to
+ask:
+
+Why did they choose Rust?
+What are the real challenges of using Rust in production?
+How did your team get up to speed with Rust?
+Did you notice any performance improvements?
+
+These and other questions are top of mind for developers and decision makers
+who are considering Rust for their next project. We want to help them
+understand the benefits and challenges of using Rust in production before
+they head down that path. 
+And we&#x27;re starting with a bang: In the
+first episode we will talk to Paul Dix, founder and CTO of
+InfluxData, about how the company rewrote the
+core of their time series database in Rust. Stay tuned! We will release the
+first episode on Thurday, December 14th and then biweekly episodes every Thursday.">
+        <meta property="og:image" content="https://corrode.dev/social/podcast.png">
+        <meta property="og:url" content="https://corrode.dev/podcast/s01e00-teaser/">
+        <meta property="og:site_name" content="Corrode Rust Consulting">
+        <meta property="og:type" content="website">
+
+        <!-- Twitter Card tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Teaser - Rust in Production Podcast | corrode Rust Consulting">
+        <meta name="twitter:description" content="There are a lot of awesome podcasts about Rust.
+We loved listening to New Rustacean
+and are excited about the new Rustacean Station and
+RustShip 
+episodes.
+But we felt that there is a gap in the Rust podcast landscape: We
+wanted to hear more about how companies use Rust in production.
+So we decided to sit down and create the content we wanted to listen to. We
+interviewed people from companies that use Rust in production and asked them
+the tough questions that you want to hear answered but never get the chance to
+ask:
+
+Why did they choose Rust?
+What are the real challenges of using Rust in production?
+How did your team get up to speed with Rust?
+Did you notice any performance improvements?
+
+These and other questions are top of mind for developers and decision makers
+who are considering Rust for their next project. We want to help them
+understand the benefits and challenges of using Rust in production before
+they head down that path. 
+And we&#x27;re starting with a bang: In the
+first episode we will talk to Paul Dix, founder and CTO of
+InfluxData, about how the company rewrote the
+core of their time series database in Rust. Stay tuned! We will release the
+first episode on Thurday, December 14th and then biweekly episodes every Thursday.">
+        <meta name="twitter:image" content="https://corrode.dev/social/podcast.png">
+
+        <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+        <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+        <link rel="stylesheet" type="text/css" href="/style.css" />
+
+        <link rel="me" href="https://mastodon.social/@mre">
+        <link rel="alternate" type="application/rss+xml" title="Corrode RSS feed" href="/rss.xml">
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+        <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+         
+    </head>
+
+    <body>
+        <div class="app">
+            <nav>
+                <!-- Logo and Home Link -->
+                <div>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/">
+                        <span class="logo">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200px" height="85px" viewBox="0 0 200 85.5">
+   <g font-size="37.1">
+      <path d="M18.27 36.27c-4.75 0-8.5 1.37-11.25 4.12-2.83 2.84-4.25 6.46-4.25 10.85 0 4.25 1.33 7.76 3.99 10.5 2.61 2.75 6.16 4.13 10.64 4.13 3.2 0 5.94-.68 8.23-2.04-1-1.32-2.27-3.36-2.9-4.86l.01-.06c-1.45.73-3.08 1.1-4.88 1.1a8.3 8.3 0 0 1-5.91-2.26c-1.69-1.68-2.53-3.92-2.53-6.71 0-2.7.8-4.86 2.4-6.46A8.39 8.39 0 0 1 18 42.12c1.63 0 3.18.36 4.63 1.08v.03c.62-1.43 2.1-3.83 3.07-5.07a15.49 15.49 0 0 0-7.44-1.89z" class="logo-text"/>
+      <path d="M38.5 106q4.32-4.19 10.7-4.19 6.4 0 10.6 4.2 4.32 4.11 4.32 10.6 0 6.38-4.32 10.6-4.26 4.19-10.6 4.19-6.39 0-10.7-4.2-4.26-4.25-4.26-10.6 0-6.46 4.26-10.6zm4.65 17.2q2.27 2.4 6.06 2.4t6.05-2.4q2.26-2.46 2.26-6.52 0-4.45-2.46-6.72-2.4-2.26-5.85-2.26-3.46 0-5.92 2.26-2.4 2.27-2.4 6.72 0 4.06 2.26 6.52z" class="logo-text" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+      <path d="M76.81 36.27c-13.65.1-13.62 8.04-13.24 28.73h6.52V50.5c0-3.01.6-5.16 1.8-6.45a5.35 5.35 0 0 1 4.05-1.53c.81 0 1.6.17 2.37.5l3.6-5.43a9.92 9.92 0 0 0-5.1-1.32z" class="logo-text"/>
+      <path d="M111 106q4.32-4.19 10.7-4.19t10.6 4.2q4.33 4.11 4.33 10.6 0 6.38-4.33 10.6-4.25 4.19-10.6 4.19t-10.7-4.2q-4.27-4.25-4.27-10.6 0-6.46 4.26-10.6zm4.66 17.2q2.26 2.4 6.05 2.4 3.8 0 6.05-2.4 2.26-2.46 2.26-6.52 0-4.45-2.46-6.72-2.4-2.26-5.85-2.26-3.46 0-5.92 2.26-2.4 2.27-2.4 6.72 0 4.06 2.27 6.52z" class="logo-text" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+      <path d="M94.57 35.9c-13.6.1-13.6 8.04-13.2 28.7h6.52V50.1c0-3.01.6-5.16 1.8-6.45a5.35 5.35 0 0 1 4.05-1.53c.81 0 1.6.17 2.37.5l3.6-5.43a9.92 9.92 0 0 0-5.1-1.32z" class="logo-text"/>
+   </g>
+   <path d="M185.57 35.9c-4.75 0-8.5 1.37-11.2 4.12-2.84 2.84-4.26 6.46-4.26 10.8 0 4.25 1.33 7.76 4 10.5 2.61 2.75 6.15 4.13 10.6 4.13 3.2 0 5.94-.68 8.23-2.04a19.4 19.4 0 0 1-2.42-4.23l-.46-.7a10.6 10.6 0 0 1-4.88 1.1 8.3 8.3 0 0 1-5.92-2.25 8.3 8.3 0 0 1-2.24-4.06l19.7-2.83-.04-.2c.05-.04.1-.08.14-.14.91-11-7.55-14.2-11.2-14.2zm-.27 5.85c1.64 0 4.65.67 6.33 4.33l.13.33-14.8 2.14a8.05 8.05 0 0 1 2.21-4.34 8.39 8.39 0 0 1 6.18-2.46z" class="logo-text"/>
+   <path d="M165 83v20.6a14.9 14.9 0 0 0-8.32-2.32c-4.25 0-7.82 1.4-10.7 4.2-2.84 2.74-4.26 6.27-4.26 10.6 0 4.25 1.42 7.8 4.25 10.6a14.8 14.8 0 0 0 10.7 4.19c4.26 0 7.8-1.4 10.6-4.2a14.3 14.3 0 0 0 4.33-10.6v-33.1zm-8.32 24.2c2.3 0 4.26.76 5.86 2.26 1.64 1.51 2.46 3.75 2.46 6.72 0 2.7-.76 4.88-2.27 6.52-1.5 1.6-3.52 2.4-6.05 2.4s-4.54-.8-6.05-2.4c-1.5-1.64-2.26-3.81-2.26-6.52 0-2.97.8-5.2 2.4-6.72a8.44 8.44 0 0 1 5.91-2.26z" class="logo-text" font-size="37.1" style="-inkscape-stroke:none" transform="translate(-6.43 -65.1)"/>
+</svg>
+                        </span>
+                    </a>
+                </div>
+
+                <input id="menu-toggle" type="checkbox" />
+                <label class="menu-button-container" for="menu-toggle">
+                    <div class="menu-button"></div>
+                </label>
+            
+                <!-- Menu Items -->
+                <ul class="menu">
+                    <li>
+                        <!-- Theme Toggle -->
+                        <a href="javascript:toggleColorScheme();">
+                            <span id="icon-moon">
+                                
+                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="white"/>
+</svg>
+                            </span>
+                            <span id="icon-sun">
+                                
+                                <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C12.4142 1.25 12.75 1.58579 12.75 2V4C12.75 4.41421 12.4142 4.75 12 4.75C11.5858 4.75 11.25 4.41421 11.25 4V2C11.25 1.58579 11.5858 1.25 12 1.25ZM3.66865 3.71609C3.94815 3.41039 4.42255 3.38915 4.72825 3.66865L6.95026 5.70024C7.25596 5.97974 7.2772 6.45413 6.9977 6.75983C6.7182 7.06553 6.2438 7.08677 5.9381 6.80727L3.71609 4.77569C3.41039 4.49619 3.38915 4.02179 3.66865 3.71609ZM20.3314 3.71609C20.6109 4.02179 20.5896 4.49619 20.2839 4.77569L18.0619 6.80727C17.7562 7.08677 17.2818 7.06553 17.0023 6.75983C16.7228 6.45413 16.744 5.97974 17.0497 5.70024L19.2718 3.66865C19.5775 3.38915 20.0518 3.41039 20.3314 3.71609ZM1.25 12C1.25 11.5858 1.58579 11.25 2 11.25H4C4.41421 11.25 4.75 11.5858 4.75 12C4.75 12.4142 4.41421 12.75 4 12.75H2C1.58579 12.75 1.25 12.4142 1.25 12ZM19.25 12C19.25 11.5858 19.5858 11.25 20 11.25H22C22.4142 11.25 22.75 11.5858 22.75 12C22.75 12.4142 22.4142 12.75 22 12.75H20C19.5858 12.75 19.25 12.4142 19.25 12ZM17.0255 17.0252C17.3184 16.7323 17.7933 16.7323 18.0862 17.0252L20.3082 19.2475C20.6011 19.5404 20.601 20.0153 20.3081 20.3082C20.0152 20.6011 19.5403 20.601 19.2475 20.3081L17.0255 18.0858C16.7326 17.7929 16.7326 17.3181 17.0255 17.0252ZM6.97467 17.0253C7.26756 17.3182 7.26756 17.7931 6.97467 18.086L4.75244 20.3082C4.45955 20.6011 3.98468 20.6011 3.69178 20.3082C3.39889 20.0153 3.39889 19.5404 3.69178 19.2476L5.91401 17.0253C6.2069 16.7324 6.68177 16.7324 6.97467 17.0253ZM12 19.25C12.4142 19.25 12.75 19.5858 12.75 20V22C12.75 22.4142 12.4142 22.75 12 22.75C11.5858 22.75 11.25 22.4142 11.25 22V20C11.25 19.5858 11.5858 19.25 12 19.25Z" fill="black"/>
+</svg>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/"><span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/why-rust">
+                            <span>Why Rust?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item active" 
+                            href="https://corrode.dev/podcast">
+                            <span>Podcast</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/blog">
+                            <span>Blog</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" 
+                            href="https://corrode.dev/about">
+                            <span>About</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <main class="container">
+                
+<article>
+  <h2 class="subheading"><a href="/podcast">Podcast</a></h2>
+  <h1>
+    Teaser
+  </h1>
+  <div class="article-meta-top">
+    <div class="article-meta-left">
+      <code>S01 E00</code>
+      Published on 2023-12-11
+    </div>
+    <ul>
+      <li>
+        <a
+          href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+          ><img
+            class="invert"
+            src="/podcast/rss.svg"
+            alt="RSS"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+          ><img
+            class="invert"
+            src="/podcast/apple.svg"
+            alt="Apple Podcasts"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+          ><img
+            class="invert"
+            src="/podcast/spotify.svg"
+            alt="Spotify"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+          ><img
+            class="invert"
+            src="/podcast/youtube.svg"
+            alt="YouTube"
+            width="40"
+            height="40"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div><div><script id="letscast-player-ff3abca4" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-series-teaser/player.js?size=s"></script></div>
+<p>There are a lot of awesome podcasts about Rust.
+We loved listening to <a href="https://newrustacean.com/">New Rustacean</a>
+and are excited about the new <a href="https://rustacean-station.org/">Rustacean Station</a> and
+<a href="https://www.marcoieni.com/2023/08/rustship-a-new-rust-podcast/">RustShip</a> 
+episodes.</p>
+<p>But we felt that there is a gap in the Rust podcast landscape: We
+wanted to hear more about how companies use Rust in production.</p>
+<p>So we decided to sit down and create the content we wanted to listen to. We
+interviewed people from companies that use Rust in production and asked them
+the tough questions that you want to hear answered but never get the chance to
+ask:</p>
+<ul>
+<li>Why did they choose Rust?</li>
+<li>What are the real challenges of using Rust in production?</li>
+<li>How did your team get up to speed with Rust?</li>
+<li>Did you notice any performance improvements?</li>
+</ul>
+<p>These and other questions are top of mind for developers and decision makers
+who are considering Rust for their next project. We want to help them
+understand the benefits and challenges of using Rust in production before
+they head down that path. </p>
+<p>And we're starting with a bang: In the
+first episode we will talk to Paul Dix, founder and CTO of
+<a href="https://www.influxdata.com/">InfluxData</a>, about how the company rewrote the
+core of their time series database in Rust. Stay tuned! We will release the
+first episode on Thurday, December 14th and then biweekly episodes every Thursday.</p>
+<span id="continue-reading"></span><h2 id="show-notes">Show Notes</h2>
+<h3 id="about-corrode">About corrode</h3>
+<p>&quot;Rust in Production&quot; is a podcast by corrode, a company that helps teams adopt
+Rust. We offer training, consulting, and development services to help you
+succeed with Rust. If you want to learn more about how we can help you, <a href="/about">please
+get in touch</a>.</p>
+</div>
+
+  <div class="callout">
+  <h2>Subscribe to Rust In Production</h2>
+  <p>
+    Rust in Production is a bi-weekly podcast by corrode. New episodes are
+    released every other Thursday at 4pm UTC. You can subscribe to new episodes
+    on
+    <a
+      href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+      >Apple</a
+    >,
+    <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">Spotify</a>,
+    <a
+      href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+      >YouTube</a
+    >,
+    <a
+      href="https://podcasters.amazon.com/podcasts/acc3a064-4c50-42de-940e-61726d73514a"
+      >Amazon</a
+    >, or through our
+    <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+      >RSS feed</a
+    >.
+  </p>
+  <ul>
+    <li>
+      <a
+        href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+        ><img
+          class="invert"
+          src="/podcast/rss.svg"
+          alt="RSS"
+          width="25"
+          height="25"
+        />
+        RSS
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+        ><img
+          class="invert"
+          src="/podcast/apple.svg"
+          alt="Apple Podcasts"
+          width="25"
+          height="25"
+        />
+        Apple Podcasts
+      </a>
+    </li>
+    <li>
+      <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+        ><img
+          class="invert"
+          src="/podcast/spotify.svg"
+          alt="Spotify"
+          width="25"
+          height="25"
+        />
+        Spotify
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+        ><img
+          class="invert"
+          src="/podcast/youtube.svg"
+          alt="YouTube"
+          width="25"
+          height="25"
+        />
+        YouTube
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</article>
+
+            </main>
+            
+            <footer class="footer">
+                <span>© 2024 corrode &mdash; D&uuml;sseldorf, Germany</span>
+                &middot;
+                <span><a href="/legal">Legal Notice</a></span>
+                &middot;
+                <span><a href="/quote">Business Inquiries</a></span>
+            </footer>
+            
+        </div>
+        <script>
+            function getPreferredColorScheme() {
+                let systemScheme = 'light';
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    systemScheme = 'dark';
+                }
+                let chosenScheme = systemScheme;
+
+                if (localStorage.getItem("scheme")) {
+                    chosenScheme = localStorage.getItem("scheme");
+                }
+
+                if (systemScheme === chosenScheme) {
+                    localStorage.removeItem("scheme");
+                }
+
+                return chosenScheme;
+            }
+
+            function savePreferredColorScheme(scheme) {
+                let systemScheme = 'light';
+
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    systemScheme = 'dark';
+                }
+
+                if (systemScheme === scheme) {
+                    localStorage.removeItem("scheme");
+                }
+                else {
+                    localStorage.setItem("scheme", scheme);
+                }
+            }
+
+            function toggleColorScheme() {
+                let newScheme = "light";
+                let scheme = getPreferredColorScheme();
+                if (scheme === "light") {
+                    newScheme = "dark";
+                }
+
+                applyPreferredColorScheme(newScheme);
+                savePreferredColorScheme(newScheme);
+            }
+
+            function applyPreferredColorScheme(scheme) {
+                for (var s = 0; s < document.styleSheets.length; s++) {
+                    try {
+                        var rules = document.styleSheets[s].cssRules;
+                        for (var i = 0; i < rules.length; i++) {
+                            var rule = rules[i];
+                            if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                                switch (scheme) {
+                                    case "light":
+                                        rule.media.appendMedium("original-prefers-color-scheme");
+                                        if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                        if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                        break;
+                                    case "dark":
+                                        rule.media.appendMedium("(prefers-color-scheme: light)");
+                                        rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                        if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                        break;
+                                    default:
+                                        rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                        if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                        if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                        break;
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        // Ignore third-party stylesheets
+                    }
+                }
+
+                if (scheme === "dark") {
+                    document.getElementById("icon-moon").style.display = 'inline';
+                    document.getElementById("icon-sun").style.display = 'none';
+                } else {
+                    document.getElementById("icon-sun").style.display = 'inline';
+                    document.getElementById("icon-moon").style.display = 'none';
+                }
+            }
+
+            applyPreferredColorScheme(getPreferredColorScheme());
+        </script>
+    </body>
+</html>
