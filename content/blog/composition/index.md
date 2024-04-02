@@ -21,6 +21,15 @@ combined like Lego blocks to create robust, flexible systems.
 Unfortunately, there are few *actionable* resources on how to write
 composable code in Rust, which is why it is the topic of this article.
 
+
+> For me, the biggest shift was changing my initial planning from "who is doing what" (like casting actors in a play) to "what data is grouped together".
+> https://users.rust-lang.org/t/im-still-thinking-oop-in-rust-please-help-me-for-escape/93737
+
+Much of it has to do with code organization and little with the language itself.
+
+https://users.rust-lang.org/t/im-still-thinking-oop-in-rust-please-help-me-for-escape/93737/11?u=mre
+
+
 ## Welcome to Crustacean Candy 
 
 Imagine you're the owner of *Crustacean Candy*, an online store offering
