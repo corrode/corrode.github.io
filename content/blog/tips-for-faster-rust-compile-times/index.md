@@ -6,6 +6,7 @@ template = "article.html"
 [extra]
 updated = 2024-03-24
 series = "Insights"
+updated = "2024-04-03"
 resources = [
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
  "List of [articles on performance on Read Rust](https://readrust.net/performance).",
@@ -186,7 +187,8 @@ More info on the [cargo-machete project page](https://github.com/bnjbvr/cargo-ma
    compatible version.
 2. Run [`cargo outdated -wR`](https://github.com/kbknapp/cargo-outdated) to find newer, possibly incompatible dependencies.
    Update those and fix code as needed.
-3. Run `cargo tree --duplicate` to find dependencies which come in multiple versions.  
+3. Run `cargo tree --duplicate` to find dependencies which come in multiple versions. 
+   Aim to consolidate to a single version by updating dependencies that rely on older versions. 
    (Thanks to /u/dbdr for [pointing this out](https://www.reddit.com/r/rust/comments/hdb5m4/tips_for_faster_rust_compile_times/fvm1r2w/).)
 
 (Instructions by [/u/oherrala on Reddit](https://www.reddit.com/r/rust/comments/gi7v2v/is_it_wrong_of_me_to_think_that_rust_crates_have/fqe848y).)
