@@ -6,7 +6,6 @@ template = "article.html"
 [extra]
 updated = 2024-03-24
 series = "Insights"
-updated = "2024-04-03"
 resources = [
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
  "List of [articles on performance on Read Rust](https://readrust.net/performance).",
@@ -853,10 +852,11 @@ env:
 + runs-on: ubicloud
 ```
 
-Services like [Ubicloud](https://www.ubicloud.com/use-cases/github-actions) or
-[BuildJet](https://buildjet.com) provide you with faster workers for your Github
-Actions builds. Especially for Rust pipelines, the number of cores can have a
-significant big impact on compile times, so it might be worth a try.
+Services like [Ubicloud](https://www.ubicloud.com/use-cases/github-actions),
+[BuildJet](https://buildjet.com), or
+[RunsOn](https://github.com/runs-on/runs-on) provide you with faster workers for
+your Github Actions builds. Especially for Rust pipelines, the number of cores
+can have a significant big impact on compile times, so it might be worth a try.
 
 Here is an example from the [Facebook Folly](https://github.com/facebook/folly)
 project using Ubicloud. Granted, this is a C++ project, but it shows the
