@@ -66,6 +66,7 @@ Click here to expand the table of contents.
   - [Learning Curve](#learning-curve)
   - [Compile Times](#compile-times)
 - [Conclusion](#conclusion)
+- [Talks](#talks)
 - [Further Reading](#further-reading)
 - [Next Steps](#next-steps)
 
@@ -143,6 +144,14 @@ due to its edition system. All of that makes large-scale refactoring easier.
 > What I usually hear is that [efficiency is] what people are first excited about
 > but the reason that they keep using [Rust] is because actually it's better for
 > building more reliable systems. - [Nicholas Matsakis, Senior Principal Engineer at AWS and lead of the Rust language design team.](https://www.youtube.com/watch?v=oGN62EEHyn8)
+
+In a [Google survey](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html),
+developers were asked about their confidence in Rust code compared to other
+languages. The results were overwhelmingly positive: 
+**85% of respondents were more confident in their team's Rust code in comparison
+to other languages.**
+
+<img src="/why-rust/rust_code_confidence.svg" class="invert" alt="Google Survey: confidence in Rust code is very high compared to other languages">
 
 ### Maintainability
 
@@ -609,24 +618,29 @@ from adopting Rust in production by companies that shape the future of infrastru
 <a href="/podcast">More information here</a>.
 {% end %}
 
+## Talks
+
+* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank">Considering Rust &mdash; Jon Gjengset, 2020</a>
+* <a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank">How I Convinced the World's Largest Package Manager to Use Rust, and So Can You! &mdash; Ashley Williams, 2017</a>
+* <a href="https://www.youtube.com/watch?v=QrrH2lcl9ew" target="_blank">Beyond Safety and Speed: How Rust Fuels Team Productivity &mdash; Lars Bergstrom, 2024</a>
+
 ## Further Reading
 
 * <a href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html" target="_blank">Rust Fact vs. Fiction: 5 Insights from Google’s Rust Journey</a>
 * <a href="https://survey.stackoverflow.co/" target="_blank">StackOverflow Developer Surveys</a>
 * <a href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html" target="_blank">Annual Rust Survey Results</a>
 * <a href="https://kerkour.com/rust-in-production-2021" target="_blank">Quotes of companies using Rust in production (2021)</a>
-* <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank">Considering Rust &mdash; a talk by Jon Gjengset, 2020 (YouTube link)</a>
-* <a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank">How I Convinced the World's Largest Package Manager to Use Rust, and So Can You! &mdash; a talk by Ashley Williams, 2017 (YouTube link)</a>
+
 
 ## Next Steps
 
-* [Rust in Production Podcast](/podcast)
+* [Listen to the Rust in Production Podcast](/podcast)
 * [Reach Out for Rust Training and Consulting](/about/)
 
 ---
 
 <small>
-Last updated: 20 Mar 2024.
+Last updated: 3rd of April 2024.
 Title image adapted from
 <a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
 </small>
