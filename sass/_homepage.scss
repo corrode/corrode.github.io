@@ -5,7 +5,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    padding: 4em;
+    padding: 2em;
 
     & > * {
       flex-basis: 1.5em;
@@ -29,9 +29,10 @@
 
 /* Part above the fold should stretch the whole height */
 .fold {
-  min-height: calc(100vh - 90px); /* navigation bar */
+  min-height: calc(100vh - 90px); /* Navigation bar height considered */
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Helps space out content and indicator */
 }
 
 .call-to-action {
@@ -159,7 +160,28 @@
   .call-to-action {
     background-color: #111;
   }
+}
 
+.scroll-indicator {
+  display: block; /* Ensures the indicator takes up full width available */
+  margin: auto 0;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.scroll-indicator svg {
+  width: 50px;
+  height: auto;
+  fill: black;
 }
 
 @media (max-width: 900px) {
