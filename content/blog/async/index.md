@@ -5,6 +5,7 @@ draft = false
 template = "article.html"
 [extra]
 series = "Rust Ecosystem"
+updated = "2024-04-27"
 revisions = """
 In an earlier version of this article, I discussed async web frameworks.
 However, to maintain focus, I've opted to address web frameworks in a dedicated
@@ -197,7 +198,7 @@ A `'static` trait bound mandates that the type does not contain any non-static
 references. This means the receiver can hold on to the type
 *indefinitely* without it becoming invalid until they decide to drop it.
 
-Here is an example of a async function that has a `'static` lifetime bound:
+Here is an example of an async function that has a `'static` lifetime bound:
 
 ```rust
 async fn process_data<T: 'static>(data: T) {
@@ -303,15 +304,8 @@ single-threaded by default can help improve Rust's async story.
 
 ## Async vs Threads
 
-Regardless of runtime choice, we end up doing part of the kernel's job in user
-space.
-
-If you allow me a play on [Greenspun's tenth
-rule](https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule):
-
-> Any sufficiently advanced async Rust program contains an ad hoc,
-> informally-specified, potentially bug-ridden implementation of half of an
-> operating system's scheduler.
+> If you don't need async for performance reasons, threads can often be the
+> simpler alternative. &mdash; [the Async Book](https://rust-lang.github.io/async-book/01_getting_started/02_why_async.html#async-vs-threads-in-rust)
 
 Modern operating systems come with highly optimized schedulers that are
 excellent at multitasking and support async I/O through
@@ -501,9 +495,6 @@ In binary crates, think twice if you really need to use async. It's probably
 easier to just spawn a thread and get away with blocking I/O. In case you have a
 CPU-bound workload, you can use [rayon](https://github.com/rayon-rs/rayon) to
 parallelize your code.
-
-> If you don't need async for performance reasons, threads can often be the
-> simpler alternative. &mdash; [the Async Book](https://rust-lang.github.io/async-book/01_getting_started/02_why_async.html#async-vs-threads-in-rust)
 
 ### Isolate Async Code
 
