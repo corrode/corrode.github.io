@@ -523,6 +523,12 @@ tr:last-child td {
   float: right;
 }
 
+@media (max-width: 500px) {
+  .toc > summary::after {
+    display: none;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: $heroDark;
