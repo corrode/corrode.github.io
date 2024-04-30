@@ -1,76 +1,103 @@
 +++
 title = "Long-term Rust Project Maintenance"
-date = 2024-04-14
+date = 2024-04-30
 template = "article.html"
 [extra]
-series = "Rust Ecoystem"
+series = "Rust Ecosystem"
 +++
 
+<img src="rust-compile-times.svg" alt="Rust Compile Times Hero Image" class="noinvert" />
+
 Rust has reached a level of maturity where it is being used for critical
-infrastructure, replacing legacy systems written in C or C++, and needs to be
-maintained for years or even decades to come.
+infrastructure, replacing legacy systems written in C or C++.
+This means, some Rust projects need to be maintained for years or even decades to come.
 
 By some estimates, the cost of maintaining a product is more than [90% of the
-software's total cost](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/). 
+software's total cost](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/).
 
-Such environments require minimal downtime, high reliability, and low
+Critical software demands minimal downtime, high reliability, and low
 operational costs, so it is reassuring that the Rust core team highlights its
 commitment to these values in their post ["Stability as a
 Deliverable."](https://blog.rust-lang.org/2014/10/30/Stability.html)
 
 The following is a guide to long-term Rust project maintenance, based on my
-experience helping clients with medium- to large Rust projects which are critical
-to their business. A lot of the advice is relevant to other languages as well,
-but I will try to point out aspects that are specific to the Rust ecosystem.
+experience helping clients with medium- to large Rust projects. While a lot of the advice is relevant to other languages, but I will try to highlight aspects which are specific to the Rust ecosystem.
 
-The target audience are lead developers and decision-makers
-responsible for ensuring the long-term success of Rust projects within their
-organization.
+<h2>Table of Contents</h2>
+
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+
+- [Team Dynamics](#team-dynamics)
+- [Project Longevity](#project-longevity)
+  - [Prefer Stable Rust Over Nightly](#prefer-stable-rust-over-nightly)
+  - [Editions](#editions)
+  - [Conservative use of Rust language features](#conservative-use-of-rust-language-features)
+  - [Conservative use of Async Code](#conservative-use-of-async-code)
+- [Dependencies](#dependencies)
+  - [Dependencies are a Liability](#dependencies-are-a-liability)
+  - [Limit The Number Of Dependencies](#limit-the-number-of-dependencies)
+  - [How To Choose Dependencies](#how-to-choose-dependencies)
+  - [Do Not Pin Dependencies](#do-not-pin-dependencies)
+  - [Stick to `std` Where Possible](#stick-to-std-where-possible)
+  - [Use Stable Dependencies](#use-stable-dependencies)
+  - [Disable Unnecessary Features](#disable-unnecessary-features)
+- [API design](#api-design)
+- [Software Architecture](#software-architecture)
+- [Testing](#testing)
+- [Documentation](#documentation)
+- [About Unsafe Code](#about-unsafe-code)
+- [Tooling and Infrastructure](#tooling-and-infrastructure)
+  - [Use Boring Technology](#use-boring-technology)
+  - [Use Linters and Formatters](#use-linters-and-formatters)
+  - [Make Releases Boring](#make-releases-boring)
+- [Invest in the Rust Ecosystem](#invest-in-the-rust-ecosystem)
+- [Conclusion](#conclusion)
+- [Further reading](#further-reading)
 
 
-
+</details>
 
 ## Team Dynamics
 
+First, make sure that your team is on board with the decision to use Rust and that they
+have the necessary skills to work with the language.
+
 Introducing Rust is often a disruptive change
-and requires long-term commitment. [It is important to have the backing of both the
+and requires a long-term mindset. [It is important to have the backing of both the
 team and leadership to make this transition successful.](https://mainmatter.com/blog/2023/12/13/rust-adoption-playbook-for-ctos-and-engineering-managers/)
 
 On top of that, every language comes with its own set of tools,
-libraries, and best practices. It takes time for a team to become proficient in
-a new environment, and Rust is no exception.
-
-Proficiency in Rust and its ecosystem is the first step towards long-term
-maintenance as projects will be set up with the right architecture and best
-practices in mind.
+libraries, and idioms. It takes time for a team to become proficient in
+a new environment, and Rust is well-known for its steep learning curve.
 
 Investing in Rust training and team-augmentation is a good way to accelerate
-this process. While it higher upfront costs, it will pay off in the long run.
+this process. While it means higher upfront costs, it will pay off in the long run, because the team will feel confident in their ability to maintain the codebase.
 
 ## Project Longevity
 
-### Stable Rust Over Nightly
+### Prefer Stable Rust Over Nightly
 
-Rust has a stable release every six weeks, with new features and bug fixes.
+Rust has a stable release every six weeks, which brings new features and bug
+fixes to the language.
+
 The stable release is the most reliable and well-tested version of Rust.
-In contrast, the nightly release is a daily snapshot of the Rust compiler,
-which includes the latest features and bug fixes, but is less stable and
-more likely to break your code.
+In contrast, the nightly release is a daily snapshot of the Rust compiler
+and is more likely to break your code.
 
 For long-term maintenance, it's important to stick to the stable release
-of Rust. This ensures that your code will continue to compile and run
-without modification, even as the language evolves.
+of Rust if at all possible. This ensures that your code will continue to compile and run without modification, even as the language evolves.
 
-There are only very few cases where nightly Rust is necessary, such as when
-your project depends on a feature that is only available in nightly.
+There are only very few cases where nightly Rust is still necessary
+and you should carefully evaluate if the benefits outweigh the risks.
 
 > If you are writing code that should live for a while, or a library that is
 > aimed to be widely used, avoiding nightly features is likely your best bet.
 > &mdash; Andre Bogus in [The nightly elephant in the room](https://www.getsynth.com/docs/blog/2021/10/11/nightly)
 
 ### Editions
-
-Rust has a strong focus on backward compatibility.
 
 An often underrated feature which is not found in other languages is Rust's [edition
 system](https://doc.rust-lang.org/edition-guide/editions/). It ensures
@@ -86,9 +113,13 @@ possible as well.
 As a result, organizations have time to migrate their codebase to the new
 edition at their own pace.
 
+That said, try to keep your codebase up-to-date with the latest edition, as it
+will make it easier to benefit from new features and improvements in the
+language.
+
 ### Conservative use of Rust language features
 
-Rust is a language with a lot of powerful features, such as macros, traits,
+Rust comes with a wealth of powerful features, such as macros, traits,
 generics, and lifetimes. While these features can make code more expressive and
 efficient, they can also make code harder to read and maintain.
 
@@ -97,7 +128,7 @@ advanced language features. At times, this might come at the cost of
 performance or verbosity, but the benefit is code that is easier to understand
 by a larger part of the team.
 
-Here are a few rules of thumb to follow:
+Here are a few examples of conservative use of Rust language features:
 
 - **Use macros only for boilerplate code**: Macros can be powerful tools for
   code generation, but can be hard to read and debug and take a toll on
@@ -106,22 +137,34 @@ Here are a few rules of thumb to follow:
 - **Avoid complex trait bounds**: Traits are a common way to abstract over types
   in Rust, but complex [trait bounds](https://doc.rust-lang.org/rust-by-example/generics/bounds.html)
   can lead to hard-to-understand error messages and obfuscate business logic.
+  Some code duplication is often preferable to complex trait bounds.
 - **`clone` is fine**: While `clone` can be a performance bottleneck, it is
-  often the simplest way to avoid lifetimes and keep code readable. 
+  often the simplest way to avoid lifetimes and keep code readable.
   In many cases, the performance overhead is negligible.
-- **Conservative use of async/await**: Especially in core libraries, it's
-  important to be conservative about exposing async functions in the public API.
-  This ensures that the library can be used in both synchronous and asynchronous
-  contexts and does not impose a specific runtime on the user. 
-  I wrote more about this in [The State of Async Rust](https://corrode.dev/blog/async/).
+  If you are considering to introduce lifetimes to avoid `clone`, ask yourself
+  if the added complexity is worth the performance gain.
 
-I discuss these and other antipatterns in my talk [The Four Horsemen of Bad
+I discussed these and other antipatterns in my talk [The Four Horsemen of Bad
 Rust
 Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/).
 
+### Conservative use of Async Code
+
+There is one point in particular that is worth calling out in the context of
+long-term maintenance in Rust: **keep your core business logic synchronous**.
+
+This ensures that you don't have to clutter your types with trait bounds like
+`Send` and `Sync`, and that you can easily test your code without having to
+deal with asynchronous runtimes.
+
+Especially in core libraries, it's important to be conservative about exposing async functions in the public API. This ensures that your library can be used in both synchronous and asynchronous contexts and does not impose a specific runtime on the user.
+
+To learn more about the tradeoffs of the async Rust ecosystem, I recommend reading
+[The State of Async Rust](/blog/async/).
+
 ## Dependencies
 
-### Rust's Philosophy on Dependencies
+### Dependencies are a Liability
 
 One of the most important aspects of long-term Rust maintenance is being
 conservative about dependencies.
@@ -130,41 +173,40 @@ Rust has a very active ecosystem, with thousands of crates available on
 [crates.io](https://crates.io/), but there is no guarantee that a crate will be
 maintained in the long term; and even if it is, you need to [trust the team
 behind it](https://tweedegolf.nl/en/blog/104/dealing-with-dependencies-in-rust).
-Security fixes in dependencies could take a long time to be released.
+Security fixes in dependencies could take a long time to be released, and [the API of a dependency could change in undesirable ways](https://github.com/marshallpierce/rust-base64/issues/213).
 
 As a consequence, every dependency should be seen as a liability.
 
+### Limit The Number Of Dependencies
+
 Rust has a relatively small standard library.
-This is in part to avoid a situation similar to Python's extensive standard library, where
-parts of it are discouraged from being used:
+This is in part to avoid a situation similar to Python's extensive standard library, where parts of it are discouraged from being used:
 
 > Python’s standard library is piling up with cruft, unnecessary duplication of
-> functionality, and dispensable features. &mdash; [PEP 594](https://peps.python.org/pep-0594/) 
+> functionality, and dispensable features. &mdash; [PEP 594](https://peps.python.org/pep-0594/)
 
 In contrast, Rust encourages small, single-purpose modules, similar to
 Node.js.
 
-### Limit The Number Of Dependencies
-
 While it's tempting to use many third-party crates to speed up development, it's
-important to **keep the number of dependencies to a minimum** for better long-term
-maintenance. It will limit your exposure to breaking changes and security
-vulnerabilities.
+important to **keep the number of dependencies to a minimum** for better long-term maintenance. It will limit your exposure to breaking changes and security vulnerabilities.
 
 Moreover, each dependency has a compounding effect:
 
 - Longer compile times
-- Test times
+- Longer test times
 - Complexity in build scripts and CI
+- More documentation to read and understand
+- Bigger attack surface
 - etc.
 
-### Choosing Dependencies
+### How To Choose Dependencies
 
 Now that we've established the importance of limiting dependencies, how do you
 choose the right ones? Here are some factors to consider when choosing a crate:
 
 - **Popularity**: The more popular a crate is, the more likely it is to be
-  maintained and updated. Check the number of downloads, the number of open
+  maintained. Check the number of downloads, the number of open
   issues, and the last commit date. Here is a list of [popular Rust
   crates](https://lib.rs/std).
 - **License**: Make sure the crate's license is compatible with your project's
@@ -175,8 +217,8 @@ choose the right ones? Here are some factors to consider when choosing a crate:
 - **Maintenance**: Check the crate's GitHub repository for signs of active
   maintenance. Are issues being addressed? Are pull requests being merged?
   Is the crate following best practices?
-  Prefer crates from well-known community members or companies, as they are
-  more likely to be maintained in the long term.
+  Prefer crates from well-known community members or companies, as they
+  gained trust over time.
 - **Security**: Security vulnerabilities can be a major headache in the long
   term. Make sure the crate has a good security track record and that the
   maintainers are responsive to security issues.
@@ -192,9 +234,7 @@ Rust project, read [Sudo-rs dependencies: when less is
 better](https://www.memorysafety.org/blog/reducing-dependencies-in-sudo/) by
 Ruben Nijveld from Prossimo.
 
-
-
-### Keep Dependencies Up-to-Date
+### Do Not Pin Dependencies
 
 A common reaction to hedge the risks of exposing your project to breaking
 changes is to pin dependencies to a specific version. While this sounds like a
@@ -204,26 +244,23 @@ vulnerabilities. This is a big maintenance burden.
 
 Instead, it is better to be proactive about keeping dependencies up-to-date:
 
-- **Use [`cargo outdated`](https://github.com/kbknapp/cargo-outdated)**: The `cargo outdated` command shows you which
+- **Use [`cargo outdated`](https://github.com/kbknapp/cargo-outdated)**: This command shows you which
   dependencies are out of date. Run it regularly to keep track of new versions.
 - **Automate dependency updates**: Use tools like [Dependabot](https://dependabot.com/)
   or [Renovate](https://www.mend.io/renovate/) to receive automated pull
   requests for dependency updates.
-- **Use `cargo update`**: The `cargo update` command updates your dependencies
+- **Use [`cargo update`](https://doc.rust-lang.org/cargo/commands/cargo-update.html)**: It updates your dependencies
   to the latest version that matches the version constraints in your `Cargo.toml`.
   Run it regularly to update your dependencies to the latest versions.
-- **Use `cargo tree`**: The `cargo tree` command shows you a tree of your
-  dependencies, which can help you find duplicate or outdated dependencies
+- **Use [`cargo tree`](https://doc.rust-lang.org/cargo/commands/cargo-tree.html)**: This shows you a tree of your
+  dependencies, to help you find duplicate- or outdated dependencies
   &mdash; including transitive dependencies.
-- Run [`cargo audit`](https://crates.io/crates/cargo-audit) regularly to check
-  for known security vulnerabilities in your dependencies.
-
-Try not to skip any major versions of your dependencies, as this can make it
-harder to upgrade in the future. Be proactive about replacing deprecated or
-unmaintained dependencies.
+- Try not to skip any major versions of your dependencies, as this can make it
+  harder to upgrade in the future.
+- Be proactive about replacing deprecated or unmaintained dependencies.
 
 For major dependencies (like a web framework or your async runtime) it's a good
-idea to follow their release notes or blog posts to stay up-to-date with
+idea to follow the release notes or blog posts to stay up-to-date with
 upcoming changes.
 
 Keep in mind that it takes time for the broader ecosystem to catch up with new
@@ -231,38 +268,39 @@ releases of these major dependencies, so it can take a while before you can
 safely upgrade. In such a case, it's a good idea to add regular reminders to
 your calendar to handle the upgrade.
 
-### Stick to `std` and `core` where possible
+### Stick to `std` Where Possible
 
 The Rust standard library is well-maintained and has a strong focus on backwards
 compatibility. It is a good idea to stick to `std` where possible.
 
-For example, the `std::collections` module provides a wide range of data
-structures, such as `HashMap`, `Vec`, and `HashSet`, which are well-tested.
-While there are great third-party crates that provide similar data structures,
-such as `hashbrown` or `indexmap`, which might be faster or have additional
-features, it is often better to stick to the standard
-library, as it is used by a wide range of projects and guaranteed to be
-maintained in the long term.
+For example, the `std::collections` module provides a wide range of data structures, such as `HashMap`, `Vec`, and `HashSet`, which are well-tested. While there are great third-party crates that provide similar data structures, which might be faster or have additional features, it is often better to stick to the standard library, as it is used by a wide range of projects and guaranteed to be maintained in the long term.
 
-### Use stable dependencies 
+### Use Stable Dependencies
 
-Crates which follow semver and reach version 1.0.0 are considered stable and
-should be preferred over crates that are below version 1.0.0. This is because
-crates below version 1.0.0 are allowed to make breaking changes in minor
+Crates which follow semver and reach version 1.0 are considered stable and
+should be preferred over non-stable crates. This is because
+crates below version 1.0 are allowed to make breaking changes in minor
 versions, which can lead to unexpected breakage in your project.
 
+### Disable Unnecessary Features
 
-### Reduce the number of features you use in your dependencies
+Many crates offer optional features that can be enabled or disabled. These
+features can add additional functionality to the crate, but they can also
+increase compile times and the complexity of the crate. If you don't need a
+feature, it's a good idea to disable it.
+You can find the available features in the crate's `Cargo.toml` file or on the
+crate's documentation page.
+For example, [here are the `tokio` features](https://docs.rs/crate/tokio/latest/features).
 
-## Guidelines for API design
+## API design
 
 Software that gets maintained for a long time is often critical and heavily used
 by other software. Changing an API can break downstream users and cause churn.
-Defensive API design can minimize the risk of breaking changes.
+Defensive API design minimizes the risk of breaking changes.
 
-Here are some guidelines:
+Here are some tips:
 
-- **Minimize the public API surface**: 
+- **Minimize the public API surface**:
   It's very hard to remove features once they are public. Only expose what is
   absolutely necessary for users to interact with your library. This sounds
   obvious, but it's easy to expose too much in a public API. Private functions
@@ -277,56 +315,150 @@ Here are some guidelines:
   example, instead of exposing that you depend on a specific crate, wrap it in a
   newtype, so use `pub Request(reqwest::Request)` instead of exposing the
   dependency directly.
-- **Use semver**: Follow the [Semantic Versioning](https://semver.org/) guidelines
-  to communicate changes to your users. This will help them understand the
-  impact of a new release and make it easier to upgrade.
+  Don’t be afraid to introduce your own types around basic types. E.g. `Miles(u64)` and `Kilometers(u64)` are both `u64` under the hood, but
+  their explicit types make it harder to mix them up.
+- **Use semver**: Follow the [Semantic Versioning](https://semver.org/) guidelines to communicate changes to your users. This will help them understand the impact of a new release and make it easier to upgrade. Consider using [cargo-semver-checks](https://github.com/obi1kenobi/cargo-semver-checks) to detect breaking changes in your code.
 
-For further information, the Rust team has published a [Rust API Guidelines
+For more information, the Rust team has published a [Rust API Guidelines
 Checklist](https://rust-lang.github.io/api-guidelines/checklist.html), which is
-well worth reading.
+well worth a read.
 
+## Software Architecture
 
-4. Software Architecture
-  controversely, maintaining a codebase for a long time doesn't mean you should not touch it.
-  quite the opposite, it requires constant effort  and work.
-  some of the most robust codebases in the world are constantly being refactored and rewritten
+Conversely, maintaining a codebase for a long time doesn't mean you should not touch it; quite the opposite: it requires constant effort and work.
 
-    Principles for durable software design:
-        Simplicity and adherence to SOLID principles
-        [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) and the onion architecture pattern or ports and adapters pattern
-        Domain-driven design and bounded contexts without dependencies. Keep it clean from side-effects.
-        Low coupling and high cohesion
-        Don't be afraid to take ownership: refactor and rewrite when necessary. Rust makes it easy to refactor with its strong type system and borrow checker.
-        Avoiding premature optimization and over-engineering
-        Learn about idiomatic Rust patterns in order to write code that is easy to maintain and follows the best practices of the Rust community.
-    Strategies for easy code extensibility and refactoring
+Some of the most robust codebases in the world are continuously getting refactored.
 
+Here are some principles for durable software design:
 
-5. Documentation and Testing
-    Importance of thorough documentation and coding standards
-    The role of testing:
-        Writing extensive tests as a form of documentation
-        Setting up continuous integration for regular testing
+- Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html)
+- [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters').
+- Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html)
+- Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334)
+- Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
+- Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time ](https://cliffle.com/blog/rust-typestate/).
+- Avoid premature optimization and over-engineering.
+- Learn about [idiomatic Rust](https://idiomatic.rs) and follow the best practices of the Rust community.
 
-6. Handling Unsafe Code
+## Testing
 
-    Risks associated with unsafe code in Rust
-    Best practices for minimizing and isolating unsafe code
+Tests are a form of documentation that gets verified automatically.
+If you have a hard time writing tests, it might be a sign that your code is too
+complex and needs refactoring. If you can't explain what a struct or function
+does, it might do too much. Split it up into smaller parts and test those
+individually.
 
-7. Tooling and Infrastructure
+Make sure that the tests are easy to run without any manual setup and that they
+run quickly. If tests are slow, they won't be run as often, and you'll lose the
+benefits of having them.
+Integrate your tests into a continuous integration system like GitHub Actions or
+GitLab CI to ensure that they are run automatically on every commit.
 
-    Importance of maintaining and updating development and operational tools
-    Testing and monitoring infrastructure to ensure reliability
-    The only constant is change: while your codebase may be stable, the tools and infrastructure around it will evolve over time. Be prepared to adapt and update your tooling to keep pace with the changing landscape of software development.
+## Documentation
 
-9. Conclusion
+Rust has great support for documentation.
+You can write documentation as Markdown comments right next to your code, and
+it gets rendered into a nice HTML page when you run `cargo doc`.
+Make extensive use of this.
 
-    Recap of key points for maintaining Rust applications long-term
-    Encouragement to prioritize robustness and simplicity for business-critical functions
-    Reference to the 'Rust in production' podcast for further insights on Rust in enterprise applications
+Here are some tips for writing good documentation:
 
+- Don't expect to be around to explain your code. Even if you are, you might not
+  remember why you wrote something a certain way.
+- Start to write documentation as soon as you start writing code. Update it as
+  your mental model of the code evolves.
+- Also document, why certain optimizations were not done and the trade-offs of your design decisions
 
-Further reading
+Some tooling can help you with this:
 
-- [Cost of a Dependency - Lee Campbell](https://www.youtube.com/watch?v=Y7oqumBxWGo)
-- [Software Maintenance Costs](https://maddevs.io/customer-university/software-maintenance-costs/)
+- Enforce documentation for public functions and types with clippy's `#![deny(missing_docs)]` lint.
+- Run `cargo doc --open` from time to time to see how your documentation looks
+  and fill in the gaps.
+- Add doctests to your documentation. This way, you can ensure that the examples
+  in your documentation are correct and up-to-date.
+- [Add mermaid diagrams to your documentation](https://frehberg.com/2022/12/docs-as-code-mermaid-inline-diagrams/) to visualize complex concepts.
+- Use [doc-comment](https://github.com/GuillaumeGomez/doc-comment) to check that your documentation examples compile and run correctly.
+
+## About Unsafe Code
+
+Unsafe code relies on the user to ensure its correctness and adherence to
+current and future rules. Due to the inherent complexity, errors in unsafe
+code are typically difficult to detect through unit tests or compiler checks.
+
+- Minimize the use of unsafe code and to encapsulate it in a safe API. This way, the unsafe code can be isolated and its behavior can be more easily understood and tested.
+- If you find yourself using unsafe code to improve performance, consider using
+  better algorithms or data structures first. Rust's performance is often
+  competitive with C and C++ without resorting to unsafe code.
+- Use [cargo-geiger](https://github.com/geiger-rs/cargo-geiger) to check for unsafe code.
+
+## Tooling and Infrastructure
+
+### Use Boring Technology
+
+Using the latest technology can be tempting, but if you're planning to maintain
+a codebase for a long time, consider using boring, well-established tools
+such as JSON and SQL. There is plenty of tooling and documentation available
+and it's easier to get help when you need it.
+
+The same goes for choosing Virtual Machines or Containers over WebAssembly or
+Edge Computing. You will find plenty of providers for the former.
+
+In general, proven technology doesn't change often, which means you can focus on
+your business, instead of keeping up with the latest trends.
+
+### Use Linters and Formatters
+
+There are a number of well-established tools that can help you maintain a
+consistent code style and catch common errors:
+
+- [rustfmt](https://github.com/rust-lang/rustfmt)
+- [clippy](https://doc.rust-lang.org/clippy/)
+- Find more tools [here](https://analysis-tools.dev/tag/rust).
+
+### Make Releases Boring
+
+Run your CI pipeline on a regular basis to ensure that your codebase is always
+in a working state. The worst time to find out that something is broken is when
+you're trying to release a new version.
+
+Look into [release-plz](https://github.com/MarcoIeni/release-plz) for release
+automation.
+
+If you are afraid of triggering a release, automate away the manual work and improve your test suite.
+
+## Invest in the Rust Ecosystem
+
+If you depend on the Rust ecosystem for your business, it is in your best
+interest to invest in it. Being an active member of the Rust community will ensure that your voice gets heard, and you can influence the direction of the language and ecosystem.
+
+This can be done in a number of ways:
+
+- Report bugs and contribute code to the crates you use.
+- Sponsor crates that you depend on.
+- Give talks and write blog posts about your experiences with Rust.
+- Support the Rust Foundation and core team members.
+- Encourage your team to contribute to the Rust ecosystem.
+
+## Conclusion
+
+Maintaining a codebase for a long time is a challenging task in any language,
+but Rust is particularly well-suited for this due to its focus on safety,
+great tooling, and active community.
+
+By following the principles outlined in this post, you can
+ensure that your codebase remains robust and maintainable for years to come.
+
+{% info(headline="Supercharge Your Rust Adoption", icon="radio") %}
+
+If you want to learn from top companies that have successfully adopted Rust,
+consider subscribing to the [Rust In Production Podcast](/podcast).
+
+In case your company is considering to adopt Rust for a new project, feel free to reach out for a [consultation](/#contact).
+
+{% end %}
+
+## Further reading
+
+- [Cost of a Dependency - Lee Campbell](https://www.youtube.com/watch?v=Y7oqumBxWGo) &mdash; presentation on
+  building maintainable architectures
+- [Software Maintenance Costs - Vladislav Andreev ](https://maddevs.io/customer-university/software-maintenance-costs/) &mdash; Factors & ways to reduce software maintenance costs

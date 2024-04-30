@@ -524,7 +524,7 @@ tr:last-child td {
 }
 
 .toc > summary::after {
-  content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"><path fill="none" d="M0 0h24v24H0z"/><path fill="white" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>');
+  content: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path fill="none" d="M0 0h24v24H0z"/><path fill="white" d="M1.284 4.713h27.432v3.43H1.284Zm0 8.573h27.432v3.428H1.284Zm0 8.572h27.432v3.429H1.284Z"/></svg>');
   float: right;
 }
 
