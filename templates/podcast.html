@@ -1,52 +1,48 @@
-{% extends "base.html" %}
-
-{% block meta %}
+{% extends "base.html" %} {% block meta %}
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "PodcastSeries",
-  "name": "Rust in Production",
-  "description": "Rust in Production brings to light the real-world stories of companies using Rust in production, focusing on the challenges and complex technical problems solved with Rust. New episodes ever second Thursday.",
-  "url": "https://corrode.dev/podcast/",
-  "image": "https://corrode.dev/social/podcast.png",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Corrode Consulting",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://corrode.dev/corrode.svg"
+  {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    "name": "Rust in Production",
+    "description": "Rust in Production brings to light the real-world stories of companies using Rust in production, focusing on the challenges and complex technical problems solved with Rust. New episodes ever second Thursday.",
+    "url": "https://corrode.dev/podcast/",
+    "image": "https://corrode.dev/social/podcast.png",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Corrode Consulting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://corrode.dev/corrode.svg"
+      },
+      "location": {
+        "@type": "PostalAddress",
+        "addressLocality": "Düsseldorf",
+        "addressCountry": "DE"
+      }
     },
-    "location": {
-      "@type": "PostalAddress",
-      "addressLocality": "Düsseldorf",
-      "addressCountry": "DE"
-    }
-  },
-  "license": "https://creativecommons.org/licenses/by-nd/4.0/",
-  "potentialAction": {
-    "@type": "ListenAction",
-    "target": [
-      "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
-      "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
-      "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
-      "https://www.amazon.de/Rust-in-Production/dp/B0CPYJ725K",
-      "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
-    ],
-    "expectsAcceptanceOf": {
-      "@type": "Offer",
-      "eligibleRegion": [
-        {
-          "@type": "Country",
-          "name": "Global"
-        }
-      ]
+    "license": "https://creativecommons.org/licenses/by-nd/4.0/",
+    "potentialAction": {
+      "@type": "ListenAction",
+      "target": [
+        "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
+        "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
+        "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
+        "https://www.amazon.de/Rust-in-Production/dp/B0CPYJ725K",
+        "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+      ],
+      "expectsAcceptanceOf": {
+        "@type": "Offer",
+        "eligibleRegion": [
+          {
+            "@type": "Country",
+            "name": "Global"
+          }
+        ]
+      }
     }
   }
-}
 </script>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="hero">
   <div class="hero-font">
     {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{ hero_font
@@ -58,8 +54,6 @@
   <div>{{ section.content | safe }}</div>
 
   <div class="season-header">
-    <code>Season 1</code>
-
     <ul>
       <li>Subscribe on</li>
       <li>
@@ -111,8 +105,11 @@
     </ul>
   </div>
 
+  {% for season, season_episodes in section.pages | filter(attribute="draft", value=false) | group_by(attribute="extra.season") %}
+
+  <h3>Season {{ season }}</h3>
   <ol class="podcast-list">
-    {% for episode in section.pages | filter(attribute="draft", value=false) %}
+    {% for episode in season_episodes %}
     <li>
       <a href="{{ episode.permalink }}" class="podcast-link">
         <div class="podcast-item">
@@ -125,17 +122,18 @@
               />
             </div>
             <div class="podcast-title">
-              {{ episode.title }} {% if episode.extra.guest %}<span
-                style="opacity: 0.7"
-                >&ndash; {{episode.extra.guest}}</span
-              >{% endif %}
+              {{ episode.title }} {% if episode.extra.guest %}
+              <span style="opacity: 0.7"
+                >&ndash; {{ episode.extra.guest }}</span
+              >
+              {% endif %}
             </div>
           </div>
           <div class="podcast-details">
             <div>{{ episode.date }}</div>
             <div>
               <code
-                >S{{episode.extra.season}} E{{ episode.extra.episode }}</code
+                >S{{ episode.extra.season }} E{{ episode.extra.episode }}</code
               >
             </div>
           </div>
@@ -144,6 +142,8 @@
     </li>
     {% endfor %}
   </ol>
+  {% endfor %}
+
   <p class="podcast-footer">
     Podcast recordings are licensed under
     <a href="https://creativecommons.org/licenses/by-nd/4.0">CC BY-ND 4.0</a>.
