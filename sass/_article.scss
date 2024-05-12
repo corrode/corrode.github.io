@@ -42,7 +42,7 @@ article img {
 }
 
 .article-heading {
-  margin: 8em auto 0;
+  margin: 8em auto 3.5em;
   max-width: 800px;
 }
 
@@ -56,7 +56,7 @@ article h2 code:not(pre > code) {
 }
 
 .article-content-wrapper {
-  padding: 1.5em 0;
+  padding: 3em 0;
   background-color: $brightBgrdLight;
 }
 
@@ -85,7 +85,7 @@ article .subheading a {
 
 .info {
   padding: 40px;
-  border-radius: 5px;
+  border-radius: 4px;
   border: 1px solid $heroDark;
   margin: 3em 0;
 }
@@ -168,7 +168,7 @@ article .subheading a {
   margin-left: -5%;
   padding: 3em;
   margin-top: 4em;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: $darkBgrd;
 }
 
@@ -223,7 +223,7 @@ article .subheading a {
   font-size: 1em;
   padding: 0.8em;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   width: 100%;
   color: $brightPrim;
 }
@@ -232,16 +232,14 @@ article .subheading a {
   font-size: 1em;
   padding: 0.8em;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: $brightScnd;
   color: white;
   cursor: pointer;
 }
 
 .social {
-  margin-top: 3em;
   padding-top: 1em;
-  border-top: 4px solid $brightScnd;
 }
 
 .share-icons {

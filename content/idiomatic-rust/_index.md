@@ -62,7 +62,7 @@ The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contr
 }
 
 code {
-    border-radius: 5px;
+    border-radius: 4px;
     padding: 5px;
     margin: 5px;
     font-size: 14px;
