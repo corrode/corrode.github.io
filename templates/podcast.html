@@ -50,7 +50,7 @@
   </div>
   <img class="hero-img" src="/podcast/hero.svg" />
 </div>
-<article>
+<article class="section-wrapper">
   <div>{{ section.content | safe }}</div>
 
   <div class="season-header">
@@ -105,7 +105,8 @@
     </ul>
   </div>
 
-  {% for season, season_episodes in section.pages | filter(attribute="draft", value=false) | group_by(attribute="extra.season") %}
+  {% for season, season_episodes in section.pages | filter(attribute="draft",
+  value=false) | group_by(attribute="extra.season") %}
 
   <h3>Season {{ season }}</h3>
   <ol class="podcast-list">
