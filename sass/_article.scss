@@ -40,13 +40,8 @@ article img {
 }
 
 .article-heading {
-  margin: 0px auto;
-  padding: 1em;
+  margin: 2em auto 0;
   max-width: 800px;
-}
-
-article h1 {
-  font-size: 4em;
 }
 
 article h2 code:not(pre > code) {
@@ -55,8 +50,8 @@ article h2 code:not(pre > code) {
 }
 
 .article-content-wrapper {
+  padding: 1.5em 0;
   background-color: $brightBgrdLight;
-  padding: 2.8em 1em;
 }
 
 .article-content {
