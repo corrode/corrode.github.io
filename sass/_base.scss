@@ -206,7 +206,7 @@ nav {
   }
 
   #menu-toggle:checked + .menu-button-container .menu-button {
-    // set to transparent to hide middle line through cross
+    /* set to transparent to hide middle line through cross */
     background: rgba(255, 255, 255, 0);
   }
 
@@ -305,7 +305,6 @@ section {
 
 .section-wrapper {
   padding: 1em;
-
   margin: 50px auto;
   max-width: 800px;
 }
@@ -483,26 +482,25 @@ hr {
 table {
   width: 100%;
   border-collapse: collapse;
-  /* Enable horizontal scrolling */
   overflow-x: auto;
   display: block;
 }
 
 th,
 td {
-  padding: 8px; /* Adjust the padding as needed */
-  text-align: left; /* Aligns text to the left, change as needed */
-  border-right: 1px solid rgba(white, 0.3); /* Adds vertical borders */
-  border-bottom: 1px solid rgba(white, 0.3); /* Adds horizontal borders */
+  padding: 8px;
+  text-align: left;
+  border-right: 1px solid rgba(white, 0.3);
+  border-bottom: 1px solid rgba(white, 0.3);
 }
 
 th:last-child,
 td:last-child {
-  border-right: none; /* Removes the right border from the last cell */
+  border-right: none;
 }
 
 tr:last-child td {
-  border-bottom: none; /* Removes the bottom border from the last row */
+  border-bottom: none;
 }
 
 @media (max-width: 800px) {
@@ -528,6 +526,24 @@ tr:last-child td {
 .toc > summary::after {
   content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"><path fill="none" d="M0 0h24v24H0z"/><path fill="white" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>');
   float: right;
+}
+
+.callout {
+  background-color: $darkBgrd;
+  color: white;
+}
+
+.callout a {
+  color: white;
+  text-decoration-color: rgba($darkPrim, 0.3);
+}
+
+.callout h2 {
+  color: $brightBgrd;
+}
+
+.callout img {
+  filter: invert(1);
 }
 
 @media (max-width: 500px) {
