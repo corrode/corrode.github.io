@@ -1,0 +1,50 @@
+.podcast-callout {
+  background-color: $darkBgrd;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-top: 4em;
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.podcast-callout a {
+  color: white;
+}
+.podcast-callout p a {
+  text-decoration: underline;
+  text-decoration-color: rgba($darkPrim, 0.5);
+}
+
+.podcast-callout a:hover {
+  color: $brightScnd;
+}
+
+.podcast-callout h2 {
+  color: $brightBgrd;
+  margin-top: 0;
+}
+
+.podcast-callout ul {
+  padding: 10px;
+  list-style: none;
+  display: flex;
+  max-width: 600px;
+  justify-content: space-between;
+}
+
+.podcast-callout img {
+  filter: invert(1);
+}
+
+.podcast-callout li a {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .podcast-callout ul {
+    flex-direction: column;
+  }
+}
