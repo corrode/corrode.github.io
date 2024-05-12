@@ -14,33 +14,30 @@
     <div class="article-content">{{ page.content | safe }}</div>
   </div>
 
-  <div class="article-footer-wrapper">
-    <div class="article-footer">
-      {% if page.extra.resources %}
-      <div class="article-resources">
-        <h2>Additional Resources</h2>
-        <ul>
-          {% for resource in page.extra.resources %}
-          <li>{{ resource | markdown() | safe }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %} {% if page.extra.revisions %}
-      <div class="article-revisions">
-        Revision notes: {{ page.extra.revisions | markdown(inline=true) | safe
-        }}
-      </div>
-      {%- endif %}
-
-      <div class="social">
-        <div class="share-icons">{% include "snippets/social.html" %}</div>
-        <div class="editor-credits">{% include "snippets/credits.html" %}</div>
-      </div>
-
-      {% include "snippets/newsletter.html" %}
-
-      <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  <div class="article-footer">
+    {% if page.extra.resources %}
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        {% for resource in page.extra.resources %}
+        <li>{{ resource | markdown() | safe }}</li>
+        {% endfor %}
+      </ul>
     </div>
+    {% endif %} {% if page.extra.revisions %}
+    <div class="article-revisions">
+      Revision notes: {{ page.extra.revisions | markdown(inline=true) | safe }}
+    </div>
+    {% endif %}
+
+    <div class="social">
+      <div class="share-icons">{% include "snippets/social.html" %}</div>
+      <div class="editor-credits">{% include "snippets/credits.html" %}</div>
+    </div>
+
+    {% include "snippets/newsletter.html" %}
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
   </div>
 </article>
 {% endblock content %}
