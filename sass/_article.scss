@@ -56,12 +56,12 @@ article h2 code:not(pre > code) {
 
 .article-content-wrapper {
   background-color: $brightBgrdLight;
+  padding: 2.8em 1em;
 }
 
 .article-content {
   max-width: 800px;
-  margin: 0px auto;
-  padding: 2.8em 1em;
+  margin: 0 auto;
 }
 
 .article-content h2 {
@@ -101,7 +101,6 @@ article .subheading a {
 @media (max-width: 800px) {
   .info {
     width: 100vw;
-    /* Adjust for parent container padding/margin */
     margin-left: calc(-1 * (100vw - 100%) / 2);
     border-left: none;
     border-right: none;
