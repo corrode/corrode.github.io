@@ -460,6 +460,8 @@ This can be done in a number of ways:
 
 ## Conclusion
 
+![Conclusion](conclusion.svg)
+
 Maintaining a codebase for a long time is a challenging task in any language,
 but Rust is particularly well-suited for this due to its focus on safety,
 great tooling, and active community.
