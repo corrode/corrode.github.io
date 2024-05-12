@@ -528,28 +528,6 @@ tr:last-child td {
   float: right;
 }
 
-.callout {
-  background-color: $darkBgrd;
-  color: white;
-}
-
-.callout a {
-  color: white;
-  text-decoration-color: rgba($darkPrim, 0.3);
-}
-
-.callout a:hover {
-  text-decoration-color: $brightScnd;
-}
-
-.callout h2 {
-  color: $brightBgrd;
-}
-
-.callout img {
-  filter: invert(1);
-}
-
 @media (max-width: 500px) {
   .toc > summary::after {
     display: none;

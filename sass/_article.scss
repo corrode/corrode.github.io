@@ -159,7 +159,7 @@ article .subheading a {
   font-style: italic;
 }
 
-.callout {
+.newsletter-callout {
   width: 110%;
   margin-left: -5%;
   padding: 3em;
@@ -168,55 +168,54 @@ article .subheading a {
   background-color: $darkBgrd;
 }
 
-.callout h2 {
+.newsletter-callout h2 {
   color: $brightBgrd;
   margin-top: 0;
 }
 
-.callout p {
+.newsletter-callout p {
   color: $darkPrim;
 }
 
-.callout ul {
-  padding: 20px 0px 0px 10px;
+.newsletter-callout ul {
+  padding: 0;
   list-style: none;
   display: flex;
-  gap: 20px;
 }
 
-.callout li {
+.newsletter-callout li {
   display: flex;
   align-items: center;
 }
 
-.callout img {
+.newsletter-callout img {
   display: block;
   margin-right: 5px;
 }
 
-.callout ul a {
+.newsletter-callout ul a {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: inherit;
 }
 
-.callout li:hover {
+.newsletter-callout li:hover {
   color: $brightScnd;
 }
 
-.callout .postscript {
+.newsletter-callout .postscript {
   font-size: 0.9em;
   margin-top: 1em;
 }
 
-.callout form {
+.newsletter-callout form {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
 
-.callout input[type="text"] {
+.newsletter-callout input[type="text"] {
   font-size: 1em;
   padding: 0.8em;
   border: none;
@@ -225,7 +224,7 @@ article .subheading a {
   color: $brightPrim;
 }
 
-.callout input[type="submit"] {
+.newsletter-callout input[type="submit"] {
   font-size: 1em;
   padding: 0.8em;
   border: none;
@@ -291,16 +290,16 @@ article .subheading a {
     max-width: 100%;
   }
 
-  .callout {
+  .newsletter-callout {
     width: 100%;
     margin-left: 0;
   }
 
-  .callout form {
+  .newsletter-callout form {
     flex-direction: column;
   }
 
-  .callout input[type="submit"] {
+  .newsletter-callout input[type="submit"] {
     width: 100%;
   }
 
