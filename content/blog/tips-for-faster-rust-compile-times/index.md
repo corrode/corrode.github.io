@@ -13,14 +13,13 @@ resources = [
  "Improving the build times of a bigger Rust project (lemmy) [by 30%](https://lemmy.ml/post/50089).",
  "[arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler takes to compile common Rust programs."
 ]
+hero = "rust-compile-times.svg"
 +++
-
-<img src="rust-compile-times.svg" alt="Rust Compile Times Hero Image" class="noinvert" />
 
 **Slow Rust Builds?**
 
 Here are some tips to speed up your compile times.
-This list was originally released on my [private blog](https://endler.dev/), but I decided to 
+This list was originally released on my [private blog](https://endler.dev/), but I decided to
 update it for 2024 and move it here.
 
 <h2>Table of Contents</h2>
@@ -29,7 +28,6 @@ update it for 2024 and move it here.
 <summary>
 Click here to expand the table of contents.
 </summary>
-
 
 - [General Tips](#general-tips)
   - [Update The Rust Compiler And Toolchain](#update-the-rust-compiler-and-toolchain)
@@ -102,7 +100,7 @@ want to know if you messed up somewhere. Whenever you can, **skip compilation
 altogether**. What you need instead is laser-fast code linting, type- and
 borrow-checking.
 
-Use `cargo check` instead of `cargo build` whenever possible. 
+Use `cargo check` instead of `cargo build` whenever possible.
 It will only check your code for errors, but not produce an executable binary.
 
 Consider the differences in the number of instructions between `cargo check` on
@@ -160,7 +158,7 @@ cargo install cargo-machete && cargo machete
 ```
 
 Dependencies sometimes become obsolete after refactoring. From time to time
-it helps to check if you can remove any unused dependencies. 
+it helps to check if you can remove any unused dependencies.
 
 This command will list all unused dependencies in your project.
 
@@ -186,8 +184,8 @@ More info on the [cargo-machete project page](https://github.com/bnjbvr/cargo-ma
    compatible version.
 2. Run [`cargo outdated -wR`](https://github.com/kbknapp/cargo-outdated) to find newer, possibly incompatible dependencies.
    Update those and fix code as needed.
-3. Run `cargo tree --duplicate` to find dependencies which come in multiple versions. 
-   Aim to consolidate to a single version by updating dependencies that rely on older versions. 
+3. Run `cargo tree --duplicate` to find dependencies which come in multiple versions.
+   Aim to consolidate to a single version by updating dependencies that rely on older versions.
    (Thanks to /u/dbdr for [pointing this out](https://www.reddit.com/r/rust/comments/hdb5m4/tips_for_faster_rust_compile_times/fvm1r2w/).)
 
 (Instructions by [/u/oherrala on Reddit](https://www.reddit.com/r/rust/comments/gi7v2v/is_it_wrong_of_me_to_think_that_rust_crates_have/fqe848y).)
@@ -213,9 +211,9 @@ attention on improving that one crate to improve parallelism.
 
 The meaning of the colors:
 
-- *Waiting* (red) — Crates waiting for a CPU slot to open.
-- *Inactive* (blue) — Crates that are waiting for their dependencies to finish.
-- *Active* (green) — Crates currently being compiled.
+- _Waiting_ (red) — Crates waiting for a CPU slot to open.
+- _Inactive_ (blue) — Crates that are waiting for their dependencies to finish.
+- _Active_ (green) — Crates currently being compiled.
 
 More info [in the documentation](https://doc.rust-lang.org/cargo/reference/timings.html).
 
@@ -273,11 +271,11 @@ flag that shows you the per-crate build time. Very handy!
 
 Here are a few examples:
 
-| Crate | Alternative |
-| :---- | :---------- |
-| [serde](https://github.com/bnjbvr/cargo-machete) | [miniserde](https://github.com/dtolnay/miniserde), [nanoserde](https://github.com/not-fl3/nanoserde) |
-| [reqwest](https://github.com/seanmonstar/reqwest) | [ureq](https://github.com/algesten/ureq) |
-| [clap](https://github.com/clap-rs/clap) | [lexopt](https://github.com/blyxxyz/lexopt) |
+| Crate                                             | Alternative                                                                                          |
+| :------------------------------------------------ | :--------------------------------------------------------------------------------------------------- |
+| [serde](https://github.com/bnjbvr/cargo-machete)  | [miniserde](https://github.com/dtolnay/miniserde), [nanoserde](https://github.com/not-fl3/nanoserde) |
+| [reqwest](https://github.com/seanmonstar/reqwest) | [ureq](https://github.com/algesten/ureq)                                                             |
+| [clap](https://github.com/clap-rs/clap)           | [lexopt](https://github.com/blyxxyz/lexopt)                                                          |
 
 Here's an example where switching crates reduced compile times [from 2:22min to
 26
@@ -295,7 +293,7 @@ make heavy use of workspaces to reduce compile times.
 
 ### Disable Unused Features Of Crate Dependencies
 
-[`cargo-features-manager`](https://github.com/ToBinio/cargo-features-manager) is a relatively new tool that helps you to disable unused features of your dependencies. 
+[`cargo-features-manager`](https://github.com/ToBinio/cargo-features-manager) is a relatively new tool that helps you to disable unused features of your dependencies.
 
 ```sh
 cargo install cargo-features-manager
@@ -379,7 +377,7 @@ shared build servers.
 Did you know that the Rust project is using an alternative
 compiler that runs in parallel with `rustc` for every CI build?
 
-[rustc_codegen_cranelift](https://github.com/bjorn3/rustc_codegen_cranelift), 
+[rustc_codegen_cranelift](https://github.com/bjorn3/rustc_codegen_cranelift),
 also called `CG_CLIF`, is an experimental backend for the Rust compiler that
 is based on the [Cranelift](https://cranelift.dev/) compiler framework.
 
@@ -398,7 +396,7 @@ project code is [on Github](https://github.com/bjorn3/rustc_codegen_cranelift).
 ### Switch To A Faster Linker
 
 {% info(headline="What is a linker?") %}
-A [linker](<https://en.wikipedia.org/wiki/Linker_(computing)>) is a tool that 
+A [linker](<https://en.wikipedia.org/wiki/Linker_(computing)>) is a tool that
 combines multiple object files into a single executable.  
 It's the last step in the compilation process.
 {% end %}
@@ -429,11 +427,11 @@ time:   3.836   total
 
 If the `link` step is slow, you can try to switch to a faster alternative:
 
-| Linker | Platform      | Production Ready  | Description                                 |
-| :----- | :------------ | :---------------- | :-------------------------------------------|
-| [`lld`]  | Linux/macOS | Yes               | Drop-in replacement for system linkers      |
-| [`mold`] | Linux       | [Yes]             | Optimized for Linux                         |
-| [`zld`]  | macOS       | No (deprecated)   | Drop-in replacement for Apple's `ld` linker |
+| Linker   | Platform    | Production Ready | Description                                 |
+| :------- | :---------- | :--------------- | :------------------------------------------ |
+| [`lld`]  | Linux/macOS | Yes              | Drop-in replacement for system linkers      |
+| [`mold`] | Linux       | [Yes]            | Optimized for Linux                         |
+| [`zld`]  | macOS       | No (deprecated)  | Drop-in replacement for Apple's `ld` linker |
 
 [`lld`]: https://lld.llvm.org/
 [`mold`]: https://github.com/rui314/mold
@@ -520,11 +518,11 @@ features.
 Use the `cfg` or `cfg_attr` attributes to make Serde usage and `derive` in the
 shared crate feature-gated. This way, it becomes an optional dependency that is
 only enabled in leaf crates which actually perform
-serialization/deserialization. 
+serialization/deserialization.
 
 This approach prevents the entire project from waiting on the compilation of
 Serde dependencies, which would be the case if Serde were a non-optional, direct
-dependency of the shared crate. 
+dependency of the shared crate.
 
 Let's illustrate this with a simplified example. Imagine you have a Rust project
 with a shared library crate and a few other crates that depend on it. You don't
@@ -607,7 +605,7 @@ is used in multiple crates, but with different feature sets?
 This can lead to long build times, as Cargo will build the dependency multiple
 times with different features depending on the crate that gets built. This is
 where [`cargo-hakari`](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html) comes in.
-It is a tool designed to automatically manage "workspace-hack" crates. 
+It is a tool designed to automatically manage "workspace-hack" crates.
 
 In some scenarios, this can reduce consecutive build times by up to 50% or more.
 To learn more, take a look at the usage instructions and benchmarks on the [official cargo-hakari documentation](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html).
@@ -623,7 +621,7 @@ cargo add-dynamic polars --features csv-file,lazy,list,describe,rows,fmt,strings
 ```
 
 This will create a wrapper-crate around `polars` that is compiled as a dynamic
-library (`.so` on Linux, `.dylib` on macOS, `.dll` on Windows). 
+library (`.so` on Linux, `.dylib` on macOS, `.dll` on Windows).
 
 Essentially, it patches the dependency with
 
@@ -632,7 +630,7 @@ Essentially, it patches the dependency with
 crate-type = ["dylib"]
 ```
 
-With this trick, you can save yourself the linking time of a dependency 
+With this trick, you can save yourself the linking time of a dependency
 when you only change your own code. The dependency itself will only be
 recompiled when you change the features or the version.
 Of course, this works for any crate, not just `polars`.
@@ -724,8 +722,8 @@ can be up to 60% faster than `cargo test` thanks to its parallel execution
 model.
 Here are some quick [benchmarks](https://nexte.st/book/benchmarks.html):
 
-| Project     | Revision     | Test count | cargo test (s) | nextest (s) | Improvement |
-| ----------- | ------------ | ---------: | -------------: | ----------: | ----------: |
+| Project     | Revision   | Test count | cargo test (s) | nextest (s) | Improvement |
+| ----------- | ---------- | ---------: | -------------: | ----------: | ----------: |
 | crucible    | `cb228c2b` |        483 |           5.14 |        1.52 |       3.38× |
 | guppy       | `2cc51b41` |        271 |           6.42 |        2.80 |       2.29× |
 | mdBook      | `0079184c` |        199 |           3.85 |        1.66 |       2.31× |
@@ -814,7 +812,6 @@ This makes it easier to find out how much time is spent on compilation and how
 much on running the tests.
 
 ### Disable Incremental Compilation In CI
-
 
 ```yaml
 env:
@@ -957,7 +954,7 @@ a simple Rust example with optimized caching and compilation steps.
 
 In this article, we've covered a lot of ground. We've looked at how to speed up
 your Rust builds by using better hardware, optimizing your code, and using
-better tools. 
+better tools.
 
 I hope that you were able to use some of these tips to speed up your Rust builds.
 In case you found other ways to speed up your Rust builds, or if you have any
