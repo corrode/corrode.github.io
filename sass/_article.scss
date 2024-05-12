@@ -42,8 +42,12 @@ article img {
 }
 
 .article-heading {
-  margin: 2em auto 0;
+  margin: 8em auto 0;
   max-width: 800px;
+}
+
+.article-heading h1 {
+  font-size: 4em;
 }
 
 article h2 code:not(pre > code) {
