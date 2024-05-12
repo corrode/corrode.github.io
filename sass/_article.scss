@@ -366,3 +366,18 @@ article a code:not(pre > code) {
     opacity: 1;
   }
 }
+
+@media (max-width: 800px) {
+  .article-heading {
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+
+  .article-heading h1 {
+    font-size: 3em;
+  }
+
+  .article-content-wrapper {
+    padding-top: 3em;
+  }
+}
