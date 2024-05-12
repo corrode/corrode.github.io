@@ -1,12 +1,12 @@
 +++
 title = "Long-term Rust Project Maintenance"
-date = 2024-04-30
+date = 2024-05-13
 template = "article.html"
 [extra]
-series = "Rust Ecosystem"
+series = "Insights"
+hero = "rust-compile-times.svg"
+credits = [ "<a href='https://freepik.com/search?format=search&last_filter=selection&last_value=1&query=scale+&selection=1&type=vector'>Scale image by freepik</a>" ]
 +++
-
-<img src="rust-compile-times.svg" alt="Rust Compile Times Hero Image" class="noinvert" />
 
 Rust has reached a level of maturity where it is being used for critical
 infrastructure, replacing legacy systems written in C or C++.
@@ -30,13 +30,13 @@ experience helping clients with medium- to large Rust projects. While a lot of t
 Click here to expand the table of contents.
 </summary>
 
-- [Team Dynamics](#team-dynamics)
-- [Project Longevity](#project-longevity)
+- [Your Team Needs to be On Board](#your-team-needs-to-be-on-board)
+- [Building for Rust Stability and Longevity](#building-for-rust-stability-and-longevity)
   - [Prefer Stable Rust Over Nightly](#prefer-stable-rust-over-nightly)
   - [Editions](#editions)
-  - [Conservative use of Rust language features](#conservative-use-of-rust-language-features)
-  - [Conservative use of Async Code](#conservative-use-of-async-code)
-- [Dependencies](#dependencies)
+  - [Use Rust Language Features Conservatively](#use-rust-language-features-conservatively)
+  - [Be Conservative About Async Rust](#be-conservative-about-async-rust)
+- [Managing Dependencies](#managing-dependencies)
   - [Dependencies are a Liability](#dependencies-are-a-liability)
   - [Limit The Number Of Dependencies](#limit-the-number-of-dependencies)
   - [How To Choose Dependencies](#how-to-choose-dependencies)
@@ -44,11 +44,12 @@ Click here to expand the table of contents.
   - [Stick to `std` Where Possible](#stick-to-std-where-possible)
   - [Use Stable Dependencies](#use-stable-dependencies)
   - [Disable Unnecessary Features](#disable-unnecessary-features)
-- [API design](#api-design)
-- [Software Architecture](#software-architecture)
-- [Testing](#testing)
-- [Documentation](#documentation)
-- [About Unsafe Code](#about-unsafe-code)
+- [Building Solid Foundations](#building-solid-foundations)
+  - [Software Architecture](#software-architecture)
+  - [API design](#api-design)
+  - [Testing](#testing)
+  - [Documentation](#documentation)
+  - [About Unsafe Code](#about-unsafe-code)
 - [Tooling and Infrastructure](#tooling-and-infrastructure)
   - [Use Boring Technology](#use-boring-technology)
   - [Use Linters and Formatters](#use-linters-and-formatters)
@@ -60,10 +61,11 @@ Click here to expand the table of contents.
 
 </details>
 
-## Team Dynamics
+## Your Team Needs to be On Board
 
-First, make sure that your team is on board with the decision to use Rust and that they
-have the necessary skills to work with the language.
+First, make sure that your team buys into the [decision to use
+Rust](/blog/why-rust) and that they have the necessary skills to work with the
+language.
 
 Introducing Rust is often a disruptive change
 and requires a long-term mindset. [It is important to have the backing of both the
@@ -76,7 +78,9 @@ a new environment, and Rust is well-known for its steep learning curve.
 Investing in Rust training and team-augmentation is a good way to accelerate
 this process. While it means higher upfront costs, it will pay off in the long run, because the team will feel confident in their ability to maintain the codebase.
 
-## Project Longevity
+![Rust Maintenance](scale.svg)
+
+## Building for Rust Stability and Longevity
 
 ### Prefer Stable Rust Over Nightly
 
@@ -117,7 +121,7 @@ That said, try to keep your codebase up-to-date with the latest edition, as it
 will make it easier to benefit from new features and improvements in the
 language.
 
-### Conservative use of Rust language features
+### Use Rust Language Features Conservatively
 
 Rust comes with a wealth of powerful features, such as macros, traits,
 generics, and lifetimes. While these features can make code more expressive and
@@ -148,7 +152,7 @@ I discussed these and other antipatterns in my talk [The Four Horsemen of Bad
 Rust
 Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/).
 
-### Conservative use of Async Code
+### Be Conservative About Async Rust
 
 There is one point in particular that is worth calling out in the context of
 long-term maintenance in Rust: **keep your core business logic synchronous**.
@@ -162,7 +166,7 @@ Especially in core libraries, it's important to be conservative about exposing a
 To learn more about the tradeoffs of the async Rust ecosystem, I recommend reading
 [The State of Async Rust](/blog/async/).
 
-## Dependencies
+## Managing Dependencies
 
 ### Dependencies are a Liability
 
@@ -292,7 +296,27 @@ You can find the available features in the crate's `Cargo.toml` file or on the
 crate's documentation page.
 For example, [here are the `tokio` features](https://docs.rs/crate/tokio/latest/features).
 
-## API design
+## Building Solid Foundations
+
+### Software Architecture
+
+Conversely, maintaining a codebase for a long time doesn't mean you should not touch it; quite the opposite: it requires constant effort and work.
+
+Some of the most robust codebases in the world are continuously getting refactored.
+
+Here are some principles for durable software design:
+
+- Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html)
+- [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters').
+- Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html)
+- Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334)
+- Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
+- Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time ](https://cliffle.com/blog/rust-typestate/).
+- Avoid premature optimization and over-engineering.
+- Learn about [idiomatic Rust](/idiomatic-rust) and follow the best practices of the Rust community.
+
+
+### API design
 
 Software that gets maintained for a long time is often critical and heavily used
 by other software. Changing an API can break downstream users and cause churn.
@@ -323,24 +347,7 @@ For more information, the Rust team has published a [Rust API Guidelines
 Checklist](https://rust-lang.github.io/api-guidelines/checklist.html), which is
 well worth a read.
 
-## Software Architecture
-
-Conversely, maintaining a codebase for a long time doesn't mean you should not touch it; quite the opposite: it requires constant effort and work.
-
-Some of the most robust codebases in the world are continuously getting refactored.
-
-Here are some principles for durable software design:
-
-- Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html)
-- [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters').
-- Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html)
-- Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334)
-- Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
-- Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time ](https://cliffle.com/blog/rust-typestate/).
-- Avoid premature optimization and over-engineering.
-- Learn about [idiomatic Rust](https://idiomatic.rs) and follow the best practices of the Rust community.
-
-## Testing
+### Testing
 
 Tests are a form of documentation that gets verified automatically.
 If you have a hard time writing tests, it might be a sign that your code is too
@@ -348,13 +355,14 @@ complex and needs refactoring. If you can't explain what a struct or function
 does, it might do too much. Split it up into smaller parts and test those
 individually.
 
-Make sure that the tests are easy to run without any manual setup and that they
+Make sure that the tests are easy to run without any manual setup (ideally,
+running `cargo test` should be enough), and that they
 run quickly. If tests are slow, they won't be run as often, and you'll lose the
 benefits of having them.
 Integrate your tests into a continuous integration system like GitHub Actions or
 GitLab CI to ensure that they are run automatically on every commit.
 
-## Documentation
+### Documentation
 
 Rust has great support for documentation.
 You can write documentation as Markdown comments right next to your code, and
@@ -372,14 +380,20 @@ Here are some tips for writing good documentation:
 Some tooling can help you with this:
 
 - Enforce documentation for public functions and types with clippy's `#![deny(missing_docs)]` lint.
-- Run `cargo doc --open` from time to time to see how your documentation looks
+- Run `cargo doc --open` from time to time to see how your documentation looks like
   and fill in the gaps.
 - Add doctests to your documentation. This way, you can ensure that the examples
   in your documentation are correct and up-to-date.
 - [Add mermaid diagrams to your documentation](https://frehberg.com/2022/12/docs-as-code-mermaid-inline-diagrams/) to visualize complex concepts.
 - Use [doc-comment](https://github.com/GuillaumeGomez/doc-comment) to check that your documentation examples compile and run correctly.
 
-## About Unsafe Code
+As an example, here is the documentation for the [Rocket web framework](https://api.rocket.rs/v0.5/rocket/), which is generated from the code comments:
+
+[![Rocket Documentation](rocket-docs.png)](https://docs.rs/rocket/latest/rocket/)
+
+Here is a [guide on how to write good documentation](https://blog.guillaume-gomez.fr/articles/2020-03-12+Guide+on+how+to+write+documentation+for+a+Rust+crate).
+
+### About Unsafe Code
 
 Unsafe code relies on the user to ensure its correctness and adherence to
 current and future rules. Due to the inherent complexity, errors in unsafe
@@ -390,6 +404,8 @@ code are typically difficult to detect through unit tests or compiler checks.
   better algorithms or data structures first. Rust's performance is often
   competitive with C and C++ without resorting to unsafe code.
 - Use [cargo-geiger](https://github.com/geiger-rs/cargo-geiger) to check for unsafe code.
+
+![cargo-geiger](cargo-geiger.png)
 
 ## Tooling and Infrastructure
 
@@ -422,7 +438,10 @@ in a working state. The worst time to find out that something is broken is when
 you're trying to release a new version.
 
 Look into [release-plz](https://github.com/MarcoIeni/release-plz) for release
-automation.
+automation. It creates a pull request for a new release, which you can review
+and merge when you're ready.
+
+![release-plz](release-plz.png)
 
 If you are afraid of triggering a release, automate away the manual work and improve your test suite.
 
@@ -434,9 +453,9 @@ interest to invest in it. Being an active member of the Rust community will ensu
 This can be done in a number of ways:
 
 - Report bugs and contribute code to the crates you use.
-- Sponsor crates that you depend on.
+- [Sponsor crates that you depend on](https://github.com/sponsors/explore?account=mre&ecosystems=RUST&sort_by=MOST_USED).
 - Give talks and write blog posts about your experiences with Rust.
-- Support the Rust Foundation and core team members.
+- Support the [Rust Foundation](https://foundation.rust-lang.org/) and core team members.
 - Encourage your team to contribute to the Rust ecosystem.
 
 ## Conclusion
