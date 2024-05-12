@@ -12,8 +12,7 @@
     Editor:
     <a href="https://mastodon.social/@m3t0r@hachyderm.io" target="_blank" rel="noopener" rel="noreferrer" >Simon Brüggen</a >
   </i>
-  </i>
-    {% if page.extra.reviews %}
+  {% if page.extra.reviews %}
     <br />
     <i>Reviewers:
       {% for review in page.extra.reviews %} {%- if loop.last == false %}<a
@@ -29,4 +28,12 @@
     >{% endif %} {%- endfor %}
     </i> 
     {% endif %}
+  {% if page.extra.credits %}
+    <br />
+    <i>Credits:
+      {% for credit in page.extra.credits %}
+        {{ credit | safe }}
+      {%- endfor %}
+    </i> 
+  {% endif %}
 </p>
