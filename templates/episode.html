@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<article>
+<article class="section-wrapper">
   <h2 class="subheading"><a href="/podcast">Podcast</a></h2>
   <h1>
     {{ page.title }}{% if page.extra.guest %} - {{page.extra.guest}},
@@ -12,8 +12,7 @@
     </div>
     <ul>
       <li>
-        <a
-          href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+        <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
           ><img
             class="invert"
             src="/podcast/rss.svg"
