@@ -538,6 +538,10 @@ tr:last-child td {
   text-decoration-color: rgba($darkPrim, 0.3);
 }
 
+.callout a:hover {
+  text-decoration-color: $brightScnd;
+}
+
 .callout h2 {
   color: $brightBgrd;
 }
