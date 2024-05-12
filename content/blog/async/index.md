@@ -4,7 +4,7 @@ date = 2024-02-21
 draft = false
 template = "article.html"
 [extra]
-series = "Rust Ecosystem"
+series = "Insights"
 updated = "2024-04-27"
 revisions = """
 In an earlier version of this article, I discussed async web frameworks.
