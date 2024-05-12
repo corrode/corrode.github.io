@@ -1,10 +1,16 @@
 +++
 title = "Why Rust in Production?"
-template = "page.html"
+template = "article.html"
 sort_by = "date"
+date = 2023-08-01
+draft = false
+aliases = ["why-rust"]
+[extra]
+updated = 2024-04-03
+series = "Insights"
+hero = "hero.svg"
+credits = [ "Title image adapted from <a href='https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais' target='_blank' rel='noopener noreferrer'>vectorpouch</a> on Freepik." ]
 +++
-
-<img src="/why-rust/hero.svg" alt="Why Rust?">
 
 Interest in Rust has surged in recent years, with tech leaders such as
 Microsoft, Google, and Amazon coming forward to share their experiences of
@@ -116,7 +122,7 @@ Below is the relative cost of fixing bugs at various stages of the development l
 Bugs found in production are significantly more expensive to fix than bugs found
 during development. (Source: NIST [Costs of Software Defects](https://www.nist.gov/system/files/documents/director/planning/report02-3.pdf))
 
-<img src="/why-rust/bug-costs.svg" class="invert" alt="Cost of fixing bugs over time">
+<img src="bug-costs.svg" class="invert" alt="Cost of fixing bugs over time">
 
 In a survey, [Microsoft found that 70% of their bugs are due to memory safety
 issues](https://msrc.microsoft.com/blog/2019/07/a-proactive-approach-to-more-secure-code/).
@@ -151,7 +157,7 @@ languages. The results were overwhelmingly positive:
 **85% of respondents were more confident in their team's Rust code in comparison
 to other languages.**
 
-<img src="/why-rust/rust_code_confidence.svg" class="invert" alt="Google Survey: confidence in Rust code is very high compared to other languages">
+<img src="rust_code_confidence.svg" class="invert" alt="Google Survey: confidence in Rust code is very high compared to other languages">
 
 ### Maintainability
 
@@ -206,7 +212,7 @@ Notice how the latency spikes in the Go version (purple) are gone in the Rust
 version (blue) and how that impacts the 95th percentile response time, making it
 much more predictable and smooth.
 
-<img src="/why-rust/discord.png" alt="Discord Go (purple) vs Rust (blue)">
+<img src="discord.png" alt="Discord Go (purple) vs Rust (blue)">
 
 Another example is
 [Cloudflare](https://blog.cloudflare.com/big-pineapple-intro/),
@@ -225,7 +231,7 @@ language under test. As the requests per second increase, the latency for Rust
 stays low and stable. Go and Java on the other hand have a higher baseline
 latency while Python shows latency spikes at a certain point.
 
-<img src="/why-rust/runtime.png" alt="Rust Runtime behavior">
+<img src="runtime.png" alt="Rust Runtime behavior">
 
 The author concludes:
 
@@ -258,7 +264,7 @@ up to 50%.
 ([Image source](https://shahbhargav.medium.com/firecracker-secure-and-fast-microvms-628e6043b572) and
 [AWS announcement](https://aws.amazon.com/blogs/compute/aws-fargate-price-reduction-up-to-50/))
 
-<img src="/why-rust/fargate.png" alt="Firecracker" />
+<img src="fargate.png" alt="Firecracker" />
 
 
 ### Ergonomics
@@ -285,7 +291,7 @@ load on developers and catch bugs at compile-time instead of runtime.
 Rust's static analysis [shifts the quality assurance of code to the
 left](https://en.wikipedia.org/wiki/Shift-left_testing):
 
-<img src="/why-rust/robustness.svg" class="invert" alt="Bug detection over time">
+<img src="robustness.svg" class="invert" alt="Bug detection over time">
 
 > Rust has been a force multiplier for our team, and betting on Rust was one of
 > the best decisions we made. More than performance, its ergonomics and focus on
@@ -379,7 +385,7 @@ and faster than Go by a factor of 2-3x as well as Python by a factor of 70x.
 This translates to lower energy consumption as well. 
 Energy is another important cost factor for companies at scale.
 
-<img src="/why-rust/energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
+<img src="energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
 
 ###  Gradual Adoption and FFI
 
@@ -469,7 +475,7 @@ the previous section about developer happiness.)
 > about memory safety and security. - [State of the Developer Nation 24th Edition - Q1 2023 report](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023)
 
 <a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
-<img src="/why-rust/communities.svg" class="invert" alt="Programming Language Communities Size">
+<img src="communities.svg" class="invert" alt="Programming Language Communities Size">
 </a>
 
 ### Tooling
@@ -495,14 +501,14 @@ advanced features.
 When asked why they don't use Rust, participants of the [2022 Annual Rust Survey](https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html#rust-usage)
 mentioned the learning curve as the main reason:
 
-<img src="/why-rust/why-not-rust.svg" class="invert" alt="Why not Rust?">
+<img src="why-not-rust.svg" class="invert" alt="Why not Rust?">
 
 In the [Rust 2020
 survey](https://blog.rust-lang.org/2020/12/16/rust-survey-2020.html#improved-learnability),
 participants were asked to rate the difficulty of various Rust concepts. Here
 are the results:
 
-<img src="/why-rust/topic-difficulty-ratings.svg" class="invert" alt="Difficulty by topic">
+<img src="topic-difficulty-ratings.svg" class="invert" alt="Difficulty by topic">
 
 Lifetime annotations, ownership, and borrowing were mentioned as the most
 difficult topics to grasp. In real-world applications, lifetimes
@@ -568,7 +574,7 @@ faster over time. For example, the Rust compiler is twice as fast than it was in
 2018 for `cargo check` (which is the most common command to quickly check
 for errors):
 
-<img src="/why-rust/compile-times.svg" class="invert" alt="Rust Compile Times Over Time">
+<img src="compile-times.svg" class="invert" alt="Rust Compile Times Over Time">
 
 Very recently, the Rust compiler frontend also gained support for [parallel
 compilation](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html), which
@@ -636,11 +642,3 @@ from adopting Rust in production by companies that shape the future of infrastru
 
 * [Listen to the Rust in Production Podcast](/podcast)
 * [Reach Out for Rust Training and Consulting](/about/)
-
----
-
-<small>
-Last updated: 3rd of April 2024.
-Title image adapted from
-<a href="https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais" target="_blank" rel="noopener noreferrer">vectorpouch</a> on Freepik.
-</small>

@@ -134,19 +134,13 @@
                         </a>
                     </li>
                     <li>
-                        <a {% if current_path and current_path is containing("/why-rust") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
-                            href="{{ config.base_url ~ '/why-rust' }}">
-                            <span>Why Rust?</span>
-                        </a>
-                    </li>
-                    <li>
                         <a {% if current_path and current_path is containing("/podcast") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
                             href="{{ config.base_url ~ '/podcast' }}">
                             <span>Podcast</span>
                         </a>
                     </li>
                     <li>
-                        <a {% if current_path and current_path is containing("/blog") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
+                        <a {% if current_path and current_path is starting_with("/blog") %}class="nav-item active" {% else %}class="nav-item" {% endif %}
                             href="{{ config.base_url ~ '/blog' }}">
                             <span>Blog</span>
                         </a>
