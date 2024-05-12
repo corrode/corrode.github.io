@@ -1,10 +1,8 @@
-{% extends "base.html" %}
-
-{% block content %}
-  <article>
-    {% if section.title %}
-      <h1>{{ section.title }}</h1>
-    {% endif %}
-    <div>{{ section.content | safe }}</div>
-  </article>
+{% extends "base.html" %} {% block content %}
+<article class="section-wrapper">
+  {% if section.title %}
+  <h1>{{ section.title }}</h1>
+  {% endif %}
+  <div>{{ section.content | safe }}</div>
+</article>
 {% endblock content %}
