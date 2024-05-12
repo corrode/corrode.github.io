@@ -96,6 +96,14 @@ article .subheading a {
 }
 
 @media (max-width: 800px) {
+  .article-heading {
+    padding: 0 1em;
+  }
+
+  .article-content {
+    padding: 0 1em;
+  }
+
   .info {
     width: 100vw;
     margin-left: calc(-1 * (100vw - 100%) / 2);
