@@ -30,7 +30,7 @@ m_bands = [band for band in bands if band.startswith("M")]
 # A list comprehension to uppercase the bands
 uppercased = [band.upper() for band in m_bands]
 
-# This gives us ["METALLICA", "MEGADETH"] 
+# We get ["METALLICA", "MEGADETH"] 
 ```
 
 List comprehensions are a concise way to create lists from other lists,
@@ -54,7 +54,7 @@ Their elegance is hard to beat. For a long time, I wished Rust had something
 similar. It was one of the few things I *profoundly* missed from Python &mdash;
 until I learned more about the philosophy behind Rust's iterator patterns.
 
-This is what this post is about.
+This journey is what this post is about.
 
 ## Enter Rust's Iterators
 
@@ -97,7 +97,7 @@ let uppercased: Vec<_> = bands
     .collect();
 ```
 
-This would be quite tricky to do with list comprehensions in Python.
+Achieving the same effect with list comprehensions in Python is quite tricky.
 
 I often find myself chaining iterator operations in Rust. And honestly? It's
 pretty intuitive. Over time, I've even grown fond of its explicitness. (Or, you know,
@@ -139,7 +139,7 @@ let tolkien_books: Vec<_> = books
     .collect();
 
 // Alternatively, collect into a set
-// This works because `collect` can collect into any type that implements
+// It works because `collect` can collect into any type that implements
 // `FromIterator` and `HashSet` does
 let tolkien_books: HashSet<_> = books
     .iter()
@@ -161,7 +161,7 @@ let first_letters: HashMap<char, usize> = bands
     .fold(HashMap::new(), |mut acc, c| {
         // Use the entry API to insert a new key or increment the value
         // https://doc.rust-lang.org/std/collections/hash_map/enum.Entry.html
-        // This gets the entry for the character `c` and inserts 0 if it
+        // Gets the entry for the character `c` and inserts 0 if it
         // doesn't exist
         *acc.entry(c).or_insert(0) += 1;
         acc
@@ -173,7 +173,7 @@ for (letter, count) in &first_letters {
 }
 ```
 
-This gives us:
+Which gives us:
 
 ```text
 M: 2
@@ -188,9 +188,9 @@ use the builtin `Counter` for this:
 ```python
 from collections import Counter
 
-first_letters = Counter([band[0] for band in bands])
-# Note that we didn't handle the case where a band 
-# doesn't have a first letter
+# Note that we handle the case where a band 
+# is an empty string with the `if len(band)` condition
+first_letters = Counter([band[0] for band in bands if len(band)])
 ```
 
 However, you'd have to refactor your list comprehension to use the `Counter` API.
@@ -213,7 +213,7 @@ let first_letters: Counter<char, usize> = bands
 Note that we still use the same patterns that we used before and we didn't have
 to refactor our code. We just changed the type we collect into!
 
-This deep integration into the the iterator API would much harder,
+Such a deep integration into the the iterator API would much harder,
 impossible even, in Python.
 
 In Rust you get the best of both worlds: the flexibility of the ecosystem
