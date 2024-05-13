@@ -200,3 +200,32 @@
     padding: 30px;
   }
 }
+
+.brands {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.brands h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.brand-logos {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+.brand-logos img {
+  filter: brightness(0);
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.brand-logos a:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
