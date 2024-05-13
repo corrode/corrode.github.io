@@ -50,6 +50,15 @@ article img {
   font-size: 4em;
 }
 
+.article-hero img {
+  width: 100%;
+  height: auto;
+  max-height: 650px;
+  /* Crop image to fit the container */
+  object-fit: cover; 
+}
+
+
 article h2 code:not(pre > code) {
   font-size: 0.7em;
   vertical-align: middle;

@@ -6,7 +6,11 @@
 
     {% if page.extra.hero %}
     <div class="article-hero">
-      <img src="{{ page.extra.hero }}" alt="{{ page.title }}" />
+      <img
+        {% if page.extra.hero_classes %} 
+        class="{{ page.extra.hero_classes }}"
+        {% endif %}
+        src="{{ page.extra.hero }}" alt="{{ page.title }}" />
     </div>
     {% endif %}
   </div>
