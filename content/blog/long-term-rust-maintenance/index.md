@@ -5,7 +5,7 @@ template = "article.html"
 [extra]
 series = "Insights"
 hero = "maintenance.svg"
-credits = [ "<a href='https://freepik.com/search?format=search&last_filter=selection&last_value=1&query=scale+&selection=1&type=vector'>Scale image by freepik</a>" ]
+credits = [ "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" ]
 +++
 
 Rust has reached a level of maturity where it is being used for critical
