@@ -7,7 +7,7 @@ draft = false
 aliases = ["why-rust"]
 [extra]
 updated = 2024-04-03
-series = "Insights"
+series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "Title image adapted from <a href='https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais' target='_blank' rel='noopener noreferrer'>vectorpouch</a> on Freepik." ]
 +++

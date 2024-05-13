@@ -3,7 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-series = "Insights"
+series = "Rust Insights"
 hero = "maintenance.svg"
 credits = [ "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" ]
 +++

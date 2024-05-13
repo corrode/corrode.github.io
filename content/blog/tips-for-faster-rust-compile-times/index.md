@@ -5,7 +5,7 @@ draft = false
 template = "article.html"
 [extra]
 updated = 2024-03-24
-series = "Insights"
+series = "Rust Insights"
 resources = [
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
  "List of [articles on performance on Read Rust](https://readrust.net/performance).",
