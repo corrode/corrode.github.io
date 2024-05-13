@@ -56,8 +56,6 @@ Their elegance is hard to beat. For a long time, I wished Rust had something
 similar. It was one of the few things I *profoundly* missed from Python &mdash;
 until I learned more about the philosophy behind Rust's iterator patterns.
 
-This journey is what this post is about.
-
 ## Enter Rust's Iterators
 
 Rust has a notion of *chainable operations* on iterators, forming a pipeline where
