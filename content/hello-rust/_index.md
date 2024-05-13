@@ -1,4 +1,5 @@
 +++
+title = "Hello Rust! YouTube Channel"
 template = "page.html"
 +++
 
