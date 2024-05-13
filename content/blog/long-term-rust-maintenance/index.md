@@ -4,7 +4,7 @@ date = 2024-05-13
 template = "article.html"
 [extra]
 series = "Insights"
-hero = "rust-compile-times.svg"
+hero = "maintenance.svg"
 credits = [ "<a href='https://freepik.com/search?format=search&last_filter=selection&last_value=1&query=scale+&selection=1&type=vector'>Scale image by freepik</a>" ]
 +++
 
