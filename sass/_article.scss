@@ -257,10 +257,6 @@ article .subheading a {
   transform: scale(1.2);
 }
 
-.editor-credits a {
-  text-decoration: none;
-}
-
 @media (max-width: 750px) {
   article pre {
     width: 100%;
@@ -319,6 +315,10 @@ article a code:not(pre > code) {
   max-width: 800px;
   margin: 0px auto;
   padding: 1em;
+}
+
+.editor-credits {
+  font-size: 0.8em;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,20 +1,15 @@
 <p>
-  <i>Published: {{ page.date }}{%- if page.extra.updated -%}. Last revision: {{ page.extra.updated }}
+  Published: {{ page.date }}{%- if page.extra.updated -%}. Last revision: {{ page.extra.updated }}
     {% endif %}
-  </i>
   <br />
-  <i>
     Author:
     <a href="/about"> Matthias Endler </a>
-  </i>
   <br />
-  <i>
     Editor:
-    <a href="https://hachyderm.io/@m3t0r" target="_blank" rel="noopener" rel="noreferrer" >Simon Brüggen</a >
-  </i>
+    <a href="https://hachyderm.io/@m3t0r" target="_blank" rel="noopener" rel="noreferrer">Simon Brüggen</a >
   {% if page.extra.reviews %}
     <br />
-    <i>Reviewers:
+    Reviewers:
       {% for review in page.extra.reviews %} {%- if loop.last == false %}<a
       href="{{ review.url }}"
       target="_blank"
@@ -26,14 +21,12 @@
     <a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
       >{{ review.name }}</a
     >{% endif %} {%- endfor %}
-    </i> 
     {% endif %}
   {% if page.extra.credits %}
     <br />
-    <i>Credits:
+    Credits:
       {% for credit in page.extra.credits %}
         {{ credit | safe }}
       {%- endfor %}
-    </i> 
   {% endif %}
 </p>
