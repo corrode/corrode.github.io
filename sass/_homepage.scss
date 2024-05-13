@@ -85,11 +85,12 @@
 }
 
 .testimonial-carousel {
-  height: 450px;
+  height: 500px;
   margin: 0 auto;
   max-width: 1000px;
   position: relative;
   overflow-x: hidden;
+  scrollbar-width: none;
 }
 
 .testimonial {
