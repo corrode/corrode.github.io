@@ -21,6 +21,12 @@ process_post() {
     # Extract the title from the frontmatter
     title=$(awk -F '= ' '/title/ {gsub(/"/, "", $2); print $2}' "$post")
 
+    # Check if the title is empty
+    if [[ -z "$title" ]]; then
+        echo "Title not found in $post. Skipping."
+        return
+    fi
+
     # Generate the output file path
     output_path="static/social/rendered/${post_filename}.png"
     
