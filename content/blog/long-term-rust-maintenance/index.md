@@ -185,31 +185,25 @@ As a consequence, every dependency should be seen as a liability.
 
 ### Limit The Number Of Dependencies
 
-Rust has a relatively small standard library. This is in part to avoid a
-situation similar to Python's extensive standard library, where parts of it are
-discouraged from being used:
+Rust’s standard library is intentionally small to avoid issues like those in
+Python’s extensive standard library, where certain parts are discouraged from
+use:
 
 > Python’s standard library is piling up with cruft, unnecessary duplication of
 > functionality, and dispensable features. &mdash; [PEP 594](https://peps.python.org/pep-0594/)
 
-In contrast, Rust has a minimal standard library by design, promoting the use of
-small, single-purpose crates through its package manager, Cargo. This approach
-encourages a modular development style, reducing the complexity and maintenance
-burden of the core language library.
+Rust encourages using small, focused packages called crates, promoting modular development and simplifying the core library's
+maintenance. However, over-reliance on many third-party packages can create
+maintenance challenges. **Keep the number of dependencies low**.
 
-While it's tempting to use many third-party crates to speed up development, it's
-important to **keep the number of dependencies to a minimum** for better
-long-term maintenance. It will limit your exposure to breaking changes and
-security vulnerabilities.
+Each dependency increases:
 
-Moreover, each dependency has a compounding effect:
-
-- Longer compile times
-- Longer test times
+- Compile times
+- Test times
 - Complexity in build scripts and CI
-- More documentation to read and understand
-- Bigger attack surface
-- etc.
+- Documentation to read
+- Attack surface
+- Etc.
 
 ### How To Choose Dependencies
 
