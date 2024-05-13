@@ -4,6 +4,8 @@ date = 2024-05-13
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+hero = "hero.svg"
+hero_classes = "invert"
 reviews = []
 resources = [
     "[Rust Iterator Reference](https://doc.rust-lang.org/std/iter/trait.Iterator.html)",
@@ -49,7 +51,7 @@ tolkien_books = [
 # tolkien_books = ["The Lord of the Rings", "The Hobbit"]
 ```
 
-As a Pythonista, list comprehensions become second nature to me.
+As a Pythonista, list comprehensions became second nature to me.
 Their elegance is hard to beat. For a long time, I wished Rust had something
 similar. It was one of the few things I *profoundly* missed from Python &mdash;
 until I learned more about the philosophy behind Rust's iterator patterns.
@@ -107,7 +109,7 @@ What I like the most is the flexibility of this pattern. Let me show you!
 
 ## Collecting into different types
 
-In Python, you can collect into different types like [`set`](https://docs.python.org/3/tutorial/datastructures.html#sets):
+In Python, you can collect into different types like a [`set`](https://docs.python.org/3/tutorial/datastructures.html#sets):
 
 ```python
 tolkien_books = {
@@ -118,8 +120,10 @@ tolkien_books = {
 # tolkien_books = {"The Lord of the Rings", "The Hobbit"}
 ```
 
-To collect into different types in Rust, just specify the type you want to
-collect into.
+Note that the notation is different from a list comprehension. Instead of square
+brackets, we use curly braces now.
+In contrast, to collect into different types in Rust, just specify the *type* you want to
+collect into; the rest stays the same.
 
 ```rust
 let books = HashMap::from_iter(vec![
@@ -199,8 +203,6 @@ Rust also has a `Counter` implementation but it lives outside the standard
 library in the [counter](https://crates.io/crates/counter) crate.
 Nevertheless, it will feel like a natural extension of the standard library.
 
-This flexibility is in part made possible by the trait system.
-
 ```rust
 use counter::Counter;
 
@@ -210,8 +212,8 @@ let first_letters: Counter<char, usize> = bands
     .collect();
 ```
 
-Note that we still use the same patterns that we used before and we didn't have
-to refactor our code. We just changed the type we collect into!
+We still use the same patterns that we used before and we didn't have
+to refactor our code. Again, we just changed the type we collect into!
 
 Such a deep integration into the the iterator API would much harder,
 impossible even, in Python.
@@ -310,6 +312,8 @@ The `Counter` crate implements `FromIterator` and therefore we can use
 it in combination with `collect`.
 It's simple and effective &mdash; and without knowing all the details, it can
 feel like magic.
+In reality though, the flexibility is made possible by the trait system and the
+iterator API.
 
 If you want to learn more, the [`counter` source
 code](https://github.com/coriolinus/counter-rs/blob/master/src/lib.rs) makes for
@@ -317,7 +321,7 @@ an interesting read.
 
 What's important is that this integration needs to be done only once and then it
 can be used by everyone. So as a mere user, you don't need to know how `collect`
-works, just that it does.
+works, just that it does. 
 
 
 ## Conclusion
