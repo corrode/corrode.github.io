@@ -216,8 +216,20 @@
   flex-wrap: wrap;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 50px;
   align-items: center;
+}
+
+@media (max-width: 750px) {
+  .brand-logos {
+    gap: 30px;
+
+    img {
+      // scale proportionally
+      width: 100px;
+      height: auto;
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
