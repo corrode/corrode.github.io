@@ -1,6 +1,6 @@
 +++
 title = "Thinking in Iterators"
-date = 2024-05-13
+date = 2024-05-15
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
