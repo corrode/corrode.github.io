@@ -207,5 +207,6 @@ At the start of my Rust journey, I worried way too much about lifetimes. I
 thought they were the key to understanding Rust and that I need to master them
 to write idiomatic code. But it turns out you don't need to worry about
 lifetimes most of the time. The compiler does a great job of inferring lifetimes
-for you, and you should only add them when you have a good reason to do so.
-
+for you, and you should only add them when you have a good reason to do so, i.e. 
+when the compiler tells you to, when optimizing for performance, or
+when you want to explicitly describe the relationships in your code to humans.
