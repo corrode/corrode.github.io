@@ -6,11 +6,7 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-When people say that learning Rust is hard, they often mention lifetimes.
-However, even after seven years of writing Rust, 95% of my code, probably more,
-doesn't have any lifetime annotations! It is one of the areas of the language
-that I definitely worried way too much about when learning Rust and I see many
-beginners do the same.
+When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust and I see many beginners do the same.
 
 ## What are lifetimes?
 
@@ -34,8 +30,7 @@ The rules are simple:
 2. If there's exactly one input lifetime, it gets applied to all output references.
 3. If there's multiple input lifetimes but one of them is `&self` or `&mut self`, then the lifetime of `self` is applied to all output references.
 
-You only have to write out the lifetimes yourself, if you have more than one
-input lifetime and none of them are `&self` or `&mut self`.
+You only have to write out the lifetimes yourself if you have more than one input lifetime and none of them are `&self` or `&mut self`.
 
 {% end %}
 
@@ -86,7 +81,7 @@ fn foo<'a>(foo: &'a Foo) {
 }
 ```
 
-This can get out of hand very quickly. The function signature is now more complex, and it is harder to understand what the function does. It also makes it harder to refactor your code because you have to move the lifetime annotation with it. Lifetimes are not free! It's very easy to put yourself into a corner, where it's hard to make fundamental changes to how your code works. Explicit lifetimes should be treated as a last resort, because they increase tech debt and alienate beginners.
+This can get out of hand very quickly. The function signature is now more complex, and it is harder to understand what the function does. It also makes it harder to refactor your code because you have to move the lifetime annotation with it. Lifetimes are not free! It's very easy to put yourself into a corner, where it's hard to make fundamental changes to how your code works. Explicit lifetimes should be treated as a last resort because they increase tech debt and alienate beginners.
 
 ## Don't Be Afraid Of Lifetimes Either
 
@@ -94,16 +89,63 @@ What if you depend on a library that requires lifetime annotations?
 
 One example is servo's `html5ever`, a high-performance HTML5 parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolkit.
 
-Get comfortable with lifetimes even if you don't use them often. 
+Get comfortable with lifetimes even if you don't use them often.
+
+## A Practical Example
+
+Let's look at a practical example where lifetimes need to be explicitly added. Consider a function that returns the longest of two string slices.
+
+
+```rust
+fn longest(x: &str, y: &str) -> &str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+If we tried to compile that, we'd get an error:
+
+```
+error[E0106]: missing lifetime specifier
+ --> src/lib.rs:1:33
+  |
+1 | fn longest(x: &str, y: &str) -> &str {
+  |               ----     ----     ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but the signature does not say whether it is borrowed from `x` or `y`
+help: consider introducing a named lifetime parameter
+  |
+1 | fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+  |           ++++     ++          ++          ++
+```
+
+What went wrong?
+
+
+TODO
+
+To fix this, we need to add a lifetime parameter to the function signature:
+
+```rust
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+In this example, we have two input lifetimes, so we need to specify them explicitly. The function takes two references, `x` and `y`, both with the same lifetime `'a`, and returns a reference with the same lifetime `'a`. This ensures that the returned reference is valid as long as both input references are valid.
+
 
 ## Conclusion
 
-Lifetimes in Rust can seem daunting at first, but with some practice, you'll find that you'll rarely have to think about them.
-Most of the time, the compiler handles them for you through lifetime elision, so you don't have to worry about them. When you do need to use them explicitly, it's should be for a good reason.
+Lifetimes in Rust can seem daunting at first, but with some practice, you'll find that you'll rarely have to think about them. Most of the time, the compiler handles them for you through lifetime elision, so you don't have to worry about them. When you do need to use them explicitly, it should be for a good reason.
 
-Many people say, lifetimes contribute to Rust's steep learning curve and make
-the syntax more complex. I would agree with that, but I also think that
-lifetimes are a necessary part of Rust's safety guarantees. Don't let the fear
-of lifetimes hold you back from learning and using Rust. Embrace them as part of
-the language's robust safety guarantees, even if they are only necessary in a
-small part of your codebase.
+Many people say lifetimes contribute to Rust's steep learning curve and make the syntax more complex. I would agree with that, but I also think that lifetimes are a necessary part of Rust's safety guarantees. Don't let the fear of lifetimes hold you back from learning and using Rust. Embrace them as part of the language's robust safety guarantees, even if they are only necessary in a small part of your codebase.
+
+Happy coding!
