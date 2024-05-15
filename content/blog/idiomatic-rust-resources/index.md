@@ -8,16 +8,14 @@ aliases = ["idiomatic-rust"]
 wide = true
 updated = 2024-05-15
 series = "Idiomatic Rust"
+excerpt = "A curated list of resources to help you write ergonomic and idiomatic Rust code. Includes tutorials, workshops, and articles by Rust experts."
 +++
 
-Below is a list of resources to **help you to write ergonomic Rust code**.  
+Here's a curated list of resources to **help you write ergonomic and idiomatic Rust code**.
 
-The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust). Contributions welcome!
+The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust), and contributions are always welcome!
 
-The references offer a wealth of information on how to write better Rust,
-including tutorials, workshops, and articles by Rust experts. Each piece in the
-collection is peer-reviewed to adhere to Rust best practices.
-You can filter, sort, and search by tags, year, and difficulty level.
+You'll find a variety of tutorials, workshops, and articles by Rust experts, all aimed at helping you become a better Rust programmer. Each resource is peer-reviewed to make sure it follows Rust best practices. You can filter, sort, and search by tags, year, and difficulty level to find exactly what you need.
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
