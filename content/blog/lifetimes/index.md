@@ -201,7 +201,8 @@ explicit annotations double as useful documentation.
 
 ## Conclusion
 
-All references (borrows) in Rust have lifetimes. The compiler tracks them whether they're explict or not.
+All references (borrows) in Rust have lifetimes. The compiler tracks them,
+whether they're explicit or not.
 
 At the start of my Rust journey, I worried way too much about lifetimes. I
 thought they were the key to understanding Rust and that I need to master them
