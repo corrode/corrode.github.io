@@ -1,33 +1,5 @@
 {% extends "base.html" %}
 
-{% block head %}
-<meta name="description" content="{{ page.extra.description }}">
-<meta name="keywords" content="{% for keyword in page.extra.keywords %}{{ keyword }}{% if not loop.last %}, {% endif %}{% endfor %}">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "{{ page.extra.schema.type }}",
-  "headline": "{{ page.extra.schema.headline }}",
-  "description": "{{ page.extra.schema.description }}",
-  "datePublished": "{{ page.extra.schema.datePublished }}",
-  "dateModified": "{{ page.extra.schema.dateModified }}",
-  "author": {
-    "@type": "Person",
-    "name": "{{ page.extra.schema.author.name }}"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "{{ page.extra.schema.publisher.name }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ page.extra.schema.publisher.logo.url }}"
-    }
-  },
-  "mainEntityOfPage": "{{ page.extra.schema.mainEntityOfPage }}"
-}
-</script>
-{% endblock %}
-
 {% block content %}
 <article>
   <div class="article-heading">

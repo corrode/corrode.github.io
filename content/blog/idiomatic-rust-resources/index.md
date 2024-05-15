@@ -8,19 +8,7 @@ aliases = ["idiomatic-rust"]
 wide = true
 updated = 2024-05-15
 series = "Idiomatic Rust"
-description = "A curated list of resources to help you write ergonomic and idiomatic Rust code. Includes tutorials, workshops, and articles by Rust experts."
-keywords = ["Rust programming", "Learning Rust", "Idiomatic Rust", "Rust best practices", "Rust tutorials", "Ergonomic Rust code", "Rust resources"]
-[extra.schema]
-type = "Article"
-headline = "Learning Material for Idiomatic Rust"
-description = "A curated list of resources to help you write ergonomic and idiomatic Rust code."
-datePublished = "2024-01-28"
-dateModified = "2024-05-15"
-author = { "@type" = "Person", "name" = "Matthias Endler" }
-publisher = { "@type" = "Organization", "name" = "corrode Rust consulting", "logo" = { "@type" = "ImageObject", "url" = "https://yourwebsite.com/logo.png" } }
-mainEntityOfPage = "https://yourwebsite.com/idiomatic-rust"
 +++
-
 
 Below is a list of resources to **help you to write ergonomic Rust code**.  
 
