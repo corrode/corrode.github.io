@@ -123,13 +123,20 @@ help: consider introducing a named lifetime parameter
 
 What went wrong?
 
-## Put Yourself Into the Shoes of the Compiler
-
 To understand the error, imagine you are the Rust compiler. Your job is to ensure that references are always valid and that no reference outlives the data it points to. In this example, the function `longest` takes two string slices and returns one of them. 
 
-As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. This ambiguity makes it impossible for you to guarantee the safety of the returned reference. 
+As the compiler, you see that the function signature promises to return a
+reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it
+corresponds to. Will the returned string live as long as `x` or `y`? It depends
+on which of the two strings is longer and this can only be determined at
+runtime.
 
-Imagine being a compiler trying to ensure the safety of your code. You see two references, `x` and `y`, coming into the function, but you're not sure which one will be returned. Without this knowledge, you can't confirm that the returned reference will be valid. Is it `x`? Is it `y`? You need to know the relationship between the input references and the output reference to make this guarantee.
+Without this knowledge, you can't confirm that the returned reference will be
+valid: You need to specify the *relationship* between the input and the output
+to make this guarantee. If you pick the wrong one, you might end up with a
+dangling reference. This ambiguity makes it impossible for the compiler to guarantee the
+safety of the returned reference. 
+
 
 To fix this, we need to add a lifetime parameter to the function signature:
 
@@ -143,7 +150,27 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 }
 ```
 
-By adding `'a`, we specify that both input references `x` and `y` have the same lifetime `'a`, and the returned reference will also have this lifetime. This makes it clear to the compiler that the returned reference is guaranteed to be valid as long as both input references are valid. Now, the compiler can safely check and ensure that the references are used correctly throughout the code.
+By adding `'a`, we specify that both input references `x` and `y` have the same lifetime `'a`, and the returned reference will also have this lifetime. This makes it clear to the compiler that the returned reference is guaranteed to be valid as long as *both* input references are valid. Now, the compiler can safely check and ensure that the references are used correctly throughout the code.
+
+{% info(headline="Side Note: Other Programming Languages", icon="info") %}
+
+"Hold on," you might say, "other programming languages don't require me to think about lifetimes. Why does Rust make it so complicated?"
+
+The C programming language will happily let you access memory that has been freed, leading to undefined behavior.
+Dangling pointers are a common source of bugs and this is what lifetimes in Rust aim to prevent.
+The Rust compiler makes you stop and think about the ambiguity in your code and forces you to make 
+relationships between data explicit.
+
+But what about Python, PHP or Java? We don't have to worry about lifetimes
+there, right? Yes, these languages have systems like reference counting or
+garbage collectors that automatically handle memory management for you. There is
+an overhead to these mechanisms, though, and they can introduce performance
+issues. In some restricted environments, like embedded systems or real-time
+applications, automatic memory management are not an option, because they can
+introduce unpredictable pauses or the environment doesn't allow a runtime.
+
+Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector. They are a trade-off for the performance and safety guarantees that Rust provides.
+{% end %}
 
 ## Conclusion
 
