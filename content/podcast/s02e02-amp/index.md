@@ -11,7 +11,7 @@ episode = "02"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-82930892" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-8-curl-s-daniel-stenberg/player.js?size=s"></script></div>
+<div><script id="letscast-player-8087b1dc" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-9-amp-s-carter-schultz/player.js?size=s"></script></div>
 
 Imagine you're faced with the challenge to build a system that can handle billions of recyclable items per year
 with the goal of being better than a human at identifying what can be recycled. 
