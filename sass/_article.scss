@@ -3,12 +3,6 @@ article {
   line-height: 1.5;
 }
 
-article.wide {
-  max-width: 1200px;
-  padding: 1em;
-  margin: 0 auto;
-}
-
 article pre {
   position: relative;
   overflow: auto;
@@ -71,6 +65,11 @@ article h2 code:not(pre > code) {
 
 .article-content {
   max-width: 800px;
+  margin: 0 auto;
+}
+
+.article-content-wide {
+  max-width: 1200px;
   margin: 0 auto;
 }
 

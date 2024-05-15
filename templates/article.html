@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 <article>
   <div class="article-heading">
     <h2 class="subheading">{{ page.extra.series }}</h2>
@@ -15,7 +17,14 @@
     {% endif %}
   </div>
   <div class="article-content-wrapper">
-    <div class="article-content">{{ page.content | safe }}</div>
+    {% if page.extra.wide %}
+    <div class="article-content-wide">
+    {% else %}
+    <div class="article-content">
+    {% endif %}
+
+      {{ page.content | safe }}
+    </div>
   </div>
 
   <div class="article-footer">
@@ -28,7 +37,8 @@
         {% endfor %}
       </ul>
     </div>
-    {% endif %} {% if page.extra.revisions %}
+    {% endif %} 
+    {% if page.extra.revisions %}
     <div class="article-revisions">
       Revision notes: {{ page.extra.revisions | markdown(inline=true) | safe }}
     </div>

@@ -14,7 +14,7 @@ Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open source maint
 
 I support my clients around the world to get the most out of Rust through
 training, consulting, and contracting with no-frills, easy-to-follow, [idiomatic
-Rust](https://github.com/mre/idiomatic-rust) code.
+Rust](/blog) code.
 
 In collaborating with me, you'll experience a comprehensive approach that
 considers the broader impacts of modifications to your codebase. I prioritize

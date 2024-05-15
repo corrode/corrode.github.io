@@ -326,7 +326,7 @@ Here are some principles for durable software design:
 - Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
 - Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time ](https://cliffle.com/blog/rust-typestate/).
 - Avoid premature optimization and over-engineering.
-- Learn about [idiomatic Rust](/idiomatic-rust) and follow the best practices of the Rust community.
+- Learn about [idiomatic Rust](/blog/idiomatic-rust-resources) and follow the best practices of the Rust community.
 
 
 ### API design
