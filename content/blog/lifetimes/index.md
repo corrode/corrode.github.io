@@ -4,6 +4,9 @@ date = 2024-05-15
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+resources = [
+    "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."
+]
 +++
 
 When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust, and I see many beginners do the same.
@@ -169,9 +172,10 @@ Rust's lifetimes are a way to ensure memory safety without the overhead of a gar
 ## Lifetimes As A Way To Communicate
 
 Part of why lifetimes can look scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of academic, mathematical notation. That's just a convention to make them quicker to write (and coming up with better names is hard)!
-It is helpful to think of lifetimes as "labels" &mdash; [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes) to make your code clearer. For instance:
+It is helpful to think of lifetimes as "labels" &mdash; [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes) to make your code more understandable. For instance:
 
 ```rust
+// Now it is clear that the processed data is tied to the input data
 fn process_input<'input>(data: &'input str) -> &'input str {
     // ...
 }
@@ -196,6 +200,8 @@ but at times it's clearer to spell them out to avoid mistakes. Plus, these
 explicit annotations double as useful documentation.
 
 ## Conclusion
+
+All references (borrows) in Rust have lifetimes. The compiler tracks them whether they're explict or not.
 
 At the start of my Rust journey, I worried way too much about lifetimes. I
 thought they were the key to understanding Rust and that I need to master them
