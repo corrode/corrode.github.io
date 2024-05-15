@@ -129,7 +129,7 @@ To understand the error, imagine you are the Rust compiler. Your job is to ensur
 
 As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. This ambiguity makes it impossible for you to guarantee the safety of the returned reference. 
 
-Consider this situation: if you had to make sure a book borrowed from a library was returned on time, but you didn't know which library it came from, you'd have a hard time enforcing the due date. Similarly, the compiler needs to know the relationship between the input and output lifetimes to enforce correct borrowing rules.
+Imagine being a compiler trying to ensure the safety of your code. You see two references, `x` and `y`, coming into the function, but you're not sure which one will be returned. Without this knowledge, you can't confirm that the returned reference will be valid. Is it `x`? Is it `y`? You need to know the relationship between the input references and the output reference to make this guarantee.
 
 To fix this, we need to add a lifetime parameter to the function signature:
 
@@ -143,7 +143,7 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 }
 ```
 
-In this example, we have two input lifetimes, so we need to specify them explicitly. The function takes two references, `x` and `y`, both with the same lifetime `'a`, and returns a reference with the same lifetime `'a`. This ensures that the returned reference is valid as long as both input references are valid.
+By adding `'a`, we specify that both input references `x` and `y` have the same lifetime `'a`, and the returned reference will also have this lifetime. This makes it clear to the compiler that the returned reference is guaranteed to be valid as long as both input references are valid. Now, the compiler can safely check and ensure that the references are used correctly throughout the code.
 
 ## Conclusion
 
