@@ -49,8 +49,7 @@ fn create_config_file(config_path: Option<PathBuf>) -> Result<File, Box<dyn std:
 }
 
 fn setup_config(path: &PathBuf) -> Result<File, Box<dyn std::error::Error>> {
-    // Implementation details omitted
-    unimplemented!()
+    todo!("demo")
 }
 ```
 
