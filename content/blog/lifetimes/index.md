@@ -11,6 +11,14 @@ resources = [
 
 When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust, and I see many beginners do the same.
 
+{% info(headline="Disclaimer: When Lifetimes Really Matter", icon="info") %}
+
+The advice in this article is focused on typical scenarios. There are cases where you *do* have to worry about lifetimes.
+
+If you're working in areas like embedded systems, real-time applications, or other performance-critical environments, you might encounter scenarios where dealing with lifetimes is essential. In such cases, please consult the [section on lifetime elision in the Rustonomicon](https://doc.rust-lang.org/nomicon/lifetime-elision.html) for more detailed information.
+
+{% end %}
+
 ## What are lifetimes?
 
 Lifetimes tell the compiler how long a reference is valid.
