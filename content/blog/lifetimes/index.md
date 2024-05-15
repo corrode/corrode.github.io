@@ -87,7 +87,7 @@ This can get out of hand very quickly. The function signature is now more comple
 
 What if you depend on a library that requires lifetime annotations?
 
-One example is servo's `html5ever`, a high-performance HTML5 parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolkit.
+One example is servo's [`html5ever`](https://github.com/servo/html5ever/), a high-performance HTML parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolkit.
 
 Get comfortable with lifetimes even if you don't use them often.
 
