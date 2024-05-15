@@ -123,20 +123,13 @@ help: consider introducing a named lifetime parameter
 
 What went wrong?
 
+## Put Yourself Into the Shoes of the Compiler
+
 To understand the error, imagine you are the Rust compiler. Your job is to ensure that references are always valid and that no reference outlives the data it points to. In this example, the function `longest` takes two string slices and returns one of them. 
 
-As the compiler, you see that the function signature promises to return a
-reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it
-corresponds to. Will the returned string live as long as `x` or `y`? It depends
-on which of the two strings is longer and this can only be determined at
-runtime.
+As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. Will the returned string live as long as `x` or `y`? It depends on which of the two strings is longer and this can only be determined at runtime.
 
-Without this knowledge, you can't confirm that the returned reference will be
-valid: You need to specify the *relationship* between the input and the output
-to make this guarantee. If you pick the wrong one, you might end up with a
-dangling reference. This ambiguity makes it impossible for the compiler to guarantee the
-safety of the returned reference. 
-
+Without this knowledge, you can't confirm that the returned reference will be valid: You need to specify the *relationship* between the input and the output to make this guarantee. If you pick the wrong one, you might end up with a dangling reference. The ambiguity makes it impossible for the compiler to guarantee the safety of the returned reference. 
 
 To fix this, we need to add a lifetime parameter to the function signature:
 
@@ -156,27 +149,20 @@ By adding `'a`, we specify that both input references `x` and `y` have the same 
 
 "Hold on," you might say, "other programming languages don't require me to think about lifetimes. Why does Rust make it so complicated?"
 
-The C programming language will happily let you access memory that has been freed, leading to undefined behavior.
-Dangling pointers are a common source of bugs and this is what lifetimes in Rust aim to prevent.
-The Rust compiler makes you stop and think about the ambiguity in your code and forces you to make 
-relationships between data explicit.
+The C programming language will happily let you access memory that has been freed, leading to undefined behavior. Dangling pointers are a common source of bugs and this is what lifetimes in Rust aim to prevent. The Rust compiler makes you stop and think about the ambiguity in your code and forces you to make relationships between data explicit.
 
-But what about Python, PHP or Java? We don't have to worry about lifetimes
-there, right? Yes, these languages have systems like reference counting or
-garbage collectors that automatically handle memory management for you. There is
-an overhead to these mechanisms, though, and they can introduce performance
-issues. In some restricted environments, like embedded systems or real-time
-applications, automatic memory management are not an option, because they can
-introduce unpredictable pauses or the environment doesn't allow a runtime.
+"But what about Python, PHP, or Java? We don't have to worry about lifetimes there, right?"
 
-Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector
-at the small cost of being explicit about lifetimes in the face of ambiguity.
+Yes, these languages have systems like reference counting or garbage collectors in place, which automatically handle memory management for you. There is an overhead to these mechanisms, though, and they they have a performance overhead. In some restricted environments, like embedded systems or real-time applications, automatic memory management is not an option because they can introduce unpredictable pauses or the environment doesn't allow a runtime.
+
+Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector at the small cost of being explicit about lifetimes in the face of ambiguity.
+
 {% end %}
 
 ## Conclusion
 
-Lifetimes in Rust can seem daunting at first, but with some practice, you'll find that you'll rarely have to think about them. Most of the time, the compiler handles them for you through lifetime elision, so you don't have to worry about them. When you do need to use them explicitly, it should be for a good reason.
-
-Many people say lifetimes contribute to Rust's steep learning curve and make the syntax more complex. I would agree with that, but I also think that lifetimes are a necessary part of Rust's safety guarantees. Don't let the fear of lifetimes hold you back from learning and using Rust. Embrace them as part of the language's robust safety guarantees, even if they are only necessary in a small part of your codebase.
-
-Happy coding!
+At the start of my Rust journey, I worried about lifetimes way too much. I
+thought it's the key to understanding Rust and that I need to master it to write
+good code. But the truth is, you don't need to worry about lifetimes most of the
+time. The compiler does a great job of inferring lifetimes for you, and you
+should only add them when you have a good reason to do so.
