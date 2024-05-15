@@ -13,9 +13,9 @@ excerpt = "A curated list of resources to help you write ergonomic and idiomatic
 
 Here's a curated list of resources to **help you write ergonomic and idiomatic Rust code**.
 
-The list is [maintained on GitHub](https://github.com/mre/idiomatic-rust), and contributions are always welcome!
+The list is open source and [maintained on GitHub](https://github.com/mre/idiomatic-rust), and contributions are always welcome!
 
-You'll find a variety of tutorials, workshops, and articles by Rust experts, all aimed at helping you become a better Rust programmer. Each resource is peer-reviewed to make sure it follows Rust best practices. You can filter, sort, and search by tags, year, and difficulty level to find exactly what you need.
+Discover a wealth of tutorials, workshops, and articles created by Rust experts, all aimed at helping you become a better Rust programmer. Each resource is peer-reviewed to ensure adherence to Rust best practices. Plus, you can easily filter, sort, and search by tags, year, and difficulty level to find exactly what you need.
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
