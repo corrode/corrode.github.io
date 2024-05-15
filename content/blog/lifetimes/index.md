@@ -48,10 +48,13 @@ It turns out, lifetimes are *everywhere* in Rust, they are just implicit most of
 
 Nowadays, I consider it an anti-pattern to prematurely add lifetime annotations to a piece of code without a good reason. There's really only two situations where you should add lifetime annotations:
 
-1. There is a performance bottleneck in a hot path of your code, and you have profiled it and determined that the bottleneck is indeed because of allocations.
-2. Code that you depend on requires lifetime annotations.
+1. **There is a performance bottleneck**: You found a slow piece of code in your hot path, and you have profiled it and determined that the bottleneck is indeed because of allocations. In this case, it could make sense to use lifetimes to avoid allocations. (The alternative is to refactor your code to use a better algorithm to avoid the hot path in the first place.)
+2. **Code that you depend on requires lifetime annotations:** There's little you can do about this, other than to look for alternatives that don't require lifetimes.
 
 In all other situations, let the compiler do its job.
+
+In practice I only have to add lifetimes in two kinds of situations: returning
+references from a function, and storing a reference in a struct.
 
 ## Lifetimes are contagious!
 
@@ -158,6 +161,27 @@ Yes, these languages have systems like reference counting or garbage collectors 
 Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector at the small cost of being explicit about lifetimes in the face of ambiguity.
 
 {% end %}
+
+## Naming Lifetimes
+
+Part of why lifetimes look so scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of cryptic, mathematical incantation. But in reality, lifetimes are just "labels", [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes).
+This can be quite helpful if you need to juggle multiple borrow sources
+or when you want to express the source of a reference more clearly. Serde uses this technique to great effect in its `Deserialize` trait:
+
+```rust
+fn deserialize<'de, D>(deserializer: D) -> Result<Self, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    // ...
+}
+```
+
+Here, `'de` means "this lifetime is tied to the deserializer". Suddenly, that syntax makes a lot more sense!
+
+Think of lifetimes as just a signature for the same reason that types have
+signature: Both can be inferred, but sometimes it's easier to just spell them
+out to avoid mistakes. As an added bonus, the signature serves as documentation, too!
 
 ## Conclusion
 
