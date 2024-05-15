@@ -157,8 +157,7 @@ fn setup_config(path: &PathBuf) -> Result<File, Box<dyn std::error::Error>> {
 
 Now the fallback is just a side note, and the main logic is more prominent.
 
-The `Some(path) => path` match arm looks a bit redundant.
-That's where the `unwrap_or_else` method comes in handy.
+The `Some(path) => path` match arm looks very simple. Almost too simple? We have already used `unwrap_or_else()` once, let's apply it here as well.
 
 ```rust
 use std::env;
