@@ -169,7 +169,8 @@ issues. In some restricted environments, like embedded systems or real-time
 applications, automatic memory management are not an option, because they can
 introduce unpredictable pauses or the environment doesn't allow a runtime.
 
-Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector. They are a trade-off for the performance and safety guarantees that Rust provides.
+Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector
+at the small cost of being explicit about lifetimes in the face of ambiguity.
 {% end %}
 
 ## Conclusion
