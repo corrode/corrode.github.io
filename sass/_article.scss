@@ -343,9 +343,9 @@ article a code:not(pre > code) {
     filter: invert(1);
   }
 
-  .article-content img[src$=".svg"] {
+  .article-content img[src$=".svg"]:not(.noinvert) {
     filter: invert(1);
-  }
+}
 
   .editor-credits {
     color: rgba(255, 255, 255, 0.7);

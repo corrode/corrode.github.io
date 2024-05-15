@@ -129,7 +129,12 @@ What went wrong?
 
 To understand the error, imagine you are the Rust compiler. Your job is to ensure that references are always valid and that no reference outlives the data it points to. In this example, the function `longest` takes two string slices and returns one of them.
 
-As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. Will the returned string live as long as `x` or `y`? It depends on which of the two strings is longer and this can only be determined at runtime.
+As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. 
+We face a dilemma:
+Will the returned string live as long as `x` or `y`? It depends on which of the two strings is longer and this can only be determined at runtime.
+
+<img src="ferris.svg" alt="Ferris the crab, the Rust mascot, pondering a dilemma about the function's lifetimes" class="noinvert">
+
 
 Without this knowledge, you can't confirm that the returned reference will be valid: You need to specify the *relationship* between the input and the output to make this guarantee. If you pick the wrong one, you might end up with a dangling reference. The ambiguity makes it impossible for the compiler to guarantee the safety of the returned reference.
 
@@ -161,7 +166,7 @@ Rust's lifetimes are a way to ensure memory safety without the overhead of a gar
 
 {% end %}
 
-## Naming Lifetimes
+## Lifetimes As A Way To Communicate
 
 Part of why lifetimes can look scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of cryptic, mathematical incantation. In such situations, it can be helpful to think of lifetimes as "labels", [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes) to make your code clearer. For instance:
 
