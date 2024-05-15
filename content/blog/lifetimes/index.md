@@ -163,8 +163,15 @@ Rust's lifetimes are a way to ensure memory safety without the overhead of a gar
 
 ## Naming Lifetimes
 
-Part of why lifetimes look so scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of cryptic, mathematical incantation. But in reality, lifetimes are just "labels", [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes).
-This can be quite helpful if you need to juggle multiple borrow sources
+Part of why lifetimes can look scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of cryptic, mathematical incantation. In such situations, it can be helpful to think of lifetimes as "labels", [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes) to make your code clearer. For instance:
+
+```rust
+fn process_input<'input>(data: &'input str) -> &'input str {
+    // ...
+}
+```
+
+Naming lifetimes can be quite helpful if you need to juggle multiple borrow sources
 or when you want to express the source of a reference more clearly. Serde uses this technique to great effect in its `Deserialize` trait:
 
 ```rust
@@ -178,9 +185,9 @@ where
 
 Here, `'de` means "this lifetime is tied to the deserializer". Suddenly, that syntax makes a lot more sense!
 
-Think of lifetimes as just a signature for the same reason that types have
-signature: Both can be inferred, but sometimes it's easier to just spell them
-out to avoid mistakes. As an added bonus, the signature serves as documentation, too!
+Think of lifetimes like type signatures: both can be inferred, but sometimes
+it's clearer to spell them out to avoid mistakes. Plus, these explicit
+annotations double as useful documentation.
 
 ## Conclusion
 
