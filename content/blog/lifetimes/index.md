@@ -95,7 +95,6 @@ Get comfortable with lifetimes even if you don't use them often.
 
 Let's look at a practical example where lifetimes need to be explicitly added. Consider a function that returns the longest of two string slices.
 
-
 ```rust
 fn longest(x: &str, y: &str) -> &str {
     if x.len() > y.len() {
@@ -124,8 +123,13 @@ help: consider introducing a named lifetime parameter
 
 What went wrong?
 
+## Put Yourself Into the Shoes of the Compiler
 
-TODO
+To understand the error, imagine you are the Rust compiler. Your job is to ensure that references are always valid and that no reference outlives the data it points to. In this example, the function `longest` takes two string slices and returns one of them. 
+
+As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. This ambiguity makes it impossible for you to guarantee the safety of the returned reference. 
+
+Consider this situation: if you had to make sure a book borrowed from a library was returned on time, but you didn't know which library it came from, you'd have a hard time enforcing the due date. Similarly, the compiler needs to know the relationship between the input and output lifetimes to enforce correct borrowing rules.
 
 To fix this, we need to add a lifetime parameter to the function signature:
 
@@ -140,7 +144,6 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 ```
 
 In this example, we have two input lifetimes, so we need to specify them explicitly. The function takes two references, `x` and `y`, both with the same lifetime `'a`, and returns a reference with the same lifetime `'a`. This ensures that the returned reference is valid as long as both input references are valid.
-
 
 ## Conclusion
 
