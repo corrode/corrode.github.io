@@ -6,11 +6,11 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust and I see many beginners do the same.
+When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust, and I see many beginners do the same.
 
 ## What are lifetimes?
 
-Lifetimes are a way to tell the compiler how long a reference is valid for.
+Lifetimes tell the compiler how long a reference is valid.
 
 ```rust
 fn foo<'a>(bar: &'a str) {
@@ -28,13 +28,13 @@ The rules are simple:
 
 1. Every input reference to a function gets a distinct lifetime.
 2. If there's exactly one input lifetime, it gets applied to all output references.
-3. If there's multiple input lifetimes but one of them is `&self` or `&mut self`, then the lifetime of `self` is applied to all output references.
+3. If there are multiple input lifetimes but one of them is `&self` or `&mut self`, then the lifetime of `self` is applied to all output references.
 
 You only have to write out the lifetimes yourself if you have more than one input lifetime and none of them are `&self` or `&mut self`.
 
 {% end %}
 
-In the above example, we have one input lifetime, so we don't have to write it out. This is equivalent (and easier on the eyes):
+In the example above, we have one input lifetime, so we don't have to write it out. This is equivalent (and easier on the eyes):
 
 ```rust
 fn foo(bar: &str) {
@@ -42,7 +42,7 @@ fn foo(bar: &str) {
 }
 ```
 
-It turns out, lifetimes are *everywhere* in Rust, they are just implicit most of the time.
+It turns out, lifetimes are *everywhere* in Rust, but they are just implicit most of the time.
 
 ## Reasons for lifetimes
 
@@ -53,8 +53,7 @@ Nowadays, I consider it an anti-pattern to prematurely add lifetime annotations 
 
 In all other situations, let the compiler do its job.
 
-In practice I only have to add lifetimes in two kinds of situations: returning
-references from a function, and storing a reference in a struct.
+In practice, I only have to add lifetimes in two kinds of situations: returning references from a function and storing a reference in a struct.
 
 ## Lifetimes are contagious!
 
@@ -84,13 +83,13 @@ fn foo<'a>(foo: &'a Foo) {
 }
 ```
 
-This can get out of hand very quickly. The function signature is now more complex, and it is harder to understand what the function does. It also makes it harder to refactor your code because you have to move the lifetime annotation with it. Lifetimes are not free! It's very easy to put yourself into a corner, where it's hard to make fundamental changes to how your code works. Explicit lifetimes should be treated as a last resort because they increase tech debt and alienate beginners.
+This can get out of hand very quickly. The function signature is now more complex, and it is harder to understand what the function does. It also makes it harder to refactor your code because you have to move the lifetime annotation with it. Lifetimes are not free! It's very easy to put yourself into a corner where it's hard to make fundamental changes to how your code works. Explicit lifetimes should be treated as a last resort because they increase tech debt and alienate beginners.
 
 ## Don't Be Afraid Of Lifetimes Either
 
 What if you depend on a library that requires lifetime annotations?
 
-One example is servo's [`html5ever`](https://github.com/servo/html5ever/), a high-performance HTML parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolkit.
+One example is Servo's [`html5ever`](https://github.com/servo/html5ever/), a high-performance HTML parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolkit.
 
 Get comfortable with lifetimes even if you don't use them often.
 
@@ -128,11 +127,11 @@ What went wrong?
 
 ## Put Yourself Into the Shoes of the Compiler
 
-To understand the error, imagine you are the Rust compiler. Your job is to ensure that references are always valid and that no reference outlives the data it points to. In this example, the function `longest` takes two string slices and returns one of them. 
+To understand the error, imagine you are the Rust compiler. Your job is to ensure that references are always valid and that no reference outlives the data it points to. In this example, the function `longest` takes two string slices and returns one of them.
 
 As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. Will the returned string live as long as `x` or `y`? It depends on which of the two strings is longer and this can only be determined at runtime.
 
-Without this knowledge, you can't confirm that the returned reference will be valid: You need to specify the *relationship* between the input and the output to make this guarantee. If you pick the wrong one, you might end up with a dangling reference. The ambiguity makes it impossible for the compiler to guarantee the safety of the returned reference. 
+Without this knowledge, you can't confirm that the returned reference will be valid: You need to specify the *relationship* between the input and the output to make this guarantee. If you pick the wrong one, you might end up with a dangling reference. The ambiguity makes it impossible for the compiler to guarantee the safety of the returned reference.
 
 To fix this, we need to add a lifetime parameter to the function signature:
 
@@ -152,11 +151,11 @@ By adding `'a`, we specify that both input references `x` and `y` have the same 
 
 "Hold on," you might say, "other programming languages don't require me to think about lifetimes. Why does Rust make it so complicated?"
 
-The C programming language will happily let you access memory that has been freed, leading to undefined behavior. Dangling pointers are a common source of bugs and this is what lifetimes in Rust aim to prevent. The Rust compiler makes you stop and think about the ambiguity in your code and forces you to make relationships between data explicit.
+The C programming language will happily let you access memory that has been freed, leading to undefined behavior. Dangling pointers are a common source of bugs, and this is what lifetimes in Rust aim to prevent. The Rust compiler makes you stop and think about the ambiguity in your code and forces you to make relationships between data explicit.
 
 "But what about Python, PHP, or Java? We don't have to worry about lifetimes there, right?"
 
-Yes, these languages have systems like reference counting or garbage collectors in place, which automatically handle memory management for you. There is an overhead to these mechanisms, though, and they they have a performance overhead. In some restricted environments, like embedded systems or real-time applications, automatic memory management is not an option because they can introduce unpredictable pauses or the environment doesn't allow a runtime.
+Yes, these languages have systems like reference counting or garbage collectors in place, which automatically handle memory management for you. There is an overhead to these mechanisms, though, and they have a performance overhead. In some restricted environments, like embedded systems or real-time applications, automatic memory management is not an option because they can introduce unpredictable pauses or the environment doesn't allow a runtime.
 
 Rust's lifetimes are a way to ensure memory safety without the overhead of a garbage collector at the small cost of being explicit about lifetimes in the face of ambiguity.
 
@@ -185,8 +184,5 @@ out to avoid mistakes. As an added bonus, the signature serves as documentation,
 
 ## Conclusion
 
-At the start of my Rust journey, I worried about lifetimes way too much. I
-thought it's the key to understanding Rust and that I need to master it to write
-good code. But the truth is, you don't need to worry about lifetimes most of the
-time. The compiler does a great job of inferring lifetimes for you, and you
-should only add them when you have a good reason to do so.
+At the start of my Rust journey, I worried about lifetimes way too much. I thought it's the key to understanding Rust and that I need to master it to write good code. But the truth is, you don't need to worry about lifetimes most of the time. The compiler does a great job of inferring lifetimes for you, and you should only add them when you have a good reason to do so.
+
