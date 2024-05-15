@@ -168,7 +168,8 @@ Rust's lifetimes are a way to ensure memory safety without the overhead of a gar
 
 ## Lifetimes As A Way To Communicate
 
-Part of why lifetimes can look scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of cryptic, mathematical incantation. In such situations, it can be helpful to think of lifetimes as "labels", [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes) to make your code clearer. For instance:
+Part of why lifetimes can look scary is that they are often named `'a`, `'b`, or `'c`. This makes them look like some kind of academic, mathematical notation. That's just a convention to make them quicker to write (and coming up with better names is hard)!
+It is helpful to think of lifetimes as "labels" &mdash; [you can name them however you want](https://www.possiblerust.com/pattern/naming-your-lifetimes) to make your code clearer. For instance:
 
 ```rust
 fn process_input<'input>(data: &'input str) -> &'input str {
@@ -190,11 +191,15 @@ where
 
 Here, `'de` means "this lifetime is tied to the deserializer". Suddenly, that syntax makes a lot more sense!
 
-Think of lifetimes like type signatures: both can be inferred, but sometimes
-it's clearer to spell them out to avoid mistakes. Plus, these explicit
-annotations double as useful documentation.
+Think of lifetimes like type signatures: most of the time, they can be inferred,
+but at times it's clearer to spell them out to avoid mistakes. Plus, these
+explicit annotations double as useful documentation.
 
 ## Conclusion
 
-At the start of my Rust journey, I worried about lifetimes way too much. I thought it's the key to understanding Rust and that I need to master it to write good code. But the truth is, you don't need to worry about lifetimes most of the time. The compiler does a great job of inferring lifetimes for you, and you should only add them when you have a good reason to do so.
+At the start of my Rust journey, I worried way too much about lifetimes. I
+thought they were the key to understanding Rust and that I need to master them
+to write idiomatic code. But it turns out you don't need to worry about
+lifetimes most of the time. The compiler does a great job of inferring lifetimes
+for you, and you should only add them when you have a good reason to do so.
 
