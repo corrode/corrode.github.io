@@ -31,7 +31,7 @@ function renderCategory(category) {
 // Wait for dom content to be loaded with jquery
 $(document).ready(function () {
   const table = new DataTable("#data-table", {
-    ajax: "/idiomatic-rust/resources.json",
+    ajax: "/blog/idiomatic-rust-resources/resources.json",
     paging: false,
     saveState: true,
     scrollCollapse: true,
