@@ -3,6 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
+updated = 2024-05-19
 series = "Rust Insights"
 hero = "maintenance.svg"
 credits = [ "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" ]
@@ -310,42 +311,46 @@ For example, [here are the `tokio` features](https://docs.rs/crate/tokio/latest/
 
 ### Software Architecture
 
-Conversely, maintaining a codebase for a long time doesn't mean you should not
-touch it; quite the opposite: it requires constant effort and work.
+Conversely, maintaining a codebase for a long time doesn't mean you should leave
+it untouched; quite the opposite: it requires constant effort and work.
 
-Some of the most robust codebases in the world are continuously getting refactored.
+Some of the most robust codebases in the world are continuously updated.
 Projects like the Linux kernel, which has been in development for over 30 years,
-are constantly being improved and refactored. 
+are constantly being improved and refactored.
 
 Here are some principles for durable software design:
 
-- Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html).
-- [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters').
-- Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html).
-- Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334).
-- Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
-- Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time ](https://cliffle.com/blog/rust-typestate/).
-- Avoid premature optimization and over-engineering.
-- Learn about [idiomatic Rust](/blog/idiomatic-rust-resources) and follow the best practices of the Rust community.
-
+1. Learn about [idiomatic Rust](/blog/idiomatic-rust-resources) and follow the best practices of the Rust community.
+2. Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time](https://cliffle.com/blog/rust-typestate/).
+3. Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
+4. Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334).
+5. Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html).
+6. Avoid premature optimization and over-engineering.
+7. Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html). It is a way to express your business logic in a common business language that everyone on the team understands. 
+8. [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters'). This architecture separates the core business logic from the infrastructure, making it easier to test and maintain.
 
 ### API design
 
+Part of software architecture is API design, but it deserves its own section.
+
 Software that gets maintained for a long time is often critical and heavily used
 by other software. Changing an API can break downstream users and cause churn.
-Defensive API design minimizes the risk of breaking changes.
+Defensive API design minimizes the risk of these breaking changes.
 
 Here are some tips:
 
 - **Minimize the public API surface**:
   It's very hard to remove features once they are public. Only expose what is
-  absolutely necessary for users to interact with your library. This sounds
-  obvious, but it's easy to expose too much in a public API. Private functions
-  and structs prevent implementation details from leaking out of modules, which
-  will make refactoring easier in future.
-- **Make enums non-exhaustive**: When defining an enum, use the `#[non_exhaustive]`
-  attribute to allow adding new variants in the future without breaking
-  existing code. (Also see this [discussion in the hyperium/http crate](https://github.com/hyperium/http/issues/188).)
+  absolutely necessary for users to interact with your system. While this sounds
+  obvious, it's easy to expose too much in a public API. Keeping functions and
+  structs private prevents implementation details from leaking out of modules,
+  making future refactoring easier since you can change the internals without
+  affecting the public API.
+- **Make enums non-exhaustive**: When defining an enum, use the
+  [`#[non_exhaustive]`](https://doc.rust-lang.org/reference/attributes/type_system.html)
+  attribute to allow adding new variants in the future without breaking existing
+  code. (Also see this [discussion in the hyperium/http
+  crate](https://github.com/hyperium/http/issues/188).)
 - **Hide implementation details behind own types**: Use the [newtype
   pattern](https://rust-unofficial.github.io/patterns/patterns/behavioural/newtype.html#motivation)
   to hide implementation details and prevent users from relying on them. For
@@ -365,49 +370,56 @@ well worth a read.
 Tests are a form of documentation that gets verified automatically.
 If you have a hard time writing tests, it's a sign that your code is too
 complex and needs refactoring. If you can't explain what a struct or function
-does, it might do too much. Split it up into smaller parts and test those
+does, it might do too much. Split it up into smaller parts and test those parts
 individually.
 
-In Rust, unit tests live next to the code in the same module. This is where most
-tests should be.
+In Rust, unit tests reside alongside the code within the same module, which is
+where the majority of testing should happen.
 
 Make sure that the tests are easy to run without any manual setup (ideally, just
-`cargo test` should be enough), and that they run quickly (seconds, not minutes)
+a `cargo test` should be enough), and that they run quickly (think seconds, not minutes)
 and mostly without external dependencies. If tests are slow, they won't be run
 as often, and you'll lose the benefits of having them. Integrate your tests into
-a continuous integration system like GitHub Actions or GitLab CI to ensure that
-they are run automatically on every commit.
+a continuous integration pipeline on GitHub Actions or GitLab CI to ensure that
+they run automatically on every commit.
 
 ### Documentation
 
 Rust has great support for documentation.
 You can write documentation as Markdown comments right next to your code, and
-it gets rendered into a nice HTML page when you run `cargo doc`.
+it gets rendered into a nice HTML page with `cargo doc`.
 Make extensive use of this!
 
 Here are some tips for writing good documentation:
 
 - Don't expect to be around to explain your code. Even if you are, you might not
   remember why you wrote something a certain way.
-- Start to write documentation as soon as you start writing code. Update it as
+- It's easiest to write documentation as soon as you start writing code. Update it as
   your mental model of the code evolves.
-- Also document, why certain optimizations were not done and the trade-offs of your design decisions
+- Take the time to document, why certain optimizations were *not* done and the
+  trade-offs of your design decisions.
 
 Some tooling can help you with this:
 
-- Enforce documentation for public functions and types with clippy's `#![deny(missing_docs)]` lint.
+- Enforce documentation for public functions and types with clippy's [`#![deny(missing_docs)]`](https://doc.rust-lang.org/rustdoc/write-documentation/what-to-include.html) lint.
 - Run `cargo doc --open` from time to time to see how your documentation looks like
   and fill in the gaps.
 - Add doctests to your documentation. This way, you can ensure that the examples
   in your documentation are correct and up-to-date.
 - [Add mermaid diagrams to your documentation](https://frehberg.com/2022/12/docs-as-code-mermaid-inline-diagrams/) to visualize complex concepts.
-- Use [doc-comment](https://github.com/GuillaumeGomez/doc-comment) to check that your documentation examples compile and run correctly.
+- Use [doc-comment](https://github.com/GuillaumeGomez/doc-comment) to ensure that your examples in the `README.md` are up-to-date.
 
-As an example, here is the documentation for the [Rocket web framework](https://api.rocket.rs/v0.5/rocket/), which is generated from the code comments:
+As an example, here is the documentation for the [Rocket web framework](https://api.rocket.rs/v0.5/rocket/), which is generated from comments in the code:
 
 [![Rocket Documentation](rocket-docs.png)](https://docs.rs/rocket/latest/rocket/)
 
-Here is a [guide on how to write good documentation](https://blog.guillaume-gomez.fr/articles/2020-03-12+Guide+on+how+to+write+documentation+for+a+Rust+crate).
+Here are the things I like about this introduction:
+
+- [X] It's approachable and easy to read.
+- [X] It immediately shows how to use the library in a simple real-world scenario.
+- [X] It hints at other forms of documentation, like guides and examples.
+
+If you feel intrigued, [here is a great guide on how to write documentation in Rust](https://blog.guillaume-gomez.fr/articles/2020-03-12+Guide+on+how+to+write+documentation+for+a+Rust+crate).
 
 ### About Unsafe Code
 
@@ -432,34 +444,31 @@ code are typically difficult to detect and debug.
 
 ### Use Boring Technology
 
-Using the latest technology can be tempting, but if you're planning to maintain
-a codebase for a long time, consider using boring, well-established tools
-such as JSON and SQL. There is plenty of tooling and documentation available
-and it's easier to get help when you need it.
+Based on personal experience, the latest technology can be tempting, but for long-term codebase maintenance in a production environment, it's wise to use reliable, well-established tools like JSON and SQL. These tools offer abundant documentation and support, making it easier to find help when needed.
 
-The same goes for choosing Virtual Machines or Containers over WebAssembly or
-Edge Computing. You will find plenty of providers for the former.
+The same principle applies when choosing Virtual Machines or Containers over newer options like WebAssembly or Edge Computing, as the former have more providers and established ecosystems.
 
-In general, proven technology doesn't change often, which means you can focus on
-your business, instead of keeping up with the latest trends.
+Overall, proven technologies change less frequently, allowing you to focus on your business rather than constantly chasing the latest trends.
 
 ### Use Linters and Formatters
 
 There are a number of well-established tools that can help you maintain a
 consistent code style and catch common errors:
 
-- [rustfmt](https://github.com/rust-lang/rustfmt)
-- [clippy](https://doc.rust-lang.org/clippy/)
-- [Find more tools here](https://analysis-tools.dev/tag/rust)
+- [rustfmt](https://github.com/rust-lang/rustfmt) formats your code according to
+  the Rust style guidelines.
+- [clippy](https://doc.rust-lang.org/clippy/) is a collection of lints to catch
+  common mistakes and improve your code.
+- We also maintain a [list of Rust static analysis tools](https://analysis-tools.dev/tag/rust).
 
 ### Make Releases Boring
 
 Run your CI pipeline on a regular basis to ensure that your codebase is always
 in a deployable state. The worst time to find out that something is broken is when
-you're trying to release a new version.
+you're trying to deploy a fix. 
 
 Look into [release-plz](https://github.com/MarcoIeni/release-plz) for release
-automation. It creates a pull request for a new release, which you can review
+automation. It can create pull requests for new releases, which you can review
 and merge when you're ready.
 
 ![release-plz](release-plz.png)
