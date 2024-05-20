@@ -13,58 +13,37 @@ resources = [
 ]
 +++
 
-Cars have a lot software in them these days.
+Cars have a lot of software in them these days.
 
-Did you know that a modern car has over [100 million lines of
-code](https://medium.com/next-level-german-engineering/porsche-future-of-code-526eb3de3bbe)?
-That's an order of magnitude more than the [6.5 million lines of code found in a
-Boeing 787
-Dreamliner](https://web.archive.org/web/20100209084931/http://news.discovery.com/tech/toyota-recall-software-code.html).
+Did you know that a modern car has over [100 million lines of code](https://medium.com/next-level-german-engineering/porsche-future-of-code-526eb3de3bbe)? That's an order of magnitude more than the [6.5 million lines of code found in a Boeing 787 Dreamliner](https://web.archive.org/web/20100209084931/http://news.discovery.com/tech/toyota-recall-software-code.html).
 
-With so much software, it's no surprise that cars have bugs. [A lot of
-bugs](https://www.wired.com/story/uber-self-driving-crash-arizona-ntsb-report/).
-That's very reassuring given that [microprocessors are responsible for
-critical functions like braking](https://blog.passwork.pro/car-hacking/)
-nowadays.
+With so much software, it's no surprise that cars have bugs. [A lot of bugs](https://www.wired.com/story/uber-self-driving-crash-arizona-ntsb-report/). That's very reassuring given that [microprocessors are responsible for critical functions like braking](https://blog.passwork.pro/car-hacking/) nowadays.
 
 Even seemingly simple things can be quite complex when you consider all the edge cases and interactions with other systems. These interactions are often modeled as states and transitions within software, making state management one of the most common and vital operations in any application.
 
-When state handling goes wrong, it can cause serious issues.
-Let's look at the different ways to manage state in Rust by means of a software
-component for managing car doors to drive this point home (I'm really good at
-puns).
+When state handling goes wrong, it can cause serious issues. Let's look at the different ways to manage state in Rust by means of a software component for managing car doors to drive this point home (I'm really good at puns).
 
 ## The State of a Car Door
 
-Somewhat naively, one could think that a car door can be in one of two states:
-locked or unlocked.
+Somewhat naively, one could think that a car door can be in one of two states: locked or unlocked.
 
-That's not really true, though! For example, some car doors have a "child lock"
-feature that allows the door to be opened from the outside but not from the inside.
+That's not really true, though! For example, some car doors have a "child lock" feature that allows the door to be opened from the outside but not from the inside.
 
-There are many other states to consider. What should happen when you try to
-lock the car while the windows are down or the engine is running?
-Can you open the door from the outside if the car is moving?
+There are many other states to consider. What should happen when you try to lock the car while the windows are down or the engine is running? Can you open the door from the outside if the car is moving?
 
-Modeling this complexity requires careful consideration of the
-states, transitions, and invariants that govern the behavior of a door.
+Modeling this complexity requires careful consideration of the states, transitions, and invariants that govern the behavior of a door.
 
-Without proper handling, we could end up in an illegal state, leading to
-unexpected behavior or even accidents: a passenger might be locked inside
-or you can't open the door from the outside in an emergency.
+Without proper handling, we could end up in an illegal state, leading to unexpected behavior or even accidents: a passenger might be locked inside, or you can't open the door from the outside in an emergency.
 
-For now, let's keep it simple and consider the two basic states: locked and unlocked.
-Here's a state diagram to visualize the possible states and transitions:
+For now, let's keep it simple and consider the two basic states: locked and unlocked. Here's a state diagram to visualize the possible states and transitions:
 
 ![Door state diagram](door.svg)
 
-Before you continue, take a moment to think about how you would model this in Rust.
-Perhaps you could even try to implement it yourself, for example on the [Rust Playground](https://play.rust-lang.org/).
+Before you continue, take a moment to think about how you would model this in Rust. Perhaps you could even try to implement it yourself, for example on the [Rust Playground](https://play.rust-lang.org/).
 
 ## Basic Door State Implementation
 
-Suppose a car manufacturer decided to implement the door logic in Rust (a great
-choice, I dare say). A naive implementation could look like this:
+Suppose a car manufacturer decided to implement the door logic in Rust (a great choice, I dare say). A naive implementation could look like this:
 
 ```rust
 struct Door {
@@ -94,15 +73,12 @@ impl Door {
 }
 ```
 
-This works, but the implementation is problematic because we might refactor the
-code and forget to keep the check for the door's state before opening it.
-This is a common issue with mutable state:
+This works, but the implementation is problematic because we might refactor the code and forget to keep the check for the door's state before opening it. This is a common issue with mutable state:
 
 <ul class="checklist">
     <li class="cross">It's easy to forget to check the state before performing an action. The state only gets represented as a value, not a type.</li>
     <li class="cross">It's hard to reason about the code because there are no clearly defined transitions between states; the logic is spread out and imperative.</li>
 </ul>
-
 
 ## Using Enums And Pattern Matching to Model State
 
@@ -160,22 +136,15 @@ door.lock();
 door.lock();
 ```
 
-It may seem harmless, but can lead to unexpected behavior, such as wear on
-the lock's internal components or unnecessary activation of the car's lights and
-horn.
+It may seem harmless, but it can lead to unexpected behavior, such as wear on the lock's internal components or unnecessary activation of the car's lights and horn.
 
-What if it could prevent a call to `lock` on a locked door?
-And what if you weren't able to call `open` on a locked door in the first place?
-This way, you wouldn't have to worry about forgetting to check the state before
-performing an action. You could refactor fearlessly, knowing that the compiler
-has your back.
+What if it could prevent a call to `lock` on a locked door? And what if you weren't able to call `open` on a locked door in the first place? This way, you wouldn't have to worry about forgetting to check the state before performing an action. You could refactor fearlessly, knowing that the compiler has your back.
 
 Could the compiler help us avoid such issues? Glad you asked!
 
 ## Using Traits to Build a State Machine
 
-The typestate pattern uses the type system to ensure correct state transitions
-at compile time. Here’s how to implement it in Rust:
+The typestate pattern uses the type system to ensure correct state transitions at compile time. Here’s how to implement it in Rust:
 
 ```rust
 trait DoorState {
@@ -252,7 +221,9 @@ The state machine pattern encapsulates the behavior associated with each state w
 
 <ul class="checklist">
     <li class="checkmark">Illegal states or transitions are prevented at compile-time. The Rust compiler will produce an error if a required behavior for a state is not implemented. This is because the <strong>state is represented as a type, not just a value</strong>, which allows the compiler to provide way stronger guarantees about the code's correctness.</li>
-    <li class="checkmark">Adding a new state is simple and does not require modifying existing ones. (To be fair, adding a new method on the trait requires updating all states, violating the open/closed principle.)</li>
+    <li class="checkmark">Adding a new state is simple and does not require modifying existing ones. (To be fair, adding a new method on the trait requires
+
+ updating all states, violating the open/closed principle.)</li>
     <li class="cross">However, this solution makes use of dynamic dispatch (via <code>Box&lt;dyn DoorState&gt;</code>), which means the method calls get resolved at runtime. In embedded systems or performance-critical applications, dynamic dispatch can be prohibited because of its runtime overhead.</li>
 </ul>
 
@@ -406,9 +377,4 @@ Here's a quick summary of the different state management approaches in Rust:
     </li>
 </ol>
 
-As we have seen, there are several ways to manage state in Rust, each with its
-own trade-offs. I tend to prefer the typestate pattern with static dispatch
-for critical applications, as it provides the strongest guarantees about the
-code's correctness at compile time. For simple cases, using enums
-and pattern matching can get you a long way and is a good trade-off between
-safety and complexity.
+As we have seen, there are several ways to manage state in Rust, each with its own trade-offs. I tend to prefer the typestate pattern with static dispatch for critical applications, as it provides the strongest guarantees about the code's correctness at compile time. For simple cases, using enums and pattern matching can get you a long way and is a good trade-off between safety and complexity.
