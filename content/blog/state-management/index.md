@@ -58,6 +58,8 @@ Here's a state diagram to visualize the possible states and transitions:
 
 ![Door state diagram](door.svg)
 
+Before you continue, take a moment to think about how you would model this in Rust.
+Perhaps you could even try to implement it yourself, for example on the [Rust Playground](https://play.rust-lang.org/).
 
 ## Basic Door State Implementation
 
