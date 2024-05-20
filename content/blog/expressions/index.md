@@ -184,10 +184,10 @@ This code could still be improved, but the main point is to show you how express
 
 ## Conclusion
 
-Expressions are very powerful. It takes a bit of practice to get used to them, 
-but once you get acquainted with them, they are a joy to work with.
-You go from imperative code to a more declarative style, expressing
-the steps of computation without being overly verbose and using placeholder variables.
+Expressions are very powerful. It takes a bit of practice to get acquainted with
+them, but they are a joy to use. You go from imperative code to a more
+declarative style, expressing the steps of computation without being overly
+verbose and using placeholder variables.
 
 When you try to refactor your code, keep expressions in mind.
 They tend to guide you towards more ergonomic Rust code.
