@@ -1,6 +1,6 @@
 +++
 title = "Using Expressions Effectively in Rust"
-date = 2024-05-16
+date = 2024-05-20
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
