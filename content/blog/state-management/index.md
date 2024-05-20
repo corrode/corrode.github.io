@@ -373,12 +373,6 @@ fn main() {
 
 ## Conclusion
 
-As we have seen, there are several ways to manage state in Rust, each with its
-own trade-offs. I tend to prefer the typestate pattern with static dispatch
-for critical applications, as it provides the strongest guarantees about the
-code's correctness at compile time. For less critical applications, using enums
-and pattern matching can be a good balance between safety and simplicity.
-
 Here's a quick summary of the different state management approaches in Rust:
 
 <ol class="checklist">
@@ -397,7 +391,7 @@ Here's a quick summary of the different state management approaches in Rust:
         </ul>
     </li>
     <li>
-        <strong>State Machine Pattern</strong>:
+        <strong>State Machine with Dynamic Dispatch</strong>:
         <ul>
             <li class="checkmark">Encapsulates state-specific behavior, adheres to the Single Responsibility Principle, easy to extend with new states or behaviors.</li>
             <li class="cross">More complex, uses dynamic dispatch which might be unsuitable for performance-critical applications.</li>
@@ -412,4 +406,9 @@ Here's a quick summary of the different state management approaches in Rust:
     </li>
 </ol>
 
-
+As we have seen, there are several ways to manage state in Rust, each with its
+own trade-offs. I tend to prefer the typestate pattern with static dispatch
+for critical applications, as it provides the strongest guarantees about the
+code's correctness at compile time. For simple cases, using enums
+and pattern matching can get you a long way and is a good trade-off between
+safety and complexity.
