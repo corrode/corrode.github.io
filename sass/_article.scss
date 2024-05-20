@@ -383,3 +383,42 @@ article a code:not(pre > code) {
     padding-top: 3em;
   }
 }
+
+.checklist {
+  list-style-type: none;
+  padding: 0;
+}
+
+.checklist li {
+  margin-bottom: 10px;
+  padding-left: 40px;
+  position: relative;
+}
+
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.checklist .checkmark::before {
+  content: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd" clip-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" viewBox="0 0 761.38 761.38"><path d="M380.69 0c210.24 0 380.69 170.45 380.69 380.69S590.93 761.38 380.69 761.38 0 590.93 0 380.69C0 170.46 170.46 0 380.69 0ZM184.32 418.9c-44.44-48.01 28.57-115.62 73.04-67.58l72 77.75 173.1-204.08c42.36-50.04 118.52 14.44 76.18 64.46L370.26 535.13c-19.65 23.1-54.25 25.99-75.69 2.83z"/></svg>');
+}
+
+.checklist .cross::before {
+  content: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 83.14 83.14"><path d="M41.57 0a41.57 41.57 0 1 0 0 83.14 41.57 41.57 0 0 0 0-83.14zM25.73 19.93a5.52 5.52 0 0 1 3.56 1.23c4.13 4.05 8.18 8.17 12.28 12.25l8.2-8.2c1.47-1.4 2.81-2.96 4.38-4.26a5.53 5.53 0 0 1 7.32.86 5.52 5.52 0 0 1 .51 7.48c-4.04 4.13-8.17 8.18-12.25 12.28l8.06 8.06c1.45 1.52 3.05 2.9 4.4 4.51a5.53 5.53 0 0 1-.85 7.32 5.53 5.53 0 0 1-7.48.53c-4.13-4.05-8.19-8.18-12.29-12.26l-8.41 8.41c-1.43 1.35-2.7 2.88-4.24 4.11a5.54 5.54 0 0 1-7.25-.92 5.52 5.52 0 0 1-.51-7.47c4.04-4.13 8.17-8.19 12.25-12.29L21.96 30.12a5.61 5.61 0 0 1-1.67-6.27c.9-2.14 3.04-3.9 5.44-3.92z"/></svg>');
+}
+
+@media (prefers-color-scheme: dark) {
+  .checklist .checkmark::before {
+      filter: invert(1);
+  }
+  .checklist .cross::before {
+      filter: invert(1);
+  }
+}

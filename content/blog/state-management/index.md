@@ -98,10 +98,11 @@ This works, but the implementation is problematic because we might refactor the
 code and forget to keep the check for the door's state before opening it.
 This is a common issue with mutable state:
 
-- It's easy to forget to check the state before performing an action.
-  The state only gets represented as a value, not a type.
-- It's hard to reason about the code because there are no clearly defined transitions
-  between states; the logic is spread out and imperative.
+<ul class="checklist">
+    <li class="cross">It's easy to forget to check the state before performing an action. The state only gets represented as a value, not a type.</li>
+    <li class="cross">It's hard to reason about the code because there are no clearly defined transitions between states; the logic is spread out and imperative.</li>
+</ul>
+
 
 ## Using Enums And Pattern Matching to Model State
 
@@ -140,14 +141,10 @@ impl Door {
 }
 ```
 
-- The **advantage** is that we can't forget to handle the `Locked` state, as the
-  code will not compile if we do. That's because Rust's exhaustive pattern
-  matching ensures that all possible cases get handled; a significant
-  improvement over the previous implementation. An enum also serves as a concise
-  way to enumerate (hence the name) all possible states the door can be in.
-- The **disadvantage** is that enums don't enforce state invariants, which means
-  that illegal transitions (like locking an already locked door) are still
-  possible.
+<ul class="checklist">
+    <li class="checkmark">We can't forget to handle the `Locked` state, as the code will not compile if we do. Rust's exhaustive pattern matching ensures that all possible cases get handled; a significant improvement over the previous implementation. An enum also serves as a concise way to enumerate (hence the name) all possible states the door can be in.</li>
+    <li class="cross">Enums don't enforce state invariants, which means that illegal transitions (like locking an already locked door) are still possible.</li>
+</ul>
 
 {% info(headline="What is a State Invariant?") %}
 
@@ -173,8 +170,7 @@ This way, you wouldn't have to worry about forgetting to check the state before
 performing an action. You could refactor fearlessly, knowing that the compiler
 has your back.
 
-Could the compiler help us avoid such issues? There is a way!
-
+Could the compiler help us avoid such issues? Glad you asked!
 
 ## Using Traits to Build a State Machine
 
@@ -254,18 +250,11 @@ impl Door {
 
 The state machine pattern encapsulates the behavior associated with each state within that state's implementation, offering several advantages:
 
-- Illegal states or transitions are pevented at compile-time. The Rust
-  compiler will produce an error if a required behavior for a state is not
-  implemented. This is because the **state is represented as a type, not just a
-  value**, which allows the compiler to provide way stronger guarantees about
-  the code's correctness.
-- Adding a new state is simple and does not require modifying existing ones. (To
-  be fair, adding a new method on the trait requires updating all states,
-  violating the open/closed principle.)
-- However, this solution makes use of dynamic dispatch (via `Box<dyn
-  DoorState>`), which means the method calls get resolved at runtime. In
-  embedded systems or performance-critical applications, dynamic dispatch can be
-  prohibited because of its runtime overhead.
+<ul class="checklist">
+    <li class="checkmark">Illegal states or transitions are prevented at compile-time. The Rust compiler will produce an error if a required behavior for a state is not implemented. This is because the <strong>state is represented as a type, not just a value</strong>, which allows the compiler to provide way stronger guarantees about the code's correctness.</li>
+    <li class="checkmark">Adding a new state is simple and does not require modifying existing ones. (To be fair, adding a new method on the trait requires updating all states, violating the open/closed principle.)</li>
+    <li class="cross">However, this solution makes use of dynamic dispatch (via <code>Box&lt;dyn DoorState&gt;</code>), which means the method calls get resolved at runtime. In embedded systems or performance-critical applications, dynamic dispatch can be prohibited because of its runtime overhead.</li>
+</ul>
 
 ## Typestate Pattern with Static Dispatch
 
@@ -376,9 +365,11 @@ fn main() {
 
 `Door<Locked>` and `Door<Unlocked>` are two different types, which are recognized as distinct by all parts of the type system.
 
-- Guarantees valid states and transitions at compile time, no runtime overhead from dynamic dispatch.
-- Makes the `impl` blocks easier to read, because they are broken down by state.
-- Can be verbose and still requires updating all states when adding a new method to the trait.
+<ul class="checklist">
+    <li class="checkmark">Guarantees valid states and transitions at compile time, no runtime overhead from dynamic dispatch.</li>
+    <li class="checkmark">Makes the <code>impl</code> blocks easier to read, because they are broken down by state.</li>
+    <li class="cross">Can be verbose and still requires updating all states when adding a new method to the trait.</li>
+</ul>
 
 ## Conclusion
 
@@ -390,18 +381,35 @@ and pattern matching can be a good balance between safety and simplicity.
 
 Here's a quick summary of the different state management approaches in Rust:
 
-1. **Naive Implementation**:
-    - **Pros**: Simple, easy to understand.
-    - **Cons**: Allows illegal states and transitions, harder to maintain as complexity grows.
+<ol class="checklist">
+    <li>
+        <strong>Naive Implementation</strong>:
+        <ul>
+            <li class="checkmark">Simple, easy to understand.</li>
+            <li class="cross">Allows illegal states and transitions, harder to maintain as complexity grows.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Enum-Based Implementation</strong>:
+        <ul>
+            <li class="checkmark">Ensures all states are handled, prevents illegal transitions.</li>
+            <li class="cross">Less scalable, requires manual handling of state transitions, enums don't enforce invariants.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>State Machine Pattern</strong>:
+        <ul>
+            <li class="checkmark">Encapsulates state-specific behavior, adheres to the Single Responsibility Principle, easy to extend with new states or behaviors.</li>
+            <li class="cross">More complex, uses dynamic dispatch which might be unsuitable for performance-critical applications.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>Typestate Pattern with Static Dispatch</strong>:
+        <ul>
+            <li class="checkmark">Ensures compile-time guarantees for valid states and transitions, no runtime overhead from dynamic dispatch.</li>
+            <li class="cross">Can be verbose, adding new actions requires updating all states, losing some open/closed principle benefits.</li>
+        </ul>
+    </li>
+</ol>
 
-2. **Enum-Based Implementation**:
-    - **Pros**: Ensures all states are handled, prevents illegal transitions.
-    - **Cons**: Less scalable, requires manual handling of state transitions, enums don't enforce invariants.
 
-3. **State Machine Pattern**:
-    - **Pros**: Encapsulates state-specific behavior, adheres to the Single Responsibility Principle, easy to extend with new states or behaviors.
-    - **Cons**: More complex, uses dynamic dispatch which might be unsuitable for performance-critical applications.
-
-4. **Typestate Pattern with Static Dispatch**:
-    - **Pros**: Ensures compile-time guarantees for valid states and transitions, no runtime overhead from dynamic dispatch.
-    - **Cons**: Can be verbose, adding new actions requires updating all states, losing some open/closed principle benefits.
