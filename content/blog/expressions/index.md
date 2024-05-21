@@ -104,7 +104,7 @@ and the duplicate logic.
 
 The first observation is that we have multiple return statements in the middle of the function.
 This can make the code harder to follow and reason about.
-Let's refactor the code to have a single return statement at the end of the function.
+Let's refactor the code to have a single return statement at the end by assigning the result of the `match` expression to a variable:
 
 ```rust
 use std::env;
@@ -140,7 +140,9 @@ This works because the `if` and `match` expressions return the value of the last
 In this case, the value is whatever `setup_config` returns.
 This value gets assigned to `config_file`, and we return it at the end of the function.
 
-Let's go one step further and try to call `setup_config` only *once* at the end of the function:
+The `let foo = match ...` pattern is a common idiom in Rust which I personally use a lot.
+
+Let's go one step further and try to move the call to `setup_config` outside of the `match` expression.
 
 ```rust
 use std::env;
@@ -169,73 +171,87 @@ fn setup_config(path: &PathBuf) -> Result<File, Box<dyn std::error::Error>> {
 }
 ```
 
-Better, right? 
-
-The `else` block in the `None` case is just a fallback if all else fails.
-It gets way too much attention in the original code.
-We can use the `unwrap_or_else` method to make it more concise:
+Let's focus on this part, which tries to find the configuration directory:
 
 ```rust
-use std::env;
-use std::fs::File;
-use std::path::PathBuf;
-
-/// Create a configuration file for the application at the given path
-fn create_config_file(config_path: Option<PathBuf>) -> Result<File, Box<dyn std::error::Error>> {
-    let path = match config_path {
-        Some(path) => path,
-        None => {
-            env::home_dir()
-                .map(|home_dir| home_dir.join(".config/my_app/").to_path_buf())
-                .unwrap_or_else(|| PathBuf::from("."))
-        }
-    };
-    Ok(setup_config(&path)?)
-}
-
-fn setup_config(path: &PathBuf) -> Result<File, Box<dyn std::error::Error>> {
-    // Implementation details omitted
-    unimplemented!()
+if let Some(home_dir) = env::home_dir() {
+    let config_dir = home_dir.join(".config/my_app/");
+    config_dir.to_path_buf()
+} else {
+    PathBuf::from(".")
 }
 ```
 
-Now the fallback is just a side note, and the main logic is more prominent.
-
-The `Some(path) => path` match arm looks very simple. Almost too simple? We have already used `unwrap_or_else()` once, let's apply it here as well.
+One could rewrite this as a single expression:
 
 ```rust
-use std::env;
-use std::fs::File;
-use std::path::PathBuf;
+let path = env::home_dir()
+    .map(|home_dir| home_dir.join(".config/my_app/"))
+    .unwrap_or_else(|| PathBuf::from("."));
+```
 
-/// Create a configuration file for the application at the given path
-fn create_config_file(config_path: Option<PathBuf>) -> Result<File, Box<dyn std::error::Error>> {
-    let path = config_path.unwrap_or_else(|| {
-        env::home_dir()
-            .map(|home_dir| home_dir.join(".config/my_app/").to_path_buf())
-            .unwrap_or_else(|| PathBuf::from("."))
-    });
-    Ok(setup_config(&path)?)
-}
+While concise, this approach can reduce readability. The `unwrap_or_else` method ends with the case where `config_path` is `None`, which isn't immediately clear. The closure code seems like a refinement rather than a distinct next step.
 
-fn setup_config(path: &PathBuf) -> Result<File, Box<dyn std::error::Error>> {
-    // Implementation details omitted
-    unimplemented!()
+The `.map` and `.unwrap_or_else` combination requires understanding that the first line might fail, forcing the reader to juggle multiple possibilities. Depending on your audience, this might be fine, but it might also disrupt the flow of the code.
+
+An imperative approach, with clear steps, might be easier to understand.
+
+```rust
+let path = get_config_path(config_path);
+```
+
+where `get_config_path` is a function that encapsulates the logic:
+
+```rust
+/// Get the path for the configuration file
+fn get_config_path(config_path: Option<PathBuf>) -> PathBuf {
+    // Check if a path was provided
+    if let Some(path) = config_path {
+        return path; 
+    }
+
+    // Try to get the home directory
+    if let Some(home_dir) = env::home_dir() {
+        return home_dir.join(".config/my_app/");
+    }
+
+    // Fallback to the current directory
+    PathBuf::from(".")
 }
 ```
 
-This code could still be improved, but the main point is to show you how expressions can help you refactor your code without a lot of effort. We avoided repetition simply by thinking in terms of expressions.
+This goes to show that expressions are not a panacea. Sometimes, a more imperative
+style is more readable and easier to understand. Always have the reader in mind
+when you refactor your code. Which version is easier to understand for them?
+
+
+## Let-Else
+
+One recent addition to Rust are `let else` expressions.
+We can use them to simplify the code above a bit more:
+
+```rust
+let Some(home_dir) = env::home_dir() else {
+    // Fallback to the current directory
+    return PathBuf::from(".")
+};
+
+home_dir.join(".config/my_app/")
+```
+
+This is another nice way to handle the case where `env::home_dir()` returns `None`.
+Which variant you prefer is a matter of taste and readability.
+
+I like the fact that expressions are so versatile and that they don't stand in
+conflict with imperative code. You can mix and match them as you see fit.
 
 ## Conclusion
 
 Expressions are very powerful. It takes a bit of practice to get acquainted with
-them, but they are a joy to use. You go from imperative code to a more
+them, but then they are a joy to use. You go from imperative code to a more
 declarative style, expressing the steps of computation without being overly
-verbose and using placeholder variables.
+verbose and using temporary variables.
 
 When you try to refactor your code, keep expressions in mind.
-They tend to guide you towards more ergonomic Rust code.
-
-
-- match expression
-- let else
+They tend to guide you towards more ergonomic Rust code and avoid repetition.
+Try a few different variants to see what works best.
