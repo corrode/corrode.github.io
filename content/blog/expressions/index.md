@@ -4,6 +4,10 @@ date = 2024-05-20
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+reviews = [
+    { name = "Hanno Braun", url = "https://www.hannobraun.com/" },
+    { name = "Thomas Zahner",  url = "https://github.com/thomas-zahner"}
+]
 resources = [
     "[Rust, Ruby, and the Art of Implicit Returns &mdash; Earthly blog](https://earthly.dev/blog/single-expression-functions/)"
 ]
