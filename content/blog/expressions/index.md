@@ -9,12 +9,29 @@ reviews = [
     { name = "Thomas Zahner",  url = "https://github.com/thomas-zahner"}
 ]
 resources = [
+    "Rust By Example: Expressions &mdash; [doc.rust-lang.org](https://doc.rust-lang.org/rust-by-example/expression.html)",
+    "Rust Reference: Expressions &mdash; [doc.rust-lang.org](https://doc.rust-lang.org/reference/expressions.html)",
     "[Rust, Ruby, and the Art of Implicit Returns &mdash; Earthly blog](https://earthly.dev/blog/single-expression-functions/)"
 ]
 +++
 
 Rust is an expression-based language, which means that almost everything in Rust is an expression.
 Functional programmers are used to the concept, but for those coming from an imperative background, it might be a bit confusing at first.
+
+The alternative to expressions are statements, which you might be familiar with
+from other, more imperative languages.
+
+Here is what the Rust Reference has to say about expressions:
+
+> Rust is primarily an expression language. This means that most forms of
+> value-producing or effect-causing evaluation are directed by the uniform
+> syntax category of expressions. Each kind of expression can typically nest
+> within each other kind of expression, and rules for evaluation of expressions
+> involve specifying both the value produced by the expression and the order in
+> which its sub-expressions are themselves evaluated.
+>
+> In contrast, statements serve mostly to contain and explicitly sequence expression evaluation.
+> &mdash; [Rust Reference](https://doc.rust-lang.org/reference/expressions.html)
 
 Let's see how you can use expressions effectively in Rust and how they can improve your code flow.
 
@@ -26,6 +43,29 @@ In Rust, an expression is any construct that evaluates to a value. This includes
 internalize the concept.
 
 Expressions return values, so they can be used in all the places where you would expect a value, like function arguments, assignments, and return statements.
+
+```rust
+fn main() {
+    // 42 is an expression that evaluates to the value 42.
+    // Sounds trivial, but it goes to show that even literals are expressions.
+    let x = 42; 
+
+    // Here we have a block expression that evaluates to 15
+    // The last expression in the block gets returned.
+    let y = {
+        let z = 10;
+        z + 5
+    };
+
+    // An `if` expression also evaluates to a value
+    // which can be assigned to a variable.
+    let z = if y > 10 { 1 } else { 0 };
+}
+```
+
+These examples hardly capture the full flexibility of expressions.
+As with many other concepts in Rust, it's hard to internalize expressions without practice.
+Let's look at a real-world example.
 
 ## A Practical Refactoring Example
 
@@ -195,3 +235,7 @@ verbose and using placeholder variables.
 
 When you try to refactor your code, keep expressions in mind.
 They tend to guide you towards more ergonomic Rust code.
+
+
+- match expression
+- let else
