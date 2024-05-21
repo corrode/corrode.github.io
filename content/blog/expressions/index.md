@@ -1,5 +1,5 @@
 +++
-title = "Using Expressions Effectively in Rust"
+title = "Effective Use Of Expressions In Rust"
 date = 2024-05-20
 template = "article.html"
 [extra]
