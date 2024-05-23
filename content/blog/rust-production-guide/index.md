@@ -1,6 +1,6 @@
 +++
 title = "Guide to Rust in Production"
-date = 2024-05-23
+date = 2024-05-24
 template = "article.html"
 [extra]
 series = "Rust Insights"
