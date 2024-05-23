@@ -60,8 +60,8 @@ Understanding *why* you are considering to adopt Rust is crucial.
 
 - Define clear goals and expectations for the project &mdash; this is a good
   idea, no matter if you decide on Rust or another language in the end.
-- Set out to compare all the available options by fairly evaluating the pros and cons
-  of each language in a table or a document. Share this document with your team
+- Set out to [compare all the available options by fairly evaluating the pros and cons
+  of each language](https://www.youtube.com/watch?v=DnT-LUQgc7s) in a table or a document. Share this document with your team
   and stakeholders to fill in the gaps and ensure transparency.
 - Focus on business value and long-term benefits, not personal preferences.
 - Rust needs a catalyst for success, i.e. a clear benefit, which will be the
