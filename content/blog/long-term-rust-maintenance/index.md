@@ -3,10 +3,15 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-updated = 2024-05-19
+updated = 2024-05-23
 series = "Rust Insights"
 hero = "maintenance.svg"
-credits = [ "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" ]
+reviews = [
+  { name = "Florian Bartels", url = "https://github.com/flba-eb" },
+]
+credits = [ 
+  "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" 
+]
 +++
 
 Rust has reached a level of maturity where it is being used for critical
@@ -36,6 +41,7 @@ Click here to expand the table of contents.
 - [Your Team Needs to be On Board](#your-team-needs-to-be-on-board)
 - [Building for Rust Stability and Longevity](#building-for-rust-stability-and-longevity)
   - [Prefer Stable Rust Over Nightly](#prefer-stable-rust-over-nightly)
+  - [Regularly Update Your Compiler](#regularly-update-your-compiler)
   - [Editions](#editions)
   - [Use Rust Language Features Conservatively](#use-rust-language-features-conservatively)
   - [Be Conservative About Async Rust](#be-conservative-about-async-rust)
@@ -103,6 +109,18 @@ and you should carefully evaluate if the benefits outweigh the risks.
 > If you are writing code that should live for a while, or a library that is
 > aimed to be widely used, avoiding nightly features is likely your best bet.
 > &mdash; Andre Bogus in [The nightly elephant in the room](https://www.getsynth.com/docs/blog/2021/10/11/nightly)
+
+### Regularly Update Your Compiler
+
+Dependencies can specify a minimum version of the Rust compiler they require. Keeping your compiler up-to-date ensures you can use the latest versions of your dependencies.
+
+Additionally, continuous integration tools, like the [`dtolnay/rust-toolchain`](https://github.com/dtolnay/rust-toolchain) GitHub Action, default to the latest stable Rust version. Therefore, it's adivsable to keep your compiler current.
+
+Updating your compiler toolchain is simple. Do it regularly:
+
+```bash
+rustup update
+```
 
 ### Editions
 
