@@ -27,7 +27,7 @@ Click here to expand the table of contents.
   - [Address Concerns and Answer Questions in a Relaxed Setting](#address-concerns-and-answer-questions-in-a-relaxed-setting)
 - [Project Planning](#project-planning)
   - [Finding The Right Project](#finding-the-right-project)
-  - [Ways to Integrate Rust](#ways-to-integrate-rust)
+  - [Choose The Right Integration Method](#choose-the-right-integration-method)
   - [Check the Ecosystem](#check-the-ecosystem)
   - [Set Standards for Crates](#set-standards-for-crates)
   - [Establish a Policy on Async Rust](#establish-a-policy-on-async-rust)
@@ -81,7 +81,7 @@ I recommend running a survey to gauge the team's initial interest in Rust. Ask q
 
 - What is your current language of choice?
 - On a scale from 1 to 5, how interested are you in learning Rust?
-- What are your concerns about adopting Rust?
+- What are your main concerns about adopting Rust?
 - Which other languages would you consider for the project?
 - What are the main benefits of choosing Rust for this project?
 - Would you be willing to take on a Rust project? If so, in what capacity?
@@ -100,23 +100,27 @@ Begin with a project that is close to your core business but not mission-critica
 
 Choose a project in a domain you know very well. This way, you can focus on learning Rust and not on understanding the domain. On top of that, you can compare the performance of Rust with the existing system and see if it lives up to the expectations. It will be easier to onboard new team members if they are already familiar with the domain.
 
-### Ways to Integrate Rust
+### Choose The Right Integration Method
 
 There are various ways to integrate Rust into your existing infrastructure:
 
-- **CLI Tools**: Develop command-line tools in Rust.
-- **FFI Layer**: Use Rust to call functions in other languages.
-- **Microservices / Network Layer**: Implement microservices in Rust.
-- **WebAssembly for Frontend**: Use Rust to compile to WebAssembly for frontend development.
-- **Embedded Systems**: Develop embedded systems in Rust.
+- **CLI Tool**: Develop a command-line tool in Rust.
+- **FFI Layer**: Call Rust code from another language using the Foreign Function Interface.
+- **Microservice / Network Layer**: Implement a microservice in Rust.
+- **WebAssembly**: Use Rust to compile to WebAssembly (e.g. for frontend).
+- **Embedded System**: Develop an embedded system in Rust.
 
-Pick the integration method which best aligns with your project's requirements and team's expertise. Choose a method that allows you to leverage Rust's strengths while minimizing risks. Rust can be a great fit for performance-critical parts of your application, such as networking and data processing. Once the team sees the benefits of Rust, they will be more open to using it in other parts of the business. Pick a project with a huge upside and one that is easy to replace if things go wrong. A microservice is a good candidate for this. In the worst case, you can rewrite it in another language. You can gradually shift over traffic to the Rust service and see how it performs in production.
+Pick the integration method which best aligns with your project's requirements and team's expertise. Choose a method that allows you to leverage Rust's strengths while minimizing risks. Rust can be a great fit for performance-critical parts of your application, such as networking and data processing. Once the team sees the benefits of Rust, they will be more open to using it in other parts of the business. Pick a project with a huge upside and one that is easy to replace if things go wrong.
 
-I personally would not start with a CLI tool because it is often not close to the core business, and the team might not see the benefits of Rust. Similarly, I would not start with WebAssembly because it is a complex topic, and the team might get frustrated with the tooling and the ecosystem. There might also not be any immediate upside, such as faster performance, and the team could get the wrong impression about Rust.
+**A microservice** is a good candidate for this. In the worst case, you can rewrite it in another language. You can gradually shift over traffic to the Rust service and see how it performs in production.
 
-I saw some great results with Rust for embedded systems, where the tooling is excellent, and there is a clear project boundary.
+I personally would not start with a **CLI tool** because it is often not close to the core business, and the team might not see the benefits of Rust.
 
-The FFI layer is a good choice if you have a large codebase in another language and want to gradually replace parts of it with Rust. For example, some teams rewrite a performance-critical section of their Java monolith in Rust for 2-3x performance improvements.
+Similarly, I would not start with **WebAssembly** because it is a complex topic, and the team might get frustrated with the tooling and the ecosystem. There might also not be any immediate upside, such as faster performance, and the team could get the wrong impression about Rust.
+
+I saw some great results with Rust for **embedded systems**, where the tooling is excellent, and there is a clear project boundary. Tools like [probe-rs](https://probe.rs/) are often considered best-in-class.
+
+The **FFI layer** is a good choice if you have a large codebase in another language and want to gradually replace parts of it with Rust. For example, some teams rewrite a performance-critical section of their Java monolith in Rust for 2-3x performance improvements. The [jni crate](https://docs.rs/jni) allows you to create a compatible library.
 
 ### Check the Ecosystem
 
@@ -128,15 +132,15 @@ Some companies are fine with using any crate from crates.io, while others are mo
 
 Choosing the right crates can have a big impact on the [long-term maintainability](/blog/long-term-rust-maintenance/) of your project.
 
-Run [cargo-audit](https://docs.rs/cargo-audit/latest/c
-
-argo_audit/) regularly to check for security vulnerabilities in your dependencies.
+Run [cargo-audit](https://docs.rs/cargo-audit/latest/cargo_audit/) regularly to check for security vulnerabilities in your dependencies.
 
 ### Establish a Policy on Async Rust
 
 Async Rust requires proficiency in the language and can be challenging for beginners. [Navigating the space is hard.](/blog/async)
 
-Establish early on if you want to use async Rust in your project, because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when necessary. For the rest of the application (such as their domain model), they stick to synchronous code. Either way, establish a policy early on and make sure everyone is on the same page.
+Establish early on if you want to use async Rust in your project, because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when there is no other choice (e.g. the ecosystem does not provide a synchronous alternative). For the rest of the application (such as their domain model), they stick to synchronous code.
+
+Either way, establish a policy early on and make sure everyone is on the same page.
 
 ### Have a Migration Strategy
 
@@ -183,7 +187,7 @@ Once an initial prototype is in place, it's time to bring on the rest of the tea
 
 The biggest concern about Rust that I hear from engineers is that they are worried they won't have enough time to properly learn Rust. Set aside dedicated learning time for your team to get up to speed with Rust. Encourage your team to work on small Rust projects or contribute to open-source projects to gain practical experience.
 
-This might be a good time to compare Rust workshops and training programs. Some companies (like corrode) offer dedicated Rust training for teams and provide discounts for larger groups. An on-site training can be a great way to kick off your Rust project and get everyone excited about the opportunity to work on the project. Remember to plan some time to schedule the training and to get the budget approved, so reach out to the training provider early.
+This might be a good time to compare Rust workshops and training programs. Some consultancies (like [corrode](/)) offer dedicated Rust training for teams and provide discounts for larger groups. An on-site training can be a great way to kick off your Rust project and get everyone excited about the opportunity to work on the project. Remember to plan some time to schedule the training and to get the budget approved, so reach out to the training provider early.
 
 ### Learning Resources
 
@@ -192,103 +196,115 @@ No matter how you plan to integrate Rust into your project, make sure to read up
 - [The Rust Book](https://doc.rust-lang.org/book/): A must-read for every developer on the team. Make sure that everyone on the team gets a copy or reads it online.
 - [Rustlings](https://github.com/rust-lang/rustlings): Fun, short exercises to get started with Rust.
 
-Once you're done with those, get more specific knowledge by looking through the books on this [Rust books list](https://github.com/sger/RustBooks) and the resources for [idiomatic Rust](https://corrode.dev/blog/idiomatic-rust-resources/).
+Which resources I would recommend after that depends on the team's background and the project's requirements.
+Take a look at this [Rust books list](https://github.com/sger/RustBooks) and my resources for [idiomatic Rust](https://corrode.dev/blog/idiomatic-rust-resources/).
 
 ## Budgeting
 
-Be aware of the (hidden) costs associated with adopting Rust. Here is a checklist of costs to consider ordered by the stages of the project:
+To avoid any surprises, it's essential to plan your budget carefully.
+Be aware of the (hidden) costs associated with adopting Rust. 
+Here is a checklist of costs to consider, roughly ordered by the stages of a project:
 
 1. **Initial Setup and Planning**
-   - Rust exploration and evaluation (surveys, research)
+   - Rust exploration and evaluation (conducting surveys, research)
    - Alignment between stakeholders (meetings, design documents)
-   - Feasibility study (proof of concept for your domain)
    - Planning and architecture
+   - Feasibility study (proof of concept for your domain)
    - Transition management (project management resources)
+
+2. **Opportunity costs** 
+   - Costs of delaying other projects and features. / Time spent on Rust could be spent on other projects.
    
-2. **Training and Team Preparation**
-   - Training (4 months, dedicated time)
+3. **Training and Team Preparation**
+   - Training (4 months of dedicated time)
    - Rust training and resources (books, online courses, conferences)
-   - Hiring consultants (expert guidance)
-   - Team building and retention activities
-   - Community contributions (encourage team participation)
+   - Mentorship and coaching
+   - Team building activities (team lunches, offsites)
 
-3. **Hiring and Team Expansion**
-   - Hiring Rust developers
-   - Hiring people in infrastructure roles (for scalability, networking, on-call support)
+4. **Hiring and Team Expansion**
+   - Staffing costs for Rust developers (recruiting, onboarding)
+   - Hiring people in infrastructure roles (SREs, DevOps)
 
-4. **Setup Costs**
-   - CI/CD pipelines
-   - IDE configuration
+5. **Setup Costs**
    - Project structure
+   - Workflows and tools (IDEs, linters, formatters)
+   - CI/CD pipelines
 
-5. **Development and Implementation**
+6. **Development and Implementation**
+   - Costs of fast development machines ([Rust builds are hardware-intensive](/blog/tips-for-faster-rust-compile-times/))
    - Development costs (coding, testing, debugging)
    - Documentation
    - Code reviews and pair programming (to ensure code quality and knowledge sharing)
-   - Performance tuning (rarely needed, but consider it)
+   - Performance tuning (if needed)
    - Security audits
    - Compliance and legal reviews (regulations and standards, e.g. GDPR or software licenses)
 
-6. **Infrastructure and Tooling**
+7. **Infrastructure and Tooling**
    - Licensing for proprietary tools (rarely needed, but consider it)
-   - Hardware costs (fast development machines; [the Rust compilation process is hardware-intensive](/blog/tips-for-faster-rust-compile-times/))
-   - Additional hardware for migration (a separate set of infrastructure for the new system)
+   - Additional hardware during migration (a separate set of infrastructure for the new system)
 
-7. **Ongoing Maintenance and Support**
+8. **Ongoing Maintenance and Support**
+   - Cloud costs (compute, storage, networking)
    - Ongoing maintenance costs (monitoring, logging, on-call, CI/CD pipelines)
    - Refactoring and cleaning up technical debt
    
-8. **Communication and Marketing**
-   - Internal communication (newsletters, blog posts, presentations)
-   - External communication (press releases, blog posts, conference talks)
+9.  **Communication and Marketing**
+    - Internal communication (presentations)
+    - External communication (blog posts, conference talks)
 
-9. **Risk Management**
-   - Account for the cost of failure
-   - Consider costs of rollback mechanisms (if applicable)
-   - Costs of rollback if the migration fails (if applicable)
+10. **Risk Management**
+    - Account for the cost of failure
+    - Consider costs of rollback mechanisms
+    - Costs of rollback if the migration fails
 
 ## On Hiring Talent
 
-Finding and hiring the right talent is crucial for the success of any project. This section provides insights into hiring strategies and what to look for in candidates for Rust projects specifically.
+Hiring Rust talent takes time and effort.
+This section provides insights into hiring strategies and what to look for in candidates for Rust projects specifically.
 
 ### People with Production Experience Are Hard to Find and Expensive
 
-It's challenging to find developers with Rust production experience. Competing with the crypto industry, which heavily uses Rust, makes it even harder. Salaries for Rust developers in crypto can be 2-3 times higher than in other industries, and the pool of talent is small.
+It's challenging to find developers with Rust *production* experience. Competing with the crypto industry, which heavily uses Rust, makes it even harder. Salaries for Rust developers in crypto can be 2-3 times higher than in other industries, and the pool of talent is small.
 
-Unless you are a hot new startup or have a big budget, finding people with Rust production experience can be challenging and costly.
+Unless you are a hot new startup or have a big budget, finding people with Rust production experience can be challenging and costly. Consider training your own team instead.
 
 ### Source Talent From Your Existing Teams Instead
 
-Instead of focusing solely on experience, consider finding junior- to mid-level developers who are smart, curious, and eager to learn. From my experience, good candidates often have experience in related areas (like Kotlin or TypeScript) and are known for being quick learners. With trust and mentorship from the Rust champion, they can quickly become key team members.
+Instead of focusing solely on experience, consider finding junior- to mid-level developers who are smart, curious, and eager to learn. From my experience, good candidates often have experience in related areas (like Kotlin or TypeScript) and are known for being quick learners. Place them near your Rust champion or an expert mentor to help them get up to speed quickly.
 
-People in infrastructure roles are also a great fit. Those who tend to have an interest in scalability, performance, and networking can also be great additions to your team. Look for those with previous admin roles, who have worked close to the metal and have a good understanding of how things work under the hood. Find people who can read documentation and are not afraid to dive into the source code.
+People in infrastructure roles are also a great fit. Those who tend to have an interest in scalability, performance, and networking can also be great additions to your team. Look for those with previous admin roles, who have worked close to the metal and have a good understanding of how things work under the hood. 
+These people are often excited to pick up Rust as their background aligns well with the language's strengths.
 
 ## Ongoing Maintenance
 
-I wrote a [blog post](/blog/long-term-rust-maintenance/) on long-term Rust maintenance, which might be helpful for you, but here are some important points to get you started:
+I wrote a separate [blog post on long-term Rust maintenance](/blog/long-term-rust-maintenance/), which might be helpful for you, but here are some specific tips for your first Rust project:
 
 ### Emphasize Code Reviews and Pair Programming
 
-Code reviews and pair programming are essential for maintaining code quality and ensuring that the team is on the same page. They are also a great way to share knowledge and best practices among team members. Make sure that code reviews are a regular part of your development process and that everyone on the team understands the importance of them.
+Code reviews and pair programming are a great way to share knowledge and best practices among team members. Make sure that code reviews are a regular part of your development process and that everyone on the team understands the importance of them.
 
-Consider strategies like [mob programming](https://en.wikipedia.org/wiki/Mob_programming) to
-
- get the team up to speed quickly. This can be especially helpful for new team members who are still learning Rust and might be too shy to ask questions in a code review.
+Consider strategies like [mob programming](https://en.wikipedia.org/wiki/Mob_programming) to get the team up to speed quickly. This can be especially helpful for new team members who are still learning Rust and might be too shy to ask questions in a code review or on a team channel.
 
 ### Encourage Refactoring
 
-Refactoring is an essential part of maintaining a healthy codebase. Encourage your team to refactor code regularly to keep it clean and maintainable. Make sure it is a regular part of your development process and that everyone on the team can change the codebase without fear.
+Encourage your team to refactor code regularly to keep it clean and maintainable. Make sure it is a regular part of your development process and that everyone on the team can change the codebase without fear. Unless you work in a safety-critical environment, everyone should be able to make changes to the codebase without asking for permission.
 
 ### Regularly Review Progress and Adjust Strategies
 
-Regularly review the progress of your Rust project and adjust your strategies as needed. Make sure that you are meeting your goals (as defined above) and that the team feels productive. Keep an eye on documentation and readability of the codebase. Some projects have the tendency to become overly complex, so regularly ask newcomers to review the codebase and give feedback on what they find confusing.
+As you go, adjust your strategies as needed. Make sure that you are hitting your milestones and that the team feels productive.
+
+Some projects have the tendency to become overly complex, so regularly ask newcomers to review the codebase and give feedback on what they find confusing.
+Keep the code straightforward and fight abstractions. Focus on being readable, not clever.
 
 ## Next Steps
 
-By following these strategies, you can ensure a successful Rust adoption for your first production project. With careful planning, a supportive team, and the right resources, Rust can become a valuable asset for your organization.
+By acknowledging the challenges and following these strategies, you can ensure a successful Rust adoption for your first production project. With careful planning and a dedicated team, Rust can drive significant improvements in your organization. 
+
+Check out our ['Rust in Production' podcast](/podcast/) for insights from industry experts on how their teams successfully adopted Rust in production. 
 
 {% info(headline="Need Help with Your Rust Project?") %}
 
+If you're considering adopting Rust for your next project, I can help you get started.
 [Reach out for a free consultation](/#contact) if you need help with your Rust project. I'm happy to help you get the most out of Rust and guide you through the process.
 
 {% end %}
