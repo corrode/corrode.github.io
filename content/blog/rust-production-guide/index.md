@@ -44,6 +44,7 @@ Click here to expand the table of contents.
 - [On Hiring Talent](#on-hiring-talent)
   - [People with Production Experience Are Hard to Find and Expensive](#people-with-production-experience-are-hard-to-find-and-expensive)
   - [Source Talent From Your Existing Teams Instead](#source-talent-from-your-existing-teams-instead)
+  - [Scaling The Team](#scaling-the-team)
 - [Ongoing Maintenance](#ongoing-maintenance)
   - [Emphasize Code Reviews and Pair Programming](#emphasize-code-reviews-and-pair-programming)
   - [Encourage Refactoring](#encourage-refactoring)
@@ -290,6 +291,21 @@ Instead of focusing solely on experience, consider finding junior- to mid-level 
 
 People in infrastructure roles are also a great fit. Those who tend to have an interest in scalability, performance, and networking can also be great additions to your team. Look for those with previous admin roles, who have worked close to the metal and have a good understanding of how things work under the hood. 
 These people are often excited to pick up Rust as their background aligns well with the language's strengths.
+
+### Scaling The Team
+
+Once your project reaches a certain level of maturity, you can start hiring Rust developers to scale your team and maintain the project.
+
+Using Rust can be a competitive advantage for smaller companies, as it attracts developers who are excited about the language's potential. Companies like InfluxData have seen a notable increase in interest from developers after announcing projects involving Rust:
+
+> I announced that we're working on this new core of the database in November of
+> 2020 in a talk I did. And I said we were hiring and we got a bunch
+> of inbound interest because of the fact that it was written in Rust.
+> &mdash; Paul Dix, InfluxData
+
+If you're interested in learning more about hiring Rust developers, don't miss the season finale of 'Rust in Production.' Paul Dix from InfluxData and Micah Wylde from Arroyo share insights on why smaller companies find hiring Rust talent a competitive advantage while larger companies face unique challenges.
+
+Find the section from the episode about hiring Rust engineers [here](/podcast/s01e07-season-finale/?t=23%3A06).
 
 ## Ongoing Maintenance
 
