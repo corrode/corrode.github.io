@@ -196,7 +196,16 @@ Most importantly, bringing in a consultant early in the project can eliminate th
 
 Many companies fear the cost of hiring consultants. However, clarifying things early on and avoiding costly mistakes can be more economical in the long run. The team will benefit the most early on, starting with a solid foundation.
 
-Think of it like this: if you were to climb a mountain, would you rather have a guide who has climbed it many times before or try to figure it out on your own? The guide can help you avoid dangerous paths, plan ahead, and make the journey much more pleasant for everyone involved.
+<div style="display: flex; justify-content: space-evenly; align-items: stretch; gap: 20px;">
+  <p style="flex: 1; margin: 0; display: flex; align-items: center;">
+    Think of it like this: if you were to go rock climbing for the first time, would
+    you rather have a seasoned climbing partner or go it alone? The guide can
+    help you avoid dangerous routes, give you some tips, and make the experience much more
+    pleasant for everyone involved.
+  </p>
+  <img src="climb.svg" alt="A good consultant is like a climbing partner or belayer" style="height: auto; max-height: 300px;">
+</div>
+
 
 ### Allocate Time for Learning
 
