@@ -125,6 +125,12 @@ Begin with a project that is close to your core business but not
 mission-critical. This approach allows your team to gain experience with Rust
 with less disruption to the business.
 
+Choose a project in a domain you know very well. This way, you can focus on
+learning Rust and not on understanding the domain. On top of that, you can
+compare the performance of Rust with the existing system and see if it lives up
+to the expectations. It will be easier to onboard new team members if they are
+already familiar with the domain.
+
 ### Ways to Integrate Rust
 
 There are various ways to integrate Rust into your existing infrastructure:
@@ -338,6 +344,10 @@ code.
 
 ## Ongoing Maintenance
 
+I wrote a [blog post](/blog/long-term-rust-maintenance/) on long-term Rust
+maintenance, which might be helpful for you, but here are some important points
+to get you started:
+
 ### Emphasize Code Reviews and Pair Programming
 
 Code reviews and pair programming are essential for maintaining code quality and
@@ -364,8 +374,6 @@ feels productive. Keep an eye on documentation and readability of the codebase.
 Some projects have the tendency to become overly complex, so 
 regularly ask newcomers to review the codebase and give feedback what they find
 confusing.
-
-I wrote a [blog post](/blog/long-term-rust-maintenance/) on long-term Rust maintenance, which might be helpful for you.
 
 ## Next Steps
 
