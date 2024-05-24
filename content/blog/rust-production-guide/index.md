@@ -1,5 +1,5 @@
 +++
-title = "Guide to Rust in Production"
+title = "How to Launch Your First Rust Project In Production"
 date = 2024-05-24
 template = "article.html"
 [extra]
