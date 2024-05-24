@@ -22,6 +22,7 @@ Click here to expand the table of contents.
 - [Know Why You Are Considering Rust](#know-why-you-are-considering-rust)
 - [Get The Buy-In From Stakeholders](#get-the-buy-in-from-stakeholders)
   - [Your Team Must Be On Board](#your-team-must-be-on-board)
+  - [Keep an Eye on The Bus Factor](#keep-an-eye-on-the-bus-factor)
   - [Find a Rust Champion](#find-a-rust-champion)
   - [Run a Survey to Gauge Interest and Concerns](#run-a-survey-to-gauge-interest-and-concerns)
   - [Address Concerns and Answer Questions in a Relaxed Setting](#address-concerns-and-answer-questions-in-a-relaxed-setting)
@@ -68,6 +69,21 @@ Understanding *why* you are considering adopting Rust is crucial.
 Introducing Rust will be a disruptive change, and it's vital to have the backing of both the team and leadership. One side is not enough. Make sure everyone understands the [benefits and challenges of using Rust](/blog/why-rust).
 
 Rust is an organization-wide commitment, and it's vital to have a long-term mindset. If you need to get something done quickly and can afford tech debt, consider using another language. However, for long-term projects, Rust's benefits will offset the initial learning curve.
+
+### Keep an Eye on The Bus Factor
+
+The [bus factor](https://en.wikipedia.org/wiki/Bus_factor) is the number of
+people on your team who need to be hit by a bus before your project is in
+trouble. Make sure this bus factor is bigger than 1.
+
+Rust adoption should not be driven by ego or your CV, but by business needs. If
+you love Rust, but your organization is not ready for it, don't force it on them
+&mdash; it will fall back on you. There should always be more than one person
+who knows the system well enough to maintain it.
+
+Similarly, if you are the manager who has merely heard about the benefits of Rust, but
+your team is perfectly happy with the current technology stack, there might be
+no need to switch. Don't choose Rust because of the hype.
 
 ### Find a Rust Champion
 
