@@ -6,7 +6,7 @@ date = 2023-08-01
 draft = false
 aliases = ["why-rust"]
 [extra]
-updated = 2024-04-03
+updated = 2024-05-26
 series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "Title image adapted from <a href='https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais' target='_blank' rel='noopener noreferrer'>vectorpouch</a> on Freepik." ]
@@ -418,6 +418,29 @@ dramatically optimizing performance with minimal intrusion.
 On top of that, the Rust library code could be reused across projects from
 embedded programs to cloud services, which streamlines the development process
 and further reduces maintenance costs.
+
+### Support for a Wide Range of Environments
+
+Rust is a versatile language, which can be used in a wide range of applications, from embedded systems to
+high-performance web services.
+
+
+| Environment          | Rust                        | Kotlin                           | Go       | C++    | TypeScript      | Python                                         |
+|----------------------|-----------------------------|----------------------------------|----------|--------|-----------------|------------------------------------------------|
+| Frontend Development | Yes (via WASM)              | Partial (via Kotlin/JS)          | No       | No     | Yes             | Partial (via frameworks like PyScript)         |
+| Backend Development  | Yes                         | Yes                              | Yes      | Yes    | Yes             | Yes                                            |
+| Mobile Development   | Yes                         | Yes (Android)                    | No       | Partial| No              | Partial (Kivy, BeeWare)                        |
+| Data Science         | Yes                         | Yes                              | Partial  | Partial| No              | Yes                                            |
+| Game Development     | Yes                         | Partial                          | Partial  | Yes    | Partial         | Partial                                        |
+| DevOps               | Yes                         | Partial                          | Yes      | Yes    | Partial         | Yes                                            |
+| Systems Programming  | Yes                         | No                               | Partial  | Yes    | No              | Partial                                        |
+| Embedded Systems     | Yes                         | Partial                          | Partial  | Yes    | No              | Partial (MicroPython)                          |
+
+For companies with diverse product portfolios,
+it can be beneficial to have a single language that can be used across the
+entire stack. Clients often mention that the same crates can be used in
+different contexts, reducing boundaries between teams and making it easier to
+share code.
 
 ## Reasons Against Using Rust In Production
 
