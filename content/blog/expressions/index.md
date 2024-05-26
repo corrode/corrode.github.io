@@ -255,3 +255,8 @@ verbose and using temporary variables.
 When you try to refactor your code, keep expressions in mind.
 They tend to guide you towards more ergonomic Rust code and avoid repetition.
 Try a few different variants to see what works best.
+
+
+
+
+
