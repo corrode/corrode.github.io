@@ -7,6 +7,9 @@ series = "Idiomatic Rust"
 resources = [
     "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."
 ]
+credits = [
+  "Thanks to <a href='https://www.linkedin.com/in/grovesnl'>Josh Groves</a> for suggesting to mention Rc/Arc."
+]
 +++
 
 When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust, and I see many beginners do the same.
@@ -207,6 +210,40 @@ If you're curious, see [serde's detailed explanation of deserializer lifetimes ]
 Think of lifetimes as type signatures: most of the time, they can be inferred,
 but at times it's clearer to spell them out to avoid mistakes. Plus, these
 explicit annotations double as useful documentation.
+
+## Avoiding Lifetimes With Smart Pointers
+
+You might think thay you have to introduce a lifetime if you want to avoid
+unnecessary copies; for example, when handling a big chunk of data.
+
+However, you can also use smart pointers like [`Rc`](https://doc.rust-lang.org/std/rc/struct.Rc.html) (reference-counted) or [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) (atomic reference-counted) to share ownership of the data. This way, you don't need to worry about explicit lifetimes while keeping the cost of cloning the data close to zero. It's a good trade-off in many situations.
+
+```rust
+// We only pay for the allocation once
+let hello = Rc::new("Hello".to_string());
+
+// This is a cheap operation
+let hello2 = hello.clone();
+```
+
+Here's how you could use `Rc` to avoid lifetimes in the `longest` function:
+
+```rust
+use std::rc::Rc;
+
+fn longest(x: Rc<String>, y: Rc<String>) -> Rc<String> {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+That's just a silly example (and you'd probably use `String` directly in this case), but it shows how you can avoid lifetimes by using reference-counted pointers.
+
+The trick is that you only pay for the string allocation once, and from then on, the reference counting is cheap. This way, you can avoid the complexity of lifetimes in many cases.
+
 
 ## Conclusion
 
