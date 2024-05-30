@@ -239,7 +239,7 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
    - Transition management (project management resources)
 
 2. **Opportunity costs** 
-   - Costs of delaying other projects and features. / Time spent on Rust could be spent on other projects.
+   - Costs of delaying other projects and features: time spent on Rust could be devoted to other projects.
    
 3. **Training and Team Preparation**
    - Training (4 months of dedicated time)
