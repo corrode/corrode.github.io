@@ -11,6 +11,8 @@ episode = "03"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-d02c0302" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-10-thunderbird-s-brendan-abolivier/player.js?size=m-alternative"></script></div>
+
 There are probably only a handful of open-source projects that had a bigger
 impact on the world than Mozilla Thunderbird. The email client has been around
 for over two decades and has been a staple for many users (me included).
