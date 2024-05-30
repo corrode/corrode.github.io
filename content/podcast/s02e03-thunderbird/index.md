@@ -41,12 +41,14 @@ He is a strong advocate for open-source software and maintains projects written 
 
 - [Bringing Exchange Support To Thunderbird](https://blog.thunderbird.net/2024/04/adventures-in-rust-bringing-exchange-support-to-thunderbird/)
 - [element](https://element.io/)
+- [synapse](https://github.com/element-hq/synapse)
 - [State of Open conference London](https://stateofopencon.com/)
 - [Thunderbird as part of MZLA](https://blog.thunderbird.net/2020/01/thunderbirds-new-home/)
 - [Evolution Exchange Support](https://help.gnome.org/users/evolution/2.32/features.html.en)
 - [FOSDEM'24: "Thunderbird: How to Exchange Rot For Rust"](https://fosdem.org/2024/schedule/event/fosdem-2024-2469-thunderbird-how-to-exchange-rot-for-rust/)
 - [quick_xml crate](https://github.com/tafia/quick-xml)
 - [http crate](https://github.com/hyperium/http)
+- [Donate to Thunderbird](https://www.thunderbird.net/donate/)
 
 ### Official Links
 
