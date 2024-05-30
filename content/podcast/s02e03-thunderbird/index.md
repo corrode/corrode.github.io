@@ -15,7 +15,7 @@ There are probably only a handful of open-source projects that had a bigger
 impact on the world than Mozilla Thunderbird. The email client has been around
 for over two decades and has been a staple for many users (me included).
 
-Dealing with a legacy codebase that servers millions of users is no easy feat.
+Dealing with a legacy codebase that serves millions of users is no easy feat.
 The team at MZLA, a subsidiary of Mozilla, has been working hard to modernize
 the core of Thunderbird by writing new parts in Rust.
 
