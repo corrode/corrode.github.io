@@ -67,7 +67,7 @@ Understanding *why* you are considering adopting Rust is crucial.
 
 ### Your Team Must Be On Board
 
-Introducing Rust will be a disruptive change, and it's vital to have the backing of both the team and leadership. One side is not enough. Make sure everyone understands the [benefits and challenges of using Rust](/blog/why-rust).
+Introducing Rust will be a disruptive change, and it's vital to have the backing from both the team and leadership. One side is not enough. Make sure everyone understands the [benefits and challenges of using Rust](/blog/why-rust).
 
 Rust is an organization-wide commitment, and it's vital to have a long-term mindset. If you need to get something done quickly and can afford tech debt, consider using another language. However, for long-term projects, Rust's benefits will offset the initial learning curve.
 
