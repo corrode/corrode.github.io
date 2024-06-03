@@ -8,6 +8,7 @@ series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
   { name = "Florian Bartels", url = "https://github.com/flba-eb" },
+  { name = "mo8it", url = "https://mastodon.social/@mo8it@fosstodon.org" },
 ]
 credits = [ 
   "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" 
@@ -218,7 +219,6 @@ maintenance challenges. **Keep the number of dependencies low**.
 Each dependency increases:
 
 - Compile times
-- Test times
 - Complexity in build scripts and CI
 - Documentation to read
 - Attack surface
@@ -234,17 +234,11 @@ choose the right ones? Here are some factors to consider when choosing a crate:
   issues, and the last commit date. Here is a list of [popular Rust
   crates](https://lib.rs/std).
 - **License**: Make sure the crate's license is compatible with your project's
-  license. The most common licenses in the Rust ecosystem are MIT and Apache 2.0,
-  which are both permissive licenses. However, there are crates with more
-  restrictive licenses, such as GPL or AGPL, which might not be suitable for
-  your project.
-- **Maintenance**: Check the crate's GitHub repository for signs of active
-  maintenance. Are issues being addressed? Are pull requests being merged?
-  Is the crate following best practices?
-  Prefer crates from well-known community members or companies, who gained trust
-  over time.
-- **Security**: Make sure the crate has a good security track record and that the
-  maintainers are responsive to security issues.
+  license. The most common licenses in the Rust ecosystem are MIT and Apache 2.0, which are both permissive licenses. 
+  However, some crates come with more restrictive licenses, such as GPL or AGPL. These licenses can pose challenges for closed source software projects, as they require you to release your source code if you distribute the software. For open source projects, these licenses can be a viable option, but it's important to understand the implications for your specific use case.
+- **Maintenance**: Check the crate's GitHub repository for signs of active maintenance. Are issues being addressed? Are pull requests being merged? Is the crate following best practices? While it's important to see activity, keep in mind that a repository with a last commit from a few months ago isn't necessarily unmaintained, especially for small and stable crates. Prefer crates from well-known community members or companies who have gained trust over time.
+- **Security**: Make sure the crate has a good security track record and that   
+  the maintainers are responsive to security issues.
   Check [RustSec](https://rustsec.org/) for known vulnerabilities in Rust crates
   before adding them to your project.
   Run [cargo-audit](https://crates.io/crates/cargo-audit) for known vulnerabilities in your dependencies.
@@ -285,10 +279,8 @@ Instead, it is better to be proactive about keeping dependencies up-to-date:
 - Be proactive about replacing deprecated or unmaintained dependencies with a
   more recent alternative. 
 
-For major dependencies (like the web framework or your async runtime) it's a good
-idea to follow the release notes or blog posts to stay up-to-date with
-upcoming changes. For example, you [can watch for new releases (including the changelog)
-on GitHub](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions) or subscribe to the project's newsletter.
+For major dependencies (like the web framework or your async runtime) it's a good idea to follow the release notes or blog posts to stay up-to-date with
+upcoming changes. For example, you [can watch for new releases (including the changelog) on GitHub](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions) or subscribe to the project's newsletter.
 
 Keep in mind that it takes time for the broader ecosystem to catch up with new
 releases of these major dependencies, so it can take a while before you can
@@ -367,11 +359,7 @@ Here are some tips:
   structs private prevents implementation details from leaking out of modules,
   making future refactoring easier since you can change the internals without
   affecting the public API.
-- **Make enums non-exhaustive**: When defining an enum, use the
-  [`#[non_exhaustive]`](https://doc.rust-lang.org/reference/attributes/type_system.html)
-  attribute to allow adding new variants in the future without breaking existing
-  code. (Also see this [discussion in the hyperium/http
-  crate](https://github.com/hyperium/http/issues/188).)
+- **Consider making enums non-exhaustive**: For enums that may introduce new variants in the future, use the [`#[non_exhaustive]`](https://doc.rust-lang.org/reference/attributes/type_system.html) attribute. This allows adding new variants without breaking existing code. However, this approach encourages catch-all patterns, which can be problematic if new variants require specific handling. Use `non_exhaustive` only if a catch-all pattern is acceptable. If your enum represents a fixed set of options with no foreseeable additions, it's better to keep it exhaustive. Breaking changes in such cases ensure the code is updated to handle new cases explicitly, maintaining correctness and clarity. (See this [discussion in the hyperium/http crate](https://github.com/hyperium/http/issues/188).)
 - **Hide implementation details behind own types**: Use the [newtype
   pattern](https://rust-unofficial.github.io/patterns/patterns/behavioural/newtype.html#motivation)
   to hide implementation details and prevent users from relying on them. For
@@ -430,15 +418,17 @@ Some tooling can help you with this:
 - [Add mermaid diagrams to your documentation](https://frehberg.com/2022/12/docs-as-code-mermaid-inline-diagrams/) to visualize complex concepts.
 - Use [doc-comment](https://github.com/GuillaumeGomez/doc-comment) to ensure that your examples in the `README.md` are up-to-date.
 
-As an example, here is the documentation for the [Rocket web framework](https://api.rocket.rs/v0.5/rocket/), which is generated from comments in the code:
+As an example, here is the documentation for the [Axum web framework]( https://docs.rs/axum/latest/axum), which is generated from comments in the code:
 
-[![Rocket Documentation](rocket-docs.png)](https://docs.rs/rocket/latest/rocket/)
+[![Axum Documentation](axum-docs.png)](https://docs.rs/axum/latest/axum/)
 
 Here are the things I like about this introduction:
 
 - [X] It's approachable and easy to read.
-- [X] It immediately shows how to use the library in a simple real-world scenario.
-- [X] It hints at other forms of documentation, like guides and examples.
+- [X] It immediately shows how to use the library for simple, real-world scenarios.
+- [X] It explains core concepts and how they relate to each other.
+- [X] It provides links to more detailed information.
+- [X] It includes a table of contents for easy navigation.
 
 If you feel intrigued, [here is a great guide on how to write documentation in Rust](https://blog.guillaume-gomez.fr/articles/2020-03-12+Guide+on+how+to+write+documentation+for+a+Rust+crate).
 
