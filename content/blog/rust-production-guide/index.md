@@ -1,6 +1,6 @@
 +++
-title = "How to Launch Your First Rust Project In Production"
-date = 2024-05-24
+title = "Making First Rust Production Project A Success"
+date = 2024-06-03
 template = "article.html"
 [extra]
 series = "Rust Insights"
@@ -71,6 +71,9 @@ Introducing Rust will be a disruptive change, and it's vital to have the backing
 
 Rust is an organization-wide commitment, and it's vital to have a long-term mindset. If you need to get something done quickly and can afford tech debt, consider using another language. However, for long-term projects, Rust's benefits will offset the initial learning curve.
 
+Management should understand the benefits of Rust and be willing to invest in training, hiring, and tooling. They should also be aware of the potential challenges (e.g. delayed project timelines, increased costs, etc.) and 
+have a clear understanding of the trade-offs involved.
+
 ### Keep an Eye on The Bus Factor
 
 The [bus factor](https://en.wikipedia.org/wiki/Bus_factor) is the number of
@@ -84,11 +87,14 @@ who knows the system well enough to maintain it.
 
 Similarly, if you are the manager who has merely heard about the benefits of Rust, but
 your team is perfectly happy with the current technology stack, there might be
-no need to switch. Don't choose Rust because of the hype.
+no need to switch. Don't choose Rust because of the hype and listen to your
+team.
 
 ### Find a Rust Champion
 
-I advise you to find a Rust champion within your team who is passionate about Rust, good at teaching, and willing to lead the adoption effort. They will serve as the cornerstone for your Rust adoption process and can significantly ease the learning process for the rest of the team. Ideally, a good champion already has some experience with Rust in production or has built a few larger side projects with it.
+I advise you to find a Rust champion within your team who is passionate about Rust, good at teaching, and willing to lead the adoption effort. They will serve as the cornerstone for your Rust adoption process and can significantly ease the learning process for the rest of the team. 
+
+They don't have to be a Rust expert, but ideally, a good champion already has some experience with Rust in production or has built a few larger side projects with it.
 
 If there is nobody willing to take on that role, reconsider if Rust is the right choice; perhaps the team is not ready for the transition yet or is satisfied with the current technology stack. An external consultant cannot replace an internal champion (if anything, they work in tandem). The initial motivation has to come from within.
 
@@ -175,6 +181,65 @@ Document your position on these questions for future reference and to ensure tha
 ### Become An Active Member Of The Community
 
 If you're starting to get serious about Rust, don't stand on the sidelines! Engage with the Rust community through [forums](https://users.rust-lang.org/), and share your insights on your developer blog. Subscribe to [This Week in Rust](https://this-week-in-rust.org/) to stay up-to-date on the latest news and developments in the Rust ecosystem. Keep an eye on the announcements on the [Rust blog](https://blog.rust-lang.org/) as well as the [Rust Foundation](https://foundation.rust-lang.org/). Being an active community member can provide valuable support and keep you updated on best practices.
+
+## Project Setup
+
+### Fully Embrace Rust Tooling
+
+Rust has some of the best tooling in the industry. Make good use of it! Use `cargo fmt` to format your code, `cargo clippy` to catch common mistakes, and `cargo test` or `cargo nextest` to test your project.
+
+Use `rust-analyzer` for code completion and `rustup` to manage your Rust toolchain. There are also many other tools available, such as `cargo-watch` for automatically recompiling your code when it changes.
+
+For CI/CD, consider using GitHub Actions, GitLab CI, or Azure Pipelines. They all have good support for Rust. For GitHub Actions in particular, take a look at [dtolnay/rust-toolchain](https://github.com/dtolnay/rust-toolchain).
+Enforce `cargo fmt --check` and `cargo clippy` in your CI pipeline.
+
+Have these tools in place from the start and encourage all team members to
+routinely use them while developing. There should be no exceptions.
+
+### Consider An Internal Styleguide
+
+You can get pretty far with the above-mentioned tools. 
+However, one often overlooked aspect is the social side of Rust.
+In languages like Python or Go, there typically is one idiomatic way to do things. That makes it easier to work in a group as the code looks coherent between authors and style discussions are reduced to a minimum.
+
+In Rust, that is not the case as there tend to be multiple ways to 
+solve a problem, which all end up being valid. This can lead to
+style discussions and code reviews that are more about personal preference than actual issues. Ultimately, these discussions end up not creating business value
+and can be a source of frustration for the team.
+
+Typical areas of churn are:
+
+* Zero-cost abstractions vs. explicitness: are `.clone()`s okay or should you introduce lifetimes instead?
+* Generics: when does it make sense to introduce them? How many type parameters are too many?
+* Static vs dynamic dispatch: is it okay to use `Box<dyn Trait>` or should you always use `impl Trait`? 
+* Macros: when are they okay and when should you avoid them? How complex can they get?
+* Functional vs. imperative style: e.g. when is it okay to use `for` loops and when should you use iterators?
+
+It's better to be upfront about these decisions and make them explicit.
+
+As the project evolves, try to document your standpoints 
+on these topics in an internal style guide. This can be as simple as a markdown file in your repository. It will help new team members to get up to speed faster and reduce the amount of churn in code reviews.
+
+Here is my take on the above topics:
+
+* Prefer explicitness over zero-cost abstractions. Only introduce lifetimes when necessary. `.clone()` is okay most of the time. If not, consider `Rc` or `Arc`. Always measure the performance impact before introducing lifetimes.
+In general, beginners [worry about lifetimes too much](/blog/lifetimes/)
+* Generics are okay, but don't overdo it. If you have more than 3 type parameters, consider if you can reduce them. If not, it might be a sign that your function is doing too much.
+* Prefer `impl Trait` over `Box<dyn Trait>`, but don't be religious about it.
+  If a trait object reduces complexity, it's okay to use it.
+* Macros are okay for repetitive tasks (such as writing out an `impl` block for 
+a long list of types), but avoid them for complex logic. Macros are hard to debug and can lead to cryptic error messages. They are almost like a language within a language.   
+* Use OOP/iterative style for global control flow and functional style for local transformations. Get acquainted with iterator patterns, but don't overdo it. Sometimes a simple `for` loop is more readable than a chain of iterators.
+Read my post on [thinking in iterators](/blog/iterators) to learn more.
+
+In general, try to keep the code as simple as possible.
+Don't expect everyone on the team to know every Rust feature like higher-level trait bounds or non-trivial lifetimes.
+Stuff like `impl <T, U, V> SomeTrait for YourType<T, U, V> where T: ....`
+is challenging to read and understand for most people.
+
+If you have to use advanced features, try to hide them behind a simple interface for the rest of the team.
+
+Don't underestimate documentation. Perhaps you have a rule that you should always document public structs and functions and you enforce this in your CI pipeline. You can do so by adding `#![deny(missing_docs)]` at the top of your `lib.rs` or `main.rs` and the compiler will refuse to compile code if there is any public item without documentation.
 
 ## Team Building
 
