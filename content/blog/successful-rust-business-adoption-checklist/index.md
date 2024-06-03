@@ -73,6 +73,8 @@ Rust is an organization-wide commitment, and it's vital to have a long-term mind
 
 Management should understand the benefits of Rust and be willing to invest in training, hiring, and tooling. They should also be aware of the potential challenges (e.g., delayed project timelines, increased costs, etc.) and have a clear understanding of the trade-offs involved.
 
+At the beginning of your adoption journey, consider bringing in a consultancy ([like corrode](/)) to help decision-makers fully understand the costs and benefits of Rust. This can be helpful for assessing risks and avoiding any big surprises down the road. While this means a higher upfront cost, it ultimately provides clarity and allows your team to focus on the technical aspects, setting the project up for success.
+
 ### Keep an Eye on The Bus Factor
 
 The [bus factor](https://en.wikipedia.org/wiki/Bus_factor) is the number of people on your team who need to be hit by a bus before your project is in trouble. Make sure this bus factor is bigger than 1.
