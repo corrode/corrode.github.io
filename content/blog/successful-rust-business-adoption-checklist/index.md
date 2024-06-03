@@ -225,7 +225,7 @@ a long list of types), but avoid them for complex logic. Macros are hard to debu
 * Use OOP/iterative style for global control flow and functional style for local transformations. Get acquainted with iterator patterns, but don't overdo it. Sometimes a simple `for` loop is more readable than a chain of iterators.
 Read my post on [thinking in iterators](/blog/iterators) to learn more.
 
-In general, try to keep the code as simple as possible.
+In general, resist the urge to be clever.
 Don't expect everyone on the team to know every Rust feature like higher-level trait bounds or non-trivial lifetimes.
 Stuff like `impl <T, U, V> SomeTrait for YourType<T, U, V> where T: ....`
 is challenging to read and understand for most people.
