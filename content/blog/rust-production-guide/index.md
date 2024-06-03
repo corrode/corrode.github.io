@@ -1,5 +1,5 @@
 +++
-title = "Making First Rust Production Project A Success"
+title = "Making Your First Rust Production Project a Success"
 date = 2024-06-03
 template = "article.html"
 [extra]
@@ -60,7 +60,7 @@ Understanding *why* you are considering adopting Rust is crucial.
 - Define clear goals and expectations for the project &mdash; this is a good idea, no matter if you decide on Rust or another language in the end.
 - Set out to [compare all the available options by fairly evaluating the pros and cons of each language](https://www.youtube.com/watch?v=DnT-LUQgc7s) in a table or a document. Share this document with your team and stakeholders to fill in the gaps and ensure transparency.
 - Focus on business value and long-term benefits, not personal preferences.
-- Rust needs a catalyst for success, i.e., a clear benefit, which will be the driving force behind the adoption. Good catalysts are higher service stability, reducing operational costs, better security. Don't focus on performance alone.
+- Rust needs a catalyst for success, i.e., a clear benefit, which will be the driving force behind the adoption. Good catalysts are higher service stability, reduced operational costs, and better security. Don't focus on performance alone.
 - Write down your success criteria, such as improved robustness (lower number of bugs), developer productivity, and better scalability.
 
 ## Get The Buy-In From Stakeholders
@@ -71,24 +71,15 @@ Introducing Rust will be a disruptive change, and it's vital to have the backing
 
 Rust is an organization-wide commitment, and it's vital to have a long-term mindset. If you need to get something done quickly and can afford tech debt, consider using another language. However, for long-term projects, Rust's benefits will offset the initial learning curve.
 
-Management should understand the benefits of Rust and be willing to invest in training, hiring, and tooling. They should also be aware of the potential challenges (e.g. delayed project timelines, increased costs, etc.) and 
-have a clear understanding of the trade-offs involved.
+Management should understand the benefits of Rust and be willing to invest in training, hiring, and tooling. They should also be aware of the potential challenges (e.g., delayed project timelines, increased costs, etc.) and have a clear understanding of the trade-offs involved.
 
 ### Keep an Eye on The Bus Factor
 
-The [bus factor](https://en.wikipedia.org/wiki/Bus_factor) is the number of
-people on your team who need to be hit by a bus before your project is in
-trouble. Make sure this bus factor is bigger than 1.
+The [bus factor](https://en.wikipedia.org/wiki/Bus_factor) is the number of people on your team who need to be hit by a bus before your project is in trouble. Make sure this bus factor is bigger than 1.
 
-Rust adoption should not be driven by ego or your CV, but by business needs. If
-you love Rust, but your organization is not ready for it, don't force it on them
-&mdash; it will fall back on you. There should always be more than one person
-who knows the system well enough to maintain it.
+Rust adoption should not be driven by ego or your CV but by business needs. If you love Rust, but your organization is not ready for it, don't force it on them &mdash; it will fall back on you. There should always be more than one person who knows the system well enough to maintain it.
 
-Similarly, if you are the manager who has merely heard about the benefits of Rust, but
-your team is perfectly happy with the current technology stack, there might be
-no need to switch. Don't choose Rust because of the hype and listen to your
-team.
+Similarly, if you are the manager who has merely heard about the benefits of Rust, but your team is perfectly happy with the current technology stack, there might be no need to switch. Don't choose Rust because of the hype; listen to your team.
 
 ### Find a Rust Champion
 
@@ -161,7 +152,7 @@ Run [cargo-audit](https://docs.rs/cargo-audit/latest/cargo_audit/) regularly to 
 
 Async Rust requires proficiency in the language and can be challenging for beginners. [Navigating the space is hard.](/blog/async)
 
-Establish early on if you want to use async Rust in your project, because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when there is no other choice (e.g. the ecosystem does not provide a synchronous alternative). For the rest of the application (such as their domain model), they stick to synchronous code.
+Establish early on if you want to use async Rust in your project because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when there is no other choice (e.g. the ecosystem does not provide a synchronous alternative). For the rest of the application (such as their domain model), they stick to synchronous code.
 
 Either way, establish a policy early on and make sure everyone is on the same page.
 
