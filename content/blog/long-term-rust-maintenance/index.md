@@ -3,7 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-updated = 2024-05-29
+updated = 2024-06-04
 series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
