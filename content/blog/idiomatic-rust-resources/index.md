@@ -19,6 +19,7 @@ Discover a wealth of tutorials, workshops, and articles created by Rust experts,
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="dataTables.checkboxes.min.js"></script>
 <script src="table.js"></script>
 
 <div style="margin-bottom: 20px">
@@ -27,10 +28,10 @@ Discover a wealth of tutorials, workshops, and articles created by Rust experts,
 
 <div>
     Extra columns: 
-    <a class="toggle-vis" data-column="5">Official</a> - 
-    <a class="toggle-vis" data-column="6">Year</a> - 
-    <a class="toggle-vis" data-column="8">Duration</a> - 
-    <a class="toggle-vis" data-column="10">Free/Commercial</a>
+    <a class="toggle-vis" data-column="6">Official</a> - 
+    <a class="toggle-vis" data-column="7">Year</a> - 
+    <a class="toggle-vis" data-column="9">Duration</a> - 
+    <a class="toggle-vis" data-column="11">Free/Commercial</a>
 </div>
 
 <div>
@@ -123,4 +124,29 @@ table.dataTable td.dt-control::before {
       text-shadow: 0 0 0 #ee3856;
     }
 }
+
+table.dataTable.dt-checkboxes-select tbody tr,
+table.dataTable thead th.dt-checkboxes-select-all,
+table.dataTable tbody td.dt-checkboxes-cell {
+  cursor: pointer;
+}
+
+table.dataTable thead th.dt-checkboxes-select-all,
+table.dataTable tbody td.dt-checkboxes-cell {
+  text-align: center;
+}
+
+div.dataTables_wrapper span.select-info,
+div.dataTables_wrapper span.select-item {
+  margin-left: 0.5em;
+}
+
+@media screen and (max-width: 640px) {
+  div.dataTables_wrapper span.select-info,
+  div.dataTables_wrapper span.select-item {
+    margin-left: 0;
+    display: block;
+  }
+}
+
 </style>

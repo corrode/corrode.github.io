@@ -13,22 +13,22 @@ function renderCategory(category) {
     category === "article"
       ? "📝"
       : category === "video"
-      ? "📺"
-      : category === "guide"
-      ? "📖"
-      : category === "forum"
-      ? "💬"
-      : category === "talk"
-      ? "🎤️"
-      : category === "workshop"
-      ? "🏋️"
-      : category === "project"
-      ? "⚙"
-      : "📚";
+        ? "📺"
+        : category === "guide"
+          ? "📖"
+          : category === "forum"
+            ? "💬"
+            : category === "talk"
+              ? "🎤️"
+              : category === "workshop"
+                ? "🏋️"
+                : category === "project"
+                  ? "⚙"
+                  : "📚";
   return symbol + " " + capitalizeFirstLetter(category);
 }
 
-// Wait for dom content to be loaded with jquery
+// Wait for DOM content to be loaded with jQuery
 $(document).ready(function () {
   const table = new DataTable("#data-table", {
     language: {
@@ -38,8 +38,18 @@ $(document).ready(function () {
     paging: false,
     saveState: true,
     scrollCollapse: true,
-    order: [[1, "asc"]],
+    order: [[2, "asc"]],
     columns: [
+      {
+        checkboxes: {
+          selectRow: true,
+          stateSave: true,
+          selectAll: false,
+        },
+        // Use the URL as the unique row ID (required for checkboxes to work correctly)
+        data: "url",
+        title: "Done",
+      },
       {
         className: "dt-control",
         orderable: false,
@@ -148,15 +158,17 @@ $(document).ready(function () {
         },
       },
     ],
+    stateSave: true,
+    select: "multi",
     // Add dropdown filters for columns
     initComplete: function () {
       this.api()
-        .columns([1, 7, 9, 10])
+        .columns([2, 8, 10, 11])
         .every(function () {
           var column = this;
           var columnTitle = $(column.header()).text(); // Get the column title
           var select = $(
-            '<select><option value="">' + columnTitle + "</option></select>"
+            '<select><option value="">' + columnTitle + "</option></select>",
           )
             .appendTo($(column.header()).empty())
             .on("change", function () {
@@ -170,19 +182,19 @@ $(document).ready(function () {
             .sort()
             .each(function (d, j) {
               var label = d; // Use the raw value as the label by default
-              if (column.index() === 1) {
-                // Assuming column 1 is 'category'
+              if (column.index() === 2) {
+                // Assuming column 2 is 'category'
                 label = renderCategory(d).replace(/<[^>]+>/g, ""); // Strip HTML to get only text
-              } else if (column.index() === 9) {
-                // Assuming column 9 is 'interactivityLevel'
+              } else if (column.index() === 10) {
+                // Assuming column 10 is 'interactivityLevel'
                 label =
                   d === "low"
                     ? "Low"
                     : d === "medium"
-                    ? "Medium"
-                    : d === "high"
-                    ? "High"
-                    : d;
+                      ? "Medium"
+                      : d === "high"
+                        ? "High"
+                        : d;
               }
               select.append('<option value="' + d + '">' + label + "</option>");
             });
@@ -201,7 +213,7 @@ $(document).ready(function () {
     }
 
     // Get the tags for the current row (assuming they are in column 4)
-    var tags = data[4];
+    var tags = data[5];
 
     // All active filters must match
     return Object.keys(activeFilters).every(function (tag) {
