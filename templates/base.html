@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     {%- if page and page.path is starting_with("/podcast") %}
-        {%- set generated_title = page.title ~ " - Rust in Production Podcast | corrode Rust Consulting" %}
+        {%- if page.extra.guest %}
+            {%- set generated_title = page.title ~ " with " ~ page.extra.guest ~ " - Rust in Production Podcast | corrode Rust Consulting" %}
+        {%- else %}
+            {%- set generated_title = page.title ~ " - Rust in Production Podcast | corrode Rust Consulting" %}
+        {%- endif %}
     {%- elif page.title %}
         {%- set generated_title = page.title ~ " | corrode Rust Consulting" %}
     {%- elif section and section.title and section.path != "/" %}
