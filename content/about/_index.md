@@ -48,19 +48,20 @@ I'm always up for a chat!
 From time to time, I get invited to podcasts and interviews. Here are some of them:
 
 
-- [Filtra.io Interview - Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
-- [RustShip Podcast Episode 5 - corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
-- [Engineering Kiosk Podcast - Der Hype um Rust (German)](https://engineeringkiosk.dev/podcast/episode/98-der-hype-um-rust-mit-matthias-endler/)
-- [Working Draft Podcast Revision 569 - Von Link-Checkern und Rabbit Holes (German)](https://workingdraft.de/569/)
-- [programmier.bar podcast - Rust Deep Dive (German)](https://www.programmier.bar/podcast/deep-dive-49-rust-mit-matthias-endler)
+- Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
+- RustShip Podcast Episode 5 - [corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
+- Engineering Kiosk Podcast - [Der Hype um Rust (German)](https://engineeringkiosk.dev/podcast/episode/98-der-hype-um-rust-mit-matthias-endler/)
+- Working Draft Podcast Revision 569 - [Von Link-Checkern und Rabbit Holes (German)](https://workingdraft.de/569/)
+- programmier.bar podcast - [Rust Deep Dive (German)](https://www.programmier.bar/podcast/deep-dive-49-rust-mit-matthias-endler)
 
 ## Talks
 
-- [inovex Meetup Cologne, Germany](https://speakerdeck.com/mre/rust-in-production)
-- [FOSDEM 2024, Brussels, Belgium](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
-- [RustLab 2023, Florence, Italy](https://rustlab.it/talks/lychee-writing-a-link-checker-in-a-weekend-plus-two-short-years)
-- [Rust Linz 2023, Linz, Austria](https://www.youtube.com/watch?v=BIguvia6AvM)
-- [FrOSCon 2023, Bonn, Germany](https://programm.froscon.org/2023/events/2867.html)
+- Softwerkskammer, Cologne - [Testing in Rust](https://www.meetup.com/softwerkskammer-koln/events/300415441/)
+- inovex Meetup Cologne, Germany - [Rust in Production](https://speakerdeck.com/mre/rust-in-production)
+- FOSDEM 2024, Brussels, Belgium - [The Four Horsemen of Bad Rust Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
+- RustLab 2023, Florence, Italy - [Writing a link checker in Rust](https://rustlab.it/talks/lychee-writing-a-link-checker-in-a-weekend-plus-two-short-years)
+- Rust Linz 2023, Linz, Austria - [Writing a link checker in Rust](https://www.youtube.com/watch?v=BIguvia6AvM)
+- FrOSCon 2023, Bonn, Germany - [Writing a link checker in Rust](https://programm.froscon.org/2023/events/2867.html)
 - [Previous talks](https://endler.dev/talks/)
 
 Reach out for details on paid speaking engagements.
