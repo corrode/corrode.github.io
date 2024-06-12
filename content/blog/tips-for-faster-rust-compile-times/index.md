@@ -11,7 +11,8 @@ resources = [
  "List of [articles on performance on Read Rust](https://readrust.net/performance).",
  "[8 Solutions for Troubleshooting Your Rust Build Times](https://medium.com/@jondot/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e) is a great article by Dotan Nahum that I fully agree with.",
  "Improving the build times of a bigger Rust project (lemmy) [by 30%](https://lemmy.ml/post/50089).",
- "[arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler takes to compile common Rust programs."
+ "[arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler takes to compile common Rust programs.",
+ "[Speeding up the Rust edit-build-run cycle ](https://davidlattimore.github.io/posts/2024/02/04/speeding-up-the-rust-edit-build-run-cycle.html): A benchmark-driven approach to improving Rust compile times.",
 ]
 hero = "rust-compile-times.svg"
 +++
@@ -829,10 +830,21 @@ Since CI builds are more akin to from-scratch builds, incremental compilation ad
 ```toml
 [profile.dev]
 debug = 0
+strip = "debuginfo"
 ```
 
-[Disable debuginfo](https://github.com/rust-analyzer/rust-analyzer/blob/48f84a7b60bcbd7ec5fa6434d92d9e7a8eb9731b/Cargo.toml#L6-L10) to shrink the size of `./target`, improving caching efficiency. Consider disabling it unconditionally for benefits in local builds too.
+Avoid linking debug info to speed up your build process, especially if you rarely use an actual debugger. There are two ways to avoid linking debug information: set `debug=0` to skip compiling it, or set `strip="debuginfo"` to skip linking it. Unfortunately, changing these options can trigger a full rebuild with Cargo.
 
+* On Linux, set both for improved build times.
+* On Mac, use `debug=0` since rustc uses an external strip command.
+* On Windows, test both settings to see which is faster.
+
+Note that without debug info, backtraces will only show function names, not line numbers. If needed, use `split-debuginfo="unpacked"` for a compromise. 
+
+As a nice side-effect, this will also help shrink the size of `./target`, improving caching efficiency.
+
+Here is a
+[sample config](https://github.com/rust-analyzer/rust-analyzer/blob/48f84a7b60bcbd7ec5fa6434d92d9e7a8eb9731b/Cargo.toml#L6-L10) for how to apply the settings.
 ### Deny Warnings Through An Environment Variable
 
 Avoid using `#![deny(warnings)]` in your code to prevent repetitive declarations.
