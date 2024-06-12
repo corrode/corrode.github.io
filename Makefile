@@ -15,3 +15,7 @@ build: ## Build website
 .PHONY: social
 social: ## Generate social images for blog posts
 	./scripts/social.sh
+
+.PHONY: svg
+svg: ## Optimize SVG files
+	find . -name '*.svg' -exec svgo {} + 
