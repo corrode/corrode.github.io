@@ -4,7 +4,7 @@ date = 2024-01-12
 draft = false
 template = "article.html"
 [extra]
-updated = 2024-03-24
+updated = 2024-06-12
 series = "Rust Insights"
 resources = [
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
@@ -68,6 +68,9 @@ Click here to expand the table of contents.
 - [Faster Docker Builds](#faster-docker-builds)
   - [Use `cargo-chef` To Speed Up Docker Builds](#use-cargo-chef-to-speed-up-docker-builds)
   - [Consider Earthly For Better Build Caching](#consider-earthly-for-better-build-caching)
+- [IDE Specific Optimizations](#ide-specific-optimizations)
+  - [Slow Debug Sessions In Visual Studio Code](#slow-debug-sessions-in-visual-studio-code)
+  - [Close Unrelated Projects](#close-unrelated-projects)
 
 </details>
 
@@ -949,6 +952,22 @@ IMPORT github.com/earthly/lib/rust
 
 If you're curious, [Earthly’s Guide for Rust](https://earthly.dev/rust) details
 a simple Rust example with optimized caching and compilation steps.
+
+## IDE-Specific Optimizations
+
+If you find that build times in your development environment are slow, here are
+a few additional tips you can try.
+
+### Slow Debug Sessions In Visual Studio Code
+
+If you're using Visual Studio Code and find that **debug sessions** are slow, 
+make sure you don't have too many breakpoints set. [Each breakpoint can slow down the debug session](https://www.reddit.com/r/rust/comments/1ddktag/looking_for_some_help_where_it_takes_a_minute_to/).
+
+### Close Unrelated Projects
+
+In case you have multiple projects open in Visual Studio Code, each instance runs its
+own copy of rust-analyzer. This can slow down your machine. Close unrelated
+projects to see if it helps.
 
 # Summary
 
