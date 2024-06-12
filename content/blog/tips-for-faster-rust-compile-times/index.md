@@ -44,6 +44,7 @@ Click here to expand the table of contents.
   - [Add Features For Expensive Code](#add-features-for-expensive-code)
   - [Cache Dependencies With sccache](#cache-dependencies-with-sccache)
   - [Cranelift: The Alternative Rust Compiler](#cranelift-the-alternative-rust-compiler)
+  - [Use A Scratch Disk For Faster Builds](#use-a-scratch-disk-for-faster-builds)
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
   - [macOS Only: Faster Incremental Debug Builds](#macos-only-faster-incremental-debug-builds)
   - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
@@ -442,6 +443,23 @@ If the `link` step is slow, you can try to switch to a faster alternative:
 [Yes]: https://github.com/bluewhalesystems/sold
 [`zld`]: https://github.com/michaeleisel/zld
 
+### Use A Scratch Disk For Faster Builds
+
+Your filesystem might be the bottleneck. Consider using an in-memory filesystem
+like for your build directory.
+
+Traditional temporary filesystem like `tmpfs` is limited to your RAM plus swap space and can be problematic for builds creating large intermediate artifacts.
+
+Instead, on Linux, mount an `ext4` volume with the following options:
+
+```
+-o noauto_da_alloc,data=writeback,lazytime,journal_async_commit,commit=999,nobarrier
+```
+
+This will store files in the page cache if you have enough RAM, with writebacks occurring later. Treat this as if it were a temporary filesystem, as data may be lost or corrupted after a crash or power loss.
+
+Credits go to [/u/The_8472 on Reddit](https://www.reddit.com/r/rust/comments/1ddgatd/compile_rust_faster_some_tricks/l85gzy8/).
+
 ### macOS Only: Faster Incremental Debug Builds
 
 Rust 1.51 added a flag for faster incremental debug builds on
@@ -647,11 +665,12 @@ and the [tool's homepage](https://github.com/rksm/cargo-add-dynamic).
 If you reached this point, the easiest way to improve compile times even more is
 probably to spend money on top-of-the-line hardware.
 
-As for laptops, the `M-series` of Apple's new Macbooks perform really well.
+As for laptops, the `M-series` of Apple's new Macbooks perform really well
+for Rust compilation. 
 
 [![Rik Arends on Twitter](tweet.png)](https://twitter.com/rikarends/status/1328598935380910082)
 
-The [benchmarks](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/) for the new Macbook Pro with M1 Max are absolutely _ridiculous_ &mdash; even in comparison to the already fast M1:
+The [benchmarks](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/) for a Macbook Pro with M1 Max are absolutely _ridiculous_ &mdash; even in comparison to the already fast M1:
 
 | Project                                                   | M1 Max | M1 Air |
 | :-------------------------------------------------------- | :----- | :----- |
