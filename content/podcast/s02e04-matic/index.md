@@ -11,6 +11,8 @@ episode = "04"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-4581d80f" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-11-matic-s-eric-seppanen-d520caf8-fa28-43d4-863e-a3360e1b53d3/player.js?size=s"></script></div>
+
 The idea of smart robots automating away boring household chores 
 sounds enticing, yet these devices rarely work as advertised:
 they get stuck, they break down, or are security nightmares.
@@ -46,6 +48,17 @@ With his calm and insightful demeanor, Eric is the ideal person to talk about Ru
 ### Links From The Show
 
 - [Why Rust? It's the Safe Choice](https://maticrobots.com/blog/why-rust-its-the-safe-choice/)
+- [Folkert's episode](https://corrode.dev/podcast/s01e05-tweede-golf/)
+- [egui](https://www.egui.rs/)
+- [SLAM](https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping)
+- [Tokio Async Runtime](https://tokio.rs/)
+- [reqwest](https://github.com/seanmonstar/reqwest)
+- [Axum web framework](https://github.com/tokio-rs/axum)
+- [The Cargo Book: "features should be additive"](https://doc.rust-lang.org/cargo/reference/features.html#feature-unification)
+- [Jon Gjengset's YouTube channel](https://www.youtube.com/c/JonGjengset)
+- [Jon's book "Rust for Rusteaceans"](https://rust-for-rustaceans.com/)
+- [Mara Bos' book "Rust Atomics and Locks"](https://marabos.nl/atomics/)
+- [Will Wilson from antithesis about FoundationDB: "Is something bugging you?"](https://antithesis.com/blog/is_something_bugging_you/)
 
 ### Official Links
 
