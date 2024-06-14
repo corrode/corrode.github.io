@@ -9,7 +9,9 @@ credits = [ "<a href='http://www.freepik.com'>Hero image designed by upklyak / F
 resources = [
   "There's a nice talk by [Ashley Williams](https://github.com/ashleygwilliams) titled [Zen and the Art of Convincing Your Company to Use Rust](https://www.youtube.com/watch?v=Pn-1so-Ibsg) that covers this topic in more detail."
 ]
-
+reviews = [
+  { name = "Julian Didier", url = "https://github.com/theredfish" },
+]
 +++
 
 Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web development.
@@ -256,7 +258,7 @@ Create a dedicated channel for the Rust team on your company's communication pla
 
 ### Consider Expert Mentorship
 
-Many companies wait too long to get professional help for their Rust projects. Some may have been burned in the past by hiring consultants who didn't deliver what they promised. Others think they can do it all by themselves, but this often leads to a poor developer experience, frustration, and in the worst case, the abandonment of Rust in the organization.
+Many companies wait too long to get professional help for their Rust projects. Some may have been burned in the past by hiring consultants who didn't deliver what they promised. Other organizations think they can do it all by themselves, but this often leads to a hard-to-maintain codebase, poor developer experience, frustration, and in the worst case, the discontinuation of the project. 
 
 On the other hand, a good instructor can be an accelerator. They can help avoid costly mistakes, ask the hard questions around Rust adoption, and set the team up for success. Hiring consultants can accelerate the exploration process and mitigate risks. Experts can scaffold the project architecture, implement best practices like testing and CI/CD, and train the team, ensuring a smooth transition for everyone involved.
 
@@ -279,7 +281,7 @@ Many companies fear the cost of hiring consultants. However, clarifying things e
 
 Once an initial prototype is in place, it's time to bring on the rest of the team.
 
-The biggest concern about Rust that I hear from engineers is that they are worried they won't have enough time to properly learn Rust. Set aside dedicated learning time for your team to get up to speed with Rust. Encourage your team to work on small Rust projects or contribute to open-source projects to gain practical experience.
+The biggest concern about Rust that I hear from engineers is that they are worried they won't have enough time to properly learn Rust. Set aside dedicated learning time for your team to get up to speed with Rust. Encourage your team to work on small Rust projects or contribute to open-source projects to gain practical experience. It takes around [4 months to get comfortable with Rust](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html), so plan accordingly.
 
 This might be a good time to compare Rust workshops and training programs. Some consultancies (like [corrode](/)) offer dedicated Rust training for teams and provide discounts for larger groups. An on-site training can be a great way to kick off your Rust project and get everyone excited about the opportunity to work on the project. Remember to plan some time to schedule the training and to get the budget approved, so reach out to the training provider early.
 
@@ -307,7 +309,8 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
    - Transition management (project management resources)
 
 2. **Opportunity costs** 
-   - Costs of delaying other projects and features: time spent on Rust could be devoted to other projects.
+   - Costs of delaying other projects and features: time spent on Rust could
+     be devoted to other projects.
    
 3. **Training and Team Preparation**
    - Training (4 months of dedicated time)
@@ -316,12 +319,13 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
    - Team building activities (team lunches, offsites)
 
 4. **Hiring and Team Expansion**
-   - Staffing costs for Rust developers (recruiting, onboarding)
+   - Staffing costs for Rust developers (recruiting, job postings, onboarding)
    - Hiring people in infrastructure roles (SREs, DevOps)
 
 5. **Setup Costs**
    - Project structure
    - Workflows and tools (IDEs, linters, formatters)
+   - Tooling setup (initial configuration of development environments)
    - CI/CD pipelines
 
 6. **Development and Implementation**
@@ -335,7 +339,10 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
 
 7. **Infrastructure and Tooling**
    - Licensing for proprietary tools (rarely needed, but consider it)
-   - Additional hardware during migration (a separate set of infrastructure for the new system)
+   - Additional hardware during migration (a separate set of infrastructure 
+     for the new system)
+   - Monitoring and alerting tools (tools for monitoring performance 
+     and reliability)
 
 8. **Ongoing Maintenance and Support**
    - Cloud costs (compute, storage, networking)
@@ -350,6 +357,7 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
     - Account for the cost of failure
     - Consider costs of rollback mechanisms
     - Costs of rollback if the migration fails
+    - Contingency funds (allocating a budget for unforeseen expenses)
 
 ## On Hiring Talent
 
