@@ -1,11 +1,15 @@
 +++
 title = "Making Your First Real-World Rust Project a Success"
-date = 2024-06-03
+date = 2024-06-14
 template = "article.html"
 [extra]
 series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "<a href='http://www.freepik.com'>Hero image designed by upklyak / Freepik</a>" ]
+resources = [
+  "There's a nice talk by [Ashley Williams](https://github.com/ashleygwilliams) titled [Zen and the Art of Convincing Your Company to Use Rust](https://www.youtube.com/watch?v=Pn-1so-Ibsg) that covers this topic in more detail."
+]
+
 +++
 
 Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web development.
@@ -81,7 +85,8 @@ The magnitude of this decision should not be underestimated. Therefore, at the b
 
 The [bus factor](https://en.wikipedia.org/wiki/Bus_factor) is the number of people on your team who need to be hit by a bus before your project is in trouble. Make sure this bus factor is bigger than 1.
 
-Rust adoption should not be driven by ego or your CV but by business needs. If you love Rust, but your organization is not ready for it, don't force it on them &mdash; it will fall back on you. There should always be more than one person who knows the system well enough to maintain it.
+Rust adoption should not be driven by ego or your CV but by business needs.
+If you love Rust, but your organization is not ready for it, don't force it on them &mdash; it will fall back on you. There should always be more than one person who knows the system well enough to maintain it.
 
 Similarly, if you are the manager who has merely heard about the benefits of Rust, but your team is perfectly happy with the current technology stack, there might be no need to switch. Don't choose Rust because of the hype; listen to your team.
 
@@ -132,9 +137,9 @@ Pick the integration method which best aligns with your project's requirements a
 
 **A microservice** is a good candidate for this. In the worst case, you can rewrite it in another language. You can gradually shift over traffic to the Rust service and see how it performs in production.
 
-I personally would not start with a **CLI tool** because it is often not close to the core business, and the team might not see the benefits of Rust.
+However, starting with a **CLI tool** might be easier for the team to manage and understand, even if it is not central to the core business. It can be a quick win and a manageable way to introduce Rust without significant risk, helping the team to see its potential.
 
-Similarly, I would not start with **WebAssembly** because it is a complex topic, and the team might get frustrated with the tooling and the ecosystem. There might also not be any immediate upside, such as faster performance, and the team could get the wrong impression about Rust.
+Beginning with **WebAssembly** can be challenging due to its complexity. The team might get frustrated with the tooling and ecosystem, and there might not be any immediate benefits, such as faster performance. This could lead to a negative impression of Rust.
 
 I saw some great results with Rust for **embedded systems**, where the tooling is excellent, and there is a clear project boundary. Tools like [probe-rs](https://probe.rs/) are often considered best-in-class.
 
@@ -156,7 +161,8 @@ Run [cargo-audit](https://docs.rs/cargo-audit/latest/cargo_audit/) regularly to 
 
 Async Rust requires proficiency in the language and can be challenging for beginners. [Navigating the space is hard.](/blog/async)
 
-Establish early on if you want to use async Rust in your project because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when there is no other choice (e.g. the ecosystem does not provide a synchronous alternative). For the rest of the application (such as their domain model), they stick to synchronous code.
+Establish early on if you want to use async Rust in your project because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when there is no other choice (e.g. the ecosystem does not provide a synchronous alternative). 
+I saw success in keeping the core of the application synchronous while using async for I/O-bound tasks. For example, you could have a lib, which is synchronous and a wrapper around it that is async. This makes testing easier and allows you to use the synchronous lib in other projects.
 
 Either way, establish a policy early on and make sure everyone is on the same page.
 
