@@ -109,6 +109,8 @@ Run a survey to gauge the team's initial interest in Rust. Ask questions like:
 - What are the main benefits of choosing Rust for this project?
 - Would you be willing to take on a Rust project? If so, in what capacity?
 
+If you need a comprehensive survey template to get started, feel free to [reach out to me](/about). The template includes detailed questions that can help uncover your team’s readiness and potential challenges for adopting Rust.
+
 ### Address Concerns and Answer Questions in a Relaxed Setting
 
 If you get mixed results, consider holding a Rust Q&A session with the team on a Friday afternoon. This way, you can address concerns and answer questions in a relaxed environment.
