@@ -1,0 +1,63 @@
+Other languages that have expressions:
+python return a value
+  variable = expression_1 if condition else expression_2
+javascript functions and tenery operator are expressions
+```js
+let calSub = function (x, y) {
+	let z = x - y;
+	return z;
+}
+
+console.log("Subtraction : " + calSub(7, 4));
+```
+
+
+
+ruby had expressions for a long time
+  https://ruby-doc.com/docs/ProgrammingRuby/html/tut_expressions.html
+
+so did functional languages like lisp/scheme/closure
+
+What's special about Rust?
+It brings the concept of expressions to a systems programming language
+So the syntax is more familiar to C-style languages (like C, C++, Java, etc.)
+even though the idea of expressions is rooted in functional programming languages.
+  
+
+Coming from imperative languages myself, expressions took me a while to get used to.
+Now I miss them a lot in other languages.
+
+
+
+special
+- almost everything is an expression (blocks loops conditionals match statements)
+- match expression more powerful than switch statement.
+- error handling with expressions (? to propagate error)
+- immutability by default and expressions are immutable by default
+  mutability is explicit
+- type inference: don't have to annotate types
+- performant and safe. no null pointer exception in comparison to other languages
+- very much a functional concept. Close to Lisp, Haskell, or Scala.
+- what sets Rust apart is memory safety in combination with expressions
+
+in contrast to scala and lisp
+- in rust even blocks of code enclosed in curly braces are expressions
+- match statement returns a value
+- control flow statements are expressions
+
+scala
+- everything is also an expression
+
+Lisp:
+- everything is an expression
+- s expressions: (fn arg1 arg2)
+- no need for return statement
+
+scala and lisp have different syntax
+rust's ownership model is safer
+pattern matching in lisp is not as integrated as in rust
+combined with compile-time safety
+more familiar syntax to C-style languages in comparison to lisp
+
+summary:
+rust: unique blend of expressiveness and safety
