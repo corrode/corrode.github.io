@@ -3,7 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-updated = 2024-06-04
+updated = 2024-06-14
 series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
@@ -331,7 +331,7 @@ are constantly being improved and refactored.
 Here are some principles for durable software design:
 
 1. Learn about [idiomatic Rust](/blog/idiomatic-rust-resources) and follow the best practices of the Rust community.
-2. Heavily lean into the type system: prefer a type-first design, where you use the type system to enforce invariants and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time](https://cliffle.com/blog/rust-typestate/).
+2. Heavily lean into the type system: prefer a type-first design, where you use the [type system to enforce invariants](/blog/compile-time-invariants) and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time](https://cliffle.com/blog/rust-typestate/).
 3. Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
 4. Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334).
 5. Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html).
