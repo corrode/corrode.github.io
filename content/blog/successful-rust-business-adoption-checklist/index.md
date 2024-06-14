@@ -92,7 +92,7 @@ Similarly, if you are the manager who has merely heard about the benefits of Rus
 
 ### Find a Rust Champion
 
-I advise you to find a Rust champion within your team who is passionate about Rust, good at teaching, and willing to lead the adoption effort. They will serve as the cornerstone for your Rust adoption process and can significantly ease the learning process for the rest of the team. 
+Find a Rust champion within your team who is passionate about Rust, good at teaching, and willing to lead the adoption effort. They will serve as the cornerstone for your Rust adoption process and can significantly ease the learning process for the rest of the team.
 
 They don't have to be a Rust expert, but ideally, a good champion already has some experience with Rust in production or has built a few larger side projects with it.
 
@@ -100,7 +100,7 @@ If there is nobody willing to take on that role, reconsider if Rust is the right
 
 ### Run a Survey to Gauge Interest and Concerns
 
-I recommend running a survey to gauge the team's initial interest in Rust. Ask questions like:
+Run a survey to gauge the team's initial interest in Rust. Ask questions like:
 
 - What is your current language of choice?
 - On a scale from 1 to 5, how interested are you in learning Rust?
