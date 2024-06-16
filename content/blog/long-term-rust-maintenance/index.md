@@ -3,7 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-updated = 2024-06-14
+updated = 2024-06-16
 series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
@@ -17,7 +17,7 @@ credits = [
 
 Rust has reached a level of maturity where it is being used for critical
 infrastructure, replacing legacy systems written in C or C++.
-This means, some Rust projects need to be maintained for years or even decades to come.
+This means, **some Rust projects need to be maintained for years or even decades to come**.
 
 By some estimates, the cost of maintaining a product is more than [90% of the
 software's total cost](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/).
@@ -27,10 +27,11 @@ reassuring that the Rust core team highlights its commitment to these values in
 their post ["Stability as a
 Deliverable."](https://blog.rust-lang.org/2014/10/30/Stability.html)
 
+The following is a collection of best practices and advice for maintaining Rust
+projects over a very long timeframe. It covers topics like team dynamics, managing dependencies, software architecture, and tooling.
+
 This guide is based on my experience assisting clients with medium to large Rust
-projects and focuses on long-term Rust project maintenance. While much of the
-advice may be applicable to other languages, I will emphasize aspects specific
-to Rust.
+projects. While much of the advice may be applicable to other languages, I will emphasize aspects specific to Rust.
 
 <h2>Table of Contents</h2>
 
@@ -54,7 +55,7 @@ Click here to expand the table of contents.
   - [Stick to `std` Where Possible](#stick-to-std-where-possible)
   - [Use Stable Dependencies](#use-stable-dependencies)
   - [Disable Unnecessary Features](#disable-unnecessary-features)
-- [Building Solid Foundations](#building-solid-foundations)
+- [Building On Solid Foundations](#building-on-solid-foundations)
   - [Software Architecture](#software-architecture)
   - [API design](#api-design)
   - [Testing](#testing)
@@ -292,7 +293,7 @@ your calendar to handle the upgrade.
 The Rust standard library is well-maintained and has a strong focus on backwards
 compatibility. It is a good idea to stick to `std` where possible.
 
-For example, the `std::collections` module provides a good selection of data
+For example, the [`std::collections`](https://doc.rust-lang.org/std/collections/) module provides a good selection of data
 structures, such as `HashMap`, `Vec`, and `HashSet`, which are well-tested.
 While there are great third-party crates that provide similar data structures,
 which might be faster or have additional features, it is often better to stick
@@ -307,6 +308,10 @@ semver](https://doc.rust-lang.org/cargo/reference/semver.html) and reach version
 is because crates below version 1.0 are allowed to make breaking changes in
 minor versions, which can lead to unexpected breakage in your project.
 
+Since the Rust ecosystem is still relatively young, many crates have not reached
+a stable 1.0 version release yet. Nonetheless, it is a good idea to prefer
+stable crates over unstable ones where possible.
+
 ### Disable Unnecessary Features
 
 Many crates offer optional features that can be enabled or disabled. These
@@ -317,23 +322,43 @@ You can find the available features in the crate's `Cargo.toml` file or on the
 crate's documentation page.
 For example, [here are the `tokio` features](https://docs.rs/crate/tokio/latest/features).
 
-## Building Solid Foundations
+{% info(headline="Pro Tip: Quickly Discovering Unnecessary Features") %}
+
+A nice trick is to use the [`default-features = false`](https://doc.rust-lang.org/cargo/reference/features.html#the-default-feature) option for each dependency in your
+`Cargo.toml`, which disables all features, which are enabled by default.
+
+This way you can inspect which features are crucial for your project and 
+carefully add them back one by one. It's a good way to avoid unnecessary
+bloat.
+
+For example:
+
+```toml
+[dependencies]
+flate2 = { version = "1.0.30", default-features = false, features = ["zlib"] }
+```
+
+
+{% end %}
+
+## Building On Solid Foundations
 
 ### Software Architecture
 
-Conversely, maintaining a codebase for a long time doesn't mean you should leave
+Conversely, maintaining a codebase for a long time *doesn't* mean you should leave
 it untouched; quite the opposite: it requires constant effort and work.
 
 Some of the most robust codebases in the world are continuously updated.
 Projects like the Linux kernel, which has been in development for over 30 years,
-are constantly being improved and refactored.
+or Mozilla Firefox, are constantly being improved and refactored.
 
 Here are some principles for durable software design:
 
 1. Learn about [idiomatic Rust](/blog/idiomatic-rust-resources) and follow the best practices of the Rust community.
 2. Heavily lean into the type system: prefer a type-first design, where you use the [type system to enforce invariants](/blog/compile-time-invariants) and prevent bugs. For example, here is how to [use the typestate pattern to guarantee object behavior at compile-time](https://cliffle.com/blog/rust-typestate/).
 3. Don't be afraid to take ownership: refactor and rewrite where necessary. Rust makes it _easy_ to refactor and you should take advantage of that.
-4. Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334).
+4. Strive for [low coupling and high cohesion](https://stackoverflow.com/a/14000957/270334) between your modules and crates.
+   [![Low coupling and high cohesion](CouplingVsCohesion.svg)](https://en.wikipedia.org/wiki/Coupling_(computer_programming))
 5. Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html).
 6. Avoid premature optimization and over-engineering.
 7. Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html). It is a way to express your business logic in a common business language that everyone on the team understands. 

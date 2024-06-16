@@ -1,101 +1,107 @@
 article {
-  font-weight: 400;
-  line-height: 1.5;
+    font-weight: 400;
+    line-height: 1.5;
 }
 
 article pre {
-  position: relative;
-  overflow: auto;
-  width: 110%;
-  margin-left: -5%;
-  background-color: $darkBgrd;
-  border-radius: 4px;
-  font-size: 0.93em;
-  padding: 1.5em;
-  color: white;
-  line-height: 1.7;
+    position: relative;
+    overflow: auto;
+    width: 110%;
+    margin-left: -5%;
+    background-color: $darkBgrd;
+    border-radius: 4px;
+    font-size: 0.93em;
+    padding: 1.5em;
+    color: white;
+    line-height: 1.7;
 }
 
 /* Only apply to inline code */
 article code:not(pre > code) {
-  border-radius: 4px;
-  padding: 0.2em 0.4em;
-  font-size: 0.9em;
-  font-family: monospace;
-  line-height: 1.5;
-  color: $brightPrim;
-  border: 1px solid $heroDark;
-  white-space: nowrap;
+    border-radius: 4px;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+    font-family: monospace;
+    line-height: 1.5;
+    color: $brightPrim;
+    border: 1px solid $heroDark;
+    white-space: nowrap;
 }
 
 article img {
-  position: relative;
-  overflow: auto;
-  max-width: 110%;
-  margin-left: -5%;
+    position: relative;
+    overflow: auto;
+    max-width: 110%;
+    margin-left: -5%;
+}
+
+/* Remove margin-left in case image is part of a list item (li) */
+article li img {
+    display: block;
+    margin-left: 0;
+    margin-top: 1em; /* add some margin for spacing */
 }
 
 .article-heading {
-  margin: 8em auto 3.5em;
-  max-width: 800px;
+    margin: 8em auto 3.5em;
+    max-width: 800px;
 }
 
 .article-heading h1 {
-  font-size: 4em;
+    font-size: 4em;
 }
 
 .article-hero img {
-  width: 100%;
-  height: auto;
-  max-height: 650px;
-  /* Crop image to fit the container */
-  object-fit: cover; 
+    width: 100%;
+    height: auto;
+    max-height: 650px;
+    /* Crop image to fit the container */
+    object-fit: cover;
 }
 
-
 article h2 code:not(pre > code) {
-  font-size: 0.7em;
-  vertical-align: middle;
+    font-size: 0.7em;
+    vertical-align: middle;
 }
 
 .article-content-wrapper {
-  padding: 3em 0;
-  background-color: $brightBgrdLight;
+    padding: 3em 0;
+    background-color: $brightBgrdLight;
 }
 
 .article-content {
-  max-width: 800px;
-  margin: 0 auto;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .article-content-wide {
-  max-width: 1200px;
-  margin: 0 auto;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .article-content h2 {
-  margin: 1.5em 0 0.5em 0;
+    margin: 1.5em 0 0.5em 0;
 }
 
 article .subheading {
-  font-size: 1.5em;
-  font-weight: normal;
-  margin-bottom: 0.3em;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 6px;
-  text-decoration-color: $brightScnd;
+    font-size: 1.5em;
+    font-weight: normal;
+    margin-bottom: 0.3em;
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+    text-decoration-color: $brightScnd;
 }
 
 article .subheading a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .info {
-  padding: 40px;
-  border-radius: 4px;
-  border: 1px solid $heroDark;
-  margin: 3em 0;
+    padding: 40px;
+    border-radius: 4px;
+    border: 1px solid $heroDark;
+    margin: 3em 0;
 }
 
 /*
@@ -103,32 +109,32 @@ article .subheading a {
   are not wider than the parent container.
 */
 .info pre {
-  margin: auto;
-  width: 100%;
+    margin: auto;
+    width: 100%;
 }
 
 @media (max-width: 800px) {
-  .article-heading {
-    padding: 0 1em;
-  }
+    .article-heading {
+        padding: 0 1em;
+    }
 
-  .article-content {
-    padding: 0 1em;
-  }
+    .article-content {
+        padding: 0 1em;
+    }
 
-  .info {
-    width: 100vw;
-    margin-left: calc(-1 * (100vw - 100%) / 2);
-    border-left: none;
-    border-right: none;
-    border-radius: 0;
-  }
+    .info {
+        width: 100vw;
+        margin-left: calc(-1 * (100vw - 100%) / 2);
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+    }
 }
 
 .info-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* 
@@ -136,251 +142,253 @@ article .subheading a {
   have margins or padding that could offset its alignment.
 */
 .info-header h4 {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .info-header p {
-  margin: 0.1em 0;
+    margin: 0.1em 0;
 }
 
 .icon {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 }
 
 .icon-info {
-  background: url("/icons/info.svg") no-repeat;
+    background: url("/icons/info.svg") no-repeat;
 }
 
 .icon-radio {
-  background: url("/icons/radio.svg") no-repeat;
+    background: url("/icons/radio.svg") no-repeat;
 }
 
 .icon-warning {
-  background: url("/icons/warning.svg") no-repeat;
+    background: url("/icons/warning.svg") no-repeat;
 }
 
 .icon-crab {
-  background: url("/icons/crab.svg") no-repeat;
+    background: url("/icons/crab.svg") no-repeat;
 }
 
 .article-revisions {
-  margin-top: 3em;
-  font-size: 0.85em;
-  font-style: italic;
+    margin-top: 3em;
+    font-size: 0.85em;
+    font-style: italic;
 }
 
 .newsletter-callout {
-  width: 110%;
-  margin-left: -5%;
-  padding: 3em;
-  margin-top: 4em;
-  border-radius: 4px;
-  background-color: $darkBgrd;
-  color: $darkPrim;
+    width: 110%;
+    margin-left: -5%;
+    padding: 3em;
+    margin-top: 4em;
+    border-radius: 4px;
+    background-color: $darkBgrd;
+    color: $darkPrim;
 }
 
 .newsletter-callout h2 {
-  color: $brightBgrd;
-  margin-top: 0;
+    color: $brightBgrd;
+    margin-top: 0;
 }
 
 .newsletter-callout ul {
-  padding: 0;
-  list-style: none;
-  display: flex;
+    padding: 0;
+    list-style: none;
+    display: flex;
 }
 
 .newsletter-callout li {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .newsletter-callout img {
-  display: block;
-  margin-right: 5px;
+    display: block;
+    margin-right: 5px;
 }
 
 .newsletter-callout ul a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
 
 .newsletter-callout li:hover {
-  color: $brightScnd;
+    color: $brightScnd;
 }
 
 .newsletter-callout .postscript {
-  font-size: 0.9em;
-  margin-top: 1em;
+    font-size: 0.9em;
+    margin-top: 1em;
 }
 
 .newsletter-callout form {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .newsletter-callout input[type="text"] {
-  font-size: 1em;
-  padding: 0.8em;
-  border: none;
-  border-radius: 4px;
-  width: 100%;
-  color: $brightPrim;
+    font-size: 1em;
+    padding: 0.8em;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    color: $brightPrim;
 }
 
 .newsletter-callout input[type="submit"] {
-  font-size: 1em;
-  padding: 0.8em;
-  border: none;
-  border-radius: 4px;
-  background-color: $brightScnd;
-  color: white;
-  cursor: pointer;
+    font-size: 1em;
+    padding: 0.8em;
+    border: none;
+    border-radius: 4px;
+    background-color: $brightScnd;
+    color: white;
+    cursor: pointer;
 }
 
 .social {
-  padding-top: 1em;
+    padding-top: 1em;
 }
 
 .share-icons {
-  display: flex;
-  gap: 15px;
+    display: flex;
+    gap: 15px;
 }
 
 .share-icons a svg {
-  width: 32px;
-  height: 32px;
-  transition: fill 0.2s ease-in-out, transform 0.2s ease-in-out;
+    width: 32px;
+    height: 32px;
+    transition:
+        fill 0.2s ease-in-out,
+        transform 0.2s ease-in-out;
 }
 
 .share-icons a svg:hover {
-  fill: $brightScnd;
-  transform: scale(1.2);
+    fill: $brightScnd;
+    transform: scale(1.2);
 }
 
 @media (max-width: 750px) {
-  article pre {
-    width: 100%;
-    margin-left: 0;
-    padding: 10px;
-    font-size: 0.8em;
-  }
+    article pre {
+        width: 100%;
+        margin-left: 0;
+        padding: 10px;
+        font-size: 0.8em;
+    }
 
-  article img {
-    position: relative;
-    max-width: 100%;
-    margin-left: 0;
-  }
+    article img {
+        position: relative;
+        max-width: 100%;
+        margin-left: 0;
+    }
 
-  article img {
-    position: relative;
-    max-width: 100%;
-    margin-left: 0;
-  }
+    article img {
+        position: relative;
+        max-width: 100%;
+        margin-left: 0;
+    }
 
-  code {
-    max-width: 100%;
-  }
+    code {
+        max-width: 100%;
+    }
 
-  blockquote {
-    margin-left: 0;
-    padding-left: 10px;
-    max-width: 100%;
-  }
+    blockquote {
+        margin-left: 0;
+        padding-left: 10px;
+        max-width: 100%;
+    }
 
-  .newsletter-callout {
-    width: 100%;
-    margin-left: 0;
-  }
+    .newsletter-callout {
+        width: 100%;
+        margin-left: 0;
+    }
 
-  .newsletter-callout form {
-    flex-direction: column;
-  }
+    .newsletter-callout form {
+        flex-direction: column;
+    }
 
-  .newsletter-callout input[type="submit"] {
-    width: 100%;
-  }
+    .newsletter-callout input[type="submit"] {
+        width: 100%;
+    }
 
-  .social {
-    margin-top: 3em;
-    padding-top: 1em;
-    display: block;
-  }
+    .social {
+        margin-top: 3em;
+        padding-top: 1em;
+        display: block;
+    }
 }
 
 article a code:not(pre > code) {
-  background-color: $brightScndLight;
+    background-color: $brightScndLight;
 }
 
 .article-footer {
-  max-width: 800px;
-  margin: 0px auto;
-  padding: 1em;
+    max-width: 800px;
+    margin: 0px auto;
+    padding: 1em;
 }
 
 .editor-credits {
-  font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 @media (prefers-color-scheme: dark) {
-  .article-content-wrapper {
-    background-color: $darkBgrd;
-  }
+    .article-content-wrapper {
+        background-color: $darkBgrd;
+    }
 
-  article a code:not(pre > code) {
-    background-color: $darkBgrd;
-  }
+    article a code:not(pre > code) {
+        background-color: $darkBgrd;
+    }
 
-  .info {
-    border: 1px solid rgba(255, 255, 255, 0.5);
-  }
+    .info {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
 
-  .icon {
-    filter: invert(1);
-  }
+    .icon {
+        filter: invert(1);
+    }
 
-  .article-content img[src$=".svg"]:not(.noinvert) {
-    filter: invert(1);
-}
+    .article-content img[src$=".svg"]:not(.noinvert) {
+        filter: invert(1);
+    }
 
-  .editor-credits {
-    color: rgba(255, 255, 255, 0.7);
-  }
+    .editor-credits {
+        color: rgba(255, 255, 255, 0.7);
+    }
 
-  .editor-credits a {
-    color: rgba(255, 255, 255, 0.7);
-  }
+    .editor-credits a {
+        color: rgba(255, 255, 255, 0.7);
+    }
 
-  .editor-credits a:hover {
-    color: rgba(255, 255, 255, 1);
-  }
+    .editor-credits a:hover {
+        color: rgba(255, 255, 255, 1);
+    }
 
-  .share-icons a svg {
-    fill: white;
-    opacity: 1;
-  }
+    .share-icons a svg {
+        fill: white;
+        opacity: 1;
+    }
 
-  .share-icons a svg:hover {
-    opacity: 1;
-  }
+    .share-icons a svg:hover {
+        opacity: 1;
+    }
 }
 
 @media (max-width: 800px) {
-  .article-heading {
-    margin-top: 3em;
-    margin-bottom: 3em;
-  }
+    .article-heading {
+        margin-top: 3em;
+        margin-bottom: 3em;
+    }
 
-  .article-heading h1 {
-    font-size: 3em;
-  }
+    .article-heading h1 {
+        font-size: 3em;
+    }
 
-  .article-content-wrapper {
-    padding-top: 3em;
-  }
+    .article-content-wrapper {
+        padding-top: 3em;
+    }
 }
