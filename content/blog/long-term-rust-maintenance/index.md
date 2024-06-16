@@ -13,6 +13,10 @@ reviews = [
 credits = [ 
   "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" 
 ]
+resources = [
+  "[Cost of a Dependency - Lee Campbell](https://www.youtube.com/watch?v=Y7oqumBxWGo) &mdash; presentation on building maintainable architectures",
+  "[Software Maintenance Costs - Vladislav Andreev ](https://maddevs.io/customer-university/software-maintenance-costs/) &mdash; Factors & ways to reduce software maintenance costs"
+]
 +++
 
 Rust has reached a level of maturity where it is being used for critical
@@ -67,7 +71,6 @@ Click here to expand the table of contents.
   - [Make Releases Boring](#make-releases-boring)
 - [Invest in the Rust Ecosystem](#invest-in-the-rust-ecosystem)
 - [Conclusion](#conclusion)
-- [Further reading](#further-reading)
 
 
 </details>
@@ -545,9 +548,3 @@ consider subscribing to the [Rust In Production Podcast](/podcast).
 In case your company is considering to adopt Rust for a new project, feel free to reach out for a [consultation](/#contact).
 
 {% end %}
-
-## Further reading
-
-- [Cost of a Dependency - Lee Campbell](https://www.youtube.com/watch?v=Y7oqumBxWGo) &mdash; presentation on
-  building maintainable architectures
-- [Software Maintenance Costs - Vladislav Andreev ](https://maddevs.io/customer-university/software-maintenance-costs/) &mdash; Factors & ways to reduce software maintenance costs
