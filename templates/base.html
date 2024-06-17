@@ -57,7 +57,6 @@
     {%- else %}
         {%- set social_image = config.base_url ~ '/social/social.png' %}
     {%- endif %}
-
     <title>{{ generated_title }}</title>
     <meta name="author" content="{{ config.extra.author }}">
     <meta name="description" content="{{ social_description | striptags | safe | trim }}">
@@ -69,6 +68,10 @@
     <meta property="og:url" content="{{ social_url |safe }}">
     <meta property="og:site_name" content="{{ config.extra.author |safe }}">
     <meta property="og:type" content="website">
+        
+    {%- if page %}
+    <meta name="publish_date" property="og:publish_date" content="{{ page.date }}">
+    {%- endif%}
 
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
