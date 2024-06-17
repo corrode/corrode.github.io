@@ -62,11 +62,11 @@
     <meta name="description" content="{{ social_description | striptags | safe | trim }}">
 
     <!-- Open Graph tags -->
-    <meta property="og:title" content="{{ generated_title | safe }}">
+    <meta property="og:title" content="{{ generated_title }}">
     <meta property="og:description" content="{{ social_description | striptags | trim }}">
-    <meta property="og:image" content="{{ social_image | safe }}">
-    <meta property="og:url" content="{{ social_url |safe }}">
-    <meta property="og:site_name" content="{{ config.extra.author |safe }}">
+    <meta property="og:image" content="{{ social_image }}">
+    <meta property="og:url" content="{{ social_url }}">
+    <meta property="og:site_name" content="{{ config.extra.author }}">
     <meta property="og:type" content="website">
         
     {%- if page %}
@@ -75,16 +75,16 @@
 
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ generated_title | safe }}">
+    <meta name="twitter:title" content="{{ generated_title }}">
     <meta name="twitter:description" content="{{ social_description | striptags | safe | trim }}">
-    <meta name="twitter:image" content="{{ social_image |safe }}">
+    <meta name="twitter:image" content="{{ social_image }}">
 
     <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
     <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
 
     <link rel="me" href="https://mastodon.social/@mre">
-    <link rel="alternate" type="application/rss+xml" title="Corrode RSS feed" href="/rss.xml">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
