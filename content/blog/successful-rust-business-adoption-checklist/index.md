@@ -3,6 +3,7 @@ title = "Making Your First Real-World Rust Project a Success"
 date = 2024-06-14
 template = "article.html"
 [extra]
+updated = 2024-06-17
 series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "<a href='http://www.freepik.com'>Hero image designed by upklyak / Freepik</a>" ]
@@ -266,6 +267,8 @@ Most importantly, bringing in a consultant early in the project can eliminate th
 
 Many companies fear the cost of hiring consultants. However, clarifying things early on and avoiding costly mistakes can be more economical in the long run. The team will benefit the most early on, starting with a solid foundation.
 
+Even if it turns out that Rust is not the right choice for your project, it's better to know that sooner rather than later. You can document the reasons which led to this decision and share them with the team for transparency. When the question comes up again in the future, you can refer back to this document and save time.
+
 <div style="display: flex; justify-content: space-evenly; align-items: stretch; gap: 20px;">
   <p style="flex: 1; margin: 0; display: flex; align-items: center;">
     Think of it like this: if you were to go rock climbing for the first time, would
@@ -273,7 +276,7 @@ Many companies fear the cost of hiring consultants. However, clarifying things e
     help you avoid dangerous routes, give you some tips, and make the experience much more
     pleasant for everyone involved.
   </p>
-  <img src="climb.svg" alt="A good consultant is like a climbing partner or belayer" style="height: auto; max-height: 300px;">
+  <img src="climb.svg" alt="A good consultant is like a climbing partner or belayer" width="100" height="153">
 </div>
 
 
@@ -332,6 +335,7 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
    - Costs of fast development machines ([Rust builds are hardware-intensive](/blog/tips-for-faster-rust-compile-times/))
    - Development costs (coding, testing, debugging)
    - Documentation
+   - Writing guidelines and best practices
    - Code reviews and pair programming (to ensure code quality and knowledge sharing)
    - Performance tuning (if needed)
    - Security audits
@@ -358,6 +362,12 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
     - Consider costs of rollback mechanisms
     - Costs of rollback if the migration fails
     - Contingency funds (allocating a budget for unforeseen expenses)
+    
+{% info(headline="Pro Tip: Get A Detailed Rust Project Plan", icon="crab") %}
+    
+If you're looking for a detailed Rust project plan, **here's a [template](https://corrode.notion.site/8e2457230e75438f95e0620fcf09b034) that I use for my consulting projects**. Feel free to duplicate it and adjust it to your needs.
+
+{% end %}
 
 ## On Hiring Talent
 

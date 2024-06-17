@@ -25,7 +25,7 @@ article code:not(pre > code) {
     line-height: 1.5;
     color: $brightPrim;
     border: 1px solid $heroDark;
-    white-space: nowrap;
+    overflow-wrap: break-word;
 }
 
 article img {
