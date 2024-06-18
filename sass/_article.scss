@@ -42,6 +42,11 @@ article li img {
     margin-top: 1em; /* add some margin for spacing */
 }
 
+article li pre {
+    width: 100%;
+    margin-left: 0;
+}
+
 .article-heading {
     margin: 8em auto 3.5em;
     max-width: 800px;

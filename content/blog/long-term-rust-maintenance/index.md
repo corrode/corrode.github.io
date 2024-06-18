@@ -3,7 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-updated = 2024-06-16
+updated = 2024-06-18
 series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
@@ -498,7 +498,26 @@ consistent code style and catch common errors:
   the Rust style guidelines.
 - [clippy](https://doc.rust-lang.org/clippy/) is a collection of lints to catch
   common mistakes and improve your code.
-- We also maintain a [list of Rust static analysis tools](https://analysis-tools.dev/tag/rust).
+  
+  I use the most pedantic clippy settings in my projects.
+  To enable them, add the following lines to the top of your `main.rs` or `lib.rs`:
+
+  ```rs
+  #![deny(clippy::all)]
+  #![warn(clippy::pedantic)]
+  #![warn(clippy::restriction)]
+  #![warn(clippy::nursery)]
+  #![warn(clippy::cargo)]
+  ```
+  
+  This will enable all lints, including the pedantic ones, which are not enabled by default.
+  Chances are, you will get a lot of warnings when you first enable them.
+  But fixing them will make your code more idiomatic and less error-prone.
+  You can disable specific lints if you find them too noisy.
+  
+  More detailed information on pedantic clippy settings can be found [here](https://zhauniarovich.com/post/2021/2021-09-pedantic-clippy/).
+  
+- Also check this [list of Rust static analysis tools](https://analysis-tools.dev/tag/rust).
 
 ### Make Releases Boring
 
