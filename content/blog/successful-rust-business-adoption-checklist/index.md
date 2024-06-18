@@ -3,7 +3,7 @@ title = "Making Your First Real-World Rust Project a Success"
 date = 2024-06-14
 template = "article.html"
 [extra]
-updated = 2024-06-17
+updated = 2024-06-18
 series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "<a href='http://www.freepik.com'>Hero image designed by upklyak / Freepik</a>" ]
@@ -15,11 +15,19 @@ reviews = [
 ]
 +++
 
+
 Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web development.
 
 However, adopting Rustlang for your first production project requires careful planning and strategy. After all, this is a big deal: betting on a new programming language could be a business decision that you base the next ten years of your company on.
 
 The goal of this guide is to provide you with a comprehensive checklist and actionable advice to make your first real-world Rust project a success.
+
+{% info(headline="Looking for a Detailed Rust Project Plan?", icon="crab") %}    
+
+Get my proven Rust project plan that I use for my consulting projects.<br />
+[Access it here](https://corrode.notion.site/8e2457230e75438f95e0620fcf09b034) and customize it to fit your needs.
+
+{% end %}
 
 <h2>Table of Contents</h2>
 
@@ -301,8 +309,10 @@ Take a look at this [Rust books list](https://github.com/sger/RustBooks) and my 
 ## Budgeting
 
 To avoid any surprises, it's essential to plan your budget carefully.
-Be aware of the (hidden) costs associated with adopting Rust. 
-Here is a checklist of costs to consider, roughly ordered by the stages of a project:
+Be aware of the (hidden) costs associated with adopting Rust. And there's quite a few of them.
+
+<details>
+<summary>Click here to expand the list.</summary>
 
 1. **Initial Setup and Planning**
    - Rust exploration and evaluation (conducting surveys, research)
@@ -363,12 +373,19 @@ Here is a checklist of costs to consider, roughly ordered by the stages of a pro
     - Costs of rollback if the migration fails
     - Contingency funds (allocating a budget for unforeseen expenses)
     
-{% info(headline="Pro Tip: Get A Detailed Rust Project Plan", icon="crab") %}
+</details>
+
+{% info(headline="How Much Will Your Rust Project Cost?", icon="crab") %}
     
-If you're looking for a detailed Rust project plan, **here's a [template](https://corrode.notion.site/8e2457230e75438f95e0620fcf09b034) that I use for my consulting projects**. Feel free to duplicate it and adjust it to your needs.
+[Here's my detailed checklist for budgeting Rust projects.]( https://corrode.notion.site/862b591975e64a72aba3f8c66e01a3f1)
+
+I use this list to help my clients plan their Rust projects and avoid any surprises. By going through this checklist, you can make sure that you have considered all major costs associated with adopting Rust and have a clear plan for your project.
+
+Feel free to make a copy and adapt it to suit your project's needs.
 
 {% end %}
 
+    
 ## On Hiring Talent
 
 Hiring Rust talent takes time and effort.
