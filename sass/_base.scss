@@ -515,6 +515,10 @@ tr:last-child td {
     border-bottom: none;
 }
 
+details summary {
+    cursor: pointer;
+}
+
 @media (max-width: 800px) {
     table,
     th,
