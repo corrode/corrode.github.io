@@ -7,12 +7,9 @@ template = "page.html"
 
 Looks like you were looking for my YouTube channel, [Hello Rust!](https://www.youtube.com/c/HelloRust).
 
-Running the show was a lot of fun, but I decided to stop it in 2021. I'm still
-very much into Rust, but I want to focus on other things for now
-like my consulting business, [corrode](https://corrode.dev) (that's the website
-you're looking at right now).
+It was a hell of a ride, but I decided to stop it in 2021. I'm still very much into Rust, but I want to focus on other things for now, like my consulting business, [corrode](https://corrode.dev) (that's the website you're on right now).
 
-Here are a few things that might be of interest to you:
+Here are a few things that might interest you:
 
 - I'm open for consulting work. [Get in touch](/about) with me if you're interested.
 - Want to read articles on idiomatic Rust? Check out my [article series](/blog).
