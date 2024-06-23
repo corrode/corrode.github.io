@@ -3,6 +3,7 @@ title = "Don't Worry About Lifetimes"
 date = 2024-05-29
 template = "article.html"
 [extra]
+updated = 2024-06-23
 series = "Idiomatic Rust"
 resources = [
     "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."
@@ -32,11 +33,11 @@ fn foo<'a>(bar: &'a str) {
 }
 ```
 
-Here, I'm telling the compiler: "this reference `bar` is valid for the lifetime `'a`." The compiler will then check that the reference is indeed not used after the lifetime `'a` ends.
+Here, I'm telling the compiler: "this reference `bar` is valid for the lifetime `'a`." The compiler will then check that the reference is indeed not used after the lifetime `'a` ends. If this still sounds like gibberish to you, please continue reading.
 
 Rust has a concept of lifetime *elision*, which means that you don't have to write lifetime annotations in many cases. The compiler will infer them for you.
 
-{% info(headline="Lifetime Rules Recap", icon="info") %}
+{% info(headline="Lifetime Elision Recap", icon="info") %}
 
 The rules are simple:
 
@@ -44,7 +45,7 @@ The rules are simple:
 2. If there's exactly one input lifetime, it gets applied to all output references.
 3. If there are *multiple* input lifetimes but one of them is `&self` or `&mut self`, then the lifetime of `self` is applied to all output references.
 
-That means only have to write out the lifetimes yourself if you have more than one input lifetime and none of them are `&self` or `&mut self`.
+That means you only have to write out the lifetimes yourself if you have more than one input lifetime and none of them are `&self` or `&mut self`.
 
 {% end %}
 
@@ -56,7 +57,7 @@ fn foo(bar: &str) {
 }
 ```
 
-It turns out, lifetimes are *everywhere* in Rust, but they are just implicit most of the time. That's a good thing.
+It turns out, lifetimes are *everywhere* in Rust, but they are just *implicit* most of the time. That's a good thing.
 
 ## Lifetimes are contagious!
 
@@ -86,7 +87,7 @@ fn foo<'a>(foo: &'a Foo) {
 }
 ```
 
-This can get out of hand very quickly. The function signature is now more complex, and it is harder to understand what the function does. Refactoring gets harder because you have to carry over the lifetime annotations. Lifetimes are not free! It's very easy to put yourself into a corner where it's hard to make fundamental changes to how your code works. As such, explicit lifetimes should be treated as a last resort because they increase tech debt and alienate beginners.
+This can get out of hand very quickly. The function signature is now more complex, and it is harder to understand what the function does. Refactoring gets harder because you have to carry over the lifetime annotations. Lifetimes are not free! It's easy to back yourself into a corner where making fundamental changes to your code becomes difficult. As such, explicit lifetimes should be treated as a last resort because they increase tech debt and alienate beginners.
 
 ## Reasons for lifetimes
 
@@ -141,9 +142,11 @@ To understand the error, imagine you are the Rust compiler. Your job is to ensur
 
 As the compiler, you see that the function signature promises to return a reference (`&str`), but it doesn't specify which input reference (`x` or `y`) it corresponds to. 
 We face a dilemma:
-Will the returned string live as long as `x` or `y`? It depends on which of the two strings is longer and this can only be determined at runtime.
+Will the returned string live as long as `x` or `y`?
 
 <img src="ferris.svg" alt="Ferris the crab, the Rust mascot, pondering a dilemma about the function's lifetimes" class="noinvert">
+
+It depends on which of the two strings is longer and this can only be determined at runtime.
 
 Without this knowledge, you can't confirm that the returned reference will be valid: You need to specify the *relationship* between the input and the output to make this guarantee. If you pick the wrong one, you might end up with a dangling reference. The ambiguity makes it impossible for the compiler to guarantee the safety of the returned reference.
 You need to provide more information to the compiler to resolve this ambiguity.
@@ -203,7 +206,9 @@ where
 }
 ```
 
-Here, `'de` means "this lifetime is tied to the deserializer". Suddenly, that syntax makes a lot more sense!
+Here, `'de` means "this lifetime is tied to the deserializer"
+or "this thing lives as long as the deserializer does."
+Suddenly, that syntax makes a lot more sense!
 
 If you're curious, see [serde's detailed explanation of deserializer lifetimes ](https://serde.rs/lifetimes.html).
 
@@ -240,10 +245,7 @@ fn longest(x: Rc<String>, y: Rc<String>) -> Rc<String> {
 }
 ```
 
-That's just a silly example (and you'd probably use `String` directly in this case), but it shows how you can avoid lifetimes by using reference-counted pointers.
-
-The trick is that you only pay for the string allocation once, and from then on, the reference counting is cheap. This way, you can avoid the complexity of lifetimes in many cases.
-
+That's just a silly example (and you'd probably use `String` anyway in that case), but it shows how you can sidestep lifetimes by using reference-counted pointers.
 
 ## Conclusion
 
