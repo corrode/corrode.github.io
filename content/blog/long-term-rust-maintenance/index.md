@@ -3,7 +3,7 @@ title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
 template = "article.html"
 [extra]
-updated = 2024-06-18
+updated = 2024-06-24
 series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
@@ -372,13 +372,13 @@ The above mentioned design principles can help you with that.
 
 ### API design
 
-Part of software architecture is API design, but it deserves its own section.
+API design is part of software architecture, but it deserves its own section.
 
 Software that gets maintained for a long time is often critical and heavily used
 by other software. Changing an API can break downstream users and cause churn.
 Defensive API design minimizes the risk of these breaking changes.
 
-Here are some tips:
+Here are some tips for designing APIs that stand the test of time:
 
 - **Minimize the public API surface**:
   It's very hard to remove features once they are public. Only expose what is
@@ -547,6 +547,22 @@ This can be done in a number of ways:
 - Give talks and write blog posts about your experiences with Rust.
 - Support the [Rust Foundation](https://foundation.rust-lang.org/) and core team members.
 - Encourage your team to contribute to the Rust ecosystem.
+
+## Stick To A Regular Maintenance Schedule
+
+It's quite easy to let things slip when you're focused on new features and high-priority tasks.
+That's why it's important to set aside regular time for maintenance.
+
+For example, you could schedule a **quarterly project review** to check for
+outdated dependencies, security vulnerabilities, and code smells.
+Find a time that works for your team and stick to it.
+
+{% info(headline="Download My Free Maintenance Checklist", icon="info") %}
+
+[Here is my own checklist for regular maintenance.](https://corrode.notion.site/Rust-Maintenance-Checklist-3fa116db4c6149cbacbe3c16f81c6bb0)
+Feel free to create a copy and adapt it to your needs. If you have any suggestions for improvements, please let me know and I'll update the list.
+
+{% end %}
 
 ## Conclusion
 
