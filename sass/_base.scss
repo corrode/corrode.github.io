@@ -1,3 +1,55 @@
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900; /* variable font weights */
+    src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+/* @font-face {
+    font-family: "Bebas Neue";
+    font-style: normal;
+    font-weight: 100;
+    src:
+        local("Bebas Neue Thin"),
+        url("/fonts/BebasNeue-Thin.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Bebas Neue";
+    font-style: normal;
+    font-weight: 300;
+    src:
+        local("Bebas Neue Light"),
+        url("/fonts/BebasNeue-Light.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Bebas Neue";
+    font-style: normal;
+    font-weight: 400;
+    src:
+        local("Bebas Neue Book"),
+        url("/fonts/BebasNeue-Book.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Bebas Neue";
+    font-style: normal;
+    font-weight: 500;
+    src:
+        local("Bebas Neue Regular"),
+        url("/fonts/BebasNeue-Regular.woff2") format("woff2");
+} */
+
+@font-face {
+    font-family: "Bebas Neue";
+    font-style: normal;
+    font-weight: 700;
+    src:
+        local("Bebas Neue"),
+        url("/fonts/BebasNeue-Bold.woff2") format("woff2");
+}
+
 *,
 *::before,
 *::after {
@@ -82,14 +134,14 @@ h1 {
 
 h2 {
     font-size: 2.2em;
-    font-weight: 300;
+    font-weight: 600;
     margin-top: 60px;
     margin-bottom: 25px;
 }
 
 h3 {
     font-size: 1.5em;
-    font-weight: 300;
+    font-weight: 600;
     margin-top: 50px;
     margin-bottom: 20px;
 }
@@ -219,7 +271,6 @@ nav {
     }
 
     #menu-toggle:checked + .menu-button-container .menu-button {
-        /* set to transparent to hide middle line through cross */
         background: rgba(255, 255, 255, 0);
     }
 

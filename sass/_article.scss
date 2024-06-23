@@ -39,7 +39,6 @@ article img {
 article li img {
     display: block;
     margin-left: 0;
-    margin-top: 1em; /* add some margin for spacing */
 }
 
 article li pre {
@@ -90,7 +89,7 @@ article h2 code:not(pre > code) {
 
 article .subheading {
     font-size: 1.5em;
-    font-weight: normal;
+    font-weight: 600;
     margin-bottom: 0.3em;
     text-decoration: underline;
     text-decoration-thickness: 4px;
