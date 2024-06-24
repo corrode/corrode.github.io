@@ -29,7 +29,7 @@ In this article, we'll go over the current state of the language (how old or you
 
 You might recognize the image below as the well-known  [Technology Adoption Lifecycle](https://en.wikipedia.org/wiki/Technology_adoption_life_cycle). It goes without saying that Rust is still in the early stages.
 
-![tech-adoption-lifecycle](tech-adoption-lifecycle.jpg)
+![tech-adoption-lifecycle](tech-adoption-lifecycle.svg)
 
 *Technology Adoption Lifecycle ([image credits](https://medium.com/@shivayogiks/what-is-technology-adoption-life-cycle-and-chasm-e07084e7991f))*
 
