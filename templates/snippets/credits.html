@@ -2,20 +2,25 @@
     Published: {{ page.date }}{%- if page.extra.updated -%}. Last revision: {{
     page.extra.updated }} {% endif %}
     <br />
-    {% if page.extra.authors %} {% if page.extra.authors | length > 1 %}
-    Authors: {% for author in page.extra.authors %} {%- if loop.last == false
-    %}<a href="{{ author.url }}" target="_blank" rel="noopener" rel="noreferrer"
-        >{{ author.name }}</a
-    >, {% endif %} {%- if loop.last == true %}{%- if page.extra.authors | length
-    > 1 %}and{% endif %}
-    <a href="{{ author.url }}" target="_blank" rel="noopener" rel="noreferrer"
-        >{{ author.name }}</a
-    >{% endif %} {%- endfor %} {% else %} Author:
-    <a href="{{ page.extra.authors[0].url }}"
-        >{{ page.extra.authors[0].name }}</a
-    >
-    {% endif %} {% else %} Author:
-    <a href="/about"> Matthias Endler </a>
+    {% if page.extra.authors %}
+        {% if page.extra.authors | length > 1 %}
+            Authors:
+            {% for author in page.extra.authors %}
+                {%- if loop.last == false %}
+                    <a href="{{ author.url }}" target="_blank" rel="noopener" rel="noreferrer">{{ author.name }}</a>,
+                {% endif %}
+                {%- if loop.last == true %}
+                    {%- if page.extra.authors | length > 1 %}
+                        and
+                    {% endif %}
+                    <a href="{{ author.url }}" target="_blank" rel="noopener" rel="noreferrer">{{ author.name }}</a>
+                {% endif %}
+            {%- endfor %}
+        {% else %}
+            Author: <a href="{{ page.extra.authors[0].url }}">{{ page.extra.authors[0].name }}</a>
+        {% endif %}
+    {% else %}
+        Author: <a href="/about"> Matthias Endler </a>
     {% endif %}
     <br />
     Editor:
