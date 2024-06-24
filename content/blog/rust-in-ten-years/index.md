@@ -6,6 +6,7 @@ draft = false
 [extra]
 series = "Rust Insights"
 hero = "hero.svg"
+hero_classes = "invert"
 +++
 
 {% info(headline="Will Rust still exist, and have proper support, 10, 20 or even 30 years from now?") %}
@@ -15,7 +16,6 @@ We’ve been asked this question multiple times in the last year. It is a fair q
 *This article is a friendly collaboration between Tweede golf (author: [Hugo](https://tweedegolf.nl/en/about/9/hugo)) and corrode Rust Consulting (author: [Matthias](https://corrode.dev/about/)). For more insights on Rust, also visit [the Tweede golf blog](https://tweedegolf.nl/en/blog).*
 
 {% end %}
-
 
 Wondering whether Rust will still be around is only relevant once you've determined that the language is technically the best solution for your project, so for the sake of this blog, we're assuming that you have indeed already made this assessment. If you are still wondering whether Rust is for you, or how this potentially costly tech switch can actually save you money, check out [this blog post](https://corrode.dev/why-rust/) instead.
 
