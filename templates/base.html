@@ -42,7 +42,7 @@
     {%- elif section and section.content | length > 0 %}
         {%- set social_description = section.content | truncate(length=250) %}
     {%- else %}
-        {%- set social_description = "Corrode is a Rust consulting company based in Düsseldorf, Germany. We help you to build reliable and secure software." %}
+        {%- set social_description = "corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler." %}
     {%- endif %}
 
     {%- if page and page.path is starting_with("/podcast") %}

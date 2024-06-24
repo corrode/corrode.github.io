@@ -181,9 +181,9 @@
         </section>
         <section>
             <div class="testimonials">
-                <h2 >What others say about me</h2>
-                <div class="testimonial-carousel">
-                    <div class="testimonial active">
+                <h2>What others say about me</h2>
+                <div class="testimonial-list">
+                    <div class="testimonial">
                         <div class="testimonial-text">
                             <q>
                                 Matthias was a godsend for our team. We had a
@@ -328,24 +328,5 @@
         <!-- Cal inline embed code ends -->
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let currentTestimonial = 0;
-        const testimonials = document.querySelectorAll('.testimonial');
-
-        // Initially show the first testimonial
-        testimonials[currentTestimonial].classList.add('active');
-
-        // Function to change the testimonial
-        function changeTestimonial() {
-            testimonials[currentTestimonial].classList.remove('active');
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            testimonials[currentTestimonial].classList.add('active');
-        }
-
-        setInterval(changeTestimonial, 8000);
-    });
-</script>
 
 {% endblock content %}
