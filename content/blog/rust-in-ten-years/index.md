@@ -7,6 +7,10 @@ draft = false
 series = "Rust Insights"
 hero = "hero.svg"
 hero_classes = "invert"
+authors = [
+  { name="Hugo van de Pol", url="https://tweedegolf.nl/en/about/9/hugo" },
+  { name="Matthias Endler", url="https://corrode.dev/about/"}
+]
 +++
 
 {% info(headline="Will Rust still exist, and have proper support, 10, 20 or even 30 years from now?") %}
