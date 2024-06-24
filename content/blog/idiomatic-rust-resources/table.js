@@ -34,7 +34,10 @@ $(document).ready(function () {
     language: {
       search: "Filter:",
     },
-    ajax: "/blog/idiomatic-rust-resources/resources.json",
+    ajax: {
+      url: "/blog/idiomatic-rust-resources/resources.json",
+      dataSrc: "",
+    },
     paging: false,
     saveState: true,
     scrollCollapse: true,
