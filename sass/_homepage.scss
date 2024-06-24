@@ -1,243 +1,220 @@
 .homepage {
-  text-align: center;
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    text-align: center;
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
-    padding: 2em;
+        padding: 2em;
 
-    & > * {
-      flex-basis: 1.5em;
+        & > * {
+            flex-basis: 1.5em;
+        }
+
+        .content-icons {
+            margin: auto;
+            font-size: 1.75em;
+            display: flex;
+            gap: 0.6em;
+            a {
+                position: relative;
+            }
+        }
+
+        .content-icon {
+            width: 32px;
+        }
     }
-
-    .content-icons {
-      margin: auto;
-      font-size: 1.75em;
-      display: flex;
-      gap: 0.6em;
-      a {
-        position: relative;
-      }
-    }
-
-    .content-icon {
-      width: 32px;
-    }
-  }
 }
 
 /* Part above the fold should stretch the whole height */
 .fold {
-  min-height: calc(100vh - 90px); /* Navigation bar height considered */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Helps space out content and indicator */
+    min-height: calc(100vh - 90px); /* Navigation bar height considered */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Helps space out content and indicator */
 }
 
 .call-to-action {
-  padding: 100px 0;
-  background-color: $brightPrim;
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
+    padding: 100px 0;
+    background-color: $brightPrim;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .call-to-action b {
-  color: white;
+    color: white;
 }
 
 .call-to-action h1 {
-  color: white;
-  line-height: 1.2;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 6px;
-  text-decoration-color: $brightBgrd;
+    color: white;
+    line-height: 1.2;
+    text-decoration: underline;
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+    text-decoration-color: $brightBgrd;
 }
 
 .cta-content {
-  max-width: 900px;
-  margin: 0 auto;
-  color: white;
+    max-width: 900px;
+    margin: 0 auto;
+    color: white;
 }
 
 .cta-button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 1.5em;
-  border: none;
-  border-radius: 4px;
-  background-color: $brightScnd;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 4px;
+    background-color: $brightScnd;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        background-color 0.3s,
+        transform 0.2s;
 }
 
 .cta-button:hover {
-  background-color: darken($brightScnd, 10%);
+    background-color: darken($brightScnd, 10%);
 }
 
 .testimonials {
-  text-align: center;
-  width: 100%;
-}
-
-.testimonial-carousel {
-  height: 500px;
-  margin: 0 auto;
-  max-width: 1000px;
-  position: relative;
-  overflow-x: hidden;
-  scrollbar-width: none;
-}
-
-.testimonial {
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  transition: left 0.5s ease, opacity 0.2s ease;
-  pointer-events: none;
-}
-
-.testimonial-carousel .testimonial.active {
-  left: 0;
-  opacity: 1;
-  pointer-events: auto;
+    text-align: center;
+    width: 100%;
 }
 
 .testimonial-text {
-  background-image: url("data:image/svg+xml,%3Csvg width='500' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='10,10 490,10 480,190 20,170' fill='%23fab71c'/%3E%3C/svg%3E%0A");
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 60px 40px 40px 40px;
+    background-image: url("data:image/svg+xml,%3Csvg width='500' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='10,10 490,10 480,190 20,170' fill='%23fab71c'/%3E%3C/svg%3E%0A");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 60px 40px 40px 40px;
 }
 
 .testimonial-text q {
-  font-size: 1.4em;
-  position: relative;
-  max-width: 80%;
-  text-align: center;
-  line-height: 1rem;
-  color: #111;
+    font-size: 1.4em;
+    position: relative;
+    max-width: 80%;
+    text-align: center;
+    line-height: 1rem;
+    color: #111;
 }
 
 .testimonial-author {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    justify-content: center;
 }
 
 .testimonial-avatar {
-  border-radius: 50%;
-  max-width: 150px;
-  margin-right: 15px;
+    border-radius: 50%;
+    max-width: 150px;
+    margin-right: 15px;
 }
 
 .testimonial-author-text {
-  font-size: 1.2em;
-  font-weight: bold;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 .hero-headline > a {
-  text-underline-offset: 6px;
-  text-decoration: underline 4px $brightScnd;
+    text-underline-offset: 6px;
+    text-decoration: underline 4px $brightScnd;
 }
 
 @media (prefers-color-scheme: dark) {
-  .hero-headline > a {
-    text-decoration: underline 4px rgb(250, 183, 28);
-  }
+    .hero-headline > a {
+        text-decoration: underline 4px rgb(250, 183, 28);
+    }
 
-  .content-icons > a > img {
-    filter: invert(1);
-    opacity: 0.7;
-  }
+    .content-icons > a > img {
+        filter: invert(1);
+        opacity: 0.7;
+    }
 
-  .call-to-action {
-    background-color: #111;
-  }
+    .call-to-action {
+        background-color: #111;
+    }
 }
 
 .scroll-indicator {
-  display: block; /* Ensures the indicator takes up full width available */
-  margin: auto 0;
-  animation: bounce 1s infinite;
+    display: block; /* Ensures the indicator takes up full width available */
+    margin: auto 0;
+    animation: bounce 1s infinite;
 }
 
 @keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .scroll-indicator svg {
-  width: 50px;
-  height: auto;
-  fill: black;
+    width: 50px;
+    height: auto;
+    fill: black;
 }
 
 @media (max-width: 900px) {
-  .homepage .content {
-    padding: 2em;
-  }
+    .homepage .content {
+        padding: 2em;
+    }
 
-  .testimonial-carousel {
-    height: 470px;
-  }
+    .testimonial-carousel {
+        height: 470px;
+    }
 
-  .testimonial-text {
-    font-size: 0.8em;
-    background-image: none;
-    background-color: $brightBgrd;
-    padding: 30px;
-  }
+    .testimonial-text {
+        font-size: 0.8em;
+        background-image: none;
+        background-color: $brightBgrd;
+        padding: 30px;
+    }
 }
 
 .brands {
-  text-align: center;
-  margin: 20px 0;
+    text-align: center;
+    margin: 20px 0;
 }
 
 .brands h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 .brand-logos {
-  flex-wrap: wrap;
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
 }
 
 @media (max-width: 750px) {
-  .brand-logos {
-    gap: 30px;
+    .brand-logos {
+        gap: 30px;
 
-    img {
-      // scale proportionally
-      width: 100px;
-      height: auto;
+        img {
+            // scale proportionally
+            width: 100px;
+            height: auto;
+        }
     }
-  }
 }
 
 @media (prefers-color-scheme: dark) {
-  .brands h2 {
-    color: white;
-  }
+    .brands h2 {
+        color: white;
+    }
 
-  .brand-logos img {
-    filter: invert(1);
-  }
+    .brand-logos img {
+        filter: invert(1);
+    }
 }
