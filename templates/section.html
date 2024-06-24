@@ -9,15 +9,17 @@
 
   <div>{{ section.content | safe }}</div>
 
-  {% for extra_key, grouped_pages in section.pages | filter(attribute="draft",
-  value=false) | group_by(attribute="extra.series") %}
+  {% set sorted_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="extra.series") %}
+  
+  {% for extra_key, grouped_pages in sorted_pages | group_by(attribute="extra.series") %}
+    <h3>{{ extra_key }}</h3>
+    <ul>
+      {% for page in grouped_pages | sort(attribute="date") | reverse %}
+        <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
 
-  <h3>{{ extra_key }}</h3>
-  <ul>
-    {% for page in grouped_pages | sort(attribute="date") | reverse %}
-    <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
-    {% endfor %}
-  </ul>
-  {% endfor %} {% include "snippets/newsletter.html" %}
+  {% include "snippets/newsletter.html" %}
 </article>
 {% endblock content %}
