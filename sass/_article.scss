@@ -1,6 +1,9 @@
 article {
     font-weight: 400;
     line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-character;
+    hyphens: auto;
 }
 
 article pre {
