@@ -35,8 +35,7 @@ I have been deeply involved in the Rust community since 2015 and truly love the 
 
 ## What You Need to Know
 
-Before we start, there's one thing you should know: 
-I stand behind my clients and their projects. That means I won't take on a project if I don't believe I can help you succeed. That's why I offer a free initial consultation to make sure we're a good fit. 
+Before we begin, there’s something important you should know. I fully support my clients and their projects. My focus is on delivering a superior customer experience. I only take on projects when I’m confident I can help you succeed. That’s why I offer a free initial consultation to ensure we’re a good fit.
 
 If you're interested in working together, please [get in touch](mailto:hi@corrode.dev) or [schedule a call with me](https://cal.com/corrode).
 
