@@ -11,9 +11,11 @@ episode = "05"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-18346472" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-12-oxidos-alexandru-radovici/player.js?size=s"></script></div>
+
 It has become a trope by now: "Cars are computers on wheels." In modern cars, not only the infotainment system but also the engine, brakes, and steering wheel are controlled by software. Better make sure that software is safe.
 
-Alexandru Radovici is a Software Engineer at OxidOS, a company that builds a secure, open-source operating system for cars built on Rust and [Tock](https://github.com/tock/tock).
+Alexandru Radovici is a Software Engineer at OxidOS, a company that builds a secure, open-source operating system for cars built on Rust and [Tock](https://tockos.org/).
 We talk about the challenges of certifying Rust code for the automotive industry and the new possibilities with Rust-based car software.
 
 <!-- more -->
@@ -30,7 +32,10 @@ Alexandru Radovici is an Associate Professor at the Politehnica University in Bu
 
 ### Links From The Show
 
+- [llvm-cov](https://llvm.org/docs/CommandGuide/llvm-cov.html)
+- [Pietro Albini at Rust Nation UK: "How Ferrocene qualified the Rust Compiler"](https://youtu.be/_ITnWoPvMKA)
 - [microkernel](https://en.wikipedia.org/wiki/Microkernel)
+- [Postcard](https://github.com/jamesmunns/postcard)
 - [WASM](https://webassembly.org/)
 - [Embassy](https://embassy.dev/)
 - [Alex's embedded course (it's free)](https://ocw.cs.pub.ro/courses/iot/courses/01)
@@ -39,11 +44,12 @@ Alexandru Radovici is an Associate Professor at the Politehnica University in Bu
 - [Tour of Rust](https://tourofrust.com/)
 - [`sudo-rs`](https://www.memorysafety.org/initiative/sudo-su/)
 - [`ntpd-rs`](https://www.memorysafety.org/initiative/ntp/)
+- [embedded world](https://www.embedded-world.de/en)
 
 ### Official Links
 
 - [OxidOS](https://www.oxid-os.com/)
-- [Tock](https://github.com/tock/tock)
+- [Tock](https://tockos.org/)
 - [Alexandru Radovici on LinkedIn](https://www.linkedin.com/in/alexandruradovici/)
 
 ### About corrode
