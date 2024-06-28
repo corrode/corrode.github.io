@@ -4,6 +4,7 @@ date = 2024-06-24
 template = "article.html"
 draft = false
 [extra]
+updated = 2024-06-28
 series = "Rust Insights"
 hero = "hero.svg"
 hero_classes = "invert"
@@ -140,7 +141,7 @@ We previously noted that Rust package downloads are growing at an exponential ra
 
 Continuous development doesn't stop at the ecosystem level though. The language itself also keeps evolving. 
 
-Rust’s approach to steady innovation is meant to ensure stability and it is achieved through its edition system. Editions are Rust releases, which are allowed to deprecate features and introduce breaking changes. Editions are rare, though. The last one was in 2018, and there will be one at the end of 2024.
+Rust’s approach to steady innovation is meant to ensure stability and it is achieved through its edition system. Editions are Rust releases, which are allowed to deprecate features and introduce breaking changes. Editions are rare, though. They happen roughly every three years (2018, 2021, and later this year).
 
 ## Challenges to Rust's longevity
 
