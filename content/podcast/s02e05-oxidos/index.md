@@ -48,7 +48,7 @@ Alexandru Radovici is an Associate Professor at the Politehnica University in Bu
 
 ### Official Links
 
-- [OxidOS](https://www.oxid-os.com/)
+- [OxidOS](https://oxidos.io/)
 - [Tock](https://tockos.org/)
 - [Alexandru Radovici on LinkedIn](https://www.linkedin.com/in/alexandruradovici/)
 
