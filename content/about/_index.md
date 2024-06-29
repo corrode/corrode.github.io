@@ -108,7 +108,7 @@ From time to time, I get invited to podcasts and interviews. Here are some of th
 Push the button below to get in touch. I'm looking forward to hearing from you!
 
 <a href="https://cal.com/corrode" target="_blank" class="cta-button">
-    Schedule A Free 15-Minute Call
+    Schedule A Free 30-Minute Call
 </a>
 
 ## Frequently Asked Questions
