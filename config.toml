@@ -12,16 +12,15 @@ feed_filename = "rss.xml"
 highlight_code = true
 highlight_theme = "css"
 highlight_themes_css = [
-  { theme = "dracula", filename = "syntax-theme-dark-custom.css" },
-  { theme = "kronuz", filename = "syntax-theme-light-custom.css" },
+    { theme = "dracula", filename = "syntax-theme-dark-custom.css" },
+    { theme = "kronuz", filename = "syntax-theme-light-custom.css" },
 ]
 
 [extra]
 author = "Corrode Rust Consulting"
 
 links = [
-  { url = "https://github.com/corrode", title = "Github", icon = "github.svg" },
-  { url = "https://twitter.com/matthiasendler", title = "Twitter", icon = "twitter.svg" },
-  { url = "https://www.linkedin.com/company/corrode", title = "LinkedIn", icon = "linkedin.svg" },
-  { url = "mailto:hi@corrode.dev", title = "hi@corrode.dev", icon = "envelope.svg" },
+    { url = "https://twitter.com/matthiasendler", title = "X", icon = "x.svg" },
+    { url = "https://www.linkedin.com/company/corrode", title = "LinkedIn", icon = "linkedin.svg" },
+    { url = "mailto:hi@corrode.dev", title = "hi@corrode.dev", icon = "envelope.svg" },
 ]

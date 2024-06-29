@@ -20,13 +20,6 @@
         </div>
         <div class="content">
             <h1 class="hero-headline">by <a href="/about">Matthias Endler</a></h1>
-            <div class="content-icons">
-                {% for link in config.extra.links %}
-                <a title="{{ link.title }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
-                    <img class="content-icon" src="/icons/{{ link.icon }}" />
-                </a>
-                {% endfor %}
-            </div>
         </div>
         <div class="scroll-indicator invert">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20">
@@ -326,6 +319,13 @@
             });
         </script>
         <!-- Cal inline embed code ends -->
+        <div class="content-icons">
+            {% for link in config.extra.links %}
+            <a title="{{ link.title }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
+                <img class="content-icon" src="/icons/{{ link.icon }}" />
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
