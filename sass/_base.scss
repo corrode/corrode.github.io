@@ -385,6 +385,15 @@ section {
     margin: auto;
 }
 
+.section-image-profile {
+    max-width: 50%;
+    height: auto;
+    margin: auto;
+    border-radius: 50%;
+    background-color: $brightBgrd;
+    border: 3px solid white;
+}
+
 .section-text {
     max-width: 50%;
     text-align: left;
