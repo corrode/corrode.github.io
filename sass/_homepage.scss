@@ -10,21 +10,22 @@
         & > * {
             flex-basis: 1.5em;
         }
-
-        .content-icons {
-            margin: auto;
-            font-size: 1.75em;
-            display: flex;
-            gap: 0.6em;
-            a {
-                position: relative;
-            }
-        }
-
-        .content-icon {
-            width: 32px;
-        }
     }
+}
+
+.content-icons {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    a {
+        position: relative;
+    }
+}
+
+.content-icon {
+    filter: invert(1);
+    width: 32px;
 }
 
 /* Part above the fold should stretch the whole height */
@@ -228,7 +229,7 @@
 
         img {
             // scale proportionally
-            width: 100px;
+            width: 150px;
             height: auto;
         }
     }

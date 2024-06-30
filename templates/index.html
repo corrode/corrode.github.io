@@ -18,37 +18,27 @@
             <img class="hero-img" src="/hero/hero-img.svg" />
             <h1 class="visually-hidden">Friendly, Professional Rust Consulting</h1>
         </div>
-        <div class="content">
-            <h1 class="hero-headline">by <a href="/about">Matthias Endler</a></h1>
-            <div class="content-icons">
-                {% for link in config.extra.links %}
-                <a title="{{ link.title }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
-                    <img class="content-icon" src="/icons/{{ link.icon }}" />
+        <div class="brands">
+            <h2>Trusted by</h2>
+            <div class="brand-logos">
+                <a href="https://tech.trivago.com/" target="_blank" rel="noreferrer">
+                    <img height="60" src="/brands/trivago.svg" alt="Trivago Logo" />
                 </a>
-                {% endfor %}
+                <a href="https://aboutbits.it/" target="_blank" rel="noreferrer">
+                    <img height="70" src="/brands/aboutbits.svg" alt="AboutBits Logo" />
+                </a>
+                <a href="https://www.kraken.com/" target="_blank" rel="noreferrer">
+                    <img height="80" src="/brands/kraken.svg" alt="Kraken Logo" />
+                </a>
+                <a href="https://quiltdata.com/" target="_blank" rel="noreferrer">
+                    <img height="50" src="/brands/quilt.svg" alt="Quilt Logo" />
+                </a>
             </div>
         </div>
         <div class="scroll-indicator invert">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20">
                 <path fill-rule="evenodd" d="M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z"/>
             </svg>
-        </div>
-    </div>
-    <div class="brands">
-        <h2>Trusted by</h2>
-        <div class="brand-logos">
-            <a href="https://tech.trivago.com/" target="_blank" rel="noreferrer">
-                <img height="60" src="/brands/trivago.svg" alt="Trivago Logo" />
-            </a>
-            <a href="https://aboutbits.it/" target="_blank" rel="noreferrer">
-                <img height="70" src="/brands/aboutbits.svg" alt="AboutBits Logo" />
-            </a>
-            <a href="https://www.kraken.com/" target="_blank" rel="noreferrer">
-                <img height="80" src="/brands/kraken.svg" alt="Kraken Logo" />
-            </a>
-            <a href="https://quiltdata.com/" target="_blank" rel="noreferrer">
-                <img height="50" src="/brands/quilt.svg" alt="Quilt Logo" />
-            </a>
         </div>
     </div>
     <div class="call-to-action">
@@ -64,6 +54,24 @@
         </div>
     </div>
     <div class="content dark">
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2>Hi, I'm Matthias Endler</h2>
+                    <p class="section-paragraph">
+                        I help companies large and small to adopt Rust.
+                        With almost a decade of experience in the Rust ecosystem,
+                        I can help you with everything from training your team to
+                        optimizing your existing Rust codebases.
+                    </p>
+                    <p class="section-paragraph">
+                        Take a look at my services below and <a href="#contact">get in touch</a> if you'd like to work together.
+                    </p>
+                </div>
+                <img class="section-image section-image-profile" width="300" height="300" src="/sections/matthias-endler.png" alt="Profile photo of Matthias Endler" />
+            </div>
+        </section>
+        
         <section>
             <div class="section-content">
                 <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="Battery" />
@@ -326,6 +334,14 @@
             });
         </script>
         <!-- Cal inline embed code ends -->
+        <div class="content-icons">
+            Or contact me via
+            {% for link in config.extra.links %}
+            <a title="{{ link.title }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
+                <img class="content-icon" src="/icons/{{ link.icon }}" />
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
