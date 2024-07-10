@@ -4,7 +4,7 @@ date = 2024-06-24
 template = "article.html"
 draft = false
 [extra]
-updated = 2024-06-28
+updated = 2024-07-10
 series = "Rust Insights"
 hero = "hero.svg"
 hero_classes = "invert"
@@ -72,7 +72,7 @@ Not all of these requirements are quantifiable, but let's look at the ones that 
 Some major corporations (i.e. Google, Facebook, Microsoft, Amazon) are already betting big on Rust. Not only are they using the language in their code bases, they're also investing in its ecosystem. This company backing is important for the long-term sustainability of the language. 
 
 Some examples of recent investments:
-- [Google donated $1M](https://www.reddit.com/r/rust/comments/1ajm56w/google_donates_1m_to_the_rust_foundation_to/) to the Rust Foundation for the Interop Initiative, to improve the tooling fo interoperability. 
+- [Google donated $1M](https://www.reddit.com/r/rust/comments/1ajm56w/google_donates_1m_to_the_rust_foundation_to/) to the Rust Foundation for the Interop Initiative, to improve the tooling for interoperability. 
 - [Microsoft invested in Rust](https://x.com/dwizzzleMSFT/status/1720134540822520268/photo/2), including a $10M investment in Rust developer tooling and a $1M contribution to the Rust Foundation.
 
 #### Commercial offerings and support
