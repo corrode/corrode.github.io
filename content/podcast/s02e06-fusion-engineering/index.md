@@ -37,7 +37,7 @@ Jakub Valtar is a game engine developer turned drone software engineer. He feels
 - [PID controller](https://en.wikipedia.org/wiki/PID_controller) - Wikipedia article on Proportional-Integral-Derivative controllers
 - [Rust Atomics and Locks](https://marabos.nl/atomics/) - Book by Mara Bos on concurrency in Rust
 - [inline-python](https://crates.io/crates/inline-python) - Rust crate for embedding Python code directly in Rust
-- [indie-bits](https://github.com/fusion-engineering/intbits) - Rust crate for working with individual bits
+- [intbits](https://github.com/fusion-engineering/intbits) - Rust crate for working with individual bits
 - [git-version](https://crates.io/crates/git-version) - Rust crate for embedding Git version information in your binary
 - [Ferrocene](https://ferrocene.dev) - Safety-critical Rust toolchain by Ferrous Systems
 
