@@ -11,6 +11,8 @@ episode = "06"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-446cf898" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-13-fusion-engineering-s-jakub-valtar/player.js?size=s"></script></div>
+
 Rust can run everywhere, and by everywhere, we don't just mean on all operating systems, but also in all kinds of harsh environments: from the depths of the ocean to the vastness of space. Today we talk to a company that is using Rust to conquer the air. Fusion Engineering is building drone control systems for the next generation of drones.
 
 Jakub Valtar walks us through how Fusion Engineering came to use Rust as the foundation of their company. He explains why Rust is the safest choice for building drone control systems and what it takes to get into drone development.
