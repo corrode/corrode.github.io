@@ -3,6 +3,7 @@ title = "Thinking in Iterators"
 date = 2024-05-15
 template = "article.html"
 [extra]
+updated = 2024-07-12
 series = "Idiomatic Rust"
 hero = "hero.svg"
 hero_classes = "invert"
@@ -103,7 +104,7 @@ I often find myself chaining iterator operations in Rust. And honestly? It's
 pretty intuitive. Over time, I've even grown fond of its explicitness. (Or, you know,
 maybe it's just some form of [Stockholm syndrome](https://en.wikipedia.org/wiki/Stockholm_syndrome).)
 
-What I like the most is the flexibility of this pattern. Let me show you!
+What I like the most is the flexibility of this pattern. Let me demonstrate!
 
 ## Collecting into different types
 
@@ -118,10 +119,10 @@ tolkien_books = {
 # tolkien_books = {"The Lord of the Rings", "The Hobbit"}
 ```
 
-Note that the notation is different from a list comprehension. Instead of square
-brackets, we use curly braces now.
-In contrast, to collect into different types in Rust, just specify the *type* you want to
-collect into; the rest stays the same.
+Note that the notation is irritatingly different from a list comprehension. Instead of square
+brackets, we suddenly use curly braces now.
+
+In contrast, to collect into different types in Rust, just specify the *type* you want to collect into; easy as cake! 
 
 ```rust
 let books = HashMap::from_iter(vec![
@@ -140,9 +141,9 @@ let tolkien_books: Vec<_> = books
     // Collect into a vector
     .collect();
 
-// Alternatively, collect into a set
-// It works because `collect` can collect into any type that implements
-// `FromIterator` and `HashSet` does
+// Alternatively, collect into a set.
+// This works because `collect` can collect into any type that implements
+// `FromIterator`, which `HashSet` does.
 let tolkien_books: HashSet<_> = books
     .iter()
     .filter(|(_, author)| author.contains("Tolkien"))
@@ -150,12 +151,13 @@ let tolkien_books: HashSet<_> = books
     .collect();
 ```
 
-What if we want to count the number of bands that start with the same letter?
+What if we wanted to count the number of bands that start with the same letter?
 
 ```rust
 let first_letters: HashMap<char, usize> = bands
     .iter()
     // Filter out bands that don't have a first letter.
+    // (Yes, that's possible because we accept any string as input.)
     // `filter_map` is like `map` but it filters out `None` values.
     // If the band is empty, `chars().next()` will return `None`.
     .filter_map(|name| name.chars().next())
@@ -184,7 +186,9 @@ A: 1
 J: 1
 ```
 
-In Python, you would probably stop using list comprehensions at this point and
+Neat!
+
+In Python, you would probably stop using list comprehensions altogether and
 use the builtin `Counter` for this:
 
 ```python
@@ -195,11 +199,11 @@ from collections import Counter
 first_letters = Counter([band[0] for band in bands if len(band)])
 ```
 
-However, you'd have to refactor your list comprehension to use the `Counter` API.
+That's another API to learn and remember.
 
-Rust also has a `Counter` implementation but it lives outside the standard
+Rust also has a `Counter` implementation, but it lives outside the standard
 library in the [counter](https://crates.io/crates/counter) crate.
-Nevertheless, it will feel like a natural extension of the standard library.
+Nevertheless, it fits right in &ndash; like a natural extension of the standard library.
 
 ```rust
 use counter::Counter;
@@ -211,9 +215,10 @@ let first_letters: Counter<char, usize> = bands
 ```
 
 We still use the same patterns that we used before and we didn't have
-to refactor our code. Again, we just changed the type we collect into!
+to refactor our code. It was all very seamless.
+Again, we just changed the type we collect into!
 
-Such a deep integration into the the iterator API would much harder,
+Such a deep integration into the the iterator API would be much harder,
 impossible even, in Python.
 
 In Rust you get the best of both worlds: the flexibility of the ecosystem
@@ -286,10 +291,7 @@ where
 }
 ```
 
-That might look a little intimidating at first, but if you look closely, you
-can see that `Counter` uses a `for` loop to iterate over the elements of the
-iterator and also uses the `entry` API to insert a new key or increment the
-value; just like we did manually before.
+That might look a little intimidating at first, but if you squint, you'll see that `Counter` uses a `for` loop to iterate over the elements of the iterator and also uses the `entry` API to insert a new key or increment the value; just like we did manually before.
 
 The final, missing piece can be found in the Rust standard library
 in the [`Iterator` trait](https://doc.rust-lang.org/std/iter/trait.Iterator.html):
@@ -329,11 +331,13 @@ developers tend to prefer iterators over other methods of iteration like
 `for` loops.
 
 One reason might be that iterators are more versatile because they can be
-chained and collected into custom types as we have seen.
+chained and collected into custom types as we have seen
+and they scale well with the complexity of the problem:
+at no point are you forced to use a different API or pattern.
 
 My hope is that I was able to show you how powerful iterator patterns in Rust
-are and they are a powerful stand-in for those list comprehensions you might be
-familiar with from Python.
+are and they are a powerful stand-in for those list comprehensions you might 
+know and love from Python.
 
 I encourage you to explore the iterator API in Rust and see how you can use it
 to make your code more expressive and concise. 
