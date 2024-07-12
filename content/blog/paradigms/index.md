@@ -4,6 +4,7 @@ date = 2023-12-04
 template = "article.html"
 draft = false
 [extra]
+updated = 2024-07-12
 series = "Idiomatic Rust"
 reviews = [
     { name = "Hanno Braun", url = "https://www.hannobraun.com/" },
@@ -591,12 +592,12 @@ where to draw the line between different programming paradigms.
 
 Here are my personal rules of thumb:
 
+* **Embrace object-oriented patterns for organization.** For organizing larger
+  parts of your application, consider object-oriented constructs. Using structs or enums can encapsulate related data and functions, providing a clear structure without worrying about the details.
 * **Leverage functional patterns for data transformations.** Especially within
   smaller scopes like functions and closures, functional methods such as
   mapping, filtering, or reducing can make your code both concise and clear.
-* **Embrace object-oriented patterns for organization.** For organizing larger
-  applications, consider object-oriented constructs. Using structs or
-  enums can encapsulate related data and functions, providing a clear structure.
+  Use functional programming when you can phrase your problem as a series of transformations over some data.
 * **Use imperative style for granular control.** In scenarios where you're
   working close to the hardware, or when you need explicit step-by-step
   execution, the imperative style is often a necessity. It allows for precise
