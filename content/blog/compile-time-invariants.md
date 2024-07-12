@@ -4,6 +4,7 @@ date = 2023-08-27
 draft = false
 template = "article.html"
 [extra]
+updated = 2024-07-12
 series = "Idiomatic Rust"
 reviews = [
     { name = "Guilliam Xavier", url = "https://github.com/guilliamxavier" },
@@ -68,7 +69,7 @@ a practice that emphasizes the use of types to ensure program correctness.
 
 To see how it works, let's try to implement a basic version of `vec1` ourselves.
 
-## Variant 1: The `vec1` macro
+## The `vec1` macro
 
 Let's create a macro that behaves like `vec!`, but doesn't allow an empty vector.
 
@@ -108,18 +109,18 @@ error message.
 
 This does indeed look like it solves our problem!  
 However, it only does so superficially.
+There's a nifty bug hiding in disguise. 
 
-Since we return an ordinary `Vec`, the information that there is at least one
-element is lost and the invariant is *not* enforced by the type system later on.
-Nothing keeps us from passing an empty vector to a function that requires at
-least one element, so we would still need our `brokers.is_empty()` runtime check
-from above.
+Since we return an ordinary `Vec`, the information that there must be at least one element is not a part of the type and the invariant will *not* be enforced by the type system later on.
+We only handle the case where we construct the vector, but not when we use it.
 
-We haven't gained much.
+Nothing keeps us from passing an empty vector to a function that requires at least one element. As a result, we would still need our `brokers.is_empty()` runtime check from above. Dolorous.
 
-Can we do better?
+All of the hard work was for naught.
 
-## Variant 2: Implementing a `Vec1` type
+But, can we do better?
+
+## Second Try: Implementing a `Vec1` type
 
 The trick is to create a new type, `Vec1`, that behaves like an ordinary `Vec`,
 but encapsulates the knowledge we just gained about our input. 
@@ -132,7 +133,7 @@ We do this by using two fields internally, `first` and `rest`:
 pub struct Vec1<T> {
     // The first element is mandatory
     first: T,
-    // The rest of the elements are optional
+    // The rest is optional
     rest: Vec<T>,
 }
 ```
@@ -245,12 +246,14 @@ If you want to play around with the code, [here's a link to the Rust
 playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=316d933bfa7bf97eac0f4c8f152d5d61).
 
 In any real-world scenario, you would probably want to use the `vec1` crate
-instead of rolling your own implementation.
+instead of rolling your own implementation. And yes, the `vec1` crate 
+implements all the necessary traits to make `Vec1` behave like a `Vec`
+in a similar fashion to what we did above.
 
-## Variant 3: Using an Array
+## Using a fixed-size array
 
 If we assume that the list of Kafka brokers doesn't change at runtime (a
-reasonable assumption, given that it's a configuration value) we could also use
+reasonable assumption, given that it's a configuration setting) we could also use
 a [fixed-size array](https://doc.rust-lang.org/std/primitive.array.html).
 
 By using an array, we can statically allocate the whole collection, which is
@@ -307,7 +310,9 @@ that Kafka brokers get represented as URLs, we could also enforce that invariant
 at compile-time.
 
 Which additional checks you want to add depends on your use-case.
-As a general rule of thumb, I like to follow this advice:
+For instance, if Kafka brokers are a central part of your application, you might want to create your own `KafkaBroker` type that enforce additional invariants. 
+
+Here's a nice general rule of thumb:
 
 > Model your data using the most precise data structure you reasonably can.  
 > &mdash; [Alexis King](https://lexi-lambda.github.io/about.html) in [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
@@ -320,5 +325,4 @@ robust and idiomatic code to enforce invariants at compile-time.
 Always be on the lookout for ways to let the type-system guide you towards
 stronger abstractions. 
 
-You might also be interested in my previous post on [making illegal states
-unrepresentable in Rust](/blog/illegal-state).
+If you liked this, you might also be interested in my previous post on [making illegal states unrepresentable in Rust](/blog/illegal-state).
