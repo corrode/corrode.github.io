@@ -21,10 +21,10 @@ At corrode, we provide specialized Rust consulting services to help companies ad
 
 corrode offers a unique productized service model. You can book a set number of hours per week or month, giving you access to a Rust expert without the overhead of a full-time hire. I'll be:
 
-- In your Slack channel
-- Reviewing your GitHub repository
-- Participating in your team meetings
-- Helping your project succeed with Rust
+- In your Slack/Teams/Discord channel
+- Reviewing your pull requests
+- Participating in your team planning meetings
+- Helping with architecture decisions
 
 ## How We Work
 
