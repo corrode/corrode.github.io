@@ -65,9 +65,9 @@
 
 .cta-button {
     display: inline-block;
-    padding: 10px 20px;
-    font-size: 1.5em;
     border: none;
+    font-size: 1.1em;
+    padding: 8px 16px;
     border-radius: 4px;
     background-color: $brightScnd;
     color: white;
@@ -76,6 +76,11 @@
     transition:
         background-color 0.3s,
         transform 0.2s;
+}
+
+.cta-button-large {
+    font-size: 1.5em;
+    padding: 10px 20px;
 }
 
 .cta-button:hover {

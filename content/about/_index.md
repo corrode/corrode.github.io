@@ -49,7 +49,6 @@ Push the button below to get in touch. I'm looking forward to hearing from you!
     Schedule A Free 30-Minute Call
 </a>
 
-
 <style>
 .img-stack {
     position: relative;
