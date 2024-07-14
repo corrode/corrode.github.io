@@ -1,0 +1,82 @@
+.faq-section {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.faq-item {
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba($darkBgrd, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 5px 15px rgba($darkBgrd, 0.2);
+}
+
+.faq-item summary {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $brightBgrdScnd;
+    color: $brightPrim;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: "\002B";
+    color: $brightScnd;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    padding: 1rem;
+    margin: 0;
+    color: $brightPrim;
+    background: $brightBgrdLight;
+    line-height: 1.6;
+}
+
+.faq-item a {
+    color: $brightScnd;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.faq-item a:hover {
+    text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+    .faq-item {
+        background: $heroDark;
+    }
+
+    .faq-item summary {
+        background: $darkBgrd;
+        color: $darkPrim;
+    }
+
+    .faq-item p {
+        color: $darkPrim;
+        background: $darkBgrdLight;
+    }
+
+    .faq-item a {
+        color: $brightBgrd;
+    }
+}
