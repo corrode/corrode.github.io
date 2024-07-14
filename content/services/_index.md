@@ -9,7 +9,7 @@ description = "Friendly, professional Rust consulting services to help companies
 
 ## What We Offer
 
-At corrode, we provide specialized Rust consulting services to help companies adopt and excel with Rust. Our offerings include:
+At corrode, I provide tailored Rust consulting services to help companies adopt and excel with Rust. As a solo consultant with extensive experience, I offer:
 
 1. **Training:** Tailored Rust workshops and courses for your team.
 2. **Consulting:** Expert advice on Rust adoption, best practices, and optimization.
@@ -17,29 +17,47 @@ At corrode, we provide specialized Rust consulting services to help companies ad
 4. **Code Reviews:** In-depth analysis and improvement of your Rust codebase.
 5. **Team Augmentation:** Temporary Rust expertise to boost your project's progress.
 
-## Our Unique Approach: Productized Service
+## Flexible Service Model
 
-corrode offers a unique productized service model. You can book a set number of hours per week or month, giving you access to a Rust expert without the overhead of a full-time hire. I'll be:
+corrode offers a unique service model focused on hands-on team support. You can book a set number of hours per week or month, giving you direct access to a Rust expert without the overhead of a full-time hire. As your dedicated Rust consultant, I'll be:
 
 - In your Slack/Teams/Discord channel
-- Reviewing your pull requests
-- Participating in your team planning meetings
+- Helping your team ship features and improve code quality
+- Participating in your planning meetings
 - Helping with architecture decisions
+
+While I typically work with set hours, I understand that needs can change quickly. If you suddenly require additional support, you can simply book more hours. You can increase or decrease your weekly budget in 4-hour increments, and I'll adjust my availability accordingly. 
 
 ## How We Work
 
 1. **Initial Consultation:** We start with a free 30-minute call to discuss your needs and goals.
 2. **Project Audit:** A one-day, hands-off audit of your project using our specialized Rust project checklists and production expertise.
-3. **Action Plan:** We present our findings and suggest a tailored plan of action.
+3. **Action Plan:** I present my findings and suggest a tailored plan of action.
 4. **Ongoing Support:** Hands-on collaboration and regular meetings to track progress and adjust our approach as needed.
 
 ## Why Choose corrode?
 
-- **Rust-Exclusive Focus:** Unlike generalist agencies, we specialize solely in Rust.
-- **Proven Track Record:** Our clients consistently report positive outcomes and accelerated Rust adoption.
+- **Rust-Exclusive Focus:** Unlike generalist agencies, I specialize solely in Rust.
+- **Proven Track Record:** My clients consistently report positive outcomes and accelerated Rust adoption.
 - **Community Involvement:** Deep connections within the Rust ecosystem keep
-our advice and practices up-to-date.
-- **Flexible Engagement:** From short-term projects to long-term partnerships, we adapt to your needs.
+my advice and practices up-to-date.
+- **Flexible Engagement:** From short-term projects to long-term partnerships, I adapt to your needs.
+
+## Don't Just Take My Word for It
+
+<q>
+    I had the pleasure of collaborating with
+    Matthias to take my product from a prototype to
+    a production ready solution. Thanks
+    to Matthias's guidance, I now have a robust
+    product built on Rust that I can trust to
+    deliver performance and reliability.
+</q>
+<p style="text-align:right">
+&mdash; <a href="https://www.linkedin.com/in/somdip-datta/">Somdip Datta</a>, Financial Engineer and Author
+</p>
+
+
 
 ## Frequently Asked Questions
 
@@ -118,8 +136,11 @@ our advice and practices up-to-date.
     <summary>How do I get started?</summary>
     <p>Getting started is easy! Simply <a href="https://cal.com/corrode">schedule a free consultation call</a> with me to discuss your project needs and goals. We'll take it from there!</p>
   </details>
-    
 
+  <details class="faq-item">
+    <summary>What happens if you're unavailable due to illness or other reasons?</summary>
+    <p>As a solo consultant, I strive to maintain clear communication with my clients. In case of planned absences, I'll notify you well in advance. For unexpected issues, I have a network of trusted Rust experts who can provide backup support if absolutely necessary, ensuring your project stays on track. However, this would only be done with your explicit approval.</p>
+  </details>
 </div>
 
 ## Ready to Make the Most of Rust?
