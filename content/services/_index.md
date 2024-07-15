@@ -17,13 +17,14 @@ description = "Friendly, professional Rust consulting services to help companies
 
 ## What We Offer
 
-At corrode, I provide tailored Rust consulting services to help companies adopt and excel with Rust. As a solo consultant with extensive experience, I offer:
+At corrode, I specialize in bringing teams to production with Rust, focusing on backend development and API design. My tailored approach includes:
 
-1. **Training:** Tailored Rust workshops and courses for your team.
-2. **Consulting:** Expert advice on Rust adoption, best practices, and optimization.
-3. **Mentoring:** Ongoing support and guidance for your Rust projects.
-4. **Code Reviews:** In-depth analysis and improvement of your Rust codebase.
-5. **Team Augmentation:** Temporary Rust expertise to boost your project's progress.
+1. **Production-Ready Rust:** Expertise in shipping robust, scalable Rust systems to production.
+2. **Backend and API Excellence:** Crafting efficient, intuitive backend solutions and APIs.
+3. **Team Empowerment:** Custom training, mentoring, and support to elevate your team's Rust proficiency.
+4. **End-to-End Support:** From initial adoption to ongoing optimization, I ensure every developer gets the support they need.
+
+For specialized needs beyond my core expertise, I collaborate with trusted professionals to provide comprehensive support for your entire Rust journey.
 
 ## Flexible Service Model
 
@@ -142,6 +143,18 @@ my advice and practices up-to-date.
   <details class="faq-item">
     <summary>How do I get started?</summary>
     <p>Getting started is easy! Simply <a href="https://cal.com/corrode">schedule a free consultation call</a> with me to discuss your project needs and goals. We'll take it from there!</p>
+  </details>
+  
+  <details class="faq-item">
+    <summary>How do you specialize in bringing teams to production with Rust?</summary>
+    <p>From experience, I learned that a lot of developers are excited about Rust and might even have started a project with it. However, they often struggle to bring it to production. This entails a lot of challenges, such as setting up a CI/CD pipeline, structuring the codebase, and dependency management.</p>
+    <p>
+    My expertise lies in guiding teams through the entire process of adopting Rust and deploying it to production. This includes initial strategy, architecture design, implementation, testing, and deployment. I focus on backend systems and APIs, ensuring they're robust, efficient, and scalable. My approach combines hands-on development with knowledge transfer, enabling your team to maintain and expand the system independently.</p>
+  </details>
+  
+  <details class="faq-item">
+    <summary>What is your main area of expertise within Rust?</summary>
+    <p>My main strength lies in backend systems, APIs, command-line tooling, and DevOps. I have extensive experience building high-performance, scalable systems in Rust, and delivering robust and efficient solutions. I also specialize in helping teams adopt Rust, providing training, code reviews, and ongoing support to ensure successful integration of Rust into your tech stack.</p>
   </details>
 
   <details class="faq-item">

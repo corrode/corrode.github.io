@@ -654,7 +654,7 @@ details summary {
 
         a {
             color: white;
-            text-decoration-color: rgba(white, 0.3);
+            text-decoration-color: $brightBgrd;
         }
 
         article code:not(pre > code) {

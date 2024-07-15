@@ -51,16 +51,6 @@
     line-height: 1.6;
 }
 
-.faq-item a {
-    color: $brightScnd;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.faq-item a:hover {
-    text-decoration: underline;
-}
-
 @media (prefers-color-scheme: dark) {
     .faq-item {
         background: $heroDark;
@@ -74,9 +64,5 @@
     .faq-item p {
         color: $darkPrim;
         background: $darkBgrdLight;
-    }
-
-    .faq-item a {
-        color: $brightBgrd;
     }
 }
