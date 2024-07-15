@@ -45,9 +45,13 @@ From time to time, I get invited to podcasts and interviews. Here are some of th
 
 Push the button below to get in touch. I'm looking forward to hearing from you!
 
-<a href="https://cal.com/corrode" target="_blank" class="cta-button">
-    Schedule A Free 30-Minute Call
-</a>
+<div class="cta-wrapper">
+  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>
+      Schedule A Free 30-Minute Consultation
+  </a>
+</div>
+
+{{ calendar() }}
 
 <style>
 .img-stack {
