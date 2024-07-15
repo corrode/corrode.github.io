@@ -28,3 +28,9 @@ Responsible for this publication is Matthias Endler, according to §5 TMG (Germa
 - [GitHub Logo by GitHub](https://github.com/logos)
 - [Bitbucket Logo by Atlassian](https://bitbucket.org/product)
 - [GitLab Logo by GitLab](https://about.gitlab.com/press/)
+
+### Credits for Videos
+
+- Internet Education Stock Videos by [Vecteezy](https://www.vecteezy.com/free-videos/internet-education)
+- Steampunk Stock Videos by [Vecteezy](https://www.vecteezy.com/free-videos/steampunk)
+- "My Tiny Love" by soundroll, available on [Uppbeat](https://uppbeat.io/track/soundroll/my-tiny-love)
