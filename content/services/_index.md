@@ -66,8 +66,7 @@ my advice and practices up-to-date.
 </p>
 
 
-
-## Frequently Asked Questions
+## Questions?
 
 <div class="faq-section">
   <details class="faq-item">
