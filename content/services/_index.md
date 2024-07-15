@@ -7,6 +7,14 @@ description = "Friendly, professional Rust consulting services to help companies
 
 <script src="https://fast.wistia.com/embed/medias/crzddicf9e.jsonp" async></script><script src="https://fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_crzddicf9e seo=false videoFoam=true" style="height:100%;position:relative;width:100%"><div class="wistia_swatch" style="height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;"><img src="https://fast.wistia.com/embed/medias/crzddicf9e/swatch" style="filter:blur(5px);height:100%;object-fit:contain;width:100%;" alt="" aria-hidden="true" onload="this.parentNode.style.opacity=1;" /></div></div></div></div>
 
+<div class="cta-wrapper">
+  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>
+      Schedule A Free 30-Minute Consultation
+  </a>
+</div>
+
+{{ calendar() }}
+
 ## What We Offer
 
 At corrode, I provide tailored Rust consulting services to help companies adopt and excel with Rust. As a solo consultant with extensive experience, I offer:
@@ -147,6 +155,8 @@ my advice and practices up-to-date.
 
 Let's discuss how corrode can help you accelerate your Rust adoption and success. 
 
-<a href="https://cal.com/corrode" target="_blank" class="cta-button">
-    Schedule A Free 30-Minute Consultation
-</a>
+<div>
+<a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
+</div>
+  
+Or, send email to <a href="mailto: &#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;"> &#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;</a>

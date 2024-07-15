@@ -337,7 +337,7 @@
         <div class="content-icons">
             Or contact me via
             {% for link in config.extra.links %}
-            <a title="{{ link.title }}" href="{{ link.url }}" target="_blank" rel="noreferrer">
+            <a title="{{ link.title | safe }}" href="{{ link.url | safe }}" target="_blank" rel="noreferrer">
                 <img class="content-icon" src="/icons/{{ link.icon }}" />
             </a>
             {% endfor %}
