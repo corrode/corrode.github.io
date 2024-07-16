@@ -76,11 +76,6 @@ my advice and practices up-to-date.
   </details>
 
   <details class="faq-item">
-      <summary>Do you work remotely?</summary>
-      <p>Yes, I work remotely with clients worldwide. However, I'm also open to on-site visits if needed, especially for workshops or kick-off meetings.</p>
-  </details>
-
-  <details class="faq-item">
       <summary>Can you help with an existing Rust project?</summary>
       <p>Absolutely! Whether you need help optimizing an existing codebase, expanding functionality, or conducting code reviews, I can assist with projects at any stage of development.</p>
   </details>
@@ -88,6 +83,13 @@ my advice and practices up-to-date.
   <details class="faq-item">
       <summary>What if we're new to Rust?</summary>
       <p>That's perfectly fine! I specialize in helping teams adopt Rust. We can start with training sessions and gradually move into more hands-on development as your team's comfort with Rust grows.</p>
+  </details>
+  
+  <details class="faq-item">
+      <summary>How will we collaborate?
+      </summary>
+      <p>I'm located in the Central European Timezone (CET), and I'm available for regular meetings during business hours.</p>
+      <p>I work remotely with clients worldwide. However, I'm also open to on-site visits if needed, especially for workshops or kick-off meetings.</p>
   </details>
   
   <details class="faq-item">
@@ -111,24 +113,24 @@ my advice and practices up-to-date.
   </details>
   
   <details class="faq-item">
-      <summary>Do you offer discounts for bigger workshop groups?</summary>
-      <p>Yes, you can save 25% on the total cost for groups of 7 or more participants. Please contact me for more details.</p>
+      <summary>Do you offer discounts for bigger teams?</summary>
+      <p>Yes, you can save 25% on the total cost of workshops for groups of 7 or more participants. Please contact me to clarify the details.</p>
   </details>
   
   <details class="faq-item">
     <summary>Do you offer ongoing support after project completion?</summary>
-    <p>Yes, I can provide ongoing support and maintenance as needed. We can discuss post-project support options based on your specific needs.</p>
+    <p>Yes, I can provide ongoing support and maintenance as needed. However, the goal is to empower your team to be self-sufficient in Rust development. We can discuss post-project support options based on your specific needs.</p>
   </details>
   
   <details class="faq-item">
     <summary>What if I'm not satisfied with the service?</summary>
-    <p>I take great pride in my work and strive to ensure that all my clients are satisfied. If you're not happy with the service, you won't have to pay for it. Your satisfaction is my top priority.</p>
+    <p>I take great pride in my work and strive to ensure that all my clients are satisfied. If you're not happy with the service, please let me know, and we'll find a solution</p>
   </details>
   
   <details class="faq-item">
     <summary>Why a dedicated Rust expert?</summary>
-    <p>Haven't you ever been to a restaurant that serves everything from sushi to pizza? How does that make you feel about the quality of the food? The same applies to software development. A generalist might be able to help you with many things, but they won't be able to provide the same level of expertise as a specialist.</p>
-    <p>If you want sushi or pizza, I can recommend a great place around Düsseldorf, but for Rust, you're in the right place!</p>
+    <p>Have you ever been to a restaurant that serves everything from sushi to pizza? How does that make you feel about the quality of the food? The same applies to software development. A generalist might be able to help you with many things, but they won't be able to provide the same level of expertise as a specialist.</p>
+    <p>If you want sushi or pizza, I can recommend a great place around Düsseldorf, but I can help with Rust!</p>
   </details>
   
   <details class="faq-item">
@@ -165,10 +167,15 @@ my advice and practices up-to-date.
 
 ## Ready to Make the Most of Rust?
 
-Let's discuss how corrode can help you accelerate your Rust adoption and success. 
+<div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
+  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
+  <p>
+    or email <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
+  </p>
+</div>  
 
-<div>
-<a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
-</div>
-  
-Or, send email to <a href="mailto: &#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;"> &#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;</a>
+Want to share the vision with your team?
+<a href="#tally-open=mRLV0v&tally-layout=modal">Download our free PDF</a>
+for a brief overview of my services and expertise. Available in English and German.
+
+<script async src="https://tally.so/widgets/embed.js"></script>
