@@ -3,7 +3,7 @@ title = "Don't Worry About Lifetimes"
 date = 2024-05-29
 template = "article.html"
 [extra]
-updated = 2024-06-23
+updated = 2024-07-19
 series = "Idiomatic Rust"
 resources = [
     "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."
@@ -35,7 +35,7 @@ fn foo<'a>(bar: &'a str) {
 
 Here, I'm telling the compiler: "this reference `bar` is valid for the lifetime `'a`." The compiler will then check that the reference is indeed not used after the lifetime `'a` ends. If this still sounds like gibberish to you, please continue reading.
 
-Rust has a concept of lifetime *elision*, which means that you don't have to write lifetime annotations in many cases. The compiler will infer them for you.
+Rust has a concept of lifetime *elision*, which means that you don't have to write lifetime annotations in most cases; the compiler will infer them for you.
 
 {% info(headline="Lifetime Elision Recap", icon="info") %}
 
@@ -100,7 +100,7 @@ Nowadays, I consider it an anti-pattern to prematurely add lifetime annotations 
 
 What if you depend on a library that requires lifetime annotations?
 
-One example is Servo's [`html5ever`](https://github.com/servo/html5ever/), a high-performance HTML parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolkit.
+One example is Servo's [`html5ever`](https://github.com/servo/html5ever/), a high-performance HTML parser written in Rust. It uses lifetimes extensively to ensure memory safety and performance. When using such a library, you have to deal with lifetimes, whether you like it or not. However, understanding the basics of lifetimes can help you navigate these situations more effectively. Remember that lifetimes are there to help you write safe and efficient code. They are not something to be afraid of but rather a powerful tool in your Rust toolbelt.
 
 It's wise to get comfortable with lifetimes even if you don't use them often.
 
@@ -246,6 +246,13 @@ fn longest(x: Rc<String>, y: Rc<String>) -> Rc<String> {
 ```
 
 That's just a silly example (and you'd probably use `String` anyway in that case), but it shows how you can sidestep lifetimes by using reference-counted pointers.
+
+## When To Use Lifetimes
+
+Still confused if you should use lifetimes? Here's a simple flowchart to help you decide:
+
+<img src="decision-tree.svg" alt="Flow chart on how to decide on using lifetimes or not">
+
 
 ## Conclusion
 
