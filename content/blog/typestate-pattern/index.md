@@ -288,7 +288,8 @@ Here's how to use it:
 ```rust
 let door = Door { state: Unlocked };
 let door = door.lock();
-// This will not compile
+
+// The following will not compile
 // Error: method not found in `Locked`
 // A locked door cannot be opened by pulling the handle
 let door = door.open(); 
