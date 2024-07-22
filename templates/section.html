@@ -11,10 +11,10 @@
 
   {% set sorted_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="extra.series") %}
   
-  {% for extra_key, grouped_pages in sorted_pages | group_by(attribute="extra.series") %}
-    <h3>{{ extra_key }}</h3>
+  {% for series, series_pages in sorted_pages | group_by(attribute="extra.series") %}
+    <h3>{{ series }}</h3>
     <ul>
-      {% for page in grouped_pages | sort(attribute="date") | reverse %}
+      {% for page in series_pages  %}
         <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
       {% endfor %}
     </ul>

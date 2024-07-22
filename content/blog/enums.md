@@ -5,13 +5,14 @@ draft = false
 date = 2023-08-08
 [extra]
 series = "Idiomatic Rust"
+updated = 2024-07-20
 reviews = [ 
     { name = "Maikel", url = "https://mastodon.social/@the@mkl.lol" }
 ]
 +++
 
 Many Rust beginners with a background in systems programming tend to use `bool`
-(or even `u8` &mdash; an 8-bit unsigned integer type) to represent *"state"*.
+(or even `u8` &ndash; an 8-bit unsigned integer type) to represent *"state"*.
 
 For example, how about a `bool` to indicate whether a user is active or not?
 
@@ -110,7 +111,7 @@ impl UserStatus {
 ```
 
 It's still not ideal, however! Not even if you interface with C code, as we will
-see in a bit. But first, let's look at the recommended way to represent state in Rust.
+see in a bit. But first, let's look at a common way to represent state in Rust.
 
 ## Use Enums Instead!
 
@@ -167,7 +168,7 @@ pub enum UserStatus {
 }
 ```
 
-We can even represent **state transitions**:
+We can then model our **state transitions**:
 
 ```rust
 use chrono::{DateTime, Utc};
@@ -185,6 +186,7 @@ impl UserStatus {
     fn suspend(&mut self, until: DateTime<Utc>) {
         match self {
             UserStatus::Active => *self = UserStatus::Suspended { until },
+            // For all non-active states, do nothing.
             _ => {}
         }
     }
@@ -254,15 +256,41 @@ mod tests {
 }
 ```
 
-Look how much ground we've covered with just a few lines of code!
 We can extend the application with confidence, knowing that
-we can't accidentally delete a user twice or re-activate a deleted user.
-[Illegal state transitions are now impossible!](/blog/illegal-state)
+we can't attempt to delete a user twice (which might have unwanted side effects
+like, say, triggering an expensive cleanup job twice) or re-activate a deleted user.
+
+Out of the box, enums don't prevent us from making invalid state transitions. We
+can still write code that transitions from `Active` to `Suspended` without
+checking if the user is already suspended. A simple fix is to return a `Result` from the transition methods (as we did above) to indicate if the transition was successful. This way, we can handle errors gracefully at compile-time without too much ceremony.
+It's a simple and effective way towards avoiding [illegal state](/blog/illegal-state).
+
+Another often mentioned drawback is that you need pattern matching to handle state transitions.
+
+For example, we wrote this code to suspend a user:
+
+```rust
+match self {
+    UserStatus::Active => *self = UserStatus::Suspended { until },
+    // For all non-active states, do nothing.
+    _ => {}
+}
+```
+
+This can become a bit verbose, especially if you have many state transitions.
+In practice, I rarely found this to be a problem, though.
+Pattern matching is very ergonomic in Rust, and it's often the most readable way to describe state transitions. On top of that, the compiler will error if you forget to handle a state transition, which is a strong safety net. 
+
+Enums offer another key benefit: efficiency. The compiler optimizes them well, often matching the performance of direct integer use. This makes enums ideal for state machines and performance-critical code.
+In our example, the UserStatus enum's size equals that of its largest variant (plus a small tag) [^1]
+
+[^1]: In our case, this means that the `UserStatus` enum is as large as a `DateTime<Utc>`.
+
+Overall, while not perfect, the simplicity, readability, and memory efficiency of enums often outweigh their drawback in practice.
 
 ## Using Enums to Interact with C Code
 
-Earlier, I promised that you can still use enums, even if you have to interact
-with C code.
+Actually, there's one more advantage! Earlier, I promised that you can still use enums, even if you have to interact with C code.
 
 Suppose you have a C library with a user status type (I've omitted the other
 fields for brevity).
@@ -303,10 +331,10 @@ impl TryFrom<u8> for UserStatus {
 ```
 
 Noticed that `#[repr(u8)]` attribute? It tells the compiler to represent this
-enum as an unsigned 8-bit integer. This is critical for compatibility with the C
+enum as an unsigned 8-bit integer. This is crucial for compatibility with C
 code.
 
-Now, let's wrap the C function in a safe Rust wrapper:
+Now, let's wrap that C function in a safe Rust wrapper:
 
 ```rust
 extern "C" {
@@ -323,19 +351,149 @@ pub fn create_user_wrapper(status: UserStatus) -> Result<User, &'static str> {
 }
 ```
 
-The Rust code now communicates with the C code using a rich enum type, allowing
-for more expressive and type-safe code.
+The Rust code now communicates with the C code using a rich enum type, which is both expressive and type-safe.
 
 If you want, you can play around with the code on the [Rust
 playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8973e5e655c92c725f0b2b00f7830385).
 
+To make these conversions easier, there are crates like
+[`num_enum`](https://crates.io/crates/num_enum), which provides great ergonomics
+to convert enums to and from primitive types.
+
+```rs
+use num_enum::IntoPrimitive;
+
+#[derive(IntoPrimitive)]
+#[repr(u8)]
+enum Number {
+    Zero,
+    One,
+}
+
+fn main() {
+    let zero: u8 = Number::Zero.into();
+    assert_eq!(zero, 0u8);
+}
+```
+
+Here, the `IntoPrimitive` derive macro generates a `From` implementation for
+`Number` to `u8`. This makes converting between the enum and the primitive type
+as simple as calling `into()`.
+
+## The Typestate Pattern
+
+At this point, many experienced Rust developers would mention another way to safely handle state transitions: the typestate pattern. The idea is pretty neat &ndash; encode the state of an object in its type as a generic parameter.
+The current state becomes *part* of your type.
+
+```rust
+/// Our trait for user states
+trait UserState {}
+
+/// Each state is a separate struct
+struct Active;
+struct Inactive;
+struct Suspended;
+struct Deleted;
+
+/// Implement the trait for each state
+impl UserState for Active {}
+impl UserState for Inactive {}
+impl UserState for Suspended {}
+impl UserState for Deleted {}
+
+/// The User struct is generic over the state
+struct User<S: UserState> {
+    // Generic over the state
+    id: u64,
+    name: String,
+    
+    // The state is encoded in the type
+    state: S,
+}
+
+/// Implement methods for each state separately
+/// Note how the return type changes based on the state.
+/// That's the trick!
+impl User<Active> {
+    fn suspend(self, until: DateTime<Utc>) -> User<Suspended> {
+        User { id: self.id, name: self.name, state: Suspended }
+    }
+
+    fn deactivate(self) -> User<Inactive> {
+        User { id: self.id, name: self.name, state: Inactive }
+    }
+}
+
+impl User<Inactive> {
+    fn activate(self) -> User<Active> {
+        User { id: self.id, name: self.name, state: Active }
+    }
+}
+
+impl User<Suspended> {
+    fn activate(self) -> User<Active> {
+        User { id: self.id, name: self.name, state: Active }
+    }
+}
+
+/// Deleted users can't be reactivated or suspended
+/// Once we reach this state, the user is gone for good.
+impl<S: UserState> User<S> {
+    fn delete(self) -> User<Deleted> {
+        User { id: self.id, name: self.name, state: Deleted }
+    }
+}
+```
+
+This pattern provides even stronger guarantees than enums, as it makes illegal state transitions impossible at compile-time. For instance, you can't deactivate a suspended user or reactivate a deleted user even if you wanted to:
+there simply isn't a method for that.
+
+```rust
+fn main() {
+    let user = User { id: 1, name: "Alice".to_string(), state: Active };
+    let user = user.suspend(Utc::now() + Duration::days(1));
+    
+    // Error: no method named `deactivate` found for type `User<Suspended>`
+    user.deactivate(); 
+}
+```
+
+(You can play around with this code on the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=ded18a44c5f32d488eb5ea387ddd1eb8))
+
+However, it's worth noting that there's some pushback against overusing the typestate pattern.
+
+* The additional generic parameter can make the code more complex and harder to understand, especially for developers who aren't familiar with the pattern.
+* The documentation and error messages can also be less clear, as the compiler will often mention the generic type parameter and that can distract from the main logic. 
+* When you need to work with collections of items that could be in different states, the typestate pattern could be harder to work with.
+
+The last point is often overlooked, so let's dive into it a bit more.
+Say you have a list of users, each in a different state, then you'd need to use a trait object to store them:
+
+```rust
+let users: Vec<Box<dyn UserState>> = vec![
+    Box::new(User { id: 1, name: "Alice".to_string(), state: Active }),
+    Box::new(User { id: 2, name: "Bob".to_string(), state: Inactive }),
+    Box::new(User { id: 3, name: "Charlie".to_string(), state: Suspended }),
+];
+```
+
+This triggers a heap allocation and dynamic dispatch (the correct method to call is determined at runtime), which is less efficient than the same code using enums, but more importantly, by using trait objects, you're losing the ability to statically know which specific state each user is in. This means you can't directly call state-specific methods on the users in the collection without first downcasting again or by using dynamic dispatch. 
+
+It can be tempting to verify everything at compile-time, but sometimes the trade-offs aren't worth it.
+I'd recommend using the typestate pattern only when you need the strongest possible compile-time guarantees at the cost of worse developer experience.
+For simpler scenarios, enums get you 80% of the way at very little cost.
+
 ## Conclusion
 
-Enums in Rust are more powerful than in most other languages.
-They can be used to elegantly represent state transitions &mdash;
-even across language boundaries.
+State management in Rust is more nuanced than in most other languages.
 
-You should consider using enums whenever you need to represent a set of possible
-values, like when representing the state of an object.
+Here's a quick summary of the different state management approaches in Rust:
 
+1. **Simple bool/integer**: Easy to understand but prone to errors and not self-documenting.
+2. **Enums**: Provide type-safety and self-documentation, suitable for most cases. They even work well with C code.
+3. **Typestate Pattern**: Offers the strongest compile-time guarantees, ideal for critical systems but can be more verbose.
+
+Remember, the goal is to write code that is not only correct but also maintainable and understandable by your team.
+
+My recommendation is to use enums whenever you need to represent a set of possible values, like when representing the state of an object. For even stronger guarantees, consider the typestate pattern, especially in safety-critical applications.
 
