@@ -15,44 +15,31 @@ description = "Friendly, professional Rust consulting services to help companies
 
 {{ calendar() }}
 
-## What We Offer
+## Here’s the problem...
 
-At corrode, I specialize in bringing teams to production with Rust, focusing on backend development and API design. My tailored approach includes:
+Rust is a complex language with a large API surface. Writing production-grade Rust requires a lot of architectural decisions. As a team lead excited about Rust, you're responsible for your project's success. Your team's great but lacks experience. You want to avoid risks.
 
-1. **Production-Ready Rust:** Expertise in shipping robust, scalable Rust systems to production.
-2. **Backend and API Excellence:** Crafting efficient, intuitive backend solutions and APIs.
-3. **Team Empowerment:** Custom training, mentoring, and support to elevate your team's Rust proficiency.
-4. **End-to-End Support:** From initial adoption to ongoing optimization, I ensure every developer gets the support they need.
+Courses alone won't cut it. Nameless agencies offer help, but they
+don't care about your project or team. They might just be chasing hype without real experience. Contract devs can hurt engineering culture and create 
+knowledge silos. You're stuck, afraid of making the wrong move.
 
-For specialized needs beyond my core expertise, I collaborate with trusted professionals to provide comprehensive support for your entire Rust journey.
+## There Must Be a Better Way...
 
-## Flexible Service Model
+What you need is to move forward with confidence. You want excellent Rust that's robust, testable, quick to compile, and easy for your team to extend. You want Rust projects that are a joy to work with.
 
-corrode offers a unique service model focused on hands-on team support. You can book a set number of hours per week or month, giving you direct access to a Rust expert without the overhead of a full-time hire. As your dedicated Rust consultant, I'll be:
+**Your teams will spend thousands of hours maintaining Rust services. Spend a few more to learn how to do it well. Together we'll build a codebase you'll love to work with – the one you always wanted.**
 
-- In your Slack/Teams/Discord channel
-- Helping your team ship features and improve code quality
-- Participating in your planning meetings
-- Helping with architecture decisions
+## How I Can Help
 
-While I typically work with set hours, I understand that needs can change quickly. If you suddenly require additional support, you can simply book more hours. You can increase or decrease your weekly budget in 4-hour increments, and I'll adjust my availability accordingly. 
+The right mentor can change your trajectory.
 
-## How We Work
+I offer friendly, human-centered Rust training based on a decade of experience and dozens of production success stories. I provide tailored support for teams who care about their craft.
 
-1. **Initial Consultation:** We start with a free 30-minute call to discuss your needs and goals.
-2. **Project Audit:** A one-day, hands-off audit of your project using our specialized Rust project checklists and production expertise.
-3. **Action Plan:** I present my findings and suggest a tailored plan of action.
-4. **Ongoing Support:** Hands-on collaboration and regular meetings to track progress and adjust our approach as needed.
+My training gets your Rust to production in half the time and trains your team in 2 months instead of 4. It's the training you need for the decades to come, teaching you how to write Rust well before getting out of your way. I focus on alignment, clarity, and idiomatic Rust.
 
-## Why Choose corrode?
+I work best with small teams that move fast, want to do things right, and have a strong engineering culture. I believe in fast feedback loops.
 
-- **Rust-Exclusive Focus:** Unlike generalist agencies, I specialize solely in Rust.
-- **Proven Track Record:** My clients consistently report positive outcomes and accelerated Rust adoption.
-- **Community Involvement:** Deep connections within the Rust ecosystem keep
-my advice and practices up-to-date.
-- **Flexible Engagement:** From short-term projects to long-term partnerships, I adapt to your needs.
-
-## Don't Just Take My Word for It
+{% info(headline="Feedback From Happy Customers", icon="heart") %}
 
 <q>
     I had the pleasure of collaborating with
@@ -66,8 +53,15 @@ my advice and practices up-to-date.
 &mdash; <a href="https://www.linkedin.com/in/somdip-datta/">Somdip Datta</a>, Financial Engineer and Author
 </p>
 
+{% end %}
 
-## Questions?
+
+## Who I Am
+
+I'm Matthias Endler, a Rust consultant from Düsseldorf, Germany. I've been writing Rust since 2015 and run a podcast titled [Rust in Production](/podcast). I specialize solely in Rust. Read more about me [here](/about).
+
+
+## Happy To Answer Your Questions
 
 <div class="faq-section">
   <details class="faq-item">
@@ -110,11 +104,6 @@ my advice and practices up-to-date.
   <details class="faq-item">
       <summary>What's your cancellation policy?</summary>
       <p>I understand that plans can change. Therefore you can cancel our services at the end of any month with no further obligation.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>Do you offer discounts for bigger teams?</summary>
-      <p>Yes, you can save 25% on the total cost of workshops for groups of 7 or more participants. Please contact me to clarify the details.</p>
   </details>
   
   <details class="faq-item">
@@ -170,12 +159,12 @@ my advice and practices up-to-date.
 <div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
   <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
   <p>
-    or email <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
+    or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
 </div>  
 
 Want to share the vision with your team?
-<a href="#tally-open=mRLV0v&tally-layout=modal">Download our free PDF</a>
+<a href="#tally-open=mRLV0v&tally-layout=modal">Download my free PDF</a>
 for a brief overview of my services and expertise. Available in English and German.
 
 <script async src="https://tally.so/widgets/embed.js"></script>
