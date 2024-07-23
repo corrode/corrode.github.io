@@ -7,17 +7,10 @@ description = "Friendly, professional Rust consulting services to help companies
 
 <script src="https://fast.wistia.com/embed/medias/crzddicf9e.jsonp" async></script><script src="https://fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_crzddicf9e seo=false videoFoam=true" style="height:100%;position:relative;width:100%"><div class="wistia_swatch" style="height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;"><img src="https://fast.wistia.com/embed/medias/crzddicf9e/swatch" style="filter:blur(5px);height:100%;object-fit:contain;width:100%;" alt="" aria-hidden="true" onload="this.parentNode.style.opacity=1;" /></div></div></div></div>
 
-<div class="cta-wrapper">
-  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>
-      Schedule A Free 30-Minute Consultation
-  </a>
-</div>
-
-{{ calendar() }}
-
 ## Here’s the problem...
 
-Rust is a complex language with a large API surface. Writing production-grade Rust requires a lot of architectural decisions. As a team lead excited about Rust, you're responsible for your project's success. Your team's great but lacks experience. You want to avoid risks.
+Rust is a complex language with a large API surface. Writing production-grade Rust requires a lot of architectural decisions. As a team lead excited about Rust, you're responsible for your project's success.
+Your team wants to do things right, but it lacks experience and you want to avoid risks.
 
 Courses alone won't cut it. Nameless agencies offer help, but they
 don't care about your project or team. They might just be chasing hype without real experience. Contract devs can hurt engineering culture and create 
@@ -37,8 +30,6 @@ I offer friendly, human-centered Rust training based on a decade of experience a
 
 My training gets your Rust to production in half the time and trains your team in 2 months instead of 4. It's the training you need for the decades to come, teaching you how to write Rust well before getting out of your way. I focus on alignment, clarity, and idiomatic Rust.
 
-I work best with small teams that move fast, want to do things right, and have a strong engineering culture. I believe in fast feedback loops.
-
 {% info(headline="Feedback From Happy Customers", icon="heart") %}
 
 <q>
@@ -55,10 +46,20 @@ I work best with small teams that move fast, want to do things right, and have a
 
 {% end %}
 
+## Ready to Make the Most of Rust?
 
-## Who I Am
+<div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
+  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
+  <p>
+    or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
+  </p>
+</div>  
 
-I'm Matthias Endler, a Rust consultant from Düsseldorf, Germany. I've been writing Rust since 2015 and run a podcast titled [Rust in Production](/podcast). I specialize solely in Rust. Read more about me [here](/about).
+Want to share the vision with your team?
+<a href="#tally-open=mRLV0v&tally-layout=modal">Download my free PDF</a>
+for a brief overview of my services and expertise. Available in English and German.
+
+<script async src="https://tally.so/widgets/embed.js"></script>
 
 
 ## Happy To Answer Your Questions
@@ -154,7 +155,7 @@ I'm Matthias Endler, a Rust consultant from Düsseldorf, Germany. I've been writ
   </details>
 </div>
 
-## Ready to Make the Most of Rust?
+## Accelerate Your Team's Rust Adoption
 
 <div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
   <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
@@ -162,9 +163,3 @@ I'm Matthias Endler, a Rust consultant from Düsseldorf, Germany. I've been writ
     or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
 </div>  
-
-Want to share the vision with your team?
-<a href="#tally-open=mRLV0v&tally-layout=modal">Download my free PDF</a>
-for a brief overview of my services and expertise. Available in English and German.
-
-<script async src="https://tally.so/widgets/embed.js"></script>
