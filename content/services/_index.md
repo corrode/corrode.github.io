@@ -66,63 +66,11 @@ for a brief overview of my services and expertise. Available in English and Germ
 
 <div class="faq-section">
   <details class="faq-item">
-      <summary>How long does a typical project last?</summary>
-      <p>Project durations vary based on scope and complexity. Typically, engagements range from a few weeks for focused tasks to several months for more comprehensive projects. We'll discuss timelines during our initial consultation.</p>
-  </details>
-
-  <details class="faq-item">
-      <summary>Can you help with an existing Rust project?</summary>
-      <p>Absolutely! Whether you need help optimizing an existing codebase, expanding functionality, or conducting code reviews, I can assist with projects at any stage of development.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>What if we're new to Rust?</summary>
-      <p>That's perfectly fine! I specialize in helping teams adopt Rust. We can start with training sessions and gradually move into more hands-on development as your team's comfort with Rust grows.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>How will we collaborate?
-      </summary>
-      <p>I'm located in the Central European Timezone (CET), and I'm available for regular meetings during business hours.</p>
-      <p>I work remotely with clients worldwide. However, I'm also open to on-site visits if needed, especially for workshops or kick-off meetings.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>How do you handle confidentiality?</summary>
-      <p>I take confidentiality very seriously. I'm happy to sign NDAs and work within your company's security protocols to ensure all project details remain confidential.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>What's your availability like?</summary>
-      <p>My availability varies, but I always strive to accommodate my clients' needs. It's best to reach out early so we can plan accordingly. For urgent requests, I'll do my best to adjust my schedule.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>How do you handle payment?</summary>
-      <p>I accept payment via bank transfer or credit card. We'll discuss payment terms and schedules during our initial consultation.</p>
-  </details>
-  
-  <details class="faq-item">
-      <summary>What's your cancellation policy?</summary>
-      <p>I understand that plans can change. Therefore you can cancel our services at the end of any month with no further obligation.</p>
-  </details>
-  
-  <details class="faq-item">
-    <summary>Do you offer ongoing support after project completion?</summary>
-    <p>Yes, I can provide ongoing support and maintenance as needed. However, the goal is to empower your team to be self-sufficient in Rust development. We can discuss post-project support options based on your specific needs.</p>
-  </details>
-  
-  <details class="faq-item">
-    <summary>What if I'm not satisfied with the service?</summary>
-    <p>I take great pride in my work and strive to ensure that all my clients are satisfied. If you're not happy with the service, please let me know, and we'll find a solution</p>
-  </details>
-  
-  <details class="faq-item">
     <summary>Why a dedicated Rust expert?</summary>
     <p>Have you ever been to a restaurant that serves everything from sushi to pizza? How does that make you feel about the quality of the food? The same applies to software development. A generalist might be able to help you with many things, but they won't be able to provide the same level of expertise as a specialist.</p>
     <p>If you want sushi or pizza, I can recommend a great place around Düsseldorf, but I can help with Rust!</p>
   </details>
-  
+
   <details class="faq-item">
     <summary>How do I know you're any good?</summary>
     <p>I am a passionate open-source maintainer. Some popular Rust crates I built are <a href="https://github.com/tinysearch/tinysearch">tinysearch</a>, <a href=" https://github.com/mre/hyperjson">hyperjson</a>, and <a href="https://github.com/lycheeverse/lychee">lychee</a>. My projects are used by companies like Google, Microsoft, and Amazon and integrated into more than 10,000 repositories.
@@ -131,27 +79,95 @@ for a brief overview of my services and expertise. Available in English and Germ
       If you want to check how I communicate, check out my <a href="/podcast">podcast</a> where I talk to decision makers and lead engineers about Rust adoption in their companies.
     </p>
   </details>
-  
-  <details class="faq-item">
-    <summary>How do I get started?</summary>
-    <p>Getting started is easy! Simply <a href="https://cal.com/corrode">schedule a free consultation call</a> with me to discuss your project needs and goals. We'll take it from there!</p>
-  </details>
-  
-  <details class="faq-item">
-    <summary>How do you specialize in bringing teams to production with Rust?</summary>
-    <p>From experience, I learned that a lot of developers are excited about Rust and might even have started a project with it. However, they often struggle to bring it to production. This entails a lot of challenges, such as setting up a CI/CD pipeline, structuring the codebase, and dependency management.</p>
-    <p>
-    My expertise lies in guiding teams through the entire process of adopting Rust and deploying it to production. This includes initial strategy, architecture design, implementation, testing, and deployment. I focus on backend systems and APIs, ensuring they're robust, efficient, and scalable. My approach combines hands-on development with knowledge transfer, enabling your team to maintain and expand the system independently.</p>
-  </details>
-  
+
   <details class="faq-item">
     <summary>What is your main area of expertise within Rust?</summary>
     <p>My main strength lies in backend systems, APIs, command-line tooling, and DevOps. I have extensive experience building high-performance, scalable systems in Rust, and delivering robust and efficient solutions. I also specialize in helping teams adopt Rust, providing training, code reviews, and ongoing support to ensure successful integration of Rust into your tech stack.</p>
   </details>
 
   <details class="faq-item">
+    <summary>How do you specialize in bringing teams to production with Rust?</summary>
+    <p>From experience, I learned that a lot of developers are excited about Rust and might even have started a project with it. However, they often struggle to bring it to production. This entails a lot of challenges, such as setting up a CI/CD pipeline, structuring the codebase, and dependency management.</p>
+    <p>
+    My expertise lies in guiding teams through the entire process of adopting Rust and deploying it to production. This includes initial strategy, architecture design, implementation, testing, and deployment. I focus on backend systems and APIs, ensuring they're robust, efficient, and scalable. My approach combines hands-on development with knowledge transfer, enabling your team to maintain and expand the system independently.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>What if we're new to Rust?</summary>
+      <p>That's perfectly fine! I specialize in helping teams adopt Rust. We can start with training sessions and gradually move into more hands-on development as your team's comfort with Rust grows.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>Can you help with an existing Rust project?</summary>
+      <p>Absolutely! Whether you need help optimizing an existing codebase, expanding functionality, or conducting code reviews, I can assist with projects at any stage of development.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>What size teams do you typically work with?</summary>
+    <p>I've worked with teams of various sizes, from small startups to large enterprise teams. My approach is adaptable to your team's size and structure. Whether you're a solo developer looking for mentorship or a large team transitioning to Rust, I can tailor my services to suit your needs.</p>
+    <p>That said, I work best with small, focused groups. My ideal group size is 3-10 people, typically towards the lower end of that range. This allows for more personalized attention and effective knowledge transfer. If you have larger teams, we can arrange multiple sessions with smaller groups to ensure everyone gets the most out of our time together.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>How long does a typical project last?</summary>
+      <p>Project durations vary based on scope and complexity. Typically, engagements range from a few weeks for focused tasks to several months for more comprehensive projects. We'll discuss timelines during our initial consultation.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>How will we collaborate?
+      </summary>
+      <p>I'm located in the Central European Timezone (CET), and I'm available for regular meetings during business hours.</p>
+      <p>I work remotely with clients worldwide. However, I'm also open to on-site visits if needed, especially for workshops or kick-off meetings.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>What tools do you use for remote collaboration?</summary>
+    <p>I'm proficient with a variety of remote collaboration tools including Slack, Teams, Zoom, GitHub, Jira, Tuple, Rust Rover, Visual Studio Code, and GitLab. I'm also happy to adapt to your team's preferred tools and workflows to ensure seamless integration with your existing processes.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>What's your availability like?</summary>
+      <p>My availability varies, but I always strive to accommodate my clients' needs. It's best to reach out early so we can plan accordingly. For urgent requests, I'll do my best to adjust my schedule.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>What's your pricing structure?</summary>
+    <p>I offer flexible booking options for half days or full days. During these booked times, I'll be fully available for questions and consulting. We'll discuss and agree on the days in advance, and you have the flexibility to add or remove days as needed. This structure allows us to adapt to your project's evolving needs.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>How do you handle payment?</summary>
+      <p>I accept payment via bank transfer or credit card. We'll discuss payment terms and schedules during our initial consultation.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>What's your cancellation policy?</summary>
+      <p>I understand that plans can change. Therefore you can cancel our services at the end of any month with no further obligation.</p>
+  </details>
+
+  <details class="faq-item">
+      <summary>How do you handle confidentiality?</summary>
+      <p>I take confidentiality very seriously. I'm happy to sign NDAs and work within your company's security protocols to ensure all project details remain confidential.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Do you offer ongoing support after project completion?</summary>
+    <p>Yes, I can provide ongoing support and maintenance as needed. However, the goal is to empower your team to be self-sufficient in Rust development. We can discuss post-project support options based on your specific needs.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>What if I'm not satisfied with the service?</summary>
+    <p>I take great pride in my work and strive to ensure that all my clients are satisfied. If you're not happy with the service, please let me know, and we'll find a solution</p>
+  </details>
+
+  <details class="faq-item">
     <summary>What happens if you're unavailable due to illness or other reasons?</summary>
     <p>As a solo consultant, I strive to maintain clear communication with my clients. In case of planned absences, I'll notify you well in advance. For unexpected issues, I have a network of trusted Rust experts who can provide backup support if absolutely necessary, ensuring your project stays on track. However, this would only be done with your explicit approval.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>How do I get started?</summary>
+    <p>Getting started is easy! Simply <a href="https://cal.com/corrode">schedule a free consultation call</a> with me to discuss your project needs and goals. We'll take it from there!</p>
   </details>
 </div>
 
