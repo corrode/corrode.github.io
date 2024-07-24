@@ -82,7 +82,13 @@ This will render as:
 let t = SomeType::new();
 ```
 
-And to also address the root cause: If you see the urge to add a prelude, because your crate requires importing many modules to be usable, maybe your public API is too large? Try to reduce the number of modules and types by refactoring your public API. This way, you don't need to hide imports in the first place.
+{% info(headline="Caution When Hiding Code in Examples", icon="warning") %}
+
+Be careful with this approach and don't overdo it. Try to keep your examples simple and don't hide too much code because it can be a frustrating experience to your users if they copy-paste your examples and they don't work.
+
+{% end %}
+
+To address the root cause: If you feel the urge to add a prelude because your crate requires importing many modules to be usable, consider whether your public API is too large. Try reducing the number of modules and types by refactoring your public API. This way, you won't need to hide imports in the first place.
 
 ### Reducing boilerplate
 
