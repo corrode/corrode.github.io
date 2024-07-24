@@ -88,8 +88,7 @@ let t = SomeType::new();
 
 Another common argument for preludes is that they reduce friction when importing types.
 
-I don't think that's true anymore. IDE support for Rust has made great strides in the last years. Nowadays, your IDE will just auto-import the type for you. (Largely thanks to [Rust Analyzer](https://rust-analyzer.github.io/) and [Rust Rover](https://www.jetbrains.com/rust/))
-Problem solved!
+I don't think that's true anymore. Editor support for Rust has made great strides in the last years. Nowadays, your editor will just auto-import the type for you. (Largely thanks to [Rust Analyzer](https://rust-analyzer.github.io/) and [Rust Rover](https://www.jetbrains.com/rust/)). Problem solved!
 
 And to also address the root cause: If you see the urge to add a prelude, because your crate requires importing many modules to be usable, maybe your public API is too big? Try to reduce the number modules.
 
