@@ -59,9 +59,7 @@ and see if there's a better way to achieve the same goal.
 
 Some people like to use preludes in their documentation examples.
 
-This can be sweet when you quickly want to show how to use your library without too much boilerplate. But at what cost? At what terrible cost?[^2]
-
-[^2]: I'm exaggerating. Bear with me.
+This can be sweet when you quickly want to show how to use your library without too much boilerplate. But at what cost?
 
 Users *can and will* start to copy-paste that prelude into their code, at which point you'll have to support it. It's convenient in the beginning, but can result in a maintenance burden in the long run.
 
