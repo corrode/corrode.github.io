@@ -10,10 +10,11 @@ credits = [
 ]
 +++
 
+## The Rust Hiring Mismatch
+
 There's a curious mismatch in the Rust hiring market where some companies 
 believe there's a shortage of qualified candidates, while many Rust programmers struggle to find jobs. Why is that?
 
-## The Rust Hiring Mismatch
 
 Most Rust jobs are for senior roles, leaving newcomers and mid-level devs out in the cold. Many of whom would be a great fit for these roles with a little bit of training.
 
@@ -22,11 +23,33 @@ On top of that, crypto companies have inflated Rust developer salaries to unsust
 
 It's not impossible, though! However, many companies want unicorns with years of Rust experience in an industry where that's rare. Meanwhile, eager developers worldwide are ready to work but face barriers like location restrictions (US only), job security concerns (contract work only), or lack of "professional" Rust experience. It's a classic case of supply and demand completely missing each other, with both sides frustrated and opportunities lost.
 
+## But Isn't this just the dev job market in general?
+
+Partially! However, I think it's more pronounced in Rust because it's a relatively new language and companies add it to their job ads because it generates interest.
+
+The moment you try to get your foot in the door as a less experienced Rust developer, though, this mismatch becomes apparent. In tough market situations with fewer positions, companies tend to be more conservative and look for "safe bets" which means experts they are sure can hit the ground running &ndash; much to the detriment of less experienced developers.
+
 ## Why Write This Guide?
 
-The result is that many companies are hesitant about adopting Rust and are therefore missing out on a rich ecosystem for building reliable and efficient services. This misconception is frustrating, as it often comes up when I talk to companies not yet using Rust. ("The community is still too small.")
+The broader consequence is that many companies are hesitant about adopting Rust and are therefore missing out on a rich ecosystem for building reliable and efficient services. This misconception is frustrating, as it often comes up when I talk to companies not yet using Rust. 
 
-In contrast, companies that already use Rust in production rarely struggle with these issues and are generally very happy with their choice. Listen to some quotes from the season 1 finale of the 'Rust in Production' podcast [here](/podcast/s01e07-season-finale/?t=23%3A06).
+**A common statement I hear is: "The community is still too small."**
+
+In reality, the Rust community has more than tripled in size over the past two years and currently has [3.7M users, of which 0.6M joined in the last six months alone.](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023)
+
+<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
+<img src="communities.svg" class="invert" alt="Programming Language Communities Size">
+</a>
+
+In contrast, companies that already use Rust in production rarely struggle with these issues and are generally very happy with their choice. 
+
+Here are some of the quotes from the [season 1 finale of the 'Rust in Production' podcast](/podcast/s01e07-season-finale/?t=23%3A06):
+
+> I announced that we're working on this new core of the database in November of 2020 in a talk I did. And I said we were hiring and basically like we got a bunch of inbound interestbecause of the fact that it was written in Rust.
+> &ndash; Paul Dix, Founder and CTO of [InfluxData](https://www.influxdata.com/)
+
+> Because as a small company, you can attract people because they want to work in Rust. And that's a big incentive to work for you.
+> &ndash; Micah Wylde, Founder of [Arroyo](https://arroyo.dev/)
 
 Because I saw many companies make the same mistakes over and over again, I wrote a guide to help companies find Rust talent.
 
@@ -85,7 +108,11 @@ Also post in the monthly "who is hiring" threads on [Hacker News](https://news.y
 Hiring itself is a very complex topic, so don't make it harder than it needs to be.
 
 The number one mistake is to just look at raw Rust experience!
-Instead, there are many other indicators that can help you identify great candidates who are a good fit for Rust work, even if they currently don't have much experience with the language:
+Instead, there are many other indicators that can help you identify great candidates who are a good fit for Rust work, even if they currently don't have much experience with the language.
+
+<img src="evaluation.svg" alt="Diagram for assessing Rust candidates - details below">
+
+Let's look at the points in more detail:
 
 * **Adaptability:** Look for candidates who have a proven track record to quickly adapt and learn new technologies. For example, if they worked with many different languages and know more than one programming paradigm, they might be a good fit. 
 
