@@ -45,7 +45,7 @@ The first release of Redox was in April 2015 when Rust hadn't even reached 1.0. 
 - [Osborne 1](https://en.wikipedia.org/wiki/Osborne_1)
 - [CP/M](https://en.wikipedia.org/wiki/CP/M)
 - [Security vulnerabilities in the Rust std library](https://www.cvedetails.com/vulnerability-list/vendor_id-19029/product_id-48677/Rust-lang-Rust.html)
-- [StackOverflow Survey: Most Admired Languages](https://survey.stackoverflow.co/2023/#section-admired-and-desired-programming-scripting-and-markup-languages)
+- [StackOverflow Survey: Rust is the most-admired programming language with an 83% score in 2024.](https://survey.stackoverflow.co/2024/technology#admired-and-desired)
 - [orbclient](https://gitlab.redox-os.org/redox-os/orbclient)
 - [Intel 8051 Wikipedia](https://en.wikipedia.org/wiki/MCS-51)
 - [Raspberry RP2040](https://www.raspberrypi.com/products/rp2040/)
