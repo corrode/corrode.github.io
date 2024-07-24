@@ -63,7 +63,7 @@ This can be sweet when you quickly want to show how to use your library without 
 
 Users *can and will* start to copy-paste that prelude into their code, at which point you'll have to support it. It's convenient in the beginning, but can result in a maintenance burden in the long run.
 
-Instead, why not use hidden code lines for imports in your documentation examples? This way, the examples are still easy to read, but users can't copy-paste the imports:
+One way to avoid that is to hide code lines for imports in your documentation examples. With that, examples are still easy to read, while users can't copy-paste the imports:
 
 ```rust
 //! # Examples
@@ -82,13 +82,13 @@ This will render as:
 let t = SomeType::new();
 ```
 
+And to also address the root cause: If you see the urge to add a prelude, because your crate requires importing many modules to be usable, maybe your public API is too large? Try to reduce the number of modules and types by refactoring your public API. This way, you don't need to hide imports in the first place.
+
 ### Reducing boilerplate
 
 Another common argument for preludes is that they reduce friction when importing types.
 
 I don't think that's true anymore. Editor support for Rust has made great strides in the last years. Nowadays, your editor will just auto-import the type for you. (Largely thanks to [Rust Analyzer](https://rust-analyzer.github.io/) and [Rust Rover](https://www.jetbrains.com/rust/)). Problem solved!
-
-And to also address the root cause: If you see the urge to add a prelude, because your crate requires importing many modules to be usable, maybe your public API is too big? Try to reduce the number modules.
 
 ### Trait-only preludes
 
