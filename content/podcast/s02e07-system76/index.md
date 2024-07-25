@@ -11,6 +11,8 @@ episode = "07"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-e4782127" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-14-system76-s-jeremy-soller/player.js?size=s"></script></div>
+
 Many devs dream of one day writing their own operating system. Ideally in their favorite language: Rust. For many of us, this dream remains just that: a dream.
 
 Jeremy Soller from System76, however, didn't just contribute kernel code for Pop!_OS, but also started his own operating system, RedoxOS, which is completely written in Rust. One might get the impression that he likes to tinker with low-level code!
