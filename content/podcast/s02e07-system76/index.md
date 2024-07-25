@@ -5,7 +5,7 @@ template = "episode.html"
 draft = false
 [extra]
 guest = "Jeremy Soller"
-role = "Software Engineer"
+role = "Principal Engineer"
 season = "02"
 episode = "07"
 series = "Podcast"
