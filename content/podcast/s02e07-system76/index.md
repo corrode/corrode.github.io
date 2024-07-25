@@ -33,6 +33,10 @@ Jeremy is a hardware and kernel hacker who has an intricate understanding of low
 he was one of the first developers who pushed the boundaries of what was possible with the still young language.
 The first release of Redox was in April 2015 when Rust hadn't even reached 1.0. By all means, Jeremy is a pioneer in the Rust community, an expert in low-level programming, and an advocate for robust, reliable systems programming.
 
+### About our Sponsor: InfinyOn
+
+Data pipelines are often slow, unreliable, and complex. [InfinyOn](https://infinyon.com/), the creators of [Fluvio](https://www.fluvio.io/), aims to fix this. Built in Rust, Fluvio offers fast, reliable data streaming. It lets you build event-driven pipelines quickly, running as a single 37 MB binary. With features like [SmartModules](https://infinyon.com/docs/tutorials/smartmodule-basics/), it handles various data types efficiently. Designed for developers, it offers a clean API and [intuitive CLI](https://infinyon.com/docs/cli/). Streamline your data infrastructure at [infinyon.com/rustinprod](https://infinyon.com/rustinprod).
+
 ### Links From The Show
 
 - [RedoxOS](https://redox-os.org/)
@@ -63,6 +67,7 @@ The first release of Redox was in April 2015 when Rust hadn't even reached 1.0. 
 - [Jeremy's private homepage](https://soller.dev/)
 - [Jeremy on GitHub](https://github.com/jackpot51)
 - [Jeremy on Mastodon](https://fosstodon.org/@soller)
+- [InfinyOn's Homepage](https://infinyon.com/rustinprod)
 
 ### About corrode
 
