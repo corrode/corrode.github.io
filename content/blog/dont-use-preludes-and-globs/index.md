@@ -1,6 +1,6 @@
 +++
 title = "Don't Use Preludes And Globs"
-date = 2024-07-22
+date = 2024-07-29
 draft = false
 template = "article.html"
 [extra]
