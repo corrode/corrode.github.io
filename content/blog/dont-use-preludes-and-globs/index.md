@@ -4,12 +4,13 @@ date = 2024-07-29
 draft = false
 template = "article.html"
 [extra]
+updated = 2024-07-31
 series = "Idiomatic Rust"
 +++
 
 Have you ever wondered why you don't have to import `std::result::Result` before you can use it?
 
-The reason is Rust's [prelude](https://doc.rust-lang.org/std/prelude/index.html), which re-exports a bunch of types, that automatically get added to your program's namespace.
+The reason is Rust's [prelude](https://doc.rust-lang.org/std/prelude/index.html), which re-exports a bunch of types that automatically get added to your program's namespace.
 A more correct definition is: *Preludes are collections of names automatically brought into scope in every module of a crate.*
 
 In fact, there are multiple preludes like
@@ -17,7 +18,7 @@ In fact, there are multiple preludes like
 
 It would be jarring to import those basic types over and over again so I'd say it's a win to have a prelude for the standard library.
 
-Maybe that's the reason why popular libraries started to provide their own preludes: [Rayon has one](https://docs.rs/rayon/latest/rayon/prelude/index.html) and so does 
+Maybe that's the reason why popular libraries started to provide their own preludes: [Rayon has one](https://docs.rs/rayon/latest/rayon/prelude/index.html) and so do 
 [pyo3](https://docs.rs/pyo3/latest/pyo3/prelude/index.html) and [bevy](https://docs.rs/bevy/latest/bevy/prelude/index.html) and
 [ratatui](https://docs.rs/ratatui/latest/ratatui/prelude/index.html). 
 
@@ -29,20 +30,20 @@ Some people consider preludes and glob imports[^1] to be antipatterns &ndash; I'
 
 Preludes help beginners start quickly with zero boilerplate, but can cause namespace pollution and naming conflicts for experienced developers in larger projects.
 
-I have a hard time reviewing your code which uses preludes: looking up a definition might not work in my code review tool, and I'd have to manually track down where types came from.
+I have a hard time reviewing code which uses preludes: looking up a definition might not work in my code review tool, and I'd have to manually track down where types came from.
 
 Explicit imports bring clarity.
 
 Speaking of which! A good compromise between convenience and clarity is to import whole modules instead of individual items, such as `use std::fmt`. Then you can say `fmt::Debug` instead of `std::fmt::Debug`. It's a little easier on the eyes, but still provides clarity.
 
-Unless you write a highly critical framework which uses well-established types, which are *absolutely positively always* mandatory in every (or at least most) interactions with your library, don't add a prelude. Even then, make sure that prelude carries its own weight. [Tokio removed their prelude because that wasn't the case](https://github.com/tokio-rs/tokio/issues/3257).
+Unless you write a highly critical framework which uses well-established types, which are *absolutely positively always* mandatory in every (or at least most) interaction with your library, don't add a prelude. Even then, make sure that prelude carries its own weight. [Tokio removed their prelude because that wasn't the case](https://github.com/tokio-rs/tokio/issues/3257).
 
 An explicit import might not be that bad. In fact, it might even clear things up for your users, because it's easier to see where imports come from.
 
 If you're worried about ergonomics, why not re-export common types in root? Then they can get imported with `use mycrate::SomeType;` instead of `use mycrate::mymodule::SomeType;`.
 
 ```rust
-// Re-export a type in the your lib.rs
+// Re-export a type in your lib.rs
 pub use mymodule::SomeType;
 ```
 
@@ -84,7 +85,7 @@ let t = SomeType::new();
 
 {% info(headline="Caution When Hiding Code in Examples", icon="warning") %}
 
-Be careful with this approach and don't overdo it. Try to keep your examples simple and don't hide too much code because it can be a frustrating experience to your users if they copy-paste your examples and they don't work.
+Be careful with this approach and don't overdo it. Try to keep your examples simple and don't hide too much code because it can be a frustrating experience for your users if they copy-paste your examples and they don't work.
 
 {% end %}
 
@@ -100,7 +101,7 @@ I don't think that's true anymore. Editor support for Rust has made great stride
 
 ### Trait-only preludes
 
-Preludes, which only bring traits into scope might be acceptable.
+Preludes which only bring traits into scope might be acceptable.
 This trick is sometimes used in combination with extension traits, which add extra functionality to common types. `rayon` does that, for example, and it's quite magical if you can suddenly parallelize an iterator by just swapping `iter` with `par_iter`.
 
 From their documentation:
@@ -115,7 +116,7 @@ fn sum_of_squares(input: &[i32]) -> i32 {
 }
 ```
 
-I think that's a solid use case for a prelude, but I never had such a clear-cut case in my own libraries. 
+I think that's a solid use case for a prelude, but I've never had such a clear-cut case in my own libraries. 
 
 ### Flexibility For Library Authors
 
@@ -139,7 +140,7 @@ For example, a crypto library might provide a prelude with only the most secure 
 
 That's a valid argument, but I'd argue that it's a slippery slope. First off, switching an algorithm is still a breaking change and it might still require changes in user code. Second, a prelude is no substitute for good documentation, examples, and a "Getting Started" guide.
 
-Consider to use Rust's `#[deprecated]` attribute to phase out old behavior. This way, users get time to adapt to the new API.
+Consider using Rust's `#[deprecated]` attribute to phase out old behavior. This way, users get time to adapt to the new API.
 Leverage Rust's type system: Use newtypes, [sealed traits](https://predr.ag/blog/definitive-guide-to-sealed-traits-in-rust/), and visibility modifiers (like `pub(crate)`) to guide users towards correct usage without relying on a prelude.
 
 My rule of thumb here is to avoid hiding complexity behind a prelude and err on the side of explicitness.
@@ -170,10 +171,10 @@ In your own code, avoid preludes and, by extension, glob imports.
 Here are the main disadvantages:
 
 - Makes it harder to know where types and functions come from
-- Can lead to naming conflicts, especially in larger codebases and when using multiple crates.
-- Complicates security audits because it's hard to see where code came from.
-- May hide module hierarchy and structure, which is useful if you want to learn how a crate is designed.
-- Can make IDE name resolution less reliable: if you have a name conflict, the IDE might not know which one you mean or might not be able to find the definition. 
+- Can lead to naming conflicts, especially in larger codebases and when using multiple crates
+- Complicates security audits because it's hard to see where code came from
+- May hide module hierarchy and structure, which is useful if you want to learn how a crate is designed
+- Can make IDE name resolution less reliable: if you have a name conflict, the IDE might not know which one you mean or might not be able to find the definition
 - Hides imports in documentation examples, making it harder to understand
 
 As you can see, the list of downsides is long. The only upside is that it saves a few keystrokes when writing code, which isn't worth it in the long run.
@@ -182,4 +183,4 @@ As you can see, the list of downsides is long. The only upside is that it saves 
 
 - Enable the [clippy lint for wildcard imports](https://rust-lang.github.io/rust-clippy/master/index.html#/wildcard_imports) to catch glob imports in your code.
 - If you absolutely must use a prelude, use preludes for traits and macros only, not for types.
-- If you use a crate, which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type come from.
+- If you use a crate which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type comes from.
