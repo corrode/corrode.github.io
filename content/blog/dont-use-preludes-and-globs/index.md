@@ -28,7 +28,8 @@ Some people consider preludes and glob imports[^1] to be antipatterns &ndash; I'
 
 ## I don't like preludes
 
-Preludes help beginners start quickly with zero boilerplate, but can cause namespace pollution and naming conflicts for experienced developers in larger projects.
+Preludes help beginners start quickly and with zero boilerplate, but they also prevent users from understanding the full picture of a crate. 
+For larger projects, preludes can cause namespace pollution and naming conflicts.
 
 I have a hard time reviewing code which uses preludes: looking up a definition might not work in my code review tool, and I'd have to manually track down where types came from.
 
@@ -182,5 +183,5 @@ As you can see, the list of downsides is long. The only upside is that it saves 
 **Pro tips:**
 
 - Enable the [clippy lint for wildcard imports](https://rust-lang.github.io/rust-clippy/master/index.html#/wildcard_imports) to catch glob imports in your code.
-- If you absolutely must use a prelude, use preludes for traits and macros only, not for types.
+- If you still want to create a prelude, use it for traits and macros only, not for types. Extending behavior of existing types (like adding a `par_iter` method to iterators with Rayon) is an acceptable use case for preludes. To avoid naming conflicts, consider using a unique prefix for extension traits like `CrateNameHashmapExt` instead of `HashMapExt`.
 - If you use a crate which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type comes from.
