@@ -29,13 +29,13 @@ Some people consider preludes and glob imports[^1] to be antipatterns &ndash; I'
 
 Preludes help beginners start quickly with zero boilerplate, but can cause namespace pollution and naming conflicts for experienced developers in larger projects.
 
-I have a hard time reviewing your code which uses preludes: looking up a definition might not work in my code review tool, and I'd have to manually track down where a types came from.
+I have a hard time reviewing your code which uses preludes: looking up a definition might not work in my code review tool, and I'd have to manually track down where types came from.
 
 Explicit imports bring clarity.
 
-Speaking of which! A good compromise between convenience and clarity is to import whole modules instead of individual items, such as `use std::fmt`. Then you can say `fmt::Debug` instead of `std::fmt::Debug`.
+Speaking of which! A good compromise between convenience and clarity is to import whole modules instead of individual items, such as `use std::fmt`. Then you can say `fmt::Debug` instead of `std::fmt::Debug`. It's a little easier on the eyes, but still provides clarity.
 
-Unless you write a highly critical framework which provides well-established types, which are *absolutely positively always* mandatory in every (or at least most) interactions with your library, don't add a prelude. Even then, make sure that prelude carries its own weight. [Tokio removed their prelude because that wasn't the case](https://github.com/tokio-rs/tokio/issues/3257).
+Unless you write a highly critical framework which uses well-established types, which are *absolutely positively always* mandatory in every (or at least most) interactions with your library, don't add a prelude. Even then, make sure that prelude carries its own weight. [Tokio removed their prelude because that wasn't the case](https://github.com/tokio-rs/tokio/issues/3257).
 
 An explicit import might not be that bad. In fact, it might even clear things up for your users, because it's easier to see where imports come from.
 
@@ -94,7 +94,9 @@ To address the root cause: If you feel the urge to add a prelude because your cr
 
 Another common argument for preludes is that they reduce friction when importing types.
 
-I don't think that's true anymore. Editor support for Rust has made great strides in the last years. Nowadays, your editor will just auto-import the type for you. (Largely thanks to [Rust Analyzer](https://rust-analyzer.github.io/) and [Rust Rover](https://www.jetbrains.com/rust/)). Problem solved!
+I don't think that's true anymore. Editor support for Rust has made great strides in the last years. Nowadays, your editor will just auto-import the type for you. (Largely thanks to [Rust Analyzer](https://rust-analyzer.github.io/) and [Rust Rover](https://www.jetbrains.com/rust/)). Problem solved! [^editor]
+
+[^editor]: I should mention that many modern editors can often show you the fully qualified path of a type, even when it's imported via a prelude. This does away with some of the clarity concerns associated with preludes.
 
 ### Trait-only preludes
 
@@ -105,6 +107,7 @@ From their documentation:
 
 ```rust
 use rayon::prelude::*;
+
 fn sum_of_squares(input: &[i32]) -> i32 {
     input.par_iter() // <-- just change that!
          .map(|&i| i * i)
@@ -112,7 +115,34 @@ fn sum_of_squares(input: &[i32]) -> i32 {
 }
 ```
 
-I think that's a solid use case for a prelude, but I never had such a clear-cut case in my own code.
+I think that's a solid use case for a prelude, but I never had such a clear-cut case in my own libraries. 
+
+### Flexibility For Library Authors
+
+Preludes can let library authors refactor their code without causing unnecessary churn for users:
+If you often reorganize your internal structure, a prelude can provide a stable public API for common types.
+The Bevy game engine uses this pattern, for example.
+
+But hold on! This doesn't mean the internal logic stays the same, and a prelude doesn't guarantee API stability either.
+These hidden changes might cause subtle bugs (e.g., when the prelude contains extension traits) which are hard to pin down. 
+
+Ask yourself: why does my public API change so much? There seems to be a deeper-rooted problem here. 
+For example, you might have leaked internal details into your public API, which you now want to change.
+
+One way to provide stability without a prelude is to embrace semantic versioning. Before 1.0, you're free to change your API frequently, with users expecting some churn. Once you're happy with the API, switch to 1.0 and promise to maintain backwards compatibility. This approach gives you the flexibility of early prototyping paired with the stability guarantees of more mature libraries.
+
+### Sane Defaults Out of the Box
+
+For complex libraries, a well-designed prelude can improve clarity by curating important types. This seems appealing in security-sensitive domains to prevent misuse of incorrect types.
+
+For example, a crypto library might provide a prelude with only the most secure algorithms. This way, users are guided towards secure defaults without needing to understand the intricacies of each algorithm.
+
+That's a valid argument, but I'd argue that it's a slippery slope. First off, switching an algorithm is still a breaking change and it might still require changes in user code. Second, a prelude is no substitute for good documentation, examples, and a "Getting Started" guide.
+
+Consider to use Rust's `#[deprecated]` attribute to phase out old behavior. This way, users get time to adapt to the new API.
+Leverage Rust's type system: Use newtypes, [sealed traits](https://predr.ag/blog/definitive-guide-to-sealed-traits-in-rust/), and visibility modifiers (like `pub(crate)`) to guide users towards correct usage without relying on a prelude.
+
+My rule of thumb here is to avoid hiding complexity behind a prelude and err on the side of explicitness.
 
 ### Glob imports in tests
 
@@ -151,5 +181,5 @@ As you can see, the list of downsides is long. The only upside is that it saves 
 **Pro tips:**
 
 - Enable the [clippy lint for wildcard imports](https://rust-lang.github.io/rust-clippy/master/index.html#/wildcard_imports) to catch glob imports in your code.
-- If you absolutely must use a prelude, use preludes for traits and macros only, not for types
+- If you absolutely must use a prelude, use preludes for traits and macros only, not for types.
 - If you use a crate, which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type come from.
