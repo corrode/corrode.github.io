@@ -6,6 +6,9 @@ template = "article.html"
 [extra]
 updated = 2024-07-31
 series = "Idiomatic Rust"
+reviews = [
+    { name = "Brett Witty", url = "www.brettwitty.net" },
+]
 +++
 
 Have you ever wondered why you don't have to import `std::result::Result` before you can use it?
