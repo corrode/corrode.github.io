@@ -7,7 +7,7 @@ template = "article.html"
 updated = 2024-07-31
 series = "Idiomatic Rust"
 reviews = [
-    { name = "Brett Witty", url = "www.brettwitty.net" },
+    { name = "Brett Witty", url = "https://www.brettwitty.net" },
 ]
 +++
 
