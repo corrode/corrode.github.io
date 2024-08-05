@@ -1,27 +1,24 @@
 +++
-title = "Season 1 - Finale"
-date = 2024-03-07
+title = "Season 2 - Finale"
+date = 2024-08-08
 template = "episode.html"
 draft = false
 [extra]
-season = "01"
-episode = "07"
+season = "02"
+episode = "08"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-6c8ce152" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-7-season-finale/player.js?size=s"></script></div>
+As we approach the finale of our second season, it's time for another recap.
 
-In the season finale of 'Rust in Production', we take a cold, hard look at our
-goals and achievements during the first season.
+Could we shed some light on the current state of Rust's usage in the industry?
+What has changed in our perception of Rust in production since our last season?
 
-Did we manage to answer the tough questions about Rust's usage in the industry?
-Were we able to provide a balanced view of the challenges and benefits of using
-Rust? Or did we end up merely preaching to the choir?
+While more companies started to embrace Rust, some of the magic of Rust's early days is gone.
+I expect more ripple effects as the community clashes with the industry's demands.
 
-As it turns out, the answers align nicely with the main themes from the Rust
-2023 survey: the hiring market, the learning curve, the reasons for choosing
-Rust, the costs of adoption, and the complexity of the language. Either way,
-there were definitely some surprises and unexpected turns along the way!
+This episode takes on a more somber tone, as we peer into the massive tech debt we have accumulated as an industry. 
+And in the dark: a faint glow, a narrow golden path that points us towards a more hopeful future.
 
 <!-- more -->
 
@@ -76,16 +73,17 @@ there were definitely some surprises and unexpected turns along the way!
 
 If you missed any of the previous episodes, you can find them here:
 
-- [Episode 1: InfluxData with Paul Dix](/podcast/s01e01-influxdata)
-- [Episode 2: PubNub with Stephen Blum](/podcast/s01e02-pubnub)
-- [Episode 3: Apollo with Nicolas Moutschen](/podcast/s01e03-apollo)
-- [Episode 4: Arroyo with Micah Wylde](/podcast/s01e04-arroyo)
-- [Episode 5: Tweede Golf with Folkert de Vries](/podcast/s01e05-tweede-golf)
-- [Episode 6: Sentry with Arpad Borsos](/podcast/s01e06-sentry)
+- [Episode 1: curl with Daniel Stenberg](/podcast/s02e01-curl)
+- [Episode 2: AMP with Carter Schultz](/podcast/s02e02-amp)
+- [Episode 3: Thunderbird with Brendan Abolivier](/podcast/s02e03-thunderbird)
+- [Episode 4: Matic with Eric Seppanen](/podcast/s02e04-matic)
+- [Episode 5: OxidOS with Alexandru Radovici](/podcast/s02e05-oxidos)
+- [Episode 6: Fusion Engineering with Jakub Valtar](/podcast/s02e06-fusion-engineering)
+- [Episode 7: System76 with Jeremy Soller](/podcast/s02e07-system76)
 
 ### Credits
 
-We would like to thank the guests of the first season for their time and
+We would like to thank the guests of the second season for their time and
 insights. We would also like to thank the listeners for their support and
 feedback. We are looking forward to the second season and hope you will join us
 again!
