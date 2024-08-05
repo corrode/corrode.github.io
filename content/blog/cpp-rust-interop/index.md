@@ -1,6 +1,6 @@
 +++
 title = "Rust vs C++: A Real-World Perspective"
-date = 2024-08-01
+date = 2024-08-05
 template = "article.html"
 [extra]
 hero = "hero.svg"
@@ -10,13 +10,15 @@ credits = [
 ]
 +++
 
-The real-world implications of choosing one language over the other are often more nuanced and practical.
+The real-world implications of choosing a programming language over another are often nuanced.
 This is especially true for the ongoing debate between Rust and C++.
-It's easy to get lost in theoretical arguments about safety, performance, and language features. 
+It's easy to get lost in theoretical arguments about safety, performance, and language features,
+but what does it really boil down to when rubber hits the road?
 
-I recently sat down with [Tyler Weaver](https://tylerjw.dev), a software engineer with a decade of C++ experience and several years of Rust under his belt. He shared some great insights on the practical aspects of working with both languages in production, which I thought would be valuable to share.
+I recently sat down with [Tyler Weaver](https://tylerjw.dev), a software engineer with a decade of C++ experience and several years of Rust under his belt. During our chat, he shared some great insights on the practical aspects of working with both languages in production, which I thought would be valuable to share.
 
-While Tyler's perspective is based on his personal experience, I believe his insights are quite valuable for anyone looking for hands-on experiences with both languages.
+While Tyler's perspective is based on his personal experience, I believe his insights are quite valuable for anyone looking for more hands-on experience comparing both languages
+and how interoperability looks in practice.
 
 ## Rust is a Force Multiplier
 
@@ -33,15 +35,16 @@ This aligns well with an [observation by Google](https://youtu.be/6mZRWFQRvmw?t=
 
 ## Painless Refactoring
 
-Perhaps one of the most significant advantages Rust offers is in the realm of refactoring. Tyler emphasizes that "Rust makes refactoring painless" and allows developers to "trust your refactors." This "worry-free refactoring" is a stark contrast to C++, where making significant changes can be risky and time-consuming.
+Perhaps one of the most significant advantages Rust offers is in the realm of refactoring.
+Tyler emphasizes that "Rust makes refactoring painless" and allows developers to trust in refactors. This "worry-free refactoring" is a stark contrast to C++, where making significant changes can be risky and time-consuming.
 
 "In C++, removing things is so expensive," both in terms of development time and the potential for introducing bugs. Rust's ownership system and compiler checks make it much easier to make sweeping changes with confidence. This capability is particularly valuable for large-scale projects where regular refactoring is essential for maintaining code quality and adapting to changing requirements.
 
 For example, Mozilla had been trying to parallelize the CSS layout engine in Firefox twice in C++. 
 Both attempts were abandoned.  Eventually, they succeeded on the third attempt using Rust in the Servo project, which was later integrated into Firefox as part of [Project Quantum](https://hacks.mozilla.org/2017/08/inside-a-super-fast-css-engine-quantum-css-aka-stylo/).
-The team credited Rust's safety guarantees as the reason why they were able to be successful on the third attempt. Here's the section from the [talk](https://www.youtube.com/watch?v=Y6SSTRr2mFU) by Josh Matthews from the Servo team.
+The team credited Rust's safety guarantees as the reason why they were able to be successful on the third attempt. [Here's that section from the talk](https://www.youtube.com/watch?v=Y6SSTRr2mFU) by Josh Matthews from the Servo team.
 
-Jeremy Soller from System76 recently [shared a similar sentiment in the Rust in Production podcast](https://corrode.dev/podcast/s02e07-system76/?t=1%3A13%3A18):
+Jeremy Soller from System76 recently [shared a similar sentiment in our Rust in Production podcast](https://corrode.dev/podcast/s02e07-system76/?t=1%3A13%3A18):
 
 > Rust [has] capability [of] doing extremely, extremely concurrent things safely. There was no way to write this kind of code in C or C++ without considerable time planning beforehand.
 
@@ -51,7 +54,7 @@ Tyler points out that "accidental complexity is quite high in C++." This complex
 
 Tyler emphasizes that "none of our software projects are as simple as they could be." Rust's approach to memory management and its emphasis on explicit handling of side effects can lead to simpler, more maintainable code structures.
 
-If you are curious to learn more about maintaining large C++ codebases and migrating to Rust, listen to [this interview with Brendan Abolivier from Thunderbird](https://corrode.dev/podcast/s02e03-thunderbird) for our "Rust in Production" podcast series.
+If you are curious to learn more about maintaining large C++ codebases and migrating to Rust, listen to [this interview with Brendan Abolivier from Thunderbird](https://corrode.dev/podcast/s02e03-thunderbird) from our "Rust in Production" podcast series.
 
 ## The Tooling Advantage
 
@@ -70,21 +73,19 @@ However, according to Google's experience, more than 2/3 of respondents are conf
 3. **Industry Adoption**: Despite growing interest, Rust has not yet achieved the same level of industry-wide adoption as C++, which may be a consideration for some projects or companies. C++ is still dominant in domains like game development, high-performance computing, and embedded systems.
 
 
-## Balancing Act: C++ and Rust Interoperability
+## C++ and Rust Interoperability
 
-Recognizing that a complete switch from C++ to Rust is not always feasible or desirable, Tyler suggests that "dumb interop is the best strategy for C++ and Rust to work together." This approach allows teams to gradually introduce Rust into existing C++ codebases, leveraging the strengths of both languages.
+Recognizing that a complete switch from C++ to Rust is not always feasible or desirable, Tyler suggests that "dumb interop is the best strategy for C++ and Rust to work together." This approach allows teams to gradually introduce Rust into existing C++ codebases, leveraging the strengths of both languages. He mentioned, that while people often raise concerns about C++/Rust interop, it's rarely an issue in practice.
 
 Tyler wrote a series of blog posts on [Rust and C++ interop](https://tylerjw.dev/posts/rust-cpp-interop/) that provide practical guidance on integrating Rust into C++ projects, which covers FFI bindings, CMake (a build system generator for C++ projects), Cxx (a code generation tool), Conan (a C++ package manager), and more.
 
-It is recommended to start with the most safety-critical parts of your codebase:
+It is recommended to start with the most safety-critical or unreliable parts of your codebase:
 
 > What you have to do is think about how important security is at each level of the stack and how to address it in small incremental ways. - [Jeremy Soller in the Rust in Production podcast](https://corrode.dev/podcast/s02e07-system76/?t=47%3A52)
 
 ## Conclusion
 
-While C++ remains a powerful and widely-used language, Rust offers significant advantages in terms of developer productivity, code maintainability, and long-term project health. As Tyler's experiences illustrate, the benefits of Rust often become most apparent in the day-to-day work of software development – in code reviews, refactoring, and managing complexity.
-
-However, the choice between Rust and C++ is not a one-size-fits-all decision. It depends on factors such as project requirements, team expertise, existing codebases, and industry-specific considerations. What's clear is that Rust is providing developers with powerful tools to build more reliable and maintainable software, and its influence is likely to grow in the coming years.
+Yes, C++ remains a powerful and widely-used language, but Rust offers significant advantages in terms of developer productivity, code maintainability, and long-term project health. As Tyler's experiences illustrate, the benefits of Rust often become most apparent in the day-to-day work of software development – in code reviews, refactoring, and managing complexity.
 
 {% info(headline="Make the most of Rust", icon="crab") %}
 
@@ -102,6 +103,6 @@ For those interested in diving deeper into the topics discussed in this article,
 - ["Programming Rust"](https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/) by Jim Blandy and Jason Orendorff. Published by O'Reilly.
 - ["Effective Modern C++"](https://www.oreilly.com/library/view/effective-modern-c/9781491908419/) by Scott Meyers. Published by O'Reilly.
 
-These three books teach you how to write clean, maintainable code no matter if you are using Rust or C++.
+These three books teach you how to write clean, maintainable code no matter the language.
 
 If you like to learn more about Tyler's work, check out his [blog](https://tylerjw.dev/) and GitHub [profile](https://github.com/tylerjw).
