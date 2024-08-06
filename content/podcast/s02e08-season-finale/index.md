@@ -9,6 +9,7 @@ episode = "08"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-7ae4f95b" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-15-season-finale/player.js?size=s"></script></div>
 As we approach the finale of our second season, it's time for another recap.
 
 Could we shed some light on the current state of Rust's usage in the industry?
