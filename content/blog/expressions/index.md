@@ -17,14 +17,11 @@ resources = [
 
 Rust's emphasis on expressions is an underrated aspect of the language.
 
-{% info(headline="Hold on, what's an expression?") %}
-
 Expressions produce a value, statements do not. 
 
 In Rust, this includes literals, variables, function calls, blocks, and even control flow statements like `if`, `match`, and `loop`. 
 Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in languages like C, Java, or Go.
 
-{% end %}
 
 Expressions can easily be dismissed as a minor detail, a nuance in Rust's syntax. Underneath the surface, though, expressions have a deep impact on how the language feels to write. 
 
