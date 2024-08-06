@@ -4,10 +4,11 @@ date = 2024-07-29
 draft = false
 template = "article.html"
 [extra]
-updated = 2024-07-31
+updated = 2024-08-07
 series = "Idiomatic Rust"
 reviews = [
     { name = "Brett Witty", url = "https://www.brettwitty.net" },
+    { name = "Ludwig Weinzierl", url = "https://weinzierlweb.com/ludwig" },
 ]
 +++
 
@@ -55,7 +56,7 @@ On the same note, avoid glob imports (like `use prelude::*`
 or `use mycrate::mymodule::*`).
 The reasons are the same: they hide dependencies and make it harder to grep for usages of a type or function.
 
-## Common Arguments for Preludes And Glob Imports
+## Common Arguments for Preludes
 
 Let's address some common arguments in favor of preludes and glob imports
 and see if there's a better way to achieve the same goal.
@@ -149,9 +150,46 @@ Leverage Rust's type system: Use newtypes, [sealed traits](https://predr.ag/blog
 
 My rule of thumb here is to avoid hiding complexity behind a prelude and err on the side of explicitness.
 
+## Common Arguments for Glob Imports
+
+Now that we've covered preludes, let's look at some common arguments for why people use glob imports 
+and why you should be careful.
+
+### Preludes are convenient for beginners
+
+Some people argue that preludes are beginner-friendly.
+The argument goes that beginners don't have to worry about importing types and can focus on learning the core concepts of a library.
+
+As we will see, this can backfire quickly.
+
+Here's the catch: when you use glob imports, you're opening yourself up to potential build breaks from minor version updates.
+Adding new public items is considered a minor change according to [semantic versioning](https://semver.org) rules. That means when a crate bumps its version from, say, 1.2.0 to 1.3.0, it's allowed to add new public items without breaking backwards compatibility.
+
+Now, picture this scenario: You're using a crate with a glob import, bringing all its public items into scope. You update the crate to the latest minor version, and suddenly your code doesn't compile anymore. Ouch.
+
+Well, that new minor version might have added a new public item that conflicts with a name in your code.
+
+Here's a quick example to illustrate:
+
+```rust
+// In your code you update some_crate from 1.2.0 to 1.3.0
+// In 1.3.0, some_crate added a new public item called Ferris.
+use some_crate::*;
+
+// In your own code, you have a struct called Ferris
+// Now you have a naming conflict, and your code won't compile!
+pub struct Ferris;
+```
+
+The crate author didn't break any promises &ndash; adding new public items is allowed in minor versions. But because of the glob import, what should have been a harmless update turned into a breaking change for your codebase and a minor headache for you.
+
+Explicit imports protect you from these unexpected conflicts and make your code more resilient to changes in your dependencies.
+
+
 ### Glob imports in tests
 
-The only exception for using glob imports I can think of is in tests. It's common to see `use super::*;` in tests to bring all functions from the parent module into scope. This can be a helpful mechanism to reduce boilerplate.
+It's common to see `use super::*;` in tests to bring all functions from the parent module into scope. This can be a helpful mechanism to reduce boilerplate.
+That's the only exception I can think of where glob imports are acceptable.
 
 ```rust
 fn foo() -> i32 {
@@ -186,5 +224,5 @@ As you can see, the list of downsides is long. The only upside is that it saves 
 **Pro tips:**
 
 - Enable the [clippy lint for wildcard imports](https://rust-lang.github.io/rust-clippy/master/index.html#/wildcard_imports) to catch glob imports in your code.
-- If you still want to create a prelude, use it for traits and macros only, not for types. Extending behavior of existing types (like adding a `par_iter` method to iterators with Rayon) is an acceptable use case for preludes. To avoid naming conflicts, consider using a unique prefix for extension traits like `CrateNameHashmapExt` instead of `HashMapExt`.
-- If you use a crate which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type comes from.
+- If you really want to create a prelude, at least use it for traits and macros only, not for types. Extending behavior of existing types (like adding a `par_iter` method to iterators with Rayon) is an acceptable use case for preludes if used in moderation. To avoid naming conflicts, consider using a unique prefix for extension traits like `CrateNameHashmapExt` instead of `HashMapExt`.
+- If you depend on a crate which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type comes from.
