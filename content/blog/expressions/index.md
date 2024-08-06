@@ -61,6 +61,10 @@ Since `if` is an expression in Rust, using it in a ternary expression is perfect
 let x = if condition { 1 } else { 2 };
 ```
 
+This explains the absence of the ternary operator  in Rust. 
+I.e., there is no `x = condition ? 1 : 2;` in Rust as there is in C, Java, or TypeScript.
+It's simply not needed because `if` is so expressive.
+
 Also note that in comparison to Go, our variable `x` does not need to be mutable. 
 
 In combination with pattern matching, expressions in Rust are even more powerful:
