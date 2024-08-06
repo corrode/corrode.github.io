@@ -1,6 +1,6 @@
 +++
 title = "Effective Use Of Expressions In Rust"
-date = 2024-07-31
+date = 2024-08-07
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -19,7 +19,7 @@ Rust's emphasis on expressions is an underrated aspect of the language.
 
 {% info(headline="Hold on, what's an expression?") %}
 
-An expression is any construct that evaluates to a value. 
+Expressions produce a value, statements do not. 
 
 In Rust, this includes literals, variables, function calls, blocks, and even control flow statements like `if`, `match`, and `loop`. 
 Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in languages like C, Java, or Go.
@@ -170,7 +170,7 @@ fn config_file_path(config_path: Option<PathBuf>) -> PathBuf {
 
 There are some issues with this code, but for now let's focus our attention solely on expressions vs. statements.
 
-## Refactoring with Expressions
+## Refactoring with Expressions In Mind
 
 The first observation is that we have multiple return statements in the middle of our function.
 This can make the code harder to follow and reason about.
@@ -199,7 +199,7 @@ That's usually a good sign that we're on the right track: we don't need temporar
 
 It works because the `if` and `match` expressions return the value of the last expression in the block. (It's expressions all the way down!)
 
-The `let foo = match ...` pattern is a common idiom in Rust which Rustaceans use quite frequently.
+The `let foo = match ...` pattern is a common idiom which Rustaceans use quite frequently.
 
 Let's focus on this part, which tries to find the correct config directory:
 
@@ -236,24 +236,20 @@ let path = env::home_dir()
 Take a moment to reflect on this: which version do you prefer? Why?
 Which version is easier to read and understand? &ndash; not just for you, but for your fellow engineers?
 
+There is no right or wrong answer here. It's a matter of taste.
+
 The new version is definitely concise, but it can also reduce readability. The `unwrap_or_else` method ends with the case where `config_path` is `None`, which isn't immediately clear. It feels backwards. The closure code seems like a refinement rather than a distinct next step.
 
 The `.map` and `.unwrap_or_else` combination requires understanding that the first line might fail, forcing the reader to juggle the context and jump between the lines. Depending on your background, this might be okay, but it could be a problem for others and a source of logic bugs.
 
 As with every design decision, there are trade-offs.
 
-An imperative approach, with clear steps, might work just as well.
-What if we moved the logic into a separate function?
-
-```rust
-let path = get_config_path(config_path);
-```
-
-The `get_config_path` function encapsulates the logic:
+Let's take a step back and try a completely different approach for our original function.
+An imperative approach, with clear steps.
 
 ```rust
 /// Get the path for the configuration file
-fn get_config_path(config_path: Option<PathBuf>) -> PathBuf {
+fn config_file_path(config_path: Option<PathBuf>) -> PathBuf {
     // Check if a path was provided
     if let Some(path) = config_path {
         return path; 
@@ -270,12 +266,11 @@ fn get_config_path(config_path: Option<PathBuf>) -> PathBuf {
 ```
 
 The semicolons and returns are back, but the code is easier to understand.
-Why is that?
-Since we introduced a new function, the reader can focus on the high-level logic.
-Inside the function, each step is clear and easy to follow.
+We're almost back to where we started, but with early returns.
 
-Which version you prefer is a matter of taste and experience.
-It might help to try a few different approaches and see which one feels best.
+Which version do you prefer now?
+Sometimes, it's helpful to try a few different approaches and see which one feels best.
+
 If it's hard to explain, it's probably too complex.
 
 ## Mixing Expressions and Statements
