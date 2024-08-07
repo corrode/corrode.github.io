@@ -19,7 +19,9 @@ Rust's emphasis on expressions is an underrated aspect of the language.
 
 Expressions produce a value, statements do not. 
 
-In Rust, this includes literals, variables, function calls, blocks, and even control flow statements like `if`, `match`, and `loop`. 
+In Rust, this includes literals, variables, function calls, blocks, and control flow statements like `if`, `match`, and `loop`. 
+Even [`&`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#borrow-operators) and [`*`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-dereference-operator) are expressions in Rust. 
+
 Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in languages like C, Java, or Go.
 
 Expressions can easily be dismissed as a minor detail, a nuance in Rust's syntax. Underneath the surface, though, expressions have a deep impact on the ergonomics of writing Rust.
@@ -163,9 +165,18 @@ Neat, right? You can cover a lot of ground in a few lines of code.
 Note, those `if`s are called match arm guards, and they are really full-fledged `if` expressions.
 You can put anything in there that you could put in a regular `if` statement! You can check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html).
 
-## Expressions Can Be Used In Surprising Places
+## Lesser known facts about expressions
+
+### `break` is an expression
 
 [`break` is an expression](https://doc.rust-lang.org/reference/expressions/loop-expr.html#break-expressions), too. You can return a value from a loop:
+
+```rust
+let foo = loop { break 1 };
+// foo is 1
+```
+
+More commonly, you'd use it like this:
 
 ```rust
 let result = loop {
@@ -176,6 +187,8 @@ let result = loop {
 };
 // result is 20
 ```
+
+### `dbg!()` returns the value of the inner expression
   
 You can wrap any expression with `dbg!()` without changing the behavior of your code (aside from the debug output).
 
@@ -184,6 +197,8 @@ let x = dbg!(compute_complex_value());
 ```
   
 Neatly, this also demonstrates that macro calls are also expressions.
+
+### Adding attributes to expressions
 
 Attributes can be placed before expressions, which is useful for compilation flags:
 
@@ -198,12 +213,13 @@ let array = [
 
 In this example, the array will contain the value `1` if the `foo` feature is enabled, and `2` if the `bar` feature is enabled.
 
+
 ## A Practical Refactoring Example
 
 So far, I showed you some fancy expression tricks, but
-these examples hardly do justice to the elegance of expressions.
-
+these examples hardly do justice to the elegance of expressions in everyday code.
 As with many other concepts in Rust, it's hard to internalize expressions without practice. Let's make it more tangible.
+
 A simple heurstic is to hunt for `returns` and semicolons in the middle of the code. These are like "seams" in our program; stop signs, which break the natural flow of data. Almost effortlessly, removing those blockers / stop signs will lead to better code; it's like magic. 
 
 Here's an abstracted version of a function, which returns the correct path to a configuration file.
@@ -310,8 +326,7 @@ The `.map` and `.unwrap_or_else` combination requires understanding that the fir
 
 As with every design decision, there are trade-offs.
 
-Let's take a step back and try a completely different approach for our original function.
-An imperative approach, with clear steps.
+Let's revisit our original function and add early returns:
 
 ```rust
 /// Get the path for the configuration file
