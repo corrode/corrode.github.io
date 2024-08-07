@@ -136,6 +136,31 @@ If the caller then tries to use the returned pointer without checking for `NULL`
 In Rust, your program simply wouldn't compile if you forget to handle all the cases.
 That itself doesn't have anything to do with expressions, but I thought it's worth mentioning.
 
+## Combining `match` and `if` Expressions
+
+You can combine `match` and `if` expressions to create complex logic in a single line of code.
+Let's say you want to return the duck's color, but you want to return the correct color based on the year.
+(In the early comics, the nephews were wearing different colors.)
+
+```rust
+let color = match duck {
+    // In early comic books,
+    // the ducks were colored randomly
+    _ if year < 1980 => random_color(),
+    
+    // In the early 80s, Huey's cap was pink
+    Duck::Huey if year < 1982 => "Pink",
+    
+    // Since 1982, the ducks have dedicated colors
+    Duck::Huey => "Red",
+    Duck::Dewey => "Blue",
+    Duck::Louie => "Green",
+};
+```
+
+Neat, right? You can cover a lot of ground in a few lines of code.
+
+
 ## A Practical Refactoring Example
 
 So far, these examples hardly do justice to the elegance of expressions.
