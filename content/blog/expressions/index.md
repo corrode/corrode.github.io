@@ -153,16 +153,14 @@ Imagine, that the following rules apply:
 
 ```rust
 use std::path::PathBuf;
-use std::env;
+use dirs::config_dir;
 
 fn config_file_path(config_path: Option<PathBuf>) -> PathBuf {
     if let Some(path) = config_path {
         return path;
     } else {
-        // Note: don't use `home_dir` in production code as it's deprecated
-        // Use the `dirs` or `directories` crates instead
-        if let Some(home_dir) = env::home_dir() {
-            let config_dir = home_dir.join(".config/my_app/");
+        if let Some(home_dir) = config_dir() {
+            let config_dir = home_dir.join("my_app");
             return config_dir;
         } else {
             // Fallback to the current directory
