@@ -127,13 +127,14 @@ We have to introduce a new variable and assign it inside the case block.
 
 Rust doesn't have this limitation. You can assign the result of a `match` expression to a variable, just like any other expression.
 
-There's a bigger issue with switch statements, though: they are prone to errors.
+There's a much bigger issue with that switch statement, though: they are prone to errors.
 For example, if you forget to add a `break` statement, the code will fall through to the next case. This is a common source of bugs in C and C++ code.
 Even worse, if you forget to add a `default` case, the code will compile but it will not handle unexpected ducks.
 That means, if an unexpected Duck value is passed to the function (which shouldn't happen if you're using the enum correctly), the function will return `NULL`.
 If the caller then tries to use the returned pointer without checking for `NULL` first, that's a segfault and there goes your weekend.
 
 In Rust, your program simply wouldn't compile if you forget to handle all the cases.
+That itself doesn't have anything to do with expressions, but I thought it's worth mentioning.
 
 ## A Practical Refactoring Example
 
