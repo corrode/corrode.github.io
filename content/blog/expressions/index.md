@@ -160,6 +160,8 @@ let color = match duck {
 
 Neat, right? You can cover a lot of ground in a few lines of code.
 
+Note, those `if`s are called match arm guards, and they are really full-fledged `if` expressions.
+You can put anything in there that you could put in a regular `if` statement! You can check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html).
 
 ## A Practical Refactoring Example
 
