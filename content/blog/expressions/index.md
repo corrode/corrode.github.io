@@ -75,13 +75,21 @@ let (a, b) = if condition { ("first", true) } else { ("second", false) };
 
 Here, the left side of the assignment (a, b) is a pattern that destructures the tuple returned by the if-else expression.
 
-What if you deal with an optional value which gets returned by a function?
+What if you deal with a number of different values, which get returned by a function?
 That's not a problem. [`match` is an expression](https://doc.rust-lang.org/reference/expressions/match-expr.html), too:
 
 ```rust
-let x = match foo() {
-    Some(x) => x,
-    None => return,
+enum Duck {
+    Huey,
+    Dewey,
+    Louie,
+}
+
+// Later in the code...
+let color = match duck {
+    Duck::Huey => "Red",
+    Duck::Dewey => "Blue",
+    Duck::Louie => "Green",
 };
 ```
 
@@ -91,49 +99,45 @@ Python is an example of that and they even [decided against changing that](https
 In languages like C, you'd write a switch statement instead:
 
 ```c
-int x;
-switch (foo()) {
-    case Some:
-        x = foo();
+typedef enum {
+    HUEY,
+    DEWEY,
+    LOUIE
+} Duck;
+
+// Later in the code...
+const char* color = NULL;
+switch (duck) {
+    case HUEY:
+        color = "Red";
         break;
-    case None:
-        return;
+    case DEWEY:
+        color = "Blue";
+        break;
+    case LOUIE:
+        color = "Green";
+        break;
+    default:
+        color = "Unknown";
 }
 ```
 
-Since switch statements are just statements, you can't assign their result to a variable. You have to introduce a new variable and assign it inside the case block.
+Since switch statements are just statements, so we can't assign their result to a variable.
+We have to introduce a new variable and assign it inside the case block.
 
 Rust doesn't have this limitation. You can assign the result of a `match` expression to a variable, just like any other expression.
 
-The Rust `match` expression above might look quite verbose for what it does. Thankfully, there's `let-else`:
+There's a bigger issue with switch statements, though: they are prone to errors.
+For example, if you forget to add a `break` statement, the code will fall through to the next case. This is a common source of bugs in C and C++ code.
+Even worse, if you forget to add a `default` case, the code will compile but it will not handle unexpected ducks.
+That means, if an unexpected Duck value is passed to the function (which shouldn't happen if you're using the enum correctly), the function will return `NULL`.
+If the caller then tries to use the returned pointer without checking for `NULL` first, that's a segfault and there goes your weekend.
 
-```rust
-let Some(x) = foo() else { return };
-```
-
-Strictly speaking, `let-else` is **not** an expression, but a statement.
-That might surprise you, given that I dwelled on expressions so much. In reality, this is an important special case which is
-by design, because the "failure" variant of a `let-else` statement must return 
-`!` (a.k.a. the "never" type), which represents the type of computations which *never* resolve to any value at all. For example, `return` and `break` are such computations. [^1]
-
-So the `else` branch doesn't yield a value, which is why `let-else` cannot be an expression.
-
-[^1]: You can read up on the details in the [RFC](https://rust-lang.github.io/rfcs/3137-let-else.html)
-
-Nevertheless, `let-else` works well in combination with expressions: 
-
-```rust
-let result = {
-    let Some(x) = foo() else { return };
-    x * 2
-};
-```
-
-Here, the block returns the value of `x * 2`, which gets assigned to `result`.
+In Rust, your program simply wouldn't compile if you forget to handle all the cases.
 
 ## A Practical Refactoring Example
 
-So far, these examples hardly capture the full elegance of expressions.
+So far, these examples hardly do justice to the elegance of expressions.
 As with many other concepts in Rust, it's hard to internalize expressions without practice. Let's make it more tangible.
 
 We hunt for `returns` and semicolons in the middle of the code. These are like "seams" in our program; stop signs, which break the natural flow of data. Almost effortlessly, removing those blockers / stop signs will lead to better code; it's like magic. 
