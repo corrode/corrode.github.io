@@ -163,12 +163,48 @@ Neat, right? You can cover a lot of ground in a few lines of code.
 Note, those `if`s are called match arm guards, and they are really full-fledged `if` expressions.
 You can put anything in there that you could put in a regular `if` statement! You can check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html).
 
+## Expressions Can Be Used In Surprising Places
+
+[`break` is an expression](https://doc.rust-lang.org/reference/expressions/loop-expr.html#break-expressions), too. You can return a value from a loop:
+
+```rust
+let result = loop {
+    counter += 1;
+    if counter == 10 {
+        break counter * 2;
+    }
+};
+// result is 20
+```
+  
+You can wrap any expression with `dbg!()` without changing the behavior of your code (aside from the debug output).
+
+```rust
+let x = dbg!(compute_complex_value());
+```
+  
+Neatly, this also demonstrates that macro calls are also expressions.
+
+Attributes can be placed before expressions, which is useful for compilation flags:
+
+```rust
+let array = [
+    #[cfg(feature = "foo")]
+    1,
+    #[cfg(feature = "bar")]
+    2,
+];
+```
+
+In this example, the array will contain the value `1` if the `foo` feature is enabled, and `2` if the `bar` feature is enabled.
+
 ## A Practical Refactoring Example
 
-So far, these examples hardly do justice to the elegance of expressions.
-As with many other concepts in Rust, it's hard to internalize expressions without practice. Let's make it more tangible.
+So far, I showed you some fancy expression tricks, but
+these examples hardly do justice to the elegance of expressions.
 
-We hunt for `returns` and semicolons in the middle of the code. These are like "seams" in our program; stop signs, which break the natural flow of data. Almost effortlessly, removing those blockers / stop signs will lead to better code; it's like magic. 
+As with many other concepts in Rust, it's hard to internalize expressions without practice. Let's make it more tangible.
+A simple heurstic is to hunt for `returns` and semicolons in the middle of the code. These are like "seams" in our program; stop signs, which break the natural flow of data. Almost effortlessly, removing those blockers / stop signs will lead to better code; it's like magic. 
 
 Here's an abstracted version of a function, which returns the correct path to a configuration file.
 
