@@ -1,5 +1,5 @@
 +++
-title = "Season Finale"
+title = "Season 1 - Finale"
 date = 2024-03-07
 template = "episode.html"
 draft = false
