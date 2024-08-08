@@ -41,6 +41,8 @@ Here are the dates:
 - 26th of September
 - 3rd of October
 
+To learn more, [check out the office hours page](/office-hours) on our website.
+
 ### Links from the Episode (in order of appearance)
 
 - [The History of Rust - Steve Klabnik](https://youtu.be/79PSagCD_AY?si=oNH9u1HPQ9welYjZ)
