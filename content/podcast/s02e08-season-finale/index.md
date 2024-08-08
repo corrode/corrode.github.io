@@ -195,7 +195,7 @@ If you missed any of the previous episodes, you can find them here:
 
 We would like to thank the guests of the second season for their time and
 insights. We would also like to thank the listeners for their support and
-feedback. We are looking forward to the second season and hope you will join us
+feedback. We are looking forward to the third season and hope you will join us
 again!
 
 Audio editing and mastering by [Simon Brüggen (M3t0r)](https://m3t0r.de/).
