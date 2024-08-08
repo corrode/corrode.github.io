@@ -32,14 +32,9 @@ Mark your calendars and join us next time.
 
 Here are the dates:
 
-- 15th of August
-- 22nd of August
-- 29th of August
-- 5th of September
-- 12th of September
-- 19th of September
-- 26th of September
-- 3rd of October
+- August 15, 22, 29
+- September 5, 12, 19, 26
+- October 3
 
 To learn more, [check out the office hours page](/office-hours) on our website.
 
