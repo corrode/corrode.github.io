@@ -25,6 +25,130 @@ And in the dark: a faint glow, a narrow golden path that points us towards a mor
 
 ## Show Notes
 
+### Results from the Survey
+
+A few weeks ago, we asked you to fill out a survey about the Rust in Production podcast.
+Thank you to everyone who participated! We received a lot of valuable feedback.
+
+In total, we got 82 responses. Here are some of the key takeaways:
+
+#### How did you discover the "Rust in Production" podcast?
+
+- 43% of respondents found the podcast on Mastodon.
+- 21% Podcast directory (Apple, Spotify, etc.)
+- 9% Recommended by a friend
+- 6% Twitter
+- 5% LinkedIn
+- 5% Search engine
+- 4% Reddit
+- 7% Other
+
+#### How Many Episodes Have You Listened To?
+
+- 26% of respondents have listened to all episodes.
+- 27% have listened to most episodes (more than half).
+- 27% have listened to some episodes (less than half).
+- 10% have only listened to one episode.
+- 10% Other
+
+#### Which Aspects Of The Show Do You Enjoy The Most?
+
+- 96% of respondents enjoy the technical content. (Tech Deep Dives)
+- 49% enjoy the business motivations to choose Rust.
+- 8% other
+
+#### Are there any topics related to Rust in production that you'd like to see covered in future episodes?
+
+We got a lot of great suggestions for future episodes. 
+In total, we received 30 unique responses.
+Here are the top 5 key insights:
+
+- **Cloud native development and microservices:** Addressing misconceptions about Rust's suitability for cloud-native applications, including microservices and Kubernetes operators.
+
+- **Enterprise adoption:** How large companies implement Rust, including getting buy-in, training/hiring strategies, and integrating Rust into existing processes.
+
+- **Performance-critical applications:** Exploring Rust's potential as an alternative to C++ in performance-critical domains like machine learning, including C++/Rust interoperability.
+
+- **Web and network services:** Coverage of Rust in web applications, WebAssembly, and network services.
+
+- **Ecosystem deep dives:** Technical deep dives into popular crates, the Tokio ecosystem, and best practices for structuring large Rust projects.
+
+#### If you could change one thing about the "Rust in Production" podcast, what would it be and why?
+
+We received 20 unique responses. Top 5 key insights:
+
+- **More technical focus:** Many listeners expressed a desire for more in-depth technical discussions rather than high-level or business-oriented content.
+
+- **Improved audio quality:** Some mentioned that the audio can be hard to hear at times and suggested better audio production.
+
+- **Diversity in guests:** There's a request for more diverse guests, including women and people from atypical backgrounds.
+
+- **Tighter editing:** Some listeners feel the discussions can ramble and could benefit from more focused editing.
+
+- **Format variations:** Suggestions include offering video versions, having occasional casual discussions with a co-host on ecosystem topics, and potentially shortening episode lengths.
+
+#### What is your current level of experience with Rust?
+
+- 15% Beginner (less than 1 year of experience)
+- 46% Intermediate (1-3 years of experience)
+- 19% Advanced (3-5 years of experience)
+- 14% Expert (5+ years of experience)
+- 6% I don't use Rust, but I'm interested in learning
+
+#### Who should be a guest and why?
+
+We don't want to name specific people, but here are some categories of guests that were suggested:
+
+- **Industry leaders and enterprise adopters:** Senior engineers and decision-makers from major tech companies who have implemented Rust at scale.
+- **Core Rust ecosystem contributors:** Developers and maintainers of the Rust language, compiler, and critical libraries/crates.
+- **Systems programmers:** Professionals working on operating systems, embedded systems, and low-level infrastructure using Rust.
+- **Open-source project leads:** Maintainers of significant open-source projects built with Rust, including developer tools and frameworks.
+- **Domain specialists:** Experts applying Rust in specific fields such as game development, cybersecurity, or academic research.
+
+#### How do you typically listen to "Rust in Production"?
+
+- 60% While doing household chores
+- 58% While commuting
+- 26% While exercising
+- 21% Dedicated listening time
+- 10% During work breaks
+- 9% While coding
+- 10% Other
+
+### How has 'Rust in Production' influenced your perception of Rust's viability in production environments?
+
+- 19% Significantly improved my confidence in Rust for production use
+- 41% Somewhat improved my confidence in Rust for production use
+- 36% No change in my perception
+- 4% I don't have an opinion
+
+Here's the data ordered by percentage with a markdown header:
+
+### Which aspects of Rust in Production are you most interested in?
+
+- 75% Systems programming
+- 59% Web development
+- 48% Data processing and analysis
+- 46% Embedded systems
+- 43% Network programming
+- 25% Game development
+- 21% Machine learning / AI
+
+### Which of the following formats (audio or video) would you be most interested in?
+
+- 35% System architecture deep dives
+- 28% Advanced Programming Concepts in Rust
+- 27% Idiomatic Rust discussions
+- 9% Pair programming sessions
+- 1% Other
+
+### Summary
+
+Thanks to everyone who participated in the survey! We appreciate your feedback and will use it to improve the show.
+Simon and me will discuss the results in more detail and see how we can incorporate your suggestions into future episodes.
+
+### Office Hours
+
 If you're interested in the topics we discuss, perhaps you'd like to join our
 [Corrode Office Hours](https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338)
 every Thursday at 4 PM UTC. Bring your questions, and we'll try to help you out!
