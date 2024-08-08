@@ -25,9 +25,26 @@ And in the dark: a faint glow, a narrow golden path that points us towards a mor
 
 ## Show Notes
 
+If you're interested in the topics we discuss, perhaps you'd like to join our
+[Corrode Office Hours](https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338)
+every Thursday at 4 PM UTC. Bring your questions, and we'll try to help you out!
+Mark your calendars and join us next time.
+
+Here are the dates:
+
+- 15th of August
+- 22nd of August
+- 29th of August
+- 5th of September
+- 12th of September
+- 19th of September
+- 26th of September
+- 3rd of October
+
 ### Links from the Episode (in order of appearance)
 
 - [The History of Rust - Steve Klabnik](https://youtu.be/79PSagCD_AY?si=oNH9u1HPQ9welYjZ)
+- [Nickel Framework by Christoph Burgdorf](https://nickel-org.github.io)
 - [`tokio` on crates.io](https://crates.io/crates/tokio)
 - [The 'New Rustacean' podcast &mdash; an inspiration for the show](https://newrustacean.com/)
 - [Simon Brüggen (M3t0r) on GitHub](https://github.com/M3t0r)
