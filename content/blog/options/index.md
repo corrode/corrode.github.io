@@ -48,7 +48,7 @@ error[E0277]: the `?` operator can only be used on `Result`s, not `Option`s, in 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7001ff6af6c0bcbf44249691d65b086f))
 
 Ouch. This is scary-looking.
-There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details that are not relevant to the user
+There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details that are not relevant to the user,
 but the relevant details are somewhat obscured. 
 We're not making a good first impression here.
 
@@ -70,7 +70,7 @@ and make a mental note to come back to it later.
 ```rust
 fn get_user_name() -> Result<String, String> {
     let user = get_user().unwrap();
-    // Do something with `user.name`
+    // Do something with `user`
     Ok(user)
 }
 ```
@@ -131,10 +131,10 @@ We can just say "there is no value" and that's it.
 
 There are multiple solutions!
 
-The initial error message, while cryptic, gave us a hint.
+The initial error message, while cryptic, gave us a hint:
 
 ```rust
-`use `.ok_or(...)?` to provide an error compatible with `Result<(), Box<dyn std::error::Error>>`.
+use `.ok_or(...)?` to provide an error compatible with `Result<(), Box<dyn std::error::Error>>`.
 ```
 
 Apparently we can use the `ok_or` method, which converts the `Option` into a `Result`:
