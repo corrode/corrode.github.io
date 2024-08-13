@@ -1,12 +1,12 @@
 +++
-title = "Handling Option::None - The Most Common Rust Papercut"
+title = "Handling None - A Common Rust Papercut"
 date = 2024-08-13
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 +++
 
-From training many programmers on Rust, I noticed that handling the `None` variant of `Option` is a common papercut.
+I noticed that handling the `None` variant of `Option` is a common papercut in Rust.
 It has been discussed a million times already, but in this post, I also want to give you a bit of background on why it is the way it is
 and teach you a bit about Rust's type system.
 Jump to the end if you're in a hurry.
@@ -48,18 +48,11 @@ error[E0277]: the `?` operator can only be used on `Result`s, not `Option`s, in 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7001ff6af6c0bcbf44249691d65b086f))
 
 Ouch. This is scary-looking.
-There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details that are not relevant to the user.
-The relevant details are somewhat hidden in the middle of the error message.
+There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details that are not relevant to the user
+but the relevant details are somewhat obscured. 
+We're not making a good first impression here.
 
 **And all we did was use an `Option`!**
-
-If you see this message, it's not your fault; everyone needs to learn this at some point.
-
-Hidden in that error message is a hint:
-
-```rust
-`use `.ok_or(...)?` to provide an error compatible with `Result<(), Box<dyn std::error::Error>>`.
-```
 
 My main gripe with this error message is that it doesn't explain **why** the `?` operator doesn't work with `Option`...
 just that it doesn't.
@@ -71,7 +64,7 @@ That's not very actionable.
 ## What Do People Usually Do?
 
 The most common solution I see is that people are confused for a bit,
-try to understand the error message, and eventually just give up use `unwrap`
+try to understand the error message, and eventually just give up, use `unwrap`,
 and make a mental note to come back to it later.
 
 ```rust
@@ -82,11 +75,10 @@ fn get_user_name() -> Result<String, String> {
 }
 ```
 
-
 Even with a trainer around, they are often too embarrassed to ask for help.
 They think people are supposed to "get this" and they are the only ones who don't.
 
-This just defers problem. 
+This just defers the problem. 
 The user of the function will get a panic at runtime. It might be your future self.
 
 Moreover, I advise people to avoid `unwrap` in production code, but this sets a bad example.
@@ -109,7 +101,6 @@ let value = match my_result {
 };
 ```
 
-
 `Option` on the other hand **does not have an** `Err` variant. 
 
 It is defined like this:
@@ -120,7 +111,6 @@ enum Option<T> {
     None,
 }
 ```
-
 
 `None` doesn't have an associated error value. It's just a value that means "no value".
 The `?` operator wouldn't know what error it should return:
@@ -141,30 +131,38 @@ We can just say "there is no value" and that's it.
 
 There are multiple solutions!
 
-The error message, while cryptic, gives us a hint.
-We can use the `ok_or` method, which converts the `Option` into a `Result`:
+The initial error message, while cryptic, gave us a hint.
+
+```rust
+`use `.ok_or(...)?` to provide an error compatible with `Result<(), Box<dyn std::error::Error>>`.
+```
+
+Apparently we can use the `ok_or` method, which converts the `Option` into a `Result`:
 
 ```rust
 let user = get_user().ok_or("No user")?;
 ```
 
-Unfortunately, `ok_or` might not be most discoverable name for this method.
+Unfortunately, `ok_or` might not be the most discoverable name for this method.
 I find it unintuitive and needed to look it up many times.
 That's because `Ok` is commonly associated with the `Result` type, not `Option`.
 There's `Option::Some`, so it could also be called `some_or`, but that would be hard to change now.
-That was [actually discussed in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
-because `ok_or(MyError)` reads nicely. Guess we have to live with the minor inconsistency.
+It was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
+because `ok_or(MyError)` reads nicely and I can see that. Guess we have to live with the minor inconsistency now.
 
-Another downside is that `ok_or` always allocates a new `String` for the error message &ndash; even if you don't need it.
+Another downside is that `ok_or` *always* allocates a new `String` for the error message &ndash; even if we don't use it.
 If you want to avoid this allocation, you can use `ok_or_else`:
 
 ```rust
 let user = get_user().ok_or_else(|| "No user".into())?;
 ```
-This takes a closure that returns the error message.
-The closure only gets called if `get_user()` returns `None`, so you avoid the allocation in the common case.
 
-But that's even more verbose!
+This takes a closure that returns the error message.
+The closure only gets called if `get_user()` returns `None`.
+
+We avoid the allocation if not needed, but that's even more verbose!
+
+## Just Use `match`
 
 In the past, I used to recommend people to not be clever and just use a `match` statement.
 
@@ -181,11 +179,10 @@ In the `None` case, we return early with an error. In the `Some` case, we contin
 (`match` is an expression and the value of the last expression in the block is returned. In our case it's `user` and it
 gets assigned to the `user` variable in the outer scope.)
 
-
 This is more explicit and easier to understand for beginners.
-The one issue I had when teaching this was that it look bit more verbose.
+The one issue I had when teaching this was that it looked a bit more verbose for simple cases like this.
 
-## The Best Solution
+## The Best Solution To Handle None
 
 Recently, the `let-else` expression was stabilized, so now you can write this: 
 
