@@ -182,7 +182,7 @@ gets assigned to the `user` variable in the outer scope.)
 This is more explicit and easier to understand for beginners.
 The one issue I had when teaching this was that it looked a bit more verbose for simple cases like this.
 
-## The Best Solution To Handle None
+## The Best Solution To Handle None With The Standard Library
 
 Recently, the `let-else` expression was stabilized, so now you can write this: 
 
@@ -202,6 +202,36 @@ For some explanation: if `get_user()` returns `Some`, the `let` statement will d
 This is a clear winner.
 It is way more intuitive for beginners.
 Once they understand the pattern, they use it all the time!
+
+## Handling `None` With `anyhow`
+
+If you're writing an application (not a library) and you're using the
+[`anyhow`](https://github.com/dtolnay/anyhow) crate already, you can also use their `context`
+method to handle `None`:
+
+```rust
+use anyhow::{Context, Result};
+
+fn get_user_name() -> Result<String> {
+    let user = get_user().context("No user")?
+    // Do something with `user`
+    Ok(user)
+}
+```
+
+It's slightly less verbose than `let-else`, but remember that `anyhow` is an external dependency.
+It's probably fine for applications, but you might not want to use it in a library as users of
+your library can no longer match on the concrete error variant then.
+
+That's why I believe that `let-else` is the best solution for handling `None` in most cases.
+
+- It's part of the standard library.
+- It's easy to understand for beginners.
+- Learning the mechanics behind it is helpful in other places as well.
+- It's reasonably compact.
+- It allows for more complex error handling logic in the `else` block if needed.
+
+## Conclusion
 
 I hope this helps more people handle `Option` properly in Rust.
 If this helped a single person avoid one `unwrap`, it was worth it.
