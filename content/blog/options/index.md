@@ -81,7 +81,7 @@ They think people are supposed to "get this" and they are the only ones who don'
 This just defers the problem. 
 The user of the function will get a panic at runtime. It might be your future self.
 
-Moreover, I advise people to avoid `unwrap` in production code, but this sets a bad example.
+Moreover, I advise people to avoid `unwrap` in production code, as this sets a bad example.
 
 During trainings, this is where I pause for a moment and explain the error message.
 It's a great point where we dig deeper to understand the root cause of the problem.
