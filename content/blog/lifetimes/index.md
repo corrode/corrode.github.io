@@ -3,7 +3,7 @@ title = "Don't Worry About Lifetimes"
 date = 2024-05-29
 template = "article.html"
 [extra]
-updated = 2024-07-19
+updated = 2024-08-13
 series = "Idiomatic Rust"
 resources = [
     "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."
@@ -247,12 +247,14 @@ fn longest(x: Rc<String>, y: Rc<String>) -> Rc<String> {
 
 That's just a silly example (and you'd probably use `String` anyway in that case), but it shows how you can sidestep lifetimes by using reference-counted pointers.
 
-## When To Use Lifetimes
+## When (Not) To Use Lifetimes
 
-Still confused if you should use lifetimes? Here's a simple flowchart to help you decide:
+Sometimes, the compiler is a bit too eager in suggesting lifetimes. 
+More often than not, the better alternative is to refactor your code instead.
+It might not always be clear how to do this, so here's a flowchart to help you decide when 
+lifetime annotations are really necessary or which refactoring strategies you could try instead.
 
 <img src="decision-tree.svg" alt="Flow chart on how to decide on using lifetimes or not">
-
 
 ## Conclusion
 
