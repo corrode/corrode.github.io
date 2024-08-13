@@ -249,10 +249,10 @@ That's just a silly example (and you'd probably use `String` anyway in that case
 
 ## When (Not) To Use Lifetimes
 
-Sometimes, the compiler is a bit too eager in suggesting lifetimes. 
-More often than not, the better alternative is to refactor your code instead.
-It might not always be clear how to do this, so here's a flowchart to help you decide when 
-lifetime annotations are really necessary or which refactoring strategies you could try instead.
+Sometimes, the compiler is a bit too eager in suggesting lifetimes.
+More often than not, the better alternative is to refactor your code.
+It might not always be clear how to do this, so here's a flowchart to help you decide when
+lifetime annotations are truly necessary or which refactoring strategies are available.
 
 <img src="decision-tree.svg" alt="Flow chart on how to decide on using lifetimes or not">
 
