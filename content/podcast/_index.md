@@ -7,6 +7,8 @@ description = "This is 'Rust in Production', a podcast about companies who use R
 
 # Rust in Production &ndash; The Podcast
 
+**[Join our weekly Office Hours](/office-hours) every Thursday at 4 PM UTC to discuss Rust and ask questions!**
+
 Rust is renowned for its exceptional safety and speed, but the **real-world
 stories** of companies using it in production often remain untold. 
 
