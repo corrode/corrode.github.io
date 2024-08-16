@@ -56,6 +56,11 @@
     box-sizing: border-box;
 }
 
+::selection {
+    color: white;
+    background: $brightPrim;
+}
+
 html,
 body {
     margin: 0;
