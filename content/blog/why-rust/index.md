@@ -359,12 +359,29 @@ impact on productivity](https://www.microsoft.com/en-us/research/publication/tow
 ### Performance And Energy Efficiency
 
 As stated earlier, performance often gets mentioned as a main reason for using Rust.
-Rust also has great support for multi-threaded workloads. Libraries like
+On top of that, Rust has great support for multi-threaded workloads. Libraries like
 [rayon](https://github.com/rayon-rs/rayon) and [Tokio](https://tokio.rs/) are considered
 best-in-class for writing high-performance applications.
 
 Making efficient use of compute resources has much deeper implications for
-companies than just raw execution speed. One important aspect is energy efficiency.
+companies than just raw execution speed.
+
+One important aspect is scalability: companies can defer costly performance optimizations
+and scaling efforts by choosing a language that is efficient by default. This way, they
+can focus on building features and growing their business before they need to worry about
+performance bottlenecks.
+
+In his talk at FrOSCon 2024, [Daniél Kerkmann](https://github.com/kerkmann), software engineer at
+[OpenTalk](https://opentalk.eu) &ndash; a secure video conferencing platform written in Rust &ndash; shared that
+sentiment:
+
+> **The performance of Rust kept us afloat for a long time.**
+>
+> Up to a point of 10.000 video participants we didn't have to refactor thanks to Rust's performance.
+> We could focus on features instead without worrying about bottlenecks.  
+> &mdash; Source: [FrOSCon 2024 talk by Daniél Kerkmann (German)](https://media.ccc.de/v/froscon2024-3105-in_rust_radikal_refactorn#t=1198)
+
+Another aspect of performance is energy efficiency.
 
 In the below benchmark, taken from ["Energy Efficiency across Programming Languages"](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf)
 by Pereira et al., Rust has superior runtime performance on par with C and C++
