@@ -3,7 +3,7 @@ title = "Aim For Immutability in Rust"
 date = 2023-09-21
 template = "article.html"
 [extra]
-updated = 2023-11-18
+updated = 2024-08-19
 series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
@@ -26,6 +26,9 @@ an attempt to (prematurely) optimize their code.
 I believe this approach is misguided. Immutability &mdash; which means once something
 is created, it can't be changed &mdash; results in code that is easier to
 understand, refactor and parallelize and it doesn't have to be slow either.
+
+Immutability is an incredible complexity killer.
+
 The `mut` should be used sparingly; preferably only in tight scopes.
 
 This article aims to convince you that **embracing immutability is central to
