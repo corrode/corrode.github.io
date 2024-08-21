@@ -1,6 +1,6 @@
 +++
 title = "Handling None - A Common Rust Papercut"
-date = 2024-08-13
+date = 2024-08-21
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
