@@ -210,18 +210,21 @@ fn get_user_name() -> Result<String> {
 ```
 
 It's slightly less verbose than `let-else`, but remember that `anyhow` is an external dependency.
-It's probably fine for applications, but you might not want to use it in a library as users of
-your library can no longer match on the concrete error variant then.
+If you build an application, that's probably fine, but you might not want to use it in a library as users of
+your library can no longer match on the concrete error variant then. [^1]
+
+[^1] For libraries, there's [`thiserror`](https://github.com/dtolnay/thiserror), but it [doesn't provide a `context` method](https://github.com/dtolnay/thiserror/issues/313).
+
+## Conclusion
 
 That's why I believe that `let-else` is the best solution for handling `None` in most cases.
 
 - It's part of the standard library.
+- It works for building libraries and applications.
 - It's easy to understand for beginners.
-- Learning the mechanics behind it is helpful in other places as well.
 - It's reasonably compact.
 - It allows for more complex error handling logic in the `else` block if needed.
-
-## Conclusion
+- Learning the mechanics behind it is helpful in other places.
 
 I hope this helps more people handle `Option` properly in Rust.
-If this helped a single person avoid one `unwrap`, it was worth it.
+If it helps a single person avoid a single `unwrap`, it was worth it.
