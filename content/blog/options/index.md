@@ -122,7 +122,7 @@ let value = match my_option {
 };
 ```
 
-That's actually the entire difference between `Result` and `Option`.
+That's actually the entire difference between `Result` and `Option` &ndash; at least from an implementation point-of-view.
 If we had an `Err` variant, we would just use `Result` in the first place.
 But there are cases where `None` is a completely valid value and we just don't have an error to return.
 We can just say "there is no value" and that's it.
@@ -149,18 +149,6 @@ That's because `Ok` is commonly associated with the `Result` type, not `Option`.
 There's `Option::Some`, so it could also be called `some_or`, but that would be hard to change now.
 It was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
 because `ok_or(MyError)` reads nicely and I can see that. Guess we have to live with the minor inconsistency now.
-
-Another downside is that `ok_or` *always* allocates a new `String` for the error message &ndash; even if we don't use it.
-If you want to avoid this allocation, you can use `ok_or_else`:
-
-```rust
-let user = get_user().ok_or_else(|| "No user".into())?;
-```
-
-This takes a closure that returns the error message.
-The closure only gets called if `get_user()` returns `None`.
-
-We avoid the allocation if not needed, but that's even more verbose!
 
 ## Just Use `match`
 
@@ -198,6 +186,8 @@ In my opinion, that's the best of both worlds: it's compact and easy to understa
 It's unanimously loved by beginners and experienced Rustaceans alike.
 
 For some explanation: if `get_user()` returns `Some`, the `let` statement will destructure the `Some` variant and assign the value to the `user` variable. If `get_user()` returns `None`, the `else` block will be executed and we return early with an error.
+
+My favorite thing about `let-else` is that it clearly highlights the 'happy path' of your code. Unlike a `match` statement where you need to read both arms to understand the intended flow, `let-else` makes it immediately clear what the expected case is, with the `else` block handling the exceptional case.
 
 This is a clear winner.
 It is way more intuitive for beginners.
