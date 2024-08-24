@@ -13,11 +13,11 @@ Join us and bring your questions. We're looking forward to seeing you there!
 
 ## Upcoming Dates
 
-We meet every Thursday at 4 PM UTC.
+We meet every Thursday at [4 PM UTC](https://dateful.com/convert/utc?t=4pm).
 
-- August 15, 22, 29
-- September 5, 12, 19, 26
-- October 3
+- August 15th, 22nd, 29th
+- September 5th, 12th, 19th, 26th
+- October 3rd
 
 Mark your calendars if you'd like to join us.
 
