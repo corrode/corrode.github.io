@@ -86,11 +86,10 @@ fn get_user_name() -> Result<String, String> {
 Even with a trainer around, they are often too embarrassed to ask for help.
 They think people are supposed to *"get this"* and they are the only ones who don't.
 
-
 This just defers the problem. 
 The user of the function might hit a `panic` at runtime. That user might be their future self.
 
-I recommend to avoid `unwrap` in production code, as this sets a bad example:
+I recommend avoiding `unwrap` in production code, as this sets a bad example:
 one `unwrap` attracts another and the codebase becomes more fragile as you continue down this path. [^1]
 
 [^1]: Sometimes, `unwrap()` can make code more readable by reducing noise, especially when the success case is overwhelmingly likely.
