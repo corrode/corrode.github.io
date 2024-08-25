@@ -1,5 +1,5 @@
 +++
-title = "Don't Unwrap Options: There's A Wetter Way"
+title = "Don't Unwrap Options: There's A Better Way"
 date = 2024-08-25
 template = "article.html"
 [extra]
@@ -7,7 +7,7 @@ series = "Idiomatic Rust"
 +++
 
 I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust.
-It has been discussed a million times already, but it's a common topic in trainings and, surpringly, not even the Rust book mentions my favorite approach to handling it and many forum posts are outdated.
+It has been discussed a million times already, but it's a common topic in trainings and, surprisingly, not even the Rust book mentions my favorite approach to handling it and many forum posts are outdated.
 
 With practice, robust error handling becomes as easy as `unwrap()`, but safer.
 
@@ -207,7 +207,7 @@ method to handle `None`:
 use anyhow::{Context, Result};
 
 fn get_user_name() -> Result<String> {
-    let user = get_user().context("No user")?
+    let user = get_user().context("No user")?;
     // Do something with `user`
     Ok(user)
 }
@@ -235,10 +235,10 @@ let Some(value) = some_function() else {
 };
 ```
 
-To me, `let-else` is the best solution for handling `None` because
+To me, `let-else` is the best solution for handling `None` because:
 
 - It's part of the standard library.
-- It works for both, libraries and applications.
+- It works for both libraries and applications.
 - It's easy to understand for beginners.
 - It's reasonably compact.
 - It allows for more complex error handling logic in the `else` block if needed.
