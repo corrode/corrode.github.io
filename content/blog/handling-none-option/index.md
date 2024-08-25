@@ -1,15 +1,17 @@
 +++
-title = "Handling None - A Common Rust Papercut"
-date = 2024-08-21
+title = "Don't Unwrap Options: There's A Wetter Way"
+date = 2024-08-25
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 +++
 
-I noticed that handling the `None` variant of `Option` is a common papercut in Rust.
-It has been discussed a million times already, but in this post, I also want to give you a bit of background on why it is the way it is
-and teach you a bit about Rust's type system.
-Jump to the end if you're in a hurry.
+I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust.
+It has been discussed a million times already, but it's a common topic in trainings and, surpringly, not even the Rust book mentions my favorite approach to handling it and many forum posts are outdated.
+
+With practice, robust error handling becomes as easy as `unwrap()`, but safer.
+
+Jump to the end if you're in a hurry and need a quick recommendation.
 
 ## The Problem
 
@@ -47,10 +49,11 @@ error[E0277]: the `?` operator can only be used on `Result`s, not `Option`s, in 
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7001ff6af6c0bcbf44249691d65b086f))
 
-Ouch. This is scary-looking.
-There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details that are not relevant to the user,
-but the relevant details are somewhat obscured. 
-We're not making a good first impression here.
+Ouch. This is scary-looking!
+
+Rust's error messages are often praised for their clarity and helpfulness, but this one falls short of expectations, especially considering how frequently beginners encounter it.
+
+There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details which could be confusing to a new user and the relevant details are somewhat obscured. 
 
 **And all we did was use an `Option`!**
 
@@ -58,14 +61,14 @@ My main gripe with this error message is that it doesn't explain **why** the `?`
 just that it doesn't.
 Granted, the error message is already quite long and it might not be the best place to teach Rust, but it would be nice to have a link to a more detailed explanation. After all, this is Rust: we take great pride in our error messages.
 
-By the way, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
+Adding insult to injury, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
 That's not very actionable.
 
 ## What Do People Usually Do?
 
-The most common solution I see is that people are confused for a bit,
-try to understand the error message, and eventually just give up, use `unwrap`,
-and make a mental note to come back to it later.
+The most common approach I see is that people are confused for a bit,
+try to understand the error message, eventually give up and just add `unwrap()`.
+They make a mental note to come back to it later, but that 'later' often never arrives.
 
 ```rust
 fn get_user_name() -> Result<String, String> {
@@ -83,12 +86,13 @@ The user of the function will get a panic at runtime. It might be your future se
 
 Moreover, I advise people to avoid `unwrap` in production code, as this sets a bad example.
 
-During trainings, this is where I pause for a moment and explain the error message.
+During trainings, this is where I pause for a moment and explain the error
+and that it is completely normal to stumble over this issue.
 It's a great point where we dig deeper to understand the root cause of the problem.
 
 Okay, I've kept you waiting long enough. Let's demystify this error message.
 
-## Why doesn't `?` work with `Option`?
+## Why doesn't `?` just work with `Option`?
 
 The `?` operator takes a `Result` and unwraps it, returning the value inside if it is `Ok`, or returning early if it is `Err`. 
 
@@ -112,8 +116,8 @@ enum Option<T> {
 }
 ```
 
-`None` doesn't have an associated error value. It's just a value that means "no value".
-The `?` operator wouldn't know what error it should return:
+`None` doesn't have an associated error value. It's just a value that means... "no value".
+The `?` operator wouldn't know what error to return in this case:
 
 ```rust
 let value = match my_option {
@@ -210,21 +214,35 @@ fn get_user_name() -> Result<String> {
 ```
 
 It's slightly less verbose than `let-else`, but remember that `anyhow` is an external dependency.
-If you build an application, that's probably fine, but you might not want to use it in a library as users of
-your library can no longer match on the concrete error variant then. [^1]
-
-[^1] For libraries, there's [`thiserror`](https://github.com/dtolnay/thiserror), but it [doesn't provide a `context` method](https://github.com/dtolnay/thiserror/issues/313).
-
-## Conclusion
+It's probably fine for applications, but you might not want to use it in a library as users of
+your library can no longer match on the concrete error variant then.
 
 That's why I believe that `let-else` is the best solution for handling `None` in most cases.
 
 - It's part of the standard library.
-- It works for building libraries and applications.
+- It's easy to understand for beginners.
+- Learning the mechanics behind it is helpful in other places as well.
+- It's reasonably compact.
+- It allows for more complex error handling logic in the `else` block if needed.
+
+## Conclusion
+
+Use this syntax:
+
+```rust
+let Some(value) = some_function() else {
+    return Err("Descriptive error message".into());
+};
+```
+
+To me, `let-else` is the best solution for handling `None` because
+
+- It's part of the standard library.
+- It works for both, libraries and applications.
 - It's easy to understand for beginners.
 - It's reasonably compact.
 - It allows for more complex error handling logic in the `else` block if needed.
-- Learning the mechanics behind it is helpful in other places.
+- Learning the mechanics behind it is helpful in other places in Rust.
 
-I hope this helps more people handle `Option` properly in Rust.
-If it helps a single person avoid a single `unwrap`, it was worth it.
+I hope this helps more people handle `Option` in a more robust way.
+If it helps a single person avoid one `unwrap`, it was already worth it.
