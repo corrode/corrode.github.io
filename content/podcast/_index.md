@@ -25,7 +25,7 @@ Stories of companies who bet big on Rust. Every other Thursday at 4 pm UTC.
         <div class="podcast-logo-wrapper">
           <img
             class="podcast-logo invert"
-            src="podcast/s02e08-season-finale/logo.svg"
+            src="/podcast/s02e08-season-finale/logo.svg"
             alt="Office Hours Logo"
           />
         </div>
