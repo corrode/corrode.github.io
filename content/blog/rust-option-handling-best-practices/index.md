@@ -6,14 +6,16 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust. It has been discussed a million times already, but it's still a frequent topic in trainings. Surprisingly, not even the Rust book mentions my favorite approach to handling it, and many forum posts are outdated.
+I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust. It has been discussed a million times already, but, surprisingly, not even the Rust book mentions my favorite approach to handling it, and many forum posts are outdated.
 
-With a bit of practice, robust error handling can become as easy as `unwrap()`, but safer. 
+With a bit of practice, robust handling `None` can become as easy as `unwrap()`, but safer. 
 
-Jump to the end if you're in a hurry and need a quick recommendation.
+Jump to the end if you're in a hurry and just need a quick recommendation.
 
 ## The Problem
 
+
+There are situations where you want to return early if you encounter `None` in an `Option`.
 Very commonly, people want to write code like this where they use the `?` operator to propagate errors:
 
 ```rust
@@ -29,7 +31,7 @@ fn get_user_name() -> Result<String> {
 }
 ```
 
-Most Rust programmers bump into this dreaded error message: 
+Alas, this code doesn't compile. Instead, you get a dreaded error message: 
 
 ```rust
 error[E0277]: the `?` operator can only be used on `Result`s, not `Option`s, in a function that returns `Result`
@@ -58,10 +60,10 @@ There's a lot of visual noise in this error message. The `FromResidual` and `Yee
 
 My main gripe with this error message is that it doesn't explain *why* the `?` operator doesn't work with `Option`... just that it doesn't.
 
-Adding insult to injury, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
-That's not very actionable.
+Moreover, it's not trivial to come up with the correct search terms to find the best solution to this problem. [^1]
 
-Moreover, it's not trivial to come up with the correct search terms to find the best solution to this problem.
+[^1]: Adding insult to injury, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
+That's not very actionable.
 
 ## What People End Up Doing
 
@@ -83,21 +85,20 @@ fn get_user_name() -> Result<String, String> {
 }
 ```
 
-Even with a trainer around, they are often too embarrassed to ask for help.
+In trainings, I noticed that people are often too embarrassed to ask for help.
 They think people are supposed to *"get this"* and they are the only ones who don't.
 
 This just defers the problem. 
 The user of the function might hit a `panic` at runtime. That user might be their future self.
 
-I recommend avoiding `unwrap` in production code, as this sets a bad example:
-one `unwrap` attracts another and the codebase becomes more fragile as you continue down this path. [^1]
+`unwrap` is fine in many cases, but it shouldn't be the first intuition for dealing with unexpected situations.
+Especially when you're writing a library or a function that is part of a larger codebase, you should strive to handle 
+such situations gracefully.
+And in production code, it sets a bad example:
+one `unwrap` attracts another and the codebase becomes more fragile as you continue down this path. [^2]
 
-[^1]: Sometimes, `unwrap()` can make code more readable by reducing noise, especially when the success case is overwhelmingly likely.
+[^2]: Sometimes, `unwrap()` can make code more readable by reducing noise, especially when the success case is overwhelmingly likely.
 It's okay to use `unwrap()` when you can prove that a failure is impossible or when a panic is actually the desired behavior for failures. Andrew Gallant [wrote an article on this](https://blog.burntsushi.net/unwrap/) where he goes into more detail.
-
-During trainings, this is where I pause for a moment and explain the error
-and that it is completely normal to stumble over this issue.
-It's a great point where we dig deeper to understand the root cause of the problem.
 
 Okay, I've kept you waiting long enough. Let's demystify this error message.
 
@@ -135,14 +136,17 @@ let value = match my_option {
 };
 ```
 
-That's actually the entire difference between `Result` and `Option` (at least from an implementation point-of-view).
+That's actually the entire difference between `Result` and `Option` (at least from a type definition point-of-view).
 If we had an `Err` variant, we would just use `Result` in the first place.
 But there are cases where `None` is a completely valid value and we just don't have an error to return.
 All we can say is "there is no value" and that's it.
 
+Before we move on, it's important to note that if "not having a value" is truly an error condition in your program's logic, you should use `Result` instead of `Option`. `Option` is best used when the absence of a value is a normal, expected possibility, not an error state.
+
 ## What's The Solution?
 
-There are multiple solutions!
+So how do you return an error to the caller when you have an `Option` but you can't use the `?` operator to handle the `None` case?
+Turns out, there are multiple solutions!
 
 The initial error message, while cryptic, gave us a hint:
 
