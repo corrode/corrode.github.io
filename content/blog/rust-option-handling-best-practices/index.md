@@ -1,6 +1,6 @@
 +++
 title = "Don't Unwrap Options: There's A Better Way"
-date = 2024-08-25
+date = 2024-08-29
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
