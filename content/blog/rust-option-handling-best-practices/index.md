@@ -8,12 +8,11 @@ series = "Idiomatic Rust"
 
 I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust. It has been discussed a million times already, but, surprisingly, not even the Rust book mentions my favorite approach to handling it, and many forum posts are outdated.
 
-With a bit of practice, robust handling `None` can become as easy as `unwrap()`, but safer. 
+With a bit of practice, robust handling of `None` can become as easy as `unwrap()`, but safer. 
 
 Jump to the end if you're in a hurry and just need a quick recommendation.
 
 ## The Problem
-
 
 There are situations where you want to return early if you encounter `None` in an `Option`.
 Very commonly, people want to write code like this where they use the `?` operator to propagate errors:
