@@ -7,6 +7,7 @@ date = 2024-08-30
 series = "Idiomatic Rust"
 reviews = [
     { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
+    { name = "Artur Jakubiec", url = "https://www.linkedin.com/in/artur-jakubiec" },
 ]
 +++
 
