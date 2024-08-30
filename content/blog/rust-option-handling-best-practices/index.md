@@ -73,7 +73,7 @@ It works just fine if you're returning an `Option`:
 
 ```rust
 fn get_user_name() -> Option<String> {
-    // All good
+    // Works :)
     let user = get_user()?;
     // Do something with `user`
     Some(user)
@@ -83,6 +83,17 @@ fn get_user_name() -> Option<String> {
 More info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-)
 
 But what if you want to return a `Result`? 
+
+```rust
+fn get_user_name() -> Result<String, String> {
+    // Doesn't work :(
+    let user = get_user()?;
+    // Do something fallible with `user`
+    // ...
+    Ok(user)
+}
+```
+
 This can happen when you're dealing with an option that might be `None`, but the final result of the function is a `Result`.
 
 ## What People End Up Doing
