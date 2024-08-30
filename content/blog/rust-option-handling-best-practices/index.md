@@ -121,7 +121,7 @@ fn get_user_name() -> Option<String> {
 }
 ```
 
-So if you can change your function to return an `Option` instead, do so; then you won't run into the above error message.
+So if you can change the outer function to return an `Option` instead you won't run into the above error message.
 There's more info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
 
 But what if the final return type of your function has to be a `Result`
@@ -144,7 +144,7 @@ fn get_user_name() -> Result<String, String> {
 Well that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
 
 Our problem statement becomes easier:   
-**How can we return a helpful error message when the `Option` is `None`?**
+**How to return a helpful error message when an `Option` is `None`?**
 
 Turns out, there are multiple solutions!
 
@@ -169,7 +169,9 @@ fn get_user_name() -> Result<String, String> {
 ```
 
 However, you might not be able to change `get_user()` to return a `Result` for various reasons,
-for example, if it's part of a library or if it's used in many places.
+for example, if it's part of a library or if it's used in many places
+or if other callers don't treat the absence of a user as an error. 
+
 In that case, read on!
 
 ## Solution 2: `ok_or` 
@@ -191,7 +193,6 @@ That's because `Ok` is commonly associated with the `Result` type, not `Option`.
 There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
 because `ok_or(MyError)` reads nicely and I can see why. Guess we have to live with the minor inconsistency now.
 
-
 ## Solution 3: `match`
 
 In the past, I used to recommend people to not be clever and just use a `match` statement.
@@ -212,7 +213,7 @@ gets assigned to the `user` variable in the outer scope.)
 This is already more explicit and easier to understand for beginners.
 The one issue I had when teaching this was that it looked a bit more verbose for simple cases.
 
-## My Favorite Solution: `let-else`
+## Solution 4: `let-else`
 
 With Rust 1.65, [the `let-else` expression was stabilized](https://blog.rust-lang.org/2022/11/03/Rust-1.65.0.html#let-else-statements), so now you can write this: 
 
@@ -236,7 +237,7 @@ Unlike a `match` statement where you need to read both arms to understand the in
 This is a clear winner.
 It is way more intuitive for beginners; once they understand the pattern, they use it all the time!
 
-## Handling `None` With `anyhow`
+## Bonus: Handling `None` With `anyhow`
 
 I wanted to add one honorable mention here.
 
