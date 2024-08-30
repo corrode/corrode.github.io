@@ -3,6 +3,7 @@ title = "Don't Unwrap Options: There's A Better Way"
 date = 2024-08-29
 template = "article.html"
 [extra]
+date = 2024-08-30
 series = "Idiomatic Rust"
 +++
 
@@ -63,6 +64,26 @@ Moreover, it's not trivial to come up with the correct search terms to find the 
 
 [^1]: Adding insult to injury, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
 That's not very actionable.
+
+## Okay, what's the problem? For real this time.
+
+**You can't propagate optionals within functions which return `Result`**
+
+It works just fine if you're returning an `Option`:
+
+```rust
+fn get_user_name() -> Option<String> {
+    // All good
+    let user = get_user()?;
+    // Do something with `user`
+    Some(user)
+}
+```
+
+More info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-)
+
+But what if you want to return a `Result`? 
+This can happen when you're dealing with an option that might be `None`, but the final result of the function is a `Result`.
 
 ## What People End Up Doing
 
