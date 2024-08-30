@@ -37,7 +37,7 @@ fn get_user_name() -> Result<String> {
 }
 ```
 
-The goal here is to return early if you encounter `None` in an `Option` so
+The goal here is to return early if you encounter `None` in an `Option`, so
 they use the `?` operator to propagate errors. 
 
 Alas, this code doesn't compile. Instead, you get a dreaded error message: 
@@ -104,7 +104,6 @@ It's okay to use `unwrap()` when you can prove that a failure is impossible or w
 
 Okay, I've kept you waiting long enough. Let's demystify this error message.
 
-
 ## The Actual Problem
 
 What the compiler is trying to tell us is that **you can't propagate optionals within functions which return `Result`**.
@@ -121,12 +120,12 @@ fn get_user_name() -> Option<String> {
 }
 ```
 
-So if you can change the outer function to return an `Option` instead you won't run into the above error message.
+So if you can change the outer function to return an `Option` instead, you won't run into the above error message.
 There's more info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
 
 But what if the final return type of your function has to be a `Result`
 or if you want to convey more information about the missing value to the caller?
-After all,  communicating the distinction between different `None` values can be helpful to the user of your function.
+After all, communicating the distinction between different `None` values can be helpful to the user of your function.
 
 So, what if you *really* want your code to look like this?
 
@@ -141,7 +140,7 @@ fn get_user_name() -> Result<String, String> {
 }
 ```
 
-Well that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
+Well, that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
 
 Our problem statement becomes easier:   
 **How to return a helpful error message when an `Option` is `None`?**
