@@ -68,9 +68,9 @@ Moreover, it's not trivial to come up with the correct search terms to find the 
 [^1]: Adding insult to injury, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
 That's not very actionable.
 
-## Okay, what's the problem? For real this time.
+## The Actual Problem
 
-**You can't propagate optionals within functions which return `Result`**.
+The gist is: **You can't propagate optionals within functions which return `Result`**.
 
 Everything works fine if you're returning an `Option`:
 
@@ -92,7 +92,7 @@ But what if you **have** to return a `Result` or if you want to convey more info
 
 ```rust
 fn get_user_name() -> Result<String, String> {
-    // Doesn't work :(
+    // Doesn't work because we return a `Result`
     let user = get_user()?;
     // Do something fallible with `user`
     // ...
@@ -139,22 +139,14 @@ It's okay to use `unwrap()` when you can prove that a failure is impossible or w
 
 Okay, I've kept you waiting long enough. Let's demystify this error message.
 
-## Why doesn't `?` just work with `Option`?
+## Why doesn't `?` just work when mixing `Result` and `Option`?
 
-The `?` operator takes a `Result` and unwraps it, returning the value inside if it is `Ok`, or returning early if it is `Err`. 
+The `?` operator [takes any type that implements the `Try` trait](https://doc.rust-lang.org/std/ops/trait.Try.html),
+so why doesn't it work in this case? 
 
-Essentially, `?` is implemented like this:
+Well, when mixing `Result` and `Option`, the `?` operator doesn't know what to do with `None`.
 
-```rust
-let value = match my_result {
-    Ok(value) => value,
-    Err(error) => return Err(error),
-};
-```
-
-`Option` on the other hand **does not have an** `Err` variant. 
-
-It is defined like this:
+Remember, `Option` is defined like this:
 
 ```rust
 enum Option<T> {
@@ -172,11 +164,6 @@ let value = match my_option {
     None => todo!("What to return here? ¯\_(ツ)_/¯"),
 };
 ```
-
-That's actually the entire difference between `Result` and `Option` (at least from a type definition point-of-view).
-If we had an `Err` variant, we would just use `Result` in the first place.
-But there are cases where `None` is a completely valid value and we just don't have an error to return.
-All we can say is "there is no value" and that's it.
 
 Before we move on, it's important to note that if "not having a value" is truly an error condition in your program's logic, you should use `Result` instead of `Option`. `Option` is best used when the absence of a value is a normal, expected possibility, not an error state.
 
