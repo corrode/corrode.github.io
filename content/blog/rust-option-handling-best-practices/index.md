@@ -143,7 +143,7 @@ fn get_user_name() -> Result<String, String> {
 Well, that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
 
 Our problem statement becomes easier:   
-**How to return a helpful error message when an `Option` is `None`?**
+**How to return a helpful error message when an `Option` is `None` in this case?**
 
 Turns out, there are multiple solutions!
 
@@ -187,10 +187,32 @@ Apparently we can use the `ok_or` method, which converts the `Option` into a `Re
 let user = get_user().ok_or("No user")?;
 ```
 
+That's convenient! It also chains well when we use iterator patterns:
+
+```rust
+let user = get_user()
+    .ok_or("No user")?
+    .do_something()
+    .ok_or("Something went wrong")?;
+```
+
+([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=c3053fe0b08b3157d377d3dce68d9e00)
+
+`ok_or` is also great if you can recover from `None` and handle that case gracefully:
+
+```rust
+let user = get_user().ok_or(get_logged_in_username())?;
+```
+
+These are good use cases for `ok_or`.
+
+On the other side, it might not be immediately obvious to everyone what `ok_or` does.
 I find the name `ok_or` unintuitive and needed to look it up many times.
 That's because `Ok` is commonly associated with the `Result` type, not `Option`.
 There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
 because `ok_or(MyError)` reads nicely and I can see why. Guess we have to live with the minor inconsistency now.
+
+I think `ok_or` is a quick solution to the problem, but there are alternatives that might be more readable.
 
 ## Solution 3: `match`
 
