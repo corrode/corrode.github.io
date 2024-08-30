@@ -70,9 +70,9 @@ That's not very actionable.
 
 ## Okay, what's the problem? For real this time.
 
-**You can't propagate optionals within functions which return `Result`**
+**You can't propagate optionals within functions which return `Result`**.
 
-It works just fine if you're returning an `Option`:
+Everything works fine if you're returning an `Option`:
 
 ```rust
 fn get_user_name() -> Option<String> {
@@ -83,12 +83,12 @@ fn get_user_name() -> Option<String> {
 }
 ```
 
-More info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-)
-
 So if you can change your function to return an `Option` itself, do so.
 Then you want run into the above error message.
+More info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
 
 But what if you **have** to return a `Result` or if you want to convey more information about the missing value to the caller?
+(Even if `None` is a valid value, it can mean different things in different contexts and sometimes you want to distinguish between them.)
 
 ```rust
 fn get_user_name() -> Result<String, String> {
