@@ -147,7 +147,7 @@ Our problem statement becomes easier:
 
 Turns out, there are multiple solutions!
 
-## Solution 1: change `Option` to `Result`
+## Solution 1: change the return type 
 
 If "not having a value" is truly an error condition in your program's logic, you should use `Result` instead of `Option`. `Option` is best used when the absence of a value is a normal, expected possibility, not an error state.
 
@@ -269,7 +269,7 @@ That's why I believe that `let-else` is the best solution for handling `None` in
 
 ## Conclusion
 
-Use this syntax:
+For most cases, I prefer this syntax:
 
 ```rust
 let Some(value) = some_function() else {
