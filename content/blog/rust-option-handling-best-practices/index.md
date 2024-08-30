@@ -21,8 +21,7 @@ Jump to the end if you're in a hurry and just need a quick recommendation.
 
 ## The Problem
 
-There are situations where you want to return early if you encounter `None` in an `Option`.
-Very commonly, people want to write code like this where they use the `?` operator to propagate errors:
+Very commonly, people write code like this:
 
 ```rust
 // Assume that this fetches the user from somewhere
@@ -37,6 +36,9 @@ fn get_user_name() -> Result<String> {
     Ok(user)
 }
 ```
+
+The goal here is to return early if you encounter `None` in an `Option` so
+they use the `?` operator to propagate errors. 
 
 Alas, this code doesn't compile. Instead, you get a dreaded error message: 
 
@@ -64,45 +66,6 @@ There's a lot of visual noise in this error message. The `FromResidual` and `Yee
 **And all we did was try to use the `?` operator for our `Option`.**
 
 My main gripe with this error message is that it doesn't explain *why* the `?` operator doesn't work with `Option` in that case... just that it doesn't.
-
-## The Actual Problem
-
-What the compiler is trying to tell us is that **you can't propagate optionals within functions which return `Result`**.
-
-Everything works just fine if you're returning an `Option` instead:
-
-```rust
-fn get_user_name() -> Option<String> {
-    // Works :)
-    let user = get_user()?;
-    // Do something with `user`
-    // ...
-    Some(user)
-}
-```
-
-So if you can change your function to return an `Option` instead, do so; then you won't run into the above error message.
-There's more info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
-
-But what if the final return type of your function has to be a `Result`
-or if you want to convey more information about the missing value to the caller?
-After all,  communicating the distinction between different `None` values can be important. 
-
-So, what if your code looks like this?
-
-```rust
-fn get_user_name() -> Result<String, String> {
-    // Doesn't work because we return a `Result`
-    let user = get_user()?;
-    // Some more, fallible operations, here
-    // ...
-    // Return a `Result`
-    Ok(user)
-}
-```
-
-Well that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
-Types need to match, so how do you convert the `Option` to a `Result`?
 
 ## What People End Up Doing
 
@@ -141,38 +104,75 @@ It's okay to use `unwrap()` when you can prove that a failure is impossible or w
 
 Okay, I've kept you waiting long enough. Let's demystify this error message.
 
-## Why doesn't `?` just work when mixing `Result` and `Option`?
 
-The `?` operator [takes any type that implements the `Try` trait](https://doc.rust-lang.org/std/ops/trait.Try.html),
-so why doesn't it work in this case? 
+## The Actual Problem
 
-Well, when mixing `Result` and `Option`, the `?` operator doesn't know what to do with `None`.
+What the compiler is trying to tell us is that **you can't propagate optionals within functions which return `Result`**.
 
-Remember, `Option` is defined like this:
+Everything works just fine if you're returning an `Option` instead:
 
 ```rust
-enum Option<T> {
-    Some(T),
-    None,
+fn get_user_name() -> Option<String> {
+    // Works :)
+    let user = get_user()?;
+    // Do something with `user`
+    // ...
+    Some(user)
 }
 ```
 
-`None` doesn't have an associated error value. It's just a value that means... "no value".
-The `?` operator wouldn't know what error to return in this case:
+So if you can change your function to return an `Option` instead, do so; then you won't run into the above error message.
+There's more info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
+
+But what if the final return type of your function has to be a `Result`
+or if you want to convey more information about the missing value to the caller?
+After all,  communicating the distinction between different `None` values can be helpful to the user of your function.
+
+So, what if you *really* want your code to look like this?
 
 ```rust
-let value = match my_option {
-    Some(value) => value,
-    None => todo!("What to return here? ¯\_(ツ)_/¯"),
-};
+fn get_user_name() -> Result<String, String> {
+    // Doesn't work because we return a `Result`
+    let user = get_user()?;
+    // Some more, fallible operations, here
+    // ...
+    // Return a `Result`
+    Ok(user)
+}
 ```
 
-Before we move on, it's important to note that if "not having a value" is truly an error condition in your program's logic, you should use `Result` instead of `Option`. `Option` is best used when the absence of a value is a normal, expected possibility, not an error state.
+Well that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
 
-## What's The Solution?
+Our problem statement becomes easier:   
+**How can we return a helpful error message when the `Option` is `None`?**
 
-So how do you return an error to the caller when you have an `Option` but you can't use the `?` operator to handle the `None` case?
 Turns out, there are multiple solutions!
+
+## Solution 1: change `Option` to `Result`
+
+If "not having a value" is truly an error condition in your program's logic, you should use `Result` instead of `Option`. `Option` is best used when the absence of a value is a normal, expected possibility, not an error state.
+
+In our case, if you can change `get_user()` to return a `Result` instead of an `Option`, you can use the `?` operator as you intended:
+
+```rust
+fn get_user() -> Result<String, String> {
+    // ...
+    Ok("Alice".to_string())
+}
+
+fn get_user_name() -> Result<String, String> {
+    let user = get_user()?;
+    // Do something with `user`
+    // ...
+    Ok(user)
+}
+```
+
+However, you might not be able to change `get_user()` to return a `Result` for various reasons,
+for example, if it's part of a library or if it's used in many places.
+In that case, read on!
+
+## Solution 2: `ok_or` 
 
 The initial error message, while cryptic, gave us a hint:
 
@@ -186,14 +186,13 @@ Apparently we can use the `ok_or` method, which converts the `Option` into a `Re
 let user = get_user().ok_or("No user")?;
 ```
 
-As we will find out in a second, I don't think that's the best approach.
-
-On top of that, I find the name `ok_or` unintuitive and needed to look it up many times.
+I find the name `ok_or` unintuitive and needed to look it up many times.
 That's because `Ok` is commonly associated with the `Result` type, not `Option`.
 There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
 because `ok_or(MyError)` reads nicely and I can see why. Guess we have to live with the minor inconsistency now.
 
-## Using `match`
+
+## Solution 3: `match`
 
 In the past, I used to recommend people to not be clever and just use a `match` statement.
 
