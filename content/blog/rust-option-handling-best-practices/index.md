@@ -236,7 +236,7 @@ Unlike a `match` statement where you need to read both arms to understand the in
 This is a clear winner.
 It is way more intuitive for beginners; once they understand the pattern, they use it all the time!
 
-## Bonus: Handling `None` With `anyhow`
+## Bonus: `anyhow`
 
 I wanted to add one honorable mention here.
 
