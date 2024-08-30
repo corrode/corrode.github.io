@@ -1,5 +1,5 @@
 +++
-title = "Don't Unwrap Options: There's A Better Way"
+title = "Don't Unwrap Options: There Are Better Ways"
 date = 2024-08-29
 template = "article.html"
 [extra]
@@ -10,7 +10,10 @@ reviews = [
 ]
 +++
 
-I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust. It has been discussed a million times already, but, surprisingly, not even the Rust book mentions my favorite approach to handling it, and many forum posts are outdated.
+I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust.
+More specifically, the problem arises when you want to return early from a function that returns a `Result` if you encounter `None`.
+
+It has been discussed a million times already, but, surprisingly, not even the Rust book mentions my favorite approach to handling that, and many forum posts are outdated.
 
 With a bit of practice, robust handling of `None` can become as easy as `unwrap()`, but safer. 
 
@@ -30,6 +33,7 @@ fn get_user() -> Option<String> {
 fn get_user_name() -> Result<String> {
     let user = get_user()?;
     // Do something with `user`
+    // ...
     Ok(user)
 }
 ```
@@ -55,52 +59,50 @@ error[E0277]: the `?` operator can only be used on `Result`s, not `Option`s, in 
 
 Ouch. This is scary-looking!
 
-Rust's error messages are often praised for their clarity and helpfulness, but this one falls short of expectations, especially considering how frequently beginners encounter it.
-
 There's a lot of visual noise in this error message. The `FromResidual` and `Yeet` are implementation details which could be confusing to a new user, and the relevant details are somewhat obscured. 
 
-**And all we did was try to use the `?` operator with an `Option`.**
+**And all we did was try to use the `?` operator for our `Option`.**
 
-My main gripe with this error message is that it doesn't explain *why* the `?` operator doesn't work with `Option`... just that it doesn't.
-
-Moreover, it's not trivial to come up with the correct search terms to find the best solution to this problem. [^1]
-
-[^1]: Adding insult to injury, running `rustc --explain E0277` only gives you a very generic explanation about types which don't implement traits. 
-That's not very actionable.
+My main gripe with this error message is that it doesn't explain *why* the `?` operator doesn't work with `Option` in that case... just that it doesn't.
 
 ## The Actual Problem
 
-The gist is: **You can't propagate optionals within functions which return `Result`**.
+What the compiler is trying to tell us is that **you can't propagate optionals within functions which return `Result`**.
 
-Everything works fine if you're returning an `Option`:
+Everything works just fine if you're returning an `Option` instead:
 
 ```rust
 fn get_user_name() -> Option<String> {
     // Works :)
     let user = get_user()?;
     // Do something with `user`
+    // ...
     Some(user)
 }
 ```
 
-So if you can change your function to return an `Option` itself, do so.
-Then you want run into the above error message.
-More info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
+So if you can change your function to return an `Option` instead, do so; then you won't run into the above error message.
+There's more info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-).
 
-But what if you **have** to return a `Result` or if you want to convey more information about the missing value to the caller?
-(Even if `None` is a valid value, it can mean different things in different contexts and sometimes you want to distinguish between them.)
+But what if the final return type of your function has to be a `Result`
+or if you want to convey more information about the missing value to the caller?
+After all,  communicating the distinction between different `None` values can be important. 
+
+So, what if your code looks like this?
 
 ```rust
 fn get_user_name() -> Result<String, String> {
     // Doesn't work because we return a `Result`
     let user = get_user()?;
-    // Do something fallible with `user`
+    // Some more, fallible operations, here
     // ...
+    // Return a `Result`
     Ok(user)
 }
 ```
 
-This can happen when you're dealing with an option that might be `None`, but the final result of the function is a `Result`.
+Well that's just a type error: `get_user()` returns an `Option`, but the outer function expects a `Result`. 
+Types need to match, so how do you convert the `Option` to a `Result`?
 
 ## What People End Up Doing
 
