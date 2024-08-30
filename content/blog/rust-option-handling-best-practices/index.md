@@ -85,7 +85,10 @@ fn get_user_name() -> Option<String> {
 
 More info in the Rust documentation [here](https://doc.rust-lang.org/std/option/index.html#the-question-mark-operator-)
 
-But what if you want to return a `Result`? 
+So if you can change your function to return an `Option` itself, do so.
+Then you want run into the above error message.
+
+But what if you **have** to return a `Result` or if you want to convey more information about the missing value to the caller?
 
 ```rust
 fn get_user_name() -> Result<String, String> {
