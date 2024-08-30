@@ -5,6 +5,9 @@ template = "article.html"
 [extra]
 date = 2024-08-30
 series = "Idiomatic Rust"
+reviews = [
+    { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
+]
 +++
 
 I noticed that handling the `None` variant of `Option` without falling back on `unwrap()` is a common papercut in Rust. It has been discussed a million times already, but, surprisingly, not even the Rust book mentions my favorite approach to handling it, and many forum posts are outdated.
