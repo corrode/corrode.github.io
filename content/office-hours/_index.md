@@ -9,13 +9,15 @@ template = "page.html"
 
 Join us **every Thursday at [4 PM UTC](https://dateful.com/convert/utc?t=4pm)** for Rust Office Hours.
 
-<a class="button" href="https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338">Join Call</a>
-<a class="button" href="/office-hours/ics_rust-in-production-office-hours-2024-09-04-150722.ics">Add to Calendar</a>
+<div style="display: flex; gap: 20px">
+  <a class="button" href="https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338" style="display: inline-block; padding: 20px 40px">Join Call</a>
+  <a class="button" href="/office-hours/ics_rust-in-production-office-hours-2024-09-04-150722.ics" style="display: inline-block; padding: 20px 40px">Add to Calendar</a>
+</div>
 
 ## What to Expect
 
-1. Short introduction round
-2. Q&A session - bring your Rust questions!
+We'll start with a **short introduction round** , followed by a **Q&A session**.
+If you have any questions about Rust in a production context, this is the place to ask them. We'll do our best to help you out.
 
 ## How to Prepare
 
