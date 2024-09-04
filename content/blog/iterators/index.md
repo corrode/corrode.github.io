@@ -3,7 +3,7 @@ title = "Thinking in Iterators"
 date = 2024-05-15
 template = "article.html"
 [extra]
-updated = 2024-07-12
+updated = 2024-09-04
 series = "Idiomatic Rust"
 hero = "hero.svg"
 hero_classes = "invert"
@@ -334,6 +334,14 @@ One reason might be that iterators are more versatile because they can be
 chained and collected into custom types as we have seen
 and they scale well with the complexity of the problem:
 at no point are you forced to use a different API or pattern.
+
+Another reason why I like iterator chains is that naming things is hard.
+With iterators, you don't need to come up with a name for the intermediate
+steps.
+
+Just do me a favor and don't create pipelines which are super hard to read.
+If the iterator chain is too long, or a step in the chain is longer than a few lines, there's no shame in breaking
+it up into multiple steps.
 
 My hope is that I was able to show you how powerful iterator patterns in Rust
 are and they are a powerful stand-in for those list comprehensions you might 
