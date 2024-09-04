@@ -11,9 +11,15 @@ Whether you're a Rust novice or seasoned developer, we're ready to assist you an
 
 Join us and bring your questions. We're looking forward to seeing you there!
 
-## Upcoming Dates
+## Add to Your Calendar
 
 We meet every Thursday at [4 PM UTC](https://dateful.com/convert/utc?t=4pm).
+
+<a class="button" href="/office-hours/ics_rust-in-production-office-hours-2024-09-04-150722.ics">Add to Calendar</a>
+
+The "Add to Calendar" button saves our Office Hours schedule to your calendar. It's a quick way to stay up-to-date with our weekly sessions.
+
+## Upcoming Dates
 
 - August 15th, 22nd, 29th
 - September 5th, 12th, 19th, 26th
