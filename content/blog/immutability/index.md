@@ -3,7 +3,7 @@ title = "Aim For Immutability in Rust"
 date = 2023-09-21
 template = "article.html"
 [extra]
-updated = 2024-08-19
+updated = 2024-09-05
 series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
@@ -28,6 +28,9 @@ is created, it can't be changed &mdash; results in code that is easier to
 understand, refactor and parallelize and it doesn't have to be slow either.
 
 Immutability is an incredible complexity killer.
+
+> Mutable objects are the new spaghetti code. And by that, I mean that you, eventually, with mutable objects, create an intractable mess. And encapsulation does not get rid of that. Encapsulation just means: well, I am in charge of this mess. But the real mess comes from this network that you create of objects that can change, and your inability to look at the state of a system and understand how it got there, how to get it there to test it next time. So it is hard to understand a program where things can change out from underneath you.
+> &mdash; [Rick Hickey](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/ClojureConcurrency.md)
 
 The `mut` should be used sparingly; preferably only in tight scopes.
 
@@ -153,9 +156,11 @@ decision to promote code clarity and safety. By requiring explicit mutability,
 Rust ensures developers are acutely aware of its implications, especially in
 concurrent programming where mutable states can introduce complexity.
 
-While immutability is often touted for its theoretical advantages, its
-real-world application can be less straightforward. Let's explore a concrete
-example to illustrate how an immutable approach can shape our design decisions.
+Mutability means state: a thing can be in one of many states. Immutability means no state: the thing won't change.
+Humans are bad at keeping track of state. That's why immutability is a good default: you don't need all that state in the first place.
+
+The real-world implications of immutability can be less straightforward.
+Let's explore a concrete example to illustrate how an immutable approach can impact our design decisions for the better.
 
 ## Controlling Mutability
 
