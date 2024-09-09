@@ -473,15 +473,43 @@ blockquote {
 
 .button {
     margin: 20px 0;
-    padding: 15px;
+    padding: 15px 20px;
     border-radius: 8px;
     background-color: $brightPrim;
     color: white;
     white-space: nowrap;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        opacity 0.3s ease;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.button:hover {
+    background-color: darken($brightPrim, 10%);
+}
+
+.button:disabled {
+    background-color: $brightPrim;
+    color: white;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .button a {
     color: white;
+    text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .button:disabled {
+        background-color: transparent;
+        color: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+    }
 }
 
 .dark {
