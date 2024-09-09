@@ -46,7 +46,7 @@ My training gets your Rust to production in half the time and trains your team i
 
 {% end %}
 
-## Ready to Make the Most of Rust?
+## Get Expert Help That's Hard To Hire For
 
 <div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
   <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
