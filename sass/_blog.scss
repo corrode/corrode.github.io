@@ -1,0 +1,42 @@
+.blog-list {
+    list-style: none;
+    padding: 0;
+}
+.blog-item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(white, 0.2);
+}
+
+.blog-item:hover {
+    background-color: $darkBgrd;
+}
+
+.blog-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s ease;
+}
+.blog-date {
+    color: $darkPrim;
+    min-width: 100px;
+}
+.blog-title {
+    font-family: "Inter", Arial, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji";
+    font-weight: 400;
+    font-size: 1em;
+    color: white;
+    flex-grow: 1;
+    margin: 0 1rem;
+}
+
+.blog-chevron {
+    $encoded-color: "%23" + str-slice("#{$darkPrim}", 2);
+    width: 25px;
+    height: 25px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='#{$encoded-color}' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A")
+        no-repeat center;
+    transform: rotate(-90deg);
+}
