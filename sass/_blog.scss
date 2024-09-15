@@ -1,19 +1,14 @@
-// Light mode (default)
 .blog-list {
     list-style: none;
     padding: 0;
 }
 
 .blog-item {
-    padding: 10px 0;
     border-bottom: 1px solid rgba($brightPrim, 0.1);
 }
 
-.blog-item:hover {
-    background-color: $brightBgrdLight;
-}
-
 .blog-link {
+    padding: 10px 0;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -22,6 +17,8 @@
 }
 
 .blog-date {
+    font-family: monospace;
+    font-size: 0.8em;
     color: rgba($brightPrim, 0.6);
     min-width: 100px;
 }
@@ -37,12 +34,21 @@
 }
 
 .blog-chevron {
-    $encoded-color: "%23" + str-slice("#{rgba($brightPrim, 0.6)}", 2, -2);
+    $encoded-color: "%23" + str-slice("#{$brightPrim}", 2);
     width: 25px;
     height: 25px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='#{$encoded-color}' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A")
         no-repeat center;
     transform: rotate(-90deg);
+    opacity: 0.6;
+}
+
+.blog-item:hover {
+    background-color: rgba($brightBgrdLight, 0.3);
+
+    .blog-chevron {
+        opacity: 1;
+    }
 }
 
 // Dark mode
