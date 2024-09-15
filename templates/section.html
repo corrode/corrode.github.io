@@ -1,25 +1,30 @@
 {% extends "base.html" %} {% block content %}
 <article class="section-wrapper">
-  <h1>Blog</h1>
-  <p>
-    This is an ongoing series of articles about <b>idiomatic Rust</b> and
-    <b>best practices</b>.<br />
-    Sign up to my newsletter below to be notified when I publish new articles.
-  </p>
-
-  <div>{{ section.content | safe }}</div>
-
-  {% set sorted_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="extra.series") %}
-  
-  {% for series, series_pages in sorted_pages | group_by(attribute="extra.series") %}
-    <h3>{{ series }}</h3>
-    <ul>
-      {% for page in series_pages  %}
-        <li><a href="{{ page.permalink }}">{{ page.title }}</a></li>
-      {% endfor %}
+    <h1>Blog</h1>
+    <p>
+        This is an ongoing series of articles about <b>idiomatic Rust</b> and
+        <b>best practices</b>.<br />
+        Sign up to my newsletter below to be notified when I publish new
+        articles.
+    </p>
+    <div>{{ section.content | safe }}</div>
+    {% set sorted_pages = section.pages | filter(attribute="draft", value=false)
+    | sort(attribute="extra.series") %} {% for series, series_pages in
+    sorted_pages | group_by(attribute="extra.series") %}
+    <h2>{{ series }}</h2>
+    <ul class="blog-list">
+        {% for page in series_pages %}
+        <li class="blog-item">
+            <a href="{{ page.permalink }}" class="blog-link">
+                <time class="blog-date" datetime="{{ page.date }}"
+                    >{{ page.date }}</time
+                >
+                <h3 class="blog-title">{{ page.title }}</h3>
+                <span class="blog-chevron" aria-hidden="true"></span>
+            </a>
+        </li>
+        {% endfor %}
     </ul>
-  {% endfor %}
-
-  {% include "snippets/newsletter.html" %}
+    {% endfor %} {% include "snippets/newsletter.html" %}
 </article>
 {% endblock content %}
