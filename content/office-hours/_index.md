@@ -10,11 +10,9 @@ template = "page.html"
 Join us **every Thursday at [4 PM UTC](https://dateful.com/convert/utc?t=4pm)** for Rust Office Hours.
 
 <div style="display: flex; gap: 20px">
-  <button class="button" disabled style="display: inline-block; padding: 20px 40px">Join Call</button>
-  <button class="button" onclick="window.location.href='/office-hours/ics_rust-in-production-office-hours-2024-09-04-150722.ics';" style="display: inline-block; padding: 20px 40px">Add to Calendar</button>
+  <a class="button" href="https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338" style="display: inline-block; padding: 20px 40px">Join Call</a>
+  <a class="button" href="/office-hours/ics_rust-in-production-office-hours-2024-09-04-150722.ics" style="display: inline-block; padding: 20px 40px">Add to Calendar</a>
 </div>
-
-**Note: Office hours are paused this week for a special podcast recording. We'll resume our regular schedule next week, with the next session on September 19th. We look forward to seeing you then!**
 
 ## What to Expect
 
