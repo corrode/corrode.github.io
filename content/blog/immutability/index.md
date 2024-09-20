@@ -3,7 +3,7 @@ title = "Aim For Immutability in Rust"
 date = 2023-09-21
 template = "article.html"
 [extra]
-updated = 2024-09-05
+updated = 2024-09-20
 series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
@@ -32,7 +32,7 @@ Immutability is an incredible complexity killer.
 > Mutable objects are the new spaghetti code. And by that, I mean that you, eventually, with mutable objects, create an intractable mess. And encapsulation does not get rid of that. Encapsulation just means: well, I am in charge of this mess. But the real mess comes from this network that you create of objects that can change, and your inability to look at the state of a system and understand how it got there, how to get it there to test it next time. So it is hard to understand a program where things can change out from underneath you.
 > &mdash; [Rick Hickey](https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/ClojureConcurrency.md)
 
-The `mut` should be used sparingly; preferably only in tight scopes.
+The `mut` keyword should be used sparingly; preferably only in tight scopes.
 
 This article aims to convince you that **embracing immutability is central to
 writing idiomatic Rust**.
@@ -153,11 +153,11 @@ warning: variable does not need to be mutable
 
 Rust's immutability-by-default is not just a syntactic choice; it's a deliberate
 decision to promote code clarity and safety. By requiring explicit mutability,
-Rust ensures developers are acutely aware of its implications, especially in
-concurrent programming where mutable states can introduce complexity.
+Rust ensures developers are acutely aware of its implications. Especially in
+concurrent programming, where mutable states can introduce complexity, this can be a lifesaver.
 
 Mutability means state: a thing can be in one of many states. Immutability means no state: the thing won't change.
-Humans are bad at keeping track of state. That's why immutability is a good default: you don't need all that state in the first place.
+That's why immutability is a good default: most of the time you don't need all that state in the first place.
 
 The real-world implications of immutability can be less straightforward.
 Let's explore a concrete example to illustrate how an immutable approach can impact our design decisions for the better.
@@ -216,7 +216,7 @@ The idea here was to optimize for performance by keeping track of the total word
 count on insertion, so that we don't have to iterate over all emails every time
 we want to get the word count later. 
 In what may have been a well-intentioned effort to optimize, `emails` and
-`total_word_count` have become tightly coupled.
+`total_word_count` have now become tightly coupled.
 We might refactor the code and forget to update the `total_word_count` field, causing bugs!
 
 ## Immutability In Purely Functional Programming
@@ -262,14 +262,15 @@ The code is a lot easier to reason about and it might not even be slower. While
 lazy evaluation has many advantages, its main drawback is that [memory usage
 becomes hard to predict](https://wiki.haskell.org/Lazy_evaluation).
 
+Which brings us back to Rust.
+
 ## Rust's Pragmatic Approach To Mutability
 
 Rust does not have lazy evaluation, in part due to its focus on predictable
 runtime behavior and its commitment to zero-cost abstractions. Thus, we can't
 rely on the same optimizations as in languages that support lazy evaluation.
 
-Instead, many Rust developers would probably opt for a mutable approach in this
-case.
+Instead, many Rust developers would probably opt for a middle ground:
 
 ```rust
 pub struct Mailbox {
@@ -301,13 +302,16 @@ impl Mailbox {
 ```
 
 We mutate the original `Mailbox`, while now avoiding the `total_word_count`
-field from the original code. The compiler prevents multiple
+field from the original code.
+We don't carry the extra state around, and we calculate the word count on the
+fly when needed.
+
+The compiler prevents multiple
 mutable references to the same data, making this approach safe.
 
 Our Haskell example wasn't a mere detour; it highlighted how an immutable
 mindset can often lead to stronger application design, even outside purely
-functional contexts. By incorporating these principles, Rust guides developers
-towards better abstractions.
+functional contexts. We should strive to embrace immutability in Rust as well.
 
 ## A Word On Performance
 
@@ -344,9 +348,8 @@ pub fn get_word_count(&self) -> usize {
 }
 ```
 
-As you can see, we don't need any mutable state to implement the global word
-count. By using better abstractions, we can achieve equal performance, but
-better ergonomics.
+Even in this case, we don't need any mutable state to implement the global word
+count. Our intuition should be finding better abstractions, not mutating state.
 
 ## Summary
 
