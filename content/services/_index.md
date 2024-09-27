@@ -44,6 +44,16 @@ My training gets your Rust to production in half the time and trains your team i
 &mdash; <a href="https://www.linkedin.com/in/somdip-datta/">Somdip Datta</a>, Financial Engineer and Author
 </p>
 
+<q>
+  Your Rust expertise exceeded my expectations. In just 12 hours, you engineered
+  solutions and taught me key concepts, bridging my zero Rust experience to
+  project confidence. Your ability to explain clearly while coding, combined with
+  excellent communication skills, made our time incredibly valuable.
+</q>
+<p style="text-align:right">
+&mdash; Torry Brelsford 
+</p>
+
 {% end %}
 
 ## Get Expert Help That's Hard To Hire For

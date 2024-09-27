@@ -141,16 +141,11 @@ article .subheading a {
 
 .info-header {
     display: flex;
-    align-items: center;
     gap: 10px;
 }
 
-/* 
-  Ensure that the h4 tag inside .info-header does not 
-  have margins or padding that could offset its alignment.
-*/
 .info-header h4 {
-    margin: 0;
+    margin: 0 0 40px 0;
     padding: 0;
 }
 
