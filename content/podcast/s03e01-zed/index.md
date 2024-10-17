@@ -40,6 +40,7 @@ Before joining Zed, Conrad worked on Superhuman, an email client renowned for it
 - [smol](https://github.com/smol-rs/smol) - Small and fast async runtime for Rust
 - [Glommio](https://github.com/DataDog/glommio) - Thread-per-core Rust async framework with a Linux-specific runtime
 - [isahc](https://crates.io/crates/isahc) - HTTP client library that supports multiple async runtimes
+- [`AsyncRead`, `AsyncWrite` traits](https://github.com/rust-lang/wg-async/issues/23)
 - [Zed Editor YouTube channel](https://www.youtube.com/@zeddotdev) - Official channel for Zed editor tutorials and updates
 - [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) - Parser generator tool and incremental parsing library
 - [Semgrep](https://github.com/semgrep/semgrep) - Static analysis tool for finding and preventing bugs
