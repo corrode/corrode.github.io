@@ -45,7 +45,7 @@ best language for building data infrastructure.
 
 Arroyo was founded in 2022 by Micah Wylde and is based in San Francisco, CA.
 It is backed by [Y Combinator](https://www.ycombinator.com/) (YC W23).
-The companies mission is to accelerate the transition from batch-processing to
+The companies' mission is to accelerate the transition from batch-processing to
 a streaming-first world.
 
 ### About Micah Wylde
