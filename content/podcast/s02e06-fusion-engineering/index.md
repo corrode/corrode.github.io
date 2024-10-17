@@ -3,6 +3,7 @@ title = "Fusion Engineering"
 date = 2024-07-11
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e06"]
 [extra]
 guest = "Jakub Valtar"
 role = "Software Engineer"

@@ -3,6 +3,7 @@ title = "Teaser"
 date = 2023-12-11
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e00"]
 [extra]
 season = "01"
 episode = "00"

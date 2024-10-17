@@ -3,6 +3,7 @@ title = "Matic"
 date = 2024-06-13
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e04"]
 [extra]
 guest = "Eric Seppanen"
 role = "Software Engineer"

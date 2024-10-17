@@ -3,6 +3,7 @@ title = "OxidOS"
 date = 2024-06-27
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e05"]
 [extra]
 guest = "Alexandru Radovici"
 role = "Software Engineer"

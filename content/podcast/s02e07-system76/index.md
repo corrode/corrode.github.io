@@ -3,6 +3,7 @@ title = "System76"
 date = 2024-07-25
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e07"]
 [extra]
 guest = "Jeremy Soller"
 role = "Principal Engineer"

@@ -3,6 +3,7 @@ title = "Season 2 - Finale"
 date = 2024-08-08
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e08"]
 [extra]
 season = "02"
 episode = "08"

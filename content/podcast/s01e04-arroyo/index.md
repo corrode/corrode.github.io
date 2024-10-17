@@ -3,6 +3,7 @@ title = "Arroyo"
 date = 2024-01-25
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e04"]
 [extra]
 guest = "Micah Wylde"
 role = "Co-Founder and CEO"

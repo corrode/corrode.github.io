@@ -3,6 +3,7 @@ title = "Apollo"
 date = 2024-01-11
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e03"]
 [extra]
 guest = "Nicolas Moutschen"
 role = "Staff Software Engineer"

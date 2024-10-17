@@ -3,6 +3,7 @@ title = "curl"
 date = 2024-05-02
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e01"]
 [extra]
 guest = "Daniel Stenberg"
 role = "Open Source Maintainer and Public Speaker"

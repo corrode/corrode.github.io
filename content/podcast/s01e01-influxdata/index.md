@@ -3,6 +3,7 @@ title = "InfluxData"
 date = 2023-12-14
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e01"]
 [extra]
 guest = "Paul Dix"
 role = "Founder and CTO"

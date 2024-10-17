@@ -3,6 +3,7 @@ title = "PubNub"
 date = 2023-12-28
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e02"]
 [extra]
 guest = "Stephen Blum"
 role = "Founder and CTO"

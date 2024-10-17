@@ -3,6 +3,7 @@ title = "Thunderbird"
 date = 2024-05-30
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e03"]
 [extra]
 guest = "Brendan Abolivier"
 role = "Software Engineer"

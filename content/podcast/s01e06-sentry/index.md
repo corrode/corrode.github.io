@@ -3,6 +3,7 @@ title = "Sentry"
 date = 2024-02-22
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e06"]
 [extra]
 guest = "Arpad Borsos"
 role = "Senior Native Platform Engineer"

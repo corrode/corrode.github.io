@@ -3,6 +3,7 @@ title = "AMP"
 date = 2024-05-16
 template = "episode.html"
 draft = false
+aliases = ["/p/s02e02"]
 [extra]
 guest = "Carter Schultz"
 role = "Robotics Architect"

@@ -3,6 +3,7 @@ title = "Tweede Golf"
 date = 2024-02-08
 template = "episode.html"
 draft = false
+aliases = ["/p/s01e05"]
 [extra]
 guest = "Folkert de Vries"
 role = "Systems Software Engineer"
