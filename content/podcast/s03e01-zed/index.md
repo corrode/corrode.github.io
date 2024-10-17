@@ -11,6 +11,8 @@ episode = "01"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-b1a26f96" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/zed-with-conrad-irwin/player.js?size=s"></script></div>
+
 [Next to writing their own operating system](/podcast/s02e07-system76/), another dream shared by many developers is building their own text editor. Conrad Irwin, a software engineer at Zed, is doing just that. Zed is a fully extensible, open-source text editor written entirely in Rust. It's fast, lightweight, and comes with excellent language support out of the box.
 
 In the first episode of the third season, I sit down with Conrad to discuss Zed's mission to build a next-generation text editor and why it was necessary to rebuild the very foundation of text editing software from scratch to achieve their goals.
