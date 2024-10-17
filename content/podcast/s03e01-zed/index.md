@@ -3,6 +3,7 @@ title = "Zed"
 date = 2024-10-17
 template = "episode.html"
 draft = false
+aliases = ["/p/s03e01"]
 [extra]
 guest = "Conrad Irwin"
 role = "Open Source Developer"
