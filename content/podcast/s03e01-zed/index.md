@@ -45,7 +45,7 @@ Before joining Zed, Conrad worked on Superhuman, an email client renowned for it
 - [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) - Parser generator tool and incremental parsing library
 - [Semgrep](https://github.com/semgrep/semgrep) - Static analysis tool for finding and preventing bugs
 - [Zed release changelogs](https://zed.dev/releases/stable) - Official changelog for Zed editor releases
-- [matklad's blog post on Rust workspaces (41m58s): "Flat Is Better Than Nested"](https://matklad.github.io/2021/08/22/large-rust-workspaces.html) - Discusses organizing large Rust projects with a flat structure
+- [matklad's blog post: "Flat Is Better Than Nested"](https://matklad.github.io/2021/08/22/large-rust-workspaces.html) - Discusses organizing large Rust projects with a flat structure
 - [rust-analyzer](https://rust-analyzer.github.io/) - Advanced language server for Rust, providing IDE-like features
 - [Protobuf Rust crate](https://github.com/tokio-rs/prost) - Protocol Buffers implementation for Rust
 - [Postcard](https://github.com/jamesmunns/postcard) - Compact serialization format for Rust, designed for resource-constrained systems
