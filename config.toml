@@ -9,6 +9,7 @@ generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
 [markdown]
+smart_punctuation = true
 highlight_code = true
 highlight_theme = "css"
 highlight_themes_css = [
