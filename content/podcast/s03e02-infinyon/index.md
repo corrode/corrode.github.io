@@ -12,6 +12,8 @@ episode = "02"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-6790863d" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/infinyon-s-debadyuti-roy-chowdhury/player.js?size=s"></script></div>
+
 Picture this: Your organization's data infrastructure resembles a busy kitchen with too many cooks. You're juggling Kafka for messaging, Flink for processing, Spark for analytics, Airflow for orchestration, and various Lambda functions scattered about. Each tool excellent at its job, but together they've created a complex feast of integration challenges. Your data teams are spending more time managing tools than extracting value from data.
 
 InfinyOn reimagines this chaos with a radically simple approach: a unified system for data streaming that runs everywhere. 
@@ -44,7 +46,7 @@ For fifteen years, Deb has been a behavioral detective, piecing together human d
 
 ### Official Links
 
-- [InfyOn](https://infinyon.com/)
+- [InfinyOn](https://infinyon.com/)
 - [Fluvio Distributed Stream Processing](https://www.fluvio.io/)
 - [Deb on LinkedIn](https://www.linkedin.com/in/debadyutirc/)
 
