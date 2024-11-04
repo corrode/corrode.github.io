@@ -66,8 +66,7 @@ My training gets your Rust to production in half the time and trains your team i
 </div>  
 
 Want to share the vision with your team?
-<a href="#tally-open=mRLV0v&tally-layout=modal">Download my free PDF</a>
-for a brief overview of my services and expertise. Available in English and German.
+Download my free PDF for a brief overview of my services and expertise. Available in [English](corrode_rust_team_augmentation_en.pdf) and [German](corrode_rust_team_augmentation_de.pdf).
 
 <script async src="https://tally.so/widgets/embed.js"></script>
 
