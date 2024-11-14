@@ -70,7 +70,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [CockroachDB](https://www.cockroachlabs.com/)
 - [Oxide and Friends: Wither CockroachDB?](https://oxide.computer/podcasts/oxide-and-friends/2052742)
 - [Mozilla Public License](https://choosealicense.com/licenses/mpl-2.0/)
-- [Asahi Linux Rust Drivers](https://asahilinux.org/)
+- [Asahi Linux uses Rust to write drivers](https://asahilinux.org/)
 - [Buck2](https://buck2.build/)
 - [Jujutsu (jj)](https://martinvonz.github.io/jj/) - Git replacement
 - [Steve's Jujutsu Tutorial](https://steveklabnik.github.io/jujutsu-tutorial/introduction/introduction.html)
