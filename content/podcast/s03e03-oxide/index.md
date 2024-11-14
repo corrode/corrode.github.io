@@ -65,7 +65,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [Rust RFCs](https://rust-lang.github.io/rfcs/) - Rust's design process
 - [IETF RFCs](https://en.wikipedia.org/wiki/Request_for_Comments) - Internet standards process
 - [Zig](https://ziglang.org/) - Systems programming language
-- [TigerBeetle](https://tigerbeetle.com/) - Financial accounting database
+- [TigerBeetle](https://tigerbeetle.com/) - Financial accounting database written in Zig
 - [Bun](https://bun.sh/) - JavaScript runtime
 - [CockroachDB](https://www.cockroachlabs.com/) - Distributed SQL database
 - [Oxide and Friends: Wither CockroachDB?](https://oxide.computer/podcasts/oxide-and-friends/2052742) - Podcast episode
