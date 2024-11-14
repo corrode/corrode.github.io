@@ -60,7 +60,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [Dropshot](https://github.com/oxidecomputer/dropshot/) - Oxide's HTTP framework
 - [Axum](https://github.com/tokio-rs/axum) - Web framework for Rust
 - [Oxide Console](https://github.com/oxidecomputer/console) - Oxide's web interface
-- [Oxide Console Preview](https://console-preview.oxide.computer/projects) - Demo of Oxide Console
+- [Oxide Console Preview](https://console-preview.oxide.computer/projects) - Demo of Oxide Console using a mocked backend
 - [Oxide RFD 1](https://rfd.shared.oxide.computer/rfd/0001) - Request for Discussion process
 - [Rust RFCs](https://rust-lang.github.io/rfcs/) - Rust's design process
 - [IETF RFCs](https://en.wikipedia.org/wiki/Request_for_Comments) - Internet standards process
