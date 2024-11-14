@@ -32,13 +32,35 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 
 ### Links From The Show
 
+- [The Rust Programming Language](https://doc.rust-lang.org/book/) book
+- Steve's Rust 1.0 [FOSDEM](https://archive.fosdem.org/2015/schedule/event/the_story_of_rust/) / [ACM](https://www.youtube.com/watch?v=79PSagCD_AY) talk
+- [Signing Party](https://folklore.org/Signing_Party.html?sort=date)
+- [The Soul of a New Machine](https://en.wikipedia.org/wiki/The_Soul_of_a_New_Machine) by Tracy Kidder
+- [I have come to bury the BIOS, not to open it](https://www.osfc.io/2022/talks/i-have-come-to-bury-the-bios-not-to-open-it-the-need-for-holistic-systems/) - Bryan's talk
+- [Beowulf cluster](https://en.wikipedia.org/wiki/Beowulf_cluster)
+- [Bryan's blog post on coming around to Rust](https://bcantrill.dtrace.org/2018/09/18/falling-in-love-with-rust/)
+- [JavaOS](https://en.wikipedia.org/wiki/JavaOS)
+- [D Programming Language](https://dlang.org/)
+- [Garbage Collection in early Rust](https://pcwalton.github.io/_posts/2013-06-02-removing-garbage-collection-from-the-rust-language.html)
+- [Removing green threads in 2014](https://github.com/rust-lang/rfcs/blob/master/text/0230-remove-runtime.md)
+- [Hubris](https://github.com/oxidecomputer/hubris)
+- [Tock OS](https://tockos.org/)
+- [cargo-xtask](https://github.com/matklad/cargo-xtask)
+- [Hubris Build Documentation](https://github.com/oxidecomputer/hubris?tab=readme-ov-file#build)
+- [Buck Build System](https://buck.build/)
+- [Buildomat](https://github.com/oxidecomputer/buildomat)
+- [Omicron](https://github.com/oxidecomputer/omicron)
+- [illumos](https://illumos.org/)
+- [bhyve](https://bhyve.org/)
+- [About Self-hosted Runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
+- [Async Drop Initiative](https://rust-lang.github.io/async-fundamentals-initiative/roadmap/async_drop.html)
+- [Buck2](https://buck2.build/) - Meta build system
+- [Jujutsu (jj)](https://martinvonz.github.io/jj/) - Git replacement
+- [Steve's blog post on branch naming](https://steveklabnik.com/writing/against-names/)
+
 ### Official Links
 
 - [Oxide Computer Company](https://oxide.computer/) - Building servers as they should be
 - [On The Metal Podcast](https://oxide.computer/podcasts/on-the-metal) - Stories from the hardware/software boundary
 - [Steve Klabnik's Blog](https://words.steveklabnik.com/) - Thoughts on programming, Rust, and more
 - [Steve Klabnik on Bluesky](https://bsky.app/profile/steveklabnik.com) - Follow Steve for Rust updates and more
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt Rust. We offer training, consulting, and development services to help you succeed with Rust. If you want to learn more about how we can help you, [please get in touch](/about).
