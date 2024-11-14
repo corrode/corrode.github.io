@@ -32,21 +32,21 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 
 ### Links From The Show
 
-- [The Rust Programming Language](https://doc.rust-lang.org/book/) book
+- [The Rust Programming Language](https://doc.rust-lang.org/book/) ([No Starch Press version](https://nostarch.com/Rust))
 - Steve's Rust 1.0 [FOSDEM](https://archive.fosdem.org/2015/schedule/event/the_story_of_rust/) / [ACM](https://www.youtube.com/watch?v=79PSagCD_AY) talk
 - [Signing Party](https://folklore.org/Signing_Party.html?sort=date)
 - [The Soul of a New Machine](https://en.wikipedia.org/wiki/The_Soul_of_a_New_Machine) by Tracy Kidder
 - [I have come to bury the BIOS, not to open it](https://www.osfc.io/2022/talks/i-have-come-to-bury-the-bios-not-to-open-it-the-need-for-holistic-systems/) - Bryan's talk
 - [Beowulf cluster](https://en.wikipedia.org/wiki/Beowulf_cluster)
-- [Bryan's blog post on coming around to Rust](https://bcantrill.dtrace.org/2018/09/18/falling-in-love-with-rust/)
+- [Bryan Cantrill's blog post on Rust](https://bcantrill.dtrace.org/2018/09/18/falling-in-love-with-rust/)
 - [JavaOS](https://en.wikipedia.org/wiki/JavaOS)
 - [D Programming Language](https://dlang.org/)
 - [Garbage Collection in early Rust](https://pcwalton.github.io/_posts/2013-06-02-removing-garbage-collection-from-the-rust-language.html)
-- [Removing green threads in 2014](https://github.com/rust-lang/rfcs/blob/master/text/0230-remove-runtime.md)
+- [Removing green threads RFC (2014)](https://github.com/rust-lang/rfcs/blob/master/text/0230-remove-runtime.md)
 - [Hubris](https://github.com/oxidecomputer/hubris)
 - [Tock OS](https://tockos.org/)
 - [cargo-xtask](https://github.com/matklad/cargo-xtask)
-- [Hubris Build Documentation](https://github.com/oxidecomputer/hubris?tab=readme-ov-file#build)
+- [Hubris Build Documentation](https://github.com/oxidecomputer/hubris#build)
 - [Buck Build System](https://buck.build/)
 - [Buildomat](https://github.com/oxidecomputer/buildomat)
 - [Omicron](https://github.com/oxidecomputer/omicron)
@@ -54,9 +54,27 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [bhyve](https://bhyve.org/)
 - [About Self-hosted Runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
 - [Async Drop Initiative](https://rust-lang.github.io/async-fundamentals-initiative/roadmap/async_drop.html)
-- [Buck2](https://buck2.build/) - Meta build system
+- [Rust Playground Example for async Rust syntax](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=async+fn+f()+%7B%0A++++await+f()%0A%7D)
+- [Rust Book - Modules](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html)
+- [OpenAPI Specification](https://swagger.io/specification/)
+- [Dropshot](https://github.com/oxidecomputer/dropshot/)
+- [Axum](https://github.com/tokio-rs/axum)
+- [Oxide Web Console](https://github.com/oxidecomputer/console)
+- [Oxide Web Console - Preview](https://console-preview.oxide.computer/projects)
+- [Oxide RFD 1](https://rfd.shared.oxide.computer/rfd/0001)
+- [Rust RFCs](https://rust-lang.github.io/rfcs/)
+- [IETF RFCs](https://en.wikipedia.org/wiki/Request_for_Comments)
+- [Zig](https://ziglang.org/)
+- [TigerBeetle](https://tigerbeetle.com/)
+- [Bun](https://bun.sh/)
+- [CockroachDB](https://www.cockroachlabs.com/)
+- [Oxide and Friends: Wither CockroachDB?](https://oxide.computer/podcasts/oxide-and-friends/2052742)
+- [Mozilla Public License](https://choosealicense.com/licenses/mpl-2.0/)
+- [Asahi Linux Rust Drivers](https://asahilinux.org/)
+- [Buck2](https://buck2.build/)
 - [Jujutsu (jj)](https://martinvonz.github.io/jj/) - Git replacement
-- [Steve's blog post on branch naming](https://steveklabnik.com/writing/against-names/)
+- [Steve's Jujutsu Tutorial](https://steveklabnik.github.io/jujutsu-tutorial/introduction/introduction.html)
+- [Steve's Blog Post on Branch Naming](https://steveklabnik.com/writing/against-names/)
 
 ### Official Links
 
