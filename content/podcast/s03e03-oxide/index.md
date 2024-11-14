@@ -66,7 +66,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [IETF RFCs](https://en.wikipedia.org/wiki/Request_for_Comments) - Internet standards process
 - [Zig](https://ziglang.org/) - Systems programming language
 - [TigerBeetle](https://tigerbeetle.com/) - Financial accounting database written in Zig
-- [Bun](https://bun.sh/) - JavaScript runtime
+- [Bun](https://bun.sh/) - JavaScript toolkit written in Zig
 - [CockroachDB](https://www.cockroachlabs.com/) - Distributed SQL database
 - [Oxide and Friends: Wither CockroachDB?](https://oxide.computer/podcasts/oxide-and-friends/2052742) - Podcast episode
 - [Mozilla Public License](https://choosealicense.com/licenses/mpl-2.0/) - Software license
