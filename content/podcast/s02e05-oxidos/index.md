@@ -31,7 +31,7 @@ OxidOS is a Rust-based secure ecosystem for safety critical automotive ECUs. The
 
 Alexandru Radovici is an Associate Professor at the Politehnica University in Bucharest, Romania, where he has been using Rust to teach for a few years. Alexandru is also one of the maintainers of the Tock embedded operating system, written fully in Rust.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [llvm-cov](https://llvm.org/docs/CommandGuide/llvm-cov.html)
 - [Pietro Albini at Rust Nation UK: "How Ferrocene qualified the Rust Compiler"](https://youtu.be/_ITnWoPvMKA)
@@ -52,10 +52,3 @@ Alexandru Radovici is an Associate Professor at the Politehnica University in Bu
 - [OxidOS](https://oxidos.io/)
 - [Tock](https://tockos.org/)
 - [Alexandru Radovici on LinkedIn](https://www.linkedin.com/in/alexandruradovici/)
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

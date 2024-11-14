@@ -30,7 +30,7 @@ Zed isn't afraid of daunting tasks. Not only have they built a text editor from 
 
 Before joining Zed, Conrad worked on Superhuman, an email client renowned for its speed and efficiency. He is a seasoned developer with a deep understanding of performance optimization and building fast, reliable software. Conrad is passionate about open-source software and is a strong advocate for Rust. He's also an excellent pair-programming partner and invites people to join him while working on Zed.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [Superhuman](https://superhuman.com/) - High-performance email client known for its speed and efficiency
 - [Visual Studio Code](https://code.visualstudio.com/) - Popular, extensible code editor
@@ -66,7 +66,3 @@ Before joining Zed, Conrad worked on Superhuman, an email client renowned for it
 - [Conrad Irwin on GitHub](https://github.com/ConradIrwin)
 - [Conrad Irwin on Twitter](https://twitter.com/conradirwin)
 - [Conrad's Blog](https://cirw.in/)
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt Rust. We offer training, consulting, and development services to help you succeed with Rust. If you want to learn more about how we can help you, [please get in touch](/about).

@@ -34,7 +34,7 @@ Data pipelines are often slow, unreliable, and complex. [InfinyOn](https://infin
 
 For fifteen years, Deb has been a behavioral detective, piecing together human decision-making through conversations, data, and research. His passion lies in product innovation—finding that sweet spot where desirability, viability, and feasibility converge. From 7-person startups to tech giants of 165,000, he helped build products that people love. Deb is currently the VP of Product Management at InfinyOn, where he leads the product strategy and roadmap for Fluvio, a Rust-based data streaming platform.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [Polars](https://pola.rs/) - Fast DataFrame library implemented in Rust
 - [Apache Arrow](https://arrow.apache.org/) - Cross-language development platform for in-memory data
@@ -49,7 +49,3 @@ For fifteen years, Deb has been a behavioral detective, piecing together human d
 - [InfinyOn](https://infinyon.com/)
 - [Fluvio Distributed Stream Processing](https://www.fluvio.io/)
 - [Deb on LinkedIn](https://www.linkedin.com/in/debadyutirc/)
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt Rust. We offer training, consulting, and development services to help you succeed with Rust. If you want to learn more about how we can help you, [please get in touch](/about).

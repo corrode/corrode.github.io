@@ -46,7 +46,7 @@ He has a background in kernel development and high-performance computing with C+
 
 With his calm and insightful demeanor, Eric is the ideal person to talk about Rust's strengths for people with a C++ background.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [Why Rust? It's the Safe Choice](https://maticrobots.com/blog/why-rust-its-the-safe-choice/)
 - [Folkert's episode](https://corrode.dev/podcast/s01e05-tweede-golf/)
@@ -67,10 +67,3 @@ With his calm and insightful demeanor, Eric is the ideal person to talk about Ru
 - [Matic on Twitter](https://twitter.com/maticrobots)
 - [Matic on LinkedIn](https://www.linkedin.com/company/maticrobots/)
 - [Eric Seppanen on LinkedIn](https://www.linkedin.com/in/eric-seppanen-0b1b3b1/)
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

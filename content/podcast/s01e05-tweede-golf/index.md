@@ -54,7 +54,7 @@ low-level protocols that ensure the safety and security of the internet
 and devices connected to it. He is an open source maintainer and polyglot,
 working with and extending languages as diverse as Rust, Elm, and Roc.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [The Roc programming language](https://www.roc-lang.org/)
 - [`ntpd-rs` - Implementation of the Network Time Protocol in Rust](https://github.com/pendulum-project/ntpd-rs)

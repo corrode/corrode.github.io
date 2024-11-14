@@ -46,7 +46,7 @@ Columbia University.
 You can find Paul on [Twitter](https://twitter.com/pauldix) and
 [GitHub](https://github.com/pauldix).
 
-### Links
+### Official Links
 
 - [InfluxData](https://www.influxdata.com/)
 - [Careers at InfluxData](https://www.influxdata.com/careers/)

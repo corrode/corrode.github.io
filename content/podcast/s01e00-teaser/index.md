@@ -43,12 +43,3 @@ core of their time series database in Rust. Stay tuned! We will release the
 first episode on Thursday, December 14th and then biweekly episodes every Thursday.
 
 <!-- more -->
-
-## Show Notes
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

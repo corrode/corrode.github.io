@@ -37,7 +37,7 @@ around the time Rust was created, he now works for
 [WolfSSL](https://www.wolfssl.com/).
 
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
  - [httpget and curl history](https://curl.se/docs/history.html)
  - [AltaVista](https://en.wikipedia.org/wiki/AltaVista)
@@ -65,10 +65,3 @@ around the time Rust was created, he now works for
  - [Daniel's YouTube channel](https://www.youtube.com/user/danielhaxxse)
  - [Daniel Stenberg's blog](https://daniel.haxx.se/blog/)
 
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

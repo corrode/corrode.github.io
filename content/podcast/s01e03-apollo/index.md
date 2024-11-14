@@ -41,7 +41,7 @@ enthusiast and has been using Rust for years at Apollo and at AWS where he worke
 the serverless infrastructure.
 He writes about Rust on his blog [n14n.dev](https://n14n.dev/).
 
-### Links
+### Official Links
 
 - [Apollo Router - High-Performance Federation Runtime Announcement](https://www.apollographql.com/blog/apollo-router-our-new-high-performance-federation-runtime-is-now-available-in-open-preview)
 - [Learn more about Apollo](https://www.apollographql.com/)

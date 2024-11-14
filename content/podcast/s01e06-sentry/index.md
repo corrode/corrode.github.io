@@ -58,7 +58,7 @@ He is an expert in asynchronous programming and gave a talk titled [async fn fro
 Executable](https://www.youtube.com/watch?v=id38OaSPioA) at EuroRust 2023.
 
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [`relay` project](https://github.com/getsentry/relay)
 - [`symbolic` project](https://github.com/getsentry/symbolic)

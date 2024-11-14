@@ -40,7 +40,7 @@ Brendan joined the Thunderbird team in 2023 and has been working on the Rust-bas
 Previously, he worked on the Matrix protocol and the Element chat client.
 He is a strong advocate for open-source software and maintains projects written in Rust, Python, and Go.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [Bringing Exchange Support To Thunderbird](https://blog.thunderbird.net/2024/04/adventures-in-rust-bringing-exchange-support-to-thunderbird/)
 - [element](https://element.io/)
@@ -59,10 +59,3 @@ He is a strong advocate for open-source software and maintains projects written 
 - [Brendan's Homepage](https://brendan.abolivier.bzh)
 - [Brendan on GitHub](https://github.com/babolivier)
 - [Brendan on Twitter](https://x.com/BrenAbolivier)
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

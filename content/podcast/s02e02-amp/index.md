@@ -47,7 +47,7 @@ reliably and efficiently and pushes the boundaries of what is possible with
 technology. He is a charismatic speaker and curious mind with a passion for
 teaching and learning.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [AMP ONE unveiling video](https://youtu.be/aiC-w-gl2Fg)
 - [Air Jet Sorting](https://youtu.be/EhV0QgegjHA)
@@ -70,10 +70,3 @@ teaching and learning.
  - [AMP](https://ampsortation.com)
  - [Carter's personal homepage](https://www.carterschultz.com/)
 
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

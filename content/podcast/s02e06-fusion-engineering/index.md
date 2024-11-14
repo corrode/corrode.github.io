@@ -34,7 +34,7 @@ Their flight controller is designed to meet the most stringent EU regulations, p
 
 Jakub Valtar is a game engine developer turned drone software engineer. He feels comfortable in performance-critical environments and loves the intersection between art and technology. He joined Fusion Engineering to work on control systems for the next generation of drones.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
 
 - [Raspberry Pi Compute Module 4](https://www.raspberrypi.com/products/compute-module-4/)
 - [PID controller](https://en.wikipedia.org/wiki/PID_controller) - Wikipedia article on Proportional-Integral-Derivative controllers
@@ -50,10 +50,3 @@ Jakub Valtar is a game engine developer turned drone software engineer. He feels
 - [Jakub Valtar on GitHub](https://github.com/JakubValtar)
 - [Jakub Valtar on X](https://x.com/jakubvaltar)
 - [Art by Jakub Valtar](https://www.instagram.com/jakubvaltar/)
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).

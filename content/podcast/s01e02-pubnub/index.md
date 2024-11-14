@@ -43,7 +43,7 @@ used by companies like Yahoo!, AOL, and Google. He is the author of several
 books on realtime communications and has been awarded several patents for his
 inventions.
 
-### Links
+### Official Links
 
 - [PubNub](https://www.pubnub.com/)
 - [PubNub on Twitter](https://twitter.com/pubnub)

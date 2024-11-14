@@ -200,10 +200,3 @@ feedback. We are looking forward to the third season and hope you will join us
 again!
 
 Audio editing and mastering by [Simon Brüggen (M3t0r)](https://m3t0r.de/).
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt
-Rust. We offer training, consulting, and development services to help you
-succeed with Rust. If you want to learn more about how we can help you, [please
-get in touch](/about).
