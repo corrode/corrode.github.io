@@ -12,6 +12,8 @@ episode = "03"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-97aa1056" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/oxide-s-steve-klabnik/player.js?size=s"></script></div>
+
 What's even cooler than writing your own [text editor](/podcast/s03e01-zed/) or your own [operating system](/podcast/s02e07-system76/)? Building your own hardware from scratch with all the software written in Rust -- including firmware, the scheduler, and the hypervisor. 
 Oxide Computer Company is one of the most admired companies in the Rust community. They are building "servers as they should be" with a focus on security and performance to serve the needs of modern on-premise data centers.
 
