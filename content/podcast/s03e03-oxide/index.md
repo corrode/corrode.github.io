@@ -57,7 +57,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [Rust Playground Example](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=async+fn+f()+%7B%0A++++await+f()%0A%7D) - Demonstrating helpful error when using prefix `await` operator
 - [Rust Book - Modules](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html) - Rust module system
 - [OpenAPI Specification](https://swagger.io/specification/) - API documentation standard
-- [Dropshot](https://github.com/oxidecomputer/dropshot/) - Oxide's HTTP framework
+- [Dropshot](https://github.com/oxidecomputer/dropshot/) - Oxide's OpenAPI server framework
 - [Axum](https://github.com/tokio-rs/axum) - Web framework for Rust
 - [Oxide Console](https://github.com/oxidecomputer/console) - Oxide's web interface
 - [Oxide Console Preview](https://console-preview.oxide.computer/projects) - Demo of Oxide Console using a mocked backend
