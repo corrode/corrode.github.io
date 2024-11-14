@@ -54,7 +54,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [bhyve](https://bhyve.org/)
 - [About Self-hosted Runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
 - [Async Drop Initiative](https://rust-lang.github.io/async-fundamentals-initiative/roadmap/async_drop.html)
-- [Rust Playground Example for async Rust syntax](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=async+fn+f()+%7B%0A++++await+f()%0A%7D)
+- [Rust Playground Example for helpful error when using prefix `await` operator](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=async+fn+f()+%7B%0A++++await+f()%0A%7D)
 - [Rust Book - Modules](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html)
 - [OpenAPI Specification](https://swagger.io/specification/)
 - [Dropshot](https://github.com/oxidecomputer/dropshot/)
