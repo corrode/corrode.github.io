@@ -14,68 +14,67 @@ Contrary to popular belief, Rust is a joy for building prototypes.
 
 For all its explicitness, Rust is surprisingly ergonomic and practical for prototyping.
 
-With a few tricks you can quickly sketch out a solution and gradually add constraints without the compiler forcing you to work on the edge cases and minute details up front
-or switching languages in the middle of the project.
+With a few tricks, you can quickly sketch out a solution and gradually add constraints without the compiler forcing you to work on edge cases and minute details up front or switch languages in the middle of the project.
 
-## What makes prototyping so important
+## Why You Should Prototype 
 
-Programming is an iterative process and as much as we like to come up with the perfect solution from the start, it's rarely done.
-I found that prototyping solutions helps me a lot in coming up with the best approach, similar to creating a sketch before painting a picture.
+Programming is an iterative process, and as much as we like to come up with the perfect solution from the start, it rarely works that way.
 
-People prototype because they want to explore the design space. 
+In my experience, prototyping solutions helps tremendously in finding the best approach, much like creating a sketch before painting a picture.
 
-This iterative process is not only useful if you're writing a game, but also if you're
-writing a CLI tool where you need to figure out the command line interface or if you're
-writing a library where you need to figure out the API.
+People prototype because they want to explore the design space.
 
-## Why people believe Rust is not good for prototyping
+This iterative process isn't just useful for writing games – it's equally valuable when crafting a CLI tool where you need to figure out the command line interface, or when designing a library where you need to nail down the API.
 
-The common narrative is as follows:
+## Why People Believe Rust Is Not Good For Prototyping
 
-In the beginning of writing a program, you don't know what you want and you change your mind pretty often.
-Rust doesn't like it if you change your mind because the type system is very strict.
+The common narrative goes like this:
+
+When you start writing a program, you don't know what you want and you change your mind pretty often.
+Rust pushes back when you change your mind because the type system is very strict.
 On top of that, getting your idea to compile takes longer than in other languages, so the feedback loop is slower.
-That's why people believe that Rust is not a good language for prototyping.
 
-I found that developers from other languages and Rust beginners often share that preconception about Rust.
+That's why people believe that Rust isn't a good fit for prototyping.
 
-These developers stumble over the strict type system and the borrow checker while they are trying to sketch out a solution.
-
-They believe that with Rust you are either 0% done or 100% done (everything works and has no undefined behavior) and there's nothing in between.
+I've found that developers from other languages and Rust beginners often share this preconception about Rust.
+These developers stumble over the strict type system and the borrow checker while trying to sketch out a solution.
+They believe that with Rust you're either at 0% or 100% done (everything works and has no undefined behavior) and there's nothing in between.
 
 Here's what they believe:
 
 1. You have to define your types up front
 2. Rust requires you to handle errors
-3. Ownership gets in the way
+3. Ownership gets in your way
 4. To add insult to injury, you might have to deal with lifetimes
 
 This is a [common misconception](https://medium.com/@victor.ronin/love-hate-relationship-with-rust-language-part-2-c36f57d5485d) and it's not true.
 
-It turns out that you can skip all but part 1 and still get a lot of value out of Rust. 
-The interaction between types is the central part of the prototyping stage anyway and that's where Rust shines.
-If done right, memory safety does not get in the way of prototyping.
+It turns out you can skip all but part 1 and still get a lot of value out of Rust.
+The interaction between types is the central part of the prototyping stage anyway, and that's where Rust shines.
+If done right, memory safety doesn't get in the way of prototyping.
+Better yet, you can iterate quickly and get from idea to working code in no time.
 
-On top of that, you can iterate quickly and get from idea to working code in no time. 
-
-## Why should you even use Rust for prototyping
+## Problems with Prototyping in Other Languages
 
 If you're happy with a scripting language like Python, you might wonder why you should even consider Rust for prototyping.
-After all, Python is known for its quick feedback loop and its dynamic type system and you can always rewrite the code in Rust later.
+After all, Python is known for its quick feedback loop and dynamic type system, and you can always rewrite the code in Rust later.
 
 Yes, Python is a great choice for prototyping.
-But I've been a Python developer for a long time and I find that I very quickly get out of the "prototype" phase. This is when the language falls apart for me. Exceptions are not obvious, the type system is weak, I make mistakes while refactoring.
+But I've been a Python developer for a long time, and I find that I very quickly get out of the "prototype" phase – this is when the language falls apart for me.
 
-Something I found hard to do in Python was hardening my prototype into a robust, production-ready codebase.  
-I often ended up with functions which could throw exceptions in unexpected places, which I would only find out about when the program crashed in production.
-I found that the really hard bugs in Python are often type-related: deep down in your call-chain the program crashes because you passed the wrong type to a function. 
-It doesn't help that the type system in Python is tacked-on, so it does not help much in catching these errors.
-This happens a lot in practice and it's very frustrating if it happens in a long-running process.
+One thing I found particularly challenging in Python was hardening my prototype into a robust, production-ready codebase.
+Exceptions are not obvious, the type system is weak, and I make mistakes while refactoring.
+I often ended up with functions that could throw exceptions in unexpected places, which I would only discover when the program crashed in production.
+
+I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function.
+
+It doesn't help that Python's type system feels tacked-on, so it doesn't catch these errors effectively.
+This happens frequently in practice, and it's especially frustrating when it occurs in a long-running process.
 
 Even putting these concerns aside, switching languages mid-project is a huge undertaking.
-You might have to work on two codebases at the same time, and you might have to throw away the code you wrote in the first place.
+You might have to maintain two codebases simultaneously, and you might have to throw away the code you wrote in the first place.
 On top of that, Rust follows different idioms than Python, so you might have to rethink the software architecture as well.
-And on top of it all, you have to change build systems, testing frameworks, and deployment pipelines.
+And to make matters worse, you have to change build systems, testing frameworks, and deployment pipelines.
 
 Instead, if you start with Rust, you could:
 
@@ -85,89 +84,94 @@ Instead, if you start with Rust, you could:
 4. lean into Rust's strong type system to catch errors early and help you refactor later
 
 All without having to switch languages during the project!
-It saves you the context switch between languages once you're done with the prototype. You can simply copy over the good parts and rewrite the rest.
+It saves you the context switch between languages once you're done with the prototype – you can simply copy over the good parts and rewrite the rest.
 
 Wouldn't it be nice if you could use the same language for prototyping and production?
 
-## Why Rust is great for prototyping
+## What Makes Rust Great for Prototyping 
 
-Prototyping is a great tool for teaching concepts. I do this all the time with clients.
-I prototype in Rust a lot when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
+Prototyping is a great tool for teaching concepts, and I do this all the time with clients.
+I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
 
-If I allow myself to try a few alternatives rapidly, this leads to more idiomatic code in the long run.
+When I allow myself to try a few alternatives rapidly, this leads to more idiomatic code in the long run.
+It's like sketching out or modeling a design of a physical product: problems become apparent and you can get a feel for the real thing.
+Unlike a sketch or a model, however, the code can be turned into a fully functional version, and that often happens when prototypes make it to production.
 
-It's like sketching out or modeling a design of a physical product: problems become apparent and one can get a feeling for the real thing. 
-Unlike a sketch or a model, however, the code can be turned into a fully functional version and often that happens in reality when prototypes make it to production.
-That's not necessarily a bad thing if the prototype turned out to be robust, but if it isn't, at least Rust gradually guides us towards a better design.
-In a sense it's more like a sketch before the painting.
-I can show it to others and they can give me feedback on it.
+That's not necessarily a bad thing if the prototype turned out to be robust, but if it isn't, at least Rust gradually guides us toward a better design.
+In a sense, it's more like a sketch before the painting – I can show it to others and they can give me feedback on it.
 
-To me it's super nice to have a single language I know well and can do everything with.
-A language that I can learn and understand all the way down to the implementation of the standard library (by going to the source code). Other languages are often written in a different language like C or C++ and it's hard to understand what's going on under the hood.
+To me, it's super nice to have a single language I know well and can do everything with.
+A language that I can learn and understand all the way down to the implementation of the standard library (by going to the source code).
+Other languages are often written in C or C++, and it's hard to understand what's going on under the hood.
 
-When you explore a new language or a new domain, it's helpful to start with a prototype and not aim for a full-fledged production-ready solution right away.
-Otherwise you get stuck in minor details and due to sunken cost fallacy you don't want to throw away the code you wrote so you end up keeping a suboptimal design.
-Rust allows you to do just that.
+When you explore a new language or domain, it's helpful to start with a prototype rather than aiming for a full-fledged production-ready solution right away.
+Otherwise, you get stuck in minor details, and due to sunk cost fallacy, you don't want to throw away the code you wrote, so you end up keeping a suboptimal design.
+
+Rust allows you to avoid these pitfalls.
 
 Perhaps the most important point, however, is that at some point management will say "ship it" and you'll have to live with the code you wrote.
 In an ideal world, you'd have plenty of time to perfect the code, but in reality, deadlines are tight and you have to make compromises.
-If that is the case, a rewrite is often not an option.
+If that's the case, a rewrite is often not an option.
 Rust allows you to have a solid foundation from the beginning.
-With Rust, even the first version is typically good enough for production.
+Even the first version is often good enough for production.
 
-Here are my tips for prototyping in Rust.
+With that out of the way, let's dive into the practical aspects of prototyping in Rust.
 
-## What Rust Prototyping looks like
+## What Rust Prototyping Looks Like
 
 There's an overlap between prototyping and "easy Rust."
 
 You allow yourself to ignore some of the best practices for production code for a while.
 The difference is that you are aware that you are prototyping.
-It's a different mode of thinking: you are exploring! 
+It's a different mode of thinking: you are exploring!
 
 Allow yourself to take some shortcuts.
-During this phase, it is fine to throw away a lot of code and ideas.
+During this phase, it's fine to throw away a lot of code and ideas.
 Fake it before you make it.
 
 We can learn a few things from Python's book:
 
 - fast feedback loop
 - changing your mind is easy
-- it's also simple to use. you don't have to deal with errors: it throws exceptions
+- it's simple to use: you don't have to deal with errors – it throws exceptions
 - there is very little boilerplate
 - easy to change code, experiment, throw away code, refactor
 - you can write a script in a few lines, you don't have to compile it
 
 The goal is to get close to that experience in Rust.
-We want to make changes quick and painless and rapidly iterate on your design without painting ourselves into a corner.  
+We want to make changes quick and painless and rapidly iterate on your design without painting ourselves into a corner.
 
-## Tips and tricks for prototyping in Rust
+## Tips And Tricks For Prototyping In Rust
 
 ### Start small
 
-Turns out you can model a surprisingly large system with just a few types and functions!
-The main idea is to defer all the unnecessary parts to later; by using a "simple Rust" if you will.
+It turns out you can model a surprisingly large system with just a few types and functions!
+The main idea is to defer all the unnecessary parts to later by using a "simple Rust" if you will.
+
 It's possible, but you need to switch off your inner critic who always wants to write perfect code from the beginning.
 Don't let perfect be the enemy of good.
 Rust enables you to comfortably defer perfection.
 You can make the rough edges obvious so that you can sort them out later.
 
 One of the biggest mistakes I observe is an instinct to jump on local debt that itches an engineer's perfectionist side when it doesn't have a broad enough impact to warrant the effort.
-You need to be in a different mode of thinking: you are exploring! Allow yourself to write bad code and fail. Failing is fine if it's fast.
+
+You need to be in a different mode of thinking: you are exploring!
+Allow yourself to write bad code and fail.
+Failing is fine if it's fast.
 Find a lot of ways how not to do it very quickly!
 We need to find a way to get fast feedback.
 
 ### Use simple types
 
-Even while prototyping, the type system is not going away. 
+Even while prototyping, the type system is not going away.
 But we can at least make it easier on ourselves.
 
 Use simple types like i32, String, Vec in the beginning.
 It will get more robust later.
 
-You can always replace `String` with `&str` and `Vec` with `&[T]` later
-in case you'd like to avoid heap allocations and optimize for performance.
-Same with replacing a `Box` with `&` or `&mut`. 
+You can always replace `String` with `&str` and `Vec` with `&[T]` later if you'd like to avoid heap allocations and optimize for performance.
+
+Same goes for replacing a `Box` with `&` or `&mut`.
 
 ### Make use of type inference
 
@@ -196,7 +200,7 @@ TODO: MORE COMPLEX EXAMPLE
 ### Use `unwrap` liberally
 
 It's okay to use `unwrap` in the early stages of your project.
-An explicit `unwrap` is like a stop sign that tells you "here's something you need to fix later." 
+An explicit `unwrap` is like a stop sign that tells you "here's something you need to fix later."
 You can easily grep for `unwrap` while making the code production-ready and replace it with proper error handling.
 This way, you get the best of both worlds: you can quickly iterate on your design without forgetting about potential errors.
 
@@ -205,7 +209,7 @@ This way, you get the best of both worlds: you can quickly iterate on your desig
 Rust is not a scripting language.
 There is a compile step.
 However, for small projects, the compile times are still quite fast.
-You can use a tool like [`bacon`](https://github.com/Canop/bacon) to automatically recompile and run your code whenever you make a change. 
+You can use a tool like [`bacon`](https://github.com/Canop/bacon) to automatically recompile and run your code whenever you make a change.
 This way, you can get almost the same experience as with a REPL in Python or Ruby.
 
 ### Use the Rust playground
@@ -241,13 +245,14 @@ You have to try really hard to write slow code in Rust.
 During the prototype phase, build the simplest solution that could possibly work.
 You can always optimize later.
 
-I gave a talk titled ["The Four Horsemen of Bad Rust Code"](https://github.com/corrode/four-horsemen-talk)
-where I talk about the most common pitfall of overoptimization.
+I gave a talk titled ["The Four Horsemen of Bad Rust Code"](https://github.com/corrode/four-horsemen-talk) where I talk about the most common pitfall of overoptimization.
 
 ### Use `dbg!` and `println!` for debugging 
 
-Even though there are debuggers, I found that printing values is handy while prototyping.
-It's one less context switch to make in comparison to starting a debugger.
+Even though there are debuggers, I find that printing values is handy while prototyping.
+
+It's one less context switch to make compared to starting a debugger.
+
 Just use [`dbg`](https://doc.rust-lang.org/std/macro.dbg.html) to print whole expressions with their value, file name and line numbers.
 
 TODO: EXAMPLE COMPARISON DBG VS PRINTLN
@@ -265,7 +270,8 @@ Don't be afraid to try different ideas until you find something that "clicks."
 
 ### The `todo!` macro
 
-I found that I use [`todo`](https://doc.rust-lang.org/std/macro.todo.html) a lot to sketch out the API.
+I find that I use [`todo`](https://doc.rust-lang.org/std/macro.todo.html) a lot to sketch out the API.
+
 I will just scaffold out the functions or a module and then fill in the blanks later.
 It's like sketching: you don't have to fill in all the details right away and you can come back to it later once the composition is clear.
 
@@ -273,8 +279,8 @@ TODO: EXAMPLE OF TODO MACRO IN VARIOUS PLACES
 
 ### Avoid generics
 
-Generics are a powerful feature of Rust, but they can make the code harder to read
-and write.
+Generics are a powerful feature of Rust, but they can make the code harder to read and write.
+
 In the beginning, you might not know which parts of your application should be generic.
 It's better to be conservative and use concrete types instead of generics.
 
@@ -297,7 +303,8 @@ fn foo(x: i32) -> i32 {
 If you need the same function for a different type, you can copy stuff freely.
 The reason is that you avoid the trap of settling on the wrong type of abstraction too early.
 Maybe the two functions only differ by type signature for now, but they might serve a completely different purpose later on.
-Easier to defer that decision and introduce generics when you see the same pattern emerge in multiple places. 
+
+It's easier to defer that decision and introduce generics when you see the same pattern emerge in multiple places.
 
 Same goes for "fancy" type signatures:
 
@@ -329,14 +336,15 @@ Use owned types like `String` and `Vec` and you can always refactor later.
 Also, use `.clone()` wherever you need to get around it.
 
 If you have a type that you need to move between threads (`Send`), you can use `Arc<Mutex<T>>` to get around the borrow checker.
-If you're worried about performance, remember that other languages like Python or Java make liberal use of heap allocations and cloning and they are still fast enough for most use cases. 
+If you're worried about performance, remember that other languages like Python or Java make liberal use of heap allocations and cloning and they are still fast enough for most use cases.
 
 ### Scoping
 
 I often find myself "abusing" `main` as the place where I write the entire program in.
 That's fine because I can always split it up later.
 I try to move things out into separate functions and modules as soon as it becomes "uncomfortable" to work in `main`.
-By then, I have a clear vision of what the things should be called and how they should interact.
+
+By then, I have a clear vision of what things should be called and how they should interact.
 
 I keep modules in the same file until they grow too large:
 
@@ -366,9 +374,10 @@ I also found that it helps with avoiding long compile times as a single file com
 
 ## Summary
 
-It turns out, even "bad" Rust code is pretty decent in comparison to code I wrote in other languages; it's still safe and fast, covers most cases, and I have an easier time refactoring it later because flaws are more obvious (capital-case types, missing error handling, explicit allocations with `Box` and all).
+It turns out, even "bad" Rust code is pretty decent compared to code I wrote in other languages; it's still safe and fast, covers most cases, and I have an easier time refactoring it later because flaws are more obvious (capital-case types, missing error handling, explicit allocations with `Box` and all).
 
-You can do all of this without sacrificing all the advantages of Rust.
+You can do all of this without sacrificing the advantages of Rust.
+
 Gradual improvement is very pleasant in Rust.
 This way, you get the best of both worlds: you can quickly iterate on your design, but you can also make the code more robust over time.
 
