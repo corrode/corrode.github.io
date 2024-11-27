@@ -404,7 +404,9 @@ Try to build up a vocabulary of concepts and own types which describe your syste
 In the beginning, you won't have a good idea of the types in your system.
 That's fine!
 Start with *something* and quickly sketch out solutions and gradually add constraints to model the business requirements.
-Don't stop until you find a version that feels just right.
+Don't stop until you find a version that feels just right. [^2]
+
+[^2]: I usually know when I found a good abstraction once I can use all of Rust's features like expression-oriented programming and pattern matching together with my own types. The types feel like a natural extension of the language and fit in seamlessly.
 
 Let's look at an example:
 Say you're modeling a student management system.
@@ -633,7 +635,7 @@ thread::spawn(move || {
 
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=4b93a53ebc1d7ee6bc2b39c91543fba7))
 
-### Scoping
+### Use A Flat Module Hierarchy
 
 Your `main.rs` is a great place for the entire prototype. 
 That's fine because you can always split it up later as soon as this becomes "uncomfortable."
@@ -707,6 +709,7 @@ fn main() {
 ```
 
 In general, I try to keep a flat hierarchy in the beginning and only introduce more structure when it becomes necessary.
+See also [Matklad's article on large Rust workspaces](https://matklad.github.io/2021/08/22/large-rust-workspaces.html).
 
 ## Summary
 
