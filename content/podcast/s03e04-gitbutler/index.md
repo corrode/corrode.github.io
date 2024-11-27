@@ -43,7 +43,37 @@ Scott Chacon is a co-founder of GitButler. Previously, he was a co-founder at Gi
 Kiril Videlov is a co-founder and CTO of GitButler. He has a background in software engineering, especially in the fields of fintech and code analysis.
 He is a YC alum and has a Master's degree in Computer Science.
 
-### Links From The Show
+### Links From The Episode (In Chronological Order)
+
+- [sturdy](https://getsturdy.com/) - Kiril's earlier excursion into version control
+- [Why GitHub Actually Won](https://blog.gitbutler.com/why-github-actually-won/) - Comparing git to other version control software
+- [git2-rs](https://github.com/rust-lang/git2-rs) - Rust bindings for libgit2
+- [gitoxide](https://github.com/Byron/gitoxide) - Pure Rust implementation of git
+- [jujutsu](https://github.com/martinvonz/jj) - Alternative frontend to git repositories
+- [jgit](https://www.eclipse.org/jgit/) - Java implementation of git
+- [Git Book - Plumbing and Porcelain](https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain) - Explaining "git porcelain", written by Scott
+- [Tauri](https://tauri.app/) - Desktop App toolkit used by GitButler
+- [The Rust Programming Language](https://doc.rust-lang.org/book/) - A very good introduction to Rust, co-authored by Steve Klabnik
+- [On The Metal: Steve Klabnik](https://oxide.computer/podcasts/on-the-metal) - Steve's Podcast episode
+- [Steve's Jujutsu Tutorial](https://steveklabnik.github.io/jujutsu-tutorial/) - A good introduction to Jujutsu, written by Steve
+- [thiserror](https://github.com/dtolnay/thiserror) - Error crate for libraries
+- [anyhow](https://github.com/dtolnay/anyhow) - Error crate for applications
+- [Bazel](https://bazel.build/) - A fast and correct build system
+- [Flat Module Layout](https://matklad.github.io/2021/08/22/large-rust-workspaces.html) - Matklad's blog post about flat hierarchy in crates
+- [Don't Use Preludes And Globs](/blog/dont-use-preludes-and-globs/) - corrode's advice on not using preludes 
+- [Leptos](https://leptos.dev/) - Build interactive web applications in Rust
+- [Dioxus](https://dioxuslabs.com/) - Rust GUI toolkit for web, desktop, mobile, and more
+- [Slint](https://slint-ui.com/) - Declarative Rust GUI toolkit
+- [Svelte](https://svelte.dev/) - JS frontend framework used by GitButler
+- [Zed](https://zed.dev/) - An editor with their very own UI toolkit
+- [Rust in Production: Zed](/podcast/s03e01-zed) - Podcast episode with Conrad Irwin from Zed
+- [Atom](https://github.com/atom/atom) - The hackable text editor
+- [Tauri IPC Guide](https://tauri.app/concept/inter-process-communication/) - How Tauri handles messages between front and backend
+- [Clippy](https://github.com/rust-lang/rust-clippy) - Rust's official linter
+- [Simple Made Easy](https://www.infoq.com/presentations/Simple-Made-Easy/) - Rich Hickey's talk that Kiril watched more than 10 times
+- [Labradoodle](https://en.wikipedia.org/wiki/Labradoodle) - A dog breed
+- [I Will Survive](https://en.wikipedia.org/wiki/I_Will_Survive) - Gloria Gaynor's iconic song: "At first I was afraid, I was petrified"
+- [Corsica](https://en.wikipedia.org/wiki/Corsica) - A French southern island
 
 ### Official Links
 
