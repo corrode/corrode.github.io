@@ -51,7 +51,6 @@ He is a YC alum and has a Master's degree in Computer Science.
 - [gitoxide](https://github.com/Byron/gitoxide) - Pure Rust implementation of git
 - [jujutsu](https://github.com/martinvonz/jj) - Alternative frontend to git repositories
 - [jgit](https://www.eclipse.org/jgit/) - Java implementation of git
-- [Git Book - Plumbing and Porcelain](https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain) - Explaining "git porcelain", written by Scott
 - [Tauri](https://tauri.app/) - Desktop App toolkit used by GitButler
 - [The Rust Programming Language](https://doc.rust-lang.org/book/) - A very good introduction to Rust, co-authored by Steve Klabnik
 - [On The Metal: Steve Klabnik](https://oxide.computer/podcasts/on-the-metal) - Steve's Podcast episode
