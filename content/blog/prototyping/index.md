@@ -4,6 +4,7 @@ date = 2024-11-27
 draft = false
 template = "article.html"
 [extra]
+hero = "hero.svg"
 series = "Idiomatic Rust"
 resources = [
     "[Excellent article on the topic for another perspective](https://vorner.github.io/2020/09/20/throw-away-code.html)",
