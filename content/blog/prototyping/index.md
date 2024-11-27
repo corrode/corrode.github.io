@@ -396,13 +396,15 @@ If you're interested, here are [more details on how to use that handy `dbg!` mac
 
 ### Play With Types
 
+Quite frankly, the type system is one of the main reasons I love Rust.
+It feels great to express my ideas in types and see them come to life.
+I would encourage you to heavily lean into the type system during the prototyping phase.
+
+Try to build up a vocabulary of concepts and own types which describe your system. 
 In the beginning, you won't have a good idea of the types in your system.
 That's fine!
-
-Try to build up a vocabulary of concepts and types to describe your system. 
-Start with *something*, even if you can't come up with the best types yet.
-Then quickly sketch out solutions and gradually add constraints to model the business requirements.
-Don't be afraid to try different ideas until you find something that feels right. 
+Start with *something* and quickly sketch out solutions and gradually add constraints to model the business requirements.
+Don't stop until you find a version that feels just right.
 
 Let's look at an example:
 Say you're modeling a student management system.
