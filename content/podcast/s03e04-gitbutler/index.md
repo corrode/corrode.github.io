@@ -12,6 +12,7 @@ episode = "04"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-4553b0d1" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/gitbutler-with-scott-chacon-and-kiril-videlov/player.js?size=s"></script></div>
 Version control is a critical part of any modern software project
 and git is the most popular tool for the job. But it can be complex and
 confusing, especially for beginners.
