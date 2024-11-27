@@ -12,8 +12,17 @@ episode = "04"
 series = "Podcast"
 +++
 
-Version control is a critical part of any software project and because of that, developers don't like switching version control systems.
+Version control is a critical part of any modern software project
+and git is the most popular tool for the job. But it can be complex and
+confusing, especially for beginners.
 
+The team behind GitButler believes there is a better way.
+
+They are building a modern Git client that streamlines the process
+of managing branches, backing up your work, and more. We hear from co-founders
+Scott Chacon and Kiril Videlov about how they're making Git easier for everyone
+-- all without sacrificing the power and flexibility that makes Git so popular in
+the first place.
 
 <!-- more -->
 
