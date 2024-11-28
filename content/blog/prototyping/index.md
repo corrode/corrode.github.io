@@ -183,7 +183,7 @@ Here's a quick reference for common prototype-to-production type transitions:
 | `Arc<Mutex<T>>`  | `&mut T`            | When you can guarantee exclusive access and don't need thread safety               |
 | `String`         | `Cow<'static, str>` | When you want to optimize string reuse or avoid allocations                        |
 
-The prototype versions are easier to work with since they sidestep most ownership and lifetime issues.
+These owned types sidestep most ownership and lifetime issues, but they do it by allocating memory on the heap - just like Python or JavaScript would.
 You can always refactor when you need to optimize for performance or tighten up resource usage, but chances are you won't need to.
 
 ### Make use of type inference
