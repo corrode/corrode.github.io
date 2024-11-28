@@ -552,7 +552,7 @@ fn foo(x: String) -> String {
 Chances are, you won't need the flexibility at all.
 
 In summary, generics are powerful, but they can make the code harder to read and write.
-Stay clear of them until you have a good idea of what you're doing. 
+Avoid them until you have a clear idea of what you're doing. 
 
 ### Ownership
 
