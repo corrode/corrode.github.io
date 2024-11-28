@@ -363,7 +363,7 @@ It's one less context switch to make compared to starting a debugger.
 
 Most people use `println!` for that, but [`dbg!`](https://doc.rust-lang.org/std/macro.dbg.html) has a few advantages:
 
-- It prints the file name and line number where the macro is called.
+- It prints the file name and line number where the macro is called. This helps you quickly find the source of the output.
 - It outputs the expression as well as its value.
 - It's less syntax-heavy than `println!`; e.g. `dbg!(x)` vs. `println!("{x:?}")`.
 - It's only active in debug builds, so you don't have to worry about removing it later.
