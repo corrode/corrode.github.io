@@ -366,7 +366,7 @@ Most people use `println!` for that, but [`dbg!`](https://doc.rust-lang.org/std/
 - It prints the file name and line number where the macro is called. This helps you quickly find the source of the output.
 - It outputs the expression as well as its value.
 - It's less syntax-heavy than `println!`; e.g. `dbg!(x)` vs. `println!("{x:?}")`.
-- It's only active in debug builds, so you don't have to worry about removing it later.
+- It's only active in debug builds, so it has no performance impact for releases. 
 
 Where `dbg!` really shines is in recursive functions or when you want to see the intermediate values during an iteration:
 
