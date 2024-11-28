@@ -112,7 +112,7 @@ Otherwise, you get stuck in minor details, and due to sunk cost fallacy, you don
 
 Rust allows you to avoid these pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
 
-Perhaps the most important point, however, is that at eventually management will say "ship it" and you'll have to live with the code you wrote.
+Perhaps the most important point, however, is that eventually management will say "ship it" and you'll have to live with the code you wrote.
 In an ideal world, you'd have plenty of time to perfect the code, but in reality, deadlines are tight and you have to make compromises.
 If that's the case, a rewrite is often not an option.
 Rust allows you to have a solid foundation from the beginning.
