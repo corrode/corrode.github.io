@@ -72,8 +72,8 @@ I often ended up with functions that could throw exceptions in unexpected places
 I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function. This happens frequently in practice, and it's especially frustrating when it occurs in a long-running process
 after hours or days of operation.
 
-It doesn't help that Python's type system feels tacked-on, so it won't catch these bugs effectively
-unless you spend some extra time on type annotations, which, of course, you don't do in the prototype phase.
+It doesn't help that Python's type system feels tacked-on (because it is), so it won't catch these bugs effectively
+unless you spend serious extra time on type annotations and fine tuning the Mypy config, which, of course, you don't do in the prototype phase.
 
 Even putting these concerns aside, switching languages mid-project is a huge undertaking.
 Maybe you'll have to maintain two codebases simultaneously for a while.
