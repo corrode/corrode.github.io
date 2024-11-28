@@ -66,7 +66,7 @@ Yes, Python is a great choice for prototyping.
 But I've been a Python developer for a long time, and I find that I very quickly grow out of the "prototype" phase – which is when the language falls apart for me.
 
 One thing I found particularly challenging in Python was hardening my prototype into a robust, production-ready codebase.
-Exceptions are not obvious, the type system is weak, and I make mistakes while refactoring.
+Exception sources are not obvious, the type system is weak, and I make mistakes while refactoring.
 I often ended up with functions that could throw exceptions in unexpected places, which I would only discover when the program crashed in production.
 
 I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function. This happens frequently in practice, and it's especially frustrating when it occurs in a long-running process
