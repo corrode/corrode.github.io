@@ -71,7 +71,7 @@ He is a YC alum and has a Master's degree in Computer Science.
 - [Tauri IPC Guide](https://tauri.app/concept/inter-process-communication/) - How Tauri handles messages between front and backend
 - [Clippy](https://github.com/rust-lang/rust-clippy) - Rust's official linter
 - [Simple Made Easy](https://www.infoq.com/presentations/Simple-Made-Easy/) - Rich Hickey's talk that Kiril watched more than 10 times
-- [Labradoor](https://en.wikipedia.org/wiki/Labrador_Retriever) - A magical dog breed
+- [Labrador](https://en.wikipedia.org/wiki/Labrador_Retriever) - A magical dog breed
 - [I Will Survive](https://en.wikipedia.org/wiki/I_Will_Survive) - Gloria Gaynor's iconic song: "At first I was afraid, I was petrified"
 - [Corsica](https://en.wikipedia.org/wiki/Corsica) - A French southern island
 
