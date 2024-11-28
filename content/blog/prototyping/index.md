@@ -84,7 +84,7 @@ Wouldn't it be nice if you could use the same language for prototyping and produ
 
 If you start with Rust, you could:
 
-1. gradually improve the code quality by following the cargo's and [clippy's](https://doc.rust-lang.org/clippy/) suggestions
+1. gradually improve the code quality by following cargo's and [clippy's](https://doc.rust-lang.org/clippy/) suggestions
 2. start with a robust codebase from the get-go
 3. ship the prototype for early feedback
 4. lean into Rust's strong type system to catch errors early and help you refactor later
