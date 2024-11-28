@@ -72,7 +72,7 @@ He is a YC alum and has a Master's degree in Computer Science.
 - [Clippy](https://github.com/rust-lang/rust-clippy) - Rust's official linter
 - [Simple Made Easy](https://www.infoq.com/presentations/Simple-Made-Easy/) - Rich Hickey's talk that Kiril watched more than 10 times
 - [Labrador](https://en.wikipedia.org/wiki/Labrador_Retriever) - A magical dog breed
-- [I Will Survive](https://en.wikipedia.org/wiki/I_Will_Survive) - Gloria Gaynor's iconic song: "At first I was afraid, I was petrified"
+- [I Will Survive](https://www.youtube.com/watch?v=6dYWe1c3OyU) - Gloria Gaynor's iconic song
 - [Corsica](https://en.wikipedia.org/wiki/Corsica) - A French southern island
 
 ### Official Links
