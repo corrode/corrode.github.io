@@ -273,7 +273,7 @@ fn main() {
 ```
 
 See all those unwraps?
-They stand out like a sore thumb -- and that's a good thing!
+To more experienced Rustaceans, they stand out like a sore thumb -- and that's a good thing!
 Each `unwrap` is a stop sign that tells us that we have to be careful here.
 
 Compare that to languages like JavaScript which can throw exceptions your way at any time.
