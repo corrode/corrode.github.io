@@ -283,7 +283,7 @@ At the very least, it costs time. Time you could spend on more important things.
 While prototyping with Rust, you can safely ignore error handling and focus on
 the happy path without losing track of potential flaws.
 
-### Use `cargo-watch` or `bacon` for quick feedback cycles
+### Use `bacon` for quick feedback cycles
 
 Rust is not a scripting language; there is a compile step!
 
@@ -307,6 +307,9 @@ bacon
 And just like that, you can get some pretty compilation output alongside your code editor.
 
 ![bacon](bacon.png)
+
+Oh, and in case you were wondering, `cargo-watch` was another popular tool for
+this purpose, but it's since been deprecated.
 
 ### Use the Rust playground
 
