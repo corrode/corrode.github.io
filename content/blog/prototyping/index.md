@@ -206,7 +206,7 @@ The system scales well with more complex types, so you can use this technique ev
 let x: Vec<i32> = vec![1, 2, 3];
 let y: Vec<i32> = vec![4, 5, 6];
 
-// Rust can infer the type of z
+// Rust can infer the item type of z
 let z = x.iter().chain(y.iter()).collect::<Vec<_>>();
 ```
 
