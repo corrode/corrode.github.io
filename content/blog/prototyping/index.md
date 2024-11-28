@@ -118,7 +118,7 @@ If that's the case, a rewrite is often not an option.
 Rust allows you to have a solid foundation from the beginning.
 Even the first version is often good enough for production.
 
-Phew, with that out of the way, let's finally dive into the practical aspects of prototyping in Rust.
+Phew, with that out of the way, let's finally dive into the practical aspects of prototyping in Rust!
 
 ## What Rust Prototyping Looks Like
 
