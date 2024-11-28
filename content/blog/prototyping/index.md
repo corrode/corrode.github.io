@@ -344,9 +344,13 @@ You have to try really really hard to write slow code in Rust.
 Use that to your advantage: during the prototype phase, try to keep the code as simple as possible; you can always optimize later.
 
 I gave a talk titled ["The Four Horsemen of Bad Rust Code"](https://github.com/corrode/four-horsemen-talk) where I
-mentioned that premature optimization is one of the worst things you can do in Rust. 
+argue that premature optimization is one of the biggest sins in Rust. 
+
 Especially experienced developers coming from C or C++ might be tempted to optimize too early.
-While prototyping, this can obfuscate simpler designs and make refactoring harder later on.
+
+Rust makes code perform well by default - you get memory safety at virtually zero runtime cost. When developers try to optimize too early, they often fight the borrow checker by using complex lifetime annotations and intricate reference patterns in pursuit of better performance.
+This leads to harder-to-maintain code that may not actually run faster.
+
 Resist the urge to optimize too early.
 You will thank yourself later. [^1]
 
