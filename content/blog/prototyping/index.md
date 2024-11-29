@@ -1,6 +1,6 @@
 +++
 title = "Prototyping in Rust"
-date = 2024-11-27
+date = 2024-11-29
 draft = false
 template = "article.html"
 [extra]
@@ -66,21 +66,15 @@ Yes, Python is a great choice for prototyping.
 But I've been a Python developer for a long time, and I find that I very quickly grow out of the "prototype" phase – which is when the language falls apart for me.
 
 One thing I found particularly challenging in Python was hardening my prototype into a robust, production-ready codebase.
-Exception sources are not obvious, the type system is weak, and I make mistakes while refactoring.
-I often ended up with functions that could throw exceptions in unexpected places, which I would only discover when the program crashed in production.
+I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function. 
+Because of that, I find myself wanting to switch to something more robust as soon as my prototype starts to take shape. 
 
-I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function. This happens frequently in practice, and it's especially frustrating when it occurs in a long-running process
-after hours or days of operation.
-
-It doesn't help that Python's type system feels tacked-on (because it is), so it won't catch these bugs effectively
-unless you spend serious extra time on type annotations and fine tuning the Mypy config, which, of course, you don't do in the prototype phase.
-
-Even putting these concerns aside, switching languages mid-project is a huge undertaking.
+The problem is that switching languages mid-project is a huge undertaking.
 Maybe you'll have to maintain two codebases simultaneously for a while.
 On top of that, Rust follows different idioms than Python, so you might have to rethink the software architecture.
 And to make matters worse, you have to change build systems, testing frameworks, and deployment pipelines as well.
 
-Wouldn't it be nice if you could use the same language for prototyping and production?
+Wouldn't it be nice if you could use a single language for prototyping and production?
 
 If you start with Rust, you could:
 
