@@ -35,13 +35,11 @@ article img {
   margin-left: -5%;
 }
 
-/* Class for natural-sized images */
 article img.natural {
   max-width: 100%;
   margin-left: 0;
 }
 
-/* Remove margin-left in case image is part of a list item (li) */
 article li img {
   display: block;
   margin-left: 0;
@@ -92,11 +90,17 @@ article li pre {
   }
 }
 
+.article-heading h2 {
+  font-size: 2.5em;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
 .article-hero img {
   width: 100%;
   height: auto;
   max-height: 650px;
-  /* Crop image to fit the container */
   object-fit: cover;
 }
 
