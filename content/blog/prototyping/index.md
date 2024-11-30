@@ -8,6 +8,7 @@ hero = "hero.svg"
 series = "Idiomatic Rust"
 resources = [
     "[Excellent article on the topic for another perspective](https://vorner.github.io/2020/09/20/throw-away-code.html)",
+    "[RustConf 2021 - The Importance of Not Over-Optimizing in Rust by Lily Mara](https://www.youtube.com/watch?v=CV5CjUlcqsw)",
 ]
 +++
 
@@ -151,7 +152,7 @@ Rust enables you to comfortably defer perfection.
 You can make the rough edges obvious so that you can sort them out later.
 
 One of the biggest mistakes I observe is an engineer's perfectionist instinct to jump on minor details which don't have a broad enough impact to warrant the effort.
-Take a step back and focus on the big picture.
+It's better to have a working prototype with a few rough edges than a perfect implementation of a small part of the system.
 
 Remember, you are exploring!
 Use a coarse brush to paint the landscape first.
@@ -230,6 +231,12 @@ println!("What type is banana? {}", categorized.get("banana").unwrap());
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fac339eecef40b69b919a1670a0a53df))
 
 It's not easy to visualize the structure of `categorized` in your head, but Rust can do it for you!
+
+To make that part easier on yourself, be sure to use enable inlay hints (or inline type hints) in your editor.
+This way, you can quickly see the inferred types and make sure they match your expectations.
+There's support for this in most Rust IDEs, including [RustRover](https://www.jetbrains.com/help/rust/viewing-reference-information.html#inlay-hints) and [Visual Studio Code](https://code.visualstudio.com/docs/typescript/typescript-editing#_inlay-hints).
+
+![Inlay hints in Rust Rover](inlay-hints.png)
 
 ### Use `unwrap` liberally
 
@@ -400,66 +407,81 @@ Quite frankly, the type system is one of the main reasons I love Rust.
 It feels great to express my ideas in types and see them come to life.
 I would encourage you to heavily lean into the type system during the prototyping phase.
 
-Try to build up a vocabulary of concepts and own types which describe your system. 
 In the beginning, you won't have a good idea of the types in your system.
 That's fine!
 Start with *something* and quickly sketch out solutions and gradually add constraints to model the business requirements.
-Don't stop until you find a version that feels just right. [^2]
+Don't stop until you find a version that feels just right.
+You know you've found a good abstraction when your types feel like a natural extension of the language. [^2]
+Try to build up a vocabulary of concepts and own types which describe your system. 
 
-[^2]: I usually know when I found a good abstraction once I can use all of Rust's features like expression-oriented programming and pattern matching together with my own types. The types feel like a natural extension of the language and fit in seamlessly.
+[^2]: I usually know when I found a good abstraction once I can use all of Rust's features like expression-oriented programming and pattern matching together with my own types.
 
-Let's look at an example:
-Say you're modeling a student management system.
-You might start with a `Student` type and a `Course` type. 
+Wrestling with Rust's type system might feel slower at first compared to more dynamic languages, but it often leads to fewer iterations overall.
+Think of it this way: in a language like Python, each iteration might be quicker since you can skip type definitions, but you'll likely need more iterations as you discover edge cases and invariants that weren't immediately obvious.
+In Rust, the type system forces you to think through these relationships up front. Although each iteration takes longer, you typically need fewer of them to arrive at a robust solution.
+
+This is exactly what we'll see in the following example.
+
+Say you're modeling course enrollments in a student system. You might start with something simple:
 
 ```rust
-struct Student {
-    name: String,
-    age: u8,
-    courses: Vec<Course>,
-}
-
-struct Course {
-    name: String,
-    teacher: String,
-    students: Vec<Student>,
+struct Enrollment {
+    student: StudentId,
+    course: CourseId,
+    is_enrolled: bool,
 }
 ```
 
-When you try to create actual instances, you'll run into issues because:
+But then requirements come in: some courses are very popular.
+More students want to enroll than there are spots available,
+so the school decides to add a waitlist.
 
-- Each `Course` contains entire `Student` structs (not references)
-- Each `Student` contains entire `Course` structs (not references)
-
-This means if you wanted to add a student to multiple courses, you'd need to duplicate the entire Student struct for each course. And if you update a student's information (like their age), you'd need to update it in every Course they're in.
-You built a circular dependency that's hard to resolve with this design.
-
-After giving it some thought, you might realize that the relationship between students and courses is many-to-many.
-You can then refactor the code to look like this: 
+Easy, let's just add another boolean flag!
 
 ```rust
-struct Student {
-    name: String,
-    age: u8,
+struct Enrollment {
+    student: StudentId,
+    course: CourseId,
+    is_enrolled: bool,
+    is_waitlisted: bool, // 🚩 uh oh
 }
+```
 
-struct Course {
-    name: String,
-    teacher: String,
+The problem is that both boolean flags could be set to `true`!
+This design allows invalid states where a student could be both enrolled and waitlisted.
+
+Think for a second how we could leverage Rust's type system to make this impossible...
+
+Here's one attempt:
+
+```rust
+enum EnrollmentStatus {
+    Active {
+        date: DateTime<Utc>,
+    },
+    Waitlisted {
+        position: u32,
+    },
 }
 
 struct Enrollment {
-    student: Rc<Student>,
-    course: Rc<Course>,
+    student: StudentId,
+    course: CourseId,
+    status: EnrollmentStatus,
 }
 ```
 
-This is a more flexible design that allows you to model more complex relationships between students and courses.
+Now we have a clear distinction between an active enrollment and a waitlisted enrollment.
+What's better is that we encapsulate the details of each state in the enum variants.
+We can never have someone on the waitlist without a waitlist position. 
 
-Iterating on your data model is a crucial part of the prototyping phase.
-The result of this phase is not the code itself, but a deeper understanding of the problem domain.
-You can then use this knowledge to build a more robust and maintainable solution.
-So don't be afraid to play around with types and refactor your code as you go.
+This is just *one* example of how we could model enrollments, but just think about how much more complicated this would be in a dynamic language or a language that doesn't support tagged unions like Rust does.
+
+In summary, iterating on your data model is the crucial part of any prototyping phase.
+The result of this phase is not the code, but a *deeper understanding of the problem domain itself*.
+You can harvest this knowledge to build a more robust and maintainable solution.
+
+So, never be afraid to play around with types and refactor your code as you go.
 
 ### The `todo!` Macro
 
@@ -635,47 +657,49 @@ thread::spawn(move || {
 
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=4b93a53ebc1d7ee6bc2b39c91543fba7))
 
-### Use A Flat Module Hierarchy
+### Keep A Flat Hierarchy
 
-Your `main.rs` is a great place for the entire prototype. 
-That's fine because you can always split it up later as soon as this becomes "uncomfortable."
-By then, you have a clear vision of what things should be called and how they should interact.
+Your `main.rs` is your best friend when prototyping. 
 
-I keep modules in the same file until they grow too large:
+Stuff your code in there -- no need for modules or complex organization yet. This makes it easy to experiment and move things around.
+
+#### First draft: everything in the main scope
 
 ```rust
-mod foo {
-    pub fn bar() {
-        println!("Hello from foo::bar");
+struct Config {
+    port: u16,
+}
+fn load_config() -> Config {
+    Config { port: 8080 }
+}
+struct Server {
+    config: Config,
+}
+impl Server {
+    fn new(config: Config) -> Self {
+        Server { config }
+    }
+    fn start(&self) {
+        println!("Starting server on port {}", self.config.port);
     }
 }
-
-mod baz {
-    pub fn qux() {
-        println!("Hello from baz::qux");
-    }
-}
-
 fn main() {
-    foo::bar();
-    baz::qux();
+    let config = load_config();
+    let server = Server::new(config);
+    server.start();
 }
 ```
 
-This allows me to quickly move around in the codebase (as it's just one file) and also move code around by just cutting and pasting from one scope to another.
-It's very cheap.
-The individual modules can be moved to their own files later.
+Once you have a better feel for your code's structure, Rust's `mod` keyword becomes a handy tool for sketching out potential organization. You can nest modules right in your main file.
 
-On top of that, the individual modules can be treated like a black box.
-When I'm working on a library, this helps me to quickly test the API and see if the naming makes sense and if the modules are structured correctly.
-E.g. I might have a `config` module with a `load` function that returns a `Config` struct, which gets used by the `server` module to start the server. 
+
+#### Later: experiment with module structure in the same file
 
 ```rust
 mod config {
     pub struct Config {
         pub port: u16,
     }
-
     pub fn load() -> Config {
         Config { port: 8080 }
     }
@@ -683,32 +707,27 @@ mod config {
 
 mod server {
     use crate::config;
-
     pub struct Server {
         config: config::Config,
     }
-
     impl Server {
         pub fn new(config: config::Config) -> Self {
             Server { config }
         }
-
         pub fn start(&self) {
             println!("Starting server on port {}", self.config.port);
         }
     }
 }
-
-use server::Server;
-
-fn main() {
-    let config = config::load();
-    let server = Server::new(config);
-    server.start();
-}
 ```
 
-In general, I try to keep a flat hierarchy in the beginning and only introduce more structure when it becomes necessary.
+This inline module structure lets you quickly test different organizational patterns.
+You can easily move code between scopes with cut and paste, and experiment with different APIs and naming conventions.
+Once a particular structure feels right, you can move modules into their own files.
+
+The key is to keep things simple until it calls for more complexity.
+Start flat, then add structure incrementally as your understanding of the problem grows.
+
 See also [Matklad's article on large Rust workspaces](https://matklad.github.io/2021/08/22/large-rust-workspaces.html).
 
 ## Summary
@@ -722,5 +741,20 @@ This way, you get the best of both worlds: you can quickly iterate on your desig
 You can do all of this without sacrificing the advantages of Rust.
 
 It turns out, even "bad" Rust code is pretty decent compared to code I wrote in other languages; it's still safe and fast, covers most cases, and I have an easier time refactoring it later because flaws are more obvious (capital-case types, missing error handling, explicit allocations with `Box` and all).
+
+If you have any more tips or tricks for prototyping in Rust, [get in touch](/about) and I'll add them to the list!
+
+
+## Summary
+
+The beauty of prototyping in Rust is that your "rough drafts" are often already production-worthy.
+Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code is still memory-safe and reasonably fast.
+
+Quite frankly, Rust makes for an excellent prototyping language if you embrace its strengths.
+Yes, the type system will make you think harder about your design up front - but that's actually a good thing!
+Each iteration might take a bit longer than in Python or JavaScript, but you'll typically need fewer iterations to reach a solid design.
+
+I've found that my prototypes in other languages often hit a wall where I need to switch to something more robust.
+With Rust, I can start simple and gradually turn that proof-of-concept into production code, all while staying in the same language and ecosystem.
 
 If you have any more tips or tricks for prototyping in Rust, [get in touch](/about) and I'll add them to the list!
