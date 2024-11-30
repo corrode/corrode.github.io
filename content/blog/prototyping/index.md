@@ -732,21 +732,6 @@ See also [Matklad's article on large Rust workspaces](https://matklad.github.io/
 
 ## Summary
 
-That's it!
-
-Rust makes for an all-around great language, from prototyping all the way to production.
-
-Gradual improvement is very pleasant in Rust.
-This way, you get the best of both worlds: you can quickly iterate on your design, but you can also make the code more robust over time.
-You can do all of this without sacrificing the advantages of Rust.
-
-It turns out, even "bad" Rust code is pretty decent compared to code I wrote in other languages; it's still safe and fast, covers most cases, and I have an easier time refactoring it later because flaws are more obvious (capital-case types, missing error handling, explicit allocations with `Box` and all).
-
-If you have any more tips or tricks for prototyping in Rust, [get in touch](/about) and I'll add them to the list!
-
-
-## Summary
-
 The beauty of prototyping in Rust is that your "rough drafts" are often already production-worthy.
 Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code is still memory-safe and reasonably fast.
 
