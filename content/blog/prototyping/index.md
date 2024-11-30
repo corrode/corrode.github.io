@@ -1,20 +1,23 @@
 +++
 title = "Prototyping in Rust"
-date = 2024-11-29
+date = 2024-11-30
 draft = false
 template = "article.html"
 [extra]
-hero = "hero.svg"
+# hero = "hero.svg"
 series = "Idiomatic Rust"
 resources = [
     "[Excellent article on the topic for another perspective](https://vorner.github.io/2020/09/20/throw-away-code.html)",
     "[RustConf 2021 - The Importance of Not Over-Optimizing in Rust by Lily Mara](https://www.youtube.com/watch?v=CV5CjUlcqsw)",
 ]
+reviews = [
+    { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
+]
 +++
 
 Contrary to popular belief, Rust is a joy for building prototypes.
 
-For all its explicitness, Rust is surprisingly ergonomic and practical for prototyping.
+For all its explicitness, Rust is surprisingly ergonomic for iterating on ideas.
 
 With a few tricks, you can quickly sketch out a solution and gradually add constraints without the compiler forcing you to work on edge cases and minute details up front or switch languages in the middle of the project.
 
@@ -25,10 +28,9 @@ Programming is an iterative process.
 
 In my experience, prototyping solutions helps tremendously in finding the best approach before committing to a design.
 
-This iterative process isn't just useful for writing games – it's equally valuable when crafting a CLI tool where you need to figure out the command line interface, or when designing a library where you need to nail down the API.
+This iterative process isn't just useful for writing games – it's equally valuable for writing CLI tools, or when designing a library where you need to nail down the API.
 
-**People prototype because they want to explore the design space.
-When done right, this process leads to more idiomatic code.**
+People prototype because they want to explore the design space. When done right, this process leads to more idiomatic code.
 
 ## Why People Believe Rust Is Not Good For Prototyping
 
@@ -46,15 +48,14 @@ They believe that with Rust you're either at 0% or 100% done (everything works a
 
 Here are some typical misbeliefs: 
 
-1. Rust always requires you to handle errors.
-2. Memory safety gets in the way of prototyping.
-3. Ownership and borrowing take out the fun of prototyping.
-4. You have to get all the details right from the beginning. 
+1. Memory safety and prototyping just don't go together. 
+2. Ownership and borrowing take out the fun of prototyping.
+3. You have to get all the details right from the beginning. 
+4. Rust always requires you to handle errors.
 
 These are all [common misconceptions](https://medium.com/@victor.ronin/love-hate-relationship-with-rust-language-part-2-c36f57d5485d) and they are not true. 
 
-It turns out you can avoid all of these pitfalls and still get a lot of value from prototyping in Rust. 
-The interaction between types is the central part of the prototyping stage, and that's where Rust shines compared to other languages.
+**It turns out you can avoid all of these pitfalls and still get a lot of value from prototyping in Rust.**
 
 ## Problems with Prototyping in Other Languages
 
@@ -110,21 +111,21 @@ Rust allows you to avoid these pitfalls by being very explicit about error condi
 Perhaps the most important point, however, is that eventually management will say "ship it" and you'll have to live with the code you wrote.
 In an ideal world, you'd have plenty of time to perfect the code, but in reality, deadlines are tight and you have to make compromises.
 If that's the case, a rewrite is often not an option.
-Rust allows you to have a solid foundation from the beginning.
+Rust allows you to have a solid foundation from the start.
 Even the first version is often good enough for production.
 
-Phew, with that out of the way, let's finally dive into the practical aspects of prototyping in Rust!
+Phew, with that prelude out of the way, let's finally dive into the practical aspects of prototyping in Rust!
 
 ## What Rust Prototyping Looks Like
 
-There's an overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
+There's some overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
 
 You allow yourself to ignore some of the best practices for production code for a while.
 The difference is that you are aware that you are prototyping.
 It's a different mode of thinking: you are exploring!
 
 Allow yourself to take some shortcuts early on.
-During this phase, it's also fine to throw away a lot of code and ideas.
+During this phase, it's also fine to throw away a lot failed attempts. 
 
 Python has a few good traits that we can learn from:
 
@@ -133,30 +134,31 @@ Python has a few good traits that we can learn from:
 - it's simple to use if you ignore the edge cases
 - there is very little boilerplate
 - it's easy to experiment and refactor
-- you can write a script in a few lines
+- you can do something useful in just a few lines
 - no compilation step 
 
 The goal is to get as close to that experience in Rust as possible while staying true to Rust's core principles.
-We want to make changes quick and painless and rapidly iterate on your design without painting ourselves into a corner.
+Let's make changes quick and painless and rapidly iterate on your design without painting ourselves into a corner.
 
 ## Tips And Tricks For Prototyping In Rust
 
 ### Start small
 
-It turns out you can model a surprisingly large system with just a few types and functions!
+It turns out you can model a surprisingly large system in just a few lines of code.
+
 The main idea is to defer all the unnecessary parts to later by using a "simple Rust" if you will.
 
 It's possible, but you need to switch off your inner critic who always wants to write perfect code from the beginning.
-Don't let perfect be the enemy of good.
 Rust enables you to comfortably defer perfection.
 You can make the rough edges obvious so that you can sort them out later.
+Don't let perfect be the enemy of good.
 
 One of the biggest mistakes I observe is an engineer's perfectionist instinct to jump on minor details which don't have a broad enough impact to warrant the effort.
 It's better to have a working prototype with a few rough edges than a perfect implementation of a small part of the system.
 
-Remember, you are exploring!
+Remember: you are exploring!
 Use a coarse brush to paint the landscape first.
-Try to get into a flow state where you can quickly iterate on your design.
+Try to get into a flow state where you can quickly iterate.
 Don't get distracted by the details too early.
 
 ### Use Simple Types
@@ -165,7 +167,7 @@ Even while prototyping, the type system is not going away.
 There are ways to make this a blessing rather than a curse.
 
 Use simple types like `i32`, `String`, `Vec` in the beginning.
-We can always make things more complex later if we need to -- the reverse is much harder.
+We can always make things more complex later if we have to -- the reverse is much harder.
 
 Here's a quick reference for common prototype-to-production type transitions:
 
@@ -178,12 +180,13 @@ Here's a quick reference for common prototype-to-production type transitions:
 | `Arc<Mutex<T>>`  | `&mut T`            | When you can guarantee exclusive access and don't need thread safety               |
 
 These owned types sidestep most ownership and lifetime issues, but they do it by allocating memory on the heap - just like Python or JavaScript would.
-You can always refactor when you need to optimize for performance or tighten up resource usage, but chances are you won't need to.
+
+You can always refactor when you actually need the performance or tighter resource usage, but chances are you won't.
 
 ### Make use of type inference
 
 Rust is a statically, strongly typed language.
-It would be tedious to write out all the types all the time if it weren't for Rust's type inference.
+It would be a deal-breaker to write out all the types all the time if it weren't for Rust's type inference.
 
 You can often omit (also called "elide") the types and let the compiler figure it out from the context.
 
@@ -229,7 +232,7 @@ println!("What type is banana? {}", categorized.get("banana").unwrap());
 
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fac339eecef40b69b919a1670a0a53df))
 
-It's not easy to visualize the structure of `categorized` in your head, but Rust can do it for you!
+It's not easy to visualize the structure of `categorized` in your head, but Rust can figure it out. 
 
 To make that part easier on yourself, be sure to use enable inlay hints (or inline type hints) in your editor.
 This way, you can quickly see the inferred types and make sure they match your expectations.
@@ -241,7 +244,7 @@ There's support for this in most Rust IDEs, including [RustRover](https://www.je
 
 It's okay to use `unwrap` in the early stages of your project.
 An explicit `unwrap` is like a stop sign that tells you "here's something you need to fix later."
-You can easily grep for `unwrap` and replace it with proper error handling when you polish your code.
+You can easily grep for `unwrap` and replace it with proper error handling later when you polish your code.
 This way, you get the best of both worlds: quick iteration cycles and a clear path to robust error handling.
 
 ```rust
@@ -280,17 +283,17 @@ It's much harder to ensure that you handle all the edge-cases correctly.
 At the very least, it costs time. Time you could spend on more important things.
 
 While prototyping with Rust, you can safely ignore error handling and focus on
-the happy path without losing track of potential flaws.
+the happy path without losing track of improvement areas. 
 
 ### Use `bacon` for quick feedback cycles
 
 Rust is not a scripting language; there is a compile step!
 
 However, for small projects, the compile times are negligible.
-Unfortunately, you have to manually run `cargo run` every time you make a change 
+Unfortunately, you have to manually run `cargo check` every time you make a change 
 or use [rust-analyzer](https://rust-analyzer.github.io/) in your editor to get instant feedback.
 
-To fill the gap, you can use external tools like [`bacon`](https://github.com/Canop/bacon) to automatically recompile and run your code whenever you make a change.
+To fill the gap, you can use external tools like [`bacon`](https://github.com/Canop/bacon) which automatically recompiles and runs your code whenever you make a change.
 This way, you can get *almost* the same experience as with a REPL in, say, Python or Ruby.
 
 The setup is simple:
@@ -308,14 +311,14 @@ And just like that, you can get some pretty compilation output alongside your co
 ![bacon](bacon.png)
 
 Oh, and in case you were wondering, `cargo-watch` was another popular tool for
-this purpose, but it's since been deprecated.
+this purpose, but it's since been [deprecated](https://github.com/watchexec/cargo-watch#maintenance).
 
 ### Use the Rust playground
 
 You probably already know about the [Rust Playground](https://play.rust-lang.org).
 It is great for working on small code snippets.
-I find it quite useful for quickly noting down a bunch of functions or types to test out a design idea. 
-The playground doesn't support auto-complete, but it's still great when you're on the go and don't have access to your full-fledged development environment.
+I find it quite useful for quickly jotting down a bunch of functions or types to test out a design idea. 
+The playground doesn't support auto-complete, but it's still great when you're on the go or you'd like to share your code with others. 
 
 ### `cargo-script` is awesome
 
@@ -341,17 +344,17 @@ You can read more about it in the [RFC](https://rust-lang.github.io/rfcs/3424-ca
 ### Don't Worry About Performance
 
 You have to try really really hard to write slow code in Rust.
-Use that to your advantage: during the prototype phase, try to keep the code as simple as possible; you can always optimize later.
+Use that to your advantage: during the prototype phase, try to keep the code as simple as possible.
 
 I gave a talk titled ["The Four Horsemen of Bad Rust Code"](https://github.com/corrode/four-horsemen-talk) where I
 argue that premature optimization is one of the biggest sins in Rust. 
 
-Especially experienced developers coming from C or C++ might be tempted to optimize too early.
+Especially experienced developers coming from C or C++ are tempted to optimize too early.
 
-Rust makes code perform well by default - you get memory safety at virtually zero runtime cost. When developers try to optimize too early, they often fight the borrow checker by using complex lifetime annotations and intricate reference patterns in pursuit of better performance.
+Rust makes code perform well by default - you get memory safety at virtually zero runtime cost. When developers try to optimize too early, they often run up against the borrow checker by using complex lifetime annotations and intricate reference patterns in pursuit of better performance.
 This leads to harder-to-maintain code that may not actually run faster.
 
-Resist the urge to optimize too early.
+Resist the urge to optimize too early!
 You will thank yourself later. [^1]
 
 [^1]: In the talk, I show an example where early over-optimization led to the wrong abstraction and made the code slower. The actual bottleneck was elsewhere and hard to uncover without profiling.
@@ -410,7 +413,7 @@ In the beginning, you won't have a good idea of the types in your system.
 That's fine!
 Start with *something* and quickly sketch out solutions and gradually add constraints to model the business requirements.
 Don't stop until you find a version that feels just right.
-You know you've found a good abstraction when your types feel like a natural extension of the language. [^2]
+You know you've found a good abstraction when your types "click" with the rest of the code. [^2]
 Try to build up a vocabulary of concepts and own types which describe your system. 
 
 [^2]: I usually know when I found a good abstraction once I can use all of Rust's features like expression-oriented programming and pattern matching together with my own types.
@@ -472,9 +475,10 @@ struct Enrollment {
 
 Now we have a clear distinction between an active enrollment and a waitlisted enrollment.
 What's better is that we encapsulate the details of each state in the enum variants.
-We can never have someone on the waitlist without a waitlist position. 
+We can never have someone on the waitlist without a position in said list.
 
-This is just *one* example of how we could model enrollments, but just think about how much more complicated this would be in a dynamic language or a language that doesn't support tagged unions like Rust does.
+Just think about how much more complicated this would be in a dynamic language
+or a language that doesn't support tagged unions like Rust does.
 
 In summary, iterating on your data model is the crucial part of any prototyping phase.
 The result of this phase is not the code, but a *deeper understanding of the problem domain itself*.
@@ -485,10 +489,10 @@ So, never be afraid to play around with types and refactor your code as you go.
 ### The `todo!` Macro
 
 One of the cornerstones of prototyping is that you don't have to have all the answers right away.
-In Rust, I find myself reaching for the [`todo!`](https://doc.rust-lang.org/std/macro.todo.html) macro quite often. 
+In Rust, I find myself reaching for the [`todo!`](https://doc.rust-lang.org/std/macro.todo.html) macro to 
+express that idea.
 
 I will just scaffold out the functions or a module and then fill in the blanks later.
-It's like sketching: you don't have to fill in all the details right away and you can come back to it later once the composition is clear.
 
 ```rust
 // We don't know yet how to process the data
@@ -560,9 +564,9 @@ fn foo<T: AsRef<str>>(x: T) -> String {
 }
 ```
 
-Yes, this allows you to pass in a `&str` or a `String`, but it's also harder to read.
+Yes, this allows you to pass in a `&str` or a `String`, but at the cost of readability. 
 
-Better use an owned type for your first implementation:
+Just use an owned type for your first implementation:
 
 ```rust
 fn foo(x: String) -> String {
@@ -570,7 +574,7 @@ fn foo(x: String) -> String {
 }
 ```
 
-Chances are, you won't need the flexibility at all.
+Chances are, you won't need the flexibility after all.
 
 In summary, generics are powerful, but they can make the code harder to read and write.
 Avoid them until you have a clear idea of what you're doing. 
@@ -578,8 +582,8 @@ Avoid them until you have a clear idea of what you're doing.
 ### Ownership
 
 One major blocker for rapid prototyping is Rust's ownership system.
-If you play by the rules, it can be a bit cumbersome to pass around references and mutable references.
-The compiler is constantly reminding you of ownership and lifetimes and that can break your flow.
+If the compiler constantly reminds you of borrows and lifetimes it can ruin your flow. 
+For example, it's cumbersome to deal with references when you're just trying to get something to work.
 
 ```rust
 // First attempt with references - compiler error!
@@ -617,8 +621,8 @@ help: consider using the `'static` lifetime, but this is uncommon unless you're 
 
 A simple way around that is to avoid lifetimes altogether.
 They are not necessary in the beginning.
-Use owned types like `String` and `Vec` and you can always refactor later.
-Also, use `.clone()` wherever you need to get around it.
+Use owned types like `String` and `Vec`.
+Just `.clone()` wherever you need to pass data around. 
 
 ```rust
 // Much simpler with owned types
@@ -635,7 +639,7 @@ fn create_note() -> Note {  // ✓ just works
 }
 ```
 
-If you have a type that you need to move between threads (i.e. it needs to be `Send`), you can use `Arc<Mutex<T>>` to get around the borrow checker.
+If you have a type that you need to move between threads (i.e. it needs to be `Send`), you can use an `Arc<Mutex<T>>` to get around the borrow checker.
 If you're worried about performance, remember that other languages like Python or Java do this implicitly behind your back.
 
 ```rust
@@ -656,13 +660,16 @@ thread::spawn(move || {
 
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=4b93a53ebc1d7ee6bc2b39c91543fba7))
 
+If you feel like you have to use `Arc<Mutex<T>>` too often, there might be a design issue.
+For example, maybe you can avoid sharing state between threads?
+
 ### Keep A Flat Hierarchy
 
-Your `main.rs` is your best friend when prototyping. 
+`main.rs` is your best friend while prototyping. 
 
 Stuff your code in there -- no need for modules or complex organization yet. This makes it easy to experiment and move things around.
 
-#### First draft: everything in the main scope
+#### First draft: everything in main.rs 
 
 ```rust
 struct Config {
