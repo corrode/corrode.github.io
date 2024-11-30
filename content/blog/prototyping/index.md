@@ -176,7 +176,6 @@ Here's a quick reference for common prototype-to-production type transitions:
 | `Box<T>`         | `&T` or `&mut T`    | When `Box` becomes a bottleneck or you don't want to deal with heap allocations    | 
 | `Rc<T>`          | `&T`                | When the reference counting overhead becomes too expensive or you need mutability  | 
 | `Arc<Mutex<T>>`  | `&mut T`            | When you can guarantee exclusive access and don't need thread safety               |
-| `String`         | `Cow<'static, str>` | When you want to optimize string reuse or avoid allocations                        |
 
 These owned types sidestep most ownership and lifetime issues, but they do it by allocating memory on the heap - just like Python or JavaScript would.
 You can always refactor when you need to optimize for performance or tighten up resource usage, but chances are you won't need to.
