@@ -15,22 +15,15 @@ reviews = [
 ]
 +++
 
+Programming is an iterative process - as much as we like to come up with the perfect solution from the start, it rarely works that way.
+
+The process of prototyping helps reveal the patterns behind more idiomatic code.
+
+Whether you're writing games, CLI tools, or designing library APIs, prototyping helps tremendously in finding the best approach before committing to a design.
+
 Contrary to popular belief, Rust is a joy for building prototypes.
 
-For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas.
-
-With a few tricks, you can quickly sketch out a solution and gradually add constraints without the compiler forcing you to work on edge cases and minute details up front or switch languages in the middle of the project.
-
-## Benefits of Prototyping
-
-As much as we like to come up with the perfect solution from the start, it rarely works that way.
-Programming is an iterative process.
-
-In my experience, prototyping solutions helps tremendously in finding the best approach before committing to a design.
-
-This iterative process isn't just useful for writing games – it's equally valuable for writing CLI tools, or when designing a library where you need to nail down the API.
-
-People prototype because they want to explore the design space. When done right, this process leads to more idiomatic code.
+For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas -- let me invite you to see why.
 
 ## Why People Believe Rust Is Not Good For Prototyping
 
@@ -59,10 +52,20 @@ These are all [common misconceptions](https://medium.com/@victor.ronin/love-hate
 
 ## What Makes Rust Great for Prototyping 
 
-### Great Teaching Tool
+### Solid Foundation From The Beginning
 
-I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
-It's a great way to test my implicit assumptions before I invest too much time in a flawed design. 
+In an ideal world, you'd have plenty of time to perfect your code, but in reality, deadlines are tight and you have to make compromises.
+
+Eventually management will say "ship it" and you'll have to live with the code you wrote.
+If that's the case, a rewrite is often not an option.
+
+Rust allows you to have a solid foundation from the start.
+Even the first version is often good enough for production.
+
+### Strong Safety Guarantees 
+
+Rust allows you to avoid many pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
+This saves you a lot of time hunting down bugs later on.
 
 ### Single Language for Everything
 
@@ -70,23 +73,16 @@ To me, it's super nice to have a single language I know well and can use for all
 A language that I can learn and understand all the way down to the implementation of the standard library itself (simply by reading to the source code).
 Other languages are often written in C/C++, and it's hard to understand what's going on under the hood.
 
-### Explicit Safety Guarantees 
+### Great Teaching Tool
 
-Rust allows you to avoid many pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
-
-### Solid Foundation From The Beginning
-
-Perhaps the most important point, however, is that eventually management will say "ship it" and you'll have to live with the code you wrote.
-In an ideal world, you'd have plenty of time to perfect the code, but in reality, deadlines are tight and you have to make compromises.
-If that's the case, a rewrite is often not an option.
-Rust allows you to have a solid foundation from the start.
-Even the first version is often good enough for production.
+I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
+It's a great way to test my assumptions before I invest too much time in a flawed design. 
 
 ## Problems with Prototyping in Other Languages
 
 If you're happy with a scripting language like Python, why bother with Rust?
 
-That's a fair question.
+That's a fair question!
 After all, Python is known for its quick feedback loop and dynamic type system, and you can always rewrite the code in Rust later.
 
 Yes, Python is a great choice for prototyping.
@@ -96,36 +92,28 @@ One thing I found particularly challenging in Python was hardening my prototype 
 I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function. 
 Because of that, I find myself wanting to switch to something more robust as soon as my prototype starts to take shape. 
 
-The problem is that switching languages mid-project is a huge undertaking.
+The problem is that switching languages mid-project is a *huge* undertaking.
 Maybe you'll have to maintain two codebases simultaneously for a while.
 On top of that, Rust follows different idioms than Python, so you might have to rethink the software architecture.
 And to make matters worse, you have to change build systems, testing frameworks, and deployment pipelines as well.
 
 Wouldn't it be nice if you could use a single language for prototyping and production?
 
-## What A Good Rust Prototyping Workflow Looks Like
+## What A Solid Rust Prototyping Workflow Looks Like
 
-If you start with Rust, you could:
+If you start with Rust, you get a lot of benefits out of the box:
 
-1. start with a robust codebase from the get-go
-2. lean into Rust's strong type system to catch errors early and help you refactor later
-3. gradually improve the code quality by following rustc's and [clippy's](https://doc.rust-lang.org/clippy/) suggestions
-4. ship the prototype for early feedback
+1. A robust codebase right from the start
+2. Strong type system that catches errors early and helps with refactoring
+3. Built-in linting (rustc and [clippy]) to gradually improve code quality
+4. The ability to ship prototypes for early feedback
+
+[clippy]: https://doc.rust-lang.org/clippy/
 
 All without having to change languages mid-project!
 It saves you the context switch between languages once you're done with the prototype.
 
 <img src="flow.svg" alt="flow" class="natural">
-
-
-There's some overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
-
-You allow yourself to ignore some of the best practices for production code for a while.
-The difference is that you are aware that you are prototyping.
-It's a different mode of thinking: you are exploring!
-
-Allow yourself to take some shortcuts early on.
-During this phase, it's also fine to throw away a lot failed attempts. 
 
 Python has a few good traits that we can learn from:
 
@@ -144,9 +132,9 @@ Let's make changes quick and painless and rapidly iterate on your design without
 
 ### Start small
 
-It turns out you can model a surprisingly large system in just a few lines of code.
+There's some overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
 
-The main idea is to defer all the unnecessary parts to later by using a "simple Rust" if you will.
+Allow yourself to ignore some of the best practices for production code for a while.
 
 It's possible, but you need to switch off your inner critic who always wants to write perfect code from the beginning.
 Rust enables you to comfortably defer perfection.
@@ -160,6 +148,7 @@ Remember: you are exploring!
 Use a coarse brush to paint the landscape first.
 Try to get into a flow state where you can quickly iterate.
 Don't get distracted by the details too early.
+During this phase, it's also fine to throw away a lot failed attempts. 
 
 ### Use Simple Types
 
@@ -483,6 +472,8 @@ or a language that doesn't support tagged unions like Rust does.
 In summary, iterating on your data model is the crucial part of any prototyping phase.
 The result of this phase is not the code, but a *deeper understanding of the problem domain itself*.
 You can harvest this knowledge to build a more robust and maintainable solution.
+
+It turns out you can model a surprisingly large system in just a few lines of code.
 
 So, never be afraid to play around with types and refactor your code as you go.
 
