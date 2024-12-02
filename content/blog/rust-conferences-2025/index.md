@@ -46,7 +46,9 @@ Oh, and in case the call for proposals (CFP) is still open, why not submit a tal
 
 ### Rust Nation (London, UK)
 
-![Rust Nation](rustnation.jpg)
+<a href="https://www.rustnationuk.com/" target="_blank">
+  <img src="rustnation.jpg" alt="Rust Nation" />
+</a>
 
 Rust Nation has evolved into a staple event in the Rust community.
 The organization, speaker lineup, and recordings are always top-notch.
@@ -66,7 +68,9 @@ As per tradition, they kick off the year of Rust conferences.
 
 ### Rustikon (Warsaw, Poland)
 
-![Rustikon](rustikon.jpg)
+<a href="https://www.rustikon.dev/" target="_blank">
+  <img src="rustikon.jpg" alt="Rustikon" />
+</a>
 
 This is the first Rust conference in Poland.
 It aims to bring together Rust developers from the region and beyond.
@@ -85,7 +89,9 @@ Expect a developer-friendly atmosphere with ~15 expert talks in a single-track f
 
 ### RustAsia
 
-![RustAsia](rustasia.jpg)
+<a href="https://rustasiaconf.com/" target="_blank">
+  <img src="rustasia.jpg" alt="RustAsia" />
+</a>
 
 Another first-time event, RustAsia is a conference for Rust developers in Asia.  
 After many years without a Rust conference in Asia (the last one being RustCon Asia in 2019), the community is excited to have a new event in Hong Kong.
@@ -107,7 +113,9 @@ After many years without a Rust conference in Asia (the last one being RustCon A
 
 ### RustWeek (Utrecht, Netherlands)
 
-![RustWeek](rustweek.jpg)
+<a href="https://rustweek.org/" target="_blank">
+  <img src="rustweek.jpg" alt="RustWeek" />
+</a>
 
 RustWeek is a week-long event that combines talks, workshops, and social events.
 It's located in cozy Utrecht, the fourth-largest city in the Netherlands.
@@ -128,7 +136,9 @@ There is a focus on Rust usage in the industry.
 
 ### Rust Summit (Belgrade, Serbia)
 
-![Rust Summit](rustsummit.jpg)
+<a href="https://rustsummit.com/" target="_blank">
+  <img src="rustsummit.jpg" alt="Rust Summit" />
+</a>
 
 The first conference for Rust blockchain professionals.
 
@@ -149,7 +159,9 @@ blockchain sectors and those who are interested in it.
 
 ### RustConf 
 
-![RustConf](rustconf.jpg)
+<a href="https://rustconf.com/" target="_blank">
+  <img src="rustconf.jpg" alt="RustConf" />
+</a>
 
 RustConf is the official Rust conference organized by the Rust Foundation.
 It's a great place to meet the Rust core team and other community members.
@@ -167,7 +179,9 @@ The last edition was held in Montreal, Canada and the 2025 edition will be annou
 
 ### Oxidize (Berlin, Germany)
 
-![Oxidize](oxidize.jpg)
+<a href="https://oxidizeconf.com/" target="_blank">
+  <img src="oxidize.jpg" alt="Oxidize" />
+</a>
 
 Two days of applied Rust insights from industry innovators.
 Topics range from cross-platform GUI development to Rust in safety-critical systems.
@@ -185,7 +199,9 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 
 ### EuroRust (Paris, France)
 
-![EuroRust](eurorust.jpg)
+<a href="https://eurorust.eu/" target="_blank">
+  <img src="eurorust.jpg" alt="EuroRust" />
+</a>
 
 One of the largest Rust conferences in Europe and a well-established event in
 the Rust community. It's a 2 day conference that covers all things Rust: from
@@ -208,7 +224,9 @@ This time, it's in Paris, France. 🥖
 
 ### RustLab (Florence, Italy)
 
-![RustLab](rustlab.jpg)
+<a href="https://rustlab.it/" target="_blank">
+  <img src="rustlab.jpg" alt="RustLab" />
+</a>
 
 The Italian Rust conference traditionally takes place in Florence.
 It's lovingly organized featuring delicious italian food and a great community.
@@ -224,7 +242,9 @@ It's lovingly organized featuring delicious italian food and a great community.
 
 ### RustFest
 
-![RustFest](rustfest.jpg)
+<a href="https://rustfest.ch/" target="_blank">
+  <img src="rustfest.jpg" alt="RustFest" />
+</a>
 
 - **When**: June 2025 (TBA)
 - **Where**: TBA
