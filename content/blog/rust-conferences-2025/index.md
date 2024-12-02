@@ -253,6 +253,7 @@ It's lovingly organized featuring delicious italian food and a great community.
 - **Previous Location**: Zürich, Switzerland
 - **Status**: To be announced
 - **Links**: [Website](https://rustfest.ch/) 
+- **Social**: [Twitter](https://x.com/rustfest)
 
 ---
 
