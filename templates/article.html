@@ -5,6 +5,9 @@
   <div class="article-heading">
     <h2 class="subheading">{{ page.extra.series }}</h2>
     <h1>{{ page.title }}</h1>
+    {% if page.extra.subtitle %}
+      <h2>&mdash; {{ page.extra.subtitle }}</h2>
+    {% endif %}
 
     {% if page.extra.hero %}
     <div class="article-hero">
