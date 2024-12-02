@@ -7,8 +7,9 @@ template = "article.html"
 # hero = "hero.svg"
 series = "Idiomatic Rust"
 resources = [
-    "[Excellent article on the topic for another perspective](https://vorner.github.io/2020/09/20/throw-away-code.html)",
+    "[Throw away code - Vorner's blog](https://vorner.github.io/2020/09/20/throw-away-code.html)",
     "[RustConf 2021 - The Importance of Not Over-Optimizing in Rust by Lily Mara](https://www.youtube.com/watch?v=CV5CjUlcqsw)",
+    "[Rust Nation UK - Easy Mode Rust by Andre Bogus](https://www.youtube.com/watch?v=33FG6O3qejM)",
 ]
 reviews = [
     { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
@@ -17,15 +18,18 @@ reviews = [
 
 Programming is an iterative process - as much as we like to come up with the perfect solution from the start, it rarely works that way.
 
-The process of prototyping helps reveal the patterns behind more idiomatic code.
-
 Whether you're writing games, CLI tools, or designing library APIs, prototyping helps tremendously in finding the best approach before committing to a design.
+It helps reveal the patterns behind more idiomatic code.
 
 Contrary to popular belief, Rust is a joy for building prototypes.
 
-For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas -- let me invite you to see why.
+For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas and here's why. 
 
-## Why People Believe Rust Is Not Good For Prototyping
+You don't need to be a Rust expert to be productive while prototyping - in fact, many of the techniques we'll discuss specifically help you sidestep Rust's more advanced features.
+
+If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can get a lot of value from prototyping in Rust.
+
+## Why People Think Rust Is Not Good For Prototyping
 
 The common narrative goes like this:
 
@@ -50,7 +54,7 @@ These are all [common misconceptions](https://medium.com/@victor.ronin/love-hate
 
 **It turns out you can avoid all of these pitfalls and still get a lot of value from prototyping in Rust.**
 
-## What Makes Rust Great for Prototyping 
+## What Makes Rust Great for Prototyping?
 
 ### Solid Foundation From The Beginning
 
@@ -223,13 +227,27 @@ println!("What type is banana? {}", categorized.get("banana").unwrap());
 
 It's not easy to visualize the structure of `categorized` in your head, but Rust can figure it out. 
 
-To make that part easier on yourself, be sure to use enable inlay hints (or inline type hints) in your editor.
-This way, you can quickly see the inferred types and make sure they match your expectations.
+### Use A Good IDE
+
+There is great IDE support for Rust.
+
+IDEs can help you with code completion and refactoring, which keep you in the flow and help you write code faster.
+Autocompletion is so much better with Rust than with dynamic languages because the type system gives the IDE a lot more information to work with.
+
+As a corollary to the previous section, be sure to use enable inlay hints (or inline type hints) in your editor.
+This way, you can quickly see the inferred types right inside your IDE and make sure the types match your expectations.
 There's support for this in most Rust IDEs, including [RustRover](https://www.jetbrains.com/help/rust/viewing-reference-information.html#inlay-hints) and [Visual Studio Code](https://code.visualstudio.com/docs/typescript/typescript-editing#_inlay-hints).
 
 ![Inlay hints in Rust Rover](inlay-hints.png)
 
-### Use `unwrap` liberally
+### Use the Rust Playground
+
+You probably already know about the [Rust Playground](https://play.rust-lang.org).
+The playground doesn't support auto-complete, but it's still great when you're on the go or you'd like to share your code with others. 
+
+I find it quite useful for quickly jotting down a bunch of functions or types to test out a design idea. 
+
+### Use `unwrap` Liberally
 
 It's okay to use `unwrap` in the early stages of your project.
 An explicit `unwrap` is like a stop sign that tells you "here's something you need to fix later."
@@ -301,13 +319,6 @@ And just like that, you can get some pretty compilation output alongside your co
 
 Oh, and in case you were wondering, `cargo-watch` was another popular tool for
 this purpose, but it's since been [deprecated](https://github.com/watchexec/cargo-watch#maintenance).
-
-### Use the Rust playground
-
-You probably already know about the [Rust Playground](https://play.rust-lang.org).
-It is great for working on small code snippets.
-I find it quite useful for quickly jotting down a bunch of functions or types to test out a design idea. 
-The playground doesn't support auto-complete, but it's still great when you're on the go or you'd like to share your code with others. 
 
 ### `cargo-script` is awesome
 
@@ -729,20 +740,22 @@ See also [Matklad's article on large Rust workspaces](https://matklad.github.io/
 
 ## Summary
 
+The beauty of prototyping in Rust is that your "rough drafts" are often already production-worthy.
+Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code is still memory-safe and reasonably fast.
+
 Let's see how Rust stacks up against Python for prototyping:
 
 | Aspect                    | Python                                                                                                                             | Rust                                                                                                                      |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | Initial Development Speed | ✓ Very quick to write initial code<br>✓ No compilation step<br>✓ Simple syntax                                                     | ⚠️ Slightly slower initial development<br>✓ Type inference helps<br>✓ Tools like `bacon` provide quick feedback            |
 | Error Handling            | ❌ Silent failures possible<br>❌ Runtime exceptions<br>❌ Type errors discovered late                                                | ✓ Explicit error handling (with `unwrap` for prototypes)<br>✓ Compile-time error catching<br>✓ Type safety from the start |
+| Standard Library          | ✓ Batteries included<br>✓ Rich ecosystem                                                                                           | ❌ Smaller standard library<br>✓ Growing ecosystem of high-quality crates<br>
 | Transition to Production  | ❌ Need extensive testing to catch type errors<br>❌ Often requires rewrite in another language<br>❌ Performance optimization needed | ✓ Same code can go to production<br>✓ Already has good performance<br>✓ Memory safety guaranteed                          |
 | Maintenance               | ❌ Type errors surface during runtime<br>❌ Refactoring is risky<br>❌ Documentation can get out of sync                              | ✓ Compiler catches most issues<br>✓ Safe refactoring with type system<br>✓ Types serve as documentation                   |
 | Debugging                 | ✓ Interactive debugger<br>✓ Easy print debugging                                                            | ✓ `dbg!` macro<br>✓ Compile-time catches most bugs                                                                                                 |
 | Code Evolution            | ❌ Hard to maintain large codebases<br>❌ Type issues compound                                                                      | ✓ Compiler guides improvements<br>✓ Types help manage complexity                         |
 | Collaboration             | ❌ Implicit assumptions about types<br>❌ Easy to break others' code<br>✓ Lower learning curve                                       | ✓ Explicit contracts through types<br>✓ Compiler prevents many conflicts<br>⚠️ Steeper learning curve                      |
 
-The beauty of prototyping in Rust is that your "rough drafts" are often already production-worthy.
-Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code is still memory-safe and reasonably fast.
 
 Quite frankly, Rust makes for an excellent prototyping language if you embrace its strengths.
 Yes, the type system will make you think harder about your design up front - but that's actually a good thing!
