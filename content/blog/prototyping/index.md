@@ -1,6 +1,6 @@
 +++
 title = "Prototyping in Rust"
-date = 2024-12-02
+date = 2024-12-03
 draft = false
 template = "article.html"
 [extra]
@@ -23,11 +23,10 @@ It helps reveal the patterns behind more idiomatic code.
 
 Contrary to popular belief, Rust is a joy for building prototypes.
 
-For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas and here's why. 
+For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas.
 
-You don't need to be a Rust expert to be productive while prototyping - in fact, many of the techniques we'll discuss specifically help you sidestep Rust's more advanced features.
-
-If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can get a lot of value from prototyping in Rust.
+You don't need to be a Rust expert to be productive - in fact, many of the techniques we'll discuss specifically help you *sidestep* Rust's more advanced features.
+If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can quickly bring their ideas to life.
 
 ## Why People Think Rust Is Not Good For Prototyping
 
@@ -539,7 +538,7 @@ So instead of writing this:
 
 ```rust
 fn foo<T>(x: T) -> T {
-    x
+    // ...
 }
 ```
 
@@ -547,7 +546,7 @@ Write this:
 
 ```rust
 fn foo(x: i32) -> i32 {
-    x
+    // ...
 }
 ```
 
@@ -562,7 +561,7 @@ Also avoid "fancy" generic type signatures:
 
 ```rust
 fn foo<T: AsRef<str>>(x: T) -> String {
-    x.as_ref().to_string()
+    // ...
 }
 ```
 
@@ -572,7 +571,7 @@ Just use an owned type for your first implementation:
 
 ```rust
 fn foo(x: String) -> String {
-    x
+    // ...
 }
 ```
 
