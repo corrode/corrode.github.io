@@ -72,7 +72,7 @@ Other languages are often written in C/C++, and it's hard to understand what's g
 
 ### Explicit Safety Guarantees 
 
-Rust allows you to avoid pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
+Rust allows you to avoid many pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
 
 ### Solid Foundation From The Beginning
 
@@ -403,7 +403,7 @@ The output is nice and tidy:
 
 If you're interested, here are [more details on how to use that handy `dbg!` macro](https://edgarluque.com/blog/rust-dbg-macro/).
 
-### Play With Types
+### Design Through Types
 
 Quite frankly, the type system is one of the main reasons I love Rust.
 It feels great to express my ideas in types and see them come to life.
@@ -661,7 +661,7 @@ thread::spawn(move || {
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=4b93a53ebc1d7ee6bc2b39c91543fba7))
 
 If you feel like you have to use `Arc<Mutex<T>>` too often, there might be a design issue.
-For example, maybe you can avoid sharing state between threads?
+For example, you might be able to avoid sharing state between threads.
 
 ### Keep A Flat Hierarchy
 
