@@ -1,6 +1,6 @@
 +++
 title = "Prototyping in Rust"
-date = 2024-11-30
+date = 2024-12-02
 draft = false
 template = "article.html"
 [extra]
@@ -17,11 +17,11 @@ reviews = [
 
 Contrary to popular belief, Rust is a joy for building prototypes.
 
-For all its explicitness, Rust is surprisingly ergonomic for iterating on ideas.
+For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas.
 
 With a few tricks, you can quickly sketch out a solution and gradually add constraints without the compiler forcing you to work on edge cases and minute details up front or switch languages in the middle of the project.
 
-## Why You Should Prototype 
+## Benefits of Prototyping
 
 As much as we like to come up with the perfect solution from the start, it rarely works that way.
 Programming is an iterative process.
@@ -48,14 +48,39 @@ They believe that with Rust you're either at 0% or 100% done (everything works a
 
 Here are some typical misbeliefs: 
 
-1. Memory safety and prototyping just don't go together. 
-2. Ownership and borrowing take out the fun of prototyping.
-3. You have to get all the details right from the beginning. 
-4. Rust always requires you to handle errors.
+1. "Memory safety and prototyping just don't go together."
+2. "Ownership and borrowing take out the fun of prototyping."
+3. "You have to get all the details right from the beginning."
+4. "Rust always requires you to handle errors."
 
 These are all [common misconceptions](https://medium.com/@victor.ronin/love-hate-relationship-with-rust-language-part-2-c36f57d5485d) and they are not true. 
 
 **It turns out you can avoid all of these pitfalls and still get a lot of value from prototyping in Rust.**
+
+## What Makes Rust Great for Prototyping 
+
+### Great Teaching Tool
+
+I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
+It's a great way to test my implicit assumptions before I invest too much time in a flawed design. 
+
+### Single Language for Everything
+
+To me, it's super nice to have a single language I know well and can use for all stages of a project. 
+A language that I can learn and understand all the way down to the implementation of the standard library itself (simply by reading to the source code).
+Other languages are often written in C/C++, and it's hard to understand what's going on under the hood.
+
+### Explicit Safety Guarantees 
+
+Rust allows you to avoid pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
+
+### Solid Foundation From The Beginning
+
+Perhaps the most important point, however, is that eventually management will say "ship it" and you'll have to live with the code you wrote.
+In an ideal world, you'd have plenty of time to perfect the code, but in reality, deadlines are tight and you have to make compromises.
+If that's the case, a rewrite is often not an option.
+Rust allows you to have a solid foundation from the start.
+Even the first version is often good enough for production.
 
 ## Problems with Prototyping in Other Languages
 
@@ -78,45 +103,20 @@ And to make matters worse, you have to change build systems, testing frameworks,
 
 Wouldn't it be nice if you could use a single language for prototyping and production?
 
+## What A Good Rust Prototyping Workflow Looks Like
+
 If you start with Rust, you could:
 
-1. gradually improve the code quality by following rustc's and [clippy's](https://doc.rust-lang.org/clippy/) suggestions
-2. start with a robust codebase from the get-go
-3. ship the prototype for early feedback
-4. lean into Rust's strong type system to catch errors early and help you refactor later
+1. start with a robust codebase from the get-go
+2. lean into Rust's strong type system to catch errors early and help you refactor later
+3. gradually improve the code quality by following rustc's and [clippy's](https://doc.rust-lang.org/clippy/) suggestions
+4. ship the prototype for early feedback
 
-All without having to change languages during the project!
+All without having to change languages mid-project!
 It saves you the context switch between languages once you're done with the prototype.
 
-## What Makes Rust Great for Prototyping 
+<img src="flow.svg" alt="flow" class="natural">
 
-I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
-
-When I allow myself to try a few alternatives rapidly, it leads to more idiomatic code in the long run.
-It's like sketching out or modeling a design of a physical product: problems become apparent and you can get a feel for the real thing.
-Unlike a sketch or a model, however, the code can be turned into a fully functional version, and that often happens when prototypes make it to production.
-
-That's not necessarily a bad thing if the prototype turned out to be robust, but if it isn't, at least Rust gradually guides us toward a better design.
-In a sense, it's like an outline for a book: I can ask others for feedback and improve it over time.
-
-To me, it's super nice to have a single language I know well and can use for all stages of a project. 
-A language that I can learn and understand all the way down to the implementation of the standard library (by going to the source code).
-Other languages are often written in C/C++, and it's hard to understand what's going on under the hood.
-
-When you explore a new language or domain, it's helpful to start with a prototype rather than aiming for a full-fledged production-ready solution right away.
-Otherwise, you get stuck in minor details, and due to sunk cost fallacy, you don't want to throw away the code you wrote, so you end up keeping a suboptimal design.
-
-Rust allows you to avoid these pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
-
-Perhaps the most important point, however, is that eventually management will say "ship it" and you'll have to live with the code you wrote.
-In an ideal world, you'd have plenty of time to perfect the code, but in reality, deadlines are tight and you have to make compromises.
-If that's the case, a rewrite is often not an option.
-Rust allows you to have a solid foundation from the start.
-Even the first version is often good enough for production.
-
-Phew, with that prelude out of the way, let's finally dive into the practical aspects of prototyping in Rust!
-
-## What Rust Prototyping Looks Like
 
 There's some overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
 
@@ -579,7 +579,7 @@ Chances are, you won't need the flexibility after all.
 In summary, generics are powerful, but they can make the code harder to read and write.
 Avoid them until you have a clear idea of what you're doing. 
 
-### Ownership
+### Avoid Lifetimes
 
 One major blocker for rapid prototyping is Rust's ownership system.
 If the compiler constantly reminds you of borrows and lifetimes it can ruin your flow. 
@@ -619,7 +619,7 @@ help: consider using the `'static` lifetime, but this is uncommon unless you're 
 
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7274f20a06226316c93d9984f1d66b5f))
 
-A simple way around that is to avoid lifetimes altogether.
+A simple way around that is to [avoid lifetimes altogether](/blog/lifetimes).
 They are not necessary in the beginning.
 Use owned types like `String` and `Vec`.
 Just `.clone()` wherever you need to pass data around. 
@@ -738,6 +738,18 @@ See also [Matklad's article on large Rust workspaces](https://matklad.github.io/
 
 ## Summary
 
+Let's see how Rust stacks up against Python for prototyping:
+
+| Aspect                    | Python                                                                                                                             | Rust                                                                                                                      |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Initial Development Speed | ✓ Very quick to write initial code<br>✓ No compilation step<br>✓ Simple syntax                                                     | ⚠️ Slightly slower initial development<br>✓ Type inference helps<br>✓ Tools like `bacon` provide quick feedback            |
+| Error Handling            | ❌ Silent failures possible<br>❌ Runtime exceptions<br>❌ Type errors discovered late                                                | ✓ Explicit error handling (with `unwrap` for prototypes)<br>✓ Compile-time error catching<br>✓ Type safety from the start |
+| Transition to Production  | ❌ Need extensive testing to catch type errors<br>❌ Often requires rewrite in another language<br>❌ Performance optimization needed | ✓ Same code can go to production<br>✓ Already has good performance<br>✓ Memory safety guaranteed                          |
+| Maintenance               | ❌ Type errors surface during runtime<br>❌ Refactoring is risky<br>❌ Documentation can get out of sync                              | ✓ Compiler catches most issues<br>✓ Safe refactoring with type system<br>✓ Types serve as documentation                   |
+| Debugging                 | ✓ Interactive debugger<br>✓ Easy print debugging                                                            | ✓ `dbg!` macro<br>✓ Compile-time catches most bugs                                                                                                 |
+| Code Evolution            | ❌ Hard to maintain large codebases<br>❌ Type issues compound                                                                      | ✓ Compiler guides improvements<br>✓ Types help manage complexity                         |
+| Collaboration             | ❌ Implicit assumptions about types<br>❌ Easy to break others' code<br>✓ Lower learning curve                                       | ✓ Explicit contracts through types<br>✓ Compiler prevents many conflicts<br>⚠️ Steeper learning curve                      |
+
 The beauty of prototyping in Rust is that your "rough drafts" are often already production-worthy.
 Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code is still memory-safe and reasonably fast.
 
@@ -747,5 +759,6 @@ Each iteration might take a bit longer than in Python or JavaScript, but you'll 
 
 I've found that my prototypes in other languages often hit a wall where I need to switch to something more robust.
 With Rust, I can start simple and gradually turn that proof-of-concept into production code, all while staying in the same language and ecosystem.
+
 
 If you have any more tips or tricks for prototyping in Rust, [get in touch](/about) and I'll add them to the list!

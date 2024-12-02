@@ -35,6 +35,12 @@ article img {
   margin-left: -5%;
 }
 
+/* Class for natural-sized images */
+article img.natural {
+  max-width: 100%;
+  margin-left: 0;
+}
+
 /* Remove margin-left in case image is part of a list item (li) */
 article li img {
   display: block;
