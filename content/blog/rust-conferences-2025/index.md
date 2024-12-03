@@ -22,6 +22,15 @@ Come say hi if you see us at any of these events! (We'll bring [Rust in Producti
 Oh, and in case the call for proposals (CFP) is still open, why not submit a
 talk or workshop proposal?
 
+## Calendar Download
+
+Stay up to date with all Rust conferences in 2025! Download the calendar file and import it into your favorite calendar application.
+
+<div style="display: flex; gap: 20px">
+  <button class="button" onclick="window.location.href='rust-conferences-2025.ics'" style="display: inline-block; padding: 20px 40px">Download Calendar (ICS)</button>
+</div>
+
+*Note: This is a static calendar file. Check back periodically for updated versions as new conferences are announced.*
 
 ## Q1 2025
 
