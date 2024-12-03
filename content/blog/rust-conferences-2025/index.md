@@ -15,12 +15,13 @@ Here's a list of all major Rust events happening around the world. Find dates,
 locations, ticket prices, CFP deadlines, and more.
 {% end %}
 
-Rust has a vibrant community that organizes conferences around the world.
-It's not easy to keep track of all the events, however!
-We've compiled a list of all Rust conferences in 2025.
-Come say hi if you see us at any of these events! (We have [Rust in Production](/podcast) stickers.) 
+Rustaceans like to mingle, learn, and share their knowledge at conferences.
+With 10-12 conferences happening in 2025, it will be a busy year for the Rust community.
+To make it easier to keep track of all the events, we've compiled a list of all Rust conferences in 2025.
+Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) 
 
-Oh, and in case the call for proposals (CFP) is still open, why not submit a talk or workshop proposal?
+Oh, and in case the call for proposals (CFP) is still open, why not submit a
+talk or workshop proposal?
 
 
 ## Q1 2025
@@ -84,7 +85,7 @@ Expect a developer-friendly atmosphere with ~15 expert talks in a single-track f
 - **Pricing**:
   - Standard: $172 USD
   - Student: $12 USD
-- **Includes**: Conference access, networking, beer meeting, afterparty
+- **CFP**: Closed 
 - **Links**: [Website](https://www.rustikon.dev/) | [Tickets](https://www.rustikon.dev/tickets) | [Announcement](https://softwaremill.com/why-attend-a-rust-conference-for-developers-rustikon/)
 - **Social**: [Twitter](https://x.com/rustikonconf) | [Mastodon](https://mastodon.social/@Rustikon)
 
