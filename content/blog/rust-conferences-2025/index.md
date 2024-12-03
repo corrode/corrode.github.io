@@ -5,7 +5,6 @@ template = "article.html"
 draft = false
 [extra]
 excerpt = "A list of all major Rust conferences happening around the world in 2025. Find dates, locations, ticket prices, CFP deadlines, and more."
-subtitle = "An Overview"
 hero = "teaching.svg"
 series = "Rust Insights"
 +++
