@@ -112,6 +112,26 @@ After many years without a Rust conference in Asia (the last one being RustCon A
 
 ## Q2 2025
 
+### Rust Konf Türkiye
+
+<a href="https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-@-april-20-2025" target="_blank">
+  <img src="rustkonf-turkiye.jpg" alt="Rust Konf Türkiye" />
+</a>
+
+The first-ever Rust conference in Turkey, bringing together Rust developers and enthusiasts
+for a day of technical talks, workshops, and networking. The event will feature in-depth
+technical sessions on low-level programming, performance optimization, system-level
+development, and eBPF.
+
+- **When**: April 20, 2025
+- **Where**: Istanbul, Turkey (venue TBA)
+- **Format**: Single-day conference with talks and workshops
+- **Focus**: Low-level programming, system development, and Rust ecosystem
+- **Pricing**: Free
+- **CFP**: [Open until January 1, 2025](https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-@-april-20-2025)
+- **Links**: [Website](https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-91f7b3a6)
+- **Social**: [Twitter](https://x.com/turkiyerustcom)
+
 ### RustWeek (Utrecht, Netherlands)
 
 <a href="https://rustweek.org/" target="_blank">
