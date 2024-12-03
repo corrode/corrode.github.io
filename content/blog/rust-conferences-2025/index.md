@@ -4,40 +4,21 @@ date = 2024-12-03
 template = "article.html"
 draft = false
 [extra]
+excerpt = "A list of all major Rust conferences happening around the world in 2025. Find dates, locations, ticket prices, CFP deadlines, and more."
 subtitle = "An Overview"
 hero = "teaching.svg"
 series = "Rust Insights"
 +++
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": "Rust Conferences 2025",
-  "description": "Complete overview of Rust programming language conferences and events in 2025",
-  "eventSchedule": [
-    {
-      "@type": "Schedule",
-      "startDate": "2025-02-19",
-      "endDate": "2025-12-31",
-      "eventAttendanceMode": "Mixed"
-    }
-  ],
-  "keywords": ["Rust", "Programming", "Conference", "Developer Events", "Tech Conference"]
-}
-</script>
-
 {% info(headline="Looking to attend a Rust conference in 2025?", icon="info") %}
-
-Here's a list of all major Rust events happening around the world. Find dates, locations, ticket prices, CFP deadlines, and more.
-
+Here's a list of all major Rust events happening around the world. Find dates,
+locations, ticket prices, CFP deadlines, and more.
 {% end %}
 
 Rust has a vibrant community that organizes conferences around the world.
 It's not easy to keep track of all the events, however!
 We've compiled a list of all Rust conferences in 2025.
 Come say hi if you see us at any of these events! (We have [Rust in Production](/podcast) stickers.) 
-
 
 Oh, and in case the call for proposals (CFP) is still open, why not submit a talk or workshop proposal?
 
@@ -65,6 +46,26 @@ As per tradition, they kick off the year of Rust conferences.
 - **CFP**: Closed
 - **Links**: [Website](https://www.rustnationuk.com/) | [Schedule](https://www.rustnationuk.com/schedule) | [Past Talks (Videos)](https://www.youtube.com/channel/UCLksRXfBiEITZMUo2ssjSdA)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
+
+### Rust in Paris
+
+<a href="https://rustinparis.com/" target="_blank">
+  <img src="rustinparis.jpg" alt="Rust in Paris" />
+</a>
+
+"When Safety Meets Elegance" is the tagline for Rust in Paris.
+It features 12 speakers, 1 day of talks, and 250 attendees.
+
+- **When**: March 14, 2025
+- **Where**: [Maison.A Verso, 52 rue de la victoire, 75009 Paris - France](https://maps.app.goo.gl/VDAktMFd8KHMeZ36A)
+- **Format**: Single-day conference
+- **Focus**: Building secure, high-performing software with Rust
+- **Pricing**: 
+  - Student: €99 ex. 20% VAT
+  - Early Bird: €249 ex. 20% VAT
+- **CFP**: [Closed](https://docs.google.com/forms/d/e/1FAIpQLSdamzdbUi3EIGBrmEw0-Na4myXP0088kvxVmVT4YU-1BEiyCg/viewform)
+- **Links**: [Website](https://rustinparis.com/) | [Schedule](https://rustinparis.com/schedule)
+
 
 ### Rustikon (Warsaw, Poland)
 
@@ -156,6 +157,23 @@ blockchain sectors and those who are interested in it.
 - **Social**: [Twitter](https://x.com/rust_summit)
 
 ## Q3 2025
+
+### RustForge
+
+<a href="https://rustforgeconf.com/" target="_blank">
+  <img src="rustforge.jpg" alt="RustForge" />
+</a>
+
+RustForge is the first conference in the Asia/Pacific region that focuses on Rust.
+
+- **When**: August 2025
+- **Where**: Wellington, New Zealand
+- **Format**: TBA
+- **Focus**: People building with the Rust programming language
+- **Pricing**: TBA
+- **CFP**: TBA
+- **Links**: [Website](https://rustforgeconf.com/)
+- **Social**: [Twitter](https://x.com/rustforgeconf)
 
 ### RustConf 
 
@@ -324,4 +342,22 @@ function addDaysUntilConference() {
 }
 
 addDaysUntilConference();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Rust Conferences 2025",
+  "description": "Complete overview of Rust programming language conferences and events in 2025",
+  "eventSchedule": [
+    {
+      "@type": "Schedule",
+      "startDate": "2025-02-19",
+      "endDate": "2025-12-31",
+      "eventAttendanceMode": "Mixed"
+    }
+  ],
+  "keywords": ["Rust", "Programming", "Conference", "Developer Events", "Tech Conference"]
+}
 </script>
