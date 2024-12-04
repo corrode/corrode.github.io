@@ -149,20 +149,20 @@ development, and eBPF.
 
 RustWeek is a week-long event that combines talks, workshops, and social events.
 It's located in cozy Utrecht, the fourth-largest city in the Netherlands.
-This is organized by the team behind RustNL.
-There is a focus on Rust usage in the industry. 
+This is organized by the team behind RustNL. RustWeek takes place during the 10 year
+anniversary of Rust 1.0. All Rustaceans are welcome to attend and submit talks.
 
 - **When**: May 12-17, 2025
 - **Where**: [Kinepolis Utrecht](https://maps.app.goo.gl/NfdQrMmPHEpy3ZZMA)
 - **Format**: Full week (2 days talks + 1 day workshops + social events)
-- **Focus**: Rust in industry
+- **Focus**: Broad, open to everyone.
 - **Pricing** (Early Bird):
   - Conference: €189 (Individual) / €375 (Company)
   - Conference + Workshop: €329 (Individual) / €569 (Company)
   - Students: €29.95
 - **CfP**: [Open until January 12, 2025](https://www.papercall.io/rust-week)
 - **Links**: [Website](https://rustweek.org/) | [Past Talks (Videos)](https://www.youtube.com/@rustnederlandrustnl)
-- **Social**: [Twitter](https://x.com/Rust_NL) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/)
+- **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL) 
 
 ### Rust Summit (Belgrade, Serbia)
 
