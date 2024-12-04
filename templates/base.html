@@ -167,17 +167,45 @@
         <main class="container">
             {% block content %}{% endblock %}
         </main>
-
-        {% block footer %}
-        <footer class="footer">
-            <span>© 2024 corrode &mdash; D&uuml;sseldorf, Germany</span>
-            &middot;
-            <span><a href="/legal">Legal Notice</a></span>
-            &middot;
-            <span><a href="/quote">Business Inquiries</a></span>
-        </footer>
-        {% endblock %}
+    
     </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                    <li>© 2024 corrode</li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Learn Rust</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Rust Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Idiomatic Rust</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                </ul>
+            </div>
+
+        </div>
+        
+    </footer>
 
     <script>
         function getPreferredColorScheme() {

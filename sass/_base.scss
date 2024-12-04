@@ -429,18 +429,6 @@ blockquote {
   border-left: 4px solid $brightPrim;
 }
 
-.footer {
-  display: flex;
-  gap: 0.5em;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  margin: 40px auto;
-
-  .copyright {
-    color: $brightScnd;
-  }
-}
 
 .font-medium {
   font-weight: 500;
