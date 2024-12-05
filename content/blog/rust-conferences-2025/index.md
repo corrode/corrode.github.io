@@ -305,7 +305,8 @@ It's lovingly organized featuring delicious italian food and a great community.
 ---
 
 So there you have it, our complete guide to all Rust developer conferences, workshops, and community meetups happening around the world in 2025. Whether you're interested in blockchain, embedded systems, or web development with Rust, there's an event for every Rustacean out there. 
-Let us know if we missed any events or if you have any updates to share. We'll see you at the next Rust conference!
+Let us know if we missed any events or if you have any updates to share. 
+You can directly propose changes by editing the list [here](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2025/index.md). We'll see you at the next Rust conference!
 
 *Note: This list will be updated as more information becomes available. Some conferences are yet to announce their exact dates, venues, or ticket prices.*
 
