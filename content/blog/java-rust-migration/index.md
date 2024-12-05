@@ -3,44 +3,76 @@ title = "Migrating from Java to Rust"
 date = 2024-11-28
 template = "article.html"
 [extra]
-subtitle = "A Practical Guide for Decision-Makers"
 series = "Rust Insights"
 +++
 
 TODO:
-https://medium.com/@dexwritescode/comparison-between-java-go-and-rust-fdb21bd5fb7c
-Rust vs Java infographic: https://www.freshersnow.com/rust-vs-java/
-Cheat Sheet: https://security-union.github.io/rust-vs-java/
+- https://medium.com/@dexwritescode/comparison-between-java-go-and-rust-fdb21bd5fb7c
+- Rust vs Java infographic: https://www.freshersnow.com/rust-vs-java/
+- Cheat Sheet: https://security-union.github.io/rust-vs-java/
+- Spring Boot is really good. Rust doesn't have a direct equivalent, but frameworks like Loco or Pavex could fill the gap in the future. 
+  In the meantime, axum is the most popular choice for new Rust web applications.
 
+{% info(headline="A Practical Guide for Decision Makers" ) %}
 
+This article is aimed at technical product managers and CTOs who are considering migrating a production Java application — or part of it — to Rust.
+I will give an **honest overview** of the challenges and benefits of such a migration, as well as practical tips to make it successful
+based on years of experience and successful transitions.
 
-**This article is aimed at technical product managers and CTOs who are considering migrating a production Java application—or part of it—to Rust. Based on years of experience and successful transitions, here’s a practical guide to making this decision and executing the migration.**
+{% end %}
 
-## Initial Productivity Challenges
+## Tip 1: Flatten The Learning Curve 
 
 Migrating to a new language is always tough at first, and Rust is no exception.
 It has a famously steep learning curve and requires a different mindset from Java.
+Plan 4-6 months for your engineers to get comfortable with Rust, and expect a few bumps along the way.
 
-However, there’s plenty of material to help your team get up to speed.
-Resources like [Rustlings](https://github.com/rust-lang/rustlings) and [Rust By Example](https://doc.rust-lang.org/rust-by-example/) are great for self-learning, and bringing in experts can make the transition even faster and smoother.
+That said, there’s plenty of material to help your team get up to speed.
+Resources like [Rustlings](https://github.com/rust-lang/rustlings), [Rust By Example](https://doc.rust-lang.org/rust-by-example/),
+[100 Exercises To Learn Rust](https://github.com/mainmatter/100-exercises-to-learn-rust), and 
+[Rustfinity](https://www.rustfinity.com/) are all great for self-learning. 
+
+If you’re looking for a more structured approach, consider hiring a Rust consultant or trainer.
+Bringing in experts can make the transition even faster and smoother.
 Your team will not only learn Rust but also feel more confident working with it in production.
 
-## Integration with Existing Systems
+## Tip 2: Choose The Right Migration Strategy 
 
-When you’re dealing with a mix of Java and Rust, start small. Look at the boundaries in your application—network layers, APIs, or microservices. **These natural seams are perfect places to migrate first.**
+Initially, you will likely be dealing with a mix of Java and Rust.
+Where should you start?
+**Look at the boundaries in your application—network layers, APIs, or microservices.**
+These natural seams are perfect places to migrate first.
 
-For Java-to-Rust migration, you can set up inter-process communication (IPC) via [gRPC](https://grpc.io/) between Java and Rust services. Another option is to use a message broker like [Kafka](https://kafka.apache.org/) or [NATS](https://nats.io/) in between the two languages. A third option is to use a REST API as the communication layer.
+For Java-to-Rust migration, you have a few options:
 
-If you’re migrating from a monolith, consider splitting the most CPU- or memory-intensive parts into Rust while leaving the rest in Java. Perhaps you find that you only need to migrate a tiny portion, say 10-20%, to Rust to see significant performance improvements.
+1. Set up inter-process communication (IPC) via [gRPC](https://grpc.io/) between Java and Rust services. 
+2. Use a message broker like [Kafka](https://kafka.apache.org/) or [NATS](https://nats.io/) in between the two languages.
+3. Use a REST API as the communication layer.
+4. Use [JNI](https://docs.rs/jni/latest/jni/) to call Rust functions from Java.
 
-You can use tools like [Java Native Interface (JNI)](https://docs.rs/jni/latest/jni/) to port over slow/critical functions to Rust while keeping the rest of the application in Java.
+Each approach has its pros and cons, so choose the one that fits your use case best.
+How do you decide?
+This is something you should discuss with your team and possibly a Rust consultant.
+They can help you weigh the trade-offs and make the right choice.
+
+## Tip 3: Partial Migration Might Be Enough
+
+Big organizations often have large, complex Java codebases.
+A full rewrite is not feasible and can be risky.
+
+**Consider rewriting the most CPU- or memory-hungry parts of your application in Rust while leaving the rest untouched.**
+
+Perhaps you find that you only need to migrate a tiny portion, say 10-20%, to Rust for a significant performance boost.
+In that case, you can keep the rest of the application in Java and gradually migrate more parts over time if you see benefits.
 This incremental approach ensures that your team can slowly adapt to Rust and share some quick wins along the way, which is great for morale.
 
-A good way to test the waters is with isolated components—CLI tools or monitoring sidecars. These smaller parts let your team gain experience with Rust without affecting critical system functions.
+A good way to test the waters is with isolated components — CLI tools or monitoring sidecars. These smaller parts let your team gain experience with Rust without affecting critical system functions.
 
-## Tooling and Debugging
+## Tip 4: Consider The Ecosystem 
 
-Adapting the tooling of any new language is a common concern.
+When migrating to a different language, the new tooling is just as important as the language itself.
+However, it’s often overlooked in the decision-making process.
+
 Rust's tooling is excellent, and among the most mentioned advantages of the language.
 The tooling is best in class, mature and easy to adopt. Here's how it stacks up:
 
@@ -52,7 +84,7 @@ The tooling is best in class, mature and easy to adopt. Here's how it stacks up:
 
 Once your team adopts these tools, they’ll quickly fall in love with them. The workflow is productive, efficient, and developer-friendly.
 
-## Cross-Platform Concerns
+## Tip 5: Cloud Deployment and Scalability 
 
 Rust shines when it comes to cross-platform builds. Unlike Java, where you often need to install a runtime (like the JVM) on every machine, Rust’s binaries are small, self-contained, and ready to run anywhere.
 
@@ -64,7 +96,7 @@ In containerized environments, Docker works just as well with Rust as with any o
 
 Rust supports a [wide variety of platforms](https://doc.rust-lang.org/nightly/rustc/platform-support.html), including ARM and x64, and can be used seamlessly across development machines, servers, and the cloud. 
 
-## Performance and Efficiency
+## Tip 6: Look Beyond Raw Performance 
 
 Rust is all about performance. But you shouldn’t focus on raw numbers alone.
 Thanks to technologies like [GraalVM](https://www.graalvm.org/), Java can be
@@ -81,9 +113,11 @@ When you migrate to Rust, consider the secondary effects of improved performance
 
 Rust helps you get more done with less, making it easier to scale and manage your infrastructure.
 
-## Concurrency and Parallelism
+## Tip 7: Fully Utilize Rust’s Concurrency Model 
 
-Rust’s concurrency model is a major advantage. Traditional Java applications tend to be thread-heavy, and while this works on modern Linux systems, Rust offers more flexibility.
+Rust’s concurrency model is a major advantage.
+Traditional Java applications tend to be thread-heavy, and while this works on modern Linux systems, Rust offers more flexibility.
+On top of that, concurrency in Java can be tricky to get right and is therefore often avoided.
 
 Rust gives you both thread-based concurrency and async execution. With libraries like Tokio, you can use async/await without worrying about the underlying mechanics. It scales incredibly well, often in ways that Java simply can’t match due to its reliance on threads.
 
@@ -91,15 +125,17 @@ What’s powerful about Rust’s concurrency is how it's baked into the language
 
 Rust’s memory management ensures that concurrency is safe, so you won’t need to worry about thread synchronization issues like you would in Java.
 
-## Developer Ergonomics
+## Tip 8: Boring Production Environments Are Good
 
-One of Rust’s underrated strengths is developer ergonomics. Sure, there’s a learning curve, but once you get over it, the experience is incredibly rewarding. 
+One of Rust’s underrated strengths is developer ergonomics.
 
 With Rust’s strict compiler checks, a lot of potential bugs are caught during development, meaning fewer bugs in production. This leads to fewer code reviews and a smoother development process overall. You can move faster with more confidence.
 
-This leads to **reliable code in production**. Rust’s emphasis on memory safety and strict typing means that, once your system is built, you’re less likely to face random crashes or bugs. There are no garbage collector pauses to worry about, and the runtime is minimal.
+Over time, this leads to **more reliable code in production**. Rust’s emphasis on memory safety and strict typing means that, once your system is built, you’re less likely to face random crashes or bugs.
+This saves on-call costs and reduces the risk of downtime.
 
-You’ll have a “boring” production environment in the best way possible—things will work consistently and predictably.
+There are no garbage collector pauses to worry about, and the code has a predictable performance profile. 
+You’ll have a “boring” production environment in the best way possible — things will work consistently and predictably.
 
 ## Stability and Long-Term Maintenance
 
@@ -134,10 +170,20 @@ Even if you eventually decide against Rust, the training will improve your team'
 7. **Monitor and Test**  
 Use monitoring and automated tests throughout the migration. Rust’s safety guarantees help, but you still need to test thoroughly and catch any issues early.
 
-**You're in it for the long run.** Your team needs to feel comfortable with the decision, so involve them in the process. Don’t just make the decision above their heads.
+Most importantly, **you need to be in it for the long run** so your team needs
+to feel comfortable with the decision, so involve them in the process. Don’t
+just make the decision above their heads.
 
 Consider the constraints and risks your project might face—proprietary tools, unusual databases, or special dependencies. Do the research upfront to avoid surprises. And if you need new libraries, be prepared to contribute back to the Rust ecosystem.
 
 At the end of the day, Rust’s investment pays off. Even if you don’t go full Rust, the knowledge gained will make your developers better programmers.
 
 If you'd like to discuss this further, feel free to reach out [here] (insert contact link).
+
+{% info(headline="Make the most of Rust", icon="crab") %}
+
+Is your company considering to migrate from Java to Rust? 
+I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting. 
+Check out my [services page](/services) to learn more.
+
+{% end %}
