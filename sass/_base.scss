@@ -197,6 +197,10 @@ a {
   text-decoration-color: rgba($brightPrim, 0.3);
 }
 
+sup a {
+  text-decoration: none;
+}
+
 nav {
   display: flex;
   flex-direction: row;
@@ -416,6 +420,11 @@ ul {
   list-style-type: square;
 }
 
+ol ol,
+ul ul {
+  margin-top: 1em;
+}
+
 .topbox {
   display: flex;
   margin-top: 20px;
@@ -428,7 +437,6 @@ blockquote {
   padding: 0px 20px;
   border-left: 4px solid $brightPrim;
 }
-
 
 .font-medium {
   font-weight: 500;
