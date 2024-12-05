@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 <article>
   <div class="article-heading">
@@ -8,6 +7,16 @@
     {% if page.extra.subtitle %}
       <h2>{{ page.extra.subtitle }}</h2>
     {% endif %}
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        {% if page.extra.updated %}
+          Last updated {{ page.extra.updated }}
+        {% else %}
+          Published {{ page.date }}
+        {% endif %}
+      </span>
+    </div>
     {% if page.extra.hero %}
     <div class="article-hero">
       <img
