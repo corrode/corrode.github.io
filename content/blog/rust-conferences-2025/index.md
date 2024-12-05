@@ -195,10 +195,10 @@ blockchain sectors and those who are interested in it.
 
 RustForge is the first conference in the Asia/Pacific region that focuses on Rust.
 
-- **When**: August 2025
-- **Where**: Wellington, New Zealand
-- **Format**: TBA
-- **Focus**: People building with the Rust programming language
+- **When**: August 27-30, 2025
+- **Where**: [Shed 6, Wellington, New Zealand](https://maps.app.goo.gl/PDbFTB5Gqs5iVmeNA)
+- **Format**: 2 days of workshops, excursions and collaborative coding, followed by a 2 day conference
+- **Focus**: A tech conference for the Rust community where the hallway track is the main track.
 - **Pricing**: TBA
 - **CFP**: TBA
 - **Links**: [Website](https://rustforgeconf.com/)
