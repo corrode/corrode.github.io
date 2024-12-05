@@ -112,6 +112,9 @@ How do you decide?
 This is something you should discuss with your team and possibly a Rust consultant.
 They can help you weigh the trade-offs and make the right choice.
 
+If you'd like to get a primer on Java-to-Rust interop, check out [this talk](https://www.youtube.com/watch?v=fYaaBoKbDQs) 
+from Rust Nation UK 2024 by Konstantin Grechishchev.
+
 ## Tip 4: Partial Migration Might Be Enough
 
 Big organizations often have large, complex Java codebases.
