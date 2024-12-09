@@ -54,7 +54,7 @@ He is a YC alum and has a Master's degree in Computer Science.
 - [jgit](https://www.eclipse.org/jgit/) - Java implementation of git
 - [Tauri](https://tauri.app/) - Desktop App toolkit used by GitButler
 - [The Rust Programming Language](https://doc.rust-lang.org/book/) - A very good introduction to Rust, co-authored by Steve Klabnik
-- [On The Metal: Steve Klabnik](https://oxide.computer/podcasts/on-the-metal) - Steve's Podcast episode
+- [Rust in Production: Oxide with Steve Klabnik](/podcast/s03e03-oxide/) - Steve's Podcast episode
 - [Steve's Jujutsu Tutorial](https://steveklabnik.github.io/jujutsu-tutorial/) - A good introduction to Jujutsu, written by Steve
 - [thiserror](https://github.com/dtolnay/thiserror) - Error crate for libraries
 - [anyhow](https://github.com/dtolnay/anyhow) - Error crate for applications
