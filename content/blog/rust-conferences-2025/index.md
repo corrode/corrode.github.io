@@ -23,15 +23,18 @@ Come say hi if you see us at any of these events! (We'll bring [Rust in Producti
 Oh, and in case the call for proposals (CFP) is still open, why not submit a
 talk or workshop proposal?
 
-## Calendar Download
+## Subscribe For Updates 
 
-Stay up to date with all Rust conferences in 2025! Download the calendar file and import it into your favorite calendar application.
+Stay up to date with all Rust conferences in 2025 by subscribing to this Google calendar.
+
+<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FBerlin&showPrint=0&src=ZjAwNDE4Mzk3YzJiN2Q4MTkwNjk3NDJhMTBkMjQyOGE4OGFlZjE3MzU5NWNjYmU2ZTVmYjVlOGY1MDlmNjEzMkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23AD1457&mode=AGENDA" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+Or download the static calendar file and import it into your favorite calendar application.
+Check back periodically for updated versions as new conferences are announced.
 
 <div style="display: flex; gap: 20px">
-  <button class="button" onclick="window.location.href='rust-conferences-2025.ics'" style="display: inline-block; padding: 20px 40px">Download Calendar (ICS)</button>
+  <button class="button" onclick="window.location.href='rust-conferences-2025.ics'" style="display: inline-block; padding: 20px 40px">Download Calendar File (ICS)</button>
 </div>
-
-*Note: This is a static calendar file. Check back periodically for updated versions as new conferences are announced.*
 
 ## Q1 2025
 
@@ -89,7 +92,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Format**: 2 days of talks and workshops
 - **Focus**: Rust programming language
 - **Pricing**: TBA
-- **CFP**: [Open until January 10, 2025](https://confreg.com/u/rustmeet-2025/cfp)
+- **CFP**: [Open until January 10, 2025](https://rustmeet.confreg.pl/events/30-rustmeet-2025)
 - **Links**: [Website](https://rustmeet.eu/) 
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
