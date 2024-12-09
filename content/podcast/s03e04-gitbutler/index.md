@@ -82,8 +82,3 @@ He is a YC alum and has a Master's degree in Computer Science.
 - [Scott Chacon on Twitter](https://twitter.com/chacon)
 - [Scott Chacon on LinkedIn](https://www.linkedin.com/in/schacon/)
 - [Kiril Videlov on LinkedIn](https://www.linkedin.com/in/kirilv)
-
-
-### About corrode
-
-"Rust in Production" is a podcast by corrode, a company that helps teams adopt Rust. We offer training, consulting, and development services to help you succeed with Rust. If you want to learn more about how we can help you, [please get in touch](/about).
