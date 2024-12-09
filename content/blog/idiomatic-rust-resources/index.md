@@ -1,12 +1,12 @@
 +++
 title = "Learning Material for Idiomatic Rust"
 date = 2024-01-28
+updated = 2024-05-15
 draft = false
 template = "article.html"
 aliases = ["idiomatic-rust"]
 [extra]
 wide = true
-updated = 2024-05-15
 series = "Idiomatic Rust"
 excerpt = "A curated list of resources to help you write ergonomic and idiomatic Rust code. Includes tutorials, workshops, and articles by Rust experts."
 +++

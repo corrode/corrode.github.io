@@ -1,10 +1,10 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
+updated = 2024-12-09
 template = "article.html"
 draft = false
 [extra]
-updated = 2024-12-09
 excerpt = "A list of all major Rust conferences happening around the world in 2025. Find dates, locations, ticket prices, CFP deadlines, and more."
 hero = "teaching.svg"
 series = "Rust Insights"

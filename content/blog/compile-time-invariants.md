@@ -1,10 +1,10 @@
 +++
 title = "Compile-Time Invariants in Rust"
 date = 2023-08-27
+updated = 2024-07-12
 draft = false
 template = "article.html"
 [extra]
-updated = 2024-07-12
 series = "Idiomatic Rust"
 reviews = [
     { name = "Guilliam Xavier", url = "https://github.com/guilliamxavier" },

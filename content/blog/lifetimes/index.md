@@ -1,9 +1,9 @@
 +++
 title = "Don't Worry About Lifetimes"
 date = 2024-05-29
+updated = 2024-08-13
 template = "article.html"
 [extra]
-updated = 2024-08-13
 series = "Idiomatic Rust"
 resources = [
     "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."

@@ -1,10 +1,10 @@
 +++
 title = "Will Rust be alive in 10 years?"
 date = 2024-06-24
+updated = 2024-07-10
 template = "article.html"
 draft = false
 [extra]
-updated = 2024-07-10
 series = "Rust Insights"
 hero = "hero.svg"
 hero_classes = "invert"

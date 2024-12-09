@@ -1,10 +1,10 @@
 +++
 title = "Don't Use Preludes And Globs"
 date = 2024-07-29
+updated = 2024-08-07
 draft = false
 template = "article.html"
 [extra]
-updated = 2024-08-07
 series = "Idiomatic Rust"
 reviews = [
     { name = "Brett Witty", url = "https://www.brettwitty.net" },

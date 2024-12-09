@@ -1,11 +1,11 @@
 +++
 title = "Make Illegal States Unrepresentable"
 date = 2023-08-06
+updated = 2023-11-18
 template = "article.html"
 draft = false
 [extra]
 series = "Idiomatic Rust"
-updated = 2023-11-18
 reviews = [ 
     { name = "Wesley Moore", url = "https://www.wezm.net" },
     { name = "Nicolas Kosinski", url = "https://github.com/nicokosi" },

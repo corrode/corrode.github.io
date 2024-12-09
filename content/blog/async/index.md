@@ -1,11 +1,11 @@
 +++
 title = "The State of Async Rust: Runtimes"
 date = 2024-02-21
+updated = "2024-04-27"
 draft = false
 template = "article.html"
 [extra]
 series = "Rust Insights"
-updated = "2024-04-27"
 revisions = """
 In an earlier version of this article, I discussed async web frameworks.
 However, to maintain focus, I've opted to address web frameworks in a dedicated

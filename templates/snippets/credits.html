@@ -1,42 +1,36 @@
 <p>
-    Published: {{ page.date }}{%- if page.extra.updated -%}. Last updated: {{
-    page.extra.updated }} {% endif %}
-    <br />
-    {% if page.extra.authors %}
-        {% if page.extra.authors | length > 1 %}
-            Authors:
-            {% for author in page.extra.authors %}
-                    <a href="{{ author.url }}" target="_blank" rel="noopener" rel="noreferrer">{{ author.name }}</a>
-                {%- if loop.last == false %}
-                    ,
-                {% endif %}
-            {%- endfor %}
-        {% else %}
-            Author: <a href="{{ page.extra.authors[0].url }}">{{ page.extra.authors[0].name }}</a>
-        {% endif %}
-    {% else %}
-        Author: <a href="/about"> Matthias Endler </a>
-    {% endif %}
-    <br />
-    Editor:
-    <a
-        href="https://hachyderm.io/@m3t0r"
-        target="_blank"
-        rel="noopener"
-        rel="noreferrer"
-        >Simon Brüggen</a
-    >
-    {% if page.extra.reviews %}
-    <br />
-    Reviewers: {% for review in page.extra.reviews %} {%- if loop.last == false
-    %}<a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
-        >{{ review.name }}</a
-    >, {% endif %} {%- if loop.last == true %}{%- if page.extra.reviews | length
-    > 1 %}and{% endif %}
-    <a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
-        >{{ review.name }}</a
-    >{% endif %} {%- endfor %} {% endif %} {% if page.extra.credits %}
-    <br />
-    Credits: {% for credit in page.extra.credits %} {{ credit | safe }} {%-
-    endfor %} {% endif %}
+  Published: {{ page.date }}{%- if page.updated -%}. Last updated: {{
+  page.updated }} {% endif %}
+  <br />
+  {% if page.extra.authors %} {% if page.extra.authors | length > 1 %} Authors:
+  {% for author in page.extra.authors %}
+  <a href="{{ author.url }}" target="_blank" rel="noopener" rel="noreferrer"
+    >{{ author.name }}</a
+  >
+  {%- if loop.last == false %} , {% endif %} {%- endfor %} {% else %} Author:
+  <a href="{{ page.extra.authors[0].url }}">{{ page.extra.authors[0].name }}</a>
+  {% endif %} {% else %} Author: <a href="/about"> Matthias Endler </a>
+  {% endif %}
+  <br />
+  Editor:
+  <a
+    href="https://hachyderm.io/@m3t0r"
+    target="_blank"
+    rel="noopener"
+    rel="noreferrer"
+    >Simon Brüggen</a
+  >
+  {% if page.extra.reviews %}
+  <br />
+  Reviewers: {% for review in page.extra.reviews %} {%- if loop.last == false
+  %}<a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
+    >{{ review.name }}</a
+  >, {% endif %} {%- if loop.last == true %}{%- if page.extra.reviews | length >
+  1 %}and{% endif %}
+  <a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
+    >{{ review.name }}</a
+  >{% endif %} {%- endfor %} {% endif %} {% if page.extra.credits %}
+  <br />
+  Credits: {% for credit in page.extra.credits %} {{ credit | safe }} {%- endfor
+  %} {% endif %}
 </p>

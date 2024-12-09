@@ -1,10 +1,10 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
+updated = 2024-06-12
 draft = false
 template = "article.html"
 [extra]
-updated = 2024-06-12
 series = "Rust Insights"
 resources = [
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",

@@ -1,10 +1,10 @@
 +++
 title = "Navigating Programming Paradigms in Rust"
 date = 2023-12-04
+updated = 2024-07-12
 template = "article.html"
 draft = false
 [extra]
-updated = 2024-07-12
 series = "Idiomatic Rust"
 reviews = [
     { name = "Hanno Braun", url = "https://www.hannobraun.com/" },

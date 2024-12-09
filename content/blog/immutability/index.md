@@ -1,9 +1,9 @@
 +++
 title = "Aim For Immutability in Rust"
 date = 2023-09-21
+updated = 2024-09-20
 template = "article.html"
 [extra]
-updated = 2024-09-20
 series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
