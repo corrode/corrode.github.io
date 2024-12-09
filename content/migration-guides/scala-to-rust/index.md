@@ -11,7 +11,11 @@ resources = [
 ]
 +++
 
-Recently, there's been increasing [discussion about companies moving from Scala to Rust](https://degoes.net/articles/scala-resurrection)). The Scala ecosystem faces, and while solutions are proposed, many organizations are evaluating Rust as an alternative path forward.
+There's been increasing [discussion about companies moving from Scala to Rust](https://degoes.net/articles/scala-resurrection)). The Scala ecosystem faces, and while solutions are proposed, many organizations are evaluating Rust as an alternative path forward.
+
+Even former Scala advocates like Twitter or LinkedIn have [expressed concerns about their choice of Scala](https://news.ycombinator.com/item?id=13478361): 
+
+> "We've recently made the decision to minimize our dependence on Scala in our next generation front end infrastructure which is rolling out this year." — LinkedIn's SVP of Eng Kevin Scott
 
 People are looking for guidance on how to navigate this transition, which is why I've written this guide for organizations considering migrating from Scala or Clojure to Rust. We will take a cold hard look at the benefits and challenges of moving to Rust, and provide practical advice for making the switch.
 
