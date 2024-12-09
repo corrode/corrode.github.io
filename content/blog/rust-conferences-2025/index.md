@@ -4,7 +4,7 @@ date = 2024-12-03
 template = "article.html"
 draft = false
 [extra]
-updated = 2024-12-05
+updated = 2024-12-09
 excerpt = "A list of all major Rust conferences happening around the world in 2025. Find dates, locations, ticket prices, CFP deadlines, and more."
 hero = "teaching.svg"
 series = "Rust Insights"
@@ -57,7 +57,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Links**: [Website](https://www.rustnationuk.com/) | [Schedule](https://www.rustnationuk.com/schedule) | [Past Talks (Videos)](https://www.youtube.com/channel/UCLksRXfBiEITZMUo2ssjSdA)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
 
-### Rust in Paris
+### Rust in Paris (France)
 
 <a href="https://rustinparis.com/" target="_blank">
   <img src="rustinparis.jpg" alt="Rust in Paris" />
@@ -76,6 +76,23 @@ It features 12 speakers, 1 day of talks, and 250 attendees.
 - **CFP**: [Closed](https://docs.google.com/forms/d/e/1FAIpQLSdamzdbUi3EIGBrmEw0-Na4myXP0088kvxVmVT4YU-1BEiyCg/viewform)
 - **Links**: [Website](https://rustinparis.com/) | [Schedule](https://rustinparis.com/schedule)
 
+### RUSTMEET (Gliwice, Poland)
+
+<a href="https://rustmeet.eu/" target="_blank">
+  <img src="rustmeet.jpg" alt="RUSTMEET" />
+</a>
+
+An event in Poland, actively co-created by Rust enthusiasts.
+
+- **When**: March 15-16, 2025
+- **Where**: [Gliwice, Poland](https://maps.app.goo.gl/38cqAgQBnDG7nNvM7)
+- **Format**: 2 days of talks and workshops
+- **Focus**: Rust programming language
+- **Pricing**: TBA
+- **CFP**: [Open until January 10, 2025](https://confreg.com/u/rustmeet-2025/cfp)
+- **Links**: [Website](https://rustmeet.eu/) 
+- **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
+
 
 ### Rustikon (Warsaw, Poland)
 
@@ -83,8 +100,7 @@ It features 12 speakers, 1 day of talks, and 250 attendees.
   <img src="rustikon.jpg" alt="Rustikon" />
 </a>
 
-This is the first Rust conference in Poland.
-It aims to bring together Rust developers from the region and beyond.
+Aims to bring together Rust developers from the region and beyond.
 Expect a developer-friendly atmosphere with ~15 expert talks in a single-track format, perfect for staying connected and engaged. After a day of learning, unwind with us in a local pub and network with fellow devs. 
 
 - **When**: March 26, 2025
