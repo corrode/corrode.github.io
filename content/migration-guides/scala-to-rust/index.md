@@ -1,13 +1,19 @@
 +++
-title = "Why Companies Switch from Scala/Clojure to Rust"
+title = "Migrating from Scala to Rust"
 date = 2024-12-09
 template = "article.html"
 draft = false
 [extra]
-series = "Rust Insights"
+series = "Guides"
+resources = [
+    "[Rust: A Scala Engineer's Perspective by Lloyd Chan](https://beachape.com/blog/2017/05/24/rust-from-scala/)",
+    "[Scala Resurrection by John A De Goes](https://degoes.net/articles/scala-resurrection)",
+]
 +++
 
-Here are my thoughts about why organizations might consider migrating from JVM functional languages like Scala or Clojure. While both are excellent languages with strong type systems and functional programming capabilities, Rust offers some compelling advantages that are worth considering.
+Recently, there's been increasing [discussion about companies moving from Scala to Rust](https://degoes.net/articles/scala-resurrection)). The Scala ecosystem faces, and while solutions are proposed, many organizations are evaluating Rust as an alternative path forward.
+
+People are looking for guidance on how to navigate this transition, which is why I've written this guide for organizations considering migrating from Scala or Clojure to Rust. We will take a cold hard look at the benefits and challenges of moving to Rust, and provide practical advice for making the switch.
 
 ## Why Consider Rust?
 
@@ -15,11 +21,20 @@ Here are my thoughts about why organizations might consider migrating from JVM f
 
 The most striking difference between Rust and JVM functional languages is the **pace of adoption**. Rust has seen extraordinary growth, with over 2.8 million developers using it professionally. [Major tech companies including Microsoft, Google, and Meta have embraced Rust](/blog/why-rust), particularly for performance-critical systems. This widespread adoption has created a virtuous cycle: the larger talent pool makes hiring easier, which encourages more companies to adopt Rust, which in turn drives more developers to learn the language. The ecosystem grows more robust by the day, with new tools and libraries constantly emerging to solve real-world problems.
 
-In comparison, Scala and Clojure have seen slower growth and more limited industry adoption. While both languages have passionate communities and are well-suited to certain domains, they lack the broad appeal and momentum that Rust has achieved. This difference in adoption rates can affect your organization's ability to hire and retain talent, which is a risk factor for any company. 
+In comparison, Scala and Clojure have seen slower growth and more limited industry adoption. While both languages have passionate communities and are well-suited to certain domains like data processing and Spark applications, they lack the broad appeal and momentum that Rust has achieved. This difference in adoption rates can affect your organization's ability to hire and retain talent, which is a risk factor for any company.
+
+In fairness, the RedMonk rankings show that Scala has maintained a consistent position in the top 20 languages, while Rust has just recently broken into the top 20.
+
+<a href="https://redmonk.com/rstephens/2024/09/12/top20-jun2024/">
+    <img src="redmonk-jun-2024.png" alt="RedMonk Language Popularity">
+</a>
+
 
 ### Stability and Backward Compatibility
 
 One of Rust's strongest selling points is its commitment to stability. Since its 1.0 release in 2015, Rust has maintained backward compatibility across [**more than 105 releases**](https://releases.rs/). 
+
+Releases are cut every six weeks and roughly every 3 years a new edition is released, which allows the language to evolve while preserving compatibility with existing code. This stability is a significant advantage for organizations that need to maintain long-lived codebases or have strict requirements around backward compatibility.
 
 **Rust's stability is a fundamental business advantage.**
 
@@ -29,9 +44,13 @@ Code written in Rust 1.0 continues to compile and run today, protecting your inv
 
 Rust's tooling ecosystem, centered around Cargo, provides a remarkably smooth developer experience. Cargo unifies building, testing, and dependency management into a single, coherent tool that just works. The compiler's error messages are legendary for their clarity and helpfulness, often telling developers exactly how to fix issues. IDE support through rust-analyzer and RustRover is rock-solid, providing a reliable development experience that boosts productivity. This tooling excellence isn't an accident — it's the result of deliberate design decisions and years of community investment.
 
+In Scala, build tools like sbt and dependency management tools like Maven can be complex and error-prone. IDE support, while improving, can be inconsistent across different editors and might not support all language features. [The overall developer experience in Rust is more polished and consistent.](https://users.scala-lang.org/t/what-are-some-of-the-advantages-of-using-scala-over-rust-c-and-other-native-languages/2556/10)
+
 ### Performance with Safety
 
-While Scala and Clojure offer good performance for JVM languages, Rust provides performance comparable to C/C++ while guaranteeing memory safety at compile time. This combination is particularly valuable in an era of cloud computing, where every millisecond of latency and every megabyte of memory directly affects operating costs. Rust's predictable resource usage and lack of garbage collection pauses make it ideal for systems that require consistent performance. Organizations often find that moving performance-critical components to Rust can significantly reduce their infrastructure costs.
+While Scala and Clojure offer good performance for JVM languages, Rust provides performance comparable to C/C++ while guaranteeing memory safety at compile time. This combination is particularly valuable in an era of cloud computing, where every millisecond of latency and every megabyte of memory directly affects operating costs. However, Scala developers should note that writing truly immutable code can actually be more challenging in Rust than in Scala.
+
+Rust's predictable resource usage and lack of garbage collection pauses make it ideal for systems that require consistent performance. Organizations often find that moving performance-critical components to [Rust can significantly reduce their infrastructure costs](https://corrode.dev/blog/why-rust/#cost-savings).
 
 ## Making the Business Case
 
@@ -53,7 +72,8 @@ The key to successful migration is maintaining optionality. Rust's excellent int
 
 The transition to Rust does present challenges. The ownership and borrowing concepts take time to master, though the compiler's excellent error messages help guide developers through the learning process. The ecosystem, while growing rapidly, may not yet have direct equivalents for all specialized JVM libraries. Some internal tooling may need to be rebuilt or adapted.
 
-However, these challenges should be viewed in context. The learning curve, while steep, is finite—developers typically become productive in Rust within a few months. The ecosystem limitations often push teams toward simpler, more maintainable solutions. And the need to rebuild tools can be an opportunity to improve and modernize development workflows.
+However, these challenges should be viewed in context. The learning curve, while steep, is finite — developers
+with a strong functional programming background typically become productive in Rust within a few months. The ecosystem limitations often push teams toward simpler, more maintainable solutions. And the need to rebuild tools can be an opportunity to improve and modernize development workflows.
 
 ## Conclusion
 
@@ -63,10 +83,12 @@ The decision to migrate from Scala/Clojure to Rust should be driven by specific 
 
 The transition requires investment, but Rust's growing ecosystem, excellent tooling, and strong industry adoption make it an increasingly attractive option for organizations looking to move beyond the JVM while maintaining the benefits of strong typing and functional programming paradigms.
 
-{% info(headline="Need Help Migrating to Rust?") %}
+{% info(headline="Is Your Team Considering a Migration to Rust?") %}
 
 I can help you evaluate your current systems, design a migration strategy, and
-train your developers to succeed with Rust. [Get in touch](/about) to learn 
-more.
+help you make an informed decision about moving to Rust. I offer consulting
+services to help you assess the technical and business implications of a
+migration, and I can train your developers to succeed with Rust.
+[Get in touch for a free consultation](/about).
 
 {% end %}
