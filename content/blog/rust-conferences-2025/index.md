@@ -411,3 +411,10 @@ addDaysUntilConference();
   "keywords": ["Rust", "Programming", "Conference", "Developer Events", "Tech Conference"]
 }
 </script>
+
+
+<style>
+  iframe, object, embed {
+    max-width: 100%;
+}
+</style>
