@@ -28,6 +28,8 @@ In this article, you'll learn:
 
 By the end, you’ll have a clear idea if Rust is the right choice for your organization and if so, how to make the transition as smooth as possible.
 
+## Differences Between Java and Rust 
+
 Before diving into migration tips, let's look at key differences between Java and Rust:
 
 | Aspect             | Java                                                   | Rust                                              |
@@ -37,7 +39,6 @@ Before diving into migration tips, let's look at key differences between Java an
 | Default Mutability | Mutable by default                                     | Immutable by default, requires `mut`              |
 | Null Safety        | Allows null pointers                                   | No null pointers, uses `Option<T>`                |
 | Code Organization  | Classes with inheritance                               | Structs with traits (composition)                 |
-| Smallest Web Server | Spring Boot: 214MB RAM (2 processes)                   | Actix-web: 7MB RAM (1 process)                    |
 | Package Management | Gradle/Maven                                           | Cargo (integrated build + deps)                   |
 | Concurrency        | Thread-based with synchronized blocks                  | Built-in safety via ownership system; async/await |
 | Error Handling     | Checked exceptions                                     | Result and Option types                           |
@@ -58,7 +59,7 @@ Resources like [Rustlings](https://github.com/rust-lang/rustlings), [Rust By Exa
 [100 Exercises To Learn Rust](https://github.com/mainmatter/100-exercises-to-learn-rust), and 
 [Rustfinity](https://www.rustfinity.com/) are all great for self-learning. 
 
-If you’re looking for a more structured approach, consider hiring a Rust consultant or trainer.
+If you’re looking for a more structured approach, [consider hiring a Rust consultant or trainer](/about).
 Bringing in experts can make the transition even faster and smoother.
 Your team will not only learn Rust but also feel more confident working with it in production.
 
@@ -71,6 +72,7 @@ Pick a small, non-critical part of your application for the first Rust implement
 
 2. **Prepare Your Team**  
 Don’t just decide this for your developers—decide together. Get the team ready with training or external expertise, and focus on integration with your existing Java system. Rust will likely need new dependencies, so research the ecosystem and be ready to roll up your sleeves to contribute if necessary.
+Take a look at [blessed.rs](https://blessed.rs), [lib.rs](https://lib.rs/std), and [awesome-rust](https://github.com/rust-unofficial/awesome-rust) for a curated list of libraries. 
 
 3. **Evaluate Dependencies Upfront**  
 Consider potential constraints like proprietary tools or databases that may complicate integration with Rust. Make sure the libraries you need are available, or be prepared to write your own.
@@ -235,6 +237,10 @@ If you’re considering a migration, start by discussing the benefits and challe
 What are your hopes for Rust? What are the alternatives considered? What are your key KPIs for success?
 What is the skill level of your team, and how can you support them in learning Rust?
 It helps to put your thoughts into writing and share them with the team.
+
+On that note, hiring Rust developers can be challenging. It's a relatively new language, and most Rust developers 
+don't have any production experience yet. Instead, consider upskilling your existing Java developers.
+They already know your systems and can learn Rust with the right training and support.
 
 ## Conclusion
 
