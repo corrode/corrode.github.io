@@ -219,10 +219,10 @@ RustForge is the first conference in the Asia/Pacific region that focuses on Rus
 - **Where**: [Shed 6, Wellington, New Zealand](https://maps.app.goo.gl/PDbFTB5Gqs5iVmeNA)
 - **Format**: 2 days of workshops, excursions and collaborative coding, followed by a 2 day conference
 - **Focus**: A tech conference for the Rust community where the hallway track is the main track.
-- **Pricing**: TBA
+- **Pricing**: 300 USD (initial estimate)
 - **CFP**: TBA
 - **Links**: [Website](https://rustforgeconf.com/)
-- **Social**: [Twitter](https://x.com/rustforgeconf)
+- **Social**: [Twitter](https://x.com/rustforgeconf) | [LinkedIn](https://www.linkedin.com/company/rustforgeconf/) | [Instagram](https://www.instagram.com/rustforgeconf/) 
 
 ### RustConf 
 
