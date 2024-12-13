@@ -5,6 +5,9 @@ template = "article.html"
 draft = false
 [extra]
 series = "Guides"
+resources = [
+  "[Comparing Rust and Java - Andre Bogus](https://llogiq.github.io/2016/02/28/java-rust.html)",
+]
 +++
 
 {% info(headline="A Practical Guide for Decision Makers" ) %}
