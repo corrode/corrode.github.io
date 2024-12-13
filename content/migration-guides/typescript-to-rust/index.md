@@ -5,6 +5,9 @@ template = "article.html"
 draft = false
 [extra]
 series = "Guides"
+resources = [
+    "[Syntax comparison between TypeScript to Rust](https://blog.robbie.digital/posts/typescript-to-rust)",
+]
 +++
 
 {% info(headline="A Practical Guide for Decision Makers" ) %}
