@@ -6,7 +6,8 @@ draft = false
 [extra]
 series = "Guides"
 resources = [
-    "[Syntax comparison between TypeScript to Rust](https://blog.robbie.digital/posts/typescript-to-rust)",
+    "[Syntax comparison between TypeScript to Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
+    "[My experience migrating TypeScript libraries to Rust - Patrick Desjardins](https://patrickdesjardins.com/blog/migrating-typescript-library-to-rust)",
 ]
 +++
 
