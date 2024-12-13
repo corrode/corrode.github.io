@@ -110,6 +110,25 @@ Don't let this worry you – Rust's type system ensures robust functionality eve
 The ecosystem grows fast, and the existing libraries work reliably.
 For specific use cases, writing your own library is common and well-supported.
 
+## Rust vs TypeScript For Backend Services
+
+TypeScript is a great language for backend services.
+A lot of companies use it successfully.
+There are many frameworks to choose from, like Express, NestJS, or Fastify.
+These frameworks are mature and well-documented.
+
+By comparison, Rust's backend ecosystem is smaller.
+You have Axum, Actix, and Rocket, among others.
+These frameworks are fast and reliable, but they don't provide a "batteries-included" experience like Express.
+
+That said, Rust's ecosystem is growing fast and most companies find the available libraries sufficient.
+I personally recommend [axum](https://github.com/tokio-rs/axum) as it has the largest momentum and is backed by the Tokio team.
+
+Deployment is straightforward.
+You can build your Rust service into a single binary and deploy it to a container or a server.
+Rust binaries are small and have no runtime dependencies.
+This makes deployment easy and reliable.
+
 ## Rust is Really Fast 
 
 Teams are often shocks that Rust is so fast.
