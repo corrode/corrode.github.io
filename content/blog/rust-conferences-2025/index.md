@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2024-12-09
+updated = 2024-12-19
 template = "article.html"
 draft = false
 [extra]
@@ -91,7 +91,9 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Where**: [Gliwice, Poland](https://maps.app.goo.gl/38cqAgQBnDG7nNvM7)
 - **Format**: 2 days of talks and workshops
 - **Focus**: Rust programming language
-- **Pricing**: TBA
+- **Pricing**: 
+  - Standard Ticket: 120 USD
+  - Student Ticket: 20 USD
 - **CFP**: [Open until January 10, 2025](https://rustmeet.confreg.pl/events/30-rustmeet-2025)
 - **Links**: [Website](https://rustmeet.eu/) 
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
