@@ -56,9 +56,9 @@ UID:rustasia2025@rustasiaconf.com
 DTSTAMP:20241203T000000Z
 DTSTART;VALUE=DATE:20250328
 DTEND;VALUE=DATE:20250329
-SUMMARY:RustAsia 2025
+SUMMARY:RUSTAsia 2025
 LOCATION:InnoCentre\, Kowloon Tong\, Hong Kong
-DESCRIPTION:First RustAsia conference. Hybrid format (in-person + online).\n\nFormat: Hybrid conference\nFocus: Rust in Asia\nPricing:\n- Online: $68\n- General: $245 (Early Bird)\n- VIP: $375\n- Corporate: $450\n\nCFP Open until December 31\, 2024\n\nWebsite: https://rustasiaconf.com/
+DESCRIPTION:First RUSTAsia conference. Hybrid format (in-person + online).\n\nFormat: Hybrid conference\nFocus: Rust in Asia\nPricing:\n- Online: $68\n- General: $245 (Early Bird)\n- VIP: $375\n- Corporate: $450\n\nCFP Open until December 31\, 2024\n\nWebsite: https://rustasiaconf.com/
 URL:https://rustasiaconf.com/
 END:VEVENT
 

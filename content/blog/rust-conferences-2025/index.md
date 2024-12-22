@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2024-12-19
+updated = 2024-12-22
 template = "article.html"
 draft = false
 [extra]
@@ -118,13 +118,13 @@ Expect a developer-friendly atmosphere with ~15 expert talks in a single-track f
 - **Links**: [Website](https://www.rustikon.dev/) | [Tickets](https://www.rustikon.dev/tickets) | [Announcement](https://softwaremill.com/why-attend-a-rust-conference-for-developers-rustikon/)
 - **Social**: [Twitter](https://x.com/rustikonconf) | [Mastodon](https://mastodon.social/@Rustikon)
 
-### RustAsia (Hong Kong)
+### RUSTAsia (Hong Kong)
 
 <a href="https://rustasiaconf.com/" target="_blank">
-  <img src="rustasia.jpg" alt="RustAsia" />
+  <img src="rustasia.jpg" alt="RUSTAsia" />
 </a>
 
-Another first-time event, RustAsia is a conference for Rust developers in Asia.  
+Another first-time event, RUSTAsia is a conference for Rust developers in Asia.  
 After many years without a Rust conference in Asia (the last one being RustCon Asia in 2019), the community is excited to have a new event in Hong Kong.
 
 - **When**: March 28, 2025
