@@ -396,25 +396,6 @@ function addDaysUntilConference() {
 addDaysUntilConference();
 </script>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": "Rust Conferences 2025",
-  "description": "Complete overview of Rust programming language conferences and events in 2025",
-  "eventSchedule": [
-    {
-      "@type": "Schedule",
-      "startDate": "2025-02-19",
-      "endDate": "2025-12-31",
-      "eventAttendanceMode": "Mixed"
-    }
-  ],
-  "keywords": ["Rust", "Programming", "Conference", "Developer Events", "Tech Conference"]
-}
-</script>
-
-
 <style>
   iframe, object, embed {
     max-width: 100%;
