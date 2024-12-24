@@ -10,6 +10,8 @@ episode = "06"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-ec214dbb" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/holiday-special/player.js?size=s"></script></div>
+
 While we try not to get too sentimental, celebrating one year of 'Rust in Production' alongside the holiday season feels like a perfect occasion to reflect. For this special episode of the podcast, we've gathered heartfelt messages from our guests to the Rust community.
 
 There are two common themes that run through these messages:
