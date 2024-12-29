@@ -36,7 +36,7 @@ The common narrative goes like this:
 
 That's why people believe that Rust isn't a good fit for prototyping.
 
-I've found that developers from other languages and Rust beginners often share this preconception about Rust.
+I've found that developers new to Rust often share this preconception.
 These developers stumble over the strict type system and the borrow checker while trying to sketch out a solution.
 They believe that with Rust you're either at 0% or 100% done (everything works and has no undefined behavior) and there's nothing in between.
 
