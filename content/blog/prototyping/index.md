@@ -21,9 +21,7 @@ Programming is an iterative process - as much as we would like to come up with t
 Whether you're writing games, CLI tools, or designing library APIs, prototyping helps tremendously in finding the best approach before committing to a design.
 It helps reveal the patterns behind more idiomatic code.
 
-Contrary to popular belief, Rust is a joy for building prototypes.
-
-For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas.
+For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas. Contrary to popular belief, it is a joy for building prototypes.
 
 You don't need to be a Rust expert to be productive - in fact, many of the techniques we'll discuss specifically help you *sidestep* Rust's more advanced features.
 If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can quickly bring their ideas to life.
