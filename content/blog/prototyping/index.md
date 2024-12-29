@@ -739,21 +739,20 @@ See also [Matklad's article on large Rust workspaces](https://matklad.github.io/
 
 ## Summary
 
-The beauty of prototyping in Rust is that your "rough drafts" are often already production-worthy.
-Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code is still memory-safe and reasonably fast.
+The beauty of prototyping in Rust is that your "rough drafts" have the same memory safety and performance as polished code.
+Even when I liberally use `unwrap()`, stick everything in `main.rs`, and reach for owned types everywhere, the resulting code 
+is on-par with a Python prototype in reliability, but outperforms it easily.
+This makes it perfect for experimenting with real-world workloads, even before investing time in proper error handling.
 
 Let's see how Rust stacks up against Python for prototyping:
 
 | Aspect                    | Python                                                                                                                             | Rust                                                                                                                      |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Initial Development Speed | ✓ Very quick to write initial code<br>✓ No compilation step<br>✓ Simple syntax                                                     | ⚠️ Slightly slower initial development<br>✓ Type inference helps<br>✓ Tools like `bacon` provide quick feedback            |
-| Error Handling            | ❌ Silent failures possible<br>❌ Runtime exceptions<br>❌ Type errors discovered late                                                | ✓ Explicit error handling (with `unwrap` for prototypes)<br>✓ Compile-time error catching<br>✓ Type safety from the start |
-| Standard Library          | ✓ Batteries included<br>✓ Rich ecosystem                                                                                           | ❌ Smaller standard library<br>✓ Growing ecosystem of high-quality crates<br>
-| Transition to Production  | ❌ Need extensive testing to catch type errors<br>❌ Often requires rewrite in another language<br>❌ Performance optimization needed | ✓ Same code can go to production<br>✓ Already has good performance<br>✓ Memory safety guaranteed                          |
-| Maintenance               | ❌ Type errors surface during runtime<br>❌ Refactoring is risky<br>❌ Documentation can get out of sync                              | ✓ Compiler catches most issues<br>✓ Safe refactoring with type system<br>✓ Types serve as documentation                   |
-| Debugging                 | ✓ Interactive debugger<br>✓ Easy print debugging                                                            | ✓ `dbg!` macro<br>✓ Compile-time catches most bugs                                                                                                 |
-| Code Evolution            | ❌ Hard to maintain large codebases<br>❌ Type issues compound                                                                      | ✓ Compiler guides improvements<br>✓ Types help manage complexity                         |
-| Collaboration             | ❌ Implicit assumptions about types<br>❌ Easy to break others' code<br>✓ Lower learning curve                                       | ✓ Explicit contracts through types<br>✓ Compiler prevents many conflicts<br>⚠️ Steeper learning curve                      |
+| Initial Development Speed | ✓ Very quick to write initial code<br>✓ No compilation step<br>✓ Dynamic typing speeds up prototyping<br>✓ File watchers available                             | ⚠️ Slightly slower initial development<br>✓ Type inference helps<br>✓ Tools like `bacon` provide quick feedback            |
+| Standard Library          | ✓ Batteries included<br>✓ Rich ecosystem                                                                                           | ❌ Smaller standard library<br>✓ Growing ecosystem of high-quality crates                                                   |
+| Transition to Production  | ❌ Need extensive testing to catch type errors<br>❌ Bad performance might require extra work or rewrite in another language | ✓ Minimal changes needed beyond error handling<br>✓ Already has good performance<br>✓ Memory safety guaranteed             |
+| Maintenance               | ❌ Type errors surface during runtime<br>❌ Refactoring is risky                              | ✓ Compiler catches most issues<br>✓ Safe refactoring with type system              |
+| Code Evolution            | ❌ Hard to maintain large codebases<br>❌ Type issues compound                                                                      | ✓ Compiler guides improvements<br>✓ Types help manage complexity                                                          |
 
 
 Quite frankly, Rust makes for an excellent prototyping language if you embrace its strengths.
