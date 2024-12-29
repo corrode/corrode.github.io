@@ -34,7 +34,6 @@ The common narrative goes like this:
 > Rust pushes back when you change your mind because the type system is very strict.
 > On top of that, getting your idea to compile takes longer than in other languages, so the feedback loop is slower.
 
-That's why people believe that Rust isn't a good fit for prototyping.
 
 I've found that developers new to Rust often share this preconception.
 These developers stumble over the strict type system and the borrow checker while trying to sketch out a solution.
