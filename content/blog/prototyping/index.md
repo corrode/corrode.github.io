@@ -71,7 +71,7 @@ This saves you a lot of time hunting down bugs later on.
 ### Single Language for Everything
 
 To me, it's super nice to have a single language I know well and can use for all stages of a project. 
-A language that I can learn and understand all the way down to the implementation of the standard library itself (simply by reading to the source code).
+A language that I can learn and understand all the way down to the implementation of the standard library itself (simply by reading the source code).
 Other languages are often written in C/C++, and it's hard to understand what's going on under the hood.
 
 ### Great Teaching Tool
