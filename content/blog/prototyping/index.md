@@ -18,6 +18,9 @@ reviews = [
 
 Programming is an iterative process - as much as we would like to come up with the perfect solution from the start, it rarely works that way.
 
+Many of my best programs have started as quick prototypes.
+The bad ones stay prototypes, but the good ones evolve into production code.
+
 Whether you're writing games, CLI tools, or designing library APIs, prototyping helps tremendously in finding the best approach before committing to a design.
 It helps reveal the patterns behind more idiomatic code.
 
