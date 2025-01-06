@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2024-12-22
+updated = 2025-01-06
 template = "article.html"
 draft = false
 [extra]
@@ -136,7 +136,7 @@ After many years without a Rust conference in Asia (the last one being RustCon A
   - Standard: $245 (early bird)
   - VIP: $375
   - Corporate: $450
-- **CFP**: [Open until December 31, 2024](https://rustasiaconf.com/proposals)
+- **CFP**: [Closed](https://rustasiaconf.com/proposals)
 - **Links**: [Website](https://rustasiaconf.com/)
 - **Social**: [Twitter](https://x.com/rustconasia)
 
@@ -158,7 +158,7 @@ development, and eBPF.
 - **Format**: 1 day (talks + workshops)
 - **Focus**: Low-level programming, system development, and Rust ecosystem
 - **Pricing**: Free
-- **CFP**: [Open until January 1, 2025](https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-@-april-20-2025)
+- **CFP**: Closed 
 - **Links**: [Website](https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-91f7b3a6)
 - **Social**: [Twitter](https://x.com/turkiyerustcom)
 
@@ -237,7 +237,7 @@ RustConf is the official Rust conference organized by the Rust Foundation.
 It's a great place to meet the Rust core team and other community members.
 The last edition was held in Montreal, Canada and the 2025 edition will be announced soon.
 
-- **When**: September 2, 2025
+- **When**: September 2-5, 2025
 - **Where**: TBA
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
