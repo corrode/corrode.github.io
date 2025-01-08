@@ -64,3 +64,4 @@ In his free time, Anton enjoys working on like his fully open-source and Rust-ba
 - [Brave Search](https://search.brave.com)
 - [Anton Lazarev on GitHub](https://github.com/antonok-edm)
 - [Anton Lazarev on Mastodon](https://mastodon.social/@antonok@fosstodon.org)
+- [Anton's amazing Keyboard Project](https://kb2.antonok.com)
