@@ -12,6 +12,7 @@ episode = "06"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-9d22a062" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/brave-with-anton-lazarev/player.js?size=s"></script></div>
 Web browsers today face increasing demands for both performance and privacy. At Brave, they're tackling both challenges head-on with their Rust-based ad-blocking engine. This isn't just about blocking ads – it's about doing so with minimal performance impact while maintaining compatibility with existing filter lists and adapting to evolving web technologies.
 
 <!-- more -->
