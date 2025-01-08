@@ -8,7 +8,7 @@ aliases = ["/p/s03e07"]
 guest = "Anton Lazarev"
 role = "Senior Software Engineer"
 season = "03"
-episode = "06"
+episode = "07"
 series = "Podcast"
 +++
 
