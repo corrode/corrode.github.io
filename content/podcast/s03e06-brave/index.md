@@ -52,7 +52,7 @@ In his free time, Anton enjoys working on like his fully open-source and Rust-ba
 - [Angelfish browser](https://apps.kde.org/angelfish/)
 - [QuteBrowser](https://qutebrowser.org/) - Keyboard-focused browser
 - [Privaxy](https://github.com/barre/privaxy) - Privacy proxy using adblock-rust
-- ["Readable" GitHub repo](https://github.com/readable-app/readable) - Matthias' attempt to make the web readable
+- [Readable](https://github.com/readable-app/readable) - Matthias' attempt to make the web readable
 - [Anton's Keyboard](https://kb2.antonok.com/) - Custom keyboard setup
 
 ### Official Links
