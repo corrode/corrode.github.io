@@ -1,6 +1,6 @@
 +++
 title = "Brave"
-date = 2025-01-07
+date = 2025-01-09
 template = "episode.html"
 draft = false
 aliases = ["/p/s03e07"]
