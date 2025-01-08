@@ -48,7 +48,7 @@ In his free time, Anton enjoys working on like his fully open-source and Rust-ba
 - [Swift supported compile targets](https://github.com/swiftlang/swift/blob/131e504c16f069305c56fd25b8d6373639a6f32a/utils/swift_build_support/swift_build_support/targets.py#L347-L427)
 - [Matthias: "The Dying Web"](https://endler.dev/2024/the-dying-web/)
 - [GN](https://chromium.googlesource.com/chromium/src/tools/gn/+/48062805e19b4697c5fbd926dc649c78b6aaa138/README.md) - Old Chromium build system
-- [GNRT](https://example.com/gnrt) - New Chromium build system
+- [GNRT](https://source.chromium.org/chromium/chromium/src/+/main:tools/crates/gnrt/) - New Chromium build system: GN from Rust third_party (pronounced "generate")
 - [Bazel](https://bazel.build/) - Google's build system
 - [Ninja](https://ninja-build.org/) - Small build system focusing on speed
 - [Angelfish browser](https://apps.kde.org/angelfish/)
