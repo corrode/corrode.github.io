@@ -44,7 +44,7 @@ In his free time, Anton enjoys working on like his fully open-source and Rust-ba
 - [Servo2](https://servo.org/) - Next generation browser engine
 - [Ladybird](https://ladybird.org/) - Browser project
 - [Swift supported compile targets](https://github.com/swiftlang/swift/blob/131e504c16f069305c56fd25b8d6373639a6f32a/utils/swift_build_support/swift_build_support/targets.py#L347-L427)
-- ["The Dying Web" by Matthias](https://endler.dev/2024/the-dying-web/)
+- [Matthias: "The Dying Web"](https://endler.dev/2024/the-dying-web/)
 - [GN](https://gn.googlesource.com/gn/) - Old Chromium build system
 - [GNRT](https://example.com/gnrt) - New Chromium build system
 - [Bazel](https://bazel.build/) - Google's build system
