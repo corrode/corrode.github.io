@@ -78,8 +78,8 @@ its focus on safety.
 If the default was mutability, you'd have to check every
 function to see if it changes the value of a variable.
 
-Instead, Rust is very explicit about mutability. It makes you write it out every time you
-create or pass a mutable variable.
+Instead, Rust is very explicit about mutability.
+It makes you write it out every time you create or pass a mutable variable.
 
 ```rust
 fn main() {
@@ -161,6 +161,27 @@ That's why immutability is a good default: most of the time you don't need all t
 
 The real-world implications of immutability can be less straightforward.
 Let's explore a concrete example to illustrate how an immutable approach can impact our design decisions for the better.
+
+## Side Note: Function Signatures
+
+In Rust, function signatures are very explicit about what a function does.
+For instance, what is the difference between these two function signatures?
+
+```rust
+fn my_function1(a: &mut T) { ... }
+fn my_function2(mut a: &T) { ... }
+```
+
+The first function takes an immutable reference to a mutable value.
+This means that the value being pointed to can be modified through the reference, but the reference itself cannot be reassigned.
+
+The second function takes a mutable binding to an immutable reference.
+This means that the binding `a` can be reassigned to point to different values, but cannot modify any value it points to.
+
+The difference is subtle, but it goes to show how Rust makes you think about mutability in a very explicit way.
+
+You would typically use the first form (`a: &mut T`) when you need to modify the original value in place, like updating a struct's fields or modifying an element in a data structure.
+The second form (`mut a: &T`) is less common and is used when you need to temporarily point to different values within a function, like when comparing multiple values or iterating through a collection of references.
 
 ## Controlling Mutability
 
