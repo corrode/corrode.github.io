@@ -1,6 +1,6 @@
 +++
 title = "Prototyping in Rust"
-date = 2024-12-03
+date = 2025-01-15
 draft = false
 template = "article.html"
 [extra]
@@ -252,6 +252,7 @@ It's okay to use `unwrap` in the early stages of your project.
 An explicit `unwrap` is like a stop sign that tells you "here's something you need to fix later."
 You can easily grep for `unwrap` and replace it with proper error handling later when you polish your code.
 This way, you get the best of both worlds: quick iteration cycles and a clear path to robust error handling.
+There's also a [clippy lint](https://rust-lang.github.io/rust-clippy/master/index.html#unwrap_used) that points out all the `unwrap`s in your code.
 
 ```rust
 use std::fs;
