@@ -1,7 +1,7 @@
 +++
 title = "Aim For Immutability in Rust"
 date = 2023-09-21
-updated = 2024-09-20
+updated = 2025-01-14
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -381,6 +381,8 @@ On top of that, they are a common source of deadlocks.
 
 Immutable code is easier to test, parallelize, and reason about. It's also
 easier to refactor, because you don't have to worry about side effects.
+
+Where [C/C++ requires you to explicitly declare things as immutable](https://stackoverflow.com/a/29682542/270334), Rust requires you to explicitly declare things as mutable, making everything else immutable by default.
 
 Rust pushes you towards immutability and offers `mut` as an opt-in escape hatch
 for hot paths and tight loops. Many (perhaps most) other languages do the exact
