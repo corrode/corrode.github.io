@@ -12,6 +12,7 @@ resources = [
     "[Rust Nation UK - Easy Mode Rust by Andre Bogus](https://www.youtube.com/watch?v=33FG6O3qejM)",
 ]
 reviews = [
+    { name = "Hanno Braun", url = "https://www.hannobraun.com/" },
     { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
 ]
 +++
@@ -53,6 +54,28 @@ These are all [common misconceptions](https://medium.com/@victor.ronin/love-hate
 
 **It turns out you can avoid all of these pitfalls and still get a lot of value from prototyping in Rust.**
 
+## Problems with Prototyping in Other Languages
+
+If you're happy with a scripting language like Python, why bother with Rust?
+
+That's a fair question!
+After all, Python is known for its quick feedback loop and dynamic type system, and you can always rewrite the code in Rust later.
+
+Yes, Python is a great choice for prototyping.
+But I've been a Python developer for long enough to know that I'll very quickly grow out of the "prototype" phase
+-– which is when the language falls apart for me.
+
+One thing I found particularly challenging in Python was hardening my prototype into a robust, production-ready codebase.
+I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you just passed the wrong type to a function. 
+Because of that, I find myself wanting to switch to something more robust as soon as my prototype starts to take shape. 
+
+The problem is that switching languages is a *huge* undertaking -- especially mid-project.
+Maybe you'll have to maintain two codebases simultaneously for a while.
+On top of that, Rust follows different idioms than Python, so you might have to rethink the software architecture.
+And to add insult to injury, you have to change build systems, testing frameworks, and deployment pipelines as well.
+
+Wouldn't it be nice if you could use a single language for prototyping and production?
+
 ## What Makes Rust Great for Prototyping?
 
 ### Solid Foundation From The Beginning
@@ -81,35 +104,11 @@ Other languages are often written in C/C++, and it's hard to understand what's g
 I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
 It's a great way to test my assumptions before I invest too much time in a flawed design. 
 
-## Problems with Prototyping in Other Languages
-
-If you're happy with a scripting language like Python, why bother with Rust?
-
-That's a fair question!
-After all, Python is known for its quick feedback loop and dynamic type system, and you can always rewrite the code in Rust later.
-
-Yes, Python is a great choice for prototyping.
-But I've been a Python developer for a long time, and I find that I very quickly grow out of the "prototype" phase – which is when the language falls apart for me.
-
-One thing I found particularly challenging in Python was hardening my prototype into a robust, production-ready codebase.
-I've found that the really hard bugs in Python are often type-related: deep down in your call chain, the program crashes because you passed the wrong type to a function. 
-Because of that, I find myself wanting to switch to something more robust as soon as my prototype starts to take shape. 
-
-The problem is that switching languages mid-project is a *huge* undertaking.
-Maybe you'll have to maintain two codebases simultaneously for a while.
-On top of that, Rust follows different idioms than Python, so you might have to rethink the software architecture.
-And to make matters worse, you have to change build systems, testing frameworks, and deployment pipelines as well.
-
-Wouldn't it be nice if you could use a single language for prototyping and production?
 
 ## What A Solid Rust Prototyping Workflow Looks Like
 
 If you start with Rust, you get a lot of benefits out of the box:
-
-1. A robust codebase right from the start
-2. Strong type system that catches errors early and helps with refactoring
-3. Built-in linting (rustc and [clippy]) to gradually improve code quality
-4. The ability to ship prototypes for early feedback
+a robust codebase, a strong type system, and built-in [linting][clippy].
 
 [clippy]: https://doc.rust-lang.org/clippy/
 
