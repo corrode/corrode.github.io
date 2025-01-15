@@ -38,8 +38,7 @@ The common narrative goes like this:
 > Rust pushes back when you change your mind because the type system is very strict.
 > On top of that, getting your idea to compile takes longer than in other languages, so the feedback loop is slower.
 
-
-I've found that developers new to Rust often share this preconception.
+I've found that developers not yet too familiar with Rust often share this preconception.
 These developers stumble over the strict type system and the borrow checker while trying to sketch out a solution.
 They believe that with Rust you're either at 0% or 100% done (everything works and has no undefined behavior) and there's nothing in between.
 
@@ -114,7 +113,6 @@ Let's make changes quick and painless and rapidly iterate on our design without 
 
 ## Tips And Tricks For Prototyping In Rust
 
-
 ### Use simple types
 
 Even while prototyping, the type system is not going away.
@@ -159,8 +157,9 @@ The system scales well with more complex types, so you can use this technique ev
 let x: Vec<i32> = vec![1, 2, 3];
 let y: Vec<i32> = vec![4, 5, 6];
 
-// Rust can infer the item type of z
-let z = x.iter().chain(y.iter()).collect::<Vec<_>>();
+// From the context, Rust knows that `z` needs to be a `Vec<i32>`
+// The `_` is a placeholder for the type that Rust will infer
+let z = x.into_iter().chain(y.into_iter()).collect::<Vec<_>>();
 ```
 
 Here's a more complex example which shows just how powerful Rust's type inference can be: 
@@ -175,6 +174,7 @@ let data = vec![
 ];
 
 // Let Rust figure out this complex transformation
+// Can you tell what the type of `categorized` is?
 let categorized = data
     .into_iter()
     .flat_map(|(category, items)| {
