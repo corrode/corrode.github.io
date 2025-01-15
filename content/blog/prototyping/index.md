@@ -19,8 +19,8 @@ reviews = [
 
 Programming is an iterative process - as much as we would like to come up with the perfect solution from the start, it rarely works that way.
 
-Many of my best programs have started as quick prototypes.
-The bad ones stay prototypes, but the good ones evolve into production code.
+Good programs often start as quick prototypes.
+The bad ones stay prototypes, but the best ones evolve into production code.
 
 Whether you're writing games, CLI tools, or designing library APIs, prototyping helps tremendously in finding the best approach before committing to a design.
 It helps reveal the patterns behind more idiomatic code.
@@ -29,6 +29,14 @@ For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas
 
 You don't need to be a Rust expert to be productive - in fact, many of the techniques we'll discuss specifically help you *sidestep* Rust's more advanced features.
 If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can quickly bring their ideas to life.
+
+{% info(headline="Things you'll learn") %}
+
+- How to prototype rapidly in Rust while keeping its safety guarantees
+- Practical techniques to maintain a quick feedback loop
+- Patterns that help you evolve prototypes into production code
+
+{% end %}
 
 ## Why People Think Rust Is Not Good For Prototyping
 
@@ -83,6 +91,8 @@ Rust's strong type system catches design flaws early, but we will see how it als
 This means prototypes can naturally evolve into production code;
 even the first version is often production-ready. 
 
+But don't take my word for it. Here's what Discord had to say about migrating from Go to Rust:
+
 > Remarkably, we had only put very basic thought into optimization as the Rust version was written. Even with just basic optimization, Rust was able to outperform the hyper hand-tuned Go version. This is a huge testament to how easy it is to write efficient programs with Rust compared to the deep dive we had to do with Go.
 > -- From [Why Discord is switching from Go to Rust](https://discord.com/blog/why-discord-is-switching-from-go-to-rust)
 
@@ -102,14 +112,15 @@ Python has a few good traits that we can learn from:
 
 - fast feedback loop
 - changing your mind is easy
-- it's simple to use if you ignore the edge cases
-- there is very little boilerplate
+- it's simple to use (if you ignore the edge cases)
+- very little boilerplate
 - it's easy to experiment and refactor
 - you can do something useful in just a few lines
 - no compilation step 
 
 The goal is to get as close to that experience in Rust as possible while staying true to Rust's core principles.
 Let's make changes quick and painless and rapidly iterate on our design without painting ourselves into a corner.
+(And yes, there will still be a compilation step, but hopefully, a quick one.)
 
 ## Tips And Tricks For Prototyping In Rust
 
@@ -142,7 +153,7 @@ You can always refactor when you actually need the performance or tighter resour
 Rust is a statically, strongly typed language.
 It would be a deal-breaker to write out all the types all the time if it weren't for Rust's type inference.
 
-You can often omit (also called "elide") the types and let the compiler figure it out from the context.
+You can often omit ("elide") the types and let the compiler figure it out from the context.
 
 ```rust
 let x = 42;
@@ -458,7 +469,7 @@ One of the cornerstones of prototyping is that you don't have to have all the an
 In Rust, I find myself reaching for the [`todo!`](https://doc.rust-lang.org/std/macro.todo.html) macro to 
 express that idea.
 
-I will just scaffold out the functions or a module and then fill in the blanks later.
+I routinely just scaffold out the functions or a module and then fill in the blanks later.
 
 ```rust
 // We don't know yet how to process the data
