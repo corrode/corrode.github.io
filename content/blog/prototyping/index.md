@@ -30,7 +30,7 @@ For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas
 You don't need to be a Rust expert to be productive - in fact, many of the techniques we'll discuss specifically help you *sidestep* Rust's more advanced features.
 If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can quickly bring their ideas to life.
 
-{% info(headline="Things you'll learn") %}
+{% info(title="Things you'll learn") %}
 
 - How to prototype rapidly in Rust while keeping its safety guarantees
 - Practical techniques to maintain a quick feedback loop

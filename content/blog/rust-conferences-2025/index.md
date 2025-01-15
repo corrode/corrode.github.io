@@ -10,7 +10,7 @@ hero = "teaching.svg"
 series = "Rust Insights"
 +++
 
-{% info(headline="Looking to attend a Rust conference in 2025?", icon="info") %}
+{% info(title="Looking to attend a Rust conference in 2025?", icon="info") %}
 Here's a list of all major Rust events happening around the world. Find dates,
 locations, ticket prices, CFP deadlines, and more.
 {% end %}

@@ -141,7 +141,7 @@ work with your hiring manager to help them understand how to hire more Rust devs
 
 Good luck with your Rust hiring process!
 
-{% info(headline="Is your company adopting Rust?", icon="crab") %}
+{% info(title="Is your company adopting Rust?", icon="crab") %}
 
 Let me help you make the most of Rust.
 I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting. 

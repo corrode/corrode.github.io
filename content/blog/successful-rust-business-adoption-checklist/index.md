@@ -22,7 +22,7 @@ However, adopting Rustlang for your first production project requires careful pl
 
 The goal of this guide is to provide you with a comprehensive checklist and actionable advice to make your first real-world Rust project a success.
 
-{% info(headline="Looking for a Detailed Rust Project Plan?", icon="crab") %}    
+{% info(title="Looking for a Detailed Rust Project Plan?", icon="crab") %}    
 
 Get my proven Rust project plan that I use for my consulting projects.<br />
 [Access it here](https://corrode.notion.site/8e2457230e75438f95e0620fcf09b034) and customize it to fit your needs.
@@ -378,7 +378,7 @@ Be aware of the (hidden) costs associated with adopting Rust. And there's quite 
     
 </details>
 
-{% info(headline="How Much Will Your Rust Project Cost?", icon="crab") %}
+{% info(title="How Much Will Your Rust Project Cost?", icon="crab") %}
     
 [Here's my detailed checklist for budgeting Rust projects.]( https://corrode.notion.site/862b591975e64a72aba3f8c66e01a3f1)
 
@@ -449,7 +449,7 @@ By acknowledging the challenges and following these strategies, you can ensure a
 
 Check out our ['Rust in Production' podcast](/podcast/) for insights from industry experts on how their teams successfully adopted Rust in production. 
 
-{% info(headline="Need Help with Your Rust Project?") %}
+{% info(title="Need Help with Your Rust Project?") %}
 
 If you're considering adopting Rust for your next project, I can help you get started.
 [Reach out for a free consultation](/#contact) if you need help with your Rust project. I'm happy to help you get the most out of Rust and guide you through the process.

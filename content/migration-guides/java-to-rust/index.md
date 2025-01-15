@@ -10,7 +10,7 @@ resources = [
 ]
 +++
 
-{% info(headline="A Practical Guide for Decision Makers" ) %}
+{% info(title="A Practical Guide for Decision Makers" ) %}
 
 This article is aimed at technical product managers and CTOs who are considering migrating a production Java application — or part of it — to Rust.
 I will give an **honest overview** of the challenges and benefits of such a migration, as well as practical tips to make it successful
@@ -252,7 +252,7 @@ At the end of the day, Rust’s investment pays off. Even if you don’t go full
 If you'd like to discuss this further, feel free to book a call with me.
 I offer consulting services to help you make the right decisions for your project -- even if that means sticking with Java.
 
-{% info(headline="Make the most of Rust", icon="crab") %}
+{% info(title="Make the most of Rust", icon="crab") %}
 
 Is your company considering to migrate from Java to Rust? 
 I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting. 

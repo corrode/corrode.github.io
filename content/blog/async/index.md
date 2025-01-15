@@ -192,7 +192,7 @@ synchronization primitives such as
 [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all but the
 most trivial applications.
 
-{% info(headline="Understanding 'static Lifetimes in Async Rust", icon="info") %}
+{% info(title="Understanding 'static Lifetimes in Async Rust", icon="info") %}
 
 A `'static` trait bound mandates that the type does not contain any non-static
 references. This means the receiver can hold on to the type

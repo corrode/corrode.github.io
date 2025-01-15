@@ -11,7 +11,7 @@ resources = [
 ]
 +++
 
-{% info(headline="A Practical Guide for Decision Makers" ) %}
+{% info(title="A Practical Guide for Decision Makers" ) %}
 I wrote this guide for technical leaders and developers considering a move from TypeScript to Rust.
 After years of helping teams make this transition, I'll share what works, what doesn't, and how to make your migration successful.
 {% end %}
@@ -202,7 +202,7 @@ Maybe pick a monitoring service or CLI tool – something important but not crit
 Perhaps you'll give it a shot during a hackathon or a sprint.
 Build confidence through early wins.
 
-{% info(headline="Ready to make the switch to Rust?", icon="crab") %}
+{% info(title="Ready to make the switch to Rust?", icon="crab") %}
 I help teams make successful transitions from TypeScript to Rust.
 Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/about).
 {% end %}

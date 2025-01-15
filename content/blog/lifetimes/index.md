@@ -15,7 +15,7 @@ credits = [
 
 When people say that learning Rust is hard, they often mention lifetimes. However, even after seven years of writing Rust, 95% of my code, probably more, doesn't have any lifetime annotations! It is one of the areas of the language that I definitely worried way too much about when learning Rust, and I see many beginners do the same.
 
-{% info(headline="Disclaimer: When Lifetimes Really Matter", icon="info") %}
+{% info(title="Disclaimer: When Lifetimes Really Matter", icon="info") %}
 
 The advice in this article is focused on common scenarios. There are cases where you *do* have to worry about lifetimes.
 
@@ -37,7 +37,7 @@ Here, I'm telling the compiler: "this reference `bar` is valid for the lifetime 
 
 Rust has a concept of lifetime *elision*, which means that you don't have to write lifetime annotations in most cases; the compiler will infer them for you.
 
-{% info(headline="Lifetime Elision Recap", icon="info") %}
+{% info(title="Lifetime Elision Recap", icon="info") %}
 
 The rules are simple:
 
@@ -165,7 +165,7 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 
 By adding `'a`, we specify that both input references `x` and `y` have the same lifetime `'a`, and the returned reference will also have this lifetime. This makes it clear to the compiler that the returned reference is guaranteed to be valid as long as *both* input references are valid. Now, the compiler can safely check and ensure that the references are used correctly throughout the code.
 
-{% info(headline="Side Note: Other Programming Languages", icon="info") %}
+{% info(title="Side Note: Other Programming Languages", icon="info") %}
 
 "Hold on," you might say, "other programming languages don't require me to think about lifetimes. Why does Rust make it so complicated?"
 

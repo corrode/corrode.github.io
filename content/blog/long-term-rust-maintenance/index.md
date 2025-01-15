@@ -326,7 +326,7 @@ You can find the available features in the crate's `Cargo.toml` file or on the
 crate's documentation page.
 For example, [here are the `tokio` features](https://docs.rs/crate/tokio/latest/features).
 
-{% info(headline="Pro Tip: Quickly Discovering Unnecessary Features") %}
+{% info(title="Pro Tip: Quickly Discovering Unnecessary Features") %}
 
 A nice trick is to use the [`default-features = false`](https://doc.rust-lang.org/cargo/reference/features.html#the-default-feature) option for each dependency in your
 `Cargo.toml`, which disables all features, which are enabled by default.
@@ -558,7 +558,7 @@ For example, you could schedule a **quarterly project review** to check for
 outdated dependencies, security vulnerabilities, and code smells.
 Find a time that works for your team and stick to it.
 
-{% info(headline="Download My Free Maintenance Checklist", icon="info") %}
+{% info(title="Download My Free Maintenance Checklist", icon="info") %}
 
 [Here is my own checklist for regular maintenance.](https://corrode.notion.site/Rust-Maintenance-Checklist-3fa116db4c6149cbacbe3c16f81c6bb0)
 Feel free to create a copy and adapt it to your needs. If you have any suggestions for improvements, please let me know and I'll update the list.
@@ -576,7 +576,7 @@ tooling, and active community.
 By following the principles outlined in this post, you can
 ensure that your codebase remains robust and maintainable for years to come.
 
-{% info(headline="Supercharge Your Rust Adoption", icon="radio") %}
+{% info(title="Supercharge Your Rust Adoption", icon="radio") %}
 
 If you want to learn from top companies that have successfully adopted Rust,
 consider subscribing to the [Rust In Production Podcast](/podcast).

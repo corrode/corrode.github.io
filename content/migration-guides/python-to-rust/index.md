@@ -7,7 +7,7 @@ draft = false
 series = "Guides"
 +++
 
-{% info(headline="A Practical Guide for Decision Makers" ) %}
+{% info(title="A Practical Guide for Decision Makers" ) %}
 This guide is written for technical leaders and developers considering moving their teams from Python to Rust.
 I used to be a Python developer myself, and I know how daunting it can be to switch to a new language.
 Base on years of experience helping teams make this transition, I'll share practical insights on what works, what doesn't, and how to ensure a successful migration.
@@ -282,7 +282,7 @@ Remember that this isn't an all-or-nothing decision. Many organizations successf
 Write down your reasoning for the migration. Many issues can be solved in Python, and the migration might not be necessary.
 However, if you're hitting the limits of Python, Rust is a strong contender.
 
-{% info(headline="Ready to Make the Move to Rust?", icon="crab") %}
+{% info(title="Ready to Make the Move to Rust?", icon="crab") %}
 I help teams make successful transitions from Python to Rust.
 My clients moved critical workloads to Rust and saw significant improvements in performance and reliability.
 Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/about).

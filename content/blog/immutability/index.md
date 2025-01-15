@@ -221,7 +221,7 @@ impl Mailbox {
 }
 ```
 
-{% info(headline="Note") %}
+{% info(title="Note") %}
 
 This is a contrived example and not idiomatic Rust code! 
 In a real-world scenario, we should use better abstractions, such as a `Message`

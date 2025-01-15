@@ -88,7 +88,7 @@ This will render as:
 let t = SomeType::new();
 ```
 
-{% info(headline="Caution When Hiding Code in Examples", icon="warning") %}
+{% info(title="Caution When Hiding Code in Examples", icon="warning") %}
 
 Be careful with this approach and don't overdo it. Try to keep your examples simple and don't hide too much code because it can be a frustrating experience for your users if they copy-paste your examples and they don't work.
 

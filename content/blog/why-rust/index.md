@@ -33,7 +33,7 @@ assess whether Rust is the right tool for their use-case or not.
 The intent is to provide an honest look at Rust's practicality for production
 to help decision-makers understand its benefits and challenges.
 
-{% info(headline="Streamline Your Decision-Making with Our Compact Audio Guide on Rust", icon="radio") %}
+{% info(title="Streamline Your Decision-Making with Our Compact Audio Guide on Rust", icon="radio") %}
 Considering Rust for your production needs?  
 You might also want to listen to [this podcast episode of Rust in Production](/podcast/s01e07-season-finale/).
 
@@ -652,7 +652,7 @@ essential.
 [Get in touch](/about/) to explore if Rust is the right choice for your
 organization and how it can contribute to your long-term success. 
 
-{% info(headline="Rust in Production Podcast", icon="radio") %}
+{% info(title="Rust in Production Podcast", icon="radio") %}
 Real-world experiences are the best way to learn about the benefits and
 challenges of a technology. That's why we started <a href="/podcast">Rust in Production</a>, a
 podcast about companies that bet big on Rust.

@@ -322,7 +322,7 @@ respectively](https://github.com/rust-rocksdb/rust-rocksdb/pull/491). Thanks to
 reader [Lilian Anatolie Moraru](https://github.com/lilianmoraru) for mentioning
 this.
 
-{% info(headline="Fair Warning", icon="warning") %}
+{% info(title="Fair Warning", icon="warning") %}
 It seems that switching off features doesn't always improve
 compile time. (See [tikv's experiences
 here](https://github.com/tikv/tikv/pull/4453#issuecomment-481789292).)
@@ -400,7 +400,7 @@ project code is [on Github](https://github.com/bjorn3/rustc_codegen_cranelift).
 
 ### Switch To A Faster Linker
 
-{% info(headline="What is a linker?") %}
+{% info(title="What is a linker?") %}
 A [linker](<https://en.wikipedia.org/wiki/Linker_(computing)>) is a tool that
 combines multiple object files into a single executable.  
 It's the last step in the compilation process.
@@ -1010,7 +1010,7 @@ I hope that you were able to use some of these tips to speed up your Rust builds
 In case you found other ways to speed up your Rust builds, or if you have any
 questions or feedback, I'd love to hear from you.
 
-{% info(headline="Get Professional Support", icon="crab") %}
+{% info(title="Get Professional Support", icon="crab") %}
 If you need support for commercial Rust projects,
 I can also help you with performance problems and reducing your build times.
 [Get in touch.](/about)

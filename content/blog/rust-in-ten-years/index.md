@@ -14,7 +14,7 @@ authors = [
 ]
 +++
 
-{% info(headline="Will Rust still exist, and have proper support, 10, 20 or even 30 years from now?") %}
+{% info(title="Will Rust still exist, and have proper support, 10, 20 or even 30 years from now?") %}
 
 We’ve been asked this question multiple times in the last year. It is a fair question, as adopting any new technology requires an investment and comes with uncertainties, one of them being the durability of the technology. This article explains why we expect Rust to stand the test of time.
 

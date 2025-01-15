@@ -30,7 +30,7 @@ I offer friendly, human-centered training based on a decade of Rust experience a
 
 My training gets your Rust to production in half the time and trains your team in 2 months instead of 4. It's the training you need for the years to come, teaching you how to write Rust well before getting out of your way. I focus on alignment, clarity, and idiomatic Rust.
 
-{% info(headline="Feedback From Happy Customers", icon="heart") %}
+{% info(title="Feedback From Happy Customers", icon="heart") %}
 
 <q>
     I had the pleasure of collaborating with

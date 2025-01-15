@@ -321,7 +321,7 @@ That said, the solution also has its drawbacks.
 Most importantly, it is not equivalent to the imperative version.
 That is because `filter_map(Result::ok)` filters out all errors.
 
-{% info(headline="What is the difference between `filter` and `filter_map`?") %}
+{% info(title="What is the difference between `filter` and `filter_map`?") %}
 In Rust, `filter` takes a closure that returns a `bool` to decide whether to
 include an element in the resulting iterator, whereas `filter_map` takes a
 closure that returns an `Option<T>`.

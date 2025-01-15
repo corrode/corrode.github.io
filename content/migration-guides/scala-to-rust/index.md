@@ -87,7 +87,7 @@ The decision to migrate from Scala/Clojure to Rust should be driven by specific 
 
 The transition requires investment, but Rust's growing ecosystem, excellent tooling, and strong industry adoption make it an increasingly attractive option for organizations looking to move beyond the JVM while maintaining the benefits of strong typing and functional programming paradigms.
 
-{% info(headline="Is Your Team Considering a Migration to Rust?") %}
+{% info(title="Is Your Team Considering a Migration to Rust?") %}
 
 I can help you evaluate your current systems, design a migration strategy, and
 help you make an informed decision about moving to Rust. I offer consulting
