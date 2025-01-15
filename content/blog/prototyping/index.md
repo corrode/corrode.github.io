@@ -110,31 +110,12 @@ Python has a few good traits that we can learn from:
 - no compilation step 
 
 The goal is to get as close to that experience in Rust as possible while staying true to Rust's core principles.
-Let's make changes quick and painless and rapidly iterate on your design without painting ourselves into a corner.
+Let's make changes quick and painless and rapidly iterate on our design without painting ourselves into a corner.
 
 ## Tips And Tricks For Prototyping In Rust
 
-### Start small
 
-There's some overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
-
-Allow yourself to ignore some of the best practices for production code for a while.
-
-It's possible, but you need to switch off your inner critic who always wants to write perfect code from the beginning.
-Rust enables you to comfortably defer perfection.
-You can make the rough edges obvious so that you can sort them out later.
-Don't let perfect be the enemy of good.
-
-One of the biggest mistakes I observe is an engineer's perfectionist instinct to jump on minor details which don't have a broad enough impact to warrant the effort.
-It's better to have a working prototype with a few rough edges than a perfect implementation of a small part of the system.
-
-Remember: you are exploring!
-Use a coarse brush to paint the landscape first.
-Try to get into a flow state where you can quickly iterate.
-Don't get distracted by the details too early.
-During this phase, it's also fine to throw away a lot failed attempts. 
-
-### Use Simple Types
+### Use simple types
 
 Even while prototyping, the type system is not going away.
 There are ways to make this a blessing rather than a curse.
@@ -154,7 +135,9 @@ Here's a quick reference for common prototype-to-production type transitions:
 
 These owned types sidestep most ownership and lifetime issues, but they do it by allocating memory on the heap - just like Python or JavaScript would.
 
-You can always refactor when you actually need the performance or tighter resource usage, but chances are you won't.
+You can always refactor when you actually need the performance or tighter resource usage, but chances are you won't.[^1]
+
+[^1]: More experienced Rust developers might find themselves reaching for an `impl IntoIterator<Item=T>` where `&[T]`/`Vec<T>` would do. Keep it simple!
 
 ### Make use of type inference
 
@@ -207,20 +190,7 @@ println!("What type is banana? {}", categorized.get("banana").unwrap());
 
 It's not easy to visualize the structure of `categorized` in your head, but Rust can figure it out. 
 
-### Use A Good IDE
-
-There is great IDE support for Rust.
-
-IDEs can help you with code completion and refactoring, which keep you in the flow and help you write code faster.
-Autocompletion is so much better with Rust than with dynamic languages because the type system gives the IDE a lot more information to work with.
-
-As a corollary to the previous section, be sure to use enable inlay hints (or inline type hints) in your editor.
-This way, you can quickly see the inferred types right inside your IDE and make sure the types match your expectations.
-There's support for this in most Rust IDEs, including [RustRover](https://www.jetbrains.com/help/rust/viewing-reference-information.html#inlay-hints) and [Visual Studio Code](https://code.visualstudio.com/docs/typescript/typescript-editing#_inlay-hints).
-
-![Inlay hints in Rust Rover](inlay-hints.png)
-
-### Use the Rust Playground
+### Use the Rust playground
 
 You probably already know about the [Rust Playground](https://play.rust-lang.org).
 The playground doesn't support auto-complete, but it's still great when you're on the go or you'd like to share your code with others. 
@@ -273,6 +243,19 @@ At the very least, it costs time. Time you could spend on more important things.
 While prototyping with Rust, you can safely ignore error handling and focus on
 the happy path without losing track of improvement areas. 
 
+### Use a good IDE
+
+There is great IDE support for Rust.
+
+IDEs can help you with code completion and refactoring, which keep you in the flow and help you write code faster.
+Autocompletion is so much better with Rust than with dynamic languages because the type system gives the IDE a lot more information to work with.
+
+As a corollary to the previous section, be sure to use enable inlay hints (or inline type hints) in your editor.
+This way, you can quickly see the inferred types right inside your IDE and make sure the types match your expectations.
+There's support for this in most Rust IDEs, including [RustRover](https://www.jetbrains.com/help/rust/viewing-reference-information.html#inlay-hints) and [Visual Studio Code](https://code.visualstudio.com/docs/typescript/typescript-editing#_inlay-hints).
+
+![Inlay hints in Rust Rover](inlay-hints.png)
+
 ### Use `bacon` for quick feedback cycles
 
 Rust is not a scripting language; there is a compile step!
@@ -322,7 +305,7 @@ There is support for dependencies as well.
 At the moment, `cargo-script` is a nightly feature, but it will be released soon on stable Rust.
 You can read more about it in the [RFC](https://rust-lang.github.io/rfcs/3424-cargo-script.html).
 
-### Don't Worry About Performance
+### Don't worry about performance
 
 You have to try really really hard to write slow code in Rust.
 Use that to your advantage: during the prototype phase, try to keep the code as simple as possible.
@@ -336,9 +319,9 @@ Rust makes code perform well by default - you get memory safety at virtually zer
 This leads to harder-to-maintain code that may not actually run faster.
 
 Resist the urge to optimize too early!
-You will thank yourself later. [^1]
+You will thank yourself later. [^2]
 
-[^1]: In the talk, I show an example where early over-optimization led to the wrong abstraction and made the code slower. The actual bottleneck was elsewhere and hard to uncover without profiling.
+[^2]: In the talk, I show an example where early over-optimization led to the wrong abstraction and made the code slower. The actual bottleneck was elsewhere and hard to uncover without profiling.
 
 ### Use `println!` and `dbg!` for debugging 
 
@@ -384,7 +367,7 @@ The output is nice and tidy:
 
 If you're interested, here are [more details on how to use that handy `dbg!` macro](https://edgarluque.com/blog/rust-dbg-macro/).
 
-### Design Through Types
+### Design through types
 
 Quite frankly, the type system is one of the main reasons I love Rust.
 It feels great to express my ideas in types and see them come to life.
@@ -394,10 +377,10 @@ In the beginning, you won't have a good idea of the types in your system.
 That's fine!
 Start with *something* and quickly sketch out solutions and gradually add constraints to model the business requirements.
 Don't stop until you find a version that feels just right.
-You know you've found a good abstraction when your types "click" with the rest of the code. [^2]
+You know you've found a good abstraction when your types "click" with the rest of the code. [^3]
 Try to build up a vocabulary of concepts and own types which describe your system. 
 
-[^2]: I usually know when I found a good abstraction once I can use all of Rust's features like expression-oriented programming and pattern matching together with my own types.
+[^3]: I usually know when I found a good abstraction once I can use all of Rust's features like expression-oriented programming and pattern matching together with my own types.
 
 Wrestling with Rust's type system might feel slower at first compared to more dynamic languages, but it often leads to fewer iterations overall.
 Think of it this way: in a language like Python, each iteration might be quicker since you can skip type definitions, but you'll likely need more iterations as you discover edge cases and invariants that weren't immediately obvious.
@@ -511,7 +494,7 @@ Should we introduce a trait to support algorithms for processing the data?
 These are all helpful questions that we can answer without having to worry about the details of the implementation. 
 And yet our code is typesafe and compiles, and it is ready for refactoring. 
 
-### Avoid Generics
+### Avoid generics
 
 Chances are, you might not know which parts of your application should be generic in the beginning.
 Therefore it's better to be conservative and use concrete types instead of generics until necessary. 
@@ -646,7 +629,7 @@ thread::spawn(move || {
 If you feel like you have to use `Arc<Mutex<T>>` too often, there might be a design issue.
 For example, you might be able to avoid sharing state between threads.
 
-### Keep A Flat Hierarchy
+### Keep a flat hierarchy
 
 `main.rs` is your best friend while prototyping. 
 
@@ -718,6 +701,26 @@ The key is to keep things simple until it calls for more complexity.
 Start flat, then add structure incrementally as your understanding of the problem grows.
 
 See also [Matklad's article on large Rust workspaces](https://matklad.github.io/2021/08/22/large-rust-workspaces.html).
+
+### Start small
+
+Allow yourself to ignore some of the best practices for production code for a while.
+
+It's possible, but you need to switch off your inner critic who always wants to write perfect code from the beginning.
+Rust enables you to comfortably defer perfection.
+You can make the rough edges obvious so that you can sort them out later.
+Don't let perfect be the enemy of good.
+
+One of the biggest mistakes I observe is an engineer's perfectionist instinct to jump on minor details which don't have a broad enough impact to warrant the effort.
+It's better to have a working prototype with a few rough edges than a perfect implementation of a small part of the system.
+
+Remember: you are exploring!
+Use a coarse brush to paint the landscape first.
+Try to get into a flow state where you can quickly iterate.
+Don't get distracted by the details too early.
+During this phase, it's also fine to throw away a lot failed attempts. 
+
+There's some overlap between prototyping and "[easy Rust](https://www.youtube.com/watch?v=33FG6O3qejM)."
 
 ## Summary
 
