@@ -1,9 +1,9 @@
 +++
 title = "Aim For Immutability in Rust"
 date = 2023-09-21
+updated = 2025-01-14
 template = "article.html"
 [extra]
-updated = 2024-09-20
 series = "Idiomatic Rust"
 revisions = """
 An earlier version of this article chose different examples to illustrate the
@@ -78,8 +78,8 @@ its focus on safety.
 If the default was mutability, you'd have to check every
 function to see if it changes the value of a variable.
 
-Instead, Rust is very explicit about mutability. It makes you write it out every time you
-create or pass a mutable variable.
+Instead, Rust is very explicit about mutability.
+It makes you write it out every time you create or pass a mutable variable.
 
 ```rust
 fn main() {
@@ -161,6 +161,27 @@ That's why immutability is a good default: most of the time you don't need all t
 
 The real-world implications of immutability can be less straightforward.
 Let's explore a concrete example to illustrate how an immutable approach can impact our design decisions for the better.
+
+## Side Note: Function Signatures
+
+In Rust, function signatures are very explicit about what a function does.
+For instance, what is the difference between these two function signatures?
+
+```rust
+fn my_function1(a: &mut T) { ... }
+fn my_function2(mut a: &T) { ... }
+```
+
+The first function takes an immutable reference to a mutable value.
+This means that the value being pointed to can be modified through the reference, but the reference itself cannot be reassigned.
+
+The second function takes a mutable binding to an immutable reference.
+This means that the binding `a` can be reassigned to point to different values, but cannot modify any value it points to.
+
+The difference is subtle, but it goes to show how Rust makes you think about mutability in a very explicit way.
+
+You would typically use the first form (`a: &mut T`) when you need to modify the original value in place, like updating a struct's fields or modifying an element in a data structure.
+The second form (`mut a: &T`) is less common and is used when you need to temporarily point to different values within a function, like when comparing multiple values or iterating through a collection of references.
 
 ## Controlling Mutability
 
@@ -381,6 +402,8 @@ On top of that, they are a common source of deadlocks.
 
 Immutable code is easier to test, parallelize, and reason about. It's also
 easier to refactor, because you don't have to worry about side effects.
+
+Where [C/C++ requires you to explicitly declare things as immutable](https://stackoverflow.com/a/29682542/270334), Rust requires you to explicitly declare things as mutable, making everything else immutable by default.
 
 Rust pushes you towards immutability and offers `mut` as an opt-in escape hatch
 for hot paths and tight loops. Many (perhaps most) other languages do the exact

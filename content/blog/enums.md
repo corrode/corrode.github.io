@@ -3,9 +3,9 @@ title = "Using Enums to Represent State"
 template = "article.html"
 draft = false
 date = 2023-08-08
+updated = 2024-08-20
 [extra]
 series = "Idiomatic Rust"
-updated = 2024-07-20
 reviews = [ 
     { name = "Maikel", url = "https://mastodon.social/@the@mkl.lol" }
 ]

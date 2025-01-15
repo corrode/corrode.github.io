@@ -3,10 +3,10 @@ title = "Why Rust in Production?"
 template = "article.html"
 sort_by = "date"
 date = 2023-08-01
+updated = 2024-05-26
 draft = false
 aliases = ["why-rust"]
 [extra]
-updated = 2024-05-26
 series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "Title image adapted from <a href='https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais' target='_blank' rel='noopener noreferrer'>vectorpouch</a> on Freepik." ]
@@ -65,6 +65,7 @@ Click here to expand the table of contents.
   - [Productivity And Developer Happiness](#productivity-and-developer-happiness)
   - [Performance And Energy Efficiency](#performance-and-energy-efficiency)
   - [Gradual Adoption and FFI](#gradual-adoption-and-ffi)
+  - [Support for a Wide Range of Environments](#support-for-a-wide-range-of-environments)
 - [Reasons Against Using Rust In Production](#reasons-against-using-rust-in-production)
   - [Immature ecosystem](#immature-ecosystem)
   - [Lack Of Developers](#lack-of-developers)

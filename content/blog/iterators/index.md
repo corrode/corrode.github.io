@@ -1,9 +1,9 @@
 +++
 title = "Thinking in Iterators"
 date = 2024-05-15
+updated = 2024-09-04
 template = "article.html"
 [extra]
-updated = 2024-09-04
 series = "Idiomatic Rust"
 hero = "hero.svg"
 hero_classes = "invert"

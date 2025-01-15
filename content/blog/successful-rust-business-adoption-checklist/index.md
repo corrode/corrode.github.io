@@ -1,9 +1,9 @@
 +++
 title = "Making Your First Real-World Rust Project a Success"
 date = 2024-06-14
+updated = 2024-06-18
 template = "article.html"
 [extra]
-updated = 2024-06-18
 series = "Rust Insights"
 hero = "hero.svg"
 credits = [ "<a href='http://www.freepik.com'>Hero image designed by upklyak / Freepik</a>" ]
@@ -51,6 +51,9 @@ Click here to expand the table of contents.
   - [Establish a Policy on Async Rust](#establish-a-policy-on-async-rust)
   - [Have a Migration Strategy](#have-a-migration-strategy)
   - [Become An Active Member Of The Community](#become-an-active-member-of-the-community)
+- [Project Setup](#project-setup)
+  - [Fully Embrace Rust Tooling](#fully-embrace-rust-tooling)
+  - [Consider An Internal Styleguide](#consider-an-internal-styleguide)
 - [Team Building](#team-building)
   - [Start With a Small Team](#start-with-a-small-team)
   - [Start a Team Channel](#start-a-team-channel)

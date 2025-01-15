@@ -1,9 +1,9 @@
 +++
 title = "Long-term Rust Project Maintenance"
 date = 2024-05-13
+updated = 2024-06-24
 template = "article.html"
 [extra]
-updated = 2024-06-24
 series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
@@ -70,6 +70,7 @@ Click here to expand the table of contents.
   - [Use Linters and Formatters](#use-linters-and-formatters)
   - [Make Releases Boring](#make-releases-boring)
 - [Invest in the Rust Ecosystem](#invest-in-the-rust-ecosystem)
+- [Stick To A Regular Maintenance Schedule](#stick-to-a-regular-maintenance-schedule)
 - [Conclusion](#conclusion)
 
 

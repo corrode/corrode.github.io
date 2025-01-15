@@ -420,11 +420,6 @@ ul {
   list-style-type: square;
 }
 
-ol ol,
-ul ul {
-  margin-top: 1em;
-}
-
 .topbox {
   display: flex;
   margin-top: 20px;
@@ -436,19 +431,6 @@ blockquote {
   margin: 40px -25px;
   padding: 0px 20px;
   border-left: 4px solid $brightPrim;
-}
-
-.footer {
-  display: flex;
-  gap: 0.5em;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  margin: 40px auto;
-
-  .copyright {
-    color: $brightScnd;
-  }
 }
 
 .font-medium {
