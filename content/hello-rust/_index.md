@@ -3,7 +3,7 @@ title = "Hello Rust! YouTube Channel"
 template = "page.html"
 +++
 
-<img src="/hello-rust/logo.svg" alt="Hello Rust!" style="width: 100%">
+<img class="invert" src="/hello-rust/logo.svg" alt="Hello Rust!" style="width: 100%">
 
 Looks like you were looking for my YouTube channel, [Hello Rust!](https://www.youtube.com/c/HelloRust).
 
