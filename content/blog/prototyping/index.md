@@ -753,7 +753,7 @@ Let's see how Rust stacks up against Python for prototyping:
 
 Quite frankly, Rust makes for an excellent prototyping language if you embrace its strengths.
 Yes, the type system will make you think harder about your design up front - but that's actually a good thing!
-Each iteration might take a bit longer than in Python or JavaScript, but you'll typically need fewer iterations to reach a solid design.
+Each iteration might take a bit longer than in Python or JavaScript, but you'll typically need fewer iterations from prototype to production. 
 
 I've found that my prototypes in other languages often hit a wall where I need to switch to something more robust.
 With Rust, I can start simple and gradually turn that proof-of-concept into production code, all while staying in the same language and ecosystem.
