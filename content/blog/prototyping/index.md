@@ -53,7 +53,7 @@ They believe that with Rust you're either at 0% or 100% done (everything works a
 Here are some typical misbeliefs: 
 
 1. "Memory safety and prototyping just don't go together."
-2. "Ownership and borrowing take out the fun of prototyping."
+2. "Ownership and borrowing take the fun out of prototyping."
 3. "You have to get all the details right from the beginning."
 4. "Rust always requires you to handle errors."
 
