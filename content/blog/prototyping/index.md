@@ -376,7 +376,7 @@ The output is nice and tidy:
 [src/main.rs:9:1] factorial(4) = 24
 ```
 
-If you're interested, here are [more details on how to use that handy `dbg!` macro](https://edgarluque.com/blog/rust-dbg-macro/).
+If you're interested, here's [more details on how to use that handy `dbg!` macro](https://edgarluque.com/blog/rust-dbg-macro/).
 
 ### Design through types
 
@@ -507,7 +507,7 @@ And yet our code is typesafe and compiles, and it is ready for refactoring.
 
 ### Avoid generics
 
-Chances are, you might not know which parts of your application should be generic in the beginning.
+Chances are, you won't know which parts of your application should be generic in the beginning.
 Therefore it's better to be conservative and use concrete types instead of generics until necessary. 
 
 So instead of writing this:
