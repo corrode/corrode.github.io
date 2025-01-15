@@ -78,32 +78,14 @@ Wouldn't it be nice if you could use a single language for prototyping and produ
 
 ## What Makes Rust Great for Prototyping?
 
-### Solid Foundation From The Beginning
+Using a single language across your entire project lifecycle is great for productivity.
+Rust scales from proof-of-concept to production deployment and that eliminates costly context switches and rewrites.
+Rust's strong type system catches design flaws early, but we will see how it also provides pragmatic escape hatches if needed.
+This means prototypes can naturally evolve into production code;
+even the first version is often production-ready. 
 
-In an ideal world, you'd have plenty of time to perfect your code, but in reality, deadlines are tight and you have to make compromises.
-
-Eventually management will say "ship it" and you'll have to live with the code you wrote.
-If that's the case, a rewrite is often not an option.
-
-Rust allows you to have a solid foundation from the start.
-Even the first version is often good enough for production.
-
-### Strong Safety Guarantees 
-
-Rust allows you to avoid many pitfalls by being very explicit about error conditions, but also by providing escape hatches in case you choose to ignore them for a while.
-This saves you a lot of time hunting down bugs later on.
-
-### Single Language for Everything
-
-To me, it's super nice to have a single language I know well and can use for all stages of a project. 
-A language that I can learn and understand all the way down to the implementation of the standard library itself (simply by reading the source code).
-Other languages are often written in C/C++, and it's hard to understand what's going on under the hood.
-
-### Great Teaching Tool
-
-I prototype in Rust frequently when I need to explain systems-level concepts to clients or sketch out a prototype for a new project of my own.
-It's a great way to test my assumptions before I invest too much time in a flawed design. 
-
+> Remarkably, we had only put very basic thought into optimization as the Rust version was written. Even with just basic optimization, Rust was able to outperform the hyper hand-tuned Go version. This is a huge testament to how easy it is to write efficient programs with Rust compared to the deep dive we had to do with Go.
+> -- From [Why Discord is switching from Go to Rust](https://discord.com/blog/why-discord-is-switching-from-go-to-rust)
 
 ## What A Solid Rust Prototyping Workflow Looks Like
 
