@@ -1,6 +1,6 @@
 +++
-title = "Effective Use Of Expressions In Rust"
-date = 2024-08-07
+title = "Thinking in Expressions"
+date = 2025-01-15
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -15,26 +15,27 @@ resources = [
 ]
 +++
 
-Rust's emphasis on expressions is an underrated aspect of the language.
-
-Expressions produce a value, statements do not. 
-
-In Rust, this includes literals, variables, function calls, blocks, and control flow statements like `if`, `match`, and `loop`. 
-Even [`&`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#borrow-operators) and [`*`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-dereference-operator) are expressions in Rust. 
-
-Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in languages like C, Java, or Go.
-
-Expressions can easily be dismissed as a minor detail, a nuance in Rust's syntax. Underneath the surface, though, expressions have a deep impact on the ergonomics of writing Rust.
+Rust's focus on expressions is an underrated aspect of the language.
+Ideas flow more naturally once you embrace expressions as a core mechanic in Rust.
+I would go as far as to say that expressions shaped the way I think about control flow in general. 
 
 "Everything is an expression" is a bit of an exaggeration, but it's a useful mental model while you 
 internalize the concept.
 
-Rust becomes way more accessible once you embrace expressions as the core building block of the language. I would go as far as to say that they shaped the way I think about code in *any* language.
+What's so special about expressions?
+
+## Expressions produce a value, statements do not. 
+
+The difference between expressions and statements can easily be dismissed as a minor detail. Underneath the surface, though, expressions have a deep impact on the ergonomics of a language. 
+
+In Rust, most things produce a value: literals, variables, function calls, blocks, and control flow statements like `if`, `match`, and `loop`. 
+Even [`&`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#borrow-operators) and [`*`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-dereference-operator) are expressions in Rust. 
 
 ## Expressions In Rust vs other languages
 
-Languages like Go, C++, Java, TypeScript have expressions, too!
-They pale in comparison to Rust, though.
+Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in other languages. 
+
+Go, C++, Java, and TypeScript have expressions, too, but they pale in comparison to Rust, though.
 
 In Go, for example, an `if` statement is... well, a statement and not an expression. This has some surprising side-effects. For example, you can't use an `if` statement in a ternary expression like you would in Rust. 
 
@@ -55,7 +56,7 @@ if condition {
 }
 ```
 
-You get used to that, but you have to memorize when you can use expressions. It also breaks the flow of your code, as you have to introduce a new variable. Switching between statements and expressions requires a mental context switch.
+Not a big deal, but it requires a conscious effort to memorize when you can use expressions and when not.
 
 Since `if` is an expression in Rust, using it in a ternary expression is perfectly normal. 
 
@@ -63,13 +64,12 @@ Since `if` is an expression in Rust, using it in a ternary expression is perfect
 let x = if condition { 1 } else { 2 };
 ```
 
-This explains the absence of the ternary operator  in Rust. 
-I.e., there is no `x = condition ? 1 : 2;` in Rust as there is in C, Java, or TypeScript.
-It's simply not needed because `if` is so expressive.
+This explains the absence of the ternary operator  in Rust (there is no `x = condition ? 1 : 2;`).
+It's simply not needed because `if` is equally concise but more versatile. 
 
 Also note that in comparison to Go, our variable `x` does not need to be mutable. 
 
-In combination with pattern matching, expressions in Rust are even more powerful:
+In combination with pattern matching, expressions in Rust become even more powerful:
 
 ```rust
 let (a, b) = if condition { ("first", true) } else { ("second", false) };
@@ -81,13 +81,6 @@ What if you deal with a number of different values, which get returned by a func
 That's not a problem. [`match` is an expression](https://doc.rust-lang.org/reference/expressions/match-expr.html), too:
 
 ```rust
-enum Duck {
-    Huey,
-    Dewey,
-    Louie,
-}
-
-// Later in the code...
 let color = match duck {
     Duck::Huey => "Red",
     Duck::Dewey => "Blue",
@@ -96,7 +89,7 @@ let color = match duck {
 ```
 
 In many other languages, `match` is a statement. 
-Python is an example of that and they even [decided against changing that](https://peps.python.org/pep-0622/#make-it-an-expression) for consistency reasons. In Rust, it's just another building block that fits everywhere.
+Python deliberately [decided against changing this](https://peps.python.org/pep-0622/#make-it-an-expression) for consistency reasons. In Rust, it's yet another building block that fits anywhere.
 
 In languages like C, you'd write a switch statement instead:
 
@@ -124,30 +117,29 @@ switch (duck) {
 }
 ```
 
-Since switch statements are just statements, so we can't assign their result to a variable.
+Since switch statements are just statements, we can't assign their result to a variable.
 We have to introduce a new variable and assign it inside the case block.
 
-Rust doesn't have this limitation. You can assign the result of a `match` expression to a variable, just like any other expression.
+Rust doesn't have this limitation. You can assign the result of a `match` expression to a variable, just like any other expression.[^1]
 
-There's a much bigger issue with that switch statement, though: they are prone to errors.
+[^1]: There's a much bigger issue with that switch statement, though: they are prone to errors.
 For example, if you forget to add a `break` statement, the code will fall through to the next case. This is a common source of bugs in C and C++ code.
 Even worse, if you forget to add a `default` case, the code will compile but it will not handle unexpected ducks.
 That means, if an unexpected Duck value is passed to the function (which shouldn't happen if you're using the enum correctly), the function will return `NULL`.
 If the caller then tries to use the returned pointer without checking for `NULL` first, that's a segfault and there goes your weekend.
-
 In Rust, your program simply wouldn't compile if you forget to handle all the cases.
 That itself doesn't have anything to do with expressions, but I thought it's worth mentioning.
 
 ## Combining `match` and `if` Expressions
 
-You can combine `match` and `if` expressions to create complex logic in a single line of code.
-Let's say you want to return the duck's color, but you want to return the correct color based on the year.
-(In the early comics, the nephews were wearing different colors.)
+In Rust, you can combine `match` and `if` expressions to create complex logic in a single line of code.
+Let's say you want to return a duck's color, but you want to return the correct color based on the year.
+(In the early Disney comics, the nephews were wearing different colors.)
 
 ```rust
 let color = match duck {
-    // In early comic books,
-    // the ducks were colored randomly
+    // In early comic books, the ducks
+    // were colored randomly
     _ if year < 1980 => random_color(),
     
     // In the early 80s, Huey's cap was pink
@@ -163,13 +155,13 @@ let color = match duck {
 Neat, right? You can cover a lot of ground in a few lines of code.
 
 Note, those `if`s are called match arm guards, and they are really full-fledged `if` expressions.
-You can put anything in there that you could put in a regular `if` statement! You can check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html).
+You can put anything in there that you could put in a regular `if` statement! Check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html) for details.
 
 ## Lesser known facts about expressions
 
 ### `break` is an expression
 
-[`break` is an expression](https://doc.rust-lang.org/reference/expressions/loop-expr.html#break-expressions), too. You can return a value from a loop:
+You can return a value from a loop with `break`:
 
 ```rust
 let foo = loop { break 1 };
@@ -196,34 +188,17 @@ You can wrap any expression with `dbg!()` without changing the behavior of your 
 let x = dbg!(compute_complex_value());
 ```
   
-Neatly, this also demonstrates that macro calls are also expressions.
-
-### Adding attributes to expressions
-
-Attributes can be placed before expressions, which is useful for compilation flags:
-
-```rust
-let array = [
-    #[cfg(feature = "foo")]
-    1,
-    #[cfg(feature = "bar")]
-    2,
-];
-```
-
-In this example, the array will contain the value `1` if the `foo` feature is enabled, and `2` if the `bar` feature is enabled.
-
+Neatly, this demonstrates that macro calls are also expressions.
 
 ## A Practical Refactoring Example
 
-So far, I showed you some fancy expression tricks, but
-these examples hardly do justice to the elegance of expressions in everyday code.
-As with many other concepts in Rust, it's hard to internalize expressions without practice. Let's make it more tangible.
+So far, I showed you some fancy expression tricks, but how do you apply this in practice? 
 
-A simple heurstic is to hunt for `returns` and semicolons in the middle of the code. These are like "seams" in our program; stop signs, which break the natural flow of data. Almost effortlessly, removing those blockers / stop signs will lead to better code; it's like magic. 
+A simple heurstic is to hunt for `returns` and semicolons in the middle of your code.
+These are like "seams" in our program; stop signs, which break the natural flow of data.
+Almost effortlessly, removing those blockers / stop signs often improves the code flow; it's like magic. 
 
-Here's an abstracted version of a function, which returns the correct path to a configuration file.
-
+Here's a basic version of a function, which returns the correct path to a configuration file.
 Imagine, that the following rules apply:
 
 - If a path is provided, create the config file at that path. 
