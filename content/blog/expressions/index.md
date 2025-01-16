@@ -22,7 +22,7 @@ I would go as far as to say that expressions shaped the way I think about contro
 "Everything is an expression" is a bit of an exaggeration, but it's a useful mental model while you 
 internalize the concept.
 
-What's so special about expressions?
+But what's so special about them?
 
 ## Expressions produce values, statements do not. 
 
