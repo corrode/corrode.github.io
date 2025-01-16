@@ -26,7 +26,8 @@ But what's so special about them?
 
 ## Expressions produce values, statements do not. 
 
-The difference between expressions and statements can easily be dismissed as a minor detail. Underneath the surface, though, expressions have a deep impact on the ergonomics of a language. 
+The difference between expressions and statements can easily be dismissed as a minor detail.
+Underneath the surface, though, the fact that expressions return values has a profound impact on the ergonomics of a language.
 
 In Rust, most things produce a value: literals, variables, function calls, blocks, and control flow statements like `if`, `match`, and `loop`. 
 Even [`&`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#borrow-operators) and [`*`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-dereference-operator) are expressions in Rust. 
