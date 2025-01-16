@@ -19,7 +19,7 @@ process_post() {
     local post_filename="$2"
     
     # Extract the title from the frontmatter
-    title=$(awk -F '= ' '/title/ {gsub(/"/, "", $2); print $2}' "$post")
+    title=$(awk -F= '/^title[[:space:]]*=/ {gsub(/"/, "", $2); print $2}' "$post")
 
     # Check if the title is empty
     if [[ -z "$title" ]]; then
