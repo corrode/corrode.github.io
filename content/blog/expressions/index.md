@@ -35,7 +35,7 @@ Even [`&`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#bo
 
 Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in other languages. 
 
-Go, C++, Java, and TypeScript have expressions, too, but they pale in comparison to Rust, though.
+Go, C++, Java, and TypeScript have expressions, too, but they pale in comparison to Rust.
 
 In Go, for example, an `if` statement is... well, a statement and not an expression. This has some surprising side-effects. For example, you can't use an `if` statement in a ternary expression like you would in Rust. 
 
@@ -56,7 +56,7 @@ if condition {
 }
 ```
 
-Not a big deal, but it requires a conscious effort to memorize when you can use expressions and when not.
+While this works, but it requires a conscious effort to memorize when you can use expressions and when not.
 
 Since `if` is an expression in Rust, using it in a ternary expression is perfectly normal. 
 
@@ -437,7 +437,7 @@ I also wrote an article about iterators [here](/blog/iterators/).
 
 Of course, it's not forbidden to mix expressions and statements!
 For example, I personally like to use `let-else` statements when it makes my code easier to understand.
-If you're unsure about whether using an expression is worth it, get feedback from a Rust beginner.
+If you're unsure about whether using an expression is worth it, seek feedback from someone less familiar with Rust.
 If they look confused, you probably tried to be too clever. 
 
 There are other languages which have a similar focus on expressions, but it's less common in a systems programming context. 
