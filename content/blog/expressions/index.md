@@ -35,10 +35,9 @@ Even [`&`](https://doc.rust-lang.org/reference/expressions/operator-expr.html#bo
 ## Expressions In Rust vs other languages
 
 Rust inherits expressions from its functional roots in the [ML family of languages](https://en.wikipedia.org/wiki/ML_(programming_language)); they are not so common in other languages. 
+Go, C++, Java, and TypeScript have them, but they pale in comparison to Rust.
 
-Go, C++, Java, and TypeScript have expressions, too, but they pale in comparison to Rust.
-
-In Go, for example, an `if` statement is... well, a statement and not an expression. This has some surprising side-effects. For example, you can't use an `if` statement in a ternary expression like you would in Rust. 
+In Go, for example, an `if` statement is... well, a *statement* and not an expression. This has some surprising side-effects. For example, you can't use `if` statements in a ternary expression like you would in Rust:
 
 ```go
 // This is not valid Go code!
@@ -51,13 +50,11 @@ along with a slightly unfortunate upfront variable declaration:
 ```go
 var x int
 if condition {
-	x = 1
+  x = 1
 } else {
-	x = 2
+  x = 2
 }
 ```
-
-While this works, but it requires a conscious effort to memorize when you can use expressions and when not.
 
 Since `if` is an expression in Rust, using it in a ternary expression is perfectly normal. 
 
@@ -65,10 +62,11 @@ Since `if` is an expression in Rust, using it in a ternary expression is perfect
 let x = if condition { 1 } else { 2 };
 ```
 
-This explains the absence of the ternary operator  in Rust (there is no `x = condition ? 1 : 2;`).
+That explains the absence of the ternary operator  in Rust (i.e. there is no syntax like `x = condition ? 1 : 2;`).
 It's simply not needed because `if` is equally concise but more versatile. 
 
 Also note that in comparison to Go, our variable `x` does not need to be mutable. 
+As we will see, Rust's expressions often lead to less mutable code. 
 
 In combination with pattern matching, expressions in Rust become even more powerful:
 
@@ -79,7 +77,8 @@ let (a, b) = if condition { ("first", true) } else { ("second", false) };
 Here, the left side of the assignment (a, b) is a pattern that destructures the tuple returned by the `if-else` expression.
 
 What if you deal with more complex control flow? 
-That's not a problem. [`match` is an expression](https://doc.rust-lang.org/reference/expressions/match-expr.html), too:
+That's not a problem. [`match` is an expression](https://doc.rust-lang.org/reference/expressions/match-expr.html), too.
+It is common to assign the result of a `match` expression to a variable.
 
 ```rust
 let color = match duck {
@@ -89,18 +88,16 @@ let color = match duck {
 };
 ```
 
-It is common to assign the result of a `match` expression to a variable.
 
 ## Combining `match` and `if` Expressions
 
-In Rust, you can combine `match` and `if` expressions to create complex logic in a few lines of code.
 Let's say you want to return a duck's color, but you want to return the correct color based on the year.
 (In the early Disney comics, the nephews were wearing different colors.)
 
 ```rust
 let color = match duck {
-    // In early comic books, the ducks
-    // were colored randomly
+    // In early comic books, the
+    // ducks were colored randomly
     _ if year < 1980 => random_color(),
     
     // In the early 80s, Huey's cap was pink
@@ -113,10 +110,10 @@ let color = match duck {
 };
 ```
 
-Neat, right? You can cover a lot of ground in a few lines of code.
+Neat, right? You can combine `match` and `if` expressions to create complex logic in a few lines of code.
 
-Note: those `if`s are called match arm guards, and they really *are* full-fledged `if` expressions.
-You can put anything in there that you could put in a regular `if` statement! Check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html) for details.
+Note: those `if`s are called [match arm guards](https://doc.rust-lang.org/reference/expressions/match-expr.html), and they really *are* full-fledged `if` expressions.
+You can put anything in there just like in a regular `if`. 
 
 ## Lesser known facts about expressions
 
@@ -231,8 +228,9 @@ There are a few things we can improve here:
 
 ## Tip 1: Remove the unwraps
 
-It's always a good idea to critically look at `unwrap()` calls and see if there's a better way.
+It's always a good idea to examine `unwrap()` calls and find safer alternatives.
 While we "only" have two `unwrap()` calls here, both point at flaws in our design.
+Here's the first one:
 
 ```rust
 let mut config_path;
@@ -250,8 +248,8 @@ if path.is_absolute() {
 }
 ```
 
-We know that `home` is not `None` when we `unwrap` it, because we checked it before.
-But what if we refactor the code? We might forget about this check and introduce a bug.
+We know that `home` is not `None` when we `unwrap` it, because we checked it right above. 
+But what if we refactor the code? We might forget the check and introduce a bug.
 
 This can be rewritten as:
 
@@ -267,7 +265,7 @@ let config_path = if path.is_absolute() {
 };
 ```
 
-Or, if you introduced a custom error type:
+Or, if we introduce a custom error type:
 
 ```rust
 let config_path = if path.is_absolute() {
@@ -334,17 +332,17 @@ if ext != "conf" {
 
 Usually, my next step is to get rid of as many `mut` variables as possible.
 
-However, after our refactor, there are no more `mut` keywords in the function!
+Note how there are no more `mut` keywords after our first refactoring.
 This is a typical pattern in Rust: often when we get rid of an `unwrap()`, we can remove a `mut` as well. 
 
-Nevertheless, it is always a good idea to look for `mut` variables and see if they are really necessary. 
+Nevertheless, it is always a good idea to look for all `mut` variables and see if they are really necessary. 
 
 ## Tip 3: Remove the explicit return statements
 
 The last expression in a block is implicitly returned
 and that `return` is an expression itself, so you can often get rid of explicit `return` statements.
+In our case that means:
 
-For example, we can remove the `return` in the last line of the function:
 
 ```rust
 return Ok(Self { config_path });
@@ -358,7 +356,7 @@ Ok(Self { config_path })
 
 Another simple heuristic is to hunt for `returns` and semicolons in the middle of your code.
 These are like "seams" in our program; stop signs, which break the natural flow of data.
-Almost effortlessly, removing those blockers / stop signs often improves the code flow; it's like magic. 
+Almost effortlessly, removing these blockers often improves the code flow; it's like magic. 
 
 For example, the above validation code can also be written without returns:
 
@@ -383,11 +381,14 @@ Whether you prefer that over `let-else` is a matter of taste. [^let-else-stateme
 
 ## Don't take it too far
 
-Remember that I said "everything is an expression"?
-Don't take this too far or people will quickly think you're a goofball.
+Remember when I said "everything is an expression"?
+Don't take this too far or people will stop inviting you to dinner parties. 
 
-It's fun to know that you could use `then_some`, `unwrap_or_else`, and `map_or` to chain expressions together, but please
-don't stretch it too far.
+It's fun to know that you could use `then_some`, `unwrap_or_else`, and `map_or` to chain expressions together, but 
+don't use them to show off.
+
+The below code is correct, but the combinators get in the way of readability.
+Now it feels more like a Lisp program than Rust code.
 
 ```rust
 impl Config {
@@ -421,26 +422,22 @@ impl Config {
 }
 ```
 
-This code is correct, but the combinators get in the way of readability.
-It feels more like a Lisp program than Rust code.
 Keep your friends and colleagues in mind when writing code.
 Find a balance between expressiveness and readability.
 
 ## Conclusion
 
-Expressions tend to guide you towards more ergonomic Rust code. 
 
 If you find that your code doesn't feel idiomatic, see if expressions can help. 
-Once you find the right balance, they are a joy to use -- especially in smaller context where data flow is key.
+They tend to guide you towards more ergonomic Rust code. 
 
+Once you find the right balance, expressions are a joy to use -- especially in smaller context where data flow is key.
 The "trifecta" of iterators, expressions, and pattern matching is the foundation of data transformations in Rust.
-I also wrote an article about iterators [here](/blog/iterators/).
+I wrote a complementary article about iterators [here](/blog/iterators/).
 
 Of course, it's not forbidden to mix expressions and statements!
 For example, I personally like to use `let-else` statements when it makes my code easier to understand.
 If you're unsure about whether using an expression is worth it, seek feedback from someone less familiar with Rust.
 If they look confused, you probably tried to be too clever. 
-
-There are other languages which have a similar focus on expressions, but it's less common in a systems programming context. 
 
 Now, try to refactor some code to train that muscle.
