@@ -194,7 +194,7 @@ Neatly, this demonstrates that macro calls are also expressions.
 
 So far, I showed you some fancy expression tricks, but how do you apply this in practice? 
 
-A simple heurstic is to hunt for `returns` and semicolons in the middle of your code.
+A simple heuristic is to hunt for `returns` and semicolons in the middle of your code.
 These are like "seams" in our program; stop signs, which break the natural flow of data.
 Almost effortlessly, removing those blockers / stop signs often improves the code flow; it's like magic. 
 
