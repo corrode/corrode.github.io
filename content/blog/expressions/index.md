@@ -1,6 +1,6 @@
 +++
 title = "Thinking in Expressions"
-date = 2025-01-15
+date = 2025-01-16
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -24,7 +24,7 @@ internalize the concept.
 
 What's so special about expressions?
 
-## Expressions produce a value, statements do not. 
+## Expressions produce values, statements do not. 
 
 The difference between expressions and statements can easily be dismissed as a minor detail. Underneath the surface, though, expressions have a deep impact on the ergonomics of a language. 
 
@@ -75,9 +75,9 @@ In combination with pattern matching, expressions in Rust become even more power
 let (a, b) = if condition { ("first", true) } else { ("second", false) };
 ```
 
-Here, the left side of the assignment (a, b) is a pattern that destructures the tuple returned by the if-else expression.
+Here, the left side of the assignment (a, b) is a pattern that destructures the tuple returned by the `if-else` expression.
 
-What if you deal with a number of different values, which get returned by a function?
+What if you deal with more complex control flow? 
 That's not a problem. [`match` is an expression](https://doc.rust-lang.org/reference/expressions/match-expr.html), too:
 
 ```rust
@@ -88,51 +88,11 @@ let color = match duck {
 };
 ```
 
-In many other languages, `match` is a statement. 
-Python deliberately [decided against changing this](https://peps.python.org/pep-0622/#make-it-an-expression) for consistency reasons. In Rust, it's yet another building block that fits anywhere.
-
-In languages like C, you'd write a switch statement instead:
-
-```c
-typedef enum {
-    HUEY,
-    DEWEY,
-    LOUIE
-} Duck;
-
-// Later in the code...
-const char* color = NULL;
-switch (duck) {
-    case HUEY:
-        color = "Red";
-        break;
-    case DEWEY:
-        color = "Blue";
-        break;
-    case LOUIE:
-        color = "Green";
-        break;
-    default:
-        color = "Unknown";
-}
-```
-
-Since switch statements are just statements, we can't assign their result to a variable.
-We have to introduce a new variable and assign it inside the case block.
-
-Rust doesn't have this limitation. You can assign the result of a `match` expression to a variable, just like any other expression.[^1]
-
-[^1]: There's a much bigger issue with that switch statement, though: they are prone to errors.
-For example, if you forget to add a `break` statement, the code will fall through to the next case. This is a common source of bugs in C and C++ code.
-Even worse, if you forget to add a `default` case, the code will compile but it will not handle unexpected ducks.
-That means, if an unexpected Duck value is passed to the function (which shouldn't happen if you're using the enum correctly), the function will return `NULL`.
-If the caller then tries to use the returned pointer without checking for `NULL` first, that's a segfault and there goes your weekend.
-In Rust, your program simply wouldn't compile if you forget to handle all the cases.
-That itself doesn't have anything to do with expressions, but I thought it's worth mentioning.
+It is common to assign the result of a `match` expression to a variable.
 
 ## Combining `match` and `if` Expressions
 
-In Rust, you can combine `match` and `if` expressions to create complex logic in a single line of code.
+In Rust, you can combine `match` and `if` expressions to create complex logic in a few lines of code.
 Let's say you want to return a duck's color, but you want to return the correct color based on the year.
 (In the early Disney comics, the nephews were wearing different colors.)
 
@@ -154,7 +114,7 @@ let color = match duck {
 
 Neat, right? You can cover a lot of ground in a few lines of code.
 
-Note, those `if`s are called match arm guards, and they are really full-fledged `if` expressions.
+Note: those `if`s are called match arm guards, and they really *are* full-fledged `if` expressions.
 You can put anything in there that you could put in a regular `if` statement! Check the [language reference](https://doc.rust-lang.org/reference/expressions/match-expr.html) for details.
 
 ## Lesser known facts about expressions
@@ -188,233 +148,256 @@ You can wrap any expression with `dbg!()` without changing the behavior of your 
 let x = dbg!(compute_complex_value());
 ```
   
-Neatly, this demonstrates that macro calls are also expressions.
-
 ## A Practical Refactoring Example
 
 So far, I showed you some fancy expression tricks, but how do you apply this in practice? 
 
-A simple heuristic is to hunt for `returns` and semicolons in the middle of your code.
+To illustrate this, imagine you have a `Config` struct that reads a configuration file from a given path:
+
+```rust
+/// Configuration for the application
+pub struct Config {
+    config_path: PathBuf,
+}
+
+/// Creates a new Config with the given path
+///
+/// The path is resolved against the home directory if relative.
+/// Validates that the path exists and has the correct extension.
+impl Config {
+    pub fn with_config_path(path: PathBuf) -> Result<Self, std::io::Error> {
+        todo!()
+    }
+}
+```
+
+Here's how you might implement the `with_config_path` method in an imperative style:
+
+```rust
+impl Config {
+    pub fn with_config_path(path: PathBuf) -> Result<Self, std::io::Error> {
+        // First determine the base path
+        let mut config_path;
+        if path.is_absolute() {
+            config_path = path;
+        } else {
+            let home = get_home_dir();
+            if home.is_none() {
+                return Err(io::Error::new(
+                    io::ErrorKind::NotFound,
+                    "Home directory not found",
+                ));
+            }
+            config_path = home.unwrap().join(path);
+        }
+
+        // Do validation
+        if !config_path.exists() {
+            return Err(io::Error::new(
+                io::ErrorKind::NotFound,
+                "Config path does not exist",
+            ));
+        }
+
+        if config_path.is_file() {
+            let ext = config_path.extension();
+            if ext.is_none() {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "Config file must have .conf extension",
+                ));
+            }
+            if ext.unwrap().to_str() != Some("conf") {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "Config file must have .conf extension",
+                ));
+            }
+        }
+
+        return Ok(Self { config_path });
+    }
+}
+```
+
+There are a few things we can improve here:
+
+- The code is quite imperative 
+- Lots of temporary variables
+- Explicit mutation with `mut`
+- Nested if statements
+- Manual unwrapping with `is_none()`/`unwrap()`
+
+## Step 1: Remove the unwraps
+
+It's always a good idea to critically look at `unwrap()` calls and see if there's a better way.
+While we "only" have two `unwrap()` calls here, both point at flaws in our design.
+
+```rust
+let mut config_path;
+if path.is_absolute() {
+    config_path = path;
+} else {
+    let home = get_home_dir();
+    if home.is_none() {
+        return Err(io::Error::new(
+            io::ErrorKind::NotFound,
+            "Home directory not found",
+        ));
+    }
+    config_path = home.unwrap().join(path);
+}
+```
+
+We know that `home` is not `None` when we `unwrap` it, because we checked it before.
+But what if we refactor the code? We might forget about this check and introduce a bug.
+
+This can be rewritten as:
+
+```rust
+let config_path = if path.is_absolute() {
+    path
+} else {
+    let home = get_home_dir().ok_or_else(|| io::Error::new(
+        io::ErrorKind::NotFound,
+        "Home directory not found",
+    ))?;
+    home.join(path)
+};
+```
+
+The other `unwrap` is also unnecessary and makes the happy path harder to read.
+Here is the original code: 
+
+```rust
+if config_path.is_file() {
+    let ext = config_path.extension();
+    if ext.is_none() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "Config file must have .conf extension",
+        ));
+    }
+    if ext.unwrap().to_str() != Some("conf") {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "Config file must have .conf extension",
+        ));
+    }
+}
+```
+
+We can rewrite this as:
+
+```rust
+if config_path.is_file() {
+    let Some(ext) = config_path.extension() else {
+        return Err(io::Error::new(...));
+    }
+    if ext != "conf" {
+        return Err(io::Error::new(...));
+    }
+}
+```
+
+([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=045530e72d07af51bc3182b2c360d351))
+
+You could also use a `match` expression here, but I find the `let-else` statement more readable in this case. [^let-else-statement]
+
+[^let-else-statement]: By the way, `let-else` is not an expression, but a statement. That's because the `else` branch doesn't produce a value. Instead, it moves the "failure" case into the body block, while allowing the "success" case to continue in the surrounding context without additional nesting.  I recommend reading the [RFC](https://rust-lang.github.io/rfcs/3137-let-else.html) for more details.
+
+
+## Step 2: Remove the `mut`s 
+
+Usually, my next step is to get rid of as many `mut` variables as possible.
+
+However, after our refactor, there are no more `mut` keywords in the function!
+This is a typical pattern in Rust: often when we get rid of an `unwrap()`, we can remove a `mut` as well. 
+
+Nevertheless, it is always a good idea to look for `mut` variables and see if they are really necessary. 
+
+## Step 3: Remove the explicit return statements
+
+The last expression in a block is implicitly returned
+and that `return` is an expression itself, so you can often get rid of explicit `return` statements.
+
+For example, we can remove the `return` in the last line of the function:
+
+```rust
+return Ok(Self { config_path });
+```
+
+becomes
+
+```rust
+Ok(Self { config_path })
+```
+
+Another simple heuristic is to hunt for `returns` and semicolons in the middle of your code.
 These are like "seams" in our program; stop signs, which break the natural flow of data.
 Almost effortlessly, removing those blockers / stop signs often improves the code flow; it's like magic. 
 
-Here's a basic version of a function, which returns the correct path to a configuration file.
-Imagine, that the following rules apply:
+## Don't take it too far
 
-- If a path is provided, create the config file at that path. 
-- If no path is provided:
-  - If $HOME is set, use `$HOME/.config/my_app/`
-  - Use the current directory otherwise
+Remember that I said "everything is an expression"?
+Don't take this too far or people will quickly think you're a goofball.
+
+It's fun to know that you could use `then_some`, `unwrap_or_else`, and `map_or` to chain expressions together, but please don't:
 
 ```rust
-use std::path::PathBuf;
-use dirs::config_dir;
-
-fn config_file_path(config_path: Option<PathBuf>) -> PathBuf {
-    if let Some(path) = config_path {
-        return path;
-    } else {
-        if let Some(home_dir) = config_dir() {
-            let config_dir = home_dir.join("my_app");
-            return config_dir;
+impl Config {
+    pub fn with_config_path(path: PathBuf) -> Result<Self, io::Error> {
+        (if path.is_absolute() {
+            Ok(path)
         } else {
-            // Fallback to the current directory
-            return PathBuf::from(".");
-        }
+            get_home_dir()
+                .ok_or_else(/* error */)
+                .map(|home| home.join(path))
+        })
+        .and_then(|config_path| {
+            (!config_path.exists())
+                .then_some(Err(/* error */))
+                .unwrap_or_else(|| {
+                    config_path
+                        .is_file()
+                        .then(|| {
+                            (!config_path
+                                .extension()
+                                .map_or(false, |ext| ext == "conf"))
+                                .then_some(Err(/* error */))
+                                .unwrap_or(Ok(()))
+                        })
+                        .unwrap_or(Ok(()))
+                        .map(|_| config_path)
+                })
+        })
+        .map(|config_path| Self { config_path })
     }
 }
 ```
 
-There are some issues with this code, but for now let's focus our attention solely on expressions vs. statements.
-
-## Refactoring with Expressions In Mind
-
-The first observation is that we have multiple return statements in the middle of our function.
-This can make the code harder to follow and reason about.
-
-As discussed earlier, let's try to remove the extra `return` statements in the middle of the code.
-Let's refactor the code to have a single return statement at the end by assigning the result of the entire `match` expression to a variable:
-
-```rust
-use std::path::PathBuf;
-use std::env;
-
-fn config_file_path(config_path: Option<PathBuf>) -> PathBuf {
-    let path = match config_path {
-        Some(path) => path,
-        None => match env::home_dir() {
-            Some(home_dir) => home_dir.join(".config/my_app/"),
-            None => PathBuf::from("."),
-        },
-    };
-    return path;
-}
-```
-
-We removed the `returns`, but note that we also got rid of many semicolons in the process.
-That's usually a good sign that we're on the right track: we don't need temporary variables anymore, so we can get rid of the semicolons. 
-
-It works because the `if` and `match` expressions return the value of the last expression in the block. (It's expressions all the way down!)
-
-The `let foo = match ...` pattern is a common idiom which Rustaceans use quite frequently.
-
-Let's focus on this part, which tries to find the correct config directory:
-
-```rust
-if let Some(home_dir) = env::home_dir() {
-    let config_dir = home_dir.join(".config/my_app/");
-    config_dir.to_path_buf()
-} else {
-    PathBuf::from(".")
-}
-```
-
-Note the semicolon here. It blocks the flow and forces us to introduce a temporary variable, `config_dir`.
-Could we rewrite this into a single expression?
-
-Sure thing:
-
-```rust
-if let Some(home_dir) = env::home_dir() {
-    home_dir.join(".config/my_app/").to_path_buf()
-} else {
-    PathBuf::from(".")
-};
-```
-
-This avoids the temporary variable. We could even go one step further and use a monadic style with `map` and `unwrap_or_else`:
-
-```rust
-let path = env::home_dir()
-    .map(|home_dir| home_dir.join(".config/my_app/"))
-    .unwrap_or_else(|| PathBuf::from("."));
-```
-
-Take a moment to reflect on this: which version do you prefer? Why?
-Which version is easier to read and understand? &ndash; not just for you, but for your fellow engineers?
-
-There is no right or wrong answer here. It's a matter of taste.
-
-The new version is definitely concise, but it can also reduce readability. The `unwrap_or_else` method ends with the case where `config_path` is `None`, which isn't immediately clear. It feels backwards. The closure code seems like a refinement rather than a distinct next step.
-
-The `.map` and `.unwrap_or_else` combination requires understanding that the first line might fail, forcing the reader to juggle the context and jump between the lines. Depending on your background, this might be okay, but it could be a problem for others and a source of logic bugs.
-
-As with every design decision, there are trade-offs.
-
-Let's revisit our original function and add early returns:
-
-```rust
-/// Get the path for the configuration file
-fn config_file_path(config_path: Option<PathBuf>) -> PathBuf {
-    // Check if a path was provided
-    if let Some(path) = config_path {
-        return path; 
-    }
-
-    // Check if the home directory is set
-    if let Some(home_dir) = env::home_dir() {
-        return home_dir.join(".config/my_app/");
-    }
-
-    // Fallback to the current directory
-    PathBuf::from(".")
-}
-```
-
-The semicolons and returns are back, but the code is easier to understand.
-We're almost back to where we started, but with early returns.
-
-Which version do you prefer now?
-Sometimes, it's helpful to try a few different approaches and see which one feels best.
-
-If it's hard to explain, it's probably too complex.
-
-## Mixing Expressions and Statements
-
-Another variant is to use `let-else`, which is a nice way to handle the case where `env::home_dir()` returns `None`:
-
-```rust
-let Some(home_dir) = env::home_dir() else {
-    // Fallback to the current directory
-    return PathBuf::from(".")
-};
-
-home_dir.join(".config/my_app/")
-```
-
-Now that the logic got moved to a separate function, we can easily return that.
-
-Which variant you prefer is a matter of taste and readability.
-
-I like the fact that expressions are so versatile and that they don't stand in
-conflict with imperative code. You can mix and match them as you see fit.
+Find a balance between expressiveness and readability.
 
 ## Fluent Error handling in expressions
 
 Another great thing about expressions is that they integrate well with Rust's error handling story.
 
-For example, what if we want to return an error if the home directory is not found?
-We can use the `?` operator to propagate the error:
+For example, we return an error if the home directory is not found with the `?` operator without breaking the data flow:
 
 ```rust
-use std::path::PathBuf;
-use std::env;
-use std::io;
-
-fn get_config_path(config_path: Option<PathBuf>) -> Result<PathBuf, std::io::Error> {
-    // Check if a path was provided
-    if let Some(path) = config_path {
-        return Ok(path); 
-    }
-
-    // Check if the home directory is set
-    let home_dir = env::home_dir().ok_or_else(|| io::Error::new(io::ErrorKind::NotFound, "Home directory not found"))?;
-
-    Ok(home_dir.join(".config/my_app/"))
-}
+let home_dir = get_home_dir().ok_or_else(|| io::Error::new(
+    io::ErrorKind::NotFound,
+    "Home directory not found",
+))?;
 ```
-
-([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=54a36a1dbf0b02ffb6df353bc7c568cd))
-
-The line starting with `let home_dir = ...` is a single expression which immediately returns an error if the home directory is not found. There's no need to break the data flow with multiple statements, temporary variables, or explicit error handling.
 
 You could even introduce your own error type to make it more concise:
 
 ```rust
-use std::path::PathBuf;
-use std::env;
-
-#[derive(Debug)]
-enum ConfigError {
-    HomeDirNotFound,
-}
-
-fn get_config_path(config_path: Option<PathBuf>) -> Result<PathBuf, ConfigError> {
-    // Check if a path was provided
-    if let Some(path) = config_path {
-        return Ok(path); 
-    }
-
-    // Check if the home directory is set
-    let home_dir = env::home_dir().ok_or(ConfigError::HomeDirNotFound)?;
-
-    Ok(home_dir.join(".config/my_app/"))
-}
+let home_dir = get_home_dir().ok_or(ConfigError::HomeDirNotFound)?;
 ```
 
-([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=011d5a28fd5c9fed616e7af762b4f682))
-
-In this example, errors still get handled properly, but the code is more concise and the data flow does not get interrupted.
-There's no need for a separate error handling block as in Go, which takes the attention away from the main logic.
-
-```go
-// That old error handling dance in Go
-if err != nil {
-	return nil, err
-}
-```
-
-Unlike Go, Rust's error handling integrates naturally into the code flow. It works really well with expressions.
+Rust's error handling integrates naturally into the code flow. It works really well with expressions.
 In most cases we don't have to annotate our expressions with types either, because Rust can infer them from the context.
 By leaning into expressions, the core logic stays in the foreground while errors are still handled correctly.
 This is one of my favorite aspects of Rust.
@@ -437,7 +420,7 @@ If you find that your code doesn't feel idiomatic, look for expressions. Remove 
 Once you get rid of them, you'll find that your code becomes more data-focused and fluent. 
 
 Of course, it's fine to mix expressions and statements.
-The core idea is the combination/concatentaion of "small ideas" into bigger programs. Like lego blocks. Simple and to the point, but not convoluted. If you're unsure about whether using an expression is worth it, get feedback from a Rust beginner. If they look confused, you probably tried to be too clever. 
+The core idea is the combination/concatentation of "small ideas" into bigger programs. Like lego blocks. Simple and to the point, but not convoluted. If you're unsure about whether using an expression is worth it, get feedback from a Rust beginner. If they look confused, you probably tried to be too clever. 
 
 Expressions are very... expressive. It takes a bit of practice to get acquainted with
 them and to find the right balance, but then they are a joy to use.
