@@ -36,11 +36,11 @@ on:
   push:
     branches:
       - main
-  - pull_request
+  pull_request:
 
 jobs:
   build:
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-latest-arm64
 
     env:
       CARGO_TERM_COLOR: always
@@ -59,7 +59,7 @@ jobs:
 ```
 
 The action requires no additional configuration and works out of the box.
-There's no need for a separate step to store the cache —- this happens automatically through a post-action.
+There's no need for a separate step to store the cache — this happens automatically through a post-action.
 This approach ensures that broken builds aren't cached, and for subsequent builds, you can save several minutes of build time.
 
 Here's the [documentation](https://github.com/Swatinem/rust-cache) where you can learn more. 
@@ -179,7 +179,7 @@ jobs:
 
 ## `Cargo.toml` Settings
 
-Optimize your release builds with these settings:
+These release profile settings can significantly improve build times and binary size:
 
 ```toml
 [profile.release]
@@ -187,8 +187,8 @@ lto = true
 codegen-units = 1
 ```
 
-LTO (Link Time Optimization) can significantly reduce the binary size and improve performance.
-`codegen-units = 1` disables parallel code generation, which can reduce memory usage and speed up the build process. The reason is that parallel code generation can lead to memory contention and slow down the build.
+- LTO (Link Time Optimization) performs optimizations across module boundaries, which can reduce binary size and improve runtime performance.
+- Setting `codegen-units = 1` trades parallel compilation for better optimization opportunities. While this might make local builds slower, it often speeds up CI builds by reducing memory pressure on resource-constrained runners.
 
 ## Automate Dependency Updates 
 
@@ -204,11 +204,15 @@ This GitHub action eliminates the manual work of creating releases and is highly
 
 If you've implemented all these optimizations and your builds are still slow, it's time to optimize the Rust code itself. I've compiled many tips in my other blog post [here](/blog/tips-for-faster-rust-compile-times/).
 
+## Conclusion
+
+Remember that each project is unique.
+Start with the easier wins like Swatinem's cache action and `--locked` flag, then progressively implement more advanced optimizations as needed. Monitor your CI metrics to ensure the changes are having the desired effect.
+
 {% info(title="Need Professional Support?", icon="crab") %}
 
-Are your CI builds still running slowly? 
-Have you implemented all these tips and tricks, but your Rust project still needs optimization?
-Don't waste any more time — I can help you!
-[Get in touch for a free consultation](/about).
+Is your Rust CI still too slow despite implementing these optimizations?
+I can help you identify and fix performance bottlenecks in your build pipeline.
+[Book a free consultation](/about) to discuss your specific needs.
 
 {% end %}
