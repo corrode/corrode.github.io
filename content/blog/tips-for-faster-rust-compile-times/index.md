@@ -801,6 +801,14 @@ on CI.
 
 ## CI Builds
 
+{% info(title="Tips for CI Builds") %}
+
+I wrote a whole article on [how to speed up your CI builds](/blog/tips-for-faster-ci-builds/).
+It covers a lot of the tips mentioned here in more detail and also includes
+more specific advice for Github Actions.
+
+{% end %}
+
 ### Use A Cache For Your Dependencies
 
 For GitHub actions in particular you can also use [Swatinem/rust-cache](https://github.com/Swatinem/rust-cache).
