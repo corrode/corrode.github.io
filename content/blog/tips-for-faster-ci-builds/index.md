@@ -11,63 +11,65 @@ resources = [
 hero = "hero.svg"
 +++
 
-I’ve been working with a lot of clients lately who host their Rust projects on GitHub.
-CI is typically a bottleneck in the development process, because it's a major stopper for fast feedback loops.
-Not all is lost, though! Here's a few tricks to make the most of GitHub Actions.
+I've been working with many clients lately who host their Rust projects on GitHub.
+CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
+However, there are several effective ways to speed up your GitHub Actions workflows!
 
-## Use Swatimem's cache action
+{% info(title="Want a Real-World Example?", icon="crab") %}
 
-This is easily my biggest recommendation on this list.
+Check out this production-ready GitHub Actions workflow that implements all the tips from this article:
+[click here](https://github.com/lycheeverse/lychee/blob/master/.github/workflows/ci.yml).
 
-My friend [Arpad Borsos](https://github.com/swatinem), also known as Swatimem, has created a cache action that is specifically tailored for Rust projects.
-It's a very easy way to speed up any Rust CI build and requires no code changes.
+{% end %}
+
+## Use Swatinem's cache action
+
+This is easily my most important recommendation on this list.
+
+My friend [Arpad Borsos](https://github.com/swatinem), also known as Swatinem, has created a cache action specifically tailored for Rust projects.
+It's an excellent way to speed up any Rust CI build and requires no code changes to your project.
 
 ```yaml
 name: CI
 
 on: 
-  - push
+  push:
+    branches:
+      - main
   - pull_request
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
-    name: Test `cargo check/test/build` on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest-arm
 
     env:
       CARGO_TERM_COLOR: always
 
     steps:
       - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
 
-      - run: rustup toolchain install stable --profile minimal --no-self-update
-
-      # The magic sauce
+      # The secret sauce!
       - uses: Swatinem/rust-cache@v2
 
       - run: |
           cargo check
           cargo test
           cargo build --release
-        working-directory: tests
 ```
 
-Note that you don't need any additional configuration. It works out of the box.
-There is no step needed to store the cache, this is done by an automatic post-action.
-This way, it also makes sure not to cache broken builds etc.
+The action requires no additional configuration and works out of the box.
+There's no need for a separate step to store the cache —- this happens automatically through a post-action.
+This approach ensures that broken builds aren't cached, and for subsequent builds, you can save several minutes of build time.
 
-For repeated builds, this can save you a lot of time -- many minutes, in fact.
+Here's the [documentation](https://github.com/Swatinem/rust-cache) where you can learn more. 
 
 ## Use the `--locked` flag
 
-When you run `cargo build`, `cargo test`, or `cargo check`, you can pass the `--locked` flag to make sure that Cargo doesn't update the `Cargo.lock` file.
+When running `cargo build`, `cargo test`, or `cargo check`, you can pass the `--locked` flag to prevent Cargo from updating the `Cargo.lock` file.
 
-This is especially useful when you're running `cargo check` or `cargo test`, because you don't need to update the dependencies to run these commands.
+This is particularly useful for CI operations since you save the time to update dependencies.
+Typically you want to test the exact dependency versions specified in your lock file anyway.
 
 ```yaml
 - run: cargo check --locked
@@ -76,10 +78,11 @@ This is especially useful when you're running `cargo check` or `cargo test`, bec
 
 ## Use the new ARM64 runners
 
-Linux arm64 hosted runners now available for free in public repositories. 
+GitHub Actions has recently announced that
+Linux ARM64 hosted runners are now available for free in public repositories. 
 [Here's](https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/) the announcement.
 
-Switching to ARM64 promises a 40% perf boost and it's super easy to do. Just replace `ubuntu-latest` with `ubuntu-latest-arm64` in your workflow file.
+Switching to ARM64 provides up to 40% performance improvement and is straightforward. Simply replace `ubuntu-latest` with `ubuntu-latest-arm64` in your workflow file:
 
 ```yaml
 jobs:
@@ -87,9 +90,11 @@ jobs:
     runs-on: ubuntu-latest-arm64
 ```
 
-## Use `Cargo-Chef` For Docker Builds 
+However, in my [tests](https://github.com/lycheeverse/lychee/pull/1614), the downside was that it took a long time until a runner was allocated to the job. The waiting time dwarfed the actual build time. I assume GitHub will add more runners in the future to mitigate this issue.
 
-If you're building a Docker image for your Rust application, you can use the [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) tool to speed up the build process.
+## Use `cargo-chef` For Docker Builds 
+
+For Rust Docker images, [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) can significantly speed up the build process by leveraging Docker's layer caching:
 
 ```Dockerfile
 FROM lukemathwalker/cargo-chef:latest-rust-1 AS chef
@@ -114,12 +119,11 @@ COPY --from=builder /app/target/release/app /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/app"]
 ```
 
-## Environment Flags To Avoid Incremental Compilation 
+## Environment Flags To Disable Incremental Compilation 
 
-Rust comes with a set of environment flags that can be used to avoid incremental compilation.
-Why would you want to avoid it? 
-Incremental compilation is a feature that speeds up local builds, but in CI, the overhead of tracking dependencies can slow down the build process.
-It also has a negative impact on caching.
+Rust provides environment flags to disable incremental compilation.
+While incremental compilation speeds up local development builds, in CI it can actually slow down the process due to dependency tracking overhead and negatively impact caching.
+So it's better to switch it off:
 
 ```yaml
 name: Build
@@ -141,20 +145,22 @@ jobs:
       ...
 ```
 
-## Disable debuginfo and warnings
+## Disable Debug Info
+
+While debug info is valuable for debugging, it significantly increases the size of the `./target` directory, which can harm caching efficiency.
+It's easy to switch off:
 
 ```yaml
 env:
   CARGO_PROFILE_TEST_DEBUG: 0
 ```
 
-Debuginfo is useful for debugging, but it makes the `./target` directory much bigger, again harming caching.
-
-
 ## Use `cargo nextest`
 
-This way, you can run tests in parallel, which can speed up the CI process.
-They claim it's 3x faster than `cargo test`, but in CI, I typically see a 40% improvement, which is still a lot.
+`cargo nextest` enables parallel test execution, which can substantially speed up your CI process.
+While they claim a 3x speedup over `cargo test`, in CI environments I typically observe around 40%
+because the runners don't have as many cores as a developer machine.
+It's still a nice speedup.
 
 ```yaml
 jobs:
@@ -173,35 +179,36 @@ jobs:
 
 ## `Cargo.toml` Settings
 
+Optimize your release builds with these settings:
+
 ```toml
 [profile.release]
 lto = true
 codegen-units = 1
 ```
 
+LTO (Link Time Optimization) can significantly reduce the binary size and improve performance.
+`codegen-units = 1` disables parallel code generation, which can reduce memory usage and speed up the build process. The reason is that parallel code generation can lead to memory contention and slow down the build.
+
 ## Automate Dependency Updates 
 
-Use a tool like [dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide) to keep your dependencies up to date. 
-This way, you don't have to wait create a PR to update dependencies and wait for CI to finish.
-Instead, dependabot will create a PR for you, and you can merge it when you're ready.
+Implement [dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide) to automate dependency updates.
+Instead of manually creating PRs for updates and waiting for CI, dependabot handles this automatically, creating PRs that you can merge when ready.
 
-## Quick Release Creation 
+## Streamline Release Creation 
 
-[`release-plz`](https://release-plz.ieni.dev/) is a GitHub action that automatically creates a release when a PR is merged.
-It speeds up the process of creating a release, because you don't have to do it manually.
-I highly recommend it.
+[`release-plz`](https://release-plz.ieni.dev/) automates release creation when PRs are merged.
+This GitHub action eliminates the manual work of creating releases and is highly recommended for maintaining a smooth workflow.
 
+## Optimize Your Rust Code
 
-## Optimize your Rust code
-
-If you did all that and your builds are still slow, it's time to roll up your sleeves and optimize the Rust code itself. I've collected many tips in my other blog post [here](/blog/tips-for-faster-rust-compile-times/).
-
+If you've implemented all these optimizations and your builds are still slow, it's time to optimize the Rust code itself. I've compiled many tips in my other blog post [here](/blog/tips-for-faster-rust-compile-times/).
 
 {% info(title="Need Professional Support?", icon="crab") %}
 
-Your CI builds are still slow? 
-You followed all the tips and tricks, but your Rust project needs to be optimized?
-Don't waste any more time; let's look at your project together.
+Are your CI builds still running slowly? 
+Have you implemented all these tips and tricks, but your Rust project still needs optimization?
+Don't waste any more time — I can help you!
 [Get in touch for a free consultation](/about).
 
 {% end %}
