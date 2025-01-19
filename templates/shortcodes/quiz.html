@@ -14,6 +14,12 @@
     </button>
     <button class="quiz-navbutton" id="quiz-next-question">Next</button>
   </div>
+
+  <div id="quiz-results" style="display: none">
+    <h2>Thank you for your interest!</h2>
+    <p>I'll send you a customized migration strategy based on your responses.</p>
+    <p>In the meantime, feel free to check out my <a href="/blog">other articles about Rust</a>.</p>
+  </div>
 </div>
 
 <script>
@@ -265,18 +271,36 @@
     }
   }
 
-  function submitQuiz() {
+  async function submitQuiz() {
     saveCurrentAnswers();
-    console.log("Quiz completed! Answers:");
-    console.log(JSON.stringify(answers, null, 2));
+    
+    // Hide the quiz
+    questionContainer.innerHTML = '';
+    document.getElementById('quiz-navigation-container').style.display = 'none';
+    
+    // Show the thank you message
+    const resultsContainer = document.getElementById('quiz-results');
+    resultsContainer.style.display = 'block';
 
-    // Here you would typically send the data to your backend
-    // fetch('/api/submit-quiz', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(answers)
-    // });
-  }
+    try {
+        // Using Formspark as an example
+        const response = await fetch('https://submit-form.com/YkAFE1mIq', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(answers)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to submit');
+        }
+    } catch (error) {
+        console.error('Failed to submit form:', error);
+        // Optionally show an error message to the user
+    }
+}
 
   document.addEventListener("DOMContentLoaded", initQuiz);
 </script>
