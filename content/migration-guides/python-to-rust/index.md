@@ -8,6 +8,7 @@ draft = false
 series = "Guides"
 +++
 
+
 {% info(title="A Practical Guide for Decision Makers" ) %}
 This guide is written for technical leaders and developers considering moving their teams from Python to Rust.
 I used to be a Python developer myself, and I know how daunting it can be to switch to a new language.
@@ -24,6 +25,140 @@ In this article, you'll learn:
 - Common pitfalls and how to avoid them
 - Ways to maintain productivity during the transition
 - How to leverage Python's strengths alongside Rust
+
+## Get Your Customized Migration Plan
+
+I help teams migrate from Python to Rust, providing tailored guidance and training.
+If you're considering a migration, answer a few questions about your project, and I'll reach out with a customized plan.
+
+{% quiz() %}
+
+const questions = [
+  {
+    type: "multipleChoice",
+    question: "Which languages are currently used in your codebase?",
+    id: "currentLanguages",
+    options: languageOptions,
+  },
+  {
+    type: "multipleChoice",
+    question: "Which types of applications are you looking to migrate?",
+    id: "applicationType",
+    direction: "column",
+    options: [
+      "Web services/APIs",
+      "CLI tools",
+      "Embedded systems",
+      "Desktop applications",
+      "WebAssembly modules",
+      "Data processing pipelines",
+      "Machine learning systems",
+      "Other",
+    ],
+  },
+  {
+    type: "radio",
+    question: "What's the size of your codebase?",
+    id: "codebaseSize",
+    options: ["< 10k lines", "< 100k lines", "> 100k lines"],
+  },
+  {
+    type: "radio",
+    question: "What's your team's experience with Rust?",
+    id: "rustExperience",
+    direction: "column",
+    options: [
+      "No experience yet",
+      "Some team members have experimented with it",
+      "We have one or more small projects in production",
+      "We have significant production experience",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What are your main motivations for migrating to Rust?",
+    direction: "column",
+    id: "motivations",
+    options: [
+      "Performance improvements",
+      "Better type safety",
+      "Memory efficiency",
+      "Production reliability",
+      "Cross-platform deployment",
+      "WebAssembly support",
+      "Embedded systems development",
+      "Microservices migration",
+      "Other",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What are your main concerns about migrating to Rust?",
+    id: "concerns",
+    direction: "column",
+    options: [
+      "Learning curve for the team",
+      "Migration complexity",
+      "Maintaining productivity during transition",
+      "Finding Rust developers",
+      "Integration with existing Python code",
+      "Third-party library availability",
+      "Build times",
+      "Testing and deployment changes",
+      "None/Other",
+    ],
+  },
+  {
+    type: "radio",
+    question: "What's your timeline for the migration?",
+    id: "timeline",
+    options: [
+      "Immediate (next 3 months)",
+      "Medium-term (3-12 months)",
+      "Long-term (12+ months)",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What kind of support is most important for your team?",
+    id: "supportNeeded",
+    direction: "column",
+    options: [
+      "Planning and strategy",
+      "Project audit",
+      "Training and workshops",
+      "Code reviews and mentoring",
+      "PyO3 integration support",
+      "Performance optimization",
+      "Architecture design",
+      "Best practices guidance",
+      "Team hiring support",
+    ],
+  },
+  {
+    type: "radio",
+    question: "How many developers would be involved in the migration?",
+    options: ["1", "2-3", "4-9", "10+"],
+    id: "teamSize",
+  },
+  {
+    type: "input",
+    question: "Anything else you'd like to share about your migration plans?",
+    id: "additionalComments",
+    placeholder: "Share your thoughts...",
+    optional: true,
+  },
+  {
+    type: "email",
+    question:
+      "What's your email? I'll send you a customized migration strategy based on your responses.",
+    id: "email",
+    placeholder: "Your email address",
+  },
+];
+
+{% end %}
+
 
 ## Key Differences Between Python and Rust
 

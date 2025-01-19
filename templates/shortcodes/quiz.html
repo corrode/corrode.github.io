@@ -1,0 +1,455 @@
+<div class="quiz-container">
+  <div class="quiz-progress-container">
+    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+  </div>
+  <div id="quiz-question-container"></div>
+
+  <div id="quiz-navigation-container">
+    <button
+      class="quiz-navbutton"
+      id="quiz-prev-question"
+      style="display: none"
+    >
+      ← Previous
+    </button>
+    <button class="quiz-navbutton" id="quiz-next-question">Next →</button>
+  </div>
+
+  <div id="quiz-results" style="display: none">
+    <h2>Thank you for your interest!</h2>
+    <p>
+      I'll send you a customized migration strategy based on your responses.
+    </p>
+    <p>
+      In the meantime, feel free to check out my
+      <a href="/blog">other articles about Rust</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  const languageOptions = [
+    "Python",
+    "Java",
+    "C++",
+    "Go",
+    "TypeScript",
+    "JavaScript",
+    "C#",
+    "Ruby",
+    "PHP",
+    "Swift",
+    "Kotlin",
+    "Other",
+  ];
+
+  {{ body | safe }}
+
+  // Quiz state
+  let answers = {};
+  let currentQuestionIndex = 0;
+  let totalQuestions;
+
+  // DOM elements
+  const progressBar = document.getElementById("progress-bar");
+  const questionContainer = document.getElementById("quiz-question-container");
+  const prevButton = document.getElementById("quiz-prev-question");
+  const nextButton = document.getElementById("quiz-next-question");
+
+  function initQuiz() {
+    totalQuestions = questions.length;
+    nextButton.addEventListener("click", nextQuestion);
+    prevButton.addEventListener("click", previousQuestion);
+
+    // Handle browser back/forward buttons
+    window.addEventListener("popstate", (event) => {
+      if (event.state) {
+        currentQuestionIndex = event.state.index;
+        answers = event.state.answers || {};
+        displayQuestion(currentQuestionIndex);
+      } else {
+        resetQuiz();
+      }
+    });
+
+    displayQuestion(0);
+  }
+
+  function resetQuiz() {
+    answers = {};
+    currentQuestionIndex = 0;
+    displayQuestion(0);
+  }
+
+  function updateProgressBar() {
+    const progressPercentage =
+      ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+  }
+
+  function createQuestionElement(question) {
+    const element = document.createElement("div");
+    element.className = "question";
+    element.innerHTML = `<h2>${question.question}${
+      question.optional ? " (Optional)" : ""
+    }</h2>`;
+
+    let inputContainer;
+
+    switch (question.type) {
+      case "multipleChoice":
+        inputContainer = document.createElement("div");
+        if (question.direction) {
+          inputContainer.style.display = "flex";
+          inputContainer.style.flexDirection = question.direction;
+        } else {
+          inputContainer.className = "checkbox-grid";
+        }
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.className = "checkbox-label";
+
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = question.id;
+          input.value = option;
+
+          label.appendChild(input);
+          label.append(` ${option}`);
+          inputContainer.appendChild(label);
+        });
+        break;
+
+      case "radio":
+        inputContainer = document.createElement("div");
+        inputContainer.className = "quiz-flex-container";
+        if (question.direction) {
+          inputContainer.style.flexDirection = question.direction;
+        }
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.className = "quiz-button";
+          label.textContent = option;
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = question.id;
+          input.value = option;
+
+          input.addEventListener("change", () => {
+            saveCurrentAnswers();
+            nextButton.disabled = false;
+            // Auto-advance
+            if (currentQuestionIndex < totalQuestions - 1) {
+              nextQuestion();
+            }
+          });
+
+          label.appendChild(input);
+          inputContainer.appendChild(label);
+        });
+        break;
+
+      case "input":
+      case "email":
+        inputContainer = document.createElement("input");
+        inputContainer.type = question.type;
+        inputContainer.id = question.id;
+        inputContainer.name = question.id;
+        inputContainer.placeholder = question.placeholder || "";
+        break;
+    }
+
+    element.appendChild(inputContainer);
+    return { element, inputContainer };
+  }
+
+  function saveCurrentAnswers() {
+    const inputs = questionContainer.querySelectorAll("input");
+    const questionId = questions[currentQuestionIndex].id;
+
+    delete answers[questionId];
+
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        if (input.checked) {
+          answers[questionId] = answers[questionId] || [];
+          answers[questionId].push(input.value);
+        }
+      } else if (
+        (input.type === "radio" && input.checked) ||
+        input.type === "text" ||
+        input.type === "email"
+      ) {
+        if (input.value.trim()) {
+          answers[questionId] = input.value;
+        }
+      }
+    });
+  }
+
+  function restorePreviousAnswers(question, container) {
+    const previousAnswer = answers[question.id];
+    if (!previousAnswer) return;
+
+    const inputs = container.querySelectorAll("input");
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        input.checked = previousAnswer.includes(input.value);
+      } else if (input.type === "radio") {
+        input.checked = input.value === previousAnswer;
+      } else {
+        input.value = previousAnswer;
+      }
+    });
+  }
+
+  function updateNavigationState() {
+    prevButton.style.display = currentQuestionIndex > 0 ? "" : "none";
+    const question = questions[currentQuestionIndex];
+    nextButton.disabled = !isQuestionAnswered(question);
+  }
+
+  function isQuestionAnswered(question) {
+    if (question.optional) return true;
+    const answer = answers[question.id];
+    if (!answer) return false;
+    if (Array.isArray(answer)) return answer.length > 0;
+    return answer.trim().length > 0;
+  }
+
+  function nextQuestion() {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      saveCurrentAnswers();
+      currentQuestionIndex++;
+      displayQuestion(currentQuestionIndex);
+    } else {
+      submitQuiz();
+    }
+  }
+
+  function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      saveCurrentAnswers();
+      currentQuestionIndex--;
+      displayQuestion(currentQuestionIndex);
+    }
+  }
+
+  function displayQuestion(index) {
+    const question = questions[index];
+    if (!question) return;
+
+    history.pushState(
+      { index, answers: { ...answers } },
+      `Question ${index + 1}`,
+      `?question=${index + 1}`
+    );
+
+    questionContainer.innerHTML = "";
+    const { element, inputContainer } = createQuestionElement(question);
+    questionContainer.appendChild(element);
+
+    restorePreviousAnswers(question, inputContainer);
+    updateProgressBar();
+    updateNavigationState();
+
+    if (question.type === "input" || question.type === "email") {
+      const input = inputContainer;
+      input.addEventListener("input", () => {
+        nextButton.disabled = !input.value.trim() && !question.optional;
+      });
+    } else if (question.type === "multipleChoice") {
+      const inputs = inputContainer.querySelectorAll("input");
+      inputs.forEach((input) => {
+        input.addEventListener("change", () => {
+          const anyChecked = Array.from(inputs).some((i) => i.checked);
+          nextButton.disabled = !anyChecked && !question.optional;
+        });
+      });
+    }
+
+    if (question.type === "radio") {
+      nextButton.disabled = !answers[question.id] && !question.optional;
+    }
+  }
+
+  async function submitQuiz() {
+    saveCurrentAnswers();
+
+    // Hide the quiz
+    questionContainer.innerHTML = "";
+    document.getElementById("quiz-navigation-container").style.display = "none";
+
+    // Show the thank you message
+    const resultsContainer = document.getElementById("quiz-results");
+    resultsContainer.style.display = "block";
+
+    try {
+      // Using Formspark as an example
+      const response = await fetch("https://submit-form.com/YkAFE1mIq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
+    } catch (error) {
+      console.error("Failed to submit form:", error);
+      // Optionally show an error message to the user
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", initQuiz);
+</script>
+
+<style>
+  .quiz-container {
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .quiz-progress-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 5px;
+    margin-bottom: 20px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background-color: #ee3856;
+    transition: width 0.5s ease-in-out;
+  }
+
+  #quiz-navigation-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .quiz-navbutton {
+    padding: 10px 20px;
+    background-color: #111;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+
+  .quiz-flex-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .quiz-button {
+    padding: 50px 15px;
+    border-radius: 4px;
+    background-color: #111;
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: large;
+  }
+
+  .quiz-button:hover {
+    background-color: #ee3856;
+  }
+
+  input,
+  .checkbox-label,
+  .quiz-button:hover {
+    cursor: pointer;
+  }
+
+  #quiz-next-question:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .quiz-button input[type="radio"] {
+    display: none;
+  }
+
+  .quiz-container input[type="input"],
+  .quiz-container input[type="text"],
+  .quiz-container input[type="email"] {
+    font-size: larger;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .quiz-container input::placeholder {
+    color: #ccc;
+  }
+
+  .question h2 {
+    margin: 0;
+  }
+
+  .question .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .question input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #111;
+    border-radius: 4px;
+    margin: 0; /* Remove margin, we're using gap instead */
+  }
+
+  .question input[type="checkbox"]:checked {
+    border: 2px solid #111;
+    background-color: #ee3856;
+  }
+
+  @media (max-width: 600px) {
+    .quiz-container input[type="text"],
+    .quiz-container input[type="email"] {
+      width: calc(100% - 30px);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .quiz-button {
+      background-color: #fab71c;
+      color: #111;
+    }
+
+    .question input[type="checkbox"] {
+      border-color: #fff;
+    }
+
+    .question input[type="checkbox"]:checked {
+      border: 2px solid #fff;
+      background-color: #ee3856;
+    }
+  }
+</style>
