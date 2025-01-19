@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2025-01-06
+updated = 2025-01-19
 template = "article.html"
 draft = false
 [extra]
