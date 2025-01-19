@@ -46,7 +46,7 @@ const questions = [
     id: "applicationType",
     direction: "column",
     options: [
-      "Web services/APIs",
+      "Web services / APIs",
       "CLI tools",
       "Embedded systems",
       "Desktop applications",
@@ -156,6 +156,8 @@ const questions = [
     placeholder: "Your email address",
   },
 ];
+
+const formURL = "https://submit-form.com/YkAFE1mIq";
 
 {% end %}
 
