@@ -131,6 +131,7 @@ const questions = [
     question:
       "What's your email? I'll send you a customized migration strategy based on your responses.",
     id: "email",
+    placeholder: "Your email address",
   },
 ];
 

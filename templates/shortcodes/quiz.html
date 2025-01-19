@@ -47,8 +47,6 @@
 
   function initQuiz() {
     totalQuestions = questions.length;
-    displayQuestion(0);
-
     nextButton.addEventListener("click", nextQuestion);
     prevButton.addEventListener("click", previousQuestion);
 
@@ -62,6 +60,8 @@
         resetQuiz();
       }
     });
+
+    displayQuestion(0);
   }
 
   function resetQuiz() {
@@ -74,61 +74,6 @@
     const progressPercentage =
       ((currentQuestionIndex + 1) / totalQuestions) * 100;
     progressBar.style.width = `${progressPercentage}%`;
-  }
-
-  function saveCurrentAnswers() {
-    const inputs = questionContainer.querySelectorAll("input");
-    const questionId = questions[currentQuestionIndex].id;
-
-    // Reset existing answers for this question
-    answers[questionId] = undefined;
-
-    inputs.forEach((input) => {
-      if (input.type === "checkbox") {
-        if (input.checked) {
-          answers[questionId] = answers[questionId] || [];
-          answers[questionId].push(input.value);
-        }
-      } else if (
-        (input.type === "radio" && input.checked) ||
-        input.type === "text" ||
-        input.type === "email"
-      ) {
-        if (input.value.trim()) {
-          answers[questionId] = input.value;
-        }
-      }
-    });
-  }
-
-  function restorePreviousAnswers(question, container) {
-    const previousAnswer = answers[question.id];
-    if (!previousAnswer) return;
-
-    const inputs = container.querySelectorAll("input");
-    inputs.forEach((input) => {
-      if (input.type === "checkbox") {
-        input.checked = previousAnswer.includes(input.value);
-      } else if (input.type === "radio") {
-        input.checked = input.value === previousAnswer;
-      } else {
-        input.value = previousAnswer;
-      }
-    });
-  }
-
-  function updateNavigationState() {
-    prevButton.style.display = currentQuestionIndex > 0 ? "" : "none";
-    const question = questions[currentQuestionIndex];
-    nextButton.disabled = !isQuestionAnswered(question);
-  }
-
-  function isQuestionAnswered(question) {
-    if (question.optional) return true;
-    const answer = answers[question.id];
-    if (!answer) return false;
-    if (Array.isArray(answer)) return answer.length > 0;
-    return answer.trim().length > 0;
   }
 
   function createQuestionElement(question) {
@@ -182,9 +127,11 @@
           input.name = question.id;
           input.value = option;
 
-          // Auto-advance on radio selection
           input.addEventListener("change", () => {
-            if (input.checked && currentQuestionIndex < totalQuestions - 1) {
+            saveCurrentAnswers();
+            nextButton.disabled = false;
+            // Auto-advance
+            if (currentQuestionIndex < totalQuestions - 1) {
               nextQuestion();
             }
           });
@@ -199,6 +146,7 @@
         inputContainer = document.createElement("input");
         inputContainer.type = question.type;
         inputContainer.id = question.id;
+        inputContainer.name = question.id;
         inputContainer.placeholder = question.placeholder || "";
         break;
     }
@@ -207,38 +155,58 @@
     return { element, inputContainer };
   }
 
-  function displayQuestion(index) {
-    const question = questions[index];
-    if (!question) return;
+  function saveCurrentAnswers() {
+    const inputs = questionContainer.querySelectorAll("input");
+    const questionId = questions[currentQuestionIndex].id;
 
-    // Save current state in history
-    history.pushState(
-      { index, answers: { ...answers } },
-      `Question ${index + 1}`,
-      `?question=${index + 1}`
-    );
+    delete answers[questionId];
 
-    questionContainer.innerHTML = "";
-    const { element, inputContainer } = createQuestionElement(question);
-    questionContainer.appendChild(element);
-
-    // Restore previous answers if they exist
-    restorePreviousAnswers(question, inputContainer);
-
-    // Update UI state
-    updateProgressBar();
-    updateNavigationState();
-
-    // Add input listeners
-    const inputs = inputContainer.querySelectorAll("input");
     inputs.forEach((input) => {
-      const handler = () => {
-        saveCurrentAnswers();
-        updateNavigationState();
-      };
-      input.addEventListener("input", handler);
-      input.addEventListener("change", handler);
+      if (input.type === "checkbox") {
+        if (input.checked) {
+          answers[questionId] = answers[questionId] || [];
+          answers[questionId].push(input.value);
+        }
+      } else if (
+        (input.type === "radio" && input.checked) ||
+        input.type === "text" ||
+        input.type === "email"
+      ) {
+        if (input.value.trim()) {
+          answers[questionId] = input.value;
+        }
+      }
     });
+  }
+
+  function restorePreviousAnswers(question, container) {
+    const previousAnswer = answers[question.id];
+    if (!previousAnswer) return;
+
+    const inputs = container.querySelectorAll("input");
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        input.checked = previousAnswer.includes(input.value);
+      } else if (input.type === "radio") {
+        input.checked = input.value === previousAnswer;
+      } else {
+        input.value = previousAnswer;
+      }
+    });
+  }
+
+  function updateNavigationState() {
+    prevButton.style.display = currentQuestionIndex > 0 ? "" : "none";
+    const question = questions[currentQuestionIndex];
+    nextButton.disabled = !isQuestionAnswered(question);
+  }
+
+  function isQuestionAnswered(question) {
+    if (question.optional) return true;
+    const answer = answers[question.id];
+    if (!answer) return false;
+    if (Array.isArray(answer)) return answer.length > 0;
+    return answer.trim().length > 0;
   }
 
   function nextQuestion() {
@@ -259,6 +227,44 @@
     }
   }
 
+  function displayQuestion(index) {
+    const question = questions[index];
+    if (!question) return;
+
+    history.pushState(
+      { index, answers: { ...answers } },
+      `Question ${index + 1}`,
+      `?question=${index + 1}`
+    );
+
+    questionContainer.innerHTML = "";
+    const { element, inputContainer } = createQuestionElement(question);
+    questionContainer.appendChild(element);
+
+    restorePreviousAnswers(question, inputContainer);
+    updateProgressBar();
+    updateNavigationState();
+
+    if (question.type === "input" || question.type === "email") {
+      const input = inputContainer;
+      input.addEventListener("input", () => {
+        nextButton.disabled = !input.value.trim() && !question.optional;
+      });
+    } else if (question.type === "multipleChoice") {
+      const inputs = inputContainer.querySelectorAll("input");
+      inputs.forEach((input) => {
+        input.addEventListener("change", () => {
+          const anyChecked = Array.from(inputs).some((i) => i.checked);
+          nextButton.disabled = !anyChecked && !question.optional;
+        });
+      });
+    }
+
+    if (question.type === "radio") {
+      nextButton.disabled = !answers[question.id] && !question.optional;
+    }
+  }
+
   function submitQuiz() {
     saveCurrentAnswers();
     console.log("Quiz completed! Answers:");
@@ -272,19 +278,7 @@
     // });
   }
 
-  // Start the quiz when the DOM is ready
   document.addEventListener("DOMContentLoaded", initQuiz);
-
-  displayQuestion(0); // Initialize with the first question
-
-  window.addEventListener("popstate", function (event) {
-    if (event.state) {
-      displayQuestion(event.state.index);
-    } else {
-      // If there is no state, reset to the first question
-      displayQuestion(0);
-    }
-  });
 </script>
 
 <style>
@@ -311,14 +305,12 @@
     width: 100%;
     margin-top: 10px;
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    justify-content: space-between;
   }
 
   .quiz-navbutton {
-    font-size: 0.8em;
     padding: 10px 20px;
-    background-color: #111; /*$brightPrim */
+    background-color: #111;
     color: white;
     cursor: pointer;
     border: none;
@@ -327,20 +319,18 @@
   .quiz-flex-container {
     display: flex;
     gap: 10px;
-    /* Allow items to wrap if they can't fit in a single line */
     flex-wrap: wrap;
   }
 
   .quiz-button {
     padding: 50px 15px;
     border-radius: 4px;
-    background-color: #111; /*$brightPrim */
+    background-color: #111;
     color: white;
     white-space: nowrap;
     cursor: pointer;
-    flex: 1; /* Makes buttons take up equal space */
+    flex: 1;
     text-align: center;
-    cursor: pointer;
     font-size: large;
   }
 
@@ -348,32 +338,24 @@
     background-color: #ee3856;
   }
 
-  /* Convert to hand cursor on hover over the buttons or labels */
   input,
   .checkbox-label,
   .quiz-button:hover {
     cursor: pointer;
   }
 
-  /* If the next button is disabled, change the cursor to not-allowed */
   #quiz-next-question:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
 
   .quiz-button input[type="radio"] {
-    display: none; /* Hide the actual radio button */
-  }
-
-  /* Placeholder styling */
-  .quiz-container input::placeholder {
-    color: #ccc; /* Light grey placeholder text */
+    display: none;
   }
 
   .quiz-container input[type="input"],
   .quiz-container input[type="text"],
   .quiz-container input[type="email"] {
-    display: block;
     font-size: larger;
     width: 100%;
     padding: 15px;
@@ -382,18 +364,20 @@
     margin-bottom: 20px;
   }
 
+  .quiz-container input::placeholder {
+    color: #ccc;
+  }
+
   .question h2 {
     margin: 0;
   }
 
-  /* Grid layout for checkboxes */
   .question .checkbox-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 10px;
   }
 
-  /* Custom larger checkbox style */
   .question input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -411,23 +395,21 @@
     background-color: #ee3856;
   }
 
-  /* Ensure inputs do not exceed the container's width on smaller screens */
   @media (max-width: 600px) {
     .quiz-container input[type="text"],
     .quiz-container input[type="email"] {
-      width: calc(100% - 30px); /* Adjust width to account for padding */
+      width: calc(100% - 30px);
     }
   }
 
-  /* Dark mode styles */
   @media (prefers-color-scheme: dark) {
     .quiz-button {
       background-color: #fab71c;
-      color: #111; /* Dark text */
+      color: #111;
     }
 
     .question input[type="checkbox"] {
-      border-color: #fff; /* Light border */
+      border-color: #fff;
     }
 
     .question input[type="checkbox"]:checked {
