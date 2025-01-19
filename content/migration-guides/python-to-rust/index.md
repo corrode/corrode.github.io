@@ -46,8 +46,24 @@ const questions = [
     options: languageOptions,
   },
   {
+    type: "multipleChoice",
+    question: "Which types of applications are you looking to migrate?",
+    id: "applicationType",
+    direction: "column",
+    options: [
+      "Web services/APIs",
+      "CLI tools",
+      "Embedded systems",
+      "Desktop applications",
+      "WebAssembly modules",
+      "Data processing pipelines",
+      "Machine learning systems",
+      "Other"
+    ],
+  },
+  {
     type: "radio",
-    question: "What is the size of your Python codebase?",
+    question: "What's the size of your codebase?",
     id: "codebaseSize",
     options: ["< 10k lines", "< 100k lines", "> 100k lines"],
   },
@@ -65,7 +81,7 @@ const questions = [
   },
   {
     type: "multipleChoice",
-    question: "What are your main motivations for considering Rust?",
+    question: "What are your main motivations for migrating to Rust?", 
     direction: "column",
     id: "motivations",
     options: [
@@ -77,23 +93,6 @@ const questions = [
       "WebAssembly support",
       "Embedded systems development",
       "Microservices migration",
-      "Other"
-    ],
-  },
-  {
-    type: "multipleChoice",
-    question: "What type of applications are you looking to migrate?",
-    id: "applicationType",
-    direction: "column",
-    options: [
-      "Web services/APIs",
-      "CLI tools",
-      "Data processing pipelines",
-      "High-performance computing",
-      "Embedded systems",
-      "Desktop applications",
-      "WebAssembly modules",
-      "Machine learning systems",
       "Other"
     ],
   },
@@ -116,7 +115,7 @@ const questions = [
   },
   {
     type: "radio",
-    question: "What's your preferred timeline for the migration?",
+    question: "What's your timeline for the migration?", 
     id: "timeline",
     options: [
       "Immediate (next 3 months)",
@@ -126,7 +125,7 @@ const questions = [
   },
   {
     type: "multipleChoice",
-    question: "What kind of support would you need?",
+    question: "What kind of support is most important for your team?", 
     id: "supportNeeded",
     direction: "column",
     options: [
@@ -142,15 +141,16 @@ const questions = [
     ],
   },
   {
-    type: "input",
+    type: "radio",
     question: "How many developers would be involved in the migration?",
+    options: ["1", "2-3", "4-9", "10+"],
     id: "teamSize",
   },
   {
     type: "input",
-    question: "What's your biggest concern about the migration that we haven't covered?",
-    id: "biggestConcern",
-   placeholder: "Share your thoughts...",
+    question: "Anything else you'd like to share about your migration plans?",
+    id: "additionalComments",
+    placeholder: "Share your thoughts...",
     optional: true,
   },
   {
@@ -435,7 +435,7 @@ function displayQuestion(index) {
   .quiz-container {
     max-width: 600px;
     margin: 0 auto;
-    overflow: hidden; /* Add this to prevent content from overflowing */
+    overflow: hidden;
   }
 
   .quiz-progress-container {
@@ -448,7 +448,7 @@ function displayQuestion(index) {
   .progress-bar {
     height: 100%;
     background-color: #ee3856;
-    transition: width 0.5s ease-in-out; /* Smooth transition for width changes */
+    transition: width 0.5s ease-in-out;
   }
 
   #quiz-navigation-container {
