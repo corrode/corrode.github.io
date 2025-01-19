@@ -34,278 +34,239 @@
 
   {{ body | safe }}
 
-  let answers = {};
-  const progressBar = document.getElementById("progress-bar");
-  let totalQuestions = questions.length;
-  let currentQuestionIndex = 1;
+// Quiz state
+let answers = {};
+let currentQuestionIndex = 0;
+let totalQuestions;
 
-  document
-    .getElementById("quiz-next-question")
-    .addEventListener("click", () => {
-      nextQuestion();
-    });
+// DOM elements
+const progressBar = document.getElementById("progress-bar");
+const questionContainer = document.getElementById("quiz-question-container");
+const prevButton = document.getElementById("quiz-prev-question");
+const nextButton = document.getElementById("quiz-next-question");
 
-  function nextQuestion() {
-    // Get the quiz container and store the user's answers
-    const quizContainer = document.getElementById("quiz-question-container");
-    const inputs = quizContainer.querySelectorAll(
-      "input[type='text'], input[type='email'], input[type='radio'], input[type='checkbox']"
-    );
+function initQuiz() {
+  totalQuestions = questions.length;
+  displayQuestion(0);
 
-    inputs.forEach((input) => {
-      if (input.type === "radio" || input.type === "email") {
-        if (input.checked) {
-          answers[input.name] = input.value;
-        }
-      } else if (input.type === "checkbox") {
-        if (input.checked) {
-          if (!answers[input.name]) {
-            answers[input.name] = [];
-          }
-          answers[input.name].push(input.value);
-        }
+  nextButton.addEventListener("click", nextQuestion);
+  prevButton.addEventListener("click", previousQuestion);
+  
+  // Handle browser back/forward buttons
+  window.addEventListener("popstate", (event) => {
+    if (event.state) {
+      currentQuestionIndex = event.state.index;
+      answers = event.state.answers || {};
+      displayQuestion(currentQuestionIndex);
+    } else {
+      resetQuiz();
+    }
+  });
+}
+
+function resetQuiz() {
+  answers = {};
+  currentQuestionIndex = 0;
+  displayQuestion(0);
+}
+
+function updateProgressBar() {
+  const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+  progressBar.style.width = `${progressPercentage}%`;
+}
+
+function saveCurrentAnswers() {
+  const inputs = questionContainer.querySelectorAll("input");
+  const questionId = questions[currentQuestionIndex].id;
+
+  // Reset existing answers for this question
+  answers[questionId] = undefined;
+
+  inputs.forEach((input) => {
+    if (input.type === "checkbox") {
+      if (input.checked) {
+        answers[questionId] = answers[questionId] || [];
+        answers[questionId].push(input.value);
+      }
+    } else if ((input.type === "radio" && input.checked) || input.type === "text" || input.type === "email") {
+      if (input.value.trim()) {
+        answers[questionId] = input.value;
+      }
+    }
+  });
+}
+
+function restorePreviousAnswers(question, container) {
+  const previousAnswer = answers[question.id];
+  if (!previousAnswer) return;
+
+  const inputs = container.querySelectorAll("input");
+  inputs.forEach(input => {
+    if (input.type === "checkbox") {
+      input.checked = previousAnswer.includes(input.value);
+    } else if (input.type === "radio") {
+      input.checked = input.value === previousAnswer;
+    } else {
+      input.value = previousAnswer;
+    }
+  });
+}
+
+function updateNavigationState() {
+  prevButton.style.display = currentQuestionIndex > 0 ? "" : "none";
+  const question = questions[currentQuestionIndex];
+  nextButton.disabled = !isQuestionAnswered(question);
+}
+
+function isQuestionAnswered(question) {
+  if (question.optional) return true;
+  const answer = answers[question.id];
+  if (!answer) return false;
+  if (Array.isArray(answer)) return answer.length > 0;
+  return answer.trim().length > 0;
+}
+
+function createQuestionElement(question) {
+  const element = document.createElement("div");
+  element.className = "question";
+  element.innerHTML = `<h2>${question.question}${question.optional ? " (Optional)" : ""}</h2>`;
+
+  let inputContainer;
+
+  switch (question.type) {
+    case "multipleChoice":
+      inputContainer = document.createElement("div");
+      if (question.direction) {
+        inputContainer.style.display = "flex";
+        inputContainer.style.flexDirection = question.direction;
       } else {
-        answers[input.id] = input.value;
+        inputContainer.className = "checkbox-grid";
       }
-    });
+      
+      question.options.forEach(option => {
+        const label = document.createElement("label");
+        label.className = "checkbox-label";
+        
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.name = question.id;
+        input.value = option;
+        
+        label.appendChild(input);
+        label.append(` ${option}`);
+        inputContainer.appendChild(label);
+      });
+      break;
 
-    console.log(answers);
+    case "radio":
+      inputContainer = document.createElement("div");
+      inputContainer.className = "quiz-flex-container";
+      if (question.direction) {
+        inputContainer.style.flexDirection = question.direction;
+      }
 
-    if (currentQuestionIndex < questions.length) {
-      displayQuestion(currentQuestionIndex++);
-    } else {
-      // All questions have been answered
-      submitQuiz();
-    }
-  }
+      question.options.forEach(option => {
+        const label = document.createElement("label");
+        label.className = "quiz-button";
+        label.textContent = option;
 
-  function previousQuestion() {
-    if (currentQuestionIndex > 0) {
-      displayQuestion(--currentQuestionIndex - 1);
-    }
-  }
-
-  document
-    .getElementById("quiz-prev-question")
-    .addEventListener("click", () => {
-      previousQuestion();
-    });
-
-  function updateProgressBar() {
-    const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
-    progressBar.style.width = `${progressPercentage}%`;
-  }
-
-  function displayQuestion(index) {
-    history.pushState(
-      { index: index },
-      `Question ${index}`,
-      `?question=${index}`
-    );
-
-    updateProgressBar();
-
-    const questionContainer = document.getElementById(
-      "quiz-question-container"
-    );
-    questionContainer.innerHTML = ""; // Clear existing content
-
-    const question = questions[index];
-    const questionElement = document.createElement("div");
-    questionElement.className = "question";
-
-    if (question.optional) {
-      questionElement.innerHTML = `<h2>${question.question} (Optional)</h2>`;
-    } else {
-      questionElement.innerHTML = `<h2>${question.question}</h2>`;
-    }
-
-    // Initially hide the navigation buttons for 'radio' type questions
-    const navContainer = document.getElementById("quiz-navigation-container");
-
-    // Hide navContainer for first question
-    // if (index === 0) {
-    //   navContainer.style.display = "none";
-    // } else {
-    navContainer.style.display = "flex";
-    // }
-
-    document.getElementById("quiz-next-question").disabled = !question.optional;
-
-    let inputElement;
-
-    switch (question.type) {
-      case "multipleChoice":
-        const gridContainer = document.createElement("div");
-
-        // Set the direction if specified
-        if (question.direction) {
-          gridContainer.style.display = "flex";
-          gridContainer.style.flexDirection = question.direction;
-        } else {
-          gridContainer.className = "checkbox-grid";
-        }
-
-        question.options.forEach((option) => {
-          const optionElement = document.createElement("label");
-          optionElement.className = "checkbox-label"; // Use this class for checkbox labels
-          const inputElement = document.createElement("input");
-          inputElement.type = "checkbox";
-          inputElement.name = question.id;
-          inputElement.value = option;
-
-          optionElement.appendChild(inputElement);
-          optionElement.append(" " + option);
-
-          gridContainer.appendChild(optionElement);
-        });
-
-        questionElement.appendChild(gridContainer);
-        break;
-
-      case "checkbox":
-        question.options.forEach((option) => {
-          inputElement = document.createElement("input");
-          inputElement.type = "checkbox";
-          inputElement.id = option;
-          inputElement.value = option;
-          questionElement.appendChild(inputElement);
-          questionElement.appendChild(document.createTextNode(option));
-        });
-        break;
-
-      case "input":
-      case "email":
-        inputElement = document.createElement("input");
-        inputElement.type = question.type === "email" ? "email" : "text";
-        inputElement.id = question.id;
-        if (question.placeholder) {
-          inputElement.placeholder = question.placeholder;
-        }
-        questionElement.appendChild(inputElement);
-        break;
-
-      case "radio":
-        const flexContainer = document.createElement("div");
-        flexContainer.className = "quiz-flex-container";
-
-        // Set the direction of the flex container if specified
-        if (question.direction) {
-          flexContainer.style.flexDirection = question.direction;
-        }
-
-        question.options.forEach((option) => {
-          const optionLabel = document.createElement("label");
-          optionLabel.className = "quiz-button";
-          optionLabel.textContent = option;
-
-          const inputElement = document.createElement("input");
-          inputElement.type = "radio";
-          inputElement.name = question.id;
-          inputElement.value = option;
-          inputElement.onchange = () => {
-            // Automatically move to the next question on selecting a radio option
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = question.id;
+        input.value = option;
+        
+        // Auto-advance on radio selection
+        input.addEventListener("change", () => {
+          if (input.checked && currentQuestionIndex < totalQuestions - 1) {
             nextQuestion();
-          };
-
-          optionLabel.appendChild(inputElement);
-          flexContainer.appendChild(optionLabel);
+          }
         });
 
-        questionElement.appendChild(flexContainer);
-        break;
-    }
-
-    // Append the fully constructed questionElement to the questionContainer
-    questionContainer.appendChild(questionElement);
-
-    if (currentQuestionIndex > 1) {
-      document.getElementById("quiz-prev-question").style.display = "";
-    } else {
-      document.getElementById("quiz-prev-question").style.display = "none";
-    }
-
-    // Handle button enabling based on input and optional status
-    const inputs = questionContainer.querySelectorAll(
-      "input[type='text'], input[type='email'], input[type='radio'], input[type='checkbox']"
-    );
-
-    inputs.forEach((input) => {
-      input.addEventListener("input", () => {
-        // For text and email fields
-        if (question.optional || input.value.trim().length > 0) {
-          document.getElementById("quiz-next-question").disabled = false;
-        } else {
-          document.getElementById("quiz-next-question").disabled = true;
-        }
+        label.appendChild(input);
+        inputContainer.appendChild(label);
       });
+      break;
 
-      input.addEventListener("change", () => {
-        // For radio buttons and checkboxes
-        if (question.type === "multipleChoice") {
-          // Enable next if at least one checkbox is checked or if optional
-          const anyChecked = Array.from(inputs).some((inp) => inp.checked);
-          document.getElementById("quiz-next-question").disabled = !(
-            anyChecked || question.optional
-          );
-        } else {
-          document.getElementById("quiz-next-question").disabled = false;
-        }
-      });
-    });
+    case "input":
+    case "email":
+      inputContainer = document.createElement("input");
+      inputContainer.type = question.type;
+      inputContainer.id = question.id;
+      inputContainer.placeholder = question.placeholder || "";
+      break;
   }
 
-  function submitQuiz() {
-    // Create an object to store all answers
-    const finalAnswers = {};
+  element.appendChild(inputContainer);
+  return { element, inputContainer };
+}
 
-    // Go through each question and collect its answer
-    questions.forEach((question) => {
-      switch (question.type) {
-        case "radio":
-          const radioValue = document.querySelector(
-            `input[name="${question.id}"]:checked`
-          )?.value;
-          if (radioValue) {
-            finalAnswers[question.id] = radioValue;
-          }
-          break;
+function displayQuestion(index) {
+  const question = questions[index];
+  if (!question) return;
 
-        case "multipleChoice":
-          const checkboxes = document.querySelectorAll(
-            `input[name="${question.id}"]:checked`
-          );
-          finalAnswers[question.id] = Array.from(checkboxes).map(
-            (cb) => cb.value
-          );
-          break;
+  // Save current state in history
+  history.pushState(
+    { index, answers: { ...answers } },
+    `Question ${index + 1}`,
+    `?question=${index + 1}`
+  );
 
-        case "input":
-        case "email":
-          const inputValue = document.getElementById(question.id)?.value;
-          if (inputValue) {
-            finalAnswers[question.id] = inputValue;
-          }
-          break;
-      }
-    });
+  questionContainer.innerHTML = "";
+  const { element, inputContainer } = createQuestionElement(question);
+  questionContainer.appendChild(element);
 
-    // Add any answers stored in the global answers object that might have been missed
-    Object.assign(finalAnswers, answers);
+  // Restore previous answers if they exist
+  restorePreviousAnswers(question, inputContainer);
 
-    console.log("Quiz completed! Answers:");
-    console.log(JSON.stringify(finalAnswers, null, 2));
+  // Update UI state
+  updateProgressBar();
+  updateNavigationState();
 
-    // Here you can add code to submit the answers to your backend
-    // For example:
-    // fetch('/api/submit-quiz', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(finalAnswers)
-    // });
+  // Add input listeners
+  const inputs = inputContainer.querySelectorAll("input");
+  inputs.forEach(input => {
+    const handler = () => {
+      saveCurrentAnswers();
+      updateNavigationState();
+    };
+    input.addEventListener("input", handler);
+    input.addEventListener("change", handler);
+  });
+}
+
+function nextQuestion() {
+  if (currentQuestionIndex < totalQuestions - 1) {
+    saveCurrentAnswers();
+    currentQuestionIndex++;
+    displayQuestion(currentQuestionIndex);
+  } else {
+    submitQuiz();
   }
+}
+
+function previousQuestion() {
+  if (currentQuestionIndex > 0) {
+    saveCurrentAnswers();
+    currentQuestionIndex--;
+    displayQuestion(currentQuestionIndex);
+  }
+}
+
+function submitQuiz() {
+  saveCurrentAnswers();
+  console.log("Quiz completed! Answers:");
+  console.log(JSON.stringify(answers, null, 2));
+  
+  // Here you would typically send the data to your backend
+  // fetch('/api/submit-quiz', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(answers)
+  // });
+}
+
+// Start the quiz when the DOM is ready
+document.addEventListener('DOMContentLoaded', initQuiz);
 
   displayQuestion(0); // Initialize with the first question
 
