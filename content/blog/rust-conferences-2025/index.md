@@ -94,7 +94,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Pricing**: 
   - Standard: $120
   - Student: $20
-- **CFP**: [Open until January 10, 2025](https://rustmeet.confreg.pl/events/30-rustmeet-2025)
+- **CFP**: [Closed](https://rustmeet.confreg.pl/events/30-rustmeet-2025)
 - **Links**: [Website](https://rustmeet.eu/) 
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
@@ -182,7 +182,7 @@ anniversary of Rust 1.0. All Rustaceans are welcome to attend and submit talks.
   - Company: $390
   - Conference + Workshop: $343 (Individual) / $592 (Company)
   - Student: $31
-- **CfP**: [Open until January 12, 2025](https://www.papercall.io/rust-week)
+- **CfP**: [Open until January 19, 2025](https://www.papercall.io/rust-week)
 - **Links**: [Website](https://rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL) 
 
@@ -237,8 +237,8 @@ RustConf is the official Rust conference organized by the Rust Foundation.
 It's a great place to meet the Rust core team and other community members.
 The last edition was held in Montreal, Canada and the 2025 edition will be announced soon.
 
-- **When**: September 2-5, 2025
-- **Where**: TBA
+- **When**: September 2-4, 2025
+- **Where**: Seattle, Washington, USA
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
 - **Pricing**: TBA
