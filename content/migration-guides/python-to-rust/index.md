@@ -9,6 +9,28 @@ series = "Guides"
 +++
 
 
+{% info(title="A Practical Guide for Decision Makers" ) %}
+This guide is written for technical leaders and developers considering moving their teams from Python to Rust.
+I used to be a Python developer myself, and I know how daunting it can be to switch to a new language.
+Base on years of experience helping teams make this transition, I'll share practical insights on what works, what doesn't, and how to ensure a successful migration.
+{% end %}
+
+Python is an incredibly versatile language that powers everything from web applications to data science pipelines. However, as organizations scale, they often encounter limitations around performance, type safety, and robustness. While Rust isn't a direct replacement for Python, it has some answers to these challenges.
+
+But is Rust the right choice for your team? 
+
+In this article, you'll learn:
+- How to evaluate whether Rust is the right choice for your Python codebase
+- Practical strategies for Python-to-Rust migration
+- Common pitfalls and how to avoid them
+- Ways to maintain productivity during the transition
+- How to leverage Python's strengths alongside Rust
+
+## Get Your Customized Migration Plan
+
+I help teams migrate from Python to Rust, providing tailored guidance and training.
+If you're considering a migration, answer a few questions about your project, and I'll reach out with a customized plan.
+
 {% quiz() %}
 
 const questions = [
@@ -137,23 +159,6 @@ const questions = [
 
 {% end %}
 
-
-{% info(title="A Practical Guide for Decision Makers" ) %}
-This guide is written for technical leaders and developers considering moving their teams from Python to Rust.
-I used to be a Python developer myself, and I know how daunting it can be to switch to a new language.
-Base on years of experience helping teams make this transition, I'll share practical insights on what works, what doesn't, and how to ensure a successful migration.
-{% end %}
-
-Python is an incredibly versatile language that powers everything from web applications to data science pipelines. However, as organizations scale, they often encounter limitations around performance, type safety, and robustness. While Rust isn't a direct replacement for Python, it has some answers to these challenges.
-
-But is Rust the right choice for your team? 
-
-In this article, you'll learn:
-- How to evaluate whether Rust is the right choice for your Python codebase
-- Practical strategies for Python-to-Rust migration
-- Common pitfalls and how to avoid them
-- Ways to maintain productivity during the transition
-- How to leverage Python's strengths alongside Rust
 
 ## Key Differences Between Python and Rust
 

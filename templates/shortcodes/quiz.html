@@ -10,15 +10,20 @@
       id="quiz-prev-question"
       style="display: none"
     >
-      Previous
+      ← Previous
     </button>
-    <button class="quiz-navbutton" id="quiz-next-question">Next</button>
+    <button class="quiz-navbutton" id="quiz-next-question">Next →</button>
   </div>
 
   <div id="quiz-results" style="display: none">
     <h2>Thank you for your interest!</h2>
-    <p>I'll send you a customized migration strategy based on your responses.</p>
-    <p>In the meantime, feel free to check out my <a href="/blog">other articles about Rust</a>.</p>
+    <p>
+      I'll send you a customized migration strategy based on your responses.
+    </p>
+    <p>
+      In the meantime, feel free to check out my
+      <a href="/blog">other articles about Rust</a>.
+    </p>
   </div>
 </div>
 
@@ -273,41 +278,40 @@
 
   async function submitQuiz() {
     saveCurrentAnswers();
-    
+
     // Hide the quiz
-    questionContainer.innerHTML = '';
-    document.getElementById('quiz-navigation-container').style.display = 'none';
-    
+    questionContainer.innerHTML = "";
+    document.getElementById("quiz-navigation-container").style.display = "none";
+
     // Show the thank you message
-    const resultsContainer = document.getElementById('quiz-results');
-    resultsContainer.style.display = 'block';
+    const resultsContainer = document.getElementById("quiz-results");
+    resultsContainer.style.display = "block";
 
     try {
-        // Using Formspark as an example
-        const response = await fetch('https://submit-form.com/YkAFE1mIq', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            body: JSON.stringify(answers)
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to submit');
-        }
+      // Using Formspark as an example
+      const response = await fetch("https://submit-form.com/YkAFE1mIq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
     } catch (error) {
-        console.error('Failed to submit form:', error);
-        // Optionally show an error message to the user
+      console.error("Failed to submit form:", error);
+      // Optionally show an error message to the user
     }
-}
+  }
 
   document.addEventListener("DOMContentLoaded", initQuiz);
 </script>
 
 <style>
   .quiz-container {
-    max-width: 600px;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -329,7 +333,8 @@
     width: 100%;
     margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 10px;
   }
 
   .quiz-navbutton {
@@ -402,16 +407,22 @@
     gap: 10px;
   }
 
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .question input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    margin-right: 10px;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
     width: 20px;
     height: 20px;
     border: 2px solid #111;
     border-radius: 4px;
-    vertical-align: middle;
+    margin: 0; /* Remove margin, we're using gap instead */
   }
 
   .question input[type="checkbox"]:checked {
