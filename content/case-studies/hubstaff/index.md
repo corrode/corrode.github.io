@@ -14,14 +14,10 @@ The safe choice would be to stick with their trusty Ruby on Rails stack – afte
 But that's not the path they chose. 
 
 {% info(title="About Hubstaff") %}
-
-Hubstaff provides integrated time tracking and workforce management software for distributed teams.
-Their platform serves 500,000+ active users across 112,000+ businesses globally. The company has 90 employees and is remote-first. 
-
+Hubstaff helps distributed teams track time and manage their workforce. With 500,000+ active users across 112,000+ businesses, they needed their systems to scale reliably. As a remote-first company with 90 employees themselves, they understand the importance of robust, efficient software.
 {% end %}
 
 ## Why Hubstaff Chose Rust When Rails Was Working Fine
-
 
 When I sat down with Alex, Hubstaff's Server Team Lead, he painted a vivid picture of that moment. "Our entire application stack was powered by Ruby and JavaScript," he told me. "It worked, but we knew we needed something different for this new challenge."
 
@@ -69,7 +65,7 @@ Here's their reasoning:
 2. Lightweight APIs and Dashboard Backend → Rails
 3. Communication through standardized APIs and message queues
 
-## But what about Rust's infamous learning curve? 
+But what about Rust's infamous learning curve? 
 
 "Once developers are up to speed," Alex noted, "there's no noticeable slowdown in development. The Rust ecosystem has matured to the point where we're not constantly reinventing the wheel."
 
@@ -125,10 +121,10 @@ Their Rust footprint grows steadily: 4,200 lines of mission-critical server code
 
 But when I asked Alex and Artur what they're most proud of, it wasn't the technical achievements that topped their list. It was how they got there: thoughtfully, methodically, and together as a team.
 
-- **2019**: First steps into Rust 🌱 
-- **2020**: Rust-based webhook system goes live 🌿
-- **2022**: Migrate desktop app from C++ to Rust 🪴 
-- **2025**: Expanding Rust across the stack 🌳
+- **2019**: First steps into Rust - Webhook system prototype 🌱 
+- **2020**: Webhook system processes first million events 🌿
+- **2022**: Started desktop app migration to Rust/Tauri 🪴 
+- **2025**: Expanding Rust across their entire stack 🌳
 
 ## Key Lessons for Teams Considering Rust
 
@@ -141,6 +137,9 @@ Here's what they shared:
 4. Build bridges between the old and the new
 5. Look for opportunities for collaboration and knowledge sharing 
 
-Thanks to [Alex Yarotsky](https://www.linkedin.com/in/ayarotsky/), CTO 
-and [Artur Jakubiec](https://www.linkedin.com/in/artur-jakubiec/), Technical Lead at Hubstaff for sharing their story.
-If you like to learn more about Hubstaff, [check out their website](https://hubstaff.com/).
+## Thanks
+
+Special thanks to [Alex Yarotsky](https://www.linkedin.com/in/ayarotsky/), CTO 
+and [Artur Jakubiec](https://www.linkedin.com/in/artur-jakubiec/), Technical Lead at Hubstaff for sharing their journey with Rust.
+
+Want to learn more about Hubstaff? [Check out their website](https://hubstaff.com/).
