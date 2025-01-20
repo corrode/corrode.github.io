@@ -13,6 +13,7 @@ resources = [
 reviews = [
     { name = "Hanno Braun", url = "https://www.hannobraun.com/" },
     { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
+    { name = "Bob Peters", url = "https://www.linkedin.com/in/bjhpeters/" },
 ]
 +++
 
