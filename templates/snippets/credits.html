@@ -22,15 +22,15 @@
   >
   {% if page.extra.reviews %}
   <br />
-  Reviewers: {% for review in page.extra.reviews %} {%- if loop.last == false
-  %}<a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
-    >{{ review.name }}</a
-  >, {% endif %} {%- if loop.last == true %}{%- if page.extra.reviews | length >
-  1 %}and{% endif %}
-  <a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer"
-    >{{ review.name }}</a
-  >{% endif %} {%- endfor %} {% endif %} {% if page.extra.credits %}
+  Reviewers: {% for review in page.extra.reviews %}
+    <a href="{{ review.url }}" target="_blank" rel="noopener" rel="noreferrer">{{ review.name }}</a>
+    {%- if not loop.last -%}
+      {%- if loop.index == page.extra.reviews | length - 1 %} and {% else %}, {% endif -%}
+    {%- endif -%}
+  {%- endfor %}
+  {% endif %}
+  {% if page.extra.credits %}
   <br />
-  Credits: {% for credit in page.extra.credits %} {{ credit | safe }} {%- endfor
-  %} {% endif %}
+  Credits: {% for credit in page.extra.credits %}{{ credit | safe }}{%- endfor %}
+  {% endif %}
 </p>
