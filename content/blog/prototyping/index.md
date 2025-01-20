@@ -1,10 +1,9 @@
 +++
 title = "Prototyping in Rust"
 date = 2025-01-15
-draft = false
+updated = 2025-01-20
 template = "article.html"
 [extra]
-# hero = "hero.svg"
 series = "Idiomatic Rust"
 resources = [
     "[Throw away code - Vorner's blog](https://vorner.github.io/2020/09/20/throw-away-code.html)",
@@ -254,6 +253,29 @@ At the very least, it costs time. Time you could spend on more important things.
 While prototyping with Rust, you can safely ignore error handling and focus on
 the happy path without losing track of improvement areas. 
 
+### Add `anyhow` to your prototypes
+
+I like to add [`anyhow`](https://github.com/dtolnay/anyhow) pretty early during the prototyping phase,
+to get more fine-grained control over my error handling.
+This way, I can use `bail!` and `with_context` to quickly add more context to my errors without losing momentum.
+Later on, I can revisit each error case and see if I can handle it more gracefully.
+
+```rust
+use anyhow::{bail, Context, Result};
+
+// Here's how to use `with_context` to add more context to an error
+let home = std::env::var("HOME")
+    .with_context(|| "Could not read HOME environment variable")?;
+
+// ...alternatively, use `bail` to return an error immediately 
+let Ok(home) = std::env::var("HOME") else {
+    bail!("Could not read HOME environment variable");
+};
+```
+
+The great thing about `anyhow` is that it's a solid choice for error handling in production code as well,
+so you don't have to rewrite your error handling logic later on.
+
 ### Use a good IDE
 
 There is great IDE support for Rust.
@@ -344,7 +366,6 @@ Most people use `println!` for that, but [`dbg!`](https://doc.rust-lang.org/std/
 - It prints the file name and line number where the macro is called. This helps you quickly find the source of the output.
 - It outputs the expression as well as its value.
 - It's less syntax-heavy than `println!`; e.g. `dbg!(x)` vs. `println!("{x:?}")`.
-- It's only active in debug builds, so it has no performance impact for releases. 
 
 Where `dbg!` really shines is in recursive functions or when you want to see the intermediate values during an iteration:
 
@@ -376,7 +397,8 @@ The output is nice and tidy:
 [src/main.rs:9:1] factorial(4) = 24
 ```
 
-If you're interested, here's [more details on how to use that handy `dbg!` macro](https://edgarluque.com/blog/rust-dbg-macro/).
+Note that you should not keep the `dbg!` calls in your final code as they will also be executed in release mode.
+If you're interested, [here are more details on how to use the `dbg!` macro](https://edgarluque.com/blog/rust-dbg-macro/).
 
 ### Design through types
 
@@ -505,6 +527,51 @@ Should we introduce a trait to support algorithms for processing the data?
 These are all helpful questions that we can answer without having to worry about the details of the implementation. 
 And yet our code is typesafe and compiles, and it is ready for refactoring. 
 
+### `unreachable!` for unreachable branches 
+
+On a related note, you can use the [`unreachable!`](https://doc.rust-lang.org/std/macro.unreachable.html) macro to mark branches of your code that should never be reached.
+
+```rust
+fn main() {
+    let age: u8 = 170;
+    
+    match age {
+        0..150 => println!("Normal human age"),
+        150.. => unreachable!("Witchcraft!"),
+     }
+}
+```
+
+This is a great way to document your assumptions about the code.
+The result is the same as if you had used `todo!`, but it's more explicit about the fact that this branch should never be reached:
+
+```rust
+thread 'main' panicked at src/main.rs:6:18:
+internal error: entered unreachable code: Witchcraft!
+```
+
+Note that we added a message to the `unreachable!` macro to make it clear what the assumption is.
+
+### Use `assert!` for invariants
+
+Another way to document your assumptions is to use the [`assert!`](https://doc.rust-lang.org/std/macro.assert.html) macro.
+This is especially useful for invariants that should hold true at runtime.
+
+For example, the above code could be rewritten like this:
+
+```rust
+fn main() {
+    let age: u8 = 170;
+    
+    assert!(age < 150, "This is very unlikely to be a human age");
+    
+    println!("Normal human age");
+}
+```
+
+During prototyping, this can be helpful to catch logic bugs early on without having to write a lot of tests
+and you can safely carry them over to your production code.
+
 ### Avoid generics
 
 Chances are, you won't know which parts of your application should be generic in the beginning.
@@ -532,6 +599,8 @@ Maybe the two functions only differ by type signature for now, but they might se
 If the function is not generic from the start, it's easier to remove the duplication later. 
 
 Only introduce generics when you see a clear pattern emerge in multiple places.
+I personally avoid generics up until the very last moment. I want to feel the "pain" of duplication logic before I abstract it away.
+In 50% of the cases, I find that the problem is not missing generics, but that there's a better algorithm or data structure that solves the problem more elegantly. 
 
 Also avoid "fancy" generic type signatures:
 
