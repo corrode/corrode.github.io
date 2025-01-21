@@ -1,6 +1,6 @@
 +++
 title = "Hubstaff - From Rails to Rust"
-date = 2025-01-21
+date = 2025-01-20
 template = "article.html"
 draft = false
 [extra]
@@ -14,7 +14,7 @@ The safe choice would be to stick with their trusty Ruby on Rails stack – afte
 But that's not the path they chose.
 
 {% info(title="About Hubstaff") %}
-Hubstaff helps distributed teams track time and manage their workforce. With 500,000+ active users across 112,000+ businesses, they needed their systems to scale reliably. As a remote-first company with 90 employees themselves, they understand the importance of robust, efficient software.
+Hubstaff helps distributed teams track time and manage their workforce. With 500,000+ active users across 112,000+ businesses, they needed their systems to scale reliably. As a remote-first company with 120 team members, they understand the importance of robust, efficient software.
 {% end %}
 
 ## Why Hubstaff Chose Rust When Rails Was Working Fine
@@ -31,21 +31,13 @@ But there was another path – one less traveled at the time:
   <figcaption>Alex Yarotsky, CTO at Hubstaff</figcaption>
 </figure>
 
-## How They Convinced the Team to Try Rust
-
-Of course, there were moments of doubt.
-Adding a new language to an already complex tech stack isn't a decision teams make lightly.
-
-"There was skepticism," Artur Jakubiec, their Desktop Tech Lead, admitted. "Not about Rust itself, but about balancing our ecosystem."
-
-But instead of letting doubt win, Artur took action. He spent weeks building [prototypes](/blog/prototyping), gathering data, and crafting a vision of what could be. It wasn't just about convincing management – it was about showing his team a glimpse of the future they could build together.
 
 ## A Webhook System That Scaled 10x
 
-Fast forward to today.
+Fast-forward to today.
 
 The webhook system is processing ten times the initial load without breaking a sweat.
-Of course, the team had to make adjustments along the way, but not to their Rust code, but to their SQL queries.
+Of course, the team had to make adjustments along the way, not to their Rust code, but to their SQL queries.
 
 > "Since its launch, we've had to optimize SQL queries multiple times to keep up with demand," Alex shared, "but we've never faced any issues with the app's memory or CPU consumption. Not once."
 
@@ -55,10 +47,6 @@ Of course, the team had to make adjustments along the way, but not to their Rust
 </figure>
 
 Over time, more and more microservices got ported to Rust.
-
-What helped was that the team had prior experience with lower-level concepts from C++.
-
-> I believe the team's strong C++ background made the transition to Rust almost seamless. Many of Rust’s more challenging low-level concepts have parallels in C++, such as the memory model, RAII, move semantics, pointers, references, and even aspects of ADTs (achievable in C++ with tools like `std::optional` and `std::variant`). Similarly, Rust’s ownership system and concepts like lifetimes echo patterns familiar to anyone experienced in managing resources in C++.
 
 ## When to Use Rust And When to Stick With Rails
 
@@ -80,34 +68,48 @@ But what about Rust's infamous learning curve?
 
 ## From Server to Desktop
 
-Once the team gained enough confidence in Rust, they started rewriting their desktop application.
-The easy path would have been Electron – the tried-and-true choice for web companies.
+Once the team gained enough confidence in Rust, they started rewriting their desktop application. This was an area of the business, that was traditionally governed by C++, but the team was already sold on the idea:
+
+> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team. (Artur)
+
+
+But Rust wasn’t an obvious choice. The easy path would have been Electron – the tried-and-true choice for companies looking to provide a desktop client from their web app.
 But Hubstaff had learned to trust that Rust would get the job done.
 
 > "**Electron simply wasn't an option,**" Artur stated firmly. "We needed something lightweight, something that could bridge our future with our past. That's why we chose [Tauri](https://tauri.app/)."
+
 
 > "It’s still early days for this approach, as we’re currently in the process of migrating our desktop app. However, we’re already envisioning some compelling synergies emerging from this setup. For example, many of the APIs used by our desktop and mobile apps are high-load systems, and following our strategy, they’re slated to be migrated to Rust soon. With the desktop team already familiarizing themselves with Rust during this transition, they’ll be better equipped to make contributions or changes to these APIs, which will reduce reliance on the server team." added Alex.
 
 ## Was It All Flowers And Sunshine?
 
-Of course not. Artur mentioned:
+Of course, there were moments of doubt.
+Adding a new language to an already complex tech stack isn't a decision teams make lightly.
+
+"There was skepticism," Artur Jakubiec, their Desktop Tech Lead, admitted. "Not about Rust itself, but about balancing our ecosystem."
+
+But instead of letting doubt win, Artur took action. He spent weeks building [prototypes](/blog/prototyping), gathering data, and crafting a vision of what could be. It wasn't just about convincing management – it was about showing his team a glimpse of the future they could build together.
+
+Especially the build system caused some headaches:
 
 > One thing I really wish existed when we started was better C++-Rust integration, not just at the language level but especially in the **build systems**. Oddly enough, integrating Rust into CMake/C++ workflows (using tools like [Corrosion](https://github.com/corrosion-rs/corrosion)) was relatively straightforward, but going the other way — **embedding C++ into Rust—proved much more challenging**. A more seamless and standardized approach for bidirectional integration would have saved us a lot of time and effort.
 
-Alex adds:
+Artur adds:
 
 > Of course, challenges remain, particularly in ensuring **seamless knowledge transfer and establishing best practices across teams**. But the potential for closer collaboration and a unified stack makes this an exciting step forward.
 
 
 ## Was It All Worth It?
 
-> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team. (Artur)
+What helped was that the team had prior experience with lower-level concepts from C++.
+
+> I believe the team's strong C++ background made the transition to Rust almost seamless. Many of Rust’s more challenging low-level concepts have parallels in C++, such as the memory model, RAII, move semantics, pointers, references, and even aspects of ADTs (achievable in C++ with tools like `std::optional` and `std::variant`). Similarly, Rust’s ownership system and concepts like lifetimes echo patterns familiar to anyone experienced in managing resources in C++.
 
 Let's look at the facts:
 
 - Desktop developers now contribute to backend services, breaking down old silos.
 - Five years without a single memory-related issue in production.
-- Their C++ developers are on-board with Rust's safety guarantees as well .
+- Their C++ developers are on-board with Rust's safety guarantees as well.
 - Infrastructure costs stayed flat despite 10x growth.
 
 But perhaps the biggest change is **confidence in the codebase**:
