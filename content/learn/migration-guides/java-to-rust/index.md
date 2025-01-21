@@ -4,7 +4,7 @@ date = 2024-12-09
 template = "article.html"
 draft = false
 [extra]
-series = "Guides"
+series = "Migration Guides"
 resources = [
   "[Comparing Rust and Java - Andre Bogus](https://llogiq.github.io/2016/02/28/java-rust.html)",
 ]

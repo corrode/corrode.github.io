@@ -5,7 +5,7 @@ template = "article.html"
 draft = false
 [extra]
 hero = "hubstaff.png"
-series = "Case Studies"
+series = "Company Case Studies"
 +++
 
 It's 2019, and [Hubstaff](https://hubstaff.com/)'s engineering team is sketching out plans for their new webhook system.
