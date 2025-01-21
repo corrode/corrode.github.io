@@ -1,6 +1,7 @@
 +++
 title = "Thinking in Expressions"
 date = 2025-01-21
+draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
