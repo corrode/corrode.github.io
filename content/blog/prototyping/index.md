@@ -573,6 +573,10 @@ fn main() {
 During prototyping, this can be helpful to catch logic bugs early on without having to write a lot of tests
 and you can safely carry them over to your production code.
 
+Consider using
+[`debug_assert!`](https://doc.rust-lang.org/std/macro.debug_assert.html) for
+expensive invariant checks that should only run in test/debug builds.
+
 ### Avoid generics
 
 Chances are, you won't know which parts of your application should be generic in the beginning.
