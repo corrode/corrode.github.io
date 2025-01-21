@@ -26,6 +26,11 @@ But there was another path – one less traveled at the time:
 
 > "We chose to proceed with Rust," Alex recalled. "Not just because it was efficient, but because it would push us to **think in fundamentally different ways**."
 
+<figure>
+  <img src="alex.jpg" alt="Alex Yarotsky, CTO at Hubstaff">
+  <figcaption>Alex Yarotsky, CTO at Hubstaff</figcaption>
+</figure>
+
 ## How They Convinced the Team to Try Rust
 
 Of course, there were moments of doubt.
