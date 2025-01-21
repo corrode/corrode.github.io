@@ -31,7 +31,6 @@ But there was another path – one less traveled at the time:
   <figcaption>Alex Yarotsky, CTO at Hubstaff</figcaption>
 </figure>
 
-
 ## A Webhook System That Scaled 10x
 
 Fast-forward to today.
@@ -41,12 +40,13 @@ Of course, the team had to make adjustments along the way, not to their Rust cod
 
 > "Since its launch, we've had to optimize SQL queries multiple times to keep up with demand," Alex shared, "but we've never faced any issues with the app's memory or CPU consumption. Not once."
 
+Over time, more and more microservices got ported to Rust.
+
 <figure>
   <img src="screenshot.png" alt="Hubstaff's Webhook System">
   <figcaption>A screenshot of Hubstaff's Webhook System</figcaption>
 </figure>
 
-Over time, more and more microservices got ported to Rust.
 
 ## When to Use Rust And When to Stick With Rails
 
@@ -62,24 +62,26 @@ But what about Rust's infamous learning curve?
 
 "Once developers are up to speed," Alex noted, "there's no noticeable slowdown in development. The Rust ecosystem has matured to the point where we're not constantly reinventing the wheel."
 
-...and Artur added:
-
-"So far, onboarding hasn’t been an issue at all. Honestly, there’s no secret sauce—it’s -- all about getting new team members working on the code as soon as possible."
-
 ## From Server to Desktop
 
 Once the team gained enough confidence in Rust, they started rewriting their desktop application. This was an area of the business, that was traditionally governed by C++, but the team was already sold on the idea:
 
-> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team. (Artur)
+> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team. 
 
+This quote is from Artur Jakubiec, Technical Lead at Hubstaff, who was leading the desktop app migration.
 
-But Rust wasn’t an obvious choice. The easy path would have been Electron – the tried-and-true choice for companies looking to provide a desktop client from their web app.
-But Hubstaff had learned to trust that Rust would get the job done.
+<figure>
+  <img src="artur.jpeg" alt="Artur Jakubiec, Technical Lead at Hubstaff">
+  <figcaption>Artur Jakubiec, Technical Lead at Hubstaff</figcaption>
+</figure>
+
+But Rust wasn’t an obvious choice for their desktop app. The easy path would have been Electron – the tried-and-true choice for companies looking to provide a desktop client from their web app.
+However, Hubstaff had learned to trust that Rust would get the job done.
 
 > "**Electron simply wasn't an option,**" Artur stated firmly. "We needed something lightweight, something that could bridge our future with our past. That's why we chose [Tauri](https://tauri.app/)."
 
 
-> "It’s still early days for this approach, as we’re currently in the process of migrating our desktop app. However, we’re already envisioning some compelling synergies emerging from this setup. For example, many of the APIs used by our desktop and mobile apps are high-load systems, and following our strategy, they’re slated to be migrated to Rust soon. With the desktop team already familiarizing themselves with Rust during this transition, they’ll be better equipped to make contributions or changes to these APIs, which will reduce reliance on the server team." added Alex.
+> "It’s still early days for this approach, as we’re currently in the process of migrating our desktop app. However, we’re already envisioning some compelling synergies emerging from this setup. For example, many of the APIs used by our desktop and mobile apps are high-load systems, and following our strategy, they’re slated to be migrated to Rust soon. **With the desktop team already familiarizing themselves with Rust during this transition, they’ll be better equipped to make contributions or changes to these APIs, which will reduce reliance on the server team.**" added Alex.
 
 ## Was It All Flowers And Sunshine?
 
@@ -118,11 +120,14 @@ But perhaps the biggest change is **confidence in the codebase**:
 
 On top of that, Alex added that using Rust across the stack has also opened up new collaboration opportunities across the teams.
 
+Artur adds that the onboarding experience has also been smoother than expected:
+
+> So far, onboarding hasn’t been an issue at all. Honestly, there’s no secret sauce — it’s all about getting new team members working on the code as soon as possible.
+
 <figure>
   <img src="team.png" alt="Hubstaff Team">
   <figcaption>Parts of the Hubstaff Team at their 2022 team offsite in Punta Cana</figcaption>
 </figure>
-
 
 ## Where They Are Today
 
