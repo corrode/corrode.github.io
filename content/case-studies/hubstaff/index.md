@@ -1,6 +1,6 @@
 +++
 title = "Hubstaff - From Rails to Rust"
-date = 2025-01-20
+date = 2025-01-21
 template = "article.html"
 draft = false
 [extra]
