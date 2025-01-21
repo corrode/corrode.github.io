@@ -67,7 +67,7 @@ let x = if condition { 1 } else { 2 };
 ```
 
 That explains the absence of the ternary operator  in Rust (i.e. there is no syntax like `x = condition ? 1 : 2;`).
-It's simply not needed because `if` is equally concise but more versatile. 
+No special syntax is needed because `if` is comparably concise.
 
 Also note that in comparison to Go, our variable `x` does not need to be mutable. 
 As we will see, Rust's expressions often lead to less mutable code. 
