@@ -11,7 +11,7 @@ series = "Case Studies"
 It's 2019, and [Hubstaff](https://hubstaff.com/)'s engineering team is sketching out plans for their new webhook system.
 The new system needs to handle millions of events and work reliably at scale.
 The safe choice would be to stick with their trusty Ruby on Rails stack – after all, it had served them well so far.
-But that's not the path they chose. 
+But that's not the path they chose.
 
 {% info(title="About Hubstaff") %}
 Hubstaff helps distributed teams track time and manage their workforce. With 500,000+ active users across 112,000+ businesses, they needed their systems to scale reliably. As a remote-first company with 90 employees themselves, they understand the importance of robust, efficient software.
@@ -19,7 +19,7 @@ Hubstaff helps distributed teams track time and manage their workforce. With 500
 
 ## Why Hubstaff Chose Rust When Rails Was Working Fine
 
-When I sat down with Alex, Hubstaff's Server Team Lead, he painted a vivid picture of that moment. "Our entire application stack was powered by Ruby and JavaScript," he told me. "It worked, but we knew we needed something different for this new challenge."
+When I sat down with Alex, Hubstaff's CTO, he painted a vivid picture of that moment. "Our entire application stack was powered by Ruby and JavaScript," he told me. "It worked, but we knew we needed something different for this new challenge."
 
 The team stood at a crossroads. Go, with its simplicity and familiar patterns, felt like as a safe harbor.
 But there was another path – one less traveled at the time:
@@ -31,7 +31,7 @@ But there was another path – one less traveled at the time:
 Of course, there were moments of doubt.
 Adding a new language to an already complex tech stack isn't a decision teams make lightly.
 
-"There was skepticism," Artur Jakubiec, their Desktop Team Lead, admitted. "Not about Rust itself, but about balancing our ecosystem."
+"There was skepticism," Artur Jakubiec, their Desktop Tech Lead, admitted. "Not about Rust itself, but about balancing our ecosystem."
 
 But instead of letting doubt win, Artur took action. He spent weeks building [prototypes](/blog/prototyping), gathering data, and crafting a vision of what could be. It wasn't just about convincing management – it was about showing his team a glimpse of the future they could build together.
 
@@ -47,17 +47,14 @@ Of course, the team had to make adjustments along the way, but not to their Rust
 [Can we add a graph here that shows the exponential growth in webhook processing with a flat line for resource usage?]
 
 Over time, more and more microservices got ported to Rust.
-As an explanation, Artur mentioned some frustrations with the existing C++ codebase, which handled the heavy lifting before Rust: 
-
-> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team.
 
 What helped was that the team had prior experience with lower-level concepts from C++.
 
-> I believe the team's strong C++ background made the transition to Rust almost seamless. Many of Rust’s more challenging low-level concepts have parallels in C++, such as the memory model, RAII, move semantics, pointers, references, and even aspects of ADTs (achievable in C++ with tools like `std::optional` and `std::variant`). Similarly, Rust’s ownership system and concepts like lifetimes echo patterns familiar to anyone experienced in managing resources in C++. 
+> I believe the team's strong C++ background made the transition to Rust almost seamless. Many of Rust’s more challenging low-level concepts have parallels in C++, such as the memory model, RAII, move semantics, pointers, references, and even aspects of ADTs (achievable in C++ with tools like `std::optional` and `std::variant`). Similarly, Rust’s ownership system and concepts like lifetimes echo patterns familiar to anyone experienced in managing resources in C++.
 
-## When to Use Rust And When to Stick With Rails 
+## When to Use Rust And When to Stick With Rails
 
-Instead of going all-in on Rust, Hubstaff found wisdom in balance. 
+Instead of going all-in on Rust, Hubstaff found wisdom in balance.
 
 Here's their reasoning:
 
@@ -65,7 +62,7 @@ Here's their reasoning:
 2. Lightweight APIs and Dashboard Backend → Rails
 3. Communication through standardized APIs and message queues
 
-But what about Rust's infamous learning curve? 
+But what about Rust's infamous learning curve?
 
 "Once developers are up to speed," Alex noted, "there's no noticeable slowdown in development. The Rust ecosystem has matured to the point where we're not constantly reinventing the wheel."
 
@@ -77,13 +74,13 @@ But what about Rust's infamous learning curve?
 
 Once the team gained enough confidence in Rust, they started rewriting their desktop application.
 The easy path would have been Electron – the tried-and-true choice for web companies.
-But Hubstaff had learned to trust that Rust would get the job done. 
+But Hubstaff had learned to trust that Rust would get the job done.
 
 > "**Electron simply wasn't an option,**" Artur stated firmly. "We needed something lightweight, something that could bridge our future with our past. That's why we chose [Tauri](https://tauri.app/)."
 
 > "It’s still early days for this approach, as we’re currently in the process of migrating our desktop app. However, we’re already envisioning some compelling synergies emerging from this setup. For example, many of the APIs used by our desktop and mobile apps are high-load systems, and following our strategy, they’re slated to be migrated to Rust soon. With the desktop team already familiarizing themselves with Rust during this transition, they’ll be better equipped to make contributions or changes to these APIs, which will reduce reliance on the server team." added Alex.
 
-## Was It All Flowers And Sunshine? 
+## Was It All Flowers And Sunshine?
 
 Of course not. Artur mentioned:
 
@@ -95,6 +92,8 @@ Alex adds:
 
 
 ## Was It All Worth It?
+
+> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team. (Artur)
 
 Let's look at the facts:
 
@@ -114,6 +113,7 @@ On top of that, Alex added that using Rust across the stack has also opened up n
   <figcaption>Parts of the Hubstaff Team at their 2022 team offsite in Punta Cana</figcaption>
 </figure>
 
+
 ## Where They Are Today
 
 Today, Hubstaff's journey continues.
@@ -121,10 +121,10 @@ Their Rust footprint grows steadily: 4,200 lines of mission-critical server code
 
 But when I asked Alex and Artur what they're most proud of, it wasn't the technical achievements that topped their list. It was how they got there: thoughtfully, methodically, and together as a team.
 
-- **2019**: First steps into Rust - Webhook system prototype 🌱 
-- **2020**: Webhook system processes first million events 🌿
-- **2022**: Started desktop app migration to Rust/Tauri 🪴 
-- **2025**: Expanding Rust across their entire stack 🌳
+- **2019**: First steps into Rust - Webhook system prototype. 🌱
+- **2020**: Webhook system processes first million events. 🌿
+- **2024**: Started desktop app migration to Rust/Tauri. 🪴
+- **2025**: Expanding Rust across their entire stack. Public release of new Rust-powered desktop app. 🌳
 
 ## Key Lessons for Teams Considering Rust
 
@@ -133,13 +133,13 @@ Here's what they shared:
 
 1. Start with a clear mission, not just a technical preference
 2. Invest in your team's journey through learning and support
-3. Make data-driven decisions 
+3. Make data-driven decisions
 4. Build bridges between the old and the new
-5. Look for opportunities for collaboration and knowledge sharing 
+5. Look for opportunities for collaboration and knowledge sharing
 
 ## Thanks
 
-Special thanks to [Alex Yarotsky](https://www.linkedin.com/in/ayarotsky/), CTO 
+Special thanks to [Alex Yarotsky](https://www.linkedin.com/in/ayarotsky/), CTO
 and [Artur Jakubiec](https://www.linkedin.com/in/artur-jakubiec/), Technical Lead at Hubstaff for sharing their journey with Rust.
 
 Want to learn more about Hubstaff? [Check out their website](https://hubstaff.com/).
