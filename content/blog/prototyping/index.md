@@ -1,7 +1,7 @@
 +++
 title = "Prototyping in Rust"
 date = 2025-01-15
-updated = 2025-01-20
+updated = 2025-01-21
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
