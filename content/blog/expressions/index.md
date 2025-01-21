@@ -45,7 +45,7 @@ In Go, for example, an `if` statement is... well, a *statement* and not an expre
 
 ```go
 // This is not valid Go code!
-let x = if condition { 1 } else { 2 };
+var x = if condition { 1 } else { 2 };
 ```
 
 Instead, you'd have to write a full-blown `if` statement
