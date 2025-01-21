@@ -44,7 +44,10 @@ Of course, the team had to make adjustments along the way, but not to their Rust
 
 > "Since its launch, we've had to optimize SQL queries multiple times to keep up with demand," Alex shared, "but we've never faced any issues with the app's memory or CPU consumption. Not once."
 
-[Can we add a graph here that shows the exponential growth in webhook processing with a flat line for resource usage?]
+<figure>
+  <img src="screenshot.png" alt="Hubstaff's Webhook System">
+  <figcaption>A screenshot of Hubstaff's Webhook System</figcaption>
+</figure>
 
 Over time, more and more microservices got ported to Rust.
 
