@@ -1,6 +1,6 @@
 +++
 title = "Thinking in Expressions"
-date = 2025-01-16
+date = 2025-01-21
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -16,8 +16,8 @@ resources = [
 +++
 
 Rust's focus on expressions is an underrated aspect of the language.
-Ideas flow more naturally once you embrace expressions as a core mechanic in Rust.
-I would go as far as to say that expressions shaped the way I think about control flow in general. 
+Code feels more natural to compose once you embrace expressions as a core mechanic in Rust.
+I would go as far as to say that expressions shaped the way I think about control flow in general.
 
 "Everything is an expression" is a bit of an exaggeration, but it's a useful mental model while you 
 internalize the concept.[^reference]
@@ -359,8 +359,8 @@ Ok(Self { config_path })
 ```
 
 Another simple heuristic is to hunt for `returns` and semicolons in the middle of your code.
-These are like "seams" in our program; stop signs, which break the natural flow of data.
-Almost effortlessly, removing these blockers often improves the code flow; it's like magic. 
+These are like "seams" in our program; stop signs, which break the natural data flow.
+Almost effortlessly, removing these blockers often improves the flow; it's like magic.
 
 For example, the above validation code can also be written without returns:
 
