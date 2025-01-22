@@ -112,6 +112,9 @@ ENTRYPOINT ["/usr/local/bin/app"]
 
 Alternatively, if you don't mind a little extra typing, you can write your own Dockerfile without `cargo-chef`:
 
+<details>
+<summary>Click to expand</summary>
+
 ```Dockerfile
 FROM rust:1.81-slim-bookworm AS builder
 
@@ -144,6 +147,8 @@ COPY --from=builder /usr/src/app/target/release/your-app /usr/local/bin/
 # Set the startup command to run our binary
 CMD ["your-app"]
 ``` 
+
+</details>
 
 ## Environment Flags To Disable Incremental Compilation 
 
@@ -277,6 +282,8 @@ Renovate has a bit of an edge over dependabot in terms of configurability and fe
 
 [`release-plz`](https://release-plz.ieni.dev/) automates release creation when PRs are merged.
 This GitHub action eliminates the manual work of creating releases and is highly recommended for maintaining a smooth workflow.
+
+![release-plz website screenshot](release-plz.jpg)
 
 ## Optimize Your Rust Code
 
