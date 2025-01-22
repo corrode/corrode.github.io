@@ -2,7 +2,9 @@
 {% block content %}
 <article>
   <div class="article-heading">
-    <h2 class="subheading">{{ page.extra.series }}</h2>
+    <h2 class="subheading">
+      <a href="{{ get_url(path=page.components | first) }}">{{ page.extra.series }}</a>
+    </h2>
     <h1>{{ page.title }}</h1>
     <div class="article-date">
       <span class="icon-calendar"></span>
