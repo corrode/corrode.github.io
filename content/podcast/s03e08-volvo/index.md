@@ -12,6 +12,8 @@ episode = "08"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-5d620579" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/volvo-with-julius-gustavsson/player.js?size=s"></script></div>
+
 The car industry is not known for its rapid adoption of new technologies.
 Therefore, it's even more exciting to see a company like Volvo Cars embracing Rust for core components of their software stack.
 
@@ -42,16 +44,16 @@ His master's thesis was about System-on-Chip (SoC) design.
 - [Grepit](https://www.grepit.se/) - Contractors who worked with Volvo
 - [UDS](https://en.wikipedia.org/wiki/Unified_Diagnostic_Services) - Universal automotive diagnostic standard
 - [CBOR](https://en.wikipedia.org/wiki/CBOR) - JSON, but binary
-- serde - Super awesome serialization/deserialization crate
+- [serde](https://serde.rs/) - Super awesome serialization/deserialization crate
 - [probe-rs](https://probe.rs/) - Flashing and debugging embedded chips as simple as uploading PHP files to a webserver
 - [SBOM](https://en.wikipedia.org/wiki/Software_supply_chain) - Ingredients of your compiled binary
-- curl episode
+- [Rust in Production: cURL with Daniel Stenberg](https://corrode.dev/podcast/s02e01-curl/) - Find cURL in an SBOM near you!
 - [Zuul CI](https://zuul-ci.org/) - CI tool with speculative merging support
 - [Robot Framework](https://robotframework.org/) - BDD testing for hardware
 - [clippy::pedantic](https://doc.rust-lang.org/stable/clippy/usage.html#even-more-lints) - clippy on hard mode
 - [heapless](https://github.com/rust-embedded/heapless) - When you want a heap but only have a stack
 - [AUTOSAR Classic](https://www.autosar.org/standards/classic-platform/) - automotive framework with Rust support
-- volov tech blog "why volvo thinks you should have rust in your car"
+- [Volvo tech blog: Why Rust is actually good for your car](https://medium.com/volvo-cars-engineering/why-volvo-thinks-you-should-have-rust-in-your-car-4320bd639e09)
 - [Rust is rolling off the Volvo assembly line - Tweede Golf](https://tweedegolf.nl/en/blog/137/rust-is-rolling-off-the-volvo-assembly-line) - Blog post about Volvo Cars using Rust
 - [Safety Critical Rust Consortium](https://github.com/rustfoundation/safety-critical-rust-consortium?tab=readme-ov-file) - Aiming to make Rust a fully viable alternative for safety critical software
 
@@ -59,3 +61,4 @@ His master's thesis was about System-on-Chip (SoC) design.
 
 - [Volvo Cars](https://www.volvocars.com)
 - [Julius Gustavsson on LinkedIn](https://www.linkedin.com/in/julius-gustavsson)
+- [Julius Gustavsson on Mastodon](https://hachyderm.io/@jgust)
