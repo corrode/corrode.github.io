@@ -83,6 +83,19 @@ However, Hubstaff had learned to trust that Rust would get the job done.
 
 > "It’s still early days for this approach, as we’re currently in the process of migrating our desktop app. However, we’re already envisioning some compelling synergies emerging from this setup. For example, many of the APIs used by our desktop and mobile apps are high-load systems, and following our strategy, they’re slated to be migrated to Rust soon. **With the desktop team already familiarizing themselves with Rust during this transition, they’ll be better equipped to make contributions or changes to these APIs, which will reduce reliance on the server team.**" added Alex.
 
+## The Current Architecture
+
+Today, Hubstaff's architecture is a mix of Ruby on Rails, Rust, and JavaScript.
+Their webhooks system, backend services, and desktop app are all powered by Rust
+and they keep expanding their Rust footprint across the stack for heavy-load operations.
+
+<figure>
+  <figure>
+    <img class="centered" src="architecture.svg" alt="Hubstaff's Architecture">
+    <figcaption>Simplified Overview of Hubstaff's Current Architecture</figcaption>
+  </figure>
+</figure>
+
 ## Was It All Flowers And Sunshine?
 
 Of course, there were moments of doubt.
@@ -103,6 +116,12 @@ Artur adds:
 
 ## Was It All Worth It?
 
+For developers coming from interpreted languages like Ruby, two main insights stood out from our conversation:
+
+> Initially, switching to a compiled language felt like a hustle, but the "aha" moments made it worthwhile. The first came when we realized just **how many edge cases the Rust compiler catches for you** — it’s like having an additional safety net during development.
+> The second came after deploying Rust applications to production. **Seeing how much more resource-efficient the Rust app was compared to its Ruby counterpart was a real eye-opener**. It demonstrated the tangible benefits of Rust’s focus on performance, reinforcing why it was worth tackling the learning curve.
+
+But what about the C++ developers, which worked on the desktop app?
 What helped was that the team had prior experience with lower-level concepts from C++.
 
 > I believe the team's strong C++ background made the transition to Rust almost seamless. Many of Rust’s more challenging low-level concepts have parallels in C++, such as the memory model, RAII, move semantics, pointers, references, and even aspects of ADTs (achievable in C++ with tools like `std::optional` and `std::variant`). Similarly, Rust’s ownership system and concepts like lifetimes echo patterns familiar to anyone experienced in managing resources in C++.
@@ -125,7 +144,7 @@ Artur adds that the onboarding experience has also been smoother than expected:
 > So far, onboarding hasn’t been an issue at all. Honestly, there’s no secret sauce — it’s all about getting new team members working on the code as soon as possible.
 
 <figure>
-  <img src="team.png" alt="Hubstaff Team">
+  <img src="team.jpg" alt="Hubstaff Team">
   <figcaption>Parts of the Hubstaff Team at their 2022 team offsite in Punta Cana</figcaption>
 </figure>
 
