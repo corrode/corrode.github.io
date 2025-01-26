@@ -1,6 +1,6 @@
 +++
 title = "Hubstaff - From Rails to Rust"
-date = 2025-01-20
+date = 2025-01-27
 template = "article.html"
 draft = false
 [extra]
@@ -66,7 +66,7 @@ But what about Rust's infamous learning curve?
 
 Once the team gained enough confidence in Rust, they started rewriting their desktop application. This was an area of the business, that was traditionally governed by C++, but the team was already sold on the idea:
 
-> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team. 
+> The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team.
 
 This quote is from Artur Jakubiec, Technical Lead at Hubstaff, who was leading the desktop app migration.
 
@@ -158,3 +158,4 @@ Special thanks to [Alex Yarotsky](https://www.linkedin.com/in/ayarotsky/), CTO
 and [Artur Jakubiec](https://www.linkedin.com/in/artur-jakubiec/), Technical Lead at Hubstaff for sharing their journey with Rust.
 
 Want to learn more about Hubstaff? [Check out their website](https://hubstaff.com/).
+
