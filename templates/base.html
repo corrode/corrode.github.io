@@ -150,6 +150,12 @@
                     </a>
                 </li>
                 <li>
+                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/learn' }}">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
                     <a {% if current_path and current_path is starting_with("/blog") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
                         href="{{ config.base_url ~ '/blog' }}">
                         <span>Blog</span>
@@ -172,49 +178,46 @@
 
     <footer class="footer">
         <div class="footer-container">
-
             <div class="footer-column">
-                <h3>Learn Rust</h3>
+                <h3>Services</h3>
                 <ul class="footer-links">
-                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
                     <li><a href="/blog/why-rust/">Why Rust?</a></li>
-                    <li><a href="/blog/rust-conferences-2025/">Rust Conferences</a></li>
-                    <li><a href="/blog/idiomatic-rust-resources/">Idiomatic Rust</a></li>
+                    <li><a href="/about/">About</a></li>
                 </ul>
             </div>
-
+    
             <div class="footer-column">
-                <h3>Resources</h3>
+                <h3>Learn</h3>
                 <ul class="footer-links">
-                    <li><a href="/blog/">Blog</a></li>
-                    <li><a href="/podcast">Podcast</a></li>
-                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
-                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/learn/migration-guides/">Migration Guides</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Resources</a></li>
                 </ul>
             </div>
-
+    
             <div class="footer-column">
                 <h3>Migration Guides</h3>
                 <ul class="footer-links">
-                    <li><a href="/migration-guides/python-to-rust/">Python to Rust</a></li>
-                    <li><a href="/migration-guides/typescript-to-rust/">TypeScript to Rust</a></li>
-                    <li><a href="/migration-guides/java-to-rust/">Java to Rust</a></li>
-                    <li><a href="/migration-guides/scala-to-rust/">Scala to Rust</a></li>
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
                 </ul>
             </div>
             
             <div class="footer-column">
-                <h3>Company</h3>
+                <h3>Connect</h3>
                 <ul class="footer-links">
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/quote/">Business Inquiries</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
                     <li><a href="/legal/">Legal Notice</a></li>
-                    <li>© 2025 corrode</li>
                 </ul>
             </div>
-
         </div>
-        
     </footer>
 
     <script>

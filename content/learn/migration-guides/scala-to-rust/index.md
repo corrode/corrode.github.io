@@ -4,7 +4,7 @@ date = 2024-12-09
 template = "article.html"
 draft = false
 [extra]
-series = "Guides"
+series = "Migration Guides"
 resources = [
     "[Rust: A Scala Engineer's Perspective by Lloyd Chan](https://beachape.com/blog/2017/05/24/rust-from-scala/)",
     "[Scala Resurrection by John A De Goes](https://degoes.net/articles/scala-resurrection)",

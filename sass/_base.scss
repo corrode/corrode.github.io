@@ -560,6 +560,14 @@ hr {
   fill: $brightScnd;
 }
 
+figure {
+  margin-bottom: 60px;
+}
+
+figure figcaption {
+  text-align: center;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
