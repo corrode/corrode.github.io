@@ -37,7 +37,7 @@
 }
 
 .call-to-action {
-    padding: 100px 0;
+    padding: 10px 0px 80px;
     background-color: $brightPrim;
     text-align: center;
     width: 100%;
@@ -85,9 +85,25 @@
         transform 0.2s;
 }
 
+.hero-ctas {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.hero-ctas-bottom {
+    margin-bottom: 2em;
+}
+
 .cta-button-large {
     font-size: 1.5em;
     padding: 10px 20px;
+}
+
+.cta-button-secondary {
+    color: $brightScnd;
 }
 
 .cta-button:hover {
@@ -121,6 +137,11 @@
     margin: 0 auto 15px;
     width: 80%;
 }
+
+.testimonial-text b {
+    color: $darkBgrd;
+}
+
 
 .testimonial-text q {
     font-size: 1.4em;
@@ -225,7 +246,13 @@
 
 .brands h2 {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin: 10px;
+}
+
+.brands-subtitle {
+    margin-top: 0;
+    text-align: center;
+    opacity: 0.8;
 }
 
 .brand-logos {
