@@ -55,6 +55,8 @@
         {%- set social_image = "/social/default.png" %}
     {%- endif %}
 
+    {%- set social_image =  config.base_url ~ social_image %}
+
     <title>{{ generated_title }}</title>
     <meta name="author" content="{{ config.extra.author }}">
     <meta name="description" content="{{ social_description | striptags | safe | trim }}">
