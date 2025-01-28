@@ -26,8 +26,7 @@ generate_social_image() {
 
 process_post() {
     local post="$1"
-    local post_filename="$2"
-    local parent_dir="$3"
+    local parent_dir="$2"
 
     local title 
     local output_path
@@ -71,12 +70,12 @@ process_directory() {
     
     # Process _index.md if it exists
     if [[ -f "$dir/_index.md" ]]; then
-        process_post "$dir/_index.md" "${base_output_name}" "$dir"
+        process_post "$dir/_index.md" "$dir"
     fi
     
     # Process regular index.md if it exists
     if [[ -f "$dir/index.md" ]]; then
-        process_post "$dir/index.md" "${base_output_name}" "$dir"
+        process_post "$dir/index.md" "$dir"
     fi
     
     # Recursively Process all subdirectories
@@ -91,7 +90,7 @@ process_directory() {
     # Process markdown files in current directory
     for file in "$dir"/*.md; do
         if [[ -f "$file" && $(basename "$file") != _* && $(basename "$file") != "index.md" ]]; then
-            process_post "$file" "${base_output_name}-$(basename "$file" .md)" "$dir"
+            process_post "$file" "$dir"
         fi
     done
 }
