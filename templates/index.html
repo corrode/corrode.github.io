@@ -18,8 +18,10 @@
             <img class="hero-img" src="/hero/hero-img.svg" />
             <h1 class="visually-hidden">Friendly, Professional Rust Consulting</h1>
         </div>
+
         <div class="brands">
-            <h2>Trusted by</h2>
+            <h2>Trusted By Industry Leaders</h2>
+            <p class="brands-subtitle">Helping teams at these companies succeed with Rust</p>
             <div class="brand-logos">
                 <a href="https://tech.trivago.com/" target="_blank" rel="noreferrer">
                     <img height="60" src="/brands/trivago.svg" alt="Trivago Logo" />
@@ -38,6 +40,7 @@
                 </a>
             </div>
         </div>
+
         <a href="#call-to-action" class="smooth-scroll">
             <div class="scroll-indicator invert">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20">
@@ -46,27 +49,27 @@
             </div>
         </a>
     </div>
+
     <div id="call-to-action" class="call-to-action">
         <div class="cta-content">
-            <h1>
-                Accelerate Your Team's Transition To Rust Today
-            </h1>
+            <h2>Turn Your Team Into Rust Experts In Half The Time</h2>
+            <p class="hero-subtitle">Expert guidance from prototype to deployment.</p>
             <p>
-                <a href="#contact" class="cta-button cta-button-large">
-                    Schedule A Free 30-Minute Call
-                </a>
+            <div class="hero-ctas">
+                <a href="#contact" class="cta-button cta-button-large">Schedule Free Consultation</a>
+                <a href="/services" class="cta-button-secondary">View Services →</a>
+            </div>
             </p>
         </div>
     </div>
+
     <div class="content dark">
         <section>
             <div class="section-content">
                 <div class="section-text">
                     <h2>Hi, I'm Matthias Endler</h2>
                     <p class="section-paragraph">
-                        I help companies large and small to adopt Rust.
-                        With almost a decade of experience in the Rust ecosystem,
-                        and five years of production experience, <b>I probably made every mistake in the book so you don't have to.</b>
+                        I help companies large and small adopt Rust. With a decade of Rust experience, and five years of running Rust in production, <b>I probably made every mistake in the book so you don't have to.</b>
                     </p>
                     <p class="section-paragraph">
                         Take a look at my services below and <a href="#contact">get in touch</a> if you'd like to work together.
@@ -75,18 +78,18 @@
                 <img class="section-image section-image-profile" width="300" height="300" src="/sections/matthias-endler.png" alt="Profile photo of Matthias Endler" />
             </div>
         </section>
-        
+
         <section>
             <div class="section-content">
                 <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="A cute ferris in front of a whiteboard" />
                 <div class="section-text">
                     <h2>From Prototype to Production</h2>
                     <p class="section-paragraph">
-                      Whether your team is just getting started or you're already using it in production,
-                      <b>I can help you get the most out of Rust</b>.
+                        Whether your team is just getting started or you're already using it in production,
+                        <b>I can help you get the most out of Rust</b>.
                     </p>
                     <p class="section-paragraph">
-                        I can teach your team how to write <a href="/blog">idiomatic, testable,
+                        I teach your team how to write <a href="/blog">idiomatic, testable,
                         well-documented Rust</a> that is a joy to work with and maintain.
                         Need help to get your project production ready? I can jump in and help
                         you get it done.
@@ -95,12 +98,13 @@
                         Together, we can explore:
                     <ul>
                         <li>Mentoring and Pair Programming</li>
-                        <li>Refactoring</li>
-                        <li>Performance Optimizations</li>
+                        <li>Refactoring and Code Reviews</li>
+                        <li>Architecture and Performance Optimizations</li>
                     </ul>
                     </p>
                 </div>
             </div>
+
         </section>
 
         <section>
@@ -108,9 +112,9 @@
                 <div class="section-text">
                     <h2>Integrating Rust Into Your Ecosystem</h2>
                     <p class="section-paragraph">
-                        No project exists in a vacuum. I help you integrate Rust into
-                        your existing tech stack and infrastructure.
-                        While I'm most comfortable writing Rust, I'm also proficient in <b>Go, Python, and TypeScript.</b>
+                        No project exists in a vacuum. <b>I help you integrate Rust into
+                        your existing tech stack</b>.
+                        While I'm most comfortable writing Rust, I'm also proficient in Python, TypeScript, and Go.
                     </p>
                     <p class="section-paragraph">
                         If you're looking to migrate to Rust I can provide the expertise you need.
@@ -183,12 +187,12 @@
         
         <section>
             <div class="testimonials">
-                <h2>What others say about me</h2>
+                <h2>Success Stories</h2>
                 <div class="testimonial-list">
                     <div class="testimonial">
                         <div class="testimonial-text">
                             <q>
-                                Matthias was a godsend for our team. We had a
+                                <b>Matthias was a godsend for our team.</b> We had a
                                 legacy codebase written while we were first
                                 learning Rust, and didn’t even know how to think
                                 clearly about best practices. He didn’t fix the
@@ -266,15 +270,15 @@
         </section>
     </div>
 </div>
-<div class="call-to-action">
-    <a id="contact"></a>
+
+<div id="contact" class="call-to-action">
     <div class="cta-content">
-        <h1>Let's get in touch!</h1>
-        <p>
-            I provide <b>training</b> and <b>consulting</b> for companies that want
-            to use Rust in production<br />
-            (on-site in Europe or remote from Düsseldorf, Germany).
-        </p>
+        <h2>Ready to Accelerate Your Rust Journey?</h2>
+        <div class="hero-ctas-bottom">
+            
+        Schedule Free Consultation Below or <a href="/services" class="cta-button-secondary">View Services →</a>
+        </div>  
+        
         <!-- Cal inline embed code begins -->
         <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
         <script type="text/javascript">
@@ -328,6 +332,7 @@
             });
         </script>
         <!-- Cal inline embed code ends -->
+        
         <div class="content-icons">
             Or contact me via
             {% for link in config.extra.links %}
