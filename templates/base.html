@@ -45,18 +45,16 @@
         {%- set social_description = "corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler." %}
     {%- endif %}
 
-    {%- if page and page.path is starting_with("/podcast") %}
-        {%- set social_image = config.base_url ~ '/social/podcast.png' %}
-    {%- elif page %}
-        {%- set social_image = config.base_url ~ '/social/rendered/' ~ page.slug ~ '.png' %}
-    {%- elif section and section.path is starting_with("/podcast") %}
-        {%- set social_image = config.base_url ~ '/social/podcast.png' %}
-    {%- elif section and section.path and section.path != "/" %}
-        {%- set section_path = section.path | replace(from="/", to="") %}
-        {%- set social_image = config.base_url ~ '/social/rendered/' ~ section_path ~ '.png' %}
-    {%- else %}
-        {%- set social_image = config.base_url ~ '/social/social.png' %}
+    {%- if page and page.colocated_path %}
+        {%- set social_image = "/" ~ page.colocated_path ~ "social.png" %}
+    {% elif section and section.path != "/" and section.colocated_path %}
+        {%- set social_image ="/" ~  section.colocated_path ~ "social.png" %}
+    {% elif section and section.path != "/" %}
+        {%- set social_image = section.path ~ "social.png" %}
+    {% else %}
+        {%- set social_image = "/social/default.png" %}
     {%- endif %}
+
     <title>{{ generated_title }}</title>
     <meta name="author" content="{{ config.extra.author }}">
     <meta name="description" content="{{ social_description | striptags | safe | trim }}">
