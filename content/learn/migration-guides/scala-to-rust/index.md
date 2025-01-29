@@ -5,6 +5,7 @@ template = "article.html"
 draft = false
 [extra]
 series = "Migration Guides"
+icon = "scala.svg"
 resources = [
     "[Rust: A Scala Engineer's Perspective by Lloyd Chan](https://beachape.com/blog/2017/05/24/rust-from-scala/)",
     "[Scala Resurrection by John A De Goes](https://degoes.net/articles/scala-resurrection)",

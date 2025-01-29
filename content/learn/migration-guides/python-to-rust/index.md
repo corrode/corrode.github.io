@@ -6,6 +6,7 @@ template = "article.html"
 draft = false
 [extra]
 series = "Migration Guides"
+icon = "python.svg"
 +++
 
 

@@ -5,6 +5,7 @@ template = "article.html"
 draft = false
 [extra]
 series = "Migration Guides"
+icon = "typescript.svg"
 resources = [
     "[Syntax comparison between TypeScript to Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
     "[My experience migrating TypeScript libraries to Rust - Patrick Desjardins](https://patrickdesjardins.com/blog/migrating-typescript-library-to-rust)",

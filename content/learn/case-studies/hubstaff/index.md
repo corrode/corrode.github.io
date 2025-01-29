@@ -1,10 +1,12 @@
 +++
 title = "Hubstaff - From Rails to Rust"
+description = "Here's the story of how Hubstaff's engineering team scaled their webhook system to 10x the initial load with Rust and convinced their hybrid Ruby/C++ team to embrace the language."
 date = 2025-01-27
 template = "article.html"
 draft = false
 [extra]
 hero = "hubstaff.png"
+card = "hubstaff.png"
 series = "Company Case Studies"
 +++
 

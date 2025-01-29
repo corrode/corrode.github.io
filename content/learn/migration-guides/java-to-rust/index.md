@@ -5,6 +5,7 @@ template = "article.html"
 draft = false
 [extra]
 series = "Migration Guides"
+icon = "java.svg"
 resources = [
   "[Comparing Rust and Java - Andre Bogus](https://llogiq.github.io/2016/02/28/java-rust.html)",
 ]

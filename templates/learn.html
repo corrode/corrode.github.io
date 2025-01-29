@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+<article class="section-wrapper">
+  <h1>{{section.title}}</h1>
+  {{ section.description | safe }}
+  <div>{{ section.content | safe }}</div>
+
+  {% set sorted_pages = section.pages | filter(attribute="draft", value=false) |
+  sort(attribute="date") %} {% set case_studies = sorted_pages |
+  filter(attribute="extra.series", value="Company Case Studies") %} {% if
+  case_studies %}
+  <h2>Company Case Studies</h2>
+  <p class="learn-description">
+    What are the challenges and opportunities that companies face when adopting
+    Rust? What advice do they have for others considering Rust? Read on to find
+    out!
+  </p>
+
+  <ul class="learn-list">
+    {% for page in case_studies %}
+    <li>
+      <a href="{{ page.permalink }}" class="learn-link">
+        <div class="learn-item">
+            <img src="{{ page.permalink }}/{{ page.extra.card }}" />
+          <div >
+            <div class="learn-title">{{ page.title }}</div>
+            <div class="learn-description">{{ page.description }}</div>
+          </div>
+          <div class="learn-details">
+            <div class="chevron"></div>
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% set guides = sorted_pages | filter(attribute="extra.series",
+  value="Migration Guides") %} {% if guides %}
+  <h2>Migration Guides</h2>
+  <p class="learn-description">
+    Are you considering migrating your codebase to Rust? These guides will help
+    you understand the process and make the transition as smooth as possible.
+  </p>
+  <ul class="learn-list">
+    {% for page in guides %}
+    <li>
+      <a href="{{ page.permalink }}" class="learn-link">
+        <div class="learn-item">
+          <div class="learn-header">
+            <div class="podcast-logo-wrapper">
+              <img
+                class="podcast-logo invert"
+                src="{{ page.permalink }}/{{ page.extra.icon }}"
+              />
+            </div>
+            <div>{{ page.title }}</div>
+            {% if page.description %}
+            <div class="learn-description">{{ page.description }}</div>
+            {% endif %}
+          </div>
+          <div class="learn-details">
+            <time datetime="{{ page.date }}">{{ page.date }}</time>
+            <div class="chevron"></div>
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% include "snippets/newsletter.html" %}
+</article>
+{% endblock content %}

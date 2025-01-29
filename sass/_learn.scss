@@ -1,0 +1,86 @@
+.learn-sections {
+  margin: 40px 0;
+}
+
+.learn-list {
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid $heroDark;
+  border-radius: 8px;
+}
+
+.learn-list li {
+  margin-bottom: 0;
+  border-bottom: 1px solid $heroDark;
+
+  &:hover {
+    background-color: $brightScndLight;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.learn-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 20px;
+}
+
+.learn-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.learn-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.learn-description {
+  font-size: 0.9em;
+  opacity: 0.8;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+
+.learn-title {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+
+.learn-subtitle {
+  opacity: 0.7;
+  margin-left: 8px;
+}
+
+.learn-description {
+  font-size: 0.9em;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.learn-details {
+  text-align: right;
+  font-size: 0.8em;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .learn-list {
+    color: white;
+    border: 1px solid rgba(white, 0.5);
+  }
+
+  .learn-list li {
+    border-bottom: 1px solid rgba(white, 0.5);
+  }
+}
