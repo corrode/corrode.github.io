@@ -496,16 +496,6 @@ blockquote {
   text-decoration-color: $brightBgrd;
 }
 
-.dark h1,
-.dark h2 {
-  color: white;
-  line-height: 1.2;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 6px;
-  text-decoration-color: $brightBgrd;
-}
-
 #icon-moon {
   width: 1.5rem;
   height: 1.5rem;
@@ -710,6 +700,10 @@ details summary {
     a {
       color: white;
       text-decoration-color: $brightBgrd;
+    }
+
+    .call-to-action a {
+      text-decoration: none;
     }
 
     article code:not(pre > code) {
