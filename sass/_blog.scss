@@ -36,23 +36,8 @@
   margin: 0 1rem;
 }
 
-.blog-chevron {
-  $encoded-color: "%23" + str-slice("#{$brightPrim}", 2);
-  width: 25px;
-  height: 25px;
-  flex-shrink: 0; // Prevents chevron from shrinking
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='#{$encoded-color}' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A")
-    no-repeat center;
-  transform: rotate(-90deg);
-  opacity: 0.6;
-}
-
 .blog-item:hover {
   background-color: rgba($brightBgrdLight, 0.3);
-
-  .blog-chevron {
-    opacity: 1;
-  }
 }
 
 @media (max-width: 650px) {
@@ -78,11 +63,5 @@
 
   .blog-title {
     color: white;
-  }
-
-  .blog-chevron {
-    $encoded-color: "%23" + str-slice("#{$darkPrim}", 2);
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='#{$encoded-color}' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A")
-      no-repeat center;
   }
 }
