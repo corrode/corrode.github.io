@@ -633,7 +633,7 @@ details summary {
   }
 }
 
-.toc > summary {
+.toc {
   cursor: pointer;
   color: white;
   padding: 1.5em;
@@ -647,6 +647,24 @@ details summary {
 .toc > summary::after {
   content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30"><path fill="none" d="M0 0h24v24H0z"/><path fill="white" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>');
   float: right;
+}
+
+.toc li {
+  line-height: 1.8;
+}
+
+.toc a {
+  color: white;
+  text-decoration-color: rgba(white, 0.1);
+  transition: text-decoration-color 0.1s ease-out;
+}
+
+.toc a:hover {
+  text-decoration-color: white;
+}
+
+.toc code {
+  color: white;
 }
 
 @media (max-width: 500px) {
