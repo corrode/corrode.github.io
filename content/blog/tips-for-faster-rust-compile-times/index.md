@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2024-06-12
+updated = 2025-02-03
 draft = false
 template = "article.html"
 [extra]
@@ -73,6 +73,7 @@ Click here to expand the table of contents.
 - [IDE Specific Optimizations](#ide-specific-optimizations)
   - [Slow Debug Sessions In Visual Studio Code](#slow-debug-sessions-in-visual-studio-code)
   - [Close Unrelated Projects](#close-unrelated-projects)
+  - [Fix Rust Analyzer Cache Invalidation](#fix-rust-analyzer-cache-invalidation)
 
 </details>
 
@@ -1004,9 +1005,35 @@ make sure you don't have too many breakpoints set. [Each breakpoint can slow dow
 
 ### Close Unrelated Projects
 
-In case you have multiple projects open in Visual Studio Code, each instance runs its
-own copy of rust-analyzer. This can slow down your machine. Close unrelated
-projects to see if it helps.
+In case you have multiple projects open in Visual Studio Code, **each instance runs its
+own copy of rust-analyzer**. This can slow down your machine. Close unrelated
+projects if they aren't needed. 
+
+### Fix Rust Analyzer Cache Invalidation
+
+If you're using rust-analyzer in VS Code and find that you run into slow build times when saving your changes, it could be that the cache gets invalidated. This also results in dependencies like `serde` being rebuilt frequently.
+
+You can fix this by configuring a separate target directory for rust-analyzer. Add this to your VS Code settings (preferably user settings):
+
+```json
+{
+    "rust-analyzer.cargo.targetDir": true
+}
+```
+
+This will make rust-analyzer build inside `target/rust-analyzer` instead of the default `target/` directory, preventing interference with your regular `cargo run` builds.
+
+Some users reported [significant speedups](https://github.com/rust-lang/rust-analyzer/issues/6007#issuecomment-2563288106) thanks to that:
+
+```
+before: 34.98s user 2.02s system 122% cpu 30.176 total
+after:   2.62s user 0.60s system 84% cpu 3.803 total
+```
+
+This could also help with [rust analyzer blocking debug builds](https://github.com/rust-lang/rust-analyzer/issues/4616).
+
+Credit: This tip was shared by [asparck on Reddit](https://www.reddit.com/r/rust/comments/1if5wpm/high_hopes_for_rust_where_are_we/majhmhe/).
+
 
 # Summary
 
