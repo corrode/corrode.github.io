@@ -21,7 +21,9 @@ hero = "rust-compile-times.svg"
 
 Here are some tips to speed up your compile times.
 This list was originally released on my [private blog](https://endler.dev/), but I decided to
-update it for 2024 and move it here.
+update it for 2025 and move it here.
+
+All tips are roughly ordered by impact so you can start from the top and work your way down.
 
 <h2>Table of Contents</h2>
 
@@ -33,7 +35,6 @@ Click here to expand the table of contents.
 - [General Tips](#general-tips)
   - [Update The Rust Compiler And Toolchain](#update-the-rust-compiler-and-toolchain)
   - [Use cargo check Instead Of cargo build](#use-cargo-check-instead-of-cargo-build)
-  - [Switch To The New Parallel Compiler Frontend](#switch-to-the-new-parallel-compiler-frontend)
   - [Remove Unused Dependencies](#remove-unused-dependencies)
   - [Update Dependencies](#update-dependencies)
   - [Find the slow crate in your codebase](#find-the-slow-crate-in-your-codebase)
@@ -44,7 +45,6 @@ Click here to expand the table of contents.
   - [Add Features For Expensive Code](#add-features-for-expensive-code)
   - [Cache Dependencies With sccache](#cache-dependencies-with-sccache)
   - [Cranelift: The Alternative Rust Compiler](#cranelift-the-alternative-rust-compiler)
-  - [Use A Scratch Disk For Faster Builds](#use-a-scratch-disk-for-faster-builds)
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
   - [macOS Only: Faster Incremental Debug Builds](#macos-only-faster-incremental-debug-builds)
   - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
@@ -53,6 +53,8 @@ Click here to expand the table of contents.
   - [Generics: Use an Inner Non-Generic Function](#generics-use-an-inner-non-generic-function)
   - [Improve Workspace Build Times with cargo-hakari](#improve-workspace-build-times-with-cargo-hakari)
   - [Speeding up incremental Rust compilation with dylibs](#speeding-up-incremental-rust-compilation-with-dylibs)
+  - [Switch To The New Parallel Compiler Frontend](#switch-to-the-new-parallel-compiler-frontend)
+  - [Use A Scratch Disk For Faster Builds](#use-a-scratch-disk-for-faster-builds)
   - [Invest In Better Hardware](#invest-in-better-hardware)
   - [Compile in the Cloud](#compile-in-the-cloud)
   - [Cache All Crates Locally](#cache-all-crates-locally)
@@ -119,43 +121,6 @@ A sweet trick I use is to run it in the background with [`cargo watch`](https://
 whenever you change a file.
 
 **Bonus**: Use `cargo watch -c` to clear the screen before every run.
-
-### Switch To The New Parallel Compiler Frontend
-
-**In nightly**, you can now enable the new parallel compiler frontend.
-To try it out, run the nightly compiler with the `-Z threads=8` option:
-
-```sh
-RUSTFLAGS="-Z threads=8" cargo +nightly build
-```
-
-If you find that it works well for you, you can make it the default by adding
-`-Z threads=8` to your `~/.cargo/config.toml` file:
-
-```toml
-[build]
-rustflags = ["-Z", "threads=8"]
-```
-
-Alternatively, you can set an alias for `cargo`
-in your shell's config file (e.g., `~/.bashrc` or `~/.zshrc`):
-
-```sh
-alias cargo="RUSTFLAGS='-Z threads=8' cargo +nightly"
-```
-
-When the front-end is executed in a multi-threaded setting using `-Z threads=8`,
-benchmarks on actual code indicate that compilation times may decrease by as
-much as [50%](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
-However, the gains fluctuate depending on the code being compiled. It is
-certainly worth a try, though.
-
-Here is a visualization of the parallel compiler frontend in action:
-
-![Result of the parallel compiler](samply-parallel.png)
-
-Find out more on the official announcement [on the Rust
-blog](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
 
 ### Remove Unused Dependencies
 
@@ -444,23 +409,6 @@ If the `link` step is slow, you can try to switch to a faster alternative:
 [Yes]: https://github.com/bluewhalesystems/sold
 [`zld`]: https://github.com/michaeleisel/zld
 
-### Use A Scratch Disk For Faster Builds
-
-Your filesystem might be the bottleneck. Consider using an in-memory filesystem
-like for your build directory.
-
-Traditional temporary filesystem like `tmpfs` is limited to your RAM plus swap space and can be problematic for builds creating large intermediate artifacts.
-
-Instead, on Linux, mount an `ext4` volume with the following options:
-
-```
--o noauto_da_alloc,data=writeback,lazytime,journal_async_commit,commit=999,nobarrier
-```
-
-This will store files in the page cache if you have enough RAM, with writebacks occurring later. Treat this as if it were a temporary filesystem, as data may be lost or corrupted after a crash or power loss.
-
-Credits go to [/u/The_8472 on Reddit](https://www.reddit.com/r/rust/comments/1ddgatd/compile_rust_faster_some_tricks/l85gzy8/).
-
 ### macOS Only: Faster Incremental Debug Builds
 
 Rust 1.51 added a flag for faster incremental debug builds on
@@ -622,16 +570,18 @@ it calls the inner non-generic function, which does the actual work.
 
 ### Improve Workspace Build Times with cargo-hakari
 
-Do you have a large Rust workspace with a dependency that
-is used in multiple crates, but with different feature sets?
+Do you have a large Rust workspace with dependencies that:
 
-This can lead to long build times, as Cargo will build the dependency multiple
-times with different features depending on the crate that gets built. This is
+1. Are used in multiple crates
+2. Have different feature sets across those crates?
+
+This situation can lead to long build times, as cargo will build each dependency multiple
+times with different features depending on which crate is being built. This is
 where [`cargo-hakari`](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html) comes in.
-It is a tool designed to automatically manage "workspace-hack" crates.
+It's a tool designed to automatically manage "workspace-hack" crates.
 
 In some scenarios, this can reduce consecutive build times by up to 50% or more.
-To learn more, take a look at the usage instructions and benchmarks on the [official cargo-hakari documentation](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html).
+To learn more, check out the usage instructions and benchmarks in the [official cargo-hakari documentation](https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html).
 
 ### Speeding up incremental Rust compilation with dylibs
 
@@ -660,6 +610,60 @@ Of course, this works for any crate, not just `polars`.
 
 Read more about this on [this blog post by Robert Krahn](https://robert.kra.hn/posts/2022-09-09-speeding-up-incremental-rust-compilation-with-dylibs/)
 and the [tool's homepage](https://github.com/rksm/cargo-add-dynamic).
+
+### Switch To The New Parallel Compiler Frontend
+
+**In nightly**, you can now enable the new parallel compiler frontend.
+To try it out, run the nightly compiler with the `-Z threads=8` option:
+
+```sh
+RUSTFLAGS="-Z threads=8" cargo +nightly build
+```
+
+If you find that it works well for you, you can make it the default by adding
+`-Z threads=8` to your `~/.cargo/config.toml` file:
+
+```toml
+[build]
+rustflags = ["-Z", "threads=8"]
+```
+
+Alternatively, you can set an alias for `cargo`
+in your shell's config file (e.g., `~/.bashrc` or `~/.zshrc`):
+
+```sh
+alias cargo="RUSTFLAGS='-Z threads=8' cargo +nightly"
+```
+
+When the front-end is executed in a multi-threaded setting using `-Z threads=8`,
+benchmarks on actual code indicate that compilation times may decrease by as
+much as [50%](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
+However, the gains fluctuate depending on the code being compiled. It is
+certainly worth a try, though.
+
+Here is a visualization of the parallel compiler frontend in action:
+
+![Result of the parallel compiler](samply-parallel.png)
+
+Find out more on the official announcement [on the Rust
+blog](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
+
+### Use A Scratch Disk For Faster Builds
+
+Your filesystem might be the bottleneck. Consider using an in-memory filesystem
+like for your build directory.
+
+Traditional temporary filesystem like `tmpfs` is limited to your RAM plus swap space and can be problematic for builds creating large intermediate artifacts.
+
+Instead, on Linux, mount an `ext4` volume with the following options:
+
+```
+-o noauto_da_alloc,data=writeback,lazytime,journal_async_commit,commit=999,nobarrier
+```
+
+This will store files in the page cache if you have enough RAM, with writebacks occurring later. Treat this as if it were a temporary filesystem, as data may be lost or corrupted after a crash or power loss.
+
+Credits go to [/u/The_8472 on Reddit](https://www.reddit.com/r/rust/comments/1ddgatd/compile_rust_faster_some_tricks/l85gzy8/).
 
 ### Invest In Better Hardware
 
