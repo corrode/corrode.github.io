@@ -50,3 +50,24 @@
     align-items: stretch;
   }
 }
+
+.metadata {
+  margin-top: 2rem;
+}
+
+.metadata > * {
+  margin-bottom: 0.5rem;
+}
+
+.metadata > *:last-child {
+  margin-bottom: 0;
+}
+
+.metadata a {
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
