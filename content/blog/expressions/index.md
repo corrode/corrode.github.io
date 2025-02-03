@@ -1,6 +1,7 @@
 +++
 title = "Thinking in Expressions"
 date = 2025-01-21
+updated = 2025-02-03
 draft = false
 template = "article.html"
 [extra]
@@ -388,11 +389,14 @@ Whether you prefer that over `let-else` is a matter of taste. [^let-else-stateme
 Remember when I said "everything is an expression"?
 Don't take this too far or people will stop inviting you to dinner parties. 
 
-It's fun to know that you could use `then_some`, `unwrap_or_else`, and `map_or` to chain expressions together, but 
-don't use them to show off.
+It's fun to know that you could use `then_some`, `unwrap_or_else`, and `map_or` to chain expressions together, but don't use them just to show off.
+
+{% info(title="Warning", icon="warning") %}
 
 The below code is correct, but the combinators get in the way of readability.
-Now it feels more like a Lisp program than Rust code.
+It feels more like a Lisp program than Rust code.
+
+{% end %}
 
 ```rust
 impl Config {
