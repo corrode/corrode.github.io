@@ -39,6 +39,37 @@ Here are just a few categories of bugs that Rust **doesn't** protect you from:
 Let's look at ways to avoid some of the more common problems.
 The tips are roughly ordered by how likely you are to encounter them.
 
+## Table of Contents
+
+<h2>Table of Contents</h2>
+
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+
+- [Protect Against Integer Overflow](#protect-against-integer-overflow)
+- [Avoid `as` For Numeric Conversions](#avoid-as-for-numeric-conversions)
+- [Use Bounded Types for Numeric Values](#use-bounded-types-for-numeric-values)
+- [Don't Index Into Arrays Without Bounds Checking](#don-t-index-into-arrays-without-bounds-checking)
+- [Use `split_at_checked` Instead Of `split_at`](#use-split-at-checked-instead-of-split-at)
+- [Make Invalid States Unrepresentable](#make-invalid-states-unrepresentable)
+- [Ensure Thread-Safety](#ensure-thread-safety)
+- [Avoid Primitive Types For Business Logic](#avoid-primitive-types-for-business-logic)
+- [Handle Default Values Carefully](#handle-default-values-carefully)
+- [Implement `Debug` Safely](#implement-debug-safely)
+- [Implement Secure Serialization](#implement-secure-serialization)
+- [Protect Against Time-of-Check to Time-of-Use (TOCTOU)](#protect-against-time-of-check-to-time-of-use-toctou)
+- [Use Constant-Time Comparison for Sensitive Data](#use-constant-time-comparison-for-sensitive-data)
+- [Don't Accept Unbounded Input](#don-t-accept-unbounded-input)
+- [Path `join` Swallows Errors](#path-join-swallows-errors)
+- [Check For Unsafe Code In Your Dependencies With `cargo-geiger`](#check-for-unsafe-code-in-your-dependencies-with-cargo-geiger)
+- [Conclusion](#conclusion)
+
+
+</details>
+
+
 ## Protect Against Integer Overflow
 
 Overflow errors can happen pretty easily:
