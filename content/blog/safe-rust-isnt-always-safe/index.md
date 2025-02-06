@@ -588,24 +588,6 @@ fn process_request(data: &[u8]) -> Result<(), Error> {
 }
 ```
 
-## Check For Unsafe Code In Your Dependencies With `cargo-geiger`
-
-So far, we've only covered issues with your own code.
-For production code, you also need to check your dependencies.
-Especially unsafe code would be a concern.
-This can be quite challenging, especially if you have a lot of dependencies.
-
-[cargo-geiger](https://github.com/geiger-rs/cargo-geiger) is a neat tool that checks your dependencies for unsafe code.
-It can help you identify potential security risks in your project.
-
-```bash
-cargo install cargo-geiger
-cargo geiger
-```
-
-This will give you a report of how many unsafe functions are in your dependencies.
-If a non-sys level crate has a lot of unsafe code, that could be a red flag.
-
 ## Path `join` Swallows Errors
 
 If you use `Path::join` to join a relative path with an absolute path, it will silently replace the relative path with the absolute path.
@@ -634,6 +616,25 @@ And yet, I still think it's a footgun.
 It's easy to overlook this behavior when you use user-provided paths.
 Perhaps `join` should return a `Result` instead?
 In any case, be aware of this behavior.
+
+
+## Check For Unsafe Code In Your Dependencies With `cargo-geiger`
+
+So far, we've only covered issues with your own code.
+For production code, you also need to check your dependencies.
+Especially unsafe code would be a concern.
+This can be quite challenging, especially if you have a lot of dependencies.
+
+[cargo-geiger](https://github.com/geiger-rs/cargo-geiger) is a neat tool that checks your dependencies for unsafe code.
+It can help you identify potential security risks in your project.
+
+```bash
+cargo install cargo-geiger
+cargo geiger
+```
+
+This will give you a report of how many unsafe functions are in your dependencies.
+If a non-sys level crate has a lot of unsafe code, that could be a red flag.
 
 ## Conclusion
 
