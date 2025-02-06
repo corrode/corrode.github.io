@@ -66,9 +66,7 @@ Click here to expand the table of contents.
 - [Check For Unsafe Code In Your Dependencies With `cargo-geiger`](#check-for-unsafe-code-in-your-dependencies-with-cargo-geiger)
 - [Conclusion](#conclusion)
 
-
 </details>
-
 
 ## Protect Against Integer Overflow
 
