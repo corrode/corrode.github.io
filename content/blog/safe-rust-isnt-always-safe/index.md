@@ -657,3 +657,11 @@ That's why testing, fuzzing, and static analysis are still important in Rust.
 
 For maximum robustness, combine Rust's safety guarantees with strict checks and
 strong verification methods.
+
+{% info(title="Let an Expert Review Your Rust Code", icon="crab") %}
+
+I hope you found this article helpful!
+If you want to take your Rust code to the next level, consider a code review by an expert.
+I offer code reviews for Rust projects of all sizes. [Get in touch](/about/) to learn more.
+
+{% end %}
