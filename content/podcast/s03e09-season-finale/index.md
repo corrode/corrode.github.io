@@ -45,6 +45,7 @@ In the meantime, check out our dedicated [learn](/learn) page for additional con
 - [Daniel Stenberg on the 'Rust in Production' Podcast](/podcast/s02e01-daniel-stenberg) - The curl maintainer talks about Rust adoption 
 - [Hyper](https://github.com/hyperium/hyper) - HTTP implementation in Rust, previously used in curl
 - [RusTLS](https://github.com/rustls/rustls) - TLS implementation still used in curl
+- [Rust Foundation Members](https://rustfoundation.org/members/) - List of Rust Foundation members
 - [crates.io](https://crates.io/) - Rust package registry, crossed 100 billion downloads
 - [Rust subreddit](https://www.reddit.com/r/rust/) - Community forum for Rust (332,529 readers) 
 - [C++ subreddit](https://www.reddit.com/r/cpp/) - Community forum for C++ (307,865 readers)
