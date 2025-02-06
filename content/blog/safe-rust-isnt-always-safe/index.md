@@ -324,7 +324,7 @@ to race conditions.
 
 You could sidestep the issue by using `Mutex`, but then you'd have to lock and unlock it every time you access the counter and you could still run into deadlocks.
 
-A simpler strategy is to use atomics, which are values that the CPU handles correctly handles
+A simpler strategy is to use atomics, which are values that the CPU correctly handles
 -- changes are "atomic" i.e. there can not be a step in-between an operation.
 
 ```rust
@@ -376,7 +376,7 @@ fn get_user(id: UserId) {
 
 ## Handle Default Values Carefully
 
-It' quite common to add a blanket `Default` implementation to your types.
+It's quite common to add a blanket `Default` implementation to your types.
 But that can lead to unforeseen issues.
 
 For example, here's a case where the port is set to 0 by default, which is not a valid port number:
