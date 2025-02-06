@@ -112,7 +112,7 @@ for more details.
 {% end %}
 
 
-## Avoid `As` For Numeric Conversions
+## Avoid `as` For Numeric Conversions
 
 While we're on the topic of integer arithmetic, let's talk about type conversions.
 Casting values with `as` is convenient but risky unless you know exactly what you are doing.
@@ -122,13 +122,13 @@ let x: i32 = 42;
 let y: i8 = x as i8;  // Can overflow!
 ```
 
-When converting between numeric types in Rust, there are three main approaches:
+There are three main ways to convert between numeric types in Rust:
 
-1. Using the `as` keyword: This approach works for both lossless and lossy conversions. In cases where data loss might occur (like converting from `i64` to `i32`), **it will simply truncate the value**. 
+1. ⚠️ Using the `as` keyword: This approach works for both lossless and lossy conversions. In cases where data loss might occur (like converting from `i64` to `i32`), **it will simply truncate the value**. 
 
-2. Using `From::from()`: This method only allows **lossless conversions**. For example, you can convert from `i32` to `i64` since all 32-bit integers can fit within 64 bits. However, you cannot convert from `i64` to `i32` using this method since it could potentially lose data.
+2. Using [`From::from()`](https://doc.rust-lang.org/std/convert/trait.From.html): This method only allows **lossless conversions**. For example, you can convert from `i32` to `i64` since all 32-bit integers can fit within 64 bits. However, you cannot convert from `i64` to `i32` using this method since it could potentially lose data.
 
-3. Using `TryFrom` and `TryInto`: This method is similar to `From::from()` but returns a `Result` instead of panicking. This is useful when you want to handle potential data loss gracefully.
+3. Using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html): This method is similar to `From::from()` but returns a `Result` instead of panicking. This is useful when you want to handle potential data loss gracefully.
 
 
 {% info(title="Quick Tip: Safe Numeric Conversions", icon="info") %}
@@ -143,23 +143,23 @@ When converting between numeric types in Rust, there are three main approaches:
 
 {% end %}
 
+The `as` operator is **not safe for narrowing conversions**
+It will silently truncate the value, leading to unexpected results.
+
+What is a narrowing conversion?
+It's when you convert a larger type to a smaller type, e.g. `i32` to `i8`.
+
+For example, see how `as` chops off the high bits from our value:
 
 ```rust
 fn main() {
-let a: u16 = 0x1234;
-let b: u8 = a as u8;
-println!("0x{:04x}, 0x{:02x}", a, b); // 0x1234, 0x34
-
-let a: i16 = -257;
-let b: u8 = a as u8;
-println!("0x{:02x}, 0x{:02x}", a, b); // 0xfeff, 0xff
+    let a: u16 = 0x1234;
+    let b: u8 = a as u8;
+    println!("0x{:04x}, 0x{:02x}", a, b); // 0x1234, 0x34
 }
 ```
 
-The `as` operator is **not safe for narrowing conversions**
-It will silently truncate the value, leading to unexpected results
-
-So, coming back to the first example above, instead of writing
+So, coming back to our first example above, instead of writing
 
 ```rust
 let x: i32 = 42;
@@ -172,8 +172,8 @@ use `TryFrom` instead and handle the error gracefully:
 let y = i8::try_from(x);
 
 match y {
-    Ok(value) => println!("Converted successfully: {}", value),
-    Err(_) => println!("Conversion failed"),
+    Ok(value) => println!("It worked: {}", value),
+    Err(_) => println!("Oh no, it didn't work!"),
 }
 ```
 
@@ -181,9 +181,9 @@ match y {
 
 Bounded types make it easier to express invariants and avoid invalid states.
 
-E.g. if you have a numeric type and 0 is never a correct value, you can use [`std::num::NonZeroUsize`](https://doc.rust-lang.org/std/num/type.NonZeroUsize.html).
+E.g. if you have a numeric type and 0 is *never* a correct value, use [`std::num::NonZeroUsize`](https://doc.rust-lang.org/std/num/type.NonZeroUsize.html) instead.
 
-You can apply the same pattern in your own code by creating custom types:
+You can also create your own bounded types:
 
 ```rust
 // DON'T: Use raw numeric types for domain values
@@ -213,20 +213,16 @@ struct Product {
 
 ## Don't Index Into Arrays Without Bounds Checking
 
-Whenever I see the following, I get goosebumps:
-
-```rust
-let elem = arr[0];
-```
-
-That's a common source of bugs. 
-Unlike C, Rust *does* check array bounds and prevents a security vulnerability,
-but **this still panics at runtime**:
+Whenever I see the following, I get goosebumps 😨:
 
 ```rust
 let arr = [1, 2, 3];
 let elem = arr[3];  // Panic!
 ```
+
+That's a common source of bugs. 
+Unlike C, Rust *does* check array bounds and prevents a security vulnerability,
+but **it still panics at runtime**.
 
 Instead, use the `get` method:
 
@@ -234,7 +230,7 @@ Instead, use the `get` method:
 let elem = arr.get(3);
 ```
 
-It returns an `Option` which you can handle gracefully.
+It returns an `Option` which you can now handle gracefully.
 
 See [this blog post](https://shnatsel.medium.com/how-to-avoid-bounds-checks-in-rust-without-unsafe-f65e618b4c1e) for more info on the topic.
 
@@ -273,25 +269,39 @@ More info about `split_at_checked` [here](https://doc.rust-lang.org/std/primitiv
 
 ## Make Invalid States Unrepresentable
 
+Can you spot the bug in the following code?
+
 ```rust
 // DON'T: Allow invalid combinations
 struct Configuration {
     port: u16,
     host: String,
     ssl: bool,
-    ssl_cert: Option<String>, // Can be None even when ssl is true!
+    ssl_cert: Option<String>, 
 }
+```
 
-// DO: Use types to enforce valid states
+The problem is that you can have `ssl` set to `true` but `ssl_cert` set to `None`.
+That's an invalid state! If you try to use the SSL connection, you can't because there's no certificate.
+This issue can be detected at compile-time:
+
+Use types to enforce valid states:
+
+```rust
+// First, let's define the possible states for the connection
 enum ConnectionSecurity {
     Insecure,
-    // We can't have an SSL connection without a certificate!
+    // We can't have an SSL connection
+    // without a certificate!
     Ssl { cert_path: String },
 }
 
 struct Configuration {
     port: u16,
     host: String,
+    // Now we can't have an invalid state!
+    // Either we have an SSL connection with a certificate
+    // or we don't have SSL at all.
     security: ConnectionSecurity,
 }
 ```
@@ -302,15 +312,22 @@ I wrote about an entire blog post on that topic: [Making Invalid States Unrepres
 
 **Rust does not prevent you from race-conditions, deadlocks, and thread-safety issues.**
 
-However, you can avoid such issues by using `Mutex`.
-
-Where possible, a simple strategy is to use atomics, which are values that the CPU handles correctly
--- changes are "atomic" i.e. there can not be a step in-between an operation.
+Imagine you have a global counter that you increment from multiple threads:
 
 ```rust
 // DON'T: Use unsafe concurrency patterns
 static mut COUNTER: u64 = 0;  // Global mutable state is dangerous!
+```
 
+This is not thread-safe. Multiple threads can access `COUNTER` at the same time, leading
+to race conditions.
+
+You could sidestep the issue by using `Mutex`, but then you'd have to lock and unlock it every time you access the counter and you could still run into deadlocks.
+
+A simpler strategy is to use atomics, which are values that the CPU handles correctly handles
+-- changes are "atomic" i.e. there can not be a step in-between an operation.
+
+```rust
 // DO: Use appropriate synchronization primitives
 use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -324,6 +341,7 @@ fn increment() -> u64 {
 ## Avoid Primitive Types For Business Logic
 
 It's very tempting to use primitive types for everything.
+Especially Rust beginners fall into this trap.
 
 ```rust
 // DON'T: Use primitive types for IDs
@@ -335,7 +353,7 @@ fn get_user(id: u64) {
 However, do you really accept any number as a valid user ID?
 What if 0 is not a valid ID?
 
-Instead, create specific types for your domain:
+You can create a custom type for your domain instead:
 
 ```rust
 // DO: Create specific ID types
@@ -361,15 +379,21 @@ fn get_user(id: UserId) {
 It' quite common to add a blanket `Default` implementation to your types.
 But that can lead to unforeseen issues.
 
+For example, here's a case where the port is set to 0 by default, which is not a valid port number:
+
 ```rust
-// DON'T: Implement `Default`` without consideration
+// DON'T: Implement `Default` without consideration
 #[derive(Default)]  // Might create invalid states!
 struct ServerConfig {
     port: u16,      // Will be 0, which isn't a valid port!
     max_connections: usize,
     timeout_seconds: u64,
 }
+```
 
+Instead, consider if a default value makes sense for your type.
+
+```rust
 // DO: Make Default meaningful or don't implement it
 struct ServerConfig {
     port: Port,
@@ -388,31 +412,7 @@ impl ServerConfig {
 }
 ```
 
-## Protect Against Time-of-Check to Time-of-Use (TOCTOU)
-
-```rust
-// DON'T: Check and use in separate operations
-fn process_file(path: &Path) -> Result<(), io::Error> {
-    if path.exists() {  // Check
-        let content = fs::read(path)?;  // Use - file might have changed!
-        // Process content
-    }
-    Ok(())
-}
-
-// DO: Use atomic operations when possible
-fn process_file(path: &Path) -> Result<(), io::Error> {
-    let file = fs::OpenOptions::new()
-        .read(true)
-        .write(true)
-        .create_new(true)  // Atomic operation
-        .open(path)?;
-    // Process file
-    Ok(())
-}
-```
-
-## Implement `Debug` and `Display` Safely
+## Implement `Debug` Safely
 
 If you blindly derive `Debug` for your types, you might expose sensitive data.
 Instead, implement `Debug` manually for types that contain sensitive information.
@@ -480,6 +480,7 @@ impl<'de> Deserialize<'de> for UserCredentials {
         let raw = Raw::deserialize(deserializer)?;
         
         // Validate during deserialization
+        // Throw an error if the username or password is invalid
         let username = Username::new(&raw.username)
             .map_err(serde::de::Error::custom)?;
         let password = Password::new(&raw.password)
@@ -489,6 +490,43 @@ impl<'de> Deserialize<'de> for UserCredentials {
     }
 }
 ```
+
+## Protect Against Time-of-Check to Time-of-Use (TOCTOU)
+
+This is a more advanced topic, but it's important to be aware of it.
+TOCTOU is a class of software bugs caused by attackers exploiting the gap between the time a condition is checked and the time it is used. 
+Simply put, an attacker could rug-pull the value from under your feet
+and you wouldn't notice because it happens exactly between your check and use.
+
+```rust
+// DON'T: Check and use in separate operations
+fn process_file(path: &Path) -> Result<(), io::Error> {
+    if path.exists() {  // Check
+        let content = fs::read(path)?;  // Use - file might have changed!
+        // Process content
+    }
+    Ok(())
+}
+```
+
+Rust supports atomic file operations to prevent this kind of attack.
+
+```rust
+// DO: Use atomic operations when possible
+fn process_file(path: &Path) -> Result<(), io::Error> {
+    let file = fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create_new(true)  // Atomic operation
+        .open(path)?;
+    // Process file
+    Ok(())
+}
+```
+
+It's a bit more verbose, but it's safer.
+I think more Rustaceans should know about this pattern.
+
 
 ## Use Constant-Time Comparison for Sensitive Data
 
@@ -516,7 +554,7 @@ fn verify_password(stored: &[u8], provided: &[u8]) -> bool {
 
 ## Don't Accept Unbounded Input
 
-Protect Against DOS with Resource Limits.
+Protect Against Denial-of-Service Attacks with Resource Limits.
 These happen when you accept unbounded input, e.g. a huge request body
 which might not fit into memory.
 
@@ -568,7 +606,39 @@ cargo geiger
 This will give you a report of how many unsafe functions are in your dependencies.
 If a non-sys level crate has a lot of unsafe code, that could be a red flag.
 
+## Path `join` Swallows Errors
+
+If you use `Path::join` to join a relative path with an absolute path, it will silently replace the relative path with the absolute path.
+
+```rust
+use std::path::Path;
+
+fn main() {
+    let path = Path::new("/usr").join("/local/bin");
+    println!("{path:?}"); // Prints "/local/bin" 
+}
+```
+
+This is because `Path::join` will return the second path if it is absolute.
+
+I was not the only one who was confused by this behavior.
+Here's a [thread on the topic](https://users.rust-lang.org/t/rationale-behind-replacing-paths-while-joining/104288), which also includes an answer by [Johannes Dahlström](https://users.rust-lang.org/u/jdahlstrom/summary):
+
+> The behavior is useful because a caller [...] can choose whether it wants to
+> use a relative or absolute path, and the callee can then simply absolutize it by
+> adding its own prefix and the absolute path is unaffected which is probably what
+> the caller wanted. The callee doesn't have to separately check whether the path
+> is absolute or not.
+
+And yet, I still think it's a footgun.
+It's easy to overlook this behavior when you use user-provided paths.
+Perhaps `join` should return a `Result` instead?
+In any case, be aware of this behavior.
+
 ## Conclusion
+
+Phew, that was a lot of pitfalls!
+How many of them did you know about?
 
 Even if Rust is a great language for writing safe, reliable code, developers still need to be disciplined to avoid bugs.
 
