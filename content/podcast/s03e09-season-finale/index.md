@@ -10,6 +10,8 @@ episode = "09"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-4cc795a6" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/season-3-finale/player.js?size=s"></script></div>
+
 You know the drill by now. It's time for another recap!
 
 Sit back, get a warm beverage and look back at the highlights of Season 3 with us. 
