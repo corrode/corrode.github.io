@@ -1,6 +1,7 @@
 +++
 title = "Migrating from TypeScript to Rust"
 date = 2024-12-13
+updated = 2025-02-06
 template = "article.html"
 draft = false
 [extra]
@@ -9,6 +10,7 @@ icon = "typescript.svg"
 resources = [
     "[Syntax comparison between TypeScript to Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
     "[My experience migrating TypeScript libraries to Rust - Patrick Desjardins](https://patrickdesjardins.com/blog/migrating-typescript-library-to-rust)",
+    "[Node.js to Rust in 2024 - Pascal Poredda](https://pascal-poredda.de/blog/migrating-from-node-to-rust)"
 ]
 +++
 
@@ -46,6 +48,7 @@ In this article, you'll learn:
 
 TypeScript is a great language, but many teams hit a wall around the 10k to 100k lines of code mark.
 At this scale, the codebase becomes hard to maintain and teams start to feel the pain.
+The honeymoon phase with TypeScript codebases is surprisingly short - when working with larger applications, adding functionality or performing large-scale refactoring becomes increasingly challenging.
 
 The problems are clear and specific.
 While TypeScript has a type system, it remains a dynamically typed language built on JavaScript.
@@ -69,6 +72,10 @@ Large TypeScript codebases become difficult to refactor and maintain, even with 
 TypeScript's type system creates an excellent foundation for Rust adoption.
 Your team already understands static typing and values its benefits.
 This gives you a head start with Rust, which takes these concepts further and adds more powerful guarantees.
+
+The developer experience differs in two key ways: Rust has stronger type guarantees but slower compile times compared to TypeScript. 
+Many developers find this tradeoff worthwhile, especially because you can write high-level Rust code without dropping into systems-level programming.
+Rust's powerful abstractions like the trait system and generics allow you to model behavior in just the right way.
 
 ## Understanding Rust's Learning Curve
 
@@ -109,6 +116,10 @@ NPM gives you more packages, but Rust's ecosystem prioritizes quality.
 Libraries maintain strong backward compatibility.
 Breaking changes are rare.
 Rust itself releases new [editions](https://doc.rust-lang.org/edition-guide/editions/) every three years with opt-in changes.
+
+The quality difference becomes especially noticeable in larger applications.
+While the Rust ecosystem may be smaller, the crates are typically more reliable and provide better documentation compared to the TypeScript ecosystem.
+When you build a large application, that higher quality standard makes a significant difference.
 
 Many Rust crates stay in 0.x versions longer than you might expect.
 Don't let this worry you – Rust's type system ensures robust functionality even before reaching 1.0.
