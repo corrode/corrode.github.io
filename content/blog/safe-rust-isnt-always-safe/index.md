@@ -13,18 +13,15 @@ resources = [
 +++
 
 When people say Rust is a "safe language", they often mean memory safety.
-And while memory safety is a great start, it's far from all it takes
-to build robust applications.
+And while memory safety is a great start, it's far from all it takes to build robust applications.
 
 **Memory safety is important but not sufficient for overall reliability.**
 
-In this article, I want to show you a few common gotchas in safe Rust,
-which the compiler doesn't detect and how to avoid them.
+In this article, I want to show you a few common gotchas in safe Rust that the compiler doesn't detect and how to avoid them.
 
 ## Why Rust Can't Always Help
 
-Rust is a safe language, but there are still risks -- even in safe code!
-Rust does not prevent you from logic bugs.
+Even in safe Rust code, you still need to handle various risks and edge cases.
 You need to address aspects like input validation and making sure that your business logic is correct.
 
 Here are just a few categories of bugs that Rust **doesn't** protect you from:
