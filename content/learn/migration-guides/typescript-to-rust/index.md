@@ -113,6 +113,24 @@ Error handling becomes explicit and predictable with [`Result`](https://doc.rust
 ## Ecosystem Maturity
 
 NPM gives you more packages, but Rust's ecosystem prioritizes quality.
+
+> In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager)
+
+A small portion of these packages provide type definitions (i.e. TypeScript support).
+Many packages are outdated or are actively maintained.
+According to [SC Media](https://www.scworld.com/news/npm-registry-users-download-2-1b-deprecated-packages-weekly-researchers-say), "NPM registry users download 2.1B deprecated packages weekly".
+
+Compare that to Rust's crate ecosystem.
+At the time of writing, it lists [170.435 crates](https://crates.io/).
+That is a fraction of NPM's packages.
+Crates also can't be easily removed from the registry:
+
+> Take care when publishing a crate, because a publish is permanent. The version can never be overwritten, and the code cannot be deleted. There is no limit to the number of versions which can be published, however.
+
+That's a feature, not a bug.
+It means that your build pipelines won't break due to a missing dependency.
+You can [yank](https://doc.rust-lang.org/cargo/reference/publishing.html#cargo-yank) a version to indicate that it's no longer supported, but the code remains available for those who depend on it.
+
 Libraries maintain strong backward compatibility.
 Breaking changes are rare.
 Rust itself releases new [editions](https://doc.rust-lang.org/edition-guide/editions/) every three years with opt-in changes.
