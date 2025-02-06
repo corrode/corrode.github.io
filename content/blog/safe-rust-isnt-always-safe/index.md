@@ -1,7 +1,7 @@
 +++
 title = "Safe Rust Isn’t Always Safe"
 # title = "The Hidden Pitfalls of Safe Rust"
-date = 2025-02-04
+date = 2025-02-06
 draft = false
 template = "article.html"
 [extra]
