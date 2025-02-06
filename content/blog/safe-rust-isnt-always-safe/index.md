@@ -38,8 +38,6 @@ The tips are roughly ordered by how likely you are to encounter them.
 
 ## Table of Contents
 
-<h2>Table of Contents</h2>
-
 <details class="toc">
 <summary>
 Click here to expand the table of contents.
