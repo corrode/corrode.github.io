@@ -51,7 +51,6 @@ Click here to expand the table of contents.
 - [Don't Index Into Arrays Without Bounds Checking](#don-t-index-into-arrays-without-bounds-checking)
 - [Use `split_at_checked` Instead Of `split_at`](#use-split-at-checked-instead-of-split-at)
 - [Make Invalid States Unrepresentable](#make-invalid-states-unrepresentable)
-- [Ensure Thread-Safety](#ensure-thread-safety)
 - [Avoid Primitive Types For Business Logic](#avoid-primitive-types-for-business-logic)
 - [Handle Default Values Carefully](#handle-default-values-carefully)
 - [Implement `Debug` Safely](#implement-debug-safely)
@@ -335,36 +334,6 @@ struct Configuration {
 ```
 
 I wrote about an entire blog post on that topic: [Making Invalid States Unrepresentable](/blog/illegal-state/).
-
-## Ensure Thread-Safety
-
-**Rust does not prevent you from race-conditions, deadlocks, and thread-safety issues.**
-
-Imagine you have a global counter that you increment from multiple threads:
-
-```rust
-// DON'T: Use unsafe concurrency patterns
-static mut COUNTER: u64 = 0;  // Global mutable state is dangerous!
-```
-
-This is not thread-safe. Multiple threads can access `COUNTER` at the same time, leading
-to race conditions.
-
-You could sidestep the issue by using `Mutex`, but then you'd have to lock and unlock it every time you access the counter and you could still run into deadlocks.
-
-A simpler strategy is to use atomics, which are values that the CPU correctly handles
--- changes are "atomic" i.e. there can not be a step in-between an operation.
-
-```rust
-// DO: Use appropriate synchronization primitives
-use std::sync::atomic::{AtomicU64, Ordering};
-
-static COUNTER: AtomicU64 = AtomicU64::new(0);
-
-fn increment() -> u64 {
-    COUNTER.fetch_add(1, Ordering::SeqCst)
-}
-```
 
 ## Avoid Primitive Types For Business Logic
 
