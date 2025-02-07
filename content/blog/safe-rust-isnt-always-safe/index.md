@@ -1,12 +1,14 @@
 +++
-title = "Safe Rust Isn’t Always Safe"
-# title = "The Hidden Pitfalls of Safe Rust"
-date = 2025-02-06
+title = "Pitfalls of Safe Rust"
+date = 2025-02-07
 draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
-reviews = []
+reviews = [ 
+    { name = "Wesley Moore", url = "https://www.wezm.net" },
+    { name = "mo8it", url = "https://mastodon.social/@mo8it@fosstodon.org" },
+]
 resources = [
    "[The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk) -- My talk at FOSDEM 2024" 
 ]
@@ -57,7 +59,7 @@ Click here to expand the table of contents.
 - [Protect Against Time-of-Check to Time-of-Use (TOCTOU)](#protect-against-time-of-check-to-time-of-use-toctou)
 - [Use Constant-Time Comparison for Sensitive Data](#use-constant-time-comparison-for-sensitive-data)
 - [Don't Accept Unbounded Input](#don-t-accept-unbounded-input)
-- [Path `join` Swallows Errors](#path-join-swallows-errors)
+- [Surprising Behavior of `Path::join` With Absolute Paths](#surprising-behavior-of-path-join-with-absolute-paths)
 - [Check For Unsafe Code In Your Dependencies With `cargo-geiger`](#check-for-unsafe-code-in-your-dependencies-with-cargo-geiger)
 - [Conclusion](#conclusion)
 
@@ -115,7 +117,9 @@ For all other cases, use [`checked_add`](https://docs.rs/num/latest/num/trait.Ch
 {% info(title="Quick Tip: Enable Overflow Checks In Release Mode", icon="info") %}
 
 In general, Rust values performance at least as much as safety.
-Overflow checks are expensive, which is why Rust disables them in release mode.
+Overflow checks can be expensive, which is why Rust disables them in release mode. [^overflow]
+
+[^overflow]: According to some benchmarks, overflow checks cost a few percent of performance on typical integer-heavy workloads. See Dan Luu's analysis [here](https://danluu.com/integer-overflow/)
 
 However, you can re-enable them in case your application can trade the last 1%
 of performance for better safety.
@@ -465,6 +469,28 @@ struct User {
 
 For production code, use a crate like [`secrecy`](https://crates.io/crates/secrecy). 
 
+However, it's not black and white either:
+If you implement `Debug` manually, you might forget to update the implementation when your struct changes.
+A common pattern is to destructure the struct in the `Debug` implementation to catch such errors:
+
+```rust
+impl fmt::Debug for Settings {  
+   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {  
+       // Destructure the struct to catch changes
+       // This way, the compiler will warn you if you add a new field
+       // and forget to update the Debug implementation
+       let Settings { version, base_url, content_dir } = self;  
+       f.debug_struct("Settings")  
+           .field("version", version)
+           .field("base_url", &base_url.as_str())
+           .field("content_dir", content_dir)
+           .finish()  
+   }  
+}
+```
+
+Thanks to [Wesley Moore (wezm)](https://www.wezm.net) for the hint.
+
 ## Implement Secure Serialization
 
 On the same note, be careful with serialization and deserialization.
@@ -612,7 +638,7 @@ fn process_request(data: &[u8]) -> Result<(), Error> {
 }
 ```
 
-## Path `join` Swallows Errors
+## Surprising Behavior of `Path::join` With Absolute Paths 
 
 If you use `Path::join` to join a relative path with an absolute path, it will silently replace the relative path with the absolute path.
 
