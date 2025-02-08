@@ -5,41 +5,17 @@
   src: url("/fonts/InterVariable.woff2") format("woff2");
 }
 
-/* @font-face {
-    font-family: "Bebas Neue";
-    font-style: normal;
-    font-weight: 100;
-    src:
-        local("Bebas Neue Thin"),
-        url("/fonts/BebasNeue-Thin.woff2") format("woff2");
+@font-face {
+  font-family: "JetBrainsMono";
+  font-style: normal;
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
 }
 
-@font-face {
-    font-family: "Bebas Neue";
-    font-style: normal;
-    font-weight: 300;
-    src:
-        local("Bebas Neue Light"),
-        url("/fonts/BebasNeue-Light.woff2") format("woff2");
-}
-
-@font-face {
-    font-family: "Bebas Neue";
-    font-style: normal;
-    font-weight: 400;
-    src:
-        local("Bebas Neue Book"),
-        url("/fonts/BebasNeue-Book.woff2") format("woff2");
-}
-
-@font-face {
-    font-family: "Bebas Neue";
-    font-style: normal;
-    font-weight: 500;
-    src:
-        local("Bebas Neue Regular"),
-        url("/fonts/BebasNeue-Regular.woff2") format("woff2");
-} */
+// @font-face {
+//   font-family: "IBM Plex Mono";
+//   font-style: normal;
+//   src: url("/fonts/IBMPlexMono-Regular-Latin1.woff2") format("woff2");
+// }
 
 @font-face {
   font-family: "Bebas Neue";
@@ -152,6 +128,11 @@ h4 {
   font-weight: 600;
   margin-top: 40px;
   margin-bottom: 15px;
+}
+
+code {
+  font-family: "JetBrainsMono", monospace;
+  font-size: 1.0em;
 }
 
 div.hero {
