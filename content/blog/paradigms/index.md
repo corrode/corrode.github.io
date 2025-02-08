@@ -1,7 +1,7 @@
 +++
 title = "Navigating Programming Paradigms in Rust"
 date = 2023-12-04
-updated = 2024-07-12
+updated = 2025-02-08
 template = "article.html"
 draft = false
 [extra]
@@ -589,6 +589,12 @@ diverse as C++, Haskell, OCaml, and Erlang have shaped Rust's design.
 In the beginning, Rust was more functional in nature, but it has since evolved
 into a more balanced language, supporting a variety of styles. The question is
 where to draw the line between different programming paradigms.
+
+I found that I often use a functional core with an imperative shell. The core
+consists of small, composable functions that transform data, while the shell
+provides the necessary control flow. I often use object-oriented constructs to
+organize larger parts of my application, encapsulating related data and
+functions.
 
 Here are my personal rules of thumb:
 
