@@ -55,7 +55,7 @@ Click here to expand the table of contents.
 - [Avoid Primitive Types For Business Logic](#avoid-primitive-types-for-business-logic)
 - [Handle Default Values Carefully](#handle-default-values-carefully)
 - [Implement `Debug` Safely](#implement-debug-safely)
-- [Implement Secure Serialization](#implement-secure-serialization)
+- [Careful With Serialization](#careful-with-serialization)
 - [Protect Against Time-of-Check to Time-of-Use (TOCTOU)](#protect-against-time-of-check-to-time-of-use-toctou)
 - [Use Constant-Time Comparison for Sensitive Data](#use-constant-time-comparison-for-sensitive-data)
 - [Don't Accept Unbounded Input](#don-t-accept-unbounded-input)
@@ -469,55 +469,76 @@ impl fmt::Debug for Settings {
 
 Thanks to [Wesley Moore (wezm)](https://www.wezm.net) for the hint.
 
-## Implement Secure Serialization
+## Careful With Serialization 
 
-On the same note, be careful with serialization and deserialization.
-The values you read/write might not be what you expect.
+Don't blindly derive `Serialize` and `Deserialize` -- especially for sensitive data. 
+The values you read/write might not be what you expect!
 
 ```rust
-// DON'T: Blindly derive serialization
+// DON'T: Blindly derive Serialize and Deserialize 
 #[derive(Serialize, Deserialize)]
 struct UserCredentials {
-    #[serde(default)]  // Ouch, we could deserialize to empty string!
+    #[serde(default)]  // ⚠️ Accepts empty strings when deserializing!
     username: String,
     #[serde(default)]
-    password: String,
+    password: String, // ⚠️ Leaks the password when serialized!
 }
+```
 
-// DO: Implement custom serialization with validation
-use serde::{Deserialize, Deserializer};
+When deserializing, the fields might be empty.
+Empty credentials could potentially pass validation checks if not properly handled
 
-#[derive(Serialize)]
-struct UserCredentials {
-    username: Username,
-    #[serde(skip_serializing)]  // Never serialize passwords
-    password: Password,
-}
+On top of that, the serialization behavior could also leak sensitive data.
+By default, `Serialize` will include the password field in the serialized output, which could expose sensitive credentials in logs, API responses, or debug output.
 
-impl<'de> Deserialize<'de> for UserCredentials {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        #[derive(Deserialize)]
-        struct Raw {
-            username: String,
-            password: String,
+A common fix is to implement your own custom serialization and deserialization methods by using `impl<'de> Deserialize<'de> for UserCredentials`.
+
+The advantage is that you have full control over input validation.
+However, it the disadvantage is that you need to implement all the logic yourself.
+
+An alternative strategy is to use the `#[serde(try_from = "FromType")]` attribute.
+
+Let's take the `Password` field as an example.
+Start by using the newtype pattern to wrap the standard types and add custom validation:
+
+```rust
+#[derive(Deserialize)]
+// Tell serde to call `Password::try_from` with a `String`
+#[serde(try_from = "String")]
+pub struct Password(String);
+```
+
+Now implement `TryFrom` for `Password`:
+
+```rust
+impl TryFrom<String> for Password {
+    type Error = PasswordError;
+
+    /// Create a new password
+    ///
+    /// Throws an error if the password is too short.
+    /// You can add more checks here.
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        // Validate the password
+        if value.len() < 8 {
+            return Err(PasswordError::TooShort);
         }
-
-        let raw = Raw::deserialize(deserializer)?;
-        
-        // Validate during deserialization
-        // Throw an error if the username or password is invalid
-        let username = Username::new(&raw.username)
-            .map_err(serde::de::Error::custom)?;
-        let password = Password::new(&raw.password)
-            .map_err(serde::de::Error::custom)?;
-
-        Ok(UserCredentials { username, password })
+        Ok(Password(value))
     }
 }
 ```
+
+With this trick, you can no longer deserialize invalid passwords:
+
+```rust
+// Panic: password too short!
+let password: Password = serde_json::from_str(r#""pass""#).unwrap();
+```
+
+(Try it on the [Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=ba0f1a45d5ac982b00a5b5f68a1a0d9e))
+
+Credits go to [EqualMa's article on dev.to](https://dev.to/equalma/validate-fields-and-types-in-serde-with-tryfrom-c2n) and to [Alex Burka (durka)](https://github.com/durka) for the hint.
+
 
 ## Protect Against Time-of-Check to Time-of-Use (TOCTOU)
 
