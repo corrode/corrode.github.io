@@ -111,12 +111,20 @@ error: this arithmetic operation will overflow
   = note: `#[deny(arithmetic_overflow)]` on by default
 ```
 
-For all other cases, use [`checked_add`](https://docs.rs/num/latest/num/trait.CheckedAdd.html), [`checked_sub`](https://docs.rs/num/latest/num/trait.CheckedSub.html), [`checked_mul`](https://docs.rs/num/latest/num/trait.CheckedMul.html), and [`checked_div`](https://docs.rs/num/latest/num/trait.CheckedDiv.html) to avoid overflow.
+For all other cases, use [`checked_add`](https://docs.rs/num/latest/num/trait.CheckedAdd.html), [`checked_sub`](https://docs.rs/num/latest/num/trait.CheckedSub.html), [`checked_mul`](https://docs.rs/num/latest/num/trait.CheckedMul.html), and [`checked_div`](https://docs.rs/num/latest/num/trait.CheckedDiv.html), which return `None` instead of wrapping around on underflow or overflow. [^intrinsics_docs]
+
+[^intrinsics_docs]: There's also methods for wrapping and saturating arithmetic, which might be useful in some cases.
+It's worth it to check out the [`std::intrinsics`](https://doc.rust-lang.org/std/intrinsics/index.html) documentation to learn more.
 
 {% info(title="Quick Tip: Enable Overflow Checks In Release Mode", icon="info") %}
 
-In general, Rust values performance at least as much as safety.
-Overflow checks can be expensive, which is why Rust disables them in release mode. [^overflow]
+Rust carefully balances performance and safety.
+In scenarios where a performance hit is acceptable, memory safety takes precedence. [^memory_safety]
+
+[^memory_safety]: One example where Rust accepts a performance cost for safety would be checked array indexing, which prevents buffer overflows at runtime. Another is when the Rust maintainers [fixed float casting](https://internals.rust-lang.org/t/help-us-benchmark-saturating-float-casts/6231) because the previous implementation could cause undefined behavior when casting certain floating point values to integers.
+
+Integer overflows can lead to unexpected results, but they are not inherently unsafe.
+On top of that, overflow checks can be expensive, which is why Rust disables them in release mode. [^overflow]
 
 [^overflow]: According to some benchmarks, overflow checks cost a few percent of performance on typical integer-heavy workloads. See Dan Luu's analysis [here](https://danluu.com/integer-overflow/)
 
