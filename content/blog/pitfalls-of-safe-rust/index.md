@@ -89,8 +89,8 @@ fn calculate_total(price: u32, quantity: u32) -> Result<u32, ArithmeticError> {
 }
 ```
 
-Note that static checks are not removed because they don't compromise on performance of generated code. 
-If the compiler is able to detect the problem at compile time, it will do so:
+Static checks are not removed since they don't affect the performance of generated code.
+So if the compiler is able to detect the problem at compile time, it will do so:
 
 ```rust
 fn main() {
@@ -494,7 +494,7 @@ By default, `Serialize` will include the password field in the serialized output
 A common fix is to implement your own custom serialization and deserialization methods by using `impl<'de> Deserialize<'de> for UserCredentials`.
 
 The advantage is that you have full control over input validation.
-However, it the disadvantage is that you need to implement all the logic yourself.
+However, the disadvantage is that you need to implement all the logic yourself.
 
 An alternative strategy is to use the `#[serde(try_from = "FromType")]` attribute.
 
