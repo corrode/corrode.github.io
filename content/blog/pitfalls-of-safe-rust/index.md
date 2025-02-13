@@ -594,9 +594,6 @@ fn verify_password(stored: &[u8], provided: &[u8]) -> bool {
 use subtle::{ConstantTimeEq, Choice};
 
 fn verify_password(stored: &[u8], provided: &[u8]) -> bool {
-    if stored.len() != provided.len() {
-        return false;
-    }
     stored.ct_eq(provided).unwrap_u8() == 1
 }
 ```
