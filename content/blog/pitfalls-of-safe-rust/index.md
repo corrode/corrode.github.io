@@ -1,13 +1,14 @@
 +++
 title = "Pitfalls of Safe Rust"
-date = 2025-02-07
+date = 2025-02-13
 draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 reviews = [ 
-    { name = "Wesley Moore", url = "https://www.wezm.net" },
-    { name = "mo8it", url = "https://mastodon.social/@mo8it@fosstodon.org" },
+    { name = "Alex Burka (durka)", url = "https://github.com/durka" },
+    { name = "Wesley Moore (wezm)", url = "https://www.wezm.net" },
+    { name = "Mo Bitar  (mo8it)", url = "https://mastodon.social/@mo8it@fosstodon.org" },
 ]
 resources = [
    "[The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk) -- My talk at FOSDEM 2024" 
