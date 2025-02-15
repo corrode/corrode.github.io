@@ -205,12 +205,7 @@ let y: i8 = x as i8;  // Can overflow!
 use `TryFrom` instead and handle the error gracefully:
 
 ```rust
-let y = i8::try_from(x);
-
-match y {
-    Ok(value) => println!("It worked: {}", value),
-    Err(_) => println!("Oh no, it didn't work!"),
-}
+let y = i8::try_from(x).ok_or("Number is too big to be used here")?;
 ```
 
 ## Use Bounded Types for Numeric Values
