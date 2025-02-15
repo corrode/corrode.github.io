@@ -611,7 +611,7 @@ fn process_request(data: &[u8]) -> Result<(), Error> {
 Instead, set explicit limits for your accepted payloads:
 
 ```rust
-const MAX_REQUEST_SIZE: usize = 1024 * 1024;  // 1MB
+const MAX_REQUEST_SIZE: usize = 1024 * 1024;  // 1MiB
 
 fn process_request(data: &[u8]) -> Result<(), Error> {
     if data.len() > MAX_REQUEST_SIZE {
