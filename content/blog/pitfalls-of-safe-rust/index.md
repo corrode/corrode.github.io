@@ -169,7 +169,7 @@ There are three main ways to convert between numeric types in Rust:
 
 {% info(title="Quick Tip: Safe Numeric Conversions", icon="info") %}
 
-- use `From::from()` when you need to guarantee no data loss.
+- use `From::from()` when you can guarantee no data loss.
 - use `TryFrom` when you need to handle potential data loss gracefully.
 - use `as` when you're comfortable with potential truncation or know the values will fit within the target type's range and when performance is absolutely critical.
 
