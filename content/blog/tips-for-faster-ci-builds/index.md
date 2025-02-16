@@ -20,6 +20,8 @@ However, there are several effective ways to speed up your GitHub Actions workfl
 Check out this production-ready GitHub Actions workflow that implements all the tips from this article:
 [click here](https://github.com/lycheeverse/lychee/blob/master/.github/workflows/ci.yml).
 
+Also see Arpad Borsos' [workflow templates](https://github.com/Swatinem/rust-gha-workflows) for Rust projects.
+
 {% end %}
 
 ## Use Swatinem's cache action
