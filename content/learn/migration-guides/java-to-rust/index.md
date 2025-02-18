@@ -1,6 +1,7 @@
 +++
 title = "Migrating from Java to Rust"
 date = 2024-12-09
+updated = 2025-02-18
 template = "article.html"
 draft = false
 [extra]
@@ -8,6 +9,7 @@ series = "Migration Guides"
 icon = "java.svg"
 resources = [
   "[Comparing Rust and Java - Andre Bogus](https://llogiq.github.io/2016/02/28/java-rust.html)",
+  "[My Experience with Rust as a Java Dev - Forrest Knight](https://www.youtube.com/watch?v=a0LtFp-7T2s)",
 ]
 +++
 
@@ -186,6 +188,38 @@ Before diving into migration tips, let's look at key differences between Java an
 | Deployment         | Requires JVM runtime                                   | Small, self-contained binaries                    |
 
 These differences highlight why organizations might consider migrating to Rust, particularly for performance-critical or resource-constrained applications. However, migration isn't just about technical differences - it requires careful planning and execution. Let's look at how to make this transition successful.
+
+You're right - let me revise to be more direct and natural while maintaining engagement:
+
+## Mindset Shifts for Java Developers
+
+Moving from Java to Rust requires some fundamental shifts in how you think about programming. Here are the key changes that will help your team succeed.
+
+### From Objects to Ownership
+
+Java lets you pass objects freely between methods and classes. Rust doesn't. Each piece of data has exactly one owner, and the compiler enforces this strictly. While this feels limiting at first, it prevents entire categories of memory issues at compile time rather than runtime. Instead of relying on garbage collection to clean up, you plan your memory usage upfront. Most developers find this leads to more predictable and efficient code once they adapt to the mindset.
+
+### Embracing Immutability
+
+Java makes everything mutable by default. Rust does the opposite - everything stays immutable unless marked with `mut`. This simple change has profound effects on code quality. You think more carefully about what really needs to change, leading to fewer bugs and easier concurrent programming. Many developers find they write better code in all languages after working with Rust's immutability model.
+
+### Rethinking Null
+
+Rust eliminates null entirely. Instead of null checks and NullPointerExceptions, you work with `Option<T>`. This type makes uncertainty explicit in your code, forcing you to handle cases where values might not exist. The compiler ensures you handle both success and failure paths. While this requires more upfront thought, it prevents a huge class of runtime errors.
+
+### From Inheritance to Composition
+
+Rust replaces Java's class hierarchies with traits. Rather than building deep inheritance trees, you compose behavior through trait implementations. This encourages more flexible and maintainable code design. Traits provide shared behavior without the complexity of inheritance, and most developers find this leads to better architected systems.
+
+### Compiler as Collaborator
+
+The Rust compiler catches far more issues than Java's. It identifies race conditions, memory leaks, and thread safety problems before they reach production. While its strictness can feel frustrating initially, the detailed error messages actually help you learn. Most teams find that working with the compiler rather than against it leads to faster development in the long run.
+
+### Memory Management Mindset
+
+Instead of relying on garbage collection, Rust makes you think explicitly about memory lifecycles. You consider who owns data and how long it needs to live. The borrow checker ensures these decisions are correct at compile time. This leads to more efficient resource usage and eliminates many common runtime errors. Despite the learning curve, most developers find this explicit memory model makes them better programmers overall.
+
+These changes take time to internalize. Plan for an adjustment period, but know that the investment typically pays off in more reliable and efficient code. The key is understanding these differences upfront so you can help your team adapt effectively.
 
 ## Tip 1: Flatten The Learning Curve 
 
