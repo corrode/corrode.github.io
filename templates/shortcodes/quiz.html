@@ -90,9 +90,9 @@
   function createQuestionElement(question) {
     const element = document.createElement("div");
     element.className = "question";
-    element.innerHTML = `<h2>${question.question}${
+    element.innerHTML = `<h3>${question.question}${
       question.optional ? " (Optional)" : ""
-    }</h2>`;
+    }</h3>`;
 
     let inputContainer;
 
@@ -352,7 +352,7 @@
   }
 
   .quiz-button {
-    padding: 50px 15px;
+    padding: 14px;
     border-radius: 4px;
     background-color: #111;
     color: white;
