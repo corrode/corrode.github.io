@@ -1,7 +1,7 @@
 +++
 title = "Migrating from Python to Rust"
 date = 2024-12-13
-updated = 2024-02-18
+updated = 2025-02-18
 template = "article.html"
 draft = false
 [extra]
