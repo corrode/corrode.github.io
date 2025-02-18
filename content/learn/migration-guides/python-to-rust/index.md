@@ -1,12 +1,15 @@
 +++
 title = "Migrating from Python to Rust"
 date = 2024-12-13
-updated = 2024-01-19
+updated = 2024-02-18
 template = "article.html"
 draft = false
 [extra]
 series = "Migration Guides"
 icon = "python.svg"
+resources = [
+  "[Rewrite everything in Rust? What we learned from introducing Rust in Strawberry-GraphQL - Erik Wrede](https://www.youtube.com/watch?v=fpxHT1Uvv2w) - A thoughtful talk on a practical migration from Python to Rust",
+]
 +++
 
 
@@ -165,7 +168,7 @@ const formURL = "https://submit-form.com/YkAFE1mIq";
 
 ## Key Differences Between Python and Rust
 
-| Aspect            | Python                       | Rust                                |
+| Aspect            | Python 🐍                    | Rust 🦀                             |
 | ----------------- | ---------------------------- | ----------------------------------- |
 | Type System       | Dynamic, optional type hints | Static, strong type system          |
 | Memory Management | Garbage collected            | No GC, ownership and borrowing      |
@@ -175,7 +178,7 @@ const formURL = "https://submit-form.com/YkAFE1mIq";
 | Error Handling    | Exceptions                   | Result type                         |
 | Concurrency       | Limited by GIL               | zero-cost abstractions, no GIL      |
 | Learning Curve    | Gentle                       | Steep                               |
-| Ecosystem Size    | Vast (500,000+ packages)     | Growing (160,000+ crates)           |
+| Ecosystem Size    | Large (500,000+ packages)    | Medium (160,000+ crates)            |
 
 
 ## Why Python Teams Consider Rust
@@ -387,6 +390,62 @@ A successful migration requires careful planning:
    - Document improvements and challenges
    - Adjust strategy based on results
 
+## Practical Migration Tips
+
+Based on real-world experience from helping teams migrate from
+Python to Rust, here are some tips for a successful transition:
+
+### Identify Bounded Contexts
+
+Focus on modules with clear interfaces to the rest of your system. No tangled spaghetti code!
+(That also means that you should refactor your Python codebase in case it's a mess.)
+
+- Look for self-contained parts of your codebase that share common functionality
+- Document the data flow and dependencies between these contexts. This will help you understand the impact of migration
+  and can serve as a blueprint for the migration process and a reference for future developers.
+- Map out how these components communicate with each other: which functions are called, which data is passed around, and which interfaces are used.
+
+### Prioritize CPU-Bound Tasks First
+
+Start with computationally intensive operations that don't require heavy I/O.
+That's where Rust shines the most, as it can provide significant performance improvements over Python.
+
+- Look for tasks that are currently bottlenecked by Python's performance (measure first!).
+- Avoid beginning with components that make heavy use of async/IO operations.
+  Async Python is quite efficient and Rust might not provide a significant improvement.
+  Be cautious with async operations between languages, as they can introduce significant overhead.
+
+### Minimize Calls Between Language Boundaries 
+
+Evaluate how frequently your Rust code needs to call back into Python
+and try to minimize the number of cross-language calls.
+
+If you have a large number of small calls, the overhead of crossing the language boundary can add up.
+Instead, consider batching operations to reduce the number of transitions
+
+### Baby Steps
+
+Break down the migration into small, measurable pieces. You want quick wins to keep the team motivated.
+
+- Start with a single component and validate its performance.
+- Add functionality piece by piece rather than attempting a complete rewrite.
+- Maintain comprehensive tests throughout the migration process.
+
+### Continuously Monitor Performance 
+
+Do you have a performance baseline for your Python code?
+If not, set one up before you start the migration.
+It's very easy to get lost in the weeds and lose track of the performance improvements.
+If that happens, you have no clear way to measure the success of the migration.
+
+- Set up benchmarks before starting the migration.
+- Track performance metrics for each migrated component.
+- Use tools like `cspeed` to monitor improvements.
+- Document performance gains and any unexpected bottlenecks.
+- Make performance monitoring part of your PR review process.
+- Choose components where you can easily compare performance.
+- Look for opportunities to run old and new implementations in parallel.
+
 ## Common Pitfalls to Avoid 
 
 Rust's ecosystem is smaller than Python's.
@@ -394,7 +453,7 @@ Rust's ecosystem is smaller than Python's.
 On top of that, Rust has a much smaller standard library compared to Python. 
 This means you'll commonly rely on third-party crates for functionality that's built into Python.
 
-Depending on your use case, here are some key differences to consider: 
+Depending on your use case, here are some comparisons between Python packages and their Rust equivalents:
 
 ### Data Science
 
