@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2025-01-19
+updated = 2025-02-21
 template = "article.html"
 draft = false
 [extra]
@@ -182,7 +182,7 @@ anniversary of Rust 1.0. All Rustaceans are welcome to attend and submit talks.
   - Company: $390
   - Conference + Workshop: $343 (Individual) / $592 (Company)
   - Student: $31
-- **CfP**: [Open until January 19, 2025](https://www.papercall.io/rust-week)
+- **CfP**: [Closed](https://www.papercall.io/rust-week)
 - **Links**: [Website](https://rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL) 
 
@@ -204,7 +204,7 @@ blockchain sectors and those who are interested in it.
 - **Format**: 1 day conference
 - **Focus**: Blockchain
 - **Pricing**: $73 (General Admission)
-- **CFP**: [Open](https://forms.gle/3VTuvYHhXmzwTLeU9)
+- **CFP**: [Closed](https://forms.gle/3VTuvYHhXmzwTLeU9)
 - **Links**: [Website](https://rustsummit.com/)
 - **Social**: [Twitter](https://x.com/rust_summit)
 
@@ -260,7 +260,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
 - **Pricing**: TBA
-- **CFP**: TBA
+- **CFP**: [Open until 1st of June 2025](https://pretalx.com/oxidize-conference-2025/cfp) 
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
 
@@ -305,7 +305,7 @@ It's lovingly organized featuring delicious italian food and a great community.
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
 - **Pricing**: TBA
-- **CFP**: TBA
+- **CFP**: [Open until 25th of April](https://sessionize.com/rustlab-2025/) 
 - **Links**: [Website](https://rustlab.it/) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
 
