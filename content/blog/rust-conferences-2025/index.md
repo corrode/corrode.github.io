@@ -138,7 +138,7 @@ After many years without a Rust conference in Asia (the last one being RustCon A
   - Corporate: $450
 - **CFP**: [Closed](https://rustasiaconf.com/proposals)
 - **Links**: [Website](https://rustasiaconf.com/)
-- **Social**: [Twitter](https://x.com/rustconasia)
+- **Social**: [Twitter](https://x.com/rustasiaconf)
 
 ## Q2 2025
 
