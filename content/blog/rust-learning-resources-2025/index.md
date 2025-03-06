@@ -1,54 +1,39 @@
 +++
 title = "Rust Learning Resources 2025"
-date = 2025-03-05
+date = 2025-03-06
 template = "article.html"
 [extra]
 series = "Rust Insights"
 +++
 
-When I ask developers how they learn best, I tend to get the same answers:
+Want to finally learn Rust?
 
-- It should be **hands-on**.
-- It should be **applicable to their work**. 
-- The content should be **up-to-date** and created by **experienced developers**.
-- People want to use **their own development environment**.
+When I ask developers what they look for in a Rust learning resource, I tend to get the same answers:
 
-All of the above are valid points and they also apply to learning Rust. 
+- They want **hands-on** learning experiences
+- They need content that's **applicable to their work**
+- They look for **up-to-date material** from **experienced developers**
+- They prefer to use **their own development environment**
 
-If you've been thinking about learning Rust for a while now and perhaps you've even started dabbling with it,
-it's time to finally put that plan into action.
-To save you some time, I've compiled a list of my favorite resources for learning Rust in 2025 below.
+All of the above are valid points and especially for learning Rust -- a language known for its notoriously steep learning curve.
 
-## CodeCrafters
-
-- Level: Intermediate to Advanced
-- Focus: Real-world projects / Systems programming 
-- Time-commitment: a few days to a few weeks per project (depending on your experience)
-
-CodeCrafters' claim to fame was their focus on teaching programming through real-world projects.
-They now have a Rust track that features projects which excite developers interested in systems programming.
-
-Some of their projects include building your own Shell, grep, Interpreter, HTTP server, Redis, Kafka, Git, SQLite, and DNS server.
-
-Within a few days of concentrated effort, you'll be able to build some of these projects from scratch.
-At the end, you'll have a solid understanding of Rust and a system that you know from work.
-Also, you can use these projects as a reference for your work or show them off to your friends.
- 
-If you already know how to code in another language, I believe that CodeCrafters is the best resource for learning advanced Rust concepts and systems programming at the moment. 
+If you've been thinking about learning Rust for a while now and perhaps you've already started dabbling with it, now's the time to fully commit. I've put together my favorite Rust learning resources for 2025 to help you jumpstart your Rust journey. 
+I made sure to include a healthy mix of self-paced resources, interactive exercises, and hands-on workshops.
 
 ## Rustlings
 
-- Level: Beginner to Intermediate 
-- Focus: Small exercises / Rust basics 
-- Time-commitment: a few minutes to a few hours 
+![Rustlings on the terminal](./rustlings.png)
 
-The classic Rust learning resource.
-If it was a cocktail, it would be an [Old Fashioned](https://en.wikipedia.org/wiki/Old_fashioned_(cocktail)).
-It's great for beginners and people who want some focused refresher on specific Rust concepts.
+Key Points:
 
-You can run Rustlings from the command-line and it will guide you through a series of exercises.
+- **Level**: Beginner to Intermediate 
+- **Focus**: Small exercises / Rust basics 
+- **Time**: A few minutes to a few hours 
 
-Getting started, is as easy as running the following commands:
+The classic Rust learning resource. If it was a cocktail, it would be an [Old Fashioned](https://en.wikipedia.org/wiki/Old_fashioned_(cocktail)). Rustlings works great for beginners and for anyone wanting a quick refresher on specific Rust concepts.
+
+You can run Rustlings from your command line, and it guides you through a series of exercises.
+All it takes is running a few commands in your terminal:
 
 ```sh
 cargo install rustlings
@@ -57,68 +42,101 @@ cd rustlings/
 rustlings
 ```
 
-Go [here](https://github.com/rust-lang/rustlings) to learn more.
+Go to the [official Rustlings repository](https://github.com/rust-lang/rustlings) to learn more.
 
 ## Rustfinity
 
-- Level: Beginner to Intermediate 
-- Focus: Small exercises / Rust basics 
-- Time-commitment: a few minutes to a few hours 
+![Rustfinity Homepage](./rustfinity.jpg)
 
-Rustfinity is a bit like Rustlings, but more structured.
-It has an interactive browser-based interface that guides you through each exercise and provides unit tests to verify your solutions.
+Key Points:
 
-You start with "Hello, World!" and work your way up to more complex exercises.
-It's a relatively new resource, but I did some of the exercises myself and I enjoyed working with the platform.
+- **Level**: Beginner to Intermediate 
+- **Focus**: Small exercises / Rust basics 
+- **Time**: A few minutes to a few hours 
 
-They also hosted an "Adevnt of Rust" event with some more gnarly challenges [here](https://www.rustfinity.com/advent-of-rust).
+Rustfinity is a bit like Rustlings, but more modern and structured. It gives you a browser interface that guides you through each exercise and runs tests to check your solutions. No need to set up anything locally, which makes it great for workshops or learning on the go.
+
+You start with "Hello, World!" and work your way up to more complex exercises. It's a relatively new resource, but I've tried several exercises myself and enjoyed the experience.
+
+They also host "Advent of Rust" events with some more challenging problems available [here](https://www.rustfinity.com/advent-of-rust).
 
 Learn more at the [Rustfinity website](https://www.rustfinity.com/).
 
 ## 100 Exercises To Learn Rust
 
-- Level: Beginner to Intermediate 
-- Focus: Small exercises / Rust basics 
-- Time-commitment: a few minutes to a few hours 
+![100 Exercises To Learn Rust](./100-exercises.jpg)
 
-This is a relatively new resource by Luca Palmieri.
-It's a collection of 100 exercises that you can solve to learn Rust.
-This course is based on the "learn by doing" principle.
-It has been designed to be interactive and hands-on.
-You can go through the course material in the browser or download it as a PDF file, for offline reading.
+Key Points:
+- **Level**: Beginner to Intermediate 
+- **Focus**: Small exercises / Rust basics 
+- **Time**: A few minutes to a few hours 
 
-There is a local CLI tool called `wr`, which will verify the solutions to the exercises.
+This is another relatively new resource by Luca Palmieri who is the author of the popular ["Zero To Production"](https://www.zero2prod.com) book.
+It's a collection of 100 exercises that help you learn Rust. The course is based on the "learning by doing" principle and designed to be interactive and hands-on.
 
-You can find the course [here](https://rust-exercises.com/100-exercises/).
+You can work through the material in your browser, or download a PDF or buy a printed copy for offline reading. The course comes with a local CLI tool called `wr` that verifies your solutions.
+
+You can learn more about the course [here](https://rust-exercises.com/100-exercises/).
+
+## CodeCrafters
+
+![CodeCrafters Rust track](./codecrafters.jpg)
+
+Key Points:
+- **Level**: Intermediate to Advanced
+- **Focus**: Real-world projects / Systems programming 
+- **Time**: A few days to a few weeks per project (depending on your experience)
+
+If you already know how to code some Rust and want to take it one step further, I believe CodeCrafters is currently the best resource for learning advanced Rust concepts and systems programming in your own time. 
+
+CodeCrafters teaches programming through **real-world projects**. Their Rust track features projects that excite developers interested in systems programming.
+
+You'll learn how to build your own shell, HTTP server, Redis, Kafka, Git, SQLite, or DNS server from scratch.
+
+It takes a few days of focused effort, but you'll complete a project that teaches you both Rust and the inner workings of systems you know from work. It's a very rewarding experience.
+
+{% info(title="Try CodeCrafters For Free", icon="crab") %}
+
+You can try CodeCrafters by following [this link](https://app.codecrafters.io/join?via=mre).
+Signing up is free and you get 40% off if you upgrade with the link.
+
+Note: I'm a CodeCrafters affiliate, so if you sign up through my link, I'll get a small commission.
+For you, it's a great way to support my work and get a valuable learning resource for free.
+
+Reminder: Most developers can get their CodeCrafters fees fully reimbursed through their corporate L&D budget.
+
+{% end %}
 
 ## Workshops
 
-- Level: Beginner to Intermediate 
-- Focus: Focused exercises and small projects 
-- Time-commitment: a few days of focused effort 
+![Write Yourself a Shell Workshop](./write-yourself-a-shell.jpg)
 
-If you prefer learning in a group setting and you have some budget, I recommend
-looking for Rust workshops. I'm biased here, but I think it's worth the effort to get quality training
-from an experienced Rust developer, especially if you are considering using Rust at work.
+Key Points:
+- **Level**: Beginner to Intermediate 
+- **Focus**: Focused exercises and small projects 
+- **Time**: A few days of focused effort 
+
+I'm biased here, but learning from experienced Rust developers is probably the quickest way to get up to speed with Rust
+-- especially if you plan to use Rust at work.
+Trainers can provide you with personalized feedback and guidance, and help you avoid common pitfalls.
+It's like having a personal trainer for your Rust learning journey.
 
 My workshops are hands-on and tailored to the needs of the participants.
 
 The course material is open source and available on GitHub:
 
-- [Write Yourself a Web App](https://github.com/corrode/write-yourself-a-web-app) - Build a small web app which shows weather data. 
-- [Write Yourself a CLI](https://github.com/corrode/write-yourself-a-cli) - Build a small CLI app for finding files on your system. 
-- [Write Yourself a Shell](https://github.com/corrode/write-yourself-a-shell) - Build a small, but fully functional shell from scratch in Rust
+- [Write Yourself a CLI](https://github.com/corrode/write-yourself-a-cli) - Create a tool to find files on your system 
+- [Write Yourself a Web App](https://github.com/corrode/write-yourself-a-web-app) - Build a small web app that shows weather data 
+- [Write Yourself a Shell](https://github.com/corrode/write-yourself-a-shell) - Build a small but fully functional shell from scratch
 
-You can go through the material on your own and see if it's a good fit for you and your team. 
-Once you're ready, feel free to reach out for tailoring the material to your needs.
+You can go through these materials on your own to see if they fit your needs. When you're ready, feel free to reach out about tailoring the content for you and your team.
 
 {% info(title="Speed Up Your Learning Process", icon="crab") %}
 
-Is your company considering to to Rust? 
+Is your company considering a switch to Rust? 
 
-Rust is known for its steep learning curve, but with the right resources and guidance, you can become proficient in Rust in a matter of weeks.
-I offer hands-on workshops and training for teams and individuals who want accelerate the learning process. 
-Check out my [services page](/services) or [send me an email](mailto://hi@corrode.dev) to learn more. 
+Rust is known for its steep learning curve, but with the right resources and guidance, you can become proficient in a matter of weeks. I offer hands-on workshops and training for teams and individuals who want to accelerate their learning process. 
+
+Check out my [services page](/services) or [send me an email](mailto://hi@corrode.dev) to learn more.
 
 {% end %}
-
