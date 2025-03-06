@@ -4,6 +4,10 @@ date = 2025-03-06
 template = "article.html"
 [extra]
 series = "Rust Insights"
+resources = [
+    "[Why Rust?](/blog/why-rust)",
+    "[Making Your First Rust Real-Worldproject A Success](/blog/successful-rust-business-adoption-checklist/)",
+]
 +++
 
 Want to finally learn Rust?
@@ -97,14 +101,12 @@ but the sense of accomplishment when you finish is incredible: you'll complete a
 
 {% info(title="Try CodeCrafters For Free", icon="crab") %}
 
-CodeCrafters is the platform I recommend to friends after they've learned the basics of Rust. 
-It's the next best thing after a personal mentor or a workshop.
+CodeCrafters is the platform I genuinely recommend to friends after they've learned the basics of Rust. 
+It's the next best thing after a personal mentor or workshop.
 
-You can try CodeCrafters for free through [this link](https://app.codecrafters.io/join?via=mre), and if you decide to get a paid
-plan, you'll get 40% off. 
+You can [try CodeCrafters for free here](https://app.codecrafters.io/join?via=mre) and get 40% off if you upgrade to a paid plan later. Full disclosure: I receive a commission for new subscriptions, but I would recommend CodeCrafters even if I didn't.
 
-Let me be straight: I get a commission if you sign up through this link, but I wouldn't recommend it if I didn't think it was a great resource.
-Also, most companies will reimburse the cost through their L&D budget. Ask your manager if you're unsure. 
+On top of that, most companies will reimburse educational resources through their L&D budget, so check with your manager about getting reimbursed.
 
 {% end %}
 
