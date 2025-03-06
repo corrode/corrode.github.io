@@ -143,6 +143,6 @@ Is your company considering a switch to Rust?
 
 Rust is known for its steep learning curve, but with the right resources and guidance, you can become proficient in a matter of weeks. I offer hands-on workshops and training for teams and individuals who want to accelerate their learning process. 
 
-Check out my [services page](/services) or [send me an email](mailto://hi@corrode.dev) to learn more.
+Check out my [services page](/services) or [send me an email](mailto:hi@corrode.dev?subject=Rust%20Workshops) to learn more.
 
 {% end %}
