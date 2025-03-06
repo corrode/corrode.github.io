@@ -22,6 +22,8 @@ Jakub Valtar walks us through how Fusion Engineering came to use Rust as the fou
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Fusion Engineering
 
 Fusion Engineering identified a critical gap in the industry: while drone hardware has advanced rapidly, software development has lagged behind. 

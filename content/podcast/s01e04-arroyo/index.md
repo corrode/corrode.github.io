@@ -22,6 +22,8 @@ for data engineers with Rust.
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 Data engineers are responsible for building and maintaining the data
 infrastructure of a company. They are the ones who make sure that data is
 collected, stored, and processed in a way that is useful for the business.

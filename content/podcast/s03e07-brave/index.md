@@ -22,6 +22,8 @@ Today we're joined by Anton Lazarev, Senior Software Engineer at Brave, to discu
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Brave
 
 Brave is a privacy-focused web browser that blocks ads and trackers by default. It's built on top of Chromium, with additional privacy features like the ability to earn cryptocurrency by viewing privacy-respecting ads. Brave has been an early adopter of Rust, using it to build their ad-blocking engine and other core features.

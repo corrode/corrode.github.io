@@ -22,6 +22,8 @@ developers.
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 How do you know your application is working as expected?
 Do you have an overview of the errors and exceptions that occur
 in production?

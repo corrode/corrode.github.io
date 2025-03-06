@@ -23,6 +23,8 @@ Today we're joined by Jessie Frazelle, CEO of Zoo (formerly KittyCAD), to talk a
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Zoo
 
 While software engineering has evolved with powerful tools and workflows, hardware design is still stuck 'the dark ages.' Zoo's mission is to make building hardware products as seamless as building software.

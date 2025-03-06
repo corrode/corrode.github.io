@@ -22,6 +22,8 @@ In the first episode of the third season, I sit down with Conrad to discuss Zed'
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Zed Industries
 
 Zed isn't afraid of daunting tasks. Not only have they built a text editor from scratch, but they've also developed their own GUI toolkit, implemented advanced parsing techniques like tree-sitter, and integrated multi-user collaboration features directly into the editor. Zed is a text editor built for the future, with meticulous attention to detail and a focus on exceptional performance.

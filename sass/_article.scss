@@ -152,6 +152,10 @@ article .subheading a {
   width: 100%;
 }
 
+.dashed {
+  border-style: dashed;
+}
+
 @media (max-width: 800px) {
   .article-heading {
     padding: 0 1em;
@@ -389,7 +393,7 @@ article a code:not(pre > code) {
   }
 
   .info {
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 
   .icon {

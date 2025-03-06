@@ -15,6 +15,7 @@ series = "Podcast"
 While we try not to get too sentimental, celebrating one year of 'Rust in Production' alongside the holiday season feels like a perfect occasion to reflect. For this special episode of the podcast, we've gathered heartfelt messages from our guests to the Rust community.
 
 There are two common themes that run through these messages:
+
 * The importance of writing simple, approachable Rust code to help flatten the learning curve for newcomers
 * Their gratitude for the vibrant ecosystem and the wealth of available crates
 

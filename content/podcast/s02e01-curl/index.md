@@ -20,6 +20,8 @@ In the season premier we talk to none other than Daniel Stenberg! We focus on in
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About curl
 
 Curl started as a simple way to download currency conversion rates from the

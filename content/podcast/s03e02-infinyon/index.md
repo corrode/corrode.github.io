@@ -26,6 +26,8 @@ At the heart of InfinyOn is Fluvio, a Rust-based data streaming platform that's 
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About InfinyOn
 
 Data pipelines are often slow, unreliable, and complex. [InfinyOn](https://infinyon.com/), the creators of [Fluvio](https://www.fluvio.io/), aims to fix this. Built in Rust, Fluvio offers fast, reliable data streaming. It lets you build event-driven pipelines quickly, running as a single 37 MB binary. With features like [SmartModules](https://infinyon.com/docs/tutorials/smartmodule-basics/), it handles various data types efficiently. Designed for developers, it offers a clean API and [intuitive CLI](https://infinyon.com/docs/cli/). Streamline your data infrastructure at [infinyon.com/rustinprod](https://infinyon.com/rustinprod).

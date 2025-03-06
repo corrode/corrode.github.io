@@ -23,6 +23,8 @@ We talk about the challenges of certifying Rust code for the automotive industry
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About OxidOS
 
 OxidOS is a Rust-based secure ecosystem for safety critical automotive ECUs. Their solution consists of a Rust-based Secure Operating System and DevTools for medium-size microcontrollers inside automotive ECUs, designed for safety-critical applications. The OxidOS ecosystem provides significant security and safety enhancements while reducing development and certification time by half for automotive ECU software development projects. This is achieved through the usage of Rust that brings benefits such as memory and thread safety enforced at compile time. The OxidOS architecture runs memory sandboxed applications, which have cryptographic credentials and are digitally signed.

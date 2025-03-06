@@ -29,6 +29,8 @@ the first place.
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About GitButler
 
 Git Branching, Refined &mdash; that's the promise of GitButler. GitButler is a Git client that helps you manage your Git branches more effectively.

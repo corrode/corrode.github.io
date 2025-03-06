@@ -26,6 +26,8 @@ And in the dark: a faint glow, a narrow golden path that points us towards a mor
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### Results from the Survey
 
 A few weeks ago, we asked you to fill out a survey about the Rust in Production podcast.

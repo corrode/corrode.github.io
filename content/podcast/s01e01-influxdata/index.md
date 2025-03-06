@@ -23,6 +23,8 @@ software that customers can depend on.
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About InfluxData
 
 InfluxData is the creator of InfluxDB, the leading open source time series

@@ -30,6 +30,8 @@ large Rust codebases, and why Rust is a great language for the problem space.
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Matic
 
 Matic is on a mission to solve everyday problems with robotics.

@@ -28,6 +28,8 @@ there were definitely some surprises and unexpected turns along the way!
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### Links from the Episode (in order of appearance)
 
 - [Rust blog post: "Announcing Rust 1.0", May 15, 2015](https://blog.rust-lang.org/2015/05/15/Rust-1.0.html)

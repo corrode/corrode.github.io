@@ -23,6 +23,8 @@ In this episode, I talk to Steve Klabnik, a software engineer at Oxide and renow
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Oxide Computer Company
 
 Founded by industry giants Bryan Cantrill, Jessie Frazelle, and Steve Tuck, Oxide Computer Company is a beloved name in the Rust community. They took on the daunting task of rethinking how servers are built -- starting all the way from the hardware and boot process (and no, there is no BIOS).

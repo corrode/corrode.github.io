@@ -23,6 +23,8 @@ We talked to Julius Gustavsson, System Architect at Volvo Cars, about the use of
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About Volvo
 
 Volvo Cars is a Swedish premium car manufacturer founded in 1927.

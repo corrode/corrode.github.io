@@ -29,6 +29,8 @@ the challenges of working on a legacy codebase, the new Rust-based Exchange prot
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About MZLA
 
 The MZLA Technologies Corporation is a fully-owned subsidiary of Mozilla that develops and maintains the Thunderbird email client.

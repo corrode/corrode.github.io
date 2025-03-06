@@ -20,6 +20,8 @@ In this episode, we talk to Folkert de Vries, Systems Software Engineer at Tweed
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 The Network Time Protocol (NTP) is a cornerstone of the internet.
 It provides accurate time synchronization on millions of devices, but its
 C-based implementation, which dates back to the

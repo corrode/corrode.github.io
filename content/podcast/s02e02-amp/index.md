@@ -27,6 +27,8 @@ and building a cutting-edge production-ready system, which can be now replicated
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About AMP
 
 AMP gives waste and recycling leaders the power to harness artificial

@@ -33,6 +33,8 @@ If you have any suggestions, please reach out!
 We'll be back in April.
 In the meantime, check out our dedicated [learn](/learn) page for additional content about Rust adoption.
 
+{{ codecrafters() }}
+
 ### Links from the Episode
 
 - [ThoughtWorks Tech Radar Volume 31, October 2024 ](https://www.thoughtworks.com/radar) - Ranks Rust as well-established in systems programming

@@ -24,6 +24,8 @@ In this episode of Rust in Production, Jeremy talks about his journey. From gett
 
 ## Show Notes
 
+{{ codecrafters() }}
+
 ### About System76
 
 From hardware all the way up to the UI, System76 pushes hard for vertical integration. The company has a strong following amongst Linux enthusiasts and is a big advocate for Rust. They use it across the stack for most (all?) of their major projects. Instead of GNOME or KDE, the Denver-based company even built their own user interface in Rust, called COSMIC.
