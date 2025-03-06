@@ -92,12 +92,12 @@ I like that they focus on real-world systems programming projects, which is wher
 
 You'll learn how to build your own shell, HTTP server, Redis, Kafka, Git, SQLite, or DNS server from scratch.
 
-Most people work on the projects on evenings and weekends and it takes a few days or weeks to complete a project, 
+Most people work on the projects on evenings and weekends, and it takes a few days or weeks to complete a project, 
 but the sense of accomplishment when you finish is incredible: you'll complete a project that teaches you both Rust and the inner workings of systems you use daily. 
 
 {% info(title="Try CodeCrafters For Free", icon="crab") %}
 
-CodeCrafters is the platform I recommend to friends after they learned the basics of Rust. 
+CodeCrafters is the platform I recommend to friends after they've learned the basics of Rust. 
 It's the next best thing after a personal mentor or a workshop.
 
 You can try CodeCrafters for free through [this link](https://app.codecrafters.io/join?via=mre), and if you decide to get a paid
@@ -124,7 +124,7 @@ That's because trainers can provide you with personalized feedback and guidance,
 It's like having a personal trainer for your Rust learning journey.
 
 My workshops are designed to be hands-on and tailored to the needs of the participants.
-I want people to go out with a finished project they can extend.
+I want people to walk away with a finished project they can extend.
 
 All course material is open source and freely available on GitHub:
 
