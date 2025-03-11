@@ -21,7 +21,7 @@
       <a href="{{ page.permalink }}" class="learn-link">
         <div class="learn-item">
           <img src="{{ page.permalink }}/{{ page.extra.card }}" />
-          <div>
+          <div class="learn-content">
             <div class="learn-title">{{ page.title }}</div>
             <div class="learn-description">{{ page.description }}</div>
           </div>
@@ -33,7 +33,52 @@
     </li>
     {% endfor %}
   </ul>
-  {% endif %} {% set guides = sorted_pages | filter(attribute="extra.series",
+  {% endif %}
+
+  <h2>Learning Resources</h2>
+  <ul class="learn-list">
+    <li>
+      <a href="#" class="learn-link">
+        <div class="learn-item">
+          <img src="/learn/ferris-learn.png" />
+          <div class="learn-content">
+            <div class="learn-title">Rust Learning Resources</div>
+            <div class="learn-description">
+              Want to learn Rust? The resources you choose will have a big
+              impact on your learning progress. I've curated a list of workshops
+              and tutorials that I would recommend to professional developers
+              who need to get up to speed with Rust quickly.
+            </div>
+          </div>
+          <div class="learn-details">
+            <div class="chevron"></div>
+          </div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="learn-link">
+        <div class="learn-item">
+          <img src="/learn/ferris-master.png" />
+          <div class="learn-content">
+            <div class="learn-title">Idiomatic Rust</div>
+            <div class="learn-description">
+              Already know Rust? Want to get better at writing ergonomic,
+              idiomatic Rust code? A while ago, I started a GitHub repository to
+              collect learning material for experienced Rust developers. Over
+              time, it has grown into a popular project with many awesome
+              contributions. I've decided to turn it into a searchable table.
+            </div>
+          </div>
+          <div class="learn-details">
+            <div class="chevron"></div>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  {% set guides = sorted_pages | filter(attribute="extra.series",
   value="Migration Guides") %} {% if guides %}
   <h2>Migration Guides</h2>
   <p class="learn-description">

@@ -29,6 +29,7 @@ Responsible for this publication is Matthias Endler, according to §5 TMG (Germa
 - [GitHub Logo by GitHub](https://github.com/logos)
 - [Bitbucket Logo by Atlassian](https://bitbucket.org/product)
 - [GitLab Logo by GitLab](https://about.gitlab.com/press/)
+- [Ferris illustrations by Esther Arzola (CC BY 4.0)](https://arzola.myportfolio.com/ferris)
 
 ### Credits for Videos
 

@@ -32,8 +32,23 @@
 .learn-item {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
+}
+
+.learn-item img {
+  width: 200px;
+  border-radius: 8px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.learn-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1; // Let the content take available space
+  padding: 20px 0; // Consistent vertical padding
 }
 
 .learn-header {
@@ -46,7 +61,7 @@
   font-size: 0.9em;
   opacity: 0.8;
   line-height: 1.4;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .learn-title {
@@ -60,18 +75,14 @@
   margin-left: 8px;
 }
 
-.learn-description {
-  font-size: 0.9em;
-  opacity: 0.8;
-  line-height: 1.4;
-}
-
 .learn-details {
   text-align: right;
   font-size: 0.8em;
   display: flex;
   gap: 20px;
   align-items: center;
+  align-self: center;
+  flex-shrink: 0;
 }
 
 @media (prefers-color-scheme: dark) {
