@@ -1,6 +1,6 @@
 +++
 title = "Pitfalls of Safe Rust"
-date = 2025-02-13
+date = 2025-03-26
 draft = false
 template = "article.html"
 [extra]
@@ -130,7 +130,7 @@ On top of that, overflow checks can be expensive, which is why Rust disables the
 [^overflow]: According to some benchmarks, overflow checks cost a few percent of performance on typical integer-heavy workloads. See Dan Luu's analysis [here](https://danluu.com/integer-overflow/)
 
 However, you can re-enable them in case your application can trade the last 1%
-of performance for better safety.
+of performance for better overflow detection.
 
 Put this into your `Cargo.toml`:
 
