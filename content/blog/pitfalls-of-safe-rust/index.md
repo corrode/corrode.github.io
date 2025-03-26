@@ -493,25 +493,47 @@ For production code, use a crate like [`secrecy`](https://crates.io/crates/secre
 
 However, it's not black and white either:
 If you implement `Debug` manually, you might forget to update the implementation when your struct changes.
-A common pattern is to destructure the struct in the `Debug` implementation to catch such errors:
+A common pattern is to destructure the struct in the `Debug` implementation to catch such errors.
+
+Instead of this:
 
 ```rust
-impl fmt::Debug for Settings {  
-   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {  
-       // Destructure the struct to catch changes
-       // This way, the compiler will warn you if you add a new field
-       // and forget to update the Debug implementation
-       let Settings { version, base_url, content_dir } = self;  
-       f.debug_struct("Settings")  
-           .field("version", version)
-           .field("base_url", &base_url.as_str())
-           .field("content_dir", content_dir)
-           .finish()  
-   }  
+// don't
+impl std::fmt::Debug for DatabaseURI {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}://{}:[REDACTED]@{}/{}", self.scheme, self.user, self.host, self.database)
+    }
 }
 ```
 
-Thanks to [Wesley Moore (wezm)](https://www.wezm.net) for the hint.
+How about destructuring the struct to catch changes?
+
+```rust
+// do
+impl std::fmt::Debug for DatabaseURI {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+       // Destructure the struct to catch changes
+       // This way, the compiler will warn you if you add a new field
+       // and forget to update the Debug implementation
+        let DatabaseURI { scheme, user, password: _, host, database, } = self;
+        write!(f, "{scheme}://{user}:[REDACTED]@{host}/{database}")?;
+        // -- or --
+        // f.debug_struct("DatabaseURI")
+        //     .field("scheme", scheme)
+        //     .field("user", user)
+        //     .field("password", &"***")
+        //     .field("host", host)
+        //     .field("database", database)
+        //     .finish()
+
+        Ok(())
+    }
+}
+```
+
+([Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=a2facbaa5290f9518072ac214df370aa))
+
+Thanks to [Wesley Moore (wezm)](https://www.wezm.net) for the hint and to [Simon Brüggen (m3t0r)](https://github.com/M3t0r) for the example.
 
 ## Careful With Serialization 
 
