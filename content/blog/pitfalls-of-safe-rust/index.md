@@ -444,12 +444,23 @@ Instead, implement `Debug` manually for types that contain sensitive information
 
 ```rust
 // DON'T: Expose sensitive data in debug output
+#[derive(Debug)]
 struct User {
     username: String,
     password: String,  // Will be printed in debug output!
 }
+```
 
-// DO: Protect sensitive data
+Instead, you could write:
+
+```rust
+// DO: Implement Debug manually
+#[derive(Debug)]
+struct User {
+    username: String,
+    password: Password,
+}
+
 struct Password(String);
 
 impl std::fmt::Debug for Password {
@@ -458,11 +469,25 @@ impl std::fmt::Debug for Password {
     }
 }
 
-struct User {
-    username: String,
-    password: Password,
+fn main() {
+    let user = User {
+        username: String::from(""),
+        password: Password(String::from("")),
+    };
+    println!("{user:#?}");
 }
 ```
+
+This prints
+
+```rust
+User {
+    username: "",
+    password: [REDACTED],
+}
+```
+
+([Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=8fd18d9e13f60193bc14e97ea258707e))
 
 For production code, use a crate like [`secrecy`](https://crates.io/crates/secrecy). 
 
