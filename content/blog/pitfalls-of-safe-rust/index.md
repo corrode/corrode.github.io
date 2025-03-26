@@ -297,8 +297,64 @@ Again, this returns an `Option` which allows you to handle the error case.
 
 More info about `split_at_checked` [here](https://doc.rust-lang.org/std/primitive.slice.html#method.split_at_checked).
 
+## Avoid Primitive Types For Business Logic
+
+It's very tempting to use primitive types for everything.
+Especially Rust beginners fall into this trap.
+
+```rust
+// DON'T: Use primitive types for usernames
+fn authenticate_user(username: String) {
+    // Raw String could be anything - empty, too long, or contain invalid characters
+}
+```
+
+However, do you really accept any string as a valid username?
+What if it's empty? What if it contains emojis or special characters?
+
+You can create a custom type for your domain instead:
+
+```rust
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+struct Username(String);
+
+impl Username {
+    pub fn new(name: &str) -> Result<Self, UsernameError> {
+        // Check for empty username
+        if name.is_empty() {
+            return Err(UsernameError::Empty);
+        }
+
+        // Check length (for example, max 30 characters)
+        if name.len() > 30 {
+            return Err(UsernameError::TooLong);
+        }
+
+        // Only allow alphanumeric characters and underscores
+        if !name.chars().all(|c| c.is_alphanumeric() || c == '_') {
+            return Err(UsernameError::InvalidCharacters);
+        }
+
+        Ok(Username(name.to_string()))
+    }
+
+    /// Allow to get a reference to the inner string
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+
+fn authenticate_user(username: Username) {
+    // We know this is always a valid username!
+    // No empty strings, no emojis, no spaces, etc.
+}
+```
+
+([Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=fe47108e246366718d7759eb7abf02f3))
 
 ## Make Invalid States Unrepresentable
+
+The next point is closely related to the previous one. 
 
 Can you spot the bug in the following code?
 
@@ -337,43 +393,11 @@ struct Configuration {
 }
 ```
 
-I wrote about an entire blog post on that topic: [Making Invalid States Unrepresentable](/blog/illegal-state/).
+In comparison to the previous section, the bug was caused by an *invalid combination of closely related fields*.
+To prevent that, clearly map out all possible states and transitions between them.
+A simple way is to define an enum with optional metadata for each state.
 
-## Avoid Primitive Types For Business Logic
-
-It's very tempting to use primitive types for everything.
-Especially Rust beginners fall into this trap.
-
-```rust
-// DON'T: Use primitive types for IDs
-fn get_user(id: u64) {
-    // Raw u64 could be any number
-}
-```
-
-However, do you really accept any number as a valid user ID?
-What if 0 is not a valid ID?
-
-You can create a custom type for your domain instead:
-
-```rust
-// DO: Create specific ID types
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-struct UserId(u64);
-
-impl UserId {
-    pub fn new(id: u64) -> Result<Self, IdError> {
-        if id == 0 {
-            return Err(IdError::Invalid);
-        }
-        Ok(UserId(id))
-    }
-}
-
-fn get_user(id: UserId) {
-    // We know this is always a valid user ID!
-}
-```
+If you're curious to learn more, here is a more in-depth [blog post on the topic](/blog/illegal-state/).
 
 ## Handle Default Values Carefully
 
