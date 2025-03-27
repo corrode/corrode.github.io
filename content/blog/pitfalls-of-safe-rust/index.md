@@ -756,7 +756,7 @@ cargo geiger
 ```
 
 This will give you a report of how many unsafe functions are in your dependencies.
-If a non-sys level crate has a lot of unsafe code, that could be a red flag.
+Based on this, you can decide if you want to keep a dependency or not.
 
 ## Conclusion
 
