@@ -609,39 +609,54 @@ Credits go to [EqualMa's article on dev.to](https://dev.to/equalma/validate-fiel
 ## Protect Against Time-of-Check to Time-of-Use (TOCTOU)
 
 This is a more advanced topic, but it's important to be aware of it.
-TOCTOU is a class of software bugs caused by attackers exploiting the gap between the time a condition is checked and the time it is used. 
-Simply put, an attacker could rug-pull the value from under your feet
-and you wouldn't notice because it happens exactly between your check and use.
+TOCTOU (time-of-check to time-of-use) is a class of software bugs caused by changes that happen between when you check a condition and when you use a resource.
 
 ```rust
-// DON'T: Check and use in separate operations
-fn process_file(path: &Path) -> Result<(), io::Error> {
-    if path.exists() {  // Check
-        let content = fs::read(path)?;  // Use - file might have changed!
-        // Process content
+// DON'T: Vulnerable approach with separate check and use
+fn remove_dir(path: &Path) -> io::Result<()> {
+    // First check if it's a directory
+    if !path.is_dir() {
+        return Err(io::Error::new(
+            io::ErrorKind::NotADirectory,
+            "not a directory"
+        ));
     }
-    Ok(())
+    
+    // TOCTOU vulnerability: Between the check above and the use below,
+    // the path could be replaced with a symlink to a directory we shouldn't access!
+    remove_dir_impl(path)
 }
 ```
 
-Rust supports atomic file operations to prevent this kind of attack.
+([Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=fb208eb58e49ce70bde77a48b9b102d1))
+
+The safer approach opens the directory first, ensuring we operate on what we checked:
 
 ```rust
-// DO: Use atomic operations when possible
-fn process_file(path: &Path) -> Result<(), io::Error> {
-    let file = fs::OpenOptions::new()
+// DO: Safer approach that opens first, then checks
+fn remove_dir(path: &Path) -> io::Result<()> {
+    // Open the directory WITHOUT following symlinks
+    let handle = OpenOptions::new()
         .read(true)
-        .write(true)
-        .create_new(true)  // Atomic operation
+        .custom_flags(O_NOFOLLOW | O_DIRECTORY) // Fails if not a directory or is a symlink
         .open(path)?;
-    // Process file
-    Ok(())
+    
+    // Now we can safely remove the directory contents using the open handle
+    remove_dir_impl(&handle)
 }
 ```
 
-It's a bit more verbose, but it's safer.
-I think more Rustaceans should know about this pattern.
+([Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=08a3a0a030a1878171e7eb76adb6ffb8))
 
+Here's why it's safer:
+while we hold the handle, the directory can't be replaced with a symlink.
+This way, the directory we're working with is the same as the one we checked.
+Any attempt to replace it won't affect us because the handle is already open.
+
+You'd be forgiven if you overlooked this issue before.
+In fact, even the Rust core team missed it in the standard library.
+What you saw is a simplified version of an actual bug in the `std::fs::remove_dir_all` function.
+Read more about it in [this blog post about CVE-2022-21658](https://blog.rust-lang.org/2022/01/20/cve-2022-21658.html).
 
 ## Use Constant-Time Comparison for Sensitive Data
 
