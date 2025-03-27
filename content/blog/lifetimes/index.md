@@ -1,12 +1,13 @@
 +++
 title = "Don't Worry About Lifetimes"
 date = 2024-05-29
-updated = 2024-08-13
+updated = 2025-03-27
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 resources = [
-    "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes."
+    "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes.",
+    "[Lifetime safety is static typing](https://www.circle-lang.org/draft-profiles.html#lifetime-safety-is-static-typing) by Sean Baxter",
 ]
 credits = [
   "Thanks to <a href='https://www.linkedin.com/in/grovesnl'>Josh Groves</a> for suggesting to mention Rc/Arc."
