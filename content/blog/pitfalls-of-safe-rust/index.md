@@ -705,12 +705,7 @@ fn process_request(data: &[u8]) -> Result<(), Error> {
     }
     
     let decoded = decode_data(data)?;
-    
-    // For added safety, you can also check the decoded size 
-    if decoded.len() > MAX_REQUEST_SIZE * 2 {  
-        return Err(Error::DecodedDataTooLarge);
-    }
-    
+    // Process decoded data
     Ok(())
 }
 ```
