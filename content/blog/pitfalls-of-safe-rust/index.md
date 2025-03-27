@@ -11,7 +11,7 @@ reviews = [
     { name = "Mo Bitar  (mo8it)", url = "https://mastodon.social/@mo8it@fosstodon.org" },
 ]
 resources = [
-   "[The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk) -- My talk at FOSDEM 2024" 
+   "[The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk) -- My talk at FOSDEM 2024",
    "[High Assurance Rust](https://highassurance.rs/) -- developing secure and robust software with Rust"
 ]
 +++
