@@ -655,7 +655,7 @@ Any attempt to replace it won't affect us because the handle is already open.
 
 You'd be forgiven if you overlooked this issue before.
 In fact, even the Rust core team missed it in the standard library.
-What you saw is a simplified version of an actual bug in the `std::fs::remove_dir_all` function.
+What you saw is a simplified version of an actual bug in the [`std::fs::remove_dir_all`](https://doc.rust-lang.org/std/fs/fn.remove_dir_all.html) function.
 Read more about it in [this blog post about CVE-2022-21658](https://blog.rust-lang.org/2022/01/20/cve-2022-21658.html).
 
 ## Use Constant-Time Comparison for Sensitive Data
