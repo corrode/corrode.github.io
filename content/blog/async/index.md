@@ -1,7 +1,7 @@
 +++
 title = "The State of Async Rust: Runtimes"
 date = 2024-02-21
-updated = "2024-04-27"
+updated = 2025-03-28
 draft = false
 template = "article.html"
 [extra]
@@ -143,11 +143,16 @@ anymore](https://github.com/async-rs/async-std/graphs/contributors):
 
 ![Fading async-std contribution graph on Github](async-std-github.svg)
 
+**Update**: as of March 1, 2025, `async-std` has [officially been discontinued](https://github.com/async-rs/async-std/commit/fb56bffdbb4699e1add70a0f834dee6f57c398eb).
+The suggested replacement is [smol](https://github.com/smol-rs/smol/), which is a  
+lightweight, much more explicit runtime, that is different to `async-std` in
+many ways.
+
 This leaves those reliant on the [`async-std`
 API](https://docs.rs/async-std/latest/async_std/) – be it for concurrency
 mechanisms, extension traits, or otherwise – in an unfortunate situation, as is
 the case for libraries developed on top of `async-std`, such as
-[`surf`](https://github.com/http-rs/surf). The core of `async-std` is now
+[`surf`](https://github.com/http-rs/surf). The core of `async-std` has long been 
 powered by [`smol`](https://github.com/smol-rs/smol), but it is probably best to
 use it directly for new projects.
 
