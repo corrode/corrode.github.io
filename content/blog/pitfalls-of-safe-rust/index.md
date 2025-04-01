@@ -1,6 +1,6 @@
 +++
 title = "Pitfalls of Safe Rust"
-date = 2025-03-27
+date = 2025-04-01
 draft = false
 template = "article.html"
 [extra]
