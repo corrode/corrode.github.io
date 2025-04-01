@@ -170,17 +170,17 @@ There are three main ways to convert between numeric types in Rust:
 
 {% info(title="Quick Tip: Safe Numeric Conversions", icon="info") %}
 
+**If in doubt, prefer `From::from()` and `TryFrom` over `as`.**
+
 - use `From::from()` when you can guarantee no data loss.
 - use `TryFrom` when you need to handle potential data loss gracefully.
 - only use `as` when you're comfortable with potential truncation or know the values will fit within the target type's range and when performance is absolutely critical.
 
-**If in doubt, prefer `From::from()` and `TryFrom` over `as`.**
-
-*Adapted from [StackOverflow answer by delnan](https://stackoverflow.com/a/28280042/270334) and [additional context](https://stackoverflow.com/a/48795524/270334)*
+(*Adapted from [StackOverflow answer by delnan](https://stackoverflow.com/a/28280042/270334) and [additional context](https://stackoverflow.com/a/48795524/270334).*)
 
 {% end %}
 
-The `as` operator is **not safe for narrowing conversions**
+The `as` operator is **not safe for narrowing conversions**.
 It will silently truncate the value, leading to unexpected results.
 
 What is a narrowing conversion?
@@ -252,7 +252,7 @@ let arr = [1, 2, 3];
 let elem = arr[3];  // Panic!
 ```
 
-That's a common source of bugs. 
+That's a common source of bugs.
 Unlike C, Rust *does* check array bounds and prevents a security vulnerability,
 but **it still panics at runtime**.
 
