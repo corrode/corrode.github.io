@@ -1,6 +1,7 @@
 +++
 title = "Pitfalls of Safe Rust"
 date = 2025-04-01
+updated = 2025-04-03
 draft = false
 template = "article.html"
 [extra]
@@ -759,6 +760,126 @@ cargo geiger
 This will give you a report of how many unsafe functions are in your dependencies.
 Based on this, you can decide if you want to keep a dependency or not.
 
+
+## Clippy Can Prevent Many Of These Issues
+
+Here is a set of clippy lints that can help you catch these issues at compile time.
+See for yourself in the [Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=26fffd0b9c89822295c4225182238c8c).
+
+Here's the gist:
+
+- `cargo check` will **not** report any issues. 
+- `cargo run` will **panic** or silently fail at runtime.
+- `cargo clippy` will **catch** all issues at _compile time_ (!) 😎
+
+```rust
+// Arithmetic
+#![deny(arithmetic_overflow)] // Prevent operations that would cause integer overflow
+#![deny(clippy::checked_conversions)] // Suggest using checked conversions between numeric types
+#![deny(clippy::cast_possible_truncation)] // Detect when casting might truncate a value
+#![deny(clippy::cast_sign_loss)] // Detect when casting might lose sign information
+#![deny(clippy::cast_possible_wrap)] // Detect when casting might cause value to wrap around
+#![deny(clippy::cast_precision_loss)] // Detect when casting might lose precision
+#![deny(clippy::integer_division)] // Highlight potential bugs from integer division truncation
+#![deny(clippy::arithmetic_side_effects)] // Detect arithmetic operations with potential side effects
+#![deny(clippy::unchecked_duration_subtraction)] // Ensure duration subtraction won't cause underflow
+
+// Unwraps
+#![deny(clippy::unwrap_used)] // Discourage using .unwrap() which can cause panics
+#![deny(clippy::expect_used)] // Discourage using .expect() which can cause panics
+#![deny(clippy::panicking_unwrap)] // Prevent unwrap on values known to cause panics
+#![deny(clippy::option_env_unwrap)] // Prevent unwrapping environment variables which might be absent
+
+// Array indexing
+#![deny(clippy::indexing_slicing)] // Avoid direct array indexing and use safer methods like .get()
+
+// Path handling
+#![deny(clippy::join_absolute_paths)] // Prevent issues when joining paths with absolute paths
+
+// Serialization issues
+#![deny(clippy::serde_api_misuse)] // Prevent incorrect usage of Serde's serialization/deserialization API
+
+// Unbounded input
+#![deny(clippy::uninit_vec)] // Prevent creating uninitialized vectors which is unsafe
+
+// Unsafe code detection
+#![deny(clippy::transmute_int_to_char)] // Prevent unsafe transmutation from integers to characters
+#![deny(clippy::transmute_int_to_float)] // Prevent unsafe transmutation from integers to floats
+#![deny(clippy::transmute_ptr_to_ref)] // Prevent unsafe transmutation from pointers to references
+#![deny(clippy::transmute_undefined_repr)] // Detect transmutes with potentially undefined representations
+
+use std::path::Path;
+use std::time::Duration;
+
+fn main() {
+    // ARITHMETIC ISSUES
+
+    // Integer overflow: This would panic in debug mode and silently wrap in release
+    let a: u8 = 255;
+    let _b = a + 1;
+
+    // Unsafe casting: Could truncate the value
+    let large_number: i64 = 1_000_000_000_000;
+    let _small_number: i32 = large_number as i32;
+
+    // Sign loss when casting
+    let negative: i32 = -5;
+    let _unsigned: u32 = negative as u32;
+
+    // Integer division can truncate results
+    let _result = 5 / 2; // Results in 2, not 2.5
+
+    // Duration subtraction can underflow
+    let short = Duration::from_secs(1);
+    let long = Duration::from_secs(2);
+    let _negative = short - long; // This would underflow
+
+    // UNWRAP ISSUES
+
+    // Using unwrap on Option that could be None
+    let data: Option<i32> = None;
+    let _value = data.unwrap();
+
+    // Using expect on Result that could be Err
+    let result: Result<i32, &str> = Err("error occurred");
+    let _value = result.expect("This will panic");
+
+    // Trying to get environment variable that might not exist
+    let _api_key = std::env::var("API_KEY").unwrap();
+
+    // ARRAY INDEXING ISSUES
+
+    // Direct indexing without bounds checking
+    let numbers = vec![1, 2, 3];
+    let _fourth = numbers[3]; // This would panic
+
+    // Safe alternative with .get()
+    if let Some(fourth) = numbers.get(3) {
+        println!("{fourth}");
+    }
+
+    // PATH HANDLING ISSUES
+
+    // Joining with absolute path discards the base path
+    let base = Path::new("/home/user");
+    let _full_path = base.join("/etc/config"); // Results in "/etc/config", base is ignored
+
+    // Safe alternative
+    let base = Path::new("/home/user");
+    let relative = Path::new("config");
+    let full_path = base.join(relative);
+    println!("Safe path joining: {:?}", full_path);
+
+    // UNSAFE CODE ISSUES
+
+    // Creating uninitialized vectors (could cause undefined behavior)
+    let mut vec: Vec<String> = Vec::with_capacity(10);
+    unsafe {
+        vec.set_len(10); // This is UB as Strings aren't initialized
+    }
+}
+```
+
 ## Conclusion
 
 Phew, that was a lot of pitfalls!
@@ -775,9 +896,9 @@ Rust shares an FFI interface with C, which means that it can do anything C can d
 So, while some operations that Rust allows are theoretically possible, they might lead to unexpected results.
 
 But not all is lost!
-If you are aware of these pitfalls, you can avoid them.
+If you are aware of these pitfalls, you can avoid them, and with the above clippy lints, you can catch most of them at compile time.
 
-That's why testing, fuzzing, and static analysis are still important in Rust.
+That's why testing, linting, and fuzzing are still important in Rust.
 
 For maximum robustness, combine Rust's safety guarantees with strict checks and
 strong verification methods.
