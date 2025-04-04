@@ -1,7 +1,7 @@
 +++
 title = "Pitfalls of Safe Rust"
 date = 2025-04-01
-updated = 2025-04-03
+updated = 2025-04-04
 draft = false
 template = "article.html"
 [extra]
@@ -785,8 +785,8 @@ Here's the gist:
 #![deny(clippy::unchecked_duration_subtraction)] // Ensure duration subtraction won't cause underflow
 
 // Unwraps
-#![deny(clippy::unwrap_used)] // Discourage using .unwrap() which can cause panics
-#![deny(clippy::expect_used)] // Discourage using .expect() which can cause panics
+#![warn(clippy::unwrap_used)] // Discourage using .unwrap() which can cause panics
+#![warn(clippy::expect_used)] // Discourage using .expect() which can cause panics
 #![deny(clippy::panicking_unwrap)] // Prevent unwrap on values known to cause panics
 #![deny(clippy::option_env_unwrap)] // Prevent unwrapping environment variables which might be absent
 
