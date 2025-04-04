@@ -220,29 +220,29 @@ You can also create your own bounded types:
 
 ```rust
 // DON'T: Use raw numeric types for domain values
-struct Product {
-    price: f64,  // Could be negative!
-    quantity: i32, // Could be negative!
+struct Measurement {
+    distance: f64,  // Could be negative!
 }
 
 // DO: Create bounded types
 #[derive(Debug, Clone, Copy)]
-struct NonNegativePrice(f64);
+struct Distance(f64);
 
-impl NonNegativePrice {
-    pub fn new(value: f64) -> Result<Self, PriceError> {
+impl Distance {
+    pub fn new(value: f64) -> Result<Self, DistanceError> {
         if value < 0.0 || !value.is_finite() {
-            return Err(PriceError::Invalid);
+            return Err(DistanceError::Invalid);
         }
-        Ok(NonNegativePrice(value))
+        Ok(Distance(value))
     }
 }
 
-struct Product {
-    price: NonNegativePrice,
-    quantity: NonZeroU32,
+struct Measurement {
+    distance: Distance,
 }
 ```
+
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=a9157c58ada88e85b82d835a5eceac66))
 
 ## Don't Index Into Arrays Without Bounds Checking
 
