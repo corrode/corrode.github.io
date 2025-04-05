@@ -1,7 +1,7 @@
 +++
 title = "Pitfalls of Safe Rust"
 date = 2025-04-01
-updated = 2025-04-04
+updated = 2025-04-05
 draft = false
 template = "article.html"
 [extra]
@@ -271,21 +271,24 @@ See [this blog post](https://shnatsel.medium.com/how-to-avoid-bounds-checks-in-r
 
 This issue is related to the previous one. 
 Say you have a slice and you want to split it at a certain index.
-A typical mistake is to use `split_at`:
 
 ```rust
+let mid = 4;
 let arr = [1, 2, 3];
-let (left, right) = arr.split_at(3);
+let (left, right) = arr.split_at(mid);
 ```
 
-**The above code will panic because the index is out of bounds!**
+You might expect that this returns a tuple of slices where the first slice contains all elements
+and the second slice is empty.
+
+**Instead, the above code will panic because the mid index is out of bounds!**
 
 To handle that more gracefully, use `split_at_checked` instead:
 
 ```rust
 let arr = [1, 2, 3];
 // This returns an Option
-match arr.split_at_checked(3) {
+match arr.split_at_checked(mid) {
     Some((left, right)) => {
         // Do something with left and right
     }
@@ -295,7 +298,8 @@ match arr.split_at_checked(3) {
 }
 ```
 
-Again, this returns an `Option` which allows you to handle the error case.
+This returns an `Option` which allows you to handle the error case.
+([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=8208b1a16e73e63d37799fed27cd1e49))
 
 More info about `split_at_checked` [here](https://doc.rust-lang.org/std/primitive.slice.html#method.split_at_checked).
 
