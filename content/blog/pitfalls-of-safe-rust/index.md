@@ -410,7 +410,10 @@ If you're curious to learn more, here is a more in-depth [blog post on the topic
 It's quite common to add a blanket `Default` implementation to your types.
 But that can lead to unforeseen issues.
 
-For example, here's a case where the port is set to 0 by default, which is not a valid port number:
+For example, here's a case where the port is set to 0 by default, which is not a valid port number.[^port]
+
+[^port]: Port 0 usually means that the OS will assign a random port for you.
+So, `TcpListener::bind("127.0.0.1:0").unwrap()` is valid, but it might not be supported on all operating systems or it might not be what you expect. See the [`TcpListener::bind`](https://doc.rust-lang.org/std/net/struct.TcpListener.html#method.bind) docs for more info.
 
 ```rust
 // DON'T: Implement `Default` without consideration
