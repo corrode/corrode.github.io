@@ -1,12 +1,13 @@
 +++
 title = "Rust Learning Resources 2025"
 date = 2025-03-06
+date = 2025-04-06
 template = "article.html"
 [extra]
 series = "Rust Insights"
 resources = [
     "[Why Rust?](/blog/why-rust)",
-    "[Making Your First Rust Real-Worldproject A Success](/blog/successful-rust-business-adoption-checklist/)",
+    "[Making Your First Rust Real-World project A Success](/blog/successful-rust-business-adoption-checklist/)",
 ]
 +++
 
