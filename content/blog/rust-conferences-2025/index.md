@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2025-03-06
+updated = 2025-04-12
 template = "article.html"
 draft = false
 [extra]
@@ -49,7 +49,7 @@ The organization, speaker lineup, and recordings are always top-notch.
 It's a great conference for Rust developers of all levels.
 As per tradition, they kick off the year of Rust conferences. 
 
-- **Recordings**: Available on [YouTube](https://www.youtube.com/watch?v=fmtykJT1acM&list=PL1AoGvxomykSSFFL4Qav3wKzL-dsi9I5L)
+- **Recordings Available on [YouTube](https://www.youtube.com/watch?v=fmtykJT1acM&list=PL1AoGvxomykSSFFL4Qav3wKzL-dsi9I5L)**
 - **When**: February 19-20, 2025
 - **Where**: [The Brewery, 52 Chiswell Street, London, EC1Y 4SD, UK](https://maps.app.goo.gl/QakezC3gjkyo7sNr9)
 - **Format**: 2 days (workshops + conference)
@@ -88,6 +88,7 @@ It features 12 speakers, 1 day of talks, and 250 attendees.
 
 An event in Poland, actively co-created by Rust enthusiasts.
 
+- **Recordings Available on [YouTube](https://www.youtube.com/watch?v=v3bpw7fcjp0&list=PLp10ZrVkzfVqLOjf9KXe25igeZXPNCwhL)**
 - **When**: March 15-16, 2025
 - **Where**: [Gliwice, Poland](https://maps.app.goo.gl/38cqAgQBnDG7nNvM7)
 - **Format**: 2 days (talks + workshops)
@@ -108,6 +109,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 Aims to bring together Rust developers from the region and beyond.
 Expect a developer-friendly atmosphere with ~15 expert talks in a single-track format, perfect for staying connected and engaged. After a day of learning, unwind with us in a local pub and network with fellow devs. 
 
+- **Recordings Available on [YouTube](https://www.youtube.com/watch?v=4QkLD7JhD_I&list=PL8NC5lCgGs6MnMLJvhFH2jLa8bLYwCzmI)**
 - **When**: March 26, 2025
 - **Where**: [POLIN Conference Centre, Warsaw](https://maps.app.goo.gl/XKR76zuE2D8XbZMp6)
 - **Format**: 1 day conference
@@ -227,11 +229,11 @@ RustForge is the first conference in the Asia/Pacific region that focuses on Rus
   - Conference: $225
   - Workshops: $425
   - [Get tickets here](https://rust-forge-2025.lilregie.com/booking/attendees/new)
-- **CFP**: TBA
+- **CFP**: [Open until 28th of August 2025](https://pretalx.com/rust-forge-2025/cfp) 
 - **Links**: [Website](https://rustforgeconf.com/)
 - **Social**: [Twitter](https://x.com/rustforgeconf) | [LinkedIn](https://www.linkedin.com/company/rustforgeconf/) | [Instagram](https://www.instagram.com/rustforgeconf/) 
 
-### RustConf (TBA)
+### RustConf (Seattle, Washington, USA)
 
 <a href="https://rustconf.com/" target="_blank">
   <img src="rustconf.jpg" alt="RustConf" />
@@ -241,14 +243,14 @@ RustConf is the official Rust conference organized by the Rust Foundation.
 It's a great place to meet the Rust core team and other community members.
 The last edition was held in Montreal, Canada and the 2025 edition will be announced soon.
 
-- **When**: September 2-4, 2025
+- **When**: September 2-5, 2025
 - **Where**: Seattle, Washington, USA
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
 - **Pricing**: TBA
-- **CFP**: TBA
+- **CFP**: [Open until 29th of April 2025](https://rustconf.com/submit-a-talk/) 
 - **Links**: [Website](https://rustconf.com/) | [Past Talks](https://www.youtube.com/@rustfoundation)
-- **Social**: [Twitter](https://x.com/rustconf)
+- **Social**: [Mastodon](https://hachyderm.io/@rustconf), [BlueSky](https://bsky.app/profile/rustconf.com)
 
 ### Oxidize (Berlin, Germany)
 
@@ -264,7 +266,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
 - **Pricing**: TBA
-- **CFP**: [Open until 1st of June 2025](https://pretalx.com/oxidize-conference-2025/cfp) 
+- **CFP**: [Open until 4th of May 2025](https://pretalx.com/oxidize-conference-2025/cfp) 
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
 
@@ -288,9 +290,7 @@ This time, it's in Paris, France. 🥖
 - **Where**: [Cité des Sciences et de l'Industrie, Paris, France](https://maps.app.goo.gl/4SNzfvFVF3VqMDY5A)
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
-- **Pricing**: 
-  - Private ticket (early bird): $120
-  - [Get tickets here](https://ti.to/events-matter/eurorust-2025)
+- **Pricing**: [Get tickets here](https://ti.to/events-matter/eurorust-2025)
 - **CFP**: [Open until 15th of May 2025](https://www.papercall.io/eurorust-2025)
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
@@ -308,7 +308,7 @@ It's lovingly organized featuring delicious italian food and a great community.
 - **Where**: [Grand Hotel Mediterraneo Lungarno del Tempio, 44, 50121 Florence, Italy](https://goo.gl/maps/8ZRuugSHEfebowwi7)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
-- **Pricing**: TBA
+- **Pricing**: $160 Early Bird Ticket. [Get tickets here](https://rustlab.it/tickets25) 
 - **CFP**: [Open until 25th of April](https://sessionize.com/rustlab-2025/) 
 - **Links**: [Website](https://rustlab.it/) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
