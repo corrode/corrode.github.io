@@ -1,7 +1,7 @@
 +++
 title = "Rust Learning Resources 2025"
 date = 2025-03-06
-date = 2025-04-06
+updated = 2025-04-06
 template = "article.html"
 [extra]
 series = "Rust Insights"
