@@ -20,7 +20,7 @@ DATABASE_URL=postgres://user:password@localhost:5432/mydb
 API_KEY=12345-abcde-67890-fghij
 ```
 
-The goal is to parse the above file and return a data structure that contains the key-value pairs.
+The goal is to parse the above content from a file called `.env` and return a data structure that contains the key-value pairs.
 
 I invite you to write your own version first.
 As a little hint, consider the edge-cases, which could occur.
@@ -32,9 +32,14 @@ At times I see code like the following to parse a `.env` file:
 ```rust
 use std::collections::HashMap;
 
-fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
-    let lines = src.split('\n').collect::<Vec<&str>>();
-
+fn parse_config_file<'a>(path: &'a str) -> HashMap<&'str, &'str> {
+    let p = Path::new(path);
+    let mut file = File::open(p).unwrap();
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes).unwrap();
+    let s = String::from_utf8_lossy(&bytes);
+    let lines = s.split('\n').collect::<Vec<&str>>();
+    
     let mut idx = 0;
     let mut cfg: HashMap<String, String> = HashMap::new();
     
@@ -43,7 +48,14 @@ fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
         let mut l = *lref;
         l = l.trim();
 
-        if l.starts_with("#") || l.len() == 0 {
+        // Skip empty lines
+        if l.len() == 0 {
+            idx += 1;
+            continue;
+        }
+
+        // Skip comments
+        if l.starts_with("#") {
             idx += 1;
             continue;
         }
@@ -54,7 +66,7 @@ fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
             let k: &str = parts[0].trim();
             let v: &str = parts[1].trim();
             
-            if key.len() > 0 {
+            if k.len() > 0 {
                 cfg.insert(k.to_string(), v.to_string());
             } else {
                 println!("Empty key found, skipping");
@@ -70,18 +82,24 @@ fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
 }
 ```
 
-I've seen way worse, but I would agree that this code looks quite ugly.
-However, I would argue that it's not because of the syntax, but rather the semantics
-and that there are way more ergonomic solutions in Rust.
+Let's be clear: this is terrifying code with many footguns.
+And yet, people use it as an excuse to call Rust an ugly language and give up on it.
 
-Immediately, one can make out a few red flags:
+However, I would argue that it's not because of Rust's syntax, but rather
+because there are way more ergonomic solutions in Rust.
+Typically, better semantics lead to easier to read syntax in Rust.
+If you feel like you're fighting the language (not just its borrow-checker!),
+then there's a chance that the language is trying to tell you that you're working against it.
+
+Immediately, one can make out a few red flags from the code above:
 - The code is littered with `unwrap()` calls
-- The code uses a sentinel value for empty values 
 - Manual indexing into arrays
 - Lifetime annotations -- a sign of premature optimization
 - Cryptic variable names
 
 It is safe to say that the code is not idiomatic Rust.
+
+Okay, but how can we do better?
 
 
 
