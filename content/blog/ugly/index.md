@@ -38,22 +38,14 @@ struct ParsedLine<'a> {
 }
 
 fn parse_line<'a>(line: &'a str) -> Option<ParsedLine<'a>> {
-    // Split on '=' and convert directly to array
     let parts: Vec<&str> = line.split('=').collect();
     
-    // Dangerous direct indexing without bounds checking
-    if parts.len() < 2 {
-        return None;
-    }
-    
     let key = parts[0].trim();
-    
-    // Could have multiple '=' characters, just use the first split
     let value = parts[1].trim();
     
     // Return sentinel for empty key
     if key.len() == 0 {
-        return Some(ParsedLine { key: "SENTINEL_EMPTY_KEY", value: "SENTINEL_EMPTY_VALUE" });
+        return Some(ParsedLine { key: "", value: "" });
     }
 
     Some(ParsedLine { key, value })
@@ -68,26 +60,25 @@ fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
         let lref = &lines[idx];
         let mut l = *lref;
         l = l.trim();
+
+        if l.starts_with("#") {
+            idx += 1;
+            continue;
+        }
         
-        if l.len() == 0 || l.starts_with("#") {
+        if l.len() == 0 {
             idx += 1;
             continue;
         }
 
-        if l.contains('=') {
-            let maybe_parsed = parse_line(l);
-            if maybe_parsed.is_some() {
-                let parsed = maybe_parsed.unwrap();
+        let parsed = parse_line(l);
+        if parsed.is_some() {
+            // This is safe because we just checked that it's Some
+            let p = parsed.unwrap();
 
-                let k = parsed.key.to_string();
-                let mut v = parsed.value.to_string();
-                
-                cfg.insert(k, v);
-            } else {
-                println!("Error parsing line: {}", l);
-            }
-        } else {
-            println!("Line is missing '=' but was allowed through: {}", l);
+            let k = p.key.to_string();
+            let v = p.value.to_string();
+            cfg.insert(k, v);
         }
 
         idx += 1;
