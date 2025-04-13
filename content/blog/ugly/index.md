@@ -32,27 +32,9 @@ At times I see code like the following to parse a `.env` file:
 ```rust
 use std::collections::HashMap;
 
-struct ParsedLine<'a> {
-    key: &'a str,
-    value: &'a str,
-}
-
-fn parse_line<'a>(line: &'a str) -> Option<ParsedLine<'a>> {
-    let parts: Vec<&str> = line.split('=').collect();
-    
-    let key = parts[0].trim();
-    let value = parts[1].trim();
-    
-    // Return sentinel for empty key
-    if key.len() == 0 {
-        return Some(ParsedLine { key: "", value: "" });
-    }
-
-    Some(ParsedLine { key, value })
-}
-
 fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
     let lines = src.lines().collect::<Vec<&str>>();
+
     let mut idx = 0;
     let mut cfg: HashMap<String, String> = HashMap::new();
     
@@ -61,26 +43,26 @@ fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
         let mut l = *lref;
         l = l.trim();
 
-        if l.starts_with("#") {
+        if l.starts_with("#") || l.len() == 0 {
             idx += 1;
             continue;
+        }
+
+        let parts: Vec<&str> = l.split('=').collect();
+        
+        if parts.len() >= 2 {
+            let key = parts[0].trim();
+            let value = parts[1].trim();
+            
+            if key.len() > 0 {
+                cfg.insert(key.to_string(), v.to_string());
+            } else {
+                println!("Empty key found, skipping");
+            }
+        } else {
+            println!("Line is missing '=': {}", l);
         }
         
-        if l.len() == 0 {
-            idx += 1;
-            continue;
-        }
-
-        let parsed = parse_line(l);
-        if parsed.is_some() {
-            // This is safe because we just checked that it's Some
-            let p = parsed.unwrap();
-
-            let k = p.key.to_string();
-            let v = p.value.to_string();
-            cfg.insert(k, v);
-        }
-
         idx += 1;
     }
 
