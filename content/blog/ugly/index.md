@@ -33,7 +33,7 @@ At times I see code like the following to parse a `.env` file:
 use std::collections::HashMap;
 
 fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
-    let lines = src.lines().collect::<Vec<&str>>();
+    let lines = src.split('\n').collect::<Vec<&str>>();
 
     let mut idx = 0;
     let mut cfg: HashMap<String, String> = HashMap::new();
@@ -48,14 +48,14 @@ fn parse_config_file<'a>(src: &'a str) -> HashMap<String, String> {
             continue;
         }
 
-        let parts: Vec<&str> = l.split('=').collect();
+        let parts = l.split('=').collect::<Vec<&str>>();
         
         if parts.len() >= 2 {
-            let key = parts[0].trim();
-            let value = parts[1].trim();
+            let k: &str = parts[0].trim();
+            let v: &str = parts[1].trim();
             
             if key.len() > 0 {
-                cfg.insert(key.to_string(), v.to_string());
+                cfg.insert(k.to_string(), v.to_string());
             } else {
                 println!("Empty key found, skipping");
             }
