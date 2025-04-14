@@ -33,15 +33,15 @@ At times I see code like the following to parse a `.env` file:
 use std::collections::HashMap;
 
 fn parse_config_file<'a>(path: &'a str) -> HashMap<&'str, &'str> {
-    let p = Path::new(path);
-    let mut file = File::open(p).unwrap();
+    let p = Path::new(&path);
+    let mut file = File::open(&p).unwrap();
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes).unwrap();
     let s = String::from_utf8_lossy(&bytes);
     let lines = s.split('\n').collect::<Vec<&str>>();
     
     let mut idx = 0;
-    let mut cfg: HashMap<String, String> = HashMap::new();
+    let mut cfg: HashMap<&'a str, &'a str> = HashMap::new();
     
     while idx < lines.len() {
         let lref = &lines[idx];
@@ -62,23 +62,18 @@ fn parse_config_file<'a>(path: &'a str) -> HashMap<&'str, &'str> {
 
         let parts = l.split('=').collect::<Vec<&str>>();
         
-        if parts.len() >= 2 {
-            let k: &str = parts[0].trim();
+        let k: &str = parts[0].trim();
+        if k.len() > 0 {
             let v: &str = parts[1].trim();
-            
-            if k.len() > 0 {
-                cfg.insert(k.to_string(), v.to_string());
-            } else {
-                println!("Empty key found, skipping");
-            }
+            cfg.insert(k.to_string(), v.to_string());
         } else {
-            println!("Line is missing '=': {}", l);
+            println!("Error in line {:?}", parts);
         }
         
         idx += 1;
     }
 
-    cfg
+    return cfg;
 }
 ```
 
@@ -96,6 +91,9 @@ Immediately, one can make out a few red flags from the code above:
 - Manual indexing into arrays
 - Lifetime annotations -- a sign of premature optimization
 - Cryptic variable names
+
+On top of that, there are plenty of business logic bugs in the code,
+because the code makes quite a few unjustified assumptions.
 
 It is safe to say that the code is not idiomatic Rust.
 
