@@ -50,7 +50,7 @@ Victor is a well-known C++ expert leading Microsoft's Rust adoption efforts. His
 - [COM](https://en.wikipedia.org/wiki/Component_Object_Model) - The "grandfather of all inter-op technology"
 - [Direct Write Core](https://learn.microsoft.com/en-us/windows/win32/directwrite/dwritecore-overview) - Microsoft's text rendering implementation in Rust
 - [Hyrum's Law](https://www.hyrumslaw.com/) - Your users will end up depending on all of your observable internal behavior
-- [LWN Article on initial Rust/Linux fallout](https://lwn.net/Articles/907685/) - Discussion about Rust integration into the Linux kernel
+- [LWN Article on initial Rust/Linux fallout](https://lwn.net/Articles/1006805/) - Discussion about Rust integration into the Linux kernel
 - [clippy](https://github.com/rust-lang/rust-clippy) - Static Analyzer for Rust code
 - [ABI Resilience](https://www.youtube.com/watch?v=EpJWD6HowKc) - Victor's talk at Rust Nation UK
 - [MSBuild](https://learn.microsoft.com/en-gb/visualstudio/msbuild/msbuild) - Microsoft's build tool
