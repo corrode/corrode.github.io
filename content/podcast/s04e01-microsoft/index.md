@@ -35,10 +35,7 @@ A while ago, Microsoft started an initiative to bring Rust into core parts of th
 
 ### About Victor Ciura 
 
-Victor is a well-known C++ expert with decades of experience.
-He leads an effort to bring Rust into Microsoft.
-Part of his work is to make sure that Rust can interoperate well with the existing C++ codebase and to make sure that the Rust compiler and its toolchain can be flawlessly integrated into the Microsoft ecosystem.
-
+Victor is a well-known C++ expert leading Microsoft's Rust adoption efforts. His work focuses on ensuring Rust interoperates with existing C++ codebases and integrating the Rust compiler and toolchain into the Microsoft ecosystem.
 
 ### Links From The Episode
 
