@@ -67,7 +67,7 @@ fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
         }
 
         // Skip comments
-        if l.starts_with("#") {
+        if l[0] == '#' {
             idx += 1;
             continue;
         }
@@ -273,13 +273,322 @@ Learn to do it the "Rustic way."
 
 We have seen plenty of ways to write better Rust code in previous articles:
 
+- Read the standard library documentation
 - Think in expressions
 - Immutability by default
 - Leaning into the typesystem 
 - Iterator patterns instead of manual iteration
 - Proper error handling
+- Split up the problem into smaller parts
 
-Even just following this basic advice, we can get it into a much better shape.
+Even just applying these basic techniques, we can get it into a much better shape.
+
+
+Let's start by removing this boilerplate 
+
+```rust
+let p = Path::new(&path);
+let mut file = File::open(&p).unwrap();
+let mut bytes = Vec::new();
+file.read_to_end(&mut bytes).unwrap();
+let s = String::from_utf8_lossy(&bytes).to_string();
+```
+
+and instead calling [`std::fs::read_to_string`](https://doc.rust-lang.org/std/fs/fn.read_to_string.html):
+
+```rust
+let s = read_to_string(path).unwrap();
+```
+
+Rust is really good at inferring types. That's why we don't need to specify the type of
+our `HashMap` explicitly.
+
+```rust
+let mut config = HashMap::new();
+```
+
+Next, manual string splitting is also unnecessary.
+
+```rust
+let lines_with_refs: Vec<&'a str> = s.split('\n').collect();
+```
+
+The above can be replaced with:
+
+```rust
+let lines = s.lines();
+```
+
+This returns an [iterator over the lines of a string](https://doc.rust-lang.org/std/primitive.str.html#method.lines).
+
+With that, we can simply iterate over each line:
+
+```rust
+for line in s.lines() {
+    let line = line.trim();
+
+    if line.is_empty() || line.starts_with("#") {
+        continue;
+    }
+
+    // ...
+}
+```
+
+Note that we shadow `line` with `line.trim()`.
+That is a common practice in Rust.
+This way we don't have to come up with a new name for the trimmed line
+and we also don't have to fall back to cryptic names like `lref` or `l` anymore.
+
+Instead of `line.len() == 0`, we can use `line.is_empty()`.
+
+We can also use `line.starts_with("#")` instead of checking for `l[0] == '#'`.
+
+Next, let's tackle this part:
+
+```rust
+let parts = l.split('=').collect::<Vec<&str>>();
+
+let k: &str = parts[0].trim();
+if k.len() > 0 {
+    let v: &str = parts[1].trim();
+    cfg.insert(k.to_string(), v.to_string());
+} else {
+    println!("Error in line {:?}", parts);
+}
+```
+
+Note how we access `parts[0]` and `parts[1]` without checking if they exist.
+Let's lean into the typesystem a little more and use pattern matching to destructure the result of `split`:
+
+```rust
+match l.split_once('=') {
+    Some((k, v)) => {
+        let k = k.trim();
+        if !k.is_empty() {
+            let v = v.trim();
+            config.insert(k.to_string(), v.to_string());
+        } else {
+            println!("Error in line {:?}", parts);
+        }
+    }
+    None => println!("Error in line {:?}", parts),
+}
+```
+
+With that, we end up with an improved version of the code:
+
+```rust
+use std::collections::HashMap;
+use std::fs::File;
+use std::io::Read;
+use std::path::Path;
+
+fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
+    let s = read_to_string(path).unwrap();
+
+    let mut config = HashMap::new();
+    for line in s.lines() {
+        let line = line.trim();
+
+        if line.is_empty() || line.starts_with("#") {
+            continue;
+        }
+
+        match l.split_once('=') {
+            Some((k, v)) => {
+                let k = k.trim();
+                if !k.is_empty() {
+                    let v = v.trim();
+                    config.insert(k.to_string(), v.to_string());
+                } else {
+                    println!("Error in line {:?}", parts);
+                }
+            }
+            None => println!("Error in line {:?}", parts),
+        }
+        
+    }
+
+    return config;
+}
+```
+
+This is already cleaner. We can go one step further with proper error handling.
+It depends on the business logic how you want to handle invalid lines.
+Here's a version, which returns an error in the case:
+
+```rust
+fn parse_config_file<'a>(path: &'a str) -> Result<HashMap<String, String>, ParseError> {
+    let s = read_to_string(path)?;
+
+    let mut config = HashMap::new();
+    for line in s.lines() {
+        let line = line.trim();
+
+        if line.is_empty() || line.starts_with("#") {
+            continue;
+        }
+
+        match l.split_once('=') {
+            Some((k, v)) => {
+                let k = k.trim();
+                if !k.is_empty() {
+                    let v = v.trim();
+                    config.insert(k.to_string(), v.to_string());
+                } else {
+                    return Err(ParseError::InvalidLine(line.to_string()));
+                }
+            }
+            None => return Err(ParseError::InvalidLine(line.to_string())),
+        }
+        
+    }
+
+    Ok(config)
+}
+```
+
+Next, let's write a function for parsing individual lines. 
+
+```rust
+fn parse_line(line: &str) -> Result<Option<(String, String)>, ParseError> {
+    let line = line.trim();
+
+    if line.is_empty() || line.starts_with("#") {
+        return Ok(None);
+    }
+
+    match line.split_once('=') {
+        Some((k, v)) => {
+            let k = k.trim();
+            if !k.is_empty() {
+                let v = v.trim();
+                Ok(Some((k.to_string(), v.to_string())))
+            } else {
+                Err(ParseError::InvalidLine(line.to_string()))
+            }
+        }
+        None => Err(ParseError::InvalidLine(line.to_string())),
+    }
+}
+```
+
+We can even introduce an enum to represent a parsed line:
+
+```rust
+#[derive(Debug)]
+enum ParsedLine {
+    Comment,
+    Empty,
+    KeyValue(String, String),
+}
+```
+
+Then we can use it like this:
+
+```rust
+fn parse_line(line: &str) -> Result<ParsedLine, ParseError> {
+    let line = line.trim();
+
+    if line.is_empty() {
+        return Ok(ParsedLine::Empty);
+    }
+
+    if line.starts_with("#") {
+        return Ok(ParsedLine::Comment);
+    }
+
+    match line.split_once('=') {
+        Some((k, v)) => {
+            let k = k.trim();
+            if !k.is_empty() {
+                let v = v.trim();
+                Ok(ParsedLine::KeyValue(k.to_string(), v.to_string()))
+            } else {
+                Err(ParseError::InvalidLine(line.to_string()))
+            }
+        }
+        None => Err(ParseError::InvalidLine(line.to_string())),
+    }
+}
+```
+
+The concept is to rely on the type system to make the code more readable and maintainable. 
+We could even go one step further and express more complexity in the type system.
+
+```rust
+struct KeyValue {
+    key: String,
+    value: String,
+}
+
+impl TryFrom<&str> for KeyValue {
+    type Error = ParseError;
+
+    fn try_from(line: &str) -> Result<Self, Self::Error> {
+        let line = line.trim();
+
+        if line.is_empty() || line.starts_with("#") {
+            return Err(ParseError::InvalidLine(line.to_string()));
+        }
+
+        match line.split_once('=') {
+            Some((k, v)) => {
+                let k = k.trim();
+                if !k.is_empty() {
+                    let v = v.trim();
+                    Ok(KeyValue {
+                        key: k.to_string(),
+                        value: v.to_string(),
+                    })
+                } else {
+                    Err(ParseError::InvalidLine(line.to_string()))
+                }
+            }
+            None => Err(ParseError::InvalidLine(line.to_string())),
+        }
+    }
+}
+```
+
+It might look like we made the problem more complicated than it is.
+However, we can test the `KeyValue` struct in isolation now and 
+we handle the errors close to the source of the problem.
+
+Our main function now becomes way easier:
+
+```rust
+fn parse_config_file<'a>(path: &'a str) -> Result<HashMap<String, String>, ParseError> {
+    let s = read_to_string(path)?;
+
+    let mut config = HashMap::new();
+    for line in s.lines() {
+        match KeyValue::try_from(line) {
+            Ok(kv) => {
+                config.insert(kv.key, kv.value);
+            }
+            Err(e) => return Err(e),
+        }
+    }
+
+    Ok(config)
+}
+```
+
+And by extension we can also turn the `parse_config_file` into a struct:
+
+```rust
+struct EnvFileParser {
+    
+
+
+
+
+
+
+
+
 
 
 
