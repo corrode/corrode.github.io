@@ -12,6 +12,8 @@ episode = "01"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-ec2b56fd" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/microsoft-with-victor-ciura/player.js?size=s"></script></div>
+
 Victor Ciura is a veteran C++ developer who worked on Visual C++ and the Clang Power Tools.
 In this first episode of season 4, we talk to him about large-scale Rust adoption at Microsoft.
 
@@ -50,7 +52,6 @@ Victor is a well-known C++ expert leading Microsoft's Rust adoption efforts. His
 - [COM](https://en.wikipedia.org/wiki/Component_Object_Model) - The "grandfather of all inter-op technology"
 - [Direct Write Core](https://learn.microsoft.com/en-us/windows/win32/directwrite/dwritecore-overview) - Microsoft's text rendering implementation in Rust
 - [Hyrum's Law](https://www.hyrumslaw.com/) - Your users will end up depending on all of your observable internal behavior
-- [LWN Article: Maintainer opinions on Rust-for-Linux](https://lwn.net/Articles/1007921/) - Miguel Ojeda's FOSDEM 2025 talk about Rust in Linux with voices from the maintainers
 - [LWN Article: Rust/Linux fallout](https://lwn.net/Articles/1006805/) - Discussion about Rust integration into the Linux kernel
 - [clippy](https://github.com/rust-lang/rust-clippy) - Static Analyzer for Rust code
 - [ABI Resilience](https://www.youtube.com/watch?v=EpJWD6HowKc) - Victor's talk at Rust Nation UK
