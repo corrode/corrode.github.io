@@ -24,9 +24,9 @@ At the heart of InfinyOn is Fluvio, a Rust-based data streaming platform that's 
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About InfinyOn
 

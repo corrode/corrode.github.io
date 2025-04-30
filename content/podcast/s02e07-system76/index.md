@@ -22,9 +22,9 @@ In this episode of Rust in Production, Jeremy talks about his journey. From gett
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About System76
 

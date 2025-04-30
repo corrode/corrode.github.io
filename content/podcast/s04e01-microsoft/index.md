@@ -25,9 +25,9 @@ He is a regular speaker at conferences like CPPCon and also spoke at EuroRust 20
 
 We talk about Microsoft's first steps with Rust, widespread implementation across key products and services, and Hyrum's Law.
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About Microsoft
 

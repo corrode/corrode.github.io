@@ -23,9 +23,9 @@ faster.
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About PubNub
 

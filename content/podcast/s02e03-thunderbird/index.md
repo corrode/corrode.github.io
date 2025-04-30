@@ -27,9 +27,9 @@ the challenges of working on a legacy codebase, the new Rust-based Exchange prot
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About MZLA
 

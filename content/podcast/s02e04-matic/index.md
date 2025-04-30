@@ -28,9 +28,9 @@ large Rust codebases, and why Rust is a great language for the problem space.
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About Matic
 

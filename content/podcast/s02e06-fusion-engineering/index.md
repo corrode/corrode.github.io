@@ -20,9 +20,9 @@ Jakub Valtar walks us through how Fusion Engineering came to use Rust as the fou
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About Fusion Engineering
 

@@ -21,9 +21,9 @@ We talk about the challenges of certifying Rust code for the automotive industry
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About OxidOS
 

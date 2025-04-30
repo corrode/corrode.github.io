@@ -20,9 +20,9 @@ Web browsers today face increasing demands for both performance and privacy. At 
 
 Today we're joined by Anton Lazarev, Senior Software Engineer at Brave, to discuss how they're using Rust to build a high-performance ad-blocker, the challenges of working within browser constraints, and how they're pushing the boundaries of what's possible in modern web privacy.
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About Brave
 

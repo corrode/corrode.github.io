@@ -18,9 +18,9 @@ In the season premier we talk to none other than Daniel Stenberg! We focus on in
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About curl
 

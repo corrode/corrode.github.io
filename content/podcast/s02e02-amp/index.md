@@ -25,9 +25,9 @@ and building a cutting-edge production-ready system, which can be now replicated
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About AMP
 

@@ -20,10 +20,9 @@ Think about this: software engineers have modern code editors, parallel processi
 
 Today we're joined by Jessie Frazelle, CEO of Zoo (formerly KittyCAD), to talk about migrating core parts of Zoo's infrastructure to Rust, boring infrastructure, how Rust can help bridge the gap between software and hardware development, and how Zoo is building the foundation for the next generation of hardware development tools.
 
+{{ codecrafters() }}
 
 ## Show Notes
-
-{{ codecrafters() }}
 
 ### About Zoo
 

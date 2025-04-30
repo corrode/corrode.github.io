@@ -27,9 +27,9 @@ the first place.
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About GitButler
 

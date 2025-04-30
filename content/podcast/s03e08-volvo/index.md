@@ -21,9 +21,9 @@ Therefore, it's even more exciting to see a company like Volvo Cars embracing Ru
 
 We talked to Julius Gustavsson, System Architect at Volvo Cars, about the use of Rust for their Electronic Control Units (ECUs) in Volvo's EX90 and Polestar 3 models and how they are building a Rust ecosystem within the company.
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About Volvo
 

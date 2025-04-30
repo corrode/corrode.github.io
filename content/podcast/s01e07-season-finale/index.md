@@ -26,9 +26,9 @@ there were definitely some surprises and unexpected turns along the way!
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### Links from the Episode (in order of appearance)
 

@@ -20,9 +20,9 @@ Apollo GraphQL Platform.
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 GraphQL is at the core of companies like GitHub, trivago, and Facebook. In this
 episode, Nicolas, a staff software engineer at Apollo GraphQL, discusses the

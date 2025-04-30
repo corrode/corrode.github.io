@@ -21,9 +21,9 @@ In this episode, I talk to Steve Klabnik, a software engineer at Oxide and renow
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 ### About Oxide Computer Company
 

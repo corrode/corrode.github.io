@@ -20,9 +20,9 @@ for data engineers with Rust.
 
 <!-- more -->
 
-## Show Notes
-
 {{ codecrafters() }}
+
+## Show Notes
 
 Data engineers are responsible for building and maintaining the data
 infrastructure of a company. They are the ones who make sure that data is
