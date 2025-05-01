@@ -1,5 +1,5 @@
 +++
-title = "Thanks for stopping by!"
+title = "Matthias Endler, Your Rust Mentor"
 template = "page.html"
 sort_by = "date"
 description = "Hi, I'm Matthias Endler, a Rust developer and open-source maintainer. I help clients worldwide get the most out of Rust through training, consulting, and contracting, providing no-frills, easy-to-follow, idiomatic Rust code."
@@ -12,9 +12,12 @@ description = "Hi, I'm Matthias Endler, a Rust developer and open-source maintai
 
 Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open-source maintainer with 20 years of experience in software development.
 
-I help clients worldwide get the most out of Rust through training, consulting, and writing no-frills, easy-to-follow, [idiomatic Rust](/blog) code.
+I help clients worldwide get the most out of Rust through training and consulting.
+I like no-frills, easy-to-follow, [idiomatic Rust](/blog) code.
 
-But code is rarely the most important part! I deeply care about the people I work with. Software development is a team effort, and I'll ensure that you and your colleagues feel heard and have a great experience working with me.
+But code is rarely the most important part!
+Software development is a team effort, and I'll ensure that you and your colleagues feel heard and have a great experience working with me.
+I deeply care about the people I work with. 
 
 Don't take my word for it. Here's what <a href="https://www.linkedin.com/in/drernie/" target="_blank" rel="noopener noreferrer nofollow">Ernest</a> from
 <a href="https://www.quiltdata.com/" target="_blank" rel="noopener noreferrer nofollow">Quilt</a> recently had to say: 
@@ -23,7 +26,7 @@ Don't take my word for it. Here's what <a href="https://www.linkedin.com/in/drer
 
 ## Media
 
-Featured in:
+I'm thankful to be featured in various podcasts and interviews. Here are some of my recent appearances:
 
 - Rustacean Station Podcast - [lychee and Open Source Maintenance](https://rustacean-station.org/episode/matthias-endler/)
 - Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
@@ -34,7 +37,7 @@ Featured in:
 
 ## Talks
 
-Recent speaking engagements on Rust:
+From time to time I give talks about Rust and open-source software.
 
 - Softwerkskammer Cologne Meetup - [Testing in Rust](https://www.meetup.com/softwerkskammer-koln/events/300415441/)
 - inovex Meetup Cologne, Germany - [Rust in Production](https://speakerdeck.com/mre/rust-in-production)
