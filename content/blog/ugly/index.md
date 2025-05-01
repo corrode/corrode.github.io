@@ -867,6 +867,30 @@ Now, every part has one clearly defined responsibility:
 I skipped a few intermediate steps, but the idea is always the same: continuously
 look for wrinkles in the code and move more and more logic into the type system.
 
+## Did You Find All The Edge Cases?
+
+Parsing environment files sounds simple on the surface, but that is not the case.
+How many of these cases did you catch in your implementation?
+
+- **Empty lines** - Should be skipped
+- **Comment lines** - Lines starting with `#` should be skipped
+- **Whitespace in keys/values** - Leading and trailing whitespace should be trimmed
+- **Empty keys** - Lines like `=value` should be rejected
+- **Empty values** - Lines like `key=` should be allowed! (With empty string value)
+- **Missing equals sign** - Lines without an equals sign should be rejected
+- **Multiple equals signs** - How do you handle `key=value=more`? On Unix, this is valid and everything after the first `=` is part of the value
+- **Indented lines** - Lines with leading whitespace should be parsed normally
+- **Duplicate keys** - Later values should overwrite earlier ones
+- **Quoted values** - How do you handle `key="value"`? Our solution preserves the quotes
+- **Escaping** - How do you handle `key=value\nwith\nnewlines` or `key=value#notacomment`?
+- **Line continuations** - What about multi-line values with backslash? I don't handle them right now.
+- **Unicode characters** - How does your parser handle non-ASCII content?
+- **Invalid UTF-8** - How do you handle files with encoding errors?
+
+A robust parser would need to handle all these cases, with clear behavior defined for each.
+Our improved implementation handles many of these cases, but not all.
+This just goes to show that it's easy to gloss over details.
+
 ## Summary
 
 If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity of the underlying system.
