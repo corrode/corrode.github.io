@@ -21,7 +21,7 @@ LOG_FILE=app.log
 ```
 
 The goal is to parse the above content from a file called `.env` and return a data structure that contains the key-value pairs.
-Easy!
+Sounds simple enough!
 
 I invite you to write your own version first.
 Or at least take a second to consider all the edge-cases that may occur...
