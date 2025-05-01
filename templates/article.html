@@ -1,8 +1,44 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<script src="/scripts/clipboard.js"></script>
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ current_url | safe }}"
+      },
+      "headline": "{{ page.title | safe }}",
+      {%- if social_description and social_description | length > 0 %}
+      "description": "{{ social_description | striptags | escape | safe }}",
+      {%- endif %}
+      {% if page.extra.hero %}
+      "image": "{{ get_url(path=page.extra.hero) }}",
+      {% endif %}
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "{{ page.date }}",
+      {% if page.updated %}
+      "dateModified": "{{ page.updated }}"
+      {% else %}
+      "dateModified": "{{ page.date }}"
+      {% endif %}
+    }
+    </script>
 {% endblock %}
+
 
 
 {% block content %}
@@ -16,9 +52,9 @@
       <span class="icon-calendar"></span>
       <span>
         {% if page.updated %}
-          Last updated {{ page.updated }}
+          Last updated: {{ page.updated }}
         {% else %}
-          Published {{ page.date }}
+          Published: {{ page.date }}
         {% endif %}
       </span>
     </div>
