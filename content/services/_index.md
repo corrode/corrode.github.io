@@ -20,7 +20,10 @@ knowledge silos. You're stuck, afraid of making the wrong move.
 
 What you need is to move forward with confidence. You want excellent Rust that's robust, testable, quick to compile, and easy for your team to extend. You want Rust projects that are a joy to work with.
 
-**Your teams will spend thousands of hours maintaining Rust services. Spend a few more to learn how to do it well. Get a mentor; don't struggle alone Together we'll build a codebase you'll love to work with – the one you always wanted.**
+
+**Your teams will spend thousands of hours maintaining Rust services. Spend a few more to learn how to do it well.**
+**Get a mentor; don't struggle alone.**
+**Together we'll build a codebase you'll love working with and feel confident maintaining yourself.**
 
 ## Let's Find The Right Support For Your Team
 
@@ -148,13 +151,16 @@ const formUrl = "https://submit-form.com/r7PT0RxiL";
 
 {% end %}
 
-## How I Can Help
+## Why Me?
 
 The right mentor can change your trajectory.
 
-I offer friendly, human-centered training based on a decade of Rust experience and dozens of production success stories. I provide tailored support for teams who care about their craft.
+I offer **friendly, human-centered** mentoring based on a decade of Rust experience and dozens of production success stories.
+This is not your typical run-of-the-mill consulting, but tailored support for teams who care.
 
-My training gets your Rust to production in half the time and trains your team in 2 months instead of 4. It's the training you need for the years to come, teaching you how to write Rust well before getting out of your way. I focus on alignment, clarity, and idiomatic Rust.
+My training gets your Rust to production in half the time and trains your team in 2 months instead of 4.
+It's the training which prepares you for the years to come, teaching you how to write Rust **well** before getting out of your way.
+I'll focus on navigating the Rust crate ecosystem, systems architecture, code reviews, and idiomatic Rust.
 
 {% info(title="Feedback From Happy Customers", icon="heart") %}
 
