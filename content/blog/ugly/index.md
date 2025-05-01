@@ -608,3 +608,5 @@ People don't confront their bad habits and find workarounds. That's the origin o
 
 
 Assumptions about the program’s execution order are often wrong
+
+You have to understand the background: Rust is a systems programming language. It competes with C/C++ and for that it has better readability than C/C++ with modern syntax
