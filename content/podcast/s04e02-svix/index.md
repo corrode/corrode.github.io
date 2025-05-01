@@ -12,6 +12,8 @@ episode = "02"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-db5e5052" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/svix-with-tom-hacohen/player.js?size=s"></script></div>
+
 We don't usually think much about Webhooks -- at least I don't.
 It's just web requests after all, right? 
 In reality, there is a lot of complexity behind routing webhook requests through the internet.
