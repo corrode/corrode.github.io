@@ -7,10 +7,10 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-Its clear that Rust has a readability problem -- or at least that's what people say on a regular basis.
-But after programming in Rust for 10 years, I think that your coding style has the biggest impact on how your Rust code will look and feel.
+It's clear that Rust has a readability problem -- or at least that's what people claim on a regular basis.
+After programming in Rust for 10 years, I think that your coding style has the biggest impact on how your Rust code will look and feel.
 
-Let's take at a simple example: parsing a `.env` file in Rust. How hard can it be?
+Let's take a simple example: parsing a `.env` file in Rust. How hard can it be?
 
 ```sh
 DB_HOST=localhost
@@ -24,7 +24,7 @@ The goal is to parse the above content from a file called `.env` and return a da
 Easy!
 
 I invite you to write your own version first.
-Or at least take a second to consider all the edge-cases, that may occur...
+Or at least take a second to consider all the edge-cases that may occur...
 
 ## A Painful First Attempt
 
@@ -192,21 +192,16 @@ fn main() {
 ```
 
 Let's be clear: there are many, many antipatterns in the above code.
+Most of them have nothing to do with Rust, but with software engineering in general.
 
-Many antipatterns in the code have nothing to do with Rust, but with software engineering in general.
-And yet, people take a quick look and use it as an excuse to call Rust an "ugly language" and give up on it.
+The code carries all the hallmarks of a beginner Rust programmer -- possibly with a C/C++ background -- who has not yet fully embraced the ergonomics Rust provides.
 
-I would argue that this code is ugly less because of Rust's syntax, but rather
-because the author is unaware or ignorant of the ergonomics Rust provides.
-The code carries all the hallmarks of a beginner Rust programmer -- possibly with a C/C++ background -- who  
-has not yet fully embraced what Rust brings to the table.
-
-In my experience, **better semantics brings nicer syntax in Rust**; many people get that backwards.
+## Better semantics enable nicer syntax in Rust
 
 If you feel like you're fighting the language (not just its borrow-checker!),
-then there's a chance that **the language is trying to push you in a different direction**.
+then there's a chance that **the language is trying to push you into a different direction**.
 
-It bears repeating: this is terrifying code with many footguns.
+It bears repeating: the above code is terrifying and contains many footguns.
 Without much effort, one can make out the red flags:
 
 - The code is littered with `unwrap()` calls
@@ -220,7 +215,9 @@ This not just makes the code harder to read.
 What is worse is that it leads to business logic bugs in the code, because the code makes quite a few unsound assumptions about its input.
 This makes it hard for Rust to help you out.
 
-Whenever I see people struggle with Rust syntax, I'm reminded of the five stages of grief:
+Whenever I see people struggle with Rust syntax, I'm reminded of...
+
+## The five stages of grief 
 
 #### Stage 1: Denial
 
@@ -252,14 +249,14 @@ Reality sets in. Code becomes increasingly convoluted with superfluous mutable v
 
 Finally, developers begin embracing idiomatic patterns and the design philosophy behind Rust. They refactor their spaghetti code and leverage the type system rather than fight it. Code becomes more maintainable, and they wonder how they ever wrote memory-unsafe code with confidence.
 
-Okay, you (or your team-member) reached acceptance, how can you do better?
-
 ## Let Go Of Old Bad Habits
+
+Okay, you (or your team-member) reached acceptance, how can you do better?
 
 The first step is to acknowledge that the code goes against Rust's design principles.
 Based on this realization, we can systematically improve the code.
 
-Ugly code is band-aid around bad habits.
+Ugly code is a band-aid around bad habits.
 Learn to do it the "Rustic way."
 
 We have seen plenty of ways to write better Rust code in previous articles:
@@ -276,15 +273,18 @@ Even just applying these basic techniques, we can get our code into a much bette
 
 {% info(title="Try It Out Yourself!") %}
 
-Feel free to use the above code as a refactoring exercise to practice these techniques.
+This is a hands-on exercise.
+Feel free to paste the above code into your editor and practice refactoring it. 
 Here's the [link to the Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=2510df77c1c8c6a227680ea49407fe18).
-I'll wait here while you experiment with the code.
+I'll wait here.
 
 {% end %}
 
 ### Read the Standard Library Documentation
 
-After reading the standard library documentation, we can remove this boilerplate 
+Many common patterns are beautifully handled by the standard library.
+It is worth your time to read the documentation.
+For instance, you will find that you can get rid of all of of this boilerplate:
 
 ```rust
 let p = Path::new(&path);
@@ -297,6 +297,8 @@ let s = String::from_utf8_lossy(&bytes).to_string();
 and instead call [`std::fs::read_to_string`](https://doc.rust-lang.org/std/fs/fn.read_to_string.html):
 
 ```rust
+use std::fs::read_to_string;
+
 let s = read_to_string(path).unwrap();
 ```
 
@@ -311,13 +313,19 @@ let mut config = HashMap::new();
 
 ### Lean Into the Typesystem
 
-Next, manual string splitting is also unnecessary.
+Manual string splitting is not necessary and very much discouraged.
+The reason is that strings are, in fact, very complicated.
+There is a perception that it's just an array of "characters", but that is ill-defined
+and a dangerous assumption.
 
 ```rust
 let lines_with_refs: Vec<&'a str> = s.split('\n').collect();
 ```
 
-The above can be replaced with:
+This line expects that lines are separated by `\n`.
+That's not true on Windows, where lines are separated by `\r\n`.
+
+The following line does the correct thing on all platforms:
 
 ```rust
 let lines = s.lines();
@@ -325,7 +333,7 @@ let lines = s.lines();
 
 This returns an [iterator over the lines of a string](https://doc.rust-lang.org/std/primitive.str.html#method.lines).
 
-With that, we can simply iterate over each line:
+Knowing that, we can instead iterate over each line:
 
 ```rust
 for line in s.lines() {
@@ -344,9 +352,8 @@ That is a common practice in Rust.
 This way we don't have to come up with a new name for the trimmed line
 and we also don't have to fall back to cryptic names like `lref` or `l` anymore.
 
-Instead of `line.len() == 0`, we can use `line.is_empty()`.
-
-We can also use `line.starts_with("#")` instead of checking for `l.chars().next() == Some('#')`.
+Instead of `line.len() == 0`, we use `line.is_empty()` now.
+And `line.starts_with("#")` is easier to read than checking with `l.chars().next() == Some('#')`.
 
 Next, let's tackle this part:
 
@@ -363,20 +370,21 @@ if k.len() > 0 {
 ```
 
 Note how we access `parts[0]` and `parts[1]` without checking if these are valid indices. 
-Let's lean into the typesystem a little more and use pattern matching to destructure the result of `split`:
+The code only coincidentally works for well-formed inputs. 
+Fortunately, we don't have to do all this if we lean into the typesystem a little more and use pattern matching to destructure the result of `split_once`:
 
 ```rust
-match l.split_once('=') {
+match line.split_once('=') {
     Some((k, v)) => {
         let k = k.trim();
         if !k.is_empty() {
             let v = v.trim();
             config.insert(k.to_string(), v.to_string());
         } else {
-            println!("Error in line {:?}", parts);
+            println!("Error in line with empty key");
         }
     }
-    None => println!("Error in line {:?}", parts),
+    None => println!("Error in line: no '=' found"),
 }
 ```
 
@@ -384,11 +392,9 @@ With that, we end up with a greatly improved version of the code:
 
 ```rust
 use std::collections::HashMap;
-use std::fs::File;
-use std::io::Read;
-use std::path::Path;
+use std::fs::read_to_string;
 
-fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
+fn parse_config_file(path: &str) -> HashMap<String, String> {
     let s = read_to_string(path).unwrap();
 
     let mut config = HashMap::new();
@@ -399,33 +405,70 @@ fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
             continue;
         }
 
-        match l.split_once('=') {
+        match line.split_once('=') {
             Some((k, v)) => {
                 let k = k.trim();
                 if !k.is_empty() {
                     let v = v.trim();
                     config.insert(k.to_string(), v.to_string());
                 } else {
-                    println!("Error in line {:?}", parts);
+                    println!("Error in line with empty key");
                 }
             }
-            None => println!("Error in line {:?}", parts),
+            None => println!("Error in line: no '=' found"),
         }
-        
     }
 
-    return config;
+    config
 }
 ```
 
+You'd be forgiven if you called it a day at this point. 
+However, to truly embrace Rust, it helps to a step back and think about our problem for a little longer. 
+
 ### Use Proper Error Handling
 
-We can go one step further with proper error handling.
-It depends on the business logic how you want to handle invalid lines.
-Here's a version, which returns an error in the case:
+One obvious next step is to introduce proper error handling.
+It depends on the business logic how you want to handle invalid lines, but I prefer to implement proper parsing
+and have complete freedom over the output on the callsite.
 
 ```rust
-fn parse_config_file<'a>(path: &'a str) -> Result<HashMap<String, String>, ParseError> {
+use std::collections::HashMap;
+use std::fs::read_to_string;
+use std::fmt;
+use std::error::Error;
+
+#[derive(Debug)]
+enum ParseError {
+    InvalidLine(String),
+    IoError(std::io::Error),
+}
+
+impl Error for ParseError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        match self {
+            ParseError::IoError(err) => Some(err),
+            _ => None,
+        }
+    }
+}
+
+impl fmt::Display for ParseError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ParseError::InvalidLine(line) => write!(f, "Invalid line format: {}", line),
+            ParseError::IoError(err) => write!(f, "I/O error: {}", err),
+        }
+    }
+}
+
+impl From<std::io::Error> for ParseError {
+    fn from(err: std::io::Error) -> Self {
+        ParseError::IoError(err)
+    }
+}
+
+fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> {
     let s = read_to_string(path)?;
 
     let mut config = HashMap::new();
@@ -436,7 +479,7 @@ fn parse_config_file<'a>(path: &'a str) -> Result<HashMap<String, String>, Parse
             continue;
         }
 
-        match l.split_once('=') {
+        match line.split_once('=') {
             Some((k, v)) => {
                 let k = k.trim();
                 if !k.is_empty() {
@@ -448,7 +491,6 @@ fn parse_config_file<'a>(path: &'a str) -> Result<HashMap<String, String>, Parse
             }
             None => return Err(ParseError::InvalidLine(line.to_string())),
         }
-        
     }
 
     Ok(config)
@@ -480,9 +522,8 @@ fn parse_line(line: &str) -> Result<Option<(String, String)>, ParseError> {
 }
 ```
 
-The code is still quite "stringy-typed."
-That's usually a sign of a missing abstraction.
-To tackle that, we could introduce an enum to represent a parsed line for example:
+The code is still quite "stringy-typed," which usually is a sign of a missing abstraction.
+How about we introduce an enum to represent a parsed line?
 
 ```rust
 #[derive(Debug)]
@@ -499,7 +540,7 @@ enum ParsedLine {
 }
 ```
 
-And we'd use it like so:
+We'd use it like so:
 
 ```rust
 fn parse_line(line: &str) -> Result<ParsedLine, ParseError> {
@@ -531,17 +572,12 @@ fn parse_line(line: &str) -> Result<ParsedLine, ParseError> {
 }
 ```
 
-([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=7a5e34cdac522dd8eb60759cc89de5a4))
-
 We could even go one step further and express more of our invariants in the type system.
 For example, we can make use of the fact that parsing a key-value pair only depends on a single line.
-Since parsing is a fallible operation, we can implement `TryFrom` for our `KeyValue` struct.
+Since parsing is a fallible operation, we can implement `TryFrom` for our `KeyValue` struct:
 
 ```rust
-struct KeyValue {
-    key: String,
-    value: String,
-}
+use std::convert::TryFrom;
 
 impl TryFrom<&str> for KeyValue {
     type Error = ParseError;
@@ -572,23 +608,25 @@ impl TryFrom<&str> for KeyValue {
 }
 ```
 
-([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=722eb6136fe3da50e3a17326a6702ede))
-
 It might look like we made the problem more complicated than it is.
 However, we can now simplify our parser even more and also test key-value parsing in isolation.
 On top of that, errors get handled much closer to the source of the problem.
 
-Our `parse_config_file` function now gets much simpler: 
+Our `parse_config_file` function now becomes much simpler:
 
 ```rust
 fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> {
-    let content = std::fs::read_to_string(path)?;
+    let content = read_to_string(path)?;
     
     let mut config = HashMap::new();
     
-    for result in content.lines().map(parse_line) {
-        if let ParsedLine::KeyValue(kv) = result? {
-            config.insert(kv.key, kv.value);
+    for line in content.lines() {
+        match KeyValue::try_from(line) {
+            Ok(kv) => {
+                config.insert(kv.key, kv.value);
+            },
+            Err(ParseError::InvalidLine(_)) => continue, // Skip invalid lines
+            Err(e) => return Err(e),
         }
     }
     
@@ -596,13 +634,20 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
 }
 ```
 
-At this stage -- assuming we can still change the public API of our parser --
-we can convert `parse_config_file` into an `EnvParser` struct.
-That's because all we do is creating a map of key-value pairs from some input.
-While we're at it, we can lift the requirement of passing a file path to the parser
+
+All we do is creating a map of key-value pairs from some input.
+At this stage we might as well convert `parse_config_file` into an `EnvParser` struct.
+And while we're at it, let's lift the requirement of passing a file path to the parser
 and instead accept any type that implements `Read`.
 
-```rust    
+```rust
+use std::collections::HashMap;
+use std::io::{BufRead, BufReader, Read};
+use std::fs::File;
+use std::fmt;
+use std::error::Error;
+use std::convert::TryFrom;
+
 #[derive(Debug)]
 enum ParseError {
     InvalidLine(String),
@@ -682,11 +727,11 @@ impl EnvConfig {
     fn insert(&mut self, keyvalue: KeyValue) {
         self.inner.insert(keyvalue.key, keyvalue.value);
     }
-
+    
     fn get(&self, key: &str) -> Option<&str> {
         self.inner.get(key).map(|v| v.as_str())
     }
-
+    
     fn len(&self) -> usize {
         self.inner.len()
     }
@@ -697,7 +742,7 @@ struct EnvParser;
 impl EnvParser {
     fn parse<R: Read>(reader: R) -> Result<EnvConfig, ParseError> {
         let reader = BufReader::new(reader);
-        let mut config = EnvConfig::new();
+        let mut config = EnvConfig::new(); 
 
         for line in reader.lines() {
             match line {
@@ -714,32 +759,122 @@ impl EnvParser {
 
         Ok(config)
     }
-
+    
     fn parse_str(input: &str) -> Result<EnvConfig, ParseError> {
         Self::parse(input.as_bytes())
     }
-
+    
     fn parse_file(path: &str) -> Result<EnvConfig, ParseError> {
         let file = File::open(path)?;
         Self::parse(file)
     }
 }
+
+// Example usage
+fn main() -> Result<(), Box<dyn Error>> {
+    let env_content = "
+        DB_HOST=localhost
+        DB_PORT=5432
+        
+        API_KEY=my_api_key
+        LOG_FILE=app.log
+    ";
+    
+    let config = EnvParser::parse_str(env_content)?;
+    
+    println!("Parsed config entries:");
+    for (key, value) in &config.inner {
+        println!("{} = {}", key, value);
+    }
+    
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::NamedTempFile;
+    use std::io::Write;
+    
+    // Tests for KeyValue struct
+    #[test]
+    fn test_keyvalue_valid() {
+        let kv = KeyValue::try_from("key=value".to_string()).unwrap();
+        assert_eq!(kv.key, "key");
+        assert_eq!(kv.value, "value");
+    }
+    
+    #[test]
+    fn test_keyvalue_with_spaces() {
+        let kv = KeyValue::try_from("  key  =  value  ".to_string()).unwrap();
+        assert_eq!(kv.key, "key");
+        assert_eq!(kv.value, "value");
+    }
+    
+    #[test]
+    fn test_keyvalue_empty_value() {
+        let kv = KeyValue::try_from("key=".to_string()).unwrap();
+        assert_eq!(kv.key, "key");
+        assert_eq!(kv.value, "");
+    }
+    
+    #[test]
+    fn test_parser_duplicate_keys() {
+        let input = "
+            key=value1
+            key=value2
+        ";
+        
+        let config = EnvParser::parse_str(input).unwrap();
+        assert_eq!(config.len(), 1);
+        // Last value should win for duplicate keys
+        assert_eq!(config.get("key"), Some("value2"));
+    }
+    
+    #[test]
+    fn test_parser_all_edge_cases() {
+        let input = "
+            # Comments should be ignored
+            simple=value
+              indented_key = indented_value
+            empty_value=
+            key_with_equals=value=with=equals
+            duplicate=first
+            duplicate=second
+            trailing_whitespace = value with spaces   
+        ";
+        
+        let config = EnvParser::parse_str(input).unwrap();
+        
+        assert_eq!(config.len(), 6);
+        assert_eq!(config.get("simple"), Some("value"));
+        assert_eq!(config.get("indented_key"), Some("indented_value"));
+        assert_eq!(config.get("empty_value"), Some(""));
+        assert_eq!(config.get("key_with_equals"), Some("value=with=equals"));
+        assert_eq!(config.get("duplicate"), Some("second"));
+        assert_eq!(config.get("trailing_whitespace"), Some("value with spaces"));
+    }
+}
 ```
 
-([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=4fb0dbbab6d8242feb7e4f28b51a1d08))
+Without much effort, we decoupled the code.
+Now, every part has one clearly defined responsibility:
+
+- `KeyValue` is responsible for parsing a single line 
+- `EnvParser` is responsible for parsing the entire input
+- `EnvConfig` stores the parsed key-value pairs
 
 I skipped a few intermediate steps, but the idea is always the same: continuously
 look for wrinkles in the code and move more and more logic into the type system.
 
-# Summary
+## Summary
 
 If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity of the underlying system.
 Rust values explicitness and you have to deal with the harsh reality that computing is messy.
 
-
-Turns out our assumptions about a program’s execution are often wrong and our mental models are flawed.
+Turns out our assumptions about a program's execution are often wrong and our mental models are flawed.
 Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some practice.
 Don't worry: once you start to confront your bad habits and look around for better abstractions, greener pastures are right around the corner.
 
 Rust, after all is said and done, is still a systems programming language in the end.
-It competes with the likes of C/C++ and for that it has pretty good ergonomics. 
+It competes with the likes of C/C++ and for that it has pretty good ergonomics.
