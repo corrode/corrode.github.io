@@ -893,6 +893,9 @@ This just goes to show that it's easy to gloss over details.
 
 ## Summary
 
+What I find interesting in these exercises is that the benefits of looking for better abstractions are not about memory safety.
+Instead, it Rust makes testing easier, which meant that the developers in the experiment were able to find bugs that had remain completely hidden otherwise. 
+
 If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity of the underlying system.
 Rust values explicitness and you have to deal with the harsh reality that computing is messy.
 
