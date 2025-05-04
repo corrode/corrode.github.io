@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-02-03
+updated = 2025-05-04
 draft = false
 template = "article.html"
 [extra]
@@ -47,6 +47,7 @@ Click here to expand the table of contents.
   - [Cranelift: The Alternative Rust Compiler](#cranelift-the-alternative-rust-compiler)
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
   - [macOS Only: Faster Incremental Debug Builds](#macos-only-faster-incremental-debug-builds)
+  - [macOS Only: Exclude Rust Compilations From Gatekeeper](#macos-only-exclude-rust-compilations-from-gatekeeper)
   - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
   - [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
   - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
@@ -424,6 +425,22 @@ split-debuginfo = "unpacked"
 
 The flag might become the standard for macOS soon. It is already the [default
 on nightly](https://github.com/rust-lang/cargo/pull/9298).
+
+### macOS Only: Exclude Rust Compilations From Gatekeeper 
+
+**Gatekeeper** is a system on macOS, which runs security checks on binaries.
+This can cause Rust builds to be slower by a few seconds for each iteration.
+The solution is to add your terminal to the Developer Tools, which will cause processes run by it to be excluded from Gatekeeper. 
+
+1. Run `sudo spctl developer-mode enable-terminal` in your terminal.
+2. Go to System Preferences, and then to Security & Privacy.
+3. Under the Privacy tab, go to `Developer Tools`.
+4. Make sure your terminal is listed and enabled. If you're using any third-party terminals like iTerm or Ghostty, add them to the list as well.
+5. Restart your terminal.
+
+![Excluding the terminal from Gatekeeper inspectin in macOS Developer Tools](developer-tools.png)
+
+Thanks to the [nextest](https://nexte.st/docs/installation/macos/) and [Zed](https://zed.dev/docs/development/macos#tips--tricks) developers for the tip.
 
 ### Tweak Codegen Options And Compiler Flags
 
