@@ -48,6 +48,7 @@ Click here to expand the table of contents.
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
   - [macOS Only: Faster Incremental Debug Builds](#macos-only-faster-incremental-debug-builds)
   - [macOS Only: Exclude Rust Compilations From Gatekeeper](#macos-only-exclude-rust-compilations-from-gatekeeper)
+  - [Windows Only: Set Up Dev Drive For Rust](#windows-only-set-up-dev-drive-for-rust)
   - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
   - [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
   - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
@@ -441,6 +442,27 @@ The solution is to add your terminal to the Developer Tools, which will cause pr
 ![Excluding the terminal from Gatekeeper inspectin in macOS Developer Tools](developer-tools.png)
 
 Thanks to the [nextest](https://nexte.st/docs/installation/macos/) and [Zed](https://zed.dev/docs/development/macos#tips--tricks) developers for the tip.
+
+### Windows Only: Set Up Dev Drive For Rust
+
+Windows 11 includes [Dev Drive](https://learn.microsoft.com/en-us/windows/dev-drive/), a file system optimized for development.
+According to Microsoft, [you can expect a speed boost of around 20-30%](https://devblogs.microsoft.com/visualstudio/devdrive/) by using Dev Drive:
+
+![Dev Drive Performance Chart](DevDrivePerfChart.png)
+
+To improve Rust compilation speed, move these to a Dev Drive:
+
+- Rust toolchain folder (`CARGO_HOME`)
+- Your project code
+- Cargo's `target` directory 
+
+You can go one step further and **add the above folders to your antivirus exclusions as well**
+for another potential speedup.
+You can find exclusion settings in Windows Security under Virus & threat protection settings.
+
+![Antivirus Exclusion Settings on Windows](windows-antivirus-exclusions.png)
+
+Thanks to the [nextest team](https://nexte.st/docs/installation/windows/) for the tip.
 
 ### Tweak Codegen Options And Compiler Flags
 
