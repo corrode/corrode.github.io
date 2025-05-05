@@ -309,7 +309,7 @@ If you get any borrow-checker errors, refuse the urge to guess what's going on.
 Instead of guessing, *walk through the data flow by hand* (who owns what and when).
 Try to think it through for yourself and only try to compile again once you understand the problem.
 
-## Learn on Type-Driven Development
+## Lean on Type-Driven Development
 
 The key to good Rust code is through its type system.
 
