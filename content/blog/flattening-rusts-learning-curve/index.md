@@ -69,7 +69,7 @@ Turn on all clippy lints on day one -- even the pedantic ones.
 Follow it religiously and see what it teaches you.
 Don't skip that step.
 
-Ristance is futile.
+Resistance is futile.
 The longer you refuse to learn, the longer you will suffer;
 but the moment you let your guard down is the moment you'll start to learn.
 Forget what you think you knew about programming and really start to listen to what the compiler, the standard library, and clippy are trying to tell you. 
@@ -229,7 +229,7 @@ In Rust, sketches can help to visualize lifetimes and ownership of data or for a
 Earlier I said you should forget everything you know about programming.
 How can I claim now that you should build on top of what you already know?
 
-What meant was that Rust is the most different in familiar areas like control flow handling and value passing.
+What I meant was that Rust is the most different in familiar areas like control flow handling and value passing.
 E.g., mutability is very explicit in Rust and calling a function typically "moves" its arguments. 
 That's where you have to accept that Rust is just *different* and learn from *first principles*.
 
@@ -312,7 +312,7 @@ It's **all** in the type system.
 Everything you need is hidden in plain sight.
 But often, people skip too much of the documentation and just look at the examples.
 
-What few people do is *read the actual function documentation* 
+What few people do is *read the actual function documentation*. 
 You can even click through the standard library all the way to the source code to read the thing they are using.
 There is no magic (and that's what's so magical about it).
 
@@ -353,7 +353,7 @@ That's why I don't like Rustlings too much; the exercises are not "fun" and too 
 I found that [Project Euler](https://projecteuler.net/) or [Advent of Code](https://adventofcode.com/) work way better for me.
 The question comes up quite often, so I wrote a blog post about [my favorite Rust learning resources](/blog/rust-learning-resources-2025).
 
-#### Don't Just Watch From Youtube.
+#### Don't Just Watch From YouTube
 
 I like to watch YouTube, but exclusively for recreational purposes. 
 In my opinion, watching [ThePrimeagen](https://www.youtube.com/c/theprimeagen) is for entertainment only.
@@ -406,7 +406,7 @@ If you find a great learning resource, share it!
 If you learn Rust because you want to put it on your CV, stop.
 Learn something else instead.
 
-I think you have to actually *like* programming (and not just the idea of it) to enjoy Rust .
+I think you have to actually *like* programming (and not just the idea of it) to enjoy Rust.
 
 If you want to be successful with Rust, you have to be in it for the long run.
 Set realistic expectations: You won't be a "Rust grandmaster" in a week but you can achieve a lot in a month of focused effort.
