@@ -410,5 +410,6 @@ I think you have to actually *like* programming (and not just the idea of it) to
 
 If you want to be successful with Rust, you have to be in it for the long run.
 Set realistic expectations: You won't be a "Rust grandmaster" in a week but you can achieve a lot in a month of focused effort.
+There is no silver bullet, but if you avoid the most common ways to shoot yourself in the foot, you pick up the language much faster.
 Rust is a day 2 language. You won't "feel" as productive as in your first week of Go or Python, but stick it out and it will pay off.
 Good luck and have fun!
