@@ -234,7 +234,7 @@ In Rust, sketches can help to visualize lifetimes and ownership of data or for a
 Earlier I said you should forget everything you know about programming.
 How can I claim now that you should build on top of what you already know?
 
-What I meant was that Rust is the most different in familiar areas like control flow handling and value passing.
+What I meant is that Rust is the most different in familiar areas like control flow handling and value passing.
 E.g., mutability is very explicit in Rust and calling a function typically "moves" its arguments. 
 That's where you have to accept that Rust is just *different* and learn from *first principles*.
 
@@ -384,7 +384,7 @@ A good trainer, just like a good teacher, will not go through the Rust book with
 Don't be afraid to ask for a code review on Mastodon or the [Rust forum](https://users.rust-lang.org/) and return the favor and do code reviews there yourself.
 Take on opportunities for pair programming.
 
-#### Explain Rust Code To A Non-Rust Developer
+#### Explain Rust Code To Non-Rust Developers
 
 This is such a great way to see if you truly understood a concept.
 Don't be afraid to say "I don't know."
