@@ -8,23 +8,21 @@ series = "Rust Insights"
 +++
 
 I see people make the same mistakes over and over again when learning Rust.
-Here are my thoughts (ordered by importance) on how you can ease the learning process to flatten Rust's learning curve.
+Here are my thoughts (ordered by importance) on how you can ease the learning process.
 My goal is to help you save time and frustration. 
 
-## Stop The Resistance
+## Let Your Guard Down
 
-Let your guard down. That's the most important thing. 
+Stop resisting. That's the most important lesson. 
 
-Accept that learning Rust is a completely new skillset.
+Accept that learning Rust requires adopting a completely different mental model than what you're used to.
 There are a ton of new concepts to learn like lifetimes, ownership, and the trait system. 
 And depending on your background, you'll need to add generics, pattern matching, or macros to the list.
 
-Your learning pace doesn't have much to do with whether you're smart or not or if you have a lot of experience programming.
-I have seen junior devs excel at Rust with no prior training and senior engineers struggle for weeks/months or even give up entirely.
+Your learning pace doesn't have much to do with whether you're smart or not or if you have a lot of programming experience.
+Instead, what matters more is **your attitude toward the language**.
 
-What matters more is **your attitude** toward the language.
-
-Leave your hubris at home.
+I have seen junior devs excel at Rust with no prior training and senior engineers struggle for weeks/months or even give up entirely. Leave your hubris at home.
 
 Treat the borrow checker as a co-author, not an adversary. This reframes the relationship.
 Let the compiler do the teaching: for example, this works great with lifetimes, because the compiler will tell you when a lifetime is ambiguous. 
@@ -53,10 +51,10 @@ But also sit down and wonder *why* the compiler couldn't figure it out itself.
 
 Most of the time when fighting the compiler it is actually exposing a design flaw.
 Similarly, if your code gets overly verbose or looks ugly, there's probably a better way.
-Learn to do it the Rust way.
+Declare defeat and learn to do it the Rust way.
 
 If you come from a dynamic language like Python, you'll find that Rust is more verbose in general.
-Most of it comes from type annotations.
+Most of it just comes from type annotations, though.
 Some people might dismiss Rust as being "unelegant" or "ugly", but the verbosity actually serves a good purpose and is immensely helpful for building large-scale applications:
 
 - First off, you will read the code more often than you write it,
@@ -65,9 +63,9 @@ which means type annotations will give you more local context to reason with.
 If your code turns out to look very ugly, take a step back and ask if there's a simpler solution.
 Don't dismiss the language right away.
 
-Turn on all clippy lints on day one -- even the pedantic ones.
-Follow it religiously and see what it teaches you.
-Don't skip that step.
+Turn on all [clippy lints](https://doc.rust-lang.org/clippy/) on day one -- even the pedantic ones.
+Run the linter and follow the suggestions religiously.
+Don't skip that step once your program compiles.
 
 Resistance is futile.
 The longer you refuse to learn, the longer you will suffer;
@@ -80,7 +78,7 @@ I certainly tried to run before I could walk.
 That alone cost me a lot of precious time.
 
 Don't make it too hard on yourself in the beginning.
-Here are some examples:
+Here are some tips:
 
 - Use `String` and `clone()` and `unwrap` generously; you can always refactor later -- and refactoring is the best part about Rust!
 I wrote an article on saving yourself time during that phase [here](/blog/prototyping).
@@ -104,11 +102,12 @@ fn my_func(v: String) {
 fn main() {
     let s = String::from("hello");
     my_func(s);
-    my_func(s); // error. why?
+    my_func(s); // error, but why?
 }
 ```
 
-See if you can fix it.
+Can you fix it?
+Can you explain it?
 Ask yourself what would change if `v` was an `i32`.
 
 If Rust code looks scary to you, **break it down**.
@@ -118,14 +117,15 @@ By writing lots of Rust, you will also learn how to read it better as well.
 
 ## Be Accurate
 
-How you do anything is how you do everything.
+> How you do anything is how you do everything.
+> -- An ancient Rust proverb
 
 You can be sloppy in other languages, but not in Rust.
 That means you have to be accurate while you code or the code just won't compile.
-The idea is that this approach will save you debugging time in the future.
+The expectation is that this approach will save you debugging time in the future.
 
 I found that the people who learn Rust the fastest all have great attention to detail.
-If you try to just get things done and move on, you will have a harder time than if you try to do things properly the first time.
+If you try to just get things done and move on, you will have a harder time than if you aim to do things right on your first try.
 You will have a much better time if you re-read your code to fix stupid typos before pressing "compile."
 Also build a habit of automatically adding `&` and `mut` where necessary as you go. 
 
@@ -136,23 +136,25 @@ I think you can learn this skill as long as you're putting in your best effort a
 ## Don't Cheat
 
 With today's tooling it is very easy to offload the bulk of the work to the computer.
-Initially, it will feel like you're making progress, but in reality, this is how you strengthen bad habits in your workflow.
-If you can't explain what you wrote to someone else or if you don't know about the tradeoffs/assumptions a part of the code makes,
+Initially, it will feel like you're making quick progress, but in reality, you just strengthen bad habits in your workflow.
+If you can't explain what you wrote to someone else or if you don't know about the tradeoffs/assumptions a part of your code makes,
 you took it too far.
 
-Often, this stems from a fear that you're not making progress fast enough.
-You don't have to prove to someone else that you're clever enough to learn Rust.
+Often, this approach stems from a fear that you're not making progress fast enough.
+But you don't have to prove to someone else that you're clever enough to pick up Rust very quickly.
 
 #### Walk the Walk
 
 To properly learn Rust you actually have to write a lot of code by hand.
 Don't be a lurker on Reddit, reading through other people's success stories.
-Have some skin in the game.
+Have some skin in the game!
+Put in the hours because there is no silver bullet.
+Once it works, consider open sourcing your code even if you know it's not perfect.
 
 #### Don't Go on Auto-Pilot
 
-LLMs are like driving on auto-pilot.
-It can be comfortable at first, but you won't feel in control and slowly, that uneasy feeling will creep in.
+LLMs are like driving a car on auto-pilot.
+It's comfortable at first, but you won't feel in control and slowly, that uneasy feeling will creep in.
 Turn off the autopilot while learning.
 
 A quick way to set you up for success is to learn by writing code in the Rust Playground first.
@@ -167,46 +169,49 @@ Slow is steady and steady is fast.
 #### Build Muscle Memory
 
 Muscle memory in programming is highly underrated.
-People will tell you that this is what code completion is for, but I believe it's super important to get into the flow: 
+People will tell you that this is what code completion is for, but I believe it's a requirement to reach a state of flow:
 if you constantly blunder over syntax errors or, worse, just wait for the next auto-completion to make progress,
 that is a terrible developer experience.
 
-When writing manually, you will make mistakes.
-Mistakes are good at this stage! Embrace them!
-These mistakes will help you learn to parse the compiler output.
+When writing manually, you will make more mistakes.
+Embrace them!
+These mistakes will help you learn to understand the compiler output.
 You will get a "feeling" for how the output looks in different error scenarios.
 Don't gloss over these errors.
 Over time you will develop an intuition about what feels "rustic."
  
 #### Predict The Output
 
-Another thing I like to do is to run "prediction exercises" where you guess if code will compile before running it.
+Another thing I like to do is to run "prediction exercises" where I guess if code will compile before running it.
 This builds intuition.
 Try to make every program free of syntax errors before you run it.
 Don't be sloppy.
 Of course, you won't always succeed, but you will get much better at it over time.
 
-#### Try to solve problems yourself, only *then* look up the solution.
+#### Try To Solve Problems Yourself, Only *Then* Look Up The Solution.
 
 Read lots of other people's code. I recommend [`ripgrep`](https://github.com/BurntSushi/ripgrep), for example,
 which is some of the best Rust code out there.
 
-#### Develop a healthy share of reading/writing code.
+#### Develop A Healthy Share Of Reading/Writing Code.
 
 Don't be afraid to get your hands dirty.
-What do you avoid? What do you run away from? Focus on that. Tackle your blind spots.
+Which areas of Rust do you avoid?
+What do you run away from?
+Focus on that.
+Tackle your blind spots.
 Track your common "escape hatches" (unsafe, clone, etc.) to identify your current weaknesses.
-For example, if you are scared of proc macros, write a few of them.
+For example, if you are scared of proc macros, write a bunch of them.
 
-#### Break your code
+#### Break Your Code
 
 After you're done with an exercise, break it! See what the compiler says. 
 See if you can explain what happens.
 
-#### Don't use other people's crates while learning
+#### Don't Use Other People's Crates While Learning
 
-A poor personal version is better than a perfect external crate.
-Write library code yourself as an exercise.
+A poor personal version is better than a perfect external crate (at least while learning).
+Write some small library code yourself as an exercise.
 Notable exceptions are probably `serde` and `anyhow`, which can save you time dealing with JSON inputs and setting up error handling that you can spend on other tasks
 as long as you know how they work.
 
@@ -353,7 +358,7 @@ That's why I don't like Rustlings too much; the exercises are not "fun" and too 
 I found that [Project Euler](https://projecteuler.net/) or [Advent of Code](https://adventofcode.com/) work way better for me.
 The question comes up quite often, so I wrote a blog post about [my favorite Rust learning resources](/blog/rust-learning-resources-2025).
 
-#### Don't Just Watch From YouTube
+#### Don't Just Watch YouTube
 
 I like to watch YouTube, but exclusively for recreational purposes. 
 In my opinion, watching [ThePrimeagen](https://www.youtube.com/c/theprimeagen) is for entertainment only.
@@ -371,7 +376,6 @@ Similarly, if you're serious about using Rust professionally, buy a course or ge
 Of course, I'm super biased here as I run a Rust consultancy, but I truly believe that it will save you and your company countless
 hours and will set you up for long-term success. Think about it: you will work with this codebase for years to come. Better make that experience a pleasant one.
 A good trainer, just like a good teacher, will not go through the Rust book with you, but watch you program Rust in the wild and give you personalized feedback about your weak spots.
-
 
 ## Find A Coding Buddy
 
@@ -401,7 +405,7 @@ It doesn't have to be complete and just has to serve your needs.
 Write down things you found hard and things you learned.
 If you find a great learning resource, share it!
 
-## Believe in the Long-Term Benefit
+## Believe In The Long-Term Benefit
 
 If you learn Rust because you want to put it on your CV, stop.
 Learn something else instead.
