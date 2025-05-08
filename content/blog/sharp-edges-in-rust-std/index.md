@@ -121,7 +121,7 @@ If the hash map is your bottleneck, you should probably look at your algorithm.
 
 If you need anything faster than that, there are plenty of external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
 
-## std::path::Path
+## `std::path::Path`
 
 I think `Path` does a decent job of abstracting away the underlying file system.
 One thing I always disliked was that `Path::join` does not return a `Result<PathBuf, Error>` instead.
@@ -183,9 +183,8 @@ There are a few more issues with paths in Rust:
 ## `std::time`
 
 In my opinion, it's actually great to have some basic time functionality right in the standard library.
-However, just be aware that things like `std::time::SystemTime` is platform independent, which causes some headaches: https://github.com/rust-lang/rust/issues/44394
-Same for `Instant`, which is a wrapper around the most precise time source on each OS. https://github.com/rust-lang/rust/issues/48980
-That can cause some failing tests: https://github.com/rust-lang/rust/issues/48980#issuecomment-372744710
+However, just be aware that things like `std::time::SystemTime` is platform independent, which [causes some headaches](https://github.com/rust-lang/rust/issues/44394).
+[Same for `Instant`](https://github.com/rust-lang/rust/issues/48980), which is a wrapper around the most precise time source on each OS. 
 
 Since time is such a thin wrapper around whatever the operating system provides, you can run into some nasty behavior.
 For example, this does not always result in "1 nanosecond" on Windows:
@@ -199,24 +198,12 @@ dbg!((now + Duration::from_nanos(1)).duration_since(now));
 }
 ```
 
-> No details are provided on the accuracy of the clock, or on dealing with leap seconds besides specifying that SystemTime does not count them.
+The documentation does not specify the clock's accuracy or how it handles leap seconds, except to note that `SystemTime` does not account for them.
 
 That means if you depend on proper control over time, such as managing leap seconds or cross-platform support, you're better off using an external crate.
 For an overview, see this great survey in the Rust forum, titled: ['The state of time in Rust: leaps and bounds'](https://users.rust-lang.org/t/the-state-of-time-in-rust-leaps-and-bounds/107620).
 
-Time is hard.
-There are many issues.
-I mostly use std::time for durations as in
-
-```rust
-use std::time::Duration;
-
-fn main() {
-    std::thread::sleep(Duration::from_secs(1));
-}
-```
-
-Other than that, I prefer [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
+I suggest to look into [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
 
 ## Summary
 
