@@ -8,17 +8,16 @@ series = "Idiomatic Rust"
 +++
 
 The [Rust standard library](https://doc.rust-lang.org/std/), affectionately called `std`, is exceptionally well-designed, but that doesn't mean it's perfect.
-More experienced Rust developers tend to navigate around some of its sharper parts,
-but I haven't seen these parts explicitly listed anywhere.
+More experienced Rust developers tend to navigate around some of its sharper parts, but I haven't seen these parts explicitly listed anywhere.
 
-In this article, I want to highlight the areas in `std`, that I personally avoid to raise awareness.
+In this article, I want to highlight the areas in `std` that I personally avoid to raise awareness.
 Keep in mind that I'm opinionated, so take this list with a grain of salt. 
 
 ## Threading
 
 Rust's threading library is quite solid.
 That said, managing threads can be a bit of a footgun.
-In particular forgetting to join a thread can have some unexpected side-effects.
+In particular, forgetting to join a thread can have some unexpected side effects.
 
 ```rust
 use std::thread;
@@ -49,7 +48,7 @@ fn main() {
 ```
 
 In the above scenario, cleanup tasks (such as flushing caches, closing files) might not get executed.
-So, even if you do nothing with the handle, it is still a best-practice to `join()` it.
+So, even if you do nothing with the handle, it is still a best practice to `join()` it.
 For more details on the topic, check out matklad's article: ["Join Your Threads"](https://matklad.github.io/2019/08/23/join-your-threads.html).
 
 In fact, there was a proposal to make [`std::thread::JoinHandle`](https://doc.rust-lang.org/std/thread/struct.JoinHandle.html) be `#[must_use]`, but it was ultimately [declined](https://github.com/rust-lang/rust/pull/48830) because it would produce too many warnings.
@@ -62,7 +61,7 @@ For new code, I recommend using [`thread::scope`](https://doc.rust-lang.org/std/
 The documentation addresses the above issue directly:
 
 > Unlike non-scoped threads, scoped threads can borrow non-`'static` data, as the scope guarantees **all threads will be joined at the end of the scope**.
-> All threads spawned within the scope that **haven’t been manually joined will be automatically joined** before this function returns.
+> All threads spawned within the scope that **haven't been manually joined will be automatically joined** before this function returns.
 
 Alternatively, you can use a thread pool library or [rayon](https://github.com/rayon-rs/rayon), in case you have an iterator you want to parallelize to many threads.
 
@@ -70,20 +69,18 @@ Alternatively, you can use a thread pool library or [rayon](https://github.com/r
 
 Implementing a linked list in Rust is [not easy](https://rust-unofficial.github.io/too-many-lists/).
 That's because Rust's ownership model is detrimental to self-referential data structures. 
-Some people might not know that the standard library ships with an implementation of a linked list
-at [`std::collections::LinkedList`](https://doc.rust-lang.org/std/collections/struct.LinkedList.html).
+Some people might not know that the standard library ships with an implementation of a linked list at [`std::collections::LinkedList`](https://doc.rust-lang.org/std/collections/struct.LinkedList.html).
 
 In all those years, I never felt the urge to use it. 
 It might even be the least-used collection type in the standard library overall.
 
-One reason might be, that for all ordinary use-cases, a `Vec` is sufficient and straightforward to use.
-Vectors also have better cache locality and performance characteristics:
-all items are stored in contiguous memory, which is much better for fast memory access.
+One reason might be that for all ordinary use cases, a `Vec` is sufficient and straightforward to use.
+Vectors also have better cache locality and performance characteristics: all items are stored in contiguous memory, which is much better for fast memory access.
 On the other side, elements in a linked list can be scattered all over the heap.
 If you want to learn more, you can read this paper titled ["RIP Linked List - Empirical Study to Discourage You from Using Linked Lists Any Further"](https://arxiv.org/pdf/2306.06942), which contains some benchmarks.
 
 You might be wondering why linked lists get used at all.
-They have their place as very specialized data structure that is only really helpful in some very low-level environments like a kernel. The Linux kernel uses a lot of linked list, for example. The reason is that they are very efficient for inserting and deleting elements at arbitrary positions, which is great when you write things like a kernel scheduler.
+They have their place as a very specialized data structure that is only really helpful in some very low-level environments like a kernel. The Linux kernel uses a lot of linked lists, for example. The reason is that they are very efficient for inserting and deleting elements at arbitrary positions, which is great when you write things like a kernel scheduler.
 
 As for normal, everyday code, just use a `Vec`.
 Even [the documentation of `LinkedList`](https://doc.rust-lang.org/nightly/std/collections/struct.LinkedList.html) itself agrees:
@@ -100,13 +97,12 @@ There is a [longer discussion in the Rust forum](https://internals.rust-lang.org
 That one's a bit controversial.
 
 Rust has two hash map implementations in the standard library:
-`BTreeMap`, which guarantees insertion ordering, while `HashMap` which is unordered, but more commonly used. 
+`BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
 For a long time, a "performance trick" was to use `BTreeMap` if you needed a faster hash map implementation.
 Nowadays, this is no longer the case.
-That's because `HashMap` has improved significantly in performance and is now the default choice for most use-cases.
+That's because `HashMap` has improved significantly in performance and is now the default choice for most use cases.
 One reason is that the implementation of `HashMap` has [changed to use a "siphash" algorithm](https://doc.rust-lang.org/book/ch08-03-hash-maps.html#hashing-functions) and is now [based on Google's SwissTable](https://doc.rust-lang.org/std/collections/struct.HashMap.html).
-The combination of these changes has made `HashMap` much more performant than before,
-so there is no good reason to use `BTreeMap` anymore, other than the ordering guarantee.
+The combination of these changes has made `HashMap` much more performant than before, so there is no good reason to use `BTreeMap` anymore, other than the ordering guarantee.
 
 In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/), Jamie Brandon compares the performance of Rust's `BTreeMap` and `HashMap`. Here are my key takeaways:
 
@@ -125,8 +121,7 @@ If you need anything faster than that, there are plenty of external crates like 
 
 I think `Path` does a decent job of abstracting away the underlying file system.
 One thing I always disliked was that `Path::join` does not return a `Result<PathBuf, Error>` instead.
-That would be beneficial for cases where we join a relative path with an absolute path, in which case
-the result is always the absolute path:
+That would be beneficial for cases where we join a relative path with an absolute path, in which case the result is always the absolute path:
 
 ```rust
 use std::path::Path;
@@ -174,16 +169,15 @@ These `path.as_os_str().to_str()` operations must be repeated everywhere, making
 
 There are a few more issues with paths in Rust:
 
-- `Path`/`OsStr` lacks common string manipulation methods (like `find()`, `replace()`, etc, which makes many common operations on paths quite tedious
-- The design creates a poor experience for Windows users, with inefficient `Path`/`OsStr` handling that doesn't fit the platform well. It's a cross-platform 
-  compromise, but it creates some real problems.
+- `Path`/`OsStr` lacks common string manipulation methods (like `find()`, `replace()`, etc.), which makes many common operations on paths quite tedious
+- The design creates a poor experience for Windows users, with inefficient `Path`/`OsStr` handling that doesn't fit the platform well. It's a cross-platform compromise, but it creates some real problems.
 
 [`camino`](https://github.com/camino-rs/camino) is a good alternative crate, which just assumes that paths are UTF-8. This way, operations have much better ergonomics.
 
 ## `std::time`
 
 In my opinion, it's actually great to have some basic time functionality right in the standard library.
-However, just be aware that things like `std::time::SystemTime` is platform independent, which [causes some headaches](https://github.com/rust-lang/rust/issues/44394).
+However, just be aware that `std::time::SystemTime` is platform dependent, which [causes some headaches](https://github.com/rust-lang/rust/issues/44394).
 [Same for `Instant`](https://github.com/rust-lang/rust/issues/48980), which is a wrapper around the most precise time source on each OS. 
 
 Since time is such a thin wrapper around whatever the operating system provides, you can run into some nasty behavior.
@@ -203,11 +197,11 @@ The documentation does not specify the clock's accuracy or how it handles leap s
 That means if you depend on proper control over time, such as managing leap seconds or cross-platform support, you're better off using an external crate.
 For an overview, see this great survey in the Rust forum, titled: ['The state of time in Rust: leaps and bounds'](https://users.rust-lang.org/t/the-state-of-time-in-rust-leaps-and-bounds/107620).
 
-I suggest to look into [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
+I suggest looking into [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
 
 ## Summary
 
 As you can see, it's really not a lot.
 Given that Rust 1.0 was released over a decade ago, the standard library stood the test of time.
 Apart from the mentioned issues, the Rust standard library is very well designed and thoroughly documented.
-There are also very few deprecations, which is a testament for the good overall structure and foresight.
+There are also very few deprecations, which is a testament to the good overall structure and foresight.
