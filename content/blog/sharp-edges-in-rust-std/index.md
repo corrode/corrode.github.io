@@ -7,9 +7,9 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-The Rust standard library is exceptionally well-designed, but that doesn't mean it's perfect.
-More experienced Rust developers tend to navigate around some parts of the standard library,
-but I haven't seen these parts explicitly listed everywhere.
+The [Rust standard library](https://doc.rust-lang.org/std/), affectionately called `std`, is exceptionally well-designed, but that doesn't mean it's perfect.
+More experienced Rust developers tend to navigate around some of its sharper parts,
+but I haven't seen these parts explicitly listed anywhere.
 
 In this article, I want to highlight the areas in `std`, that I personally avoid to raise awareness.
 Keep in mind that I'm opinionated, so take this list with a grain of salt. 
@@ -121,39 +121,106 @@ If the hash map is your bottleneck, you should probably look at your algorithm.
 
 If you need anything faster than that, there are plenty of external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
 
-- std::path::Path
-  - Limited in functionality compared to alternatives
-  - Path::join is a bit broken in my opinion (see pitfalls article)
-  - Better alternative: The camino crate provides UTF-8 path operations with better ergonomics
+## std::path::Path
 
-- std::time
-  - Another controversial one
-  - I think it's actually great to have some limited time functionality right in the standard library.
-  - However, just be aware that things like `std::time::SystemTime` is platform independent, which causes some headaches: https://github.com/rust-lang/rust/issues/44394
-  - Same for `Instant`, which is a wrapper around the most precise time source on each OS. https://github.com/rust-lang/rust/issues/48980
-  - That can cause some failing tests: https://github.com/rust-lang/rust/issues/48980#issuecomment-372744710
-  - This does not always result in "1 nanosecond":
-     ```rust
-     use std::time::{Duration, SystemTime};
+I think `Path` does a decent job of abstracting away the underlying file system.
+One thing I always disliked was that `Path::join` does not return a `Result<PathBuf, Error>` instead.
+That would be beneficial for cases where we join a relative path with an absolute path, in which case
+the result is always the absolute path:
 
-     fn main() {
-        let now = SystemTime::now();
-        dbg!((now + Duration::from_nanos(1)).duration_since(now));
-     }
-     ```
-  - Basic functionality but limited compared to alternatives
-  - "No details are provided on the accuracy of the clock, or on dealing with leap seconds besides specifying that SystemTime does not count them."
-  - That means if you depend on proper control over time, such as managing leap seconds or cross-platform support, you're better off using an external crate.
-  - For an overview, see https://users.rust-lang.org/t/the-state-of-time-in-rust-leaps-and-bounds/107620
-  - Better alternative: chrono or time crates for more comprehensive datetime handling
-  - Time is hard
-  - There are many issues
-  - Wouldn't be a big issue if it were an external crate
-  - I mostly use std::time for durations, not so much for calculations
+```rust
+use std::path::Path;
 
-  Alternative: time, chrono crates
+fn main() {
+    let absolute_path = Path::new("/absolute/path");
+    let relative_path = Path::new("relative/path");
 
+    // This will always return the absolute path
+    let result = relative_path.join(absolute_path);
+    assert_eq!(result, absolute_path); 
+}
+```
 
-- There are also very few deprecations, which is a testament for the good overall structure and foresight.
-- The Rust standard library is otherwise very well designed.
-- As you can see, it's really not a lot
+I also wrote about it in my ['Pitfalls of Safe Rust'](/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths) article.
+
+There are some other valid concerns.
+
+Many programs assume paths are UTF-8 encoded and frequently convert them to `str`.
+That's always a fun dance:
+
+```rust
+use std::path::Path;
+
+fn main() {
+   let path = Path::new("/path/to/file.txt");
+   
+   // The awkward dance with multiple conversions
+   match path.as_os_str().to_str() {
+       Some(s) => {
+           // Yay! We can use string operations
+       },
+       None => {
+           // Oh well, it's not UTF-8.
+           // Many developers just use lossy conversion to avoid dealing with this
+           // Which might _silently_ corrupt path data but keeps the code moving...
+           let lossy = path.to_string_lossy();
+           
+       }
+   }
+}
+```
+
+These `path.as_os_str().to_str()` operations must be repeated everywhere, making path manipulation cumbersome.
+
+There are a few more issues with paths in Rust:
+
+- `Path`/`OsStr` lacks common string manipulation methods (like `find()`, `replace()`, etc, which makes many common operations on paths quite tedious
+- The design creates a poor experience for Windows users, with inefficient `Path`/`OsStr` handling that doesn't fit the platform well. It's a cross-platform 
+  compromise, but it creates some real problems.
+
+[`camino`](https://github.com/camino-rs/camino) is a good alternative crate, which just assumes that paths are UTF-8. This way, operations have much better ergonomics.
+
+## `std::time`
+
+In my opinion, it's actually great to have some basic time functionality right in the standard library.
+However, just be aware that things like `std::time::SystemTime` is platform independent, which causes some headaches: https://github.com/rust-lang/rust/issues/44394
+Same for `Instant`, which is a wrapper around the most precise time source on each OS. https://github.com/rust-lang/rust/issues/48980
+That can cause some failing tests: https://github.com/rust-lang/rust/issues/48980#issuecomment-372744710
+
+Since time is such a thin wrapper around whatever the operating system provides, you can run into some nasty behavior.
+For example, this does not always result in "1 nanosecond" on Windows:
+
+```rust
+use std::time::{Duration, SystemTime};
+
+fn main() {
+let now = SystemTime::now();
+dbg!((now + Duration::from_nanos(1)).duration_since(now));
+}
+```
+
+> No details are provided on the accuracy of the clock, or on dealing with leap seconds besides specifying that SystemTime does not count them.
+
+That means if you depend on proper control over time, such as managing leap seconds or cross-platform support, you're better off using an external crate.
+For an overview, see this great survey in the Rust forum, titled: ['The state of time in Rust: leaps and bounds'](https://users.rust-lang.org/t/the-state-of-time-in-rust-leaps-and-bounds/107620).
+
+Time is hard.
+There are many issues.
+I mostly use std::time for durations as in
+
+```rust
+use std::time::Duration;
+
+fn main() {
+    std::thread::sleep(Duration::from_secs(1));
+}
+```
+
+Other than that, I prefer [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
+
+## Summary
+
+As you can see, it's really not a lot.
+Given that Rust 1.0 was released over a decade ago, the standard library stood the test of time.
+Apart from the mentioned issues, the Rust standard library is very well designed and thoroughly documented.
+There are also very few deprecations, which is a testament for the good overall structure and foresight.
