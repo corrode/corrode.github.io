@@ -1,6 +1,6 @@
 +++
 title = "Sharp Edges In The Rust Standard Library"
-date = 2025-05-08
+date = 2025-05-09
 draft = false
 template = "article.html"
 [extra]
@@ -86,11 +86,45 @@ As for normal, everyday code, just use a `Vec`.
 Even [the documentation of `LinkedList`](https://doc.rust-lang.org/nightly/std/collections/struct.LinkedList.html) itself agrees:
 
 > NOTE: It is almost always better to use `Vec` or `VecDeque` because array-based
-containers are generally faster, more memory efficient, and make better use of
-CPU cache.
+> containers are generally faster, more memory efficient, and make better use of
+> CPU cache.
 
 I believe the LinkedList should not have been included in the standard library in the first place.
+
+There are some surprising papercuts in the API; for instance, [`LinkedList::remove`](https://doc.rust-lang.org/std/collections/struct.LinkedList.html#method.remove) is still a nightly-only feature[^ll-remove]: 
+
+[^ll-remove]: Perhaps this is a little surprising if you mostly use vectors, but removing an element from a list is an `O(n)` operation.
+
+```rust
+use std::collections::LinkedList;
+
+fn main() {
+    let mut list = LinkedList::from([1,2,3]);
+    dbg!(list);
+    
+    // This is still unstable!
+    // https://github.com/rust-lang/rust/issues/69210
+    // The operation should compute in O(n) time.
+    // Panics if out of range...
+    // list.remove(0);
+}
+```
+
+Even if you wanted a linked list, it would probably not be `std::collections::LinkedList`:
+
+- It doesn't support O(1) splice, O(1) node erasure, or O(1) node insertion - only O(1) operations at the list ends
+- It has all the disadvantages of a doubly-linked list but none of its advantages
+- Custom implementations are often needed anyway. For example, many real-world use cases require an [intrusive linked list](https://www.data-structures-in-practice.com/intrusive-linked-lists/) implementation, not provided by `std`.
+  An intrusive list is what the [Linux kernel provides](https://elixir.bootlin.com/linux/v6.14.5/source/include/linux/list.h)
+  and even Rust for Linux has [its own implementation](https://rust-for-linux.github.io/docs/rust/src/kernel/linked_list.rs.html) of an intrusive list.
+- Arena-based linked lists are often needed for better performance.
+
 There is a [longer discussion in the Rust forum](https://internals.rust-lang.org/t/whats-the-status-of-std-linkedlist-maybe-deprecate-in-rust-2018/8068).
+
+Better implementations exist that provide more of the missing operations expected from a proper linked list implementation:
+
+- [contain-rs/linked-list](https://github.com/contain-rs/linked-list) 
+- [intrusive-collections](https://github.com/Amanieu/intrusive-rs) 
 
 ## `std::collections::BTreeMap`
 
