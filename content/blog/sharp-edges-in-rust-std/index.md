@@ -130,7 +130,7 @@ Better implementations exist that provide more of the missing operations expecte
 
 That one's a bit controversial.
 
-Rust has two hash map implementations in the standard library:
+Rust has two map implementations in the standard library:
 `BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
 For a long time, a "performance trick" was to use `BTreeMap` if you needed a faster hash map implementation.
 Nowadays, this is no longer the case.
