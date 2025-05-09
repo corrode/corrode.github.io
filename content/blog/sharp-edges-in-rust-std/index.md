@@ -5,6 +5,10 @@ draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+reviews = [ 
+    { name = "Wesley Moore (wezm)", url = "https://www.wezm.net" },
+    { name = "Eshed Schacham", url = "https://ashdnazg.github.io/" },
+]
 +++
 
 The [Rust standard library](https://doc.rust-lang.org/std/), affectionately called `std`, is exceptionally well-designed, but that doesn't mean it's perfect.
