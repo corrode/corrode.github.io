@@ -154,27 +154,25 @@ If you need anything faster than that, there are plenty of external crates like 
 ## `std::path::Path`
 
 I think `Path` does a decent job of abstracting away the underlying file system.
-One thing I always disliked was that `Path::join` does not return a `Result<PathBuf, Error>` instead.
-That would be beneficial for cases where we join a relative path with an absolute path, in which case the result is always the absolute path:
+One thing I always disliked was that `Path::join` returns a `PathBuf` instead of a `Result<PathBuf, Error>`.
+I mentioned in my ['Pitfalls of Safe Rust'](/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths) article
+that `Path::join` joining a relative path with an absolute path results in the absolute path being returned.
 
 ```rust
 use std::path::Path;
 
 fn main() {
-    let absolute_path = Path::new("/absolute/path");
     let relative_path = Path::new("relative/path");
+    let absolute_path = Path::new("/absolute/path");
 
-    // This will always return the absolute path
+    // This will return "/absolute/path"
     let result = relative_path.join(absolute_path);
     assert_eq!(result, absolute_path); 
 }
 ```
 
-I also wrote about it in my ['Pitfalls of Safe Rust'](/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths) article.
-
-There are some other valid concerns.
-
-Many programs assume paths are UTF-8 encoded and frequently convert them to `str`.
+I think that's pretty counterintuitive and a potential source of bugs. 
+On top of that, many programs assume paths are UTF-8 encoded and frequently convert them to `str`.
 That's always a fun dance:
 
 ```rust
@@ -206,7 +204,10 @@ There are a few more issues with paths in Rust:
 - `Path`/`OsStr` lacks common string manipulation methods (like `find()`, `replace()`, etc.), which makes many common operations on paths quite tedious
 - The design creates a poor experience for Windows users, with inefficient `Path`/`OsStr` handling that doesn't fit the platform well. It's a cross-platform compromise, but it creates some real problems.
 
-[`camino`](https://github.com/camino-rs/camino) is a good alternative crate, which just assumes that paths are UTF-8. This way, operations have much better ergonomics.
+Of course, for everyday use, `Path` is perfectly fine.
+If path handling is a core part of your application, you might want to consider using an external crate instead.
+[`camino`](https://github.com/camino-rs/camino) is a good alternative crate, which just assumes that paths are UTF-8 (which, in 2025, is a fair assumption).
+This way, operations have much better ergonomics.
 
 ## `std::time`
 
