@@ -1,7 +1,7 @@
 +++
 title = "Prototyping in Rust"
 date = 2025-01-15
-updated = 2025-01-21
+updated = 2025-05-11
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -17,13 +17,14 @@ reviews = [
 ]
 +++
 
-Programming is an iterative process - as much as we would like to come up with the perfect solution from the start, it rarely works that way.
+Programming is an iterative process.
+As much as we would like to come up with the perfect solution from the start, it rarely works that way.
 
-Good programs often start as quick prototypes.
-The bad ones stay prototypes, but the best ones evolve into production code.
+Good programs often begin as quick prototypes.
+While many experiments remain prototypes, the best programs can evolve into production code.
 
 Whether you're writing games, CLI tools, or designing library APIs, prototyping helps tremendously in finding the best approach before committing to a design.
-It helps reveal the patterns behind more idiomatic code.
+It often helps reveal the patterns behind more idiomatic code.
 
 For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas. Contrary to popular belief, it is a joy for building prototypes.
 
@@ -134,13 +135,13 @@ We can always make things more complex later if we have to -- the reverse is muc
 
 Here's a quick reference for common prototype-to-production type transitions:
 
-| Prototype        | Production          | When to switch                                                                     |
-| ---------------- | ------------------- | ---------------------------------------------------------------------------------- |
-| `String`         | `&str`              | When you need to avoid allocations or store string data with a clear lifetime      |
-| `Vec<T>`         | `&[T]`              | When the owned vector becomes too expensive to clone or you can't afford the heap  |
-| `Box<T>`         | `&T` or `&mut T`    | When `Box` becomes a bottleneck or you don't want to deal with heap allocations    | 
-| `Rc<T>`          | `&T`                | When the reference counting overhead becomes too expensive or you need mutability  | 
-| `Arc<Mutex<T>>`  | `&mut T`            | When you can guarantee exclusive access and don't need thread safety               |
+| Prototype       | Production       | When to switch                                                                    |
+| --------------- | ---------------- | --------------------------------------------------------------------------------- |
+| `String`        | `&str`           | When you need to avoid allocations or store string data with a clear lifetime     |
+| `Vec<T>`        | `&[T]`           | When the owned vector becomes too expensive to clone or you can't afford the heap |
+| `Box<T>`        | `&T` or `&mut T` | When `Box` becomes a bottleneck or you don't want to deal with heap allocations   |
+| `Rc<T>`         | `&T`             | When the reference counting overhead becomes too expensive or you need mutability |
+| `Arc<Mutex<T>>` | `&mut T`         | When you can guarantee exclusive access and don't need thread safety              |
 
 These owned types sidestep most ownership and lifetime issues, but they do it by allocating memory on the heap - just like Python or JavaScript would.
 
@@ -816,13 +817,13 @@ This makes it perfect for experimenting with real-world workloads, even before i
 
 Let's see how Rust stacks up against Python for prototyping:
 
-| Aspect                    | Python                                                                                                                             | Rust                                                                                                                      |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Initial Development Speed | ✓ Very quick to write initial code<br>✓ No compilation step<br>✓ Dynamic typing speeds up prototyping<br>✓ File watchers available                             | ⚠️ Slightly slower initial development<br>✓ Type inference helps<br>✓ Tools like `bacon` provide quick feedback            |
-| Standard Library          | ✓ Batteries included<br>✓ Rich ecosystem                                                                                           | ❌ Smaller standard library<br>✓ Growing ecosystem of high-quality crates                                                   |
-| Transition to Production  | ❌ Need extensive testing to catch type errors<br>❌ Bad performance might require extra work or rewrite in another language | ✓ Minimal changes needed beyond error handling<br>✓ Already has good performance<br>✓ Memory safety guaranteed             |
-| Maintenance               | ❌ Type errors surface during runtime<br>❌ Refactoring is risky                              | ✓ Compiler catches most issues<br>✓ Safe refactoring with type system              |
-| Code Evolution            | ❌ Hard to maintain large codebases<br>❌ Type issues compound                                                                      | ✓ Compiler guides improvements<br>✓ Types help manage complexity                                                          |
+| Aspect                    | Python                                                                                                                             | Rust                                                                                                           |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Initial Development Speed | ✓ Very quick to write initial code<br>✓ No compilation step<br>✓ Dynamic typing speeds up prototyping<br>✓ File watchers available | ⚠️ Slightly slower initial development<br>✓ Type inference helps<br>✓ Tools like `bacon` provide quick feedback |
+| Standard Library          | ✓ Batteries included<br>✓ Rich ecosystem                                                                                           | ❌ Smaller standard library<br>✓ Growing ecosystem of high-quality crates                                       |
+| Transition to Production  | ❌ Need extensive testing to catch type errors<br>❌ Bad performance might require extra work or rewrite in another language         | ✓ Minimal changes needed beyond error handling<br>✓ Already has good performance<br>✓ Memory safety guaranteed |
+| Maintenance               | ❌ Type errors surface during runtime<br>❌ Refactoring is risky                                                                     | ✓ Compiler catches most issues<br>✓ Safe refactoring with type system                                          |
+| Code Evolution            | ❌ Hard to maintain large codebases<br>❌ Type issues compound                                                                       | ✓ Compiler guides improvements<br>✓ Types help manage complexity                                               |
 
 
 Quite frankly, Rust makes for an excellent prototyping language if you embrace its strengths.
