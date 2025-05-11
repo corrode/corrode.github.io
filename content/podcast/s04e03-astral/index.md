@@ -51,6 +51,34 @@ Charlie is an engaging speaker and a great communicator.
 
 ### Links From The Episode
 
+- [ruff](https://docs.astral.sh/ruff/) - Python static linter and formatter written in Rust
+- [uv](https://docs.astral.sh/uv/) - Python package and project manager written in Rust
+- [rustfmt](https://github.com/rust-lang/rustfmt) - Rust code formatter
+- [clippy](https://github.com/rust-lang/rust-clippy/) - Linter for Rust code
+- [The Rust Programming Language: Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html) - The Rust Book's chapter on workspaces
+- [pip](https://pip.pypa.io/en/stable/) - Package Installer for Python
+- [pip documentation: Requirements File Format](https://pip.pypa.io/en/stable/reference/requirements-file-format/) - A description of the format of requirements.txt, including a list of embedded CLI options
+- [uv's CI](https://github.com/astral-sh/uv/tree/main/.github/workflows) - Build scripts for many different platforms
+- [jemalloc](https://jemalloc.net/) - Alternative memory allocator
+- [zlib-ng](https://github.com/zlib-ng/zlib-ng) - Next Generation zlib implementation in C
+- [reqwest](https://github.com/seanmonstar/reqwest) - An easy and powerful Rust HTTP Client
+- [zlib-rs](https://github.com/trifectatechfoundation/zlib-rs) - Pure Rust implementation of zlib
+- [XCode Instruments](https://developer.apple.com/tutorials/instruments) - macOS native performance profiler
+- [CodSpeed](https://codspeed.io/) - Continous benchmarking in CI
+- [hyperfine](https://github.com/sharkdp/hyperfine) - "macro benchmarking" tool, coincidentally written in Rust
+- [samply](https://github.com/mstange/samply) - Sampling based profiler written in Rust
+- [cargo flamegraph](https://github.com/flamegraph-rs/flamegraph) - Cargo profiling plugin
+- [tokio](https://tokio.rs) - Async Rust runtime
+- [curl-rust](https://github.com/alexcrichton/curl-rust) - Network API used in cargo
+- [tar-rs](https://github.com/alexcrichton/tar-rs) - Sync tar crate
+- [async-tar](https://github.com/dignifiedquire/async-tar) - Async tar crate based on the async_std runtime
+- [tokio-tar](https://github.com/vorot93/tokio-tar) - Async tar crate based on tokio
+- [astral-tokio-tar](https://github.com/astral-sh/tokio-tar) - Async tar crate based on tokio, maintained by Astral
+- [RustPython](https://rustpython.github.io/) - Python interpreter written in Rust
+- [lalrpop](https://github.com/lalrpop/lalrpop) - The parser generator used by RustPython
+- [Charlie's EuroRust 2024 Talk](https://youtu.be/zOY9mc-zRxk) - Mentions the version number parser at 18:45
+- [ripgrep](https://github.com/BurntSushi/ripgrep) - Andrew Gallant's idiomatic Rust project, which also happens to be a very fast CLI file search tool
+
 ### Official Links
 
 - [Astral](https://astral.sh/)
