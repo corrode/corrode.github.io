@@ -12,6 +12,8 @@ episode = "03"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-7b80a2f5" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/uv-with-charlie-marsh/player.js?size=s"></script></div>
+
 Up until a few years ago, Python tooling was a nightmare:
 basic tasks like installing packages or managing Python versions was a pain.
 The tools were brittle and did not work well together.
