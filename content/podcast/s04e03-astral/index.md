@@ -63,12 +63,12 @@ Charlie is an engaging speaker and a great communicator.
 - [zlib-ng](https://github.com/zlib-ng/zlib-ng) - Next Generation zlib implementation in C
 - [reqwest](https://github.com/seanmonstar/reqwest) - An easy and powerful Rust HTTP Client
 - [zlib-rs](https://github.com/trifectatechfoundation/zlib-rs) - Pure Rust implementation of zlib
-- [XCode Instruments](https://developer.apple.com/tutorials/instruments) - macOS native performance profiler
-- [CodSpeed](https://codspeed.io/) - Continous benchmarking in CI
+- [XCode Instruments](https://developer.apple.com/tutorials/instruments) - Native macOS performance profiler
+- [CodSpeed](https://codspeed.io/) - Continuous benchmarking in CI
 - [hyperfine](https://github.com/sharkdp/hyperfine) - "macro benchmarking" tool, coincidentally written in Rust
 - [samply](https://github.com/mstange/samply) - Sampling based profiler written in Rust
 - [cargo flamegraph](https://github.com/flamegraph-rs/flamegraph) - Cargo profiling plugin
-- [tokio](https://tokio.rs) - Async Rust runtime
+- [tokio](https://tokio.rs) - Asynchronous runtime for Rust
 - [curl-rust](https://github.com/alexcrichton/curl-rust) - Network API used in cargo
 - [tar-rs](https://github.com/alexcrichton/tar-rs) - Sync tar crate
 - [async-tar](https://github.com/dignifiedquire/async-tar) - Async tar crate based on the async_std runtime
