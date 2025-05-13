@@ -8,6 +8,7 @@ series = "Idiomatic Rust"
 reviews = [ 
     { name = "Wesley Moore (wezm)", url = "https://www.wezm.net" },
     { name = "Eshed Schacham", url = "https://ashdnazg.github.io/" },
+    { name = "LoeniePhiline", url = "https://github.com/LeoniePhiline" },
 ]
 +++
 
