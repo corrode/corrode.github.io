@@ -143,6 +143,8 @@ That's because `HashMap` has improved significantly in performance and is now th
 One reason is that the implementation of `HashMap` has [changed to use a "siphash" algorithm](https://doc.rust-lang.org/book/ch08-03-hash-maps.html#hashing-functions) and is now [based on Google's SwissTable](https://doc.rust-lang.org/std/collections/struct.HashMap.html).
 The combination of these changes has made `HashMap` much more performant than before, so there is no good reason to use `BTreeMap` anymore, other than the ordering guarantee.
 
+One important distinction to note: iteration order over a `HashMap` is random, while `BTreeMap`'s iteration order is always sorted by the key's `Ord` implementation (not by insertion order). This makes `BTreeMap` useful when you need to iterate over keys in a sorted manner. If you're aggregating data in a `HashMap` but need a sorted list, you'll need to collect into a vector and sort it manually. In contrast, `BTreeMap` gives you sorted iteration for free. So while `HashMap` is better for random access operations, `BTreeMap` is still helpful when sorted iteration is required.
+
 In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/), Jamie Brandon compares the performance of Rust's `BTreeMap` and `HashMap`. Here are my key takeaways:
 
 - When comparing performance, btrees were found to be significantly slower than hashmaps in most scenarios, especially for lookups.
