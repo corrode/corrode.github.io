@@ -1,10 +1,9 @@
 +++
 title = "Don't Unwrap Options: There Are Better Ways"
 date = 2024-08-29
-date = 2025-05-14
+updated = 2025-05-14
 template = "article.html"
 [extra]
-date = 2024-08-30
 series = "Idiomatic Rust"
 reviews = [
     { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
