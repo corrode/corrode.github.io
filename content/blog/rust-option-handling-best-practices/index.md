@@ -1,6 +1,7 @@
 +++
 title = "Don't Unwrap Options: There Are Better Ways"
 date = 2024-08-29
+date = 2025-05-14
 template = "article.html"
 [extra]
 date = 2024-08-30
@@ -283,12 +284,6 @@ It's probably fine for applications, but you might not want to use it in a libra
 your library can no longer match on the concrete error variant then.
 
 That's why I believe that `let-else` is the best solution for handling `None` in most cases.
-
-- It's part of the standard library.
-- It's easy to understand for beginners.
-- Learning the mechanics behind it is helpful in other places as well.
-- It's reasonably compact.
-- It allows for more complex error handling logic in the `else` block if needed.
 
 ## Conclusion
 
