@@ -58,12 +58,12 @@ Charlie is an engaging speaker and a great communicator.
 - [rustfmt](https://github.com/rust-lang/rustfmt) - Rust code formatter
 - [clippy](https://github.com/rust-lang/rust-clippy/) - Linter for Rust code
 - [The Rust Programming Language: Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html) - The Rust Book's chapter on workspaces
-- [pip](https://pip.pypa.io/en/stable/) - Package Installer for Python
+- [pip](https://pip.pypa.io/en/stable/) - The standard Package Installer for Python
 - [pip documentation: Requirements File Format](https://pip.pypa.io/en/stable/reference/requirements-file-format/) - A description of the format of requirements.txt, including a list of embedded CLI options
 - [uv's CI](https://github.com/astral-sh/uv/tree/main/.github/workflows) - Build scripts for many different platforms
 - [jemalloc](https://jemalloc.net/) - Alternative memory allocator
-- [zlib-ng](https://github.com/zlib-ng/zlib-ng) - Next Generation zlib implementation in C
 - [reqwest](https://github.com/seanmonstar/reqwest) - An easy and powerful Rust HTTP Client
+- [zlib-ng](https://github.com/zlib-ng/zlib-ng) - Next Generation zlib implementation in C
 - [zlib-rs](https://github.com/trifectatechfoundation/zlib-rs) - Pure Rust implementation of zlib
 - [XCode Instruments](https://developer.apple.com/tutorials/instruments) - Native macOS performance profiler
 - [CodSpeed](https://codspeed.io/) - Continuous benchmarking in CI
