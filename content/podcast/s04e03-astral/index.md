@@ -16,11 +16,12 @@ series = "Podcast"
 
 Up until a few years ago, Python tooling was a nightmare:
 basic tasks like installing packages or managing Python versions was a pain.
-The tools were brittle and did not work well together.
+The tools were brittle and did not work well together,
+mired in a swamp of underspecified implementation defined behaviour.
 
-Then, suddenly, we saw a renaissance of new ideas in the Python ecosystem.
-It started with [Poetry](https://python-poetry.org/) and [pipx](https://pypa.github.io/pipx/) and
-continued with tooling written in Rust like [rye](https://rye.astral.sh/), which later got incorporated into 
+Then, apparently suddenly, but in reality backed by years of ongoing work on formal interoperability specifications,
+we saw a renaissance of new ideas in the Python ecosystem.
+It started with [Poetry](https://python-poetry.org/) and [pipx](https://pypa.github.io/pipx/) and continued with tooling written in Rust like [rye](https://rye.astral.sh/), which later got incorporated into 
 [Astral](https://astral.sh/).
 
 Astral in particular contributed a very important piece to the puzzle: `uv`
