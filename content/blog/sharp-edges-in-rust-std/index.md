@@ -142,8 +142,8 @@ Better implementations exist that provide more of the missing operations expecte
 
 "Hold on, *another* collection?" you might ask.
 
-I would like to preface this section by saying that I don't think too strongly about this.
-This is certainly the most controversial point on this list, but hear me out!
+I would like to preface this section by saying that I don't think too strongly about `BTreeMap`. 
+It's certainly the most controversial point on this list, but I **did** want to mention, that there are probably better alternatives in the wider Rust ecosystem if `HashMap` is not enough. 
 
 As you know, Rust has two map implementations in the standard library:
 `BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
@@ -167,8 +167,7 @@ In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smol
 I'd argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library is confusing. 
 
 On top of that, if the hash map is your bottleneck, you're doing pretty well already.
-If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access. That's why `BTreeMap` is not my favorite collection type in the standard library (sorry!), but to be fair I hold that belief pretty loosely.
-I **did** want to mention, however, that there are more modern alternatives in the wider Rust ecosystem that some people might not be aware of.
+If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
 
 ## `std::path::Path`
 
