@@ -132,7 +132,7 @@ h4 {
 
 code {
   font-family: "JetBrainsMono", monospace;
-  font-size: 1.0em;
+  font-size: 1em;
 }
 
 div.hero {
@@ -718,4 +718,20 @@ details summary {
       border-left-color: $brightScnd;
     }
   }
+}
+
+/* Basic styling for code blocks in tables */
+td pre {
+  border: 1px solid rgba(white, 0.5);
+}
+
+td pre code {
+  font-size: 80%;
+  display: block;
+}
+
+td .code-block-container {
+  position: relative;
+  width: 100%;
+  margin-left: 0%;
 }
