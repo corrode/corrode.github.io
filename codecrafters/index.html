@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CodeCrafters 40% off | corrode</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/syntax-theme-dark-custom.css"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/syntax-theme-light-custom.css"
+      media="(prefers-color-scheme: light)"
+    />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <style>
+      html,
+      .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+      }
+      .logo {
+        width: 200px;
+        max-width: 100%;
+        filter: invert(1);
+      }
+      #codecrafters {
+        max-width: 600px;
+        text-align: center;
+        padding: 20px;
+      }
+      p {
+        margin: 1rem 0;
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+      .product-name {
+        color: #fab71c;
+        font-weight: 600;
+      }
+      .cta-link {
+        display: inline-flex;
+        align-items: center;
+        background-color: #3a3f52;
+        color: white;
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: 1px solid white;
+      }
+      .cta-link svg {
+        margin-left: 10px;
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
+      }
+      .context {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img class="logo" src="/corrode.svg" alt="Corrode Logo" />
+      <div id="codecrafters">
+        <p>
+          Learn Rust by building <b>real systems</b> with
+          <span class="product-name">CodeCrafters</span>.
+        </p>
+        <p>
+          Build your own Redis, SQLite, Git, and more through guided challenges!
+        </p>
+        <a href="https://app.codecrafters.io/join?via=mre" class="cta-link">
+          Try CodeCrafters for free
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </a>
+        <p class="context">Get 40% off if you upgrade to a paid plan.</p>
+      </div>
+    </div>
+  </body>
+</html>
