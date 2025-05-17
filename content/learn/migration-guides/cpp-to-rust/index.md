@@ -297,7 +297,7 @@ concept Shape = requires(T t) {
 <table style="width:100%">
   <thead>
     <tr>
-      <th>Type Category</th>
+      <th>Type</th>
       <th>Rust</th>
       <th>C++</th>
     </tr>
