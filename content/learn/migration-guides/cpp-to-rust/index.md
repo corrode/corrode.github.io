@@ -291,3 +291,197 @@ concept Shape = requires(T t) {
     </tr>
   </tbody>
 </table>
+
+## Rust vs C++ Type Equivalents
+
+<table style="width:100%">
+  <thead>
+    <tr>
+      <th>Type Category</th>
+      <th>Rust</th>
+      <th>C++</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Boolean</strong></td>
+      <td><code>bool</code></td>
+      <td><code>bool</code></td>
+    </tr>
+    <tr>
+      <td><strong>Character</strong></td>
+      <td><code>char</code> (Unicode scalar value, 4 bytes)</td>
+      <td><code>char32_t</code> (or <code>wchar_t</code> on some platforms)</td>
+    </tr>
+    <tr>
+      <td><strong>Unsigned Integers</strong></td>
+      <td>
+        <pre><code class="language-rust">u8, u16, u32, u64, u128, usize</code></pre>
+      </td>
+      <td>
+        <pre><code class="language-cpp">uint8_t, uint16_t, uint32_t, uint64_t, 
+__uint128, uintptr_t/size_t</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Signed Integers</strong></td>
+      <td>
+        <pre><code class="language-rust">i8, i16, i32, i64, i128, isize</code></pre>
+      </td>
+      <td>
+        <pre><code class="language-cpp">int8_t, int16_t, int32_t, int64_t, 
+__int128, intptr_t/ptrdiff_t</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Floating Point</strong></td>
+      <td><code>f32, f64</code></td>
+      <td><code>float, double</code></td>
+    </tr>
+    <tr>
+      <td><strong>Byte (Raw Data)</strong></td>
+      <td><code>u8</code></td>
+      <td><code>char</code> (when used in byte buffers)</td>
+    </tr>
+    <tr>
+      <td><strong>Unit Type</strong></td>
+      <td><code>()</code> (unit)</td>
+      <td><code>void</code></td>
+    </tr>
+    <tr>
+      <td><strong>Never Type</strong></td>
+      <td><code>!</code> (never)</td>
+      <td><code>[[noreturn]] void</code></td>
+    </tr>
+    <tr>
+      <td><strong>Immutable Reference</strong></td>
+      <td><code>&T</code></td>
+      <td><code>const T&</code></td>
+    </tr>
+    <tr>
+      <td><strong>Mutable Reference</strong></td>
+      <td><code>&mut T</code></td>
+      <td><code>T&</code></td>
+    </tr>
+    <tr>
+      <td><strong>Raw Pointers</strong></td>
+      <td><code>*const T</code>, <code>*mut T</code></td>
+      <td><code>const T*</code>, <code>T*</code></td>
+    </tr>
+    <tr>
+      <td><strong>Arrays</strong></td>
+      <td><code>[T; N]</code></td>
+      <td><code>std::array&lt;T, N&gt;</code> or <code>T[N]</code></td>
+    </tr>
+    <tr>
+      <td><strong>Slices</strong></td>
+      <td><code>&[T]</code></td>
+      <td><code>std::span&lt;T&gt;</code> (C++20)</td>
+    </tr>
+    <tr>
+      <td><strong>Dynamic Array</strong></td>
+      <td><code>Vec&lt;T&gt;</code></td>
+      <td><code>std::vector&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>String</strong></td>
+      <td><code>String</code> (UTF-8 encoded)</td>
+      <td><code>std::string</code></td>
+    </tr>
+    <tr>
+      <td><strong>String Slice</strong></td>
+      <td><code>&str</code> (UTF-8 encoded)</td>
+      <td><code>std::string_view</code> (C++17)</td>
+    </tr>
+    <tr>
+      <td><strong>C Compatible String</strong></td>
+      <td><code>CString</code>, <code>&CStr</code></td>
+      <td><code>std::string</code>, <code>const char*</code></td>
+    </tr>
+    <tr>
+      <td><strong>Nullable/Optional</strong></td>
+      <td><code>Option&lt;T&gt;</code></td>
+      <td><code>std::optional&lt;T&gt;</code> (C++17)</td>
+    </tr>
+    <tr>
+      <td><strong>Error Handling</strong></td>
+      <td><code>Result&lt;T, E&gt;</code></td>
+      <td><code>std::expected&lt;T, E&gt;</code> (C++23)</td>
+    </tr>
+    <tr>
+      <td><strong>Smart Pointer (Unique)</strong></td>
+      <td><code>Box&lt;T&gt;</code></td>
+      <td><code>std::unique_ptr&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Smart Pointer (Shared)</strong></td>
+      <td><code>Rc&lt;T&gt;</code> (single-threaded)<br><code>Arc&lt;T&gt;</code> (thread-safe)</td>
+      <td><code>std::shared_ptr&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Weak Pointer</strong></td>
+      <td><code>Weak&lt;T&gt;</code> (from Rc/Arc)</td>
+      <td><code>std::weak_ptr&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Hash Map</strong></td>
+      <td><code>HashMap&lt;K, V&gt;</code></td>
+      <td><code>std::unordered_map&lt;K, V&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Ordered Map</strong></td>
+      <td><code>BTreeMap&lt;K, V&gt;</code></td>
+      <td><code>std::map&lt;K, V&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Hash Set</strong></td>
+      <td><code>HashSet&lt;T&gt;</code></td>
+      <td><code>std::unordered_set&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Ordered Set</strong></td>
+      <td><code>BTreeSet&lt;T&gt;</code></td>
+      <td><code>std::set&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Double-Ended Queue</strong></td>
+      <td><code>VecDeque&lt;T&gt;</code></td>
+      <td><code>std::deque&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Linked List</strong></td>
+      <td><code>LinkedList&lt;T&gt;</code></td>
+      <td><code>std::list&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Priority Queue</strong></td>
+      <td><code>BinaryHeap&lt;T&gt;</code></td>
+      <td><code>std::priority_queue&lt;T&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Tuple</strong></td>
+      <td><code>(T1, T2, ...)</code></td>
+      <td><code>std::tuple&lt;T1, T2, ...&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Tagged Union</strong></td>
+      <td><code>enum Variant { A(T1), B(T2), ... }</code></td>
+      <td><code>std::variant&lt;T1, T2, ...&gt;</code> (C++17)</td>
+    </tr>
+    <tr>
+      <td><strong>Interior Mutability</strong></td>
+      <td><code>Cell&lt;T&gt;</code>, <code>RefCell&lt;T&gt;</code></td>
+      <td><code>mutable</code> keyword</td>
+    </tr>
+    <tr>
+      <td><strong>Thread-Safe Mutability</strong></td>
+      <td><code>Mutex&lt;T&gt;</code>, <code>RwLock&lt;T&gt;</code></td>
+      <td><code>std::mutex</code> + <code>T</code></td>
+    </tr>
+    <tr>
+      <td><strong>Atomic Types</strong></td>
+      <td><code>AtomicBool</code>, <code>AtomicUsize</code>, etc.</td>
+      <td><code>std::atomic&lt;bool&gt;</code>, <code>std::atomic&lt;size_t&gt;</code>, etc.</td>
+    </tr>
+  </tbody>
+</table>
