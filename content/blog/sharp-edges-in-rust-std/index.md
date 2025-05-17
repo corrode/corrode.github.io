@@ -140,10 +140,12 @@ Better implementations exist that provide more of the missing operations expecte
 
 ## `std::collections::BTreeMap`
 
-That one's a bit controversial.
-Hear me out!
+"Hold on, *another* collection?" you might ask.
 
-Rust has two map implementations in the standard library:
+I would like to preface this section by saying that I don't think too strongly about this.
+This is certainly the most controversial point on this list, but hear me out!
+
+As you know, Rust has two map implementations in the standard library:
 `BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
 For a long time, a ["performance trick"](https://users.rust-lang.org/t/hashmap-vs-btreemap/13804/2) was to use `BTreeMap` if you needed a faster hash map implementation.
 
@@ -152,20 +154,21 @@ One reason is that the implementation of `HashMap` has [changed to use a "siphas
 The combination of these changes has made `HashMap` much more performant than before, so there is no good reason to use `BTreeMap` anymore, other than the ordering guarantee.
 
 One important distinction to note: iteration order over a `HashMap` is random, while `BTreeMap`'s iteration order is always sorted by the key's `Ord` implementation (not by insertion order). This makes `BTreeMap` useful when you need to iterate over keys in a sorted manner. If you're aggregating data in a `HashMap` but need a sorted list, you'll need to collect into a vector and sort it manually. In contrast, `BTreeMap` gives you sorted iteration for free. So while `HashMap` is better for random access operations, `BTreeMap` is still helpful when sorted iteration is required.
+I would argue that it's a bit of a niche use case, however.
 
-In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/), Jamie Brandon compares the performance of Rust's `BTreeMap` and `HashMap`. Here are my key takeaways:
+In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/), Jamie Brandon compares the performance of Rust's `BTreeMap` and `HashMap`. Here are the key takeaways:
 
-- When comparing performance, btrees were found to be significantly slower than hashmaps in most scenarios, especially for lookups.
-  In the worst case with random-ish strings that share common prefixes, btrees performed dramatically worse.
+- When comparing performance, btrees were found to be significantly slower than hashmaps in most scenarios,
+  especially for lookups. In the worst case with random-ish strings that share common prefixes, btrees performed dramatically worse.
 - Hashmaps benefit more from speculative execution between multiple lookups, while btrees don't.
 - btrees have performance "cliffs" when comparisons get more expensive and touch more memory
 - For space usage, the author estimates that btrees would use >60% more memory than hashmaps for random keys.
 
-I'd argue that a normal HashMap is fast enough nowadays.
-If the hash map is your bottleneck, you should probably look at your algorithm.
+I'd argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library is confusing. 
 
-If you need anything faster than that, there are plenty of external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
-I personally believe that having two map implementations is confusing.
+On top of that, if the hash map is your bottleneck, you're doing pretty well already.
+If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access. That's why `BTreeMap` is not my favorite collection type in the standard library (sorry!), but to be fair I hold that belief pretty loosely.
+I **did** want to mention, however, that there are more modern alternatives in the wider Rust ecosystem that some people might not be aware of.
 
 ## `std::path::Path`
 
