@@ -94,9 +94,12 @@ article li pre {
   object-fit: cover;
 }
 
-article h2 code:not(pre > code) {
-  font-size: 0.7em;
-  vertical-align: middle;
+article :is(h1, h2, h3, h4, h5, h6) code:not(pre > code) {
+  font-size: 0.8em;
+  font-weight: 200;
+  border: none;
+  padding: 0;
+  letter-spacing: -0.01em;
 }
 
 .article-content-wrapper {
