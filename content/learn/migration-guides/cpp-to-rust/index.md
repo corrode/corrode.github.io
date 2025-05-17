@@ -1,0 +1,51 @@
++++
+title = "C++ to Rust Cheat-Sheet"
+date = 2025-05-17
+template = "article.html"
+draft = false
+[extra]
+series = "Migration Guides"
+icon = "cpp.svg"
+resources = [
+    "[Rust Vs C++ Beyond Safety - Joseph Cordell - ACCU Cambridge](https://www.youtube.com/watch?v=IvPP5U2wzlE)"
+]
++++
+
+Some people learn programming languages best by looking at examples for how to do the same thing in the language they know and the new language.
+This cheat-sheet provides a quick reference for common C++ constructs and their equivalents in Rust.
+It is not a comprehensive guide, but it should help you get started with the basics of Rust.
+
+
+| Feature                            | Rust                                                                                         | C++                                                                                                                                                    |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Variable Declaration**           | `let x: i32 = 5;`                                                                            | `int x = 5;`                                                                                                                                           |
+| **Type Inference**                 | `let x = 5;`                                                                                 | `auto x = 5;`                                                                                                                                          |
+| **Mutable Variables**              | `let mut x = 5;`                                                                             | `int x = 5;` (mutable by default)                                                                                                                      |
+| **Constant Declaration**           | `const MAX: i32 = 100;`                                                                      | `const int MAX = 100;`                                                                                                                                 |
+| **Function Declaration**           | `fn add(first: i32, second: i32) -> i32 { first + second }`                                  | `int add(int first, int second) { return first + second; }`                                                                                            |
+| **Implicit Return**                | `fn add(a: i32, b: i32) -> i32 { a + b }`                                                    | `auto add(int a, int b) -> int { return a + b; }`                                                                                                      |
+| **Immutable Reference**            | `&T`                                                                                         | `const T&`                                                                                                                                             |
+| **Mutable Reference**              | `&mut T`                                                                                     | `T&`                                                                                                                                                   |
+| **Raw Pointer**                    | `*const T`, `*mut T`                                                                         | `T*`, `const T*`                                                                                                                                       |
+| **Struct Declaration**             | ```struct Person { id: u32, health: i32 }```                                                 | ```struct Person { unsigned int id; int health; };```                                                                                                  |
+| **Struct Initialization**          | `Person { id: uid, health: 100 }`                                                            | `Person{uid, 100}` or `Person{.id = uid, .health = 100}`                                                                                               |
+| **Struct Field Access**            | `person.id`                                                                                  | `person.id`                                                                                                                                            |
+| **Class/Method Implementation**    | ```impl MyClass { fn new(name: &String, data: &Vec<String>) -> Self { /* ... */ } }```       | ```class MyClass { public: MyClass(const string& name, const vector<string>& data) { /* ... */ } };```                                                 |
+| **Method with Self**               | ```fn get_name(&self) -> String { self.name.clone() }```                                     | ```string get_name() const { return name; }```                                                                                                         |
+| **Static Method**                  | ```fn static_method() { /* ... */ }```                                                       | ```static void static_method() { /* ... */ }```                                                                                                        |
+| **Interface/Trait**                | ```trait Shape { fn get_area(&self) -> f64; }```                                             | ```class Shape { public: virtual double get_area() const = 0; };```                                                                                    |
+| **Implementing Interface**         | ```impl Shape for Circle { fn get_area(&self) -> f64 { /* ... */ } }```                      | ```class Circle : public Shape { public: double get_area() const override { /* ... */ } };```                                                          |
+| **Generic Function**               | ```fn generic_call<T: Shape>(gen_shape: &T) { /* ... */ }```                                 | ```template<typename T> void generic_call(const T& gen_shape) { /* ... */ }```                                                                         |
+| **Associated Types**               | ```trait Shape { type InnerType; fn make_inner(&self) -> Self::InnerType; }```               | ```template<typename T> concept Shape = requires(T t) { typename T::InnerType; { t.make_inner() } -> std::convertible_to<typename T::InnerType>; };``` |
+| **Enums (Tagged Union)**           | ```enum MyShape { Circle(f64), Rectangle(f64, f64) }```                                      | ```std::variant<Circle, Rectangle> my_shape;```                                                                                                        |
+| **Pattern Matching**               | ```match shape { MyShape::Circle(r) => /* ... */, MyShape::Rectangle(w, h) => /* ... */ }``` | ```std::visit(overloaded { [](const Circle& c) { /* ... */ }, [](const Rectangle& r) { /* ... */ } }, my_shape);```                                    |
+| **Optional Types**                 | `Option<T>` (Some(T) or None)                                                                | `std::optional<T>`                                                                                                                                     |
+| **Error Handling**                 | `Result<T, E>` (Ok(T) or Err(E))                                                             | `std::expected<T, E>` (C++23)                                                                                                                          |
+| **Error Propagation**              | `let file = File::open("file.txt")?;`                                                        | No direct equivalent; uses exceptions or return codes                                                                                                  |
+| **Automatic Trait Implementation** | `#[derive(Debug, Clone, PartialEq)]`                                                         | No direct equivalent                                                                                                                                   |
+| **Memory Allocation**              | Explicit: `String::from("text")`, `.to_owned()`, `.clone()`                                  | Often implicit when passing by value                                                                                                                   |
+| **Destructors**                    | `impl Drop for MyType { fn drop(&mut self) { /* cleanup */ } }`                              | `~MyType() { /* cleanup */ }`                                                                                                                          |
+| **Serialization**                  | `#[derive(Serialize, Deserialize)]`                                                          | Requires manual implementation or code generation                                                                                                      |
+| **Print to Console**               | `println!("Hello, {}", name);`                                                               | `std::cout << "Hello, " << name << std::endl;`                                                                                                         |
+| **Debug Output**                   | `println!("{:?}", object);`                                                                  | No direct equivalent; requires custom implementation                                                                                                   |
+| **Pretty Debug Output**            | `println!("{:#?}", object);`                                                                 | No direct equivalent                                                                                                                                   |
