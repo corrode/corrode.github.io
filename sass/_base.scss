@@ -735,3 +735,21 @@ td .code-block-container {
   width: 100%;
   margin-left: 0%;
 }
+
+.footnotes {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid rgba($brightPrim, 0.2);
+}
+
+.footnotes-list {
+  font-size: 0.8em;
+  line-height: 1.5;
+  padding-left: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .footnotes {
+    border-top-color: rgba($darkPrim, 0.3);
+  }
+}
