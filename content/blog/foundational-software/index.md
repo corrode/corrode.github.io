@@ -26,7 +26,7 @@ First off, do we really need another different term?
 After all, many people still think of Rust as a systems programming language first and foremost, so why can't we just stick to "systems programming"?
 
 I believe the framing is all wrong.
-<<From the outside the term might imply that we build "systems", but systems programming is a term loaded with historical baggage that feels limiting and prohibitive.>>
+From the outside, the term might establish that it is about "building systems," but systems programming is a term loaded with historical baggage that feels limiting and prohibitive.
 It creates an artificial distinction between systems programming and "other types of programming."
 
 The mindset "We are not a systems programming company so we don't need Rust" is common, but limiting.
