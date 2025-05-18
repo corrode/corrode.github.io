@@ -23,7 +23,7 @@ I wanted to expand on the idea and share what this means to corrode (and perhaps
 ## The Issue With "Systems Programming"
 
 First off, do we really need another different term?
-After all, many people still think of Rust as a systems programming language first and foremost so why can't we just stick to "systems programming"?
+After all, many people still think of Rust as a systems programming language first and foremost, so why can't we just stick to "systems programming"?
 
 I believe the framing is all wrong.
 <<From the outside the term might imply that we build "systems", but systems programming is a term loaded with historical baggage that feels limiting and prohibitive.>>
@@ -32,16 +32,15 @@ It creates an artificial distinction between systems programming and "other type
 The mindset "We are not a systems programming company so we don't need Rust" is common, but limiting.
 
 If I may be candid for a moment, I believe well-known systems-programming domains have a tendency to be toxic.
-Even the best developers in the world made that experience.
+Even the best developers in the world have had that experience.
 Here is Glauber Costa, founder of Torso:
 
-
-> "The first contribution that I had to the Linux kernel was some fix for the ext3 file system. It was a very emotional moment for me. I sent a patch to the Linux Kernel and then I saw an email response from Al Viro - one of those developers I'd only heard about and dreamed of meeting someday.
+> The first contribution that I had to the Linux kernel was some fix for the ext3 file system. It was a very emotional moment for me. I sent a patch to the Linux Kernel and then I saw an email response from Al Viro - one of those developers I'd only heard about and dreamed of meeting someday.
 > He responded, **'I've never seen code this bad in my life. You managed to introduce three new bugs in two new lines of code. People like you should never be allowed to get close to a keyboard again.'**
 > That was my introduction to Linux. 
 > -- from the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
 
-Glauber previously worked at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases and performance optimizations. He knows what he's doing.
+Glauber previously worked at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases, and performance optimizations. He knows what he's doing.
 
 Just imagine how many capable developers got discouraged by similar feedback or never even tried to contribute to the Linux kernel in the first place because of such comments.
 
@@ -72,7 +71,6 @@ Graydon put it this way:
 > "This is the essence of the systems Rust is best for writing: not flashy, not attention-grabbing, often entirely unnoticed. Just the robust and reliable necessities that enable us to get our work done, to attend to other things, confident that the system will keep humming along unattended."
 > 
 > -- From [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
-
 
 In conversations with potential customers, one key aspect that comes up with Rust a lot is this perception that Rust is merely a systems programming language.
 They see the benefit of reliable software, but often face headwinds from people dismissing Rust as "yet another systems level language that is slightly safer."
@@ -112,7 +110,7 @@ This mindset takes away the focus from Rust as a C++ replacement and also explai
 
 What is less often talked about is that Rust is a language that enables people to move across domain boundaries: from embedded to cloud, from data science to developer tooling. 
 I don't know any other language that's so versatile. 
-If you know Rust you can program simple things in all of these domains.
+If you know Rust, you can program simple things in all of these domains.
 
 ## Why Focus On Foundational Software?
 
@@ -135,6 +133,7 @@ They reach for loftier goals because they can.
 The fact they don't have to deal with security issues anymore enables better affordances.
 From my conversations with other Rustaceans, we all made the same observation: suddenly we can build more ambitious projects that we never dared tackling before, such as writing a CPU emulator because we can.
 For fun.
+
 It feels to me as if this direction is more promising: starting with the foundational tech and growing into application-level/business-level code if needed/helpful.
 That's better than the other way around, which often feels unnecessarily clunky.
 Once the foundations are in Rust, other systems can be built on top of it.
@@ -159,20 +158,20 @@ and many, many more.
 
 All of these things power organizations and *must not fail* or at least do so *gracefully*.
 My clients and the companies listed on our [podcast page](/podcast) all have one thing in common: 
-They work on Rust projects that are not on the sideline, but front and center and they shape the future of their infrastructure.
+They work on Rust projects that are not on the sideline, but front and center, and they shape the future of their infrastructure.
 
-Rust is useful in situations, where the ["worse is better" philosophy falls apart](https://dreamsongs.com/Files/worse-is-worse.pdf): it's a language for building the "right thing":
+Rust is useful in situations where the ["worse is better" philosophy falls apart](https://dreamsongs.com/Files/worse-is-worse.pdf): it's a language for building the "right thing":
 
 > With the right thing, designers are equally concerned with simplicity, correctness, consistency, and completeness.
-
 
 I think many companies will choose Rust to build their future platforms on.
 As such, it competes with C++ as much as it does with Kotlin or Python.
 
-I believe that we should shift the focus away from memory safety (which these languages also have) and instead focus on the explicitness and expressiveness and the ecosystem of Rust that is highly competitive with these languages.
+I believe that we should shift the focus away from memory safety (which these languages also have) and instead focus on the explicitness, expressiveness, and ecosystem of Rust that is highly competitive with these languages.
 It is a language for teams which want to build things right and are at odds with the "move fast and break things" philosophy of the past.
 Rust is future-looking. 
-Backwards-compatibility is enforced by the compiler and many people work on the robustness-aspect of the language.
+Backwards-compatibility is enforced by the compiler and many people work on the robustness aspect of the language.
+
 Dropbox was one of the first production users of Rust.
 They built their storage layer on top of it.
 At no point did they think about using Rust as a C++ replacement.
@@ -199,7 +198,7 @@ Stability plays a big role in that.
 The fact that Rust has stable editions and a language specification is a big part of that.
 
 But Rust is not just a compiler and its standard library.
-The tooling and wider ecosystem is equally important.
+The tooling and wider ecosystem are equally important.
 To build foundational software, you need guarantees that vulnerabilities get fixed and that the ecosystem evolves and adapts to the customer's needs.
 The ecosystem is still mostly driven by volunteers who work on important parts of the ecosystem in their free time.
 There is more to be said about supply-chain security and sustainability in the ecosystem.
