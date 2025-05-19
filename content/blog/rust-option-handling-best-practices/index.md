@@ -1,13 +1,14 @@
 +++
 title = "Don't Unwrap Options: There Are Better Ways"
 date = 2024-08-29
-updated = 2025-05-14
+updated = 2025-05-20
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 reviews = [
     { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
     { name = "Artur Jakubiec", url = "https://www.linkedin.com/in/artur-jakubiec" },
+    { name = "Andrew Gallant (burntsushi)", url = "https://burntsushi.net/"}
 ]
 +++
 
@@ -174,7 +175,7 @@ or if other callers don't treat the absence of a user as an error.
 
 In that case, read on!
 
-## Solution 2: `ok_or` 
+## Solution 2: `ok_or_else` / `ok_or` 
 
 The initial error message, while cryptic, gave us a hint:
 
@@ -197,23 +198,28 @@ let user = get_user()
     .ok_or("Something went wrong")?;
 ```
 
-([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=c3053fe0b08b3157d377d3dce68d9e00)
+([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=c3053fe0b08b3157d377d3dce68d9e00))
 
-`ok_or` is also great if you can recover from `None` and handle that case gracefully:
+`ok_or` is also great if you can recover from `None` and handle that case gracefully.
+
+In the above example, we used `ok_or` in combination with static strings, which is fine.
+However, for cases where the error causes side-effects such as allocations, prefer `ok_or_else` instead:
 
 ```rust
-let user = get_user().ok_or(get_logged_in_username())?;
+let user = get_user().ok_or_else(|| get_logged_in_username())?;
 ```
 
-These are good use cases for `ok_or`.
+If in doubt, use `ok_or_else`, because it only evaluates the closure if the `Option` is `None`,
+which is typically what you want.
+
+The previous examples are good use cases for `ok_or` and `ok_or_else`.
 
 On the other side, it might not be immediately obvious to everyone what `ok_or` does.
 I find the name `ok_or` unintuitive and needed to look it up many times.
 That's because `Ok` is commonly associated with the `Result` type, not `Option`.
-There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out,
-because `ok_or(MyError)` reads nicely and I can see why. Guess we have to live with the minor inconsistency now.
+There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out, because `ok_or(MyError)` reads nicely and I can see why. Guess we have to live with the minor inconsistency now.
 
-I think `ok_or` is a quick solution to the problem, but there are alternatives that might be more readable.
+I think `ok_or` and `ok_or_else` are quick solutions to the problem, but there are alternatives that might be more readable.
 
 ## Solution 3: `match`
 
@@ -244,7 +250,7 @@ let Some(user) = get_user() else {
     return Err("No user".into());
 };
 
-// Do something with user
+// Do something with `user`
 ```
 
 In my opinion, that's the best of both worlds: it's compact while still being easy to understand.
