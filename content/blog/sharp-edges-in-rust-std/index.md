@@ -12,6 +12,7 @@ reviews = [
 ]
 resources = [
     "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths)"
+    "[Programming Language Warts on Reddit](https://www.reddit.com/r/rust/comments/f7vimo/programming_language_warts/)"
 ]
 +++
 
@@ -140,7 +141,7 @@ Better implementations exist that provide more of the missing operations expecte
 
 ## `std::collections::BTreeMap`
 
-"Hold on, *another* collection?" you might ask.
+"Hold on, what's wrong with BTreeMap?" you might ask.
 
 I would like to preface this section by saying that I don't think too strongly about `BTreeMap`. 
 It's certainly the most controversial point on this list, but I **did** want to mention, that there are probably better alternatives in the wider Rust ecosystem if `HashMap` is not enough. 
@@ -164,14 +165,14 @@ In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smol
 - btrees have performance "cliffs" when comparisons get more expensive and touch more memory
 - For space usage, the author estimates that btrees would use >60% more memory than hashmaps for random keys.
 
-I'd argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library is confusing. 
+I'd argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library can be confusing. 
 
 On top of that, if the hash map is your bottleneck, you're doing pretty well already.
-If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) crate for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
+If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
 
-## `std::path::Path`
+## Path Handling
 
-I think `Path` does a decent job of abstracting away the underlying file system.
+`Path` does a decent job of abstracting away the underlying file system.
 One thing I always disliked was that `Path::join` returns a `PathBuf` instead of a `Result<PathBuf, Error>`.
 I mentioned in my ['Pitfalls of Safe Rust'](/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths) article
 that `Path::join` joining a relative path with an absolute path results in the absolute path being returned.
@@ -227,7 +228,7 @@ Of course, for everyday use, `Path` is perfectly okay, but if path handling is a
 [`camino`](https://github.com/camino-rs/camino) is a good alternative crate, which just assumes that paths are UTF-8 (which, in 2025, is a fair assumption).
 This way, operations have much better ergonomics.
 
-## `std::time`
+## Platform-Specific Date and Time Handling
 
 In my opinion, it's actually great to have some basic time functionality right in the standard library.
 However, just be aware that `std::time::SystemTime` is platform dependent, which [causes some headaches](https://github.com/rust-lang/rust/issues/44394).
@@ -250,7 +251,7 @@ The documentation does not specify the clock's accuracy or how it handles leap s
 If you depend on proper control over time, such as managing leap seconds or cross-platform support, you're better off using an external crate.
 For a great overview, see this survey in the Rust forum, titled: ['The state of time in Rust: leaps and bounds'](https://users.rust-lang.org/t/the-state-of-time-in-rust-leaps-and-bounds/107620).
 
-In general, I think `std::time` works well in combination with the rest of the standard library, such as for `sleep`:
+In general, I believe `std::time` works well in combination with the rest of the standard library, such as for `sleep`:
 
 ```rust
 use std::thread;
@@ -265,6 +266,9 @@ such as [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://git
 ## Summary
 
 As you can see, my list of sharp edges in the Rust standard library is quite short.
-There's really not a lot.
-Given that Rust 1.0 was released over a decade ago, the standard library has held up really well.
-On top of that, everything is thoroughly documented and integrates well with the rest of `std`, which is a great plus.
+There's not a lot.
+Given that Rust 1.0 was released more than a decade ago, the standard library has held up really well.
+I reserve the right to update this article in case I become aware of additional sharp edges in the future. 
+In general, I like that Rust has a relatively small standard library because once a feature is in there it stays there forever. [^forever]
+
+[^forever]: Yes, you *can* deprecate functionality, but this is a very timid and [laborious process](https://rust-lang.github.io/rfcs/1270-deprecation.html) and that still doesn't mean functionality gets removed. For example, `std::env::home_dir()` has been deprecated for years and is now not getting removed, but instead will be [fixed with a bugfix release and un-deprecated](https://releases.rs/docs/1.85.0/#compatibility-notes).

@@ -94,14 +94,6 @@ article li pre {
   object-fit: cover;
 }
 
-article :is(h1, h2, h3, h4, h5, h6) code:not(pre > code) {
-  font-size: 0.8em;
-  font-weight: 200;
-  border: none;
-  padding: 0;
-  letter-spacing: -0.01em;
-}
-
 .article-content-wrapper {
   padding: 3em 0;
   background-color: $brightBgrdLight;
@@ -517,4 +509,13 @@ article a code:not(pre > code) {
   .copy-code-button:active {
     background-color: rgba(255, 255, 255, 0.3);
   }
+}
+
+article :is(h1, h2, h3, h4, h5, h6) code:not(pre > code) {
+  font-size: 0.8em;
+  font-weight: 200;
+  border: none;
+  padding: 0;
+  letter-spacing: -0.01em;
+  background-color: transparent;
 }
