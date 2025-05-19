@@ -1,6 +1,7 @@
 +++
 title = "C++ to Rust Cheat-Sheet"
 date = 2025-05-17
+updated = 2025-05-20
 template = "article.html"
 draft = false
 [extra]
@@ -17,7 +18,7 @@ Some people learn new programming languages best by looking at examples for how 
 Below is a syntax comparison table which can serve as a quick reference for common C++ constructs and their equivalents in Rust.
 It is not a comprehensive guide, but I hope it helps out a C++ developer looking for a quick reference to Rust syntax. 
 
-## Comparing Idioms in Rust and C++ 
+## Comparing Idioms in Rust and C++
 
 <table>
   <thead>
@@ -29,14 +30,9 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
   </thead>
   <tbody>
     <tr>
-      <td><strong>Variable Declaration</strong></td>
-      <td><code>let x: i32 = 5;</code></td>
-      <td><code>int x = 5;</code></td>
-    </tr>
-    <tr>
-      <td><strong>Type Inference</strong></td>
-      <td><code>let x = 5;</code></td>
-      <td><code>auto x = 5;</code></td>
+      <td><strong>Immutable Variable Declaration</strong></td>
+      <td><code>let x: i32 = 5;</code> (immutable by default)</td>
+      <td><code>const int x = 5;</code></td>
     </tr>
     <tr>
       <td><strong>Mutable Variables</strong></td>
@@ -44,9 +40,14 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
       <td><code>int x = 5;</code> (mutable by default)</td>
     </tr>
     <tr>
+      <td><strong>Type Inference</strong></td>
+      <td><code>let x = 5;</code></td>
+      <td><code>auto x = 5;</code></td>
+    </tr>
+    <tr>
       <td><strong>Constant Declaration</strong></td>
       <td><code>const MAX: i32 = 100;</code></td>
-      <td><code>const int MAX = 100;</code></td>
+      <td><code>constexpr int MAX = 100;</code> or<br><code>consteval int MAX_FN() { return 100; }</code></td>
     </tr>
     <tr>
       <td><strong>Function Declaration</strong></td>
@@ -74,8 +75,8 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
     </tr>
     <tr>
       <td><strong>Raw Pointer</strong></td>
-      <td><code>*const T</code>, <code>*mut T</code></td>
-      <td><code>T*</code>, <code>const T*</code></td>
+      <td><code>*const T</code><br><code>*mut T</code></td>
+      <td><code>const T*</code><br><code>T*</code></td>
     </tr>
     <tr>
       <td><strong>Struct Declaration</strong></td>
@@ -95,7 +96,8 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
     <tr>
       <td><strong>Struct Initialization</strong></td>
       <td><code>Person { id: uid, health: 100 }</code></td>
-      <td><code>Person{uid, 100}</code> or <code>Person{.id = uid, .health = 100}</code></td>
+      <td><code>Person{uid, 100}</code> or <code>Person{.id = uid, .health = 100}</code><br>
+      (multiple initialization styles available in C++)</td>
     </tr>
     <tr>
       <td><strong>Struct Field Access</strong></td>
@@ -112,13 +114,18 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
 }</code></pre>
       </td>
       <td>
-        <pre><code class="language-cpp">class MyClass {
+        <pre><code class="language-cpp">// Usually split between header (.h) and implementation (.cpp)
+// Header:
+class MyClass {
 public:
     MyClass(const string& name, 
-            const vector<string>& data) {
-        // ...
-    }
-};</code></pre>
+            const vector<string>& data);
+};
+// Implementation:
+MyClass::MyClass(const string& name, 
+                const vector<string>& data) {
+    // ...
+}</code></pre>
       </td>
     </tr>
     <tr>
@@ -130,14 +137,15 @@ public:
       </td>
       <td>
         <pre><code class="language-cpp">string get_name() const {
-    return name;
+    return name; // 'this' is implicit in C++
 }</code></pre>
       </td>
     </tr>
     <tr>
       <td><strong>Static Method</strong></td>
       <td><code>fn static_method() { /* ... */ }</code></td>
-      <td><code>static void static_method() { /* ... */ }</code></td>
+      <td><code>static void static_method() { /* ... */ }</code><br>
+      <em>Note: 'static' in C++ has multiple meanings including file-scope lifetime, class-level function, and non-exported symbols</em></td>
     </tr>
     <tr>
       <td><strong>Interface/Trait</strong></td>
@@ -194,7 +202,8 @@ void generic_call(const T& gen_shape) {
 }</code></pre>
       </td>
       <td>
-        <pre><code class="language-cpp">template<typename T>
+        <pre><code class="language-cpp">// C++20 concepts approach
+template<typename T>
 concept Shape = requires(T t) {
     typename T::InnerType;
     { t.make_inner() } -> 
@@ -211,7 +220,9 @@ concept Shape = requires(T t) {
 }</code></pre>
       </td>
       <td>
-        <pre><code class="language-cpp">std::variant<Circle, Rectangle> my_shape;</code></pre>
+        <pre><code class="language-cpp">// Must specify contained types
+std::variant<Circle, Rectangle> my_shape;
+// Uses integer tags rather than named variants</code></pre>
       </td>
     </tr>
     <tr>
@@ -247,12 +258,27 @@ concept Shape = requires(T t) {
     <tr>
       <td><strong>Automatic Trait Implementation</strong></td>
       <td><code>#[derive(Debug, Clone, PartialEq)]</code></td>
-      <td>No direct equivalent</td>
+      <td>No direct equivalent (may change with C++26 reflection)</td>
     </tr>
     <tr>
-      <td><strong>Memory Allocation</strong></td>
-      <td>Explicit: <code>String::from("text")</code>, <code>.to_owned()</code>, <code>.clone()</code></td>
-      <td>Often implicit when passing by value</td>
+      <td><strong>Memory Management</strong></td>
+      <td>
+        <pre><code class="language-rust">// Manual allocation
+let boxed = Box::new(value);
+// Explicit non-trivial copies
+let s = String::from("text");
+let owned = borrowed.to_owned();
+let cloned = original.clone();</code></pre>
+      </td>
+      <td>
+        <pre><code class="language-cpp">// Manual allocation
+auto* ptr = new T();
+// Smart pointers
+auto unique = std::make_unique<T>();
+auto shared = std::make_shared<T>();
+// Implicit non-trivial copies when passing by value
+auto copy = original; // May implicitly copy</code></pre>
+      </td>
     </tr>
     <tr>
       <td><strong>Destructors</strong></td>
@@ -272,12 +298,13 @@ concept Shape = requires(T t) {
     <tr>
       <td><strong>Serialization</strong></td>
       <td><code>#[derive(Serialize, Deserialize)]</code></td>
-      <td>Requires manual implementation or code generation</td>
+      <td>Requires manual implementation or code generation<br>(may change with C++26 reflection)</td>
     </tr>
     <tr>
       <td><strong>Print to Console</strong></td>
-      <td><code>println!("Hello, {}", name);</code></td>
-      <td><code>std::cout << "Hello, " << name << std::endl;</code></td>
+      <td><code>println!("Hello, {name}");</code></td>
+      <td><code>std::cout << "Hello, " << name << std::endl;</code><br>
+      <code>std::println("Hello, {}", name);</code> (C++23)</td>
     </tr>
     <tr>
       <td><strong>Debug Output</strong></td>
@@ -314,6 +341,11 @@ concept Shape = requires(T t) {
       <td><code>char32_t</code> (or <code>wchar_t</code> on some platforms)</td>
     </tr>
     <tr>
+      <td><strong>Byte (Raw Data)</strong></td>
+      <td><code>u8</code> (always unsigned)</td>
+      <td><code>uint8_t</code> or <code>unsigned char</code> (for guaranteed unsigned)</td>
+    </tr>
+    <tr>
       <td><strong>Unsigned Integers</strong></td>
       <td>
         <pre><code class="language-rust">u8, u16, u32, u64, u128, usize</code></pre>
@@ -337,11 +369,6 @@ __int128, intptr_t/ptrdiff_t</code></pre>
       <td><strong>Floating Point</strong></td>
       <td><code>f32, f64</code></td>
       <td><code>float, double</code></td>
-    </tr>
-    <tr>
-      <td><strong>Byte (Raw Data)</strong></td>
-      <td><code>u8</code></td>
-      <td><code>char</code> (when used in byte buffers)</td>
     </tr>
     <tr>
       <td><strong>Unit Type</strong></td>
