@@ -9,6 +9,7 @@ reviews = [
     { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
     { name = "Artur Jakubiec", url = "https://www.linkedin.com/in/artur-jakubiec" },
     { name = "Andrew Gallant (burntsushi)", url = "https://burntsushi.net/"}
+    { name = "Demian Ferreiro", url = "https://demian.ferrei.ro/"}
 ]
 +++
 
@@ -183,43 +184,58 @@ The initial error message, while cryptic, gave us a hint:
 use `.ok_or(...)?` to provide an error compatible with `Result<(), Box<dyn std::error::Error>>`.
 ```
 
-Apparently we can use the `ok_or` method, which converts the `Option` into a `Result`:
+The `ok_or` method converts an `Option` into a `Result` and allows us to specify what error should be returned when the `Option` is `None`:
 
 ```rust
-let user = get_user().ok_or("No user")?;
+fn process_user() -> Result<String, String> {
+    // Convert Option to Result with a descriptive error
+    let user = get_user().ok_or("User not found".to_string())?;
+    
+    // Continue processing with the unwrapped value
+    Ok(format!("Processing user: {}", user))
+}
 ```
 
-That's convenient! It also chains well when we use iterator patterns:
+This pattern is particularly useful when working with functions that return `Result` but need to handle values from functions that return `Option`. It also chains well in sequential operations:
 
 ```rust
-let user = get_user()
-    .ok_or("No user")?
-    .do_something()
-    .ok_or("Something went wrong")?;
+fn get_user_settings() -> Result<Settings, String> {
+    let user = get_user().ok_or("User not found".to_string())?;
+    let profile = get_profile(&user).ok_or("Profile not available".to_string())?;
+    let settings = profile.settings().ok_or("Settings missing".to_string())?;
+    
+    Ok(settings)
+}
 ```
 
-([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=c3053fe0b08b3157d377d3dce68d9e00))
+([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=d7d36e61c154e0380cce1f855c1e5067))
 
-`ok_or` is also great if you can recover from `None` and handle that case gracefully.
-
-In the above example, we used `ok_or` in combination with static strings, which is fine.
-However, for cases where the error causes side-effects such as allocations, prefer `ok_or_else` instead:
+For cases where creating the error value involves expensive operations or side effects, prefer `ok_or_else` instead. It takes a closure that's only evaluated if the `Option` is `None`:
 
 ```rust
-let user = get_user().ok_or_else(|| get_logged_in_username())?;
+fn authenticate_user() -> Result<User, String> {
+    let user = get_user().ok_or_else(|| {
+        // This code only runs if get_user() returns None
+        log_auth_failure();
+        format!("Authentication failed at {}", current_timestamp())
+    })?;
+    
+    Ok(user)
+}
 ```
 
-If in doubt, use `ok_or_else`, because it only evaluates the closure if the `Option` is `None`,
-which is typically what you want.
+If in doubt, use `ok_or_else`, because it only evaluates the closure if the `Option` is `None`, which is typically more efficient.
 
-The previous examples are good use cases for `ok_or` and `ok_or_else`.
-
-On the other side, it might not be immediately obvious to everyone what `ok_or` does.
-I find the name `ok_or` unintuitive and needed to look it up many times.
-That's because `Ok` is commonly associated with the `Result` type, not `Option`.
-There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out, because `ok_or(MyError)` reads nicely and I can see why. Guess we have to live with the minor inconsistency now.
+The name `ok_or` might not be immediately intuitive to everyone. I find it a bit confusing myself and needed to look it up many times. That's because `Ok` is commonly associated with the `Result` type, not `Option`. There's `Option::Some`, so it could have been called `some_or`, which was [actually suggested in 2014](https://github.com/rust-lang/rust/pull/17469#issuecomment-56919911), but the name `ok_or` won out, because `ok_or(MyError)` reads nicely. Guess we have to live with the minor inconsistency now.
 
 I think `ok_or` and `ok_or_else` are quick solutions to the problem, but there are alternatives that might be more readable.
+
+**Side note:** If you want to provide a fallback value (rather than propagate an error) when an `Option` is `None`, use `unwrap_or` or `unwrap_or_else`:
+
+```rust
+// Use a fallback value without error propagation
+let username = get_user().unwrap_or_else(|| get_default_username());
+```
 
 ## Solution 3: `match`
 
