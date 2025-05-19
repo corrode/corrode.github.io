@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2025-04-12
+updated = 2025-05-19
 template = "article.html"
 draft = false
 [extra]
@@ -248,7 +248,7 @@ The last edition was held in Montreal, Canada and the 2025 edition will be annou
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
 - **Pricing**: TBA
-- **CFP**: [Open until 29th of April 2025](https://rustconf.com/submit-a-talk/) 
+- **CFP**: [Closed](https://rustconf.com/submit-a-talk/) 
 - **Links**: [Website](https://rustconf.com/) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf), [BlueSky](https://bsky.app/profile/rustconf.com)
 
@@ -265,8 +265,11 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 - **Where**: [Tagungswerk, Berlin, Germany](https://maps.app.goo.gl/Q3SzoU7EDJv4kxnHA)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
-- **Pricing**: TBA
-- **CFP**: [Open until 4th of May 2025](https://pretalx.com/oxidize-conference-2025/cfp) 
+- **Pricing**:
+  - Conference only: €505.75
+  - Workshop + Conference: €653.31
+  - [Get Tickets here](https://ti.to/asquera-event-ug/oxidize-conference-2025)
+- **CFP**: [Closed](https://pretalx.com/oxidize-conference-2025/cfp) 
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
 
@@ -291,7 +294,7 @@ This time, it's in Paris, France. 🥖
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Get tickets here](https://ti.to/events-matter/eurorust-2025)
-- **CFP**: [Open until 15th of May 2025](https://www.papercall.io/eurorust-2025)
+- **CFP**: [Open until 2nd of June 2025](https://www.papercall.io/eurorust-2025)
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
@@ -308,27 +311,12 @@ It's lovingly organized featuring delicious italian food and a great community.
 - **Where**: [Grand Hotel Mediterraneo Lungarno del Tempio, 44, 50121 Florence, Italy](https://goo.gl/maps/8ZRuugSHEfebowwi7)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
-- **Pricing**: $160 Early Bird Ticket. [Get tickets here](https://rustlab.it/tickets25) 
-- **CFP**: [Open until 25th of April](https://sessionize.com/rustlab-2025/) 
+- **Pricing**:
+  - 270€ Regular Ticket
+  - [Get tickets here](https://rustlab.it/tickets25) 
+- **CFP**: [Closed](https://sessionize.com/rustlab-2025/) 
 - **Links**: [Website](https://rustlab.it/) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
-
-## Other events (To Be Announced)
-
-### RustFest
-
-<a href="https://rustfest.ch/" target="_blank">
-  <img src="rustfest.jpg" alt="RustFest" />
-</a>
-
-- **When**: June 2025 (TBA)
-- **Where**: TBA
-- **Format**: TBA
-- **Focus**: Libraries, tools, frameworks, idioms, and patterns
-- **Previous Location**: Zürich, Switzerland
-- **Status**: To be announced
-- **Links**: [Website](https://rustfest.ch/) 
-- **Social**: [Twitter](https://x.com/rustfest)
 
 ---
 
