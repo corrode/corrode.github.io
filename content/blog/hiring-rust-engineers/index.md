@@ -1,6 +1,7 @@
 +++
 title = "How to Hire Rust Developers"
 date = 2024-07-24
+updated = 2025-05-19
 template = "article.html"
 [extra]
 hero = "hero.svg"
@@ -30,6 +31,8 @@ Partially! However, I think it's more pronounced in Rust because it's a relative
 The moment you try to get your foot in the door as a less experienced Rust developer, though, this mismatch becomes apparent. In tough market situations with fewer positions, companies tend to be more conservative and look for "safe bets" which means experts they are sure can hit the ground running &ndash; much to the detriment of less experienced developers.
 
 ## Why Write This Guide?
+
+As a Rust consultant, it's in my best interest to grow the hiring pool for Rust developers: if we want to grow the real-world usage of Rust, we need to get way more developers into the ecosystem. There are signs that this is happening, but with some tweaking, the process can be highly accelerated.
 
 The broader consequence is that many companies are hesitant about adopting Rust and are therefore missing out on a rich ecosystem for building reliable and efficient services. This misconception is frustrating, as it often comes up when I talk to companies not yet using Rust. 
 
@@ -80,7 +83,7 @@ Granted, the Rust job market is still relatively small compared to other languag
 limit themselves by only looking for senior Rust developers. That's a mistake.
 
 With some training, you can save a lot of time and money by hiring mid-level developers or smart juniors who are eager to learn Rust.
-Yes, there is a learning curve, but it's probably less expensive to train a 
+Yes, [there is a learning curve](/blog/flattening-rusts-learning-curve/), but it's probably less expensive to train a 
 junior/mid-level developer in Rust compared to hiring a senior/staff Rust developer.
 
 Currently, the best way to find Rust devs is 
@@ -97,17 +100,16 @@ These folks are in high demand and can afford to be picky.
 If you can't pay crypto money, at least give them some of the other perks
 and be willing to make compromises.
 
-If you're looking for senior people or require a bigger pool of candidates, you might also want to consider sponsoring Rust-focused events, conferences, or [podcasts](/podcast). I found that sponsoring is a relatively underutilized channel with a lot of potential.
+If you're looking for senior people or require a bigger pool of candidates, you might also want to consider sponsoring Rust-focused events, [conferences](/blog/rust-conferences-2025/), or [podcasts](/podcast). I found that sponsoring is a relatively underutilized channel with a lot of potential.
 
-You can post job listings on Rust-specific job boards like [RustJobs.dev](https://rustjobs.dev/) and [RustJobs.fyi](https://www.rustjobs.fyi/), or boards with a dedicated Rust section,
-like [Filtra.io](https://filtra.io/rust) and [RemoteOK](https://remoteok.com/remote-rust-jobs).
+You can post job listings on Rust-specific job boards like [Filtra.io](https://filtra.io/rust), [RustJobs.dev](https://rustjobs.dev/) and [RustJobs.fyi](https://www.rustjobs.fyi/), or boards with a dedicated Rust section like  and [RemoteOK](https://remoteok.com/remote-rust-jobs).
 Also post in the monthly "who is hiring" threads on [Hacker News](https://news.ycombinator.com/) or [Reddit](https://www.reddit.com/r/rust/comments/182f6dv/official_rrust_whos_hiring_thread_for_jobseekers/).
 
 ## Assessing Candidates for Rust Roles 
 
 Hiring itself is a very complex topic, so don't make it harder than it needs to be.
 
-The number one mistake is to just look at raw Rust experience!
+**The number one mistake is to just look at raw Rust experience!**
 Instead, there are many other indicators that can help you identify great candidates who are a good fit for Rust work, even if they currently don't have much experience with the language.
 
 <img src="evaluation.svg" alt="Diagram for assessing Rust candidates - details below">
@@ -132,12 +134,10 @@ Let's look at the points in more detail:
 
 ## Takeaways
 
-As a Rust consultant, it's in my best interest to grow the hiring pool for Rust developers: if we want to grow the real-world usage of Rust, we need to get way more developers into the ecosystem. There are signs that this is happening, but with some tweaking, the process can be highly accelerated.
-
 **If you're a hiring manager** don't just look at raw Rust expertise; think outside the box and consider related skills and experience. The current hiring market is challenging, with an imbalance between eager developers and limited job opportunities. However, this presents a unique opportunity for forward-thinking companies to invest in talent. People exceed expectations when given trust and opportunity.
 
 **If you're a professional Rust developer** looking to improve the situation, 
-work with your hiring manager to help them understand how to hire more Rust devs. Perhaps this guide can get you started.
+work with your hiring manager to help them understand how to hire more Rust devs. Perhaps this guide can help you get started.
 
 Good luck with your Rust hiring process!
 
