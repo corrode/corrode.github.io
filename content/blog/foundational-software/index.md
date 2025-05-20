@@ -154,6 +154,7 @@ It might be:
 - a storage layer
 - a satellite control system 
 - an SDK for multiple languages 
+- a real time notification service
 
 and many, many more.
 
