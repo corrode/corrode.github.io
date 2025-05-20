@@ -1,6 +1,6 @@
 +++
 title = "Sharp Edges In The Rust Standard Library"
-date = 2025-05-17
+date = 2025-05-21
 draft = false
 template = "article.html"
 [extra]
@@ -17,7 +17,7 @@ resources = [
 +++
 
 The [Rust standard library](https://doc.rust-lang.org/std/), affectionately called `std`, is exceptionally well-designed, but that doesn't mean it's perfect.
-More experienced Rust developers tend to navigate around some of its sharper parts, but I haven't seen these parts explicitly listed anywhere.
+More experienced Rust developers tend to navigate around some of its sharper parts.
 
 In this article, I want to highlight the areas in `std` that I personally avoid.
 Keep in mind that this list is subjective, so take it with a grain of salt. 
@@ -139,37 +139,6 @@ Better implementations exist that provide more of the missing operations expecte
 - [contain-rs/linked-list](https://github.com/contain-rs/linked-list) 
 - [intrusive-collections](https://github.com/Amanieu/intrusive-rs) 
 
-## `std::collections::BTreeMap`
-
-"Hold on, what's wrong with BTreeMap?" you might ask.
-
-I would like to preface this section by saying that I don't think too strongly about `BTreeMap`. 
-It's certainly the most controversial point on this list, but I **did** want to mention, that there are probably better alternatives in the wider Rust ecosystem if `HashMap` is not enough. 
-
-As you know, Rust has two map implementations in the standard library:
-`BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
-For a long time, a ["performance trick"](https://users.rust-lang.org/t/hashmap-vs-btreemap/13804/2) was to use `BTreeMap` if you needed a faster hash map implementation.
-
-Since then, the performance of `HashMap` has improved significantly.
-One reason is that the implementation of `HashMap` has [changed to use a "siphash" algorithm](https://doc.rust-lang.org/book/ch08-03-hash-maps.html#hashing-functions) and is now [based on Google's SwissTable](https://doc.rust-lang.org/std/collections/struct.HashMap.html).
-The combination of these changes has made `HashMap` much more performant than before, so there is no good reason to use `BTreeMap` anymore, other than the ordering guarantee.
-
-One important distinction to note: iteration order over a `HashMap` is random, while `BTreeMap`'s iteration order is always sorted by the key's `Ord` implementation (not by insertion order). This makes `BTreeMap` useful when you need to iterate over keys in a sorted manner. If you're aggregating data in a `HashMap` but need a sorted list, you'll need to collect into a vector and sort it manually. In contrast, `BTreeMap` gives you sorted iteration for free. So while `HashMap` is better for random access operations, `BTreeMap` is still helpful when sorted iteration is required.
-I would argue that it's a bit of a niche use case, however.
-
-In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/), Jamie Brandon compares the performance of Rust's `BTreeMap` and `HashMap`. Here are the key takeaways:
-
-- When comparing performance, btrees were found to be significantly slower than hashmaps in most scenarios,
-  especially for lookups. In the worst case with random-ish strings that share common prefixes, btrees performed dramatically worse.
-- Hashmaps benefit more from speculative execution between multiple lookups, while btrees don't.
-- btrees have performance "cliffs" when comparisons get more expensive and touch more memory
-- For space usage, the author estimates that btrees would use >60% more memory than hashmaps for random keys.
-
-I'd argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library can be confusing. 
-
-On top of that, if the hash map is your bottleneck, you're doing pretty well already.
-If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
-
 ## Path Handling
 
 `Path` does a decent job of abstracting away the underlying file system.
@@ -263,12 +232,43 @@ thread::sleep(Duration::from_secs(1));
 ...but apart from that, I don't use it for much else. If I had to touch any sort of date calculations, I would defer to an external crate
 such as [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
 
+## `std::collections::BTreeMap`
+
+"Hold on, what's wrong with BTreeMap?" you might ask.
+
+I would like to preface this section by saying that I don't think too strongly about `BTreeMap`. 
+It's certainly the most controversial point on this list, but I **did** want to mention, that there are probably better alternatives in the wider Rust ecosystem if `HashMap` is not enough. 
+
+As you know, Rust has two map implementations in the standard library:
+`BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
+For a long time, a ["performance trick"](https://users.rust-lang.org/t/hashmap-vs-btreemap/13804/2) was to use `BTreeMap` if you needed a faster hash map implementation.
+
+Since then, the performance of `HashMap` has improved significantly.
+One reason is that the implementation of `HashMap` has [changed to use a "siphash" algorithm](https://doc.rust-lang.org/book/ch08-03-hash-maps.html#hashing-functions) and is now [based on Google's SwissTable](https://doc.rust-lang.org/std/collections/struct.HashMap.html).
+The combination of these changes has made `HashMap` much more performant than before, so there is no good reason to use `BTreeMap` anymore, other than the ordering guarantee.
+
+One important distinction to note: iteration order over a `HashMap` is random, while `BTreeMap`'s iteration order is always sorted by the key's `Ord` implementation (not by insertion order). This makes `BTreeMap` useful when you need to iterate over keys in a sorted manner. If you're aggregating data in a `HashMap` but need a sorted list, you'll need to collect into a vector and sort it manually. In contrast, `BTreeMap` gives you sorted iteration for free. So while `HashMap` is better for random access operations, `BTreeMap` is still helpful when sorted iteration is required.
+I would argue that it's a bit of a niche use case, however.
+
+In ["Smolderingly fast b-trees"](https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/), Jamie Brandon compares the performance of Rust's `BTreeMap` and `HashMap`. Here are the key takeaways:
+
+- When comparing performance, btrees were found to be significantly slower than hashmaps in most scenarios,
+  especially for lookups. In the worst case with random-ish strings that share common prefixes, btrees performed dramatically worse.
+- Hashmaps benefit more from speculative execution between multiple lookups, while btrees don't.
+- btrees have performance "cliffs" when comparisons get more expensive and touch more memory
+- For space usage, the author estimates that btrees would use >60% more memory than hashmaps for random keys.
+
+I'd argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library can be confusing. 
+
+On top of that, if the hash map is your bottleneck, you're doing pretty well already.
+If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
+
 ## Summary
 
-As you can see, my list of sharp edges in the Rust standard library is quite short.
-There's not a lot.
-Given that Rust 1.0 was released more than a decade ago, the standard library has held up really well.
-I reserve the right to update this article in case I become aware of additional sharp edges in the future. 
+As you can see, my list of warts in the Rust standard library is quite short.
+Given that Rust 1.0 was released more than a decade ago, the standard library has held up *really* well.
+That said, I reserve the right to update this article in case I become aware of additional sharp edges in the future. 
+
 In general, I like that Rust has a relatively small standard library because once a feature is in there it stays there forever. [^forever]
 
 [^forever]: Yes, you *can* deprecate functionality, but this is a very timid and [laborious process](https://rust-lang.github.io/rfcs/1270-deprecation.html) and that still doesn't mean functionality gets removed. For example, `std::env::home_dir()` has been deprecated for years and is now not getting removed, but instead will be [fixed with a bugfix release and un-deprecated](https://releases.rs/docs/1.85.0/#compatibility-notes).
