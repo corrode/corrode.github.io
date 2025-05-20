@@ -8,8 +8,8 @@ series = "Idiomatic Rust"
 reviews = [
     { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
     { name = "Artur Jakubiec", url = "https://www.linkedin.com/in/artur-jakubiec" },
-    { name = "Andrew Gallant (burntsushi)", url = "https://burntsushi.net/"}
-    { name = "Demian Ferreiro", url = "https://demian.ferrei.ro/"}
+    { name = "Andrew Gallant (burntsushi)", url = "https://burntsushi.net/"},
+    { name = "Demian Ferreiro", url = "https://demian.ferrei.ro/"},
 ]
 +++
 
