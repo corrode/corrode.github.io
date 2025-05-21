@@ -144,9 +144,9 @@ There's a thing to be said about `BTreeMap` as well, but I leave it at that. [^b
 [^btreemap]:  "Hold on, what's wrong with BTreeMap?" you might ask.
     <details><summary>
     This is just a mild observation rather than a strong criticism.
-    If you're truly interested, expand the details here.</summary>
+    If you're truly interested, expand the details by clicking here.</summary>
 
-    As you know, Rust has two map implementations in the standard library:
+    Okay, as you know, Rust has two map implementations in the standard library:
     `BTreeMap`, which guarantees insertion ordering, while `HashMap` is unordered, but more commonly used. 
     For a long time, a ["performance trick"](https://users.rust-lang.org/t/hashmap-vs-btreemap/13804/2) was to use `BTreeMap` if you needed a faster hash map implementation.
 
@@ -169,6 +169,9 @@ There's a thing to be said about `BTreeMap` as well, but I leave it at that. [^b
 
     On top of that, if the hash map is your bottleneck, you're doing pretty well already.
     If you need anything faster, there are plenty of great external crates like [indexmap](https://github.com/indexmap-rs/indexmap) for insertion-order preservation and [dashmap](https://github.com/xacrimon/dashmap) for concurrent access.
+
+    As I said, nothing earth-shaking, but I think it's worth mentioning that there are better alternatives to `BTreeMap`
+    out there in the ecosystem.
     </details>
 
 ## Path Handling
