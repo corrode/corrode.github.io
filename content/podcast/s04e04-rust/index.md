@@ -6,7 +6,7 @@ draft = false
 aliases = ["/p/s04e04"]
 [extra]
 guest = "Niko Matsakis"
-role = "Founder & CEO"
+role = "Rust Core Team Member"
 season = "04"
 episode = "04"
 series = "Podcast"
