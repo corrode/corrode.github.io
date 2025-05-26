@@ -45,7 +45,15 @@ which is the language's most important feature.
 He has been a voice of reason and a guiding light for many of us, including myself.
 His insightful talks and blog posts have helped countless developers to see the language and its goals in a new light.
 
+### Special Thanks
+
+Thanks to [RustNL](https://rustnl.org/), the organizers of Rust Week 2025 for inviting Simon and me
+to record this episode live. They did a fantastic job organizing the event,
+and it was an honor to be part of it.
+
 ### Links From The Episode
+
+- [Rust Week](https://rustweek.org/)
 
 ### Official Links
 
