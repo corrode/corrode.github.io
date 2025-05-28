@@ -53,7 +53,9 @@ and it was an honor to be part of it.
 
 ### Links From The Episode
 
-- [Rust Week](https://rustweek.org/)
+- [Rust Week 2025](https://rustweek.org/) - Rust conference that in Utrecht where we recorded this live episode. 
+- [Project Aurora](https://www.allthingsdistributed.com/2025/05/just-make-it-scale-an-aurora-dsql-story.html) - Serverless SQL, 
+an AWS project that started 100% in JVM and finished 100% Rust.
 
 ### Official Links
 
