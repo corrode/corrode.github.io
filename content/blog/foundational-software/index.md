@@ -137,7 +137,7 @@ Once the foundations are in Rust, other systems can be built on top of it.
 Just because we focus on foundational software doesn't mean we can't do other things.
 But the focus is to make sure that Rust stays true to its roots.
 
-## Systems That You Plan To Maintain For Years To Come
+## Systems You Plan To Maintain For Years
 
 So, what *is* foundational software?
 
@@ -198,7 +198,7 @@ To build foundational software, you need guarantees that vulnerabilities get fix
 The ecosystem is still mostly driven by volunteers who work on important parts of the ecosystem in their free time.
 There is more to be said about supply-chain security and sustainability in the ecosystem.
 
-## A Language For Professionals
+## Rust Is A Language For Decades
 
 Building foundational systems is rooted in the profound belief that the efforts will pay off in the long run because organizations and society will benefit from them for decades.
 We are building systems that will be used by people who may not even know they are using them, but who will depend on them every day.
