@@ -104,8 +104,9 @@ The focus should be on what Rust enables: a way to express very complicated idea
 
 This mindset takes away the focus from Rust as a C++ replacement and also explains why so many teams which use languages like Python, TypeScript, and Kotlin are attracted by Rust.
 
-What is less often talked about is that Rust is a language that enables people to move across domain boundaries: from embedded to cloud, from data science to developer tooling. 
-I don't know any other language that's so versatile. 
+What is less often talked about is that Rust is a language that enables people to move across domain boundaries: from embedded to cloud, from data science to developer tooling.
+Few other languages are so versatile and none offer the same level of correctness guarantees. 
+
 If you know Rust, you can program simple things in all of these domains.
 
 ## Why Focus On Foundational Software?
