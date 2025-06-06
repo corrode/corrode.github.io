@@ -64,13 +64,11 @@ The term corrode is Latin for ["to gnaw to bits, wear away."](https://www.etymon
 
 ## Where Rust Shines
 
-Graydon put it this way:
-
 > "I think 'infrastructure' is a more useful way of thinking about Rust's niche than arguing over the exact boundary that defines 'systems programming'."
 >
 > "This is the essence of the systems Rust is best for writing: not flashy, not attention-grabbing, often entirely unnoticed. Just the robust and reliable necessities that enable us to get our work done, to attend to other things, confident that the system will keep humming along unattended."
-> 
-> -- From [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
+
+-- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
 
 In conversations with potential customers, one key aspect that comes up with Rust a lot is this perception that Rust is merely a systems programming language.
 They see the benefit of reliable software, but often face headwinds from people dismissing Rust as "yet another systems level language that is slightly safer."
