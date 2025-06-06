@@ -1,11 +1,12 @@
 +++
 title = "Prototyping in Rust"
 date = 2025-01-15
-updated = 2025-05-11
+updated = 2025-06-06
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 resources = [
+    "[SE Radio Podast Episode On Prototyping In Rust (Audio)](https://se-radio.net/2025/05/se-radio-670-matthias-endler-on-prototype-in-rust/)",
     "[Throw away code - Vorner's blog](https://vorner.github.io/2020/09/20/throw-away-code.html)",
     "[RustConf 2021 - The Importance of Not Over-Optimizing in Rust by Lily Mara](https://www.youtube.com/watch?v=CV5CjUlcqsw)",
     "[Rust Nation UK - Easy Mode Rust by Andre Bogus](https://www.youtube.com/watch?v=33FG6O3qejM)",
@@ -16,6 +17,8 @@ reviews = [
     { name = "Bob Peters", url = "https://www.linkedin.com/in/bjhpeters/" },
 ]
 +++
+
+
 
 Programming is an iterative process.
 As much as we would like to come up with the perfect solution from the start, it rarely works that way.
@@ -31,11 +34,12 @@ For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas
 You don't need to be a Rust expert to be productive - in fact, many of the techniques we'll discuss specifically help you *sidestep* Rust's more advanced features.
 If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can quickly bring their ideas to life.
 
-{% info(title="Things you'll learn") %}
+{% info(title="Feel like listening instead?", icon="radio") %}
 
-- How to prototype rapidly in Rust while keeping its safety guarantees
-- Practical techniques to maintain a quick feedback loop
-- Patterns that help you evolve prototypes into production code
+I talked about prototyping in Rust on SE Radio.
+The article was the basis for the episode, so you can listen to it while reading along.
+
+<iframe src="https://play.libsyn.com/embed/episode/id/36781410/height/128/theme/modern/size/standard/thumbnail/yes/custom-color/ffffff/time-start/00:00:00/playlist-height/200/direction/backward/download/yes/hide-subscribe/no/hide-share/no" width="100%" height="128" scrolling="yes" class="iframe-class" frameborder="0"></iframe>
 
 {% end %}
 
