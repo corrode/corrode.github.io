@@ -13,7 +13,7 @@ It's only been *yesterday* that we all celebrated the 1.0 release of this incred
 
 I was at Rust Week where Niko Matsakis gave his talk "Our Vision for Rust" in which he made a profound and insightful statement:
 
-**Rust is a language for building *foundational software*.**
+> Rust is a language for building *foundational software*.
 
 That deeply struck me.
 
