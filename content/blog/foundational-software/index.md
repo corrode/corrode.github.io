@@ -1,6 +1,6 @@
 +++
 title = "Rust For Foundational Software"
-date = 2025-05-18
+date = 2025-06-06
 draft = false
 template = "article.html"
 [extra]
