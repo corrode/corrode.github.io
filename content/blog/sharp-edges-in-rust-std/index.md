@@ -265,8 +265,15 @@ use std::time::Duration;
 thread::sleep(Duration::from_secs(1));
 ```
 
-...but apart from that, I don't use it for much else. If I had to touch any sort of date calculations, I would defer to an external crate
-such as [`chrono`](https://github.com/chronotope/chrono) or [`time`](https://github.com/time-rs/time).
+...but apart from that, I don't use it for much else. If I had to touch any sort of date calculations, I would defer to an external crate.
+
+There are a few options:
+
+- [`jiff`](https://docs.rs/jiff/latest/jiff/_documentation/comparison/index.html) 
+- [`chrono`](https://github.com/chronotope/chrono)
+- [`time`](https://github.com/time-rs/time)
+
+`jiff` is a new library, which aims to improve upon the existing libraries.
 
 ## Summary
 
