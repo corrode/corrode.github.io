@@ -33,12 +33,11 @@ The mindset "We are not a systems programming company so we don't need Rust" is 
 
 If I may be candid for a moment, I believe well-known systems-programming domains have a tendency to be toxic.
 Even the best developers in the world have had that experience.
-Here is Glauber Costa, founder of Torso:
-
 > The first contribution that I had to the Linux kernel was some fix for the ext3 file system. It was a very emotional moment for me. I sent a patch to the Linux Kernel and then I saw an email response from Al Viro - one of those developers I'd only heard about and dreamed of meeting someday.
 > He responded, **'I've never seen code this bad in my life. You managed to introduce three new bugs in two new lines of code. People like you should never be allowed to get close to a keyboard again.'**
-> That was my introduction to Linux. 
-> -- from the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
+> That was my introduction to Linux.
+
+-- Glauber Costa, co-founder of Torso, on the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
 
 Glauber previously worked at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases, and performance optimizations. He knows what he's doing.
 
