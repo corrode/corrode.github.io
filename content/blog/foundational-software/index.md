@@ -157,7 +157,7 @@ and many, many more.
 All of these things power organizations and *must not fail* or at least do so *gracefully*.
 My clients and the companies listed on our [podcast page](/podcast) all have one thing in common: 
 They work on Rust projects that are not on the sideline, but front and center, and they shape the future of their infrastructure.
-
+My clients and the companies I interviewed on our [podcast](/podcast) all have one thing in common: 
 Rust is useful in situations where the ["worse is better" philosophy falls apart](https://dreamsongs.com/Files/worse-is-worse.pdf); it's a language for building the "right thing":
 
 > With the right thing, designers are equally concerned with simplicity, correctness, consistency, and completeness.
@@ -166,7 +166,7 @@ I think many companies will choose Rust to build their future platforms on.
 As such, it competes with C++ as much as it does with Kotlin or Python.
 
 I believe that we should shift the focus away from memory safety (which these languages also have) and instead focus on the explicitness, expressiveness, and ecosystem of Rust that is highly competitive with these languages.
-It is a language for teams which want to build things right and are at odds with the "move fast and break things" philosophy of the past.
+It is a language for teams which want to build things *right* and are at odds with the "move fast and break things" philosophy of the past.
 Rust is future-looking. 
 Backwards-compatibility is enforced by the compiler and many people work on the robustness aspect of the language.
 
