@@ -117,7 +117,7 @@ Does using the term "Foundational Software" simply create a new limiting categor
 Crucially, foundational software is different from low-level software and systems software.
 For my clients, it's all foundational.
 For example, building a data plane is foundational.
-Processing media is foundational.
+Writing a media-processing pipeline is foundational.
 
 Rust serves as a catalyst: companies start using it for critical software but then, as they get more comfortable with the language, expand into using it in other areas of their business:
 
@@ -126,10 +126,9 @@ Rust serves as a catalyst: companies start using it for critical software but th
 -- [Marc Brooker, engineer at Amazon Web Services in Seattle on lobste.rs](https://smallcultfollowing.com/babysteps/blog/2025/05/15/10-years-of-rust/)
 
 That fully aligns with my experience: I find that teams become ambitious after a while.
-They reach for loftier goals because they can.
+They reach for loftier goals because they *can*.
 The fact they don't have to deal with security issues anymore enables better affordances.
-From my conversations with other Rustaceans, we all made the same observation: suddenly we can build more ambitious projects that we never dared tackling before, such as writing a CPU emulator because we can.
-For fun.
+From my conversations with other Rustaceans, we all made the same observation: suddenly we can build more ambitious projects that we never dared tackling before.
 
 It feels to me as if this direction is more promising: starting with the foundational tech and growing into application-level/business-level code if needed/helpful.
 That's better than the other way around, which often feels unnecessarily clunky.
