@@ -11,6 +11,8 @@ Ten years of stable Rust; writing this feels surreal.
 
 It's only been *yesterday* that we all celebrated the 1.0 release of this incredible language.
 
+[![The Rust Cologne/Bonn User Group wishes Rust 1.0 a Happy Birthday!](rust-10.png)](https://users.rust-lang.org/t/happy-birthday-rust-from-cologne-germany/5824)
+
 I was at Rust Week where Niko Matsakis gave his talk "Our Vision for Rust" in which he made a profound and insightful statement:
 
 > Rust is a language for building **foundational software**.
