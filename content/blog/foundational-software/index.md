@@ -38,12 +38,12 @@ Even the best developers in the world have had that experience.
 > The first contribution that I had to the Linux kernel was some fix for the ext3 file system. It was a very emotional moment for me. I sent a patch to the Linux Kernel and then I saw an email response from Al Viro - one of those developers I'd only heard about and dreamed of meeting someday.
 > He responded, **'I've never seen code this bad in my life. You managed to introduce three new bugs in two new lines of code. People like you should never be allowed to get close to a keyboard again.'**
 > That was my introduction to Linux.
-
--- Glauber Costa, co-founder of Torso, on the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
+> 
+> -- Glauber Costa, co-founder of Torso, on the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
 
 Glauber went on to work at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases, and performance optimizations, but just imagine how many capable developers got discouraged by similar early feedback or never even tried to contribute to the Linux kernel in the first place.
 
-I find that ironic because people once dismissed Linux itself as just a toy project.
+I find that ironic because [people once dismissed Linux itself as just a toy project](https://en.wikipedia.org/wiki/Tanenbaum%E2%80%93Torvalds_debate).
 The Linux kernel wasn't built in a day.
 **People need time to learn.**
 
@@ -99,7 +99,7 @@ Rust is used for building platforms: systems which enable building other systems
 These services need to be robust and reliable and serve as platforms for other code that might or might not be written in Rust.
 This is, in my opinion, the core value proposition of Rust: to build things that form the bedrock of critical infrastructure and must operate reliably for years.
 
-Rust is a day-2-language, i.e. it starts to shine on day 2. All of the problems that you have during the lifecycle of your application surface early in development.
+Rust is a day-2-language, i.e. it only starts to shine on day 2. All of the problems that you have during the lifecycle of your application surface early in development.
 Once a service hits production, maintaining it is boring.
 There is very little on-call work.
 
