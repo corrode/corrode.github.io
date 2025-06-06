@@ -28,6 +28,7 @@ Don't take my word for it. Here's what <a href="https://www.linkedin.com/in/drer
 
 I'm thankful to be featured in various podcasts and interviews. Here are some of my recent appearances:
 
+- SE Radio Interview - [Prototyping in Rust](https://se-radio.net/2025/05/se-radio-670-matthias-endler-on-prototype-in-rust/) 
 - Rustacean Station Podcast - [lychee and Open Source Maintenance](https://rustacean-station.org/episode/matthias-endler/)
 - Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
 - RustShip Podcast Episode 5 - [corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
