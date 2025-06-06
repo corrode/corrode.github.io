@@ -185,13 +185,11 @@ Rust is a tool for professional programmers, developed by world experts over mor
 
 Is Rust used for real?
 
-Graydon Hoare says:
-
 > "At this point, we now know the answer: yes, Rust is used a lot. It's used for real, critical projects to do actual work by some of the largest companies in our industry. We did good."
 >
 > "[Rust is] not a great hobby language but it is a fantastic professional language, precisely because of the ease of refactors and speed of development that comes with the type system and borrow checker."
-> 
-> -- [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
+
+-- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
 
 To build a truly industrial-strength ecosystem, we need to remember the professional software lifecycle, which is decades long.
 Stability plays a big role in that.
