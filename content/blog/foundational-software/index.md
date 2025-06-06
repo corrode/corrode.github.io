@@ -13,7 +13,7 @@ It's only been *yesterday* that we all celebrated the 1.0 release of this incred
 
 I was at Rust Week where Niko Matsakis gave his talk "Our Vision for Rust" in which he made a profound and insightful statement:
 
-> Rust is a language for building *foundational software*.
+> Rust is a language for building **foundational software**.
 
 That deeply struck me.
 
@@ -22,11 +22,11 @@ I wanted to expand on the idea and share what this means to corrode (and perhaps
 
 ## The Issue With "Systems Programming"
 
-First off, do we really need another different term?
+First off, do we really need another term?
 After all, many people still think of Rust as a systems programming language first and foremost, so why can't we just stick to "systems programming"?
 
 I believe the framing is all wrong.
-From the outside, the term might establish that it is about "building systems," but systems programming is a term loaded with historical baggage that feels limiting and prohibitive.
+From the outside, "systems programming" might establish that it is about "building systems," but the term is loaded with historical baggage that feels limiting and prohibitive.
 It creates an artificial distinction between systems programming and "other types of programming."
 
 The mindset "We are not a systems programming company so we don't need Rust" is common, but limiting.
@@ -47,10 +47,11 @@ The Linux kernel wasn't built in a day.
 
 The whole idea of Rust is to enable **everyone** to build reliable and efficient software.
 To me, it's about breaking down the barriers to entry and making larger parts of the software stack accessible to more people. 
+You can sit with us.
 
 > We are committed to providing a friendly, safe and welcoming environment for all
-
--- [The Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct)
+>
+> -- [The Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct)
 
 That is also where the idea for corrode comes from:
 To cut through red tape in the industry.
@@ -65,8 +66,8 @@ The term corrode is Latin for ["to gnaw to bits, wear away."](https://www.etymon
 > "I think 'infrastructure' is a more useful way of thinking about Rust's niche than arguing over the exact boundary that defines 'systems programming'."
 >
 > "This is the essence of the systems Rust is best for writing: not flashy, not attention-grabbing, often entirely unnoticed. Just the robust and reliable necessities that enable us to get our work done, to attend to other things, confident that the system will keep humming along unattended."
-
--- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
+>
+> -- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
 
 In conversations with potential customers, one key aspect that comes up with Rust a lot is this perception that Rust is merely a systems programming language.
 They see the benefit of reliable software, but often face headwinds from people dismissing Rust as "yet another systems level language that is slightly safer."
@@ -122,8 +123,8 @@ Writing a media-processing pipeline is foundational.
 Rust serves as a catalyst: companies start using it for critical software but then, as they get more comfortable with the language, expand into using it in other areas of their business:
 
 > I've seen it play out as we built Aurora DSQL - we chose Rust for the new dataplane components, and started off developing other components with other tools. The control plane in Kotlin, operations tools in Typescript, etc. Standard "right tool for the job" stuff. But, as the team has become more and more familiar and comfortable with Rust, it's become the way everything is built. A lot of this is because we've seen the benefits of Rust, but at least some is because the team just enjoys writing Rust.
-
--- [Marc Brooker, engineer at Amazon Web Services in Seattle on lobste.rs](https://smallcultfollowing.com/babysteps/blog/2025/05/15/10-years-of-rust/)
+>
+> -- [Marc Brooker, engineer at Amazon Web Services in Seattle on lobste.rs](https://smallcultfollowing.com/babysteps/blog/2025/05/15/10-years-of-rust/)
 
 That fully aligns with my experience: I find that teams become ambitious after a while.
 They reach for loftier goals because they *can*.
@@ -185,8 +186,8 @@ Is Rust used for real?
 > "At this point, we now know the answer: yes, Rust is used a lot. It's used for real, critical projects to do actual work by some of the largest companies in our industry. We did good."
 >
 > "[Rust is] not a great hobby language but it is a fantastic professional language, precisely because of the ease of refactors and speed of development that comes with the type system and borrow checker."
-
--- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
+>
+> -- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
 
 To build a truly industrial-strength ecosystem, we need to remember the professional software lifecycle, which is hopefully decades long.
 Stability plays a big role in that.
