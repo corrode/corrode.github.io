@@ -123,8 +123,8 @@ Processing media is foundational.
 Rust serves as a catalyst: companies start using it for critical software but then, as they get more comfortable with the language, expand into using it in other areas of their business:
 
 > I've seen it play out as we built Aurora DSQL - we chose Rust for the new dataplane components, and started off developing other components with other tools. The control plane in Kotlin, operations tools in Typescript, etc. Standard "right tool for the job" stuff. But, as the team has become more and more familiar and comfortable with Rust, it's become the way everything is built. A lot of this is because we've seen the benefits of Rust, but at least some is because the team just enjoys writing Rust.
->
-> -- [Marc Brooker, engineer at Amazon Web Services in Seattle on lobste.rs](https://smallcultfollowing.com/babysteps/blog/2025/05/15/10-years-of-rust/)
+
+-- [Marc Brooker, engineer at Amazon Web Services in Seattle on lobste.rs](https://smallcultfollowing.com/babysteps/blog/2025/05/15/10-years-of-rust/)
 
 That fully aligns with my experience: I find that teams become ambitious after a while.
 They reach for loftier goals because they can.
