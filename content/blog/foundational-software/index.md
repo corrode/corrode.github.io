@@ -39,9 +39,7 @@ Even the best developers in the world have had that experience.
 
 -- Glauber Costa, co-founder of Torso, on the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
 
-Glauber previously worked at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases, and performance optimizations. He knows what he's doing.
-
-Just imagine how many capable developers got discouraged by similar feedback or never even tried to contribute to the Linux kernel in the first place because of such comments.
+Glauber went on to work at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases, and performance optimizations, but just imagine how many capable developers got discouraged by similar early feedback or never even tried to contribute to the Linux kernel in the first place.
 
 I find that ironic because people once dismissed Linux itself as just a toy project.
 The Linux kernel wasn't built in a day.
