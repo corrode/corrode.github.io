@@ -1,6 +1,7 @@
 +++
 title = "Sharp Edges In The Rust Standard Library"
 date = 2025-05-21
+updated = 2025-06-06
 draft = false
 template = "article.html"
 [extra]
@@ -8,7 +9,7 @@ series = "Idiomatic Rust"
 reviews = [ 
     { name = "Wesley Moore (wezm)", url = "https://www.wezm.net" },
     { name = "Eshed Schacham", url = "https://ashdnazg.github.io/" },
-    { name = "LoeniePhiline", url = "https://github.com/LeoniePhiline" },
+    { name = "LeoniePhiline", url = "https://github.com/LeoniePhiline" },
 ]
 resources = [
     "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths)",
