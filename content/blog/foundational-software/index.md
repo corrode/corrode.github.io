@@ -157,7 +157,6 @@ and many, many more.
 All of these things power organizations and *must not fail* or at least do so *gracefully*.
 My clients and the companies I interviewed on our [podcast](/podcast) all have one thing in common: 
 They work on Rust projects that are not on the sideline, but front and center, and they shape the future of their infrastructure.
-My clients and the companies I interviewed on our [podcast](/podcast) all have one thing in common: 
 Rust is useful in situations where the ["worse is better" philosophy falls apart](https://dreamsongs.com/Files/worse-is-worse.pdf); it's a language for building the "right thing":
 
 > With the right thing, designers are equally concerned with simplicity, correctness, consistency, and completeness.
