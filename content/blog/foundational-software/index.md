@@ -191,7 +191,7 @@ Is Rust used for real?
 
 -- Graydon Hoare, [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/)
 
-To build a truly industrial-strength ecosystem, we need to remember the professional software lifecycle, which is decades long.
+To build a truly industrial-strength ecosystem, we need to remember the professional software lifecycle, which is hopefully decades long.
 Stability plays a big role in that.
 The fact that Rust has stable editions and a language specification is a big part of that.
 
