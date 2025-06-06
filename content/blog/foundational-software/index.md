@@ -96,7 +96,7 @@ Rust is used for building platforms: systems which enable building other systems
 These services need to be robust and reliable and serve as platforms for other code that might or might not be written in Rust.
 This is, in my opinion, the core value proposition of Rust: to build things that form the bedrock of critical infrastructure and must operate reliably for years.
 
-Rust is a day-2-language: All of the problems that you have during the lifecycle of your application surface early in development.
+Rust is a day-2-language, i.e. it starts to shine on day 2. All of the problems that you have during the lifecycle of your application surface early in development.
 Once a service hits production, maintaining it is boring.
 There is very little on-call work.
 
