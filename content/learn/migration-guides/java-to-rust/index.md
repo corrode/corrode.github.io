@@ -7,6 +7,9 @@ draft = false
 [extra]
 series = "Migration Guides"
 icon = "java.svg"
+reviews = [
+  { name = "Mark Beinker", url = "https://www.linkedin.com/in/mark-beinker-71a1671/)" },
+]
 resources = [
   "[Comparing Rust and Java - Andre Bogus](https://llogiq.github.io/2016/02/28/java-rust.html)",
   "[My Experience with Rust as a Java Dev - Forrest Knight](https://www.youtube.com/watch?v=a0LtFp-7T2s)",
