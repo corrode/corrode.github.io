@@ -1,12 +1,14 @@
 +++
 title = "Tips for Faster Rust CI Builds"
 date = 2025-01-28
+updated = 2025-06-12
 draft = false
 template = "article.html"
 [extra]
 series = "Rust Insights"
 resources = [
-    "[Fast Rust Builds by Matklad](https://matklad.github.io/2021/09/04/fast-rust-builds.html#CI-Workflow)"
+  "[Tips for faster compile times](/blog/tips-for-faster-rust-compile-times/) - A general article on speeding up Rust compile times", 
+  "[Fast Rust Builds by Matklad](https://matklad.github.io/2021/09/04/fast-rust-builds.html#CI-Workflow)"
 ]
 hero = "hero.svg"
 +++

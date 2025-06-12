@@ -1,12 +1,13 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-05-04
+updated = 2025-06-12
 draft = false
 template = "article.html"
 [extra]
 series = "Rust Insights"
 resources = [
+ "[Tips for faster CI builds](/blog/tips-for-faster-ci-builds/) - My collection of tips to speed up your CI builds.",
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
  "List of [articles on performance on Read Rust](https://readrust.net/performance).",
  "[8 Solutions for Troubleshooting Your Rust Build Times](https://medium.com/@jondot/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e) is a great article by Dotan Nahum that I fully agree with.",
