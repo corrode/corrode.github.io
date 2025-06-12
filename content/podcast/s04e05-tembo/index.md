@@ -12,6 +12,8 @@ episode = "05"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-a72393de" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/tembo-with-adam-hendel/player.js?size=s"></script></div>
+
 Recently I was in need of a simple job queue for a Rust project. I already had
 Postgres in place and wondered if I could reuse it for this purpose. I found
 [Tembo](https://www.tembo.io/), a simple job queue written in Rust that uses
