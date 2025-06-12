@@ -15,13 +15,13 @@ series = "Podcast"
 <div><script id="letscast-player-a72393de" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/tembo-with-adam-hendel/player.js?size=s"></script></div>
 
 Recently I was in need of a simple job queue for a Rust project. I already had
-Postgres in place and wondered if I could reuse it for this purpose. I found
-[Tembo](https://www.tembo.io/), a simple job queue written in Rust that uses
+Postgres in place and wondered if I could reuse it for this purpose. I found PGMQ by
+[Tembo](https://www.tembo.io/). PGMQ a simple job queue written in Rust that uses
 Postgres as a backend. It fit the bill perfectly. 
 
 In today's episode, I talk to [Adam
 Hendel](https://www.linkedin.com/in/adam-hendel/), the founding engineer of
-Tembo, about their project, PGMQ, and how it came to be. We discuss the design
+Tembo, about one of their projects, PGMQ, and how it came to be. We discuss the design
 decisions behind job queues, interfacing from Rust to Postgres, and the
 engineering decisions that went into building the extension.
 
