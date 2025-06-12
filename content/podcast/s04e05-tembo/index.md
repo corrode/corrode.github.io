@@ -48,8 +48,25 @@ to work on his own startup, but remains involved with the PGMQ project.
 
 ### Links From The Episode
 
-- [PGMQ](https://github.com/pgmq/pgmq/)
-- [Introducing PGMQ](https://www.tembo.io/blog/introducing-pgmq) - a blog post about the project
+- [PostgreSQL](https://www.postgresql.org/about/) - Super flexible ~40 year old relational database that just works
+- [R](https://www.r-project.org/) - Statistical  Programming Language
+- [pgrx](https://github.com/pgcentralfoundation/pgrx/) - Extend Postgres with Rust
+- [Postgres Docs: PL/pgSQL](https://www.postgresql.org/docs/current/plpgsql.html) - Scripting with Procedural Language in PostgreSQL
+- [Postgres Docs: SPI](https://www.postgresql.org/docs/current/spi.html) - The Postgres Server Programming Interface
+- [pgmq](https://github.com/pgmq/pgmq) - A lightweight message queue extension, initially written in Rust
+- [Tembo Blog: Introducing PGMQ](https://www.tembo.io/blog/introducing-pgmq) - a blog post about the project
+- [sqlx](https://github.com/launchbadge/sqlx) - All of the great things of an ORM, without all of the bad things of an ORM
+- [tokio](https://tokio.rs/) - The de facto standard async runtime for Rust
+- [AWS SQS](https://aws.amazon.com/sqs/) - Amazon Web Services Simple Queue Service
+- [Postgres Docs: LISTEN](https://www.postgresql.org/docs/current/sql-listen.html) - The native Postgres `sub` part of of pubsub
+- [Postgres Docs: NOTIFY](https://www.postgresql.org/docs/current/sql-notify.html) - The native Postgres `pub` part of of pubsub
+- [tokio-stream](https://docs.rs/tokio-stream/latest/tokio_stream/) - Tokio utility for asynchronous series of values
+- [Postgres Docs: Full Text Search](https://www.postgresql.org/docs/current/textsearch.html) - Postgres included FTS capabilities
+- [pgvector](https://github.com/pgvector/pgvector) - The standard extension for vector/AI workloads in Postgres
+- [pg_vectorize](https://github.com/ChuckHend/pg_vectorize) - Automatically create embeddings for use with pgvector
+- [Python Standard Library: None](https://docs.python.org/3/library/constants.html#None) - A type, but not an enum
+- [Rust in Production: Astral with Charlie Marsh](https://corrode.dev/podcast/s04e03-astral/) - Massively improving Python day 1 experience
+- [Hugging Face candle](https://github.com/huggingface/candle) - Use ML models in Rust
 
 ### Official Links
 
