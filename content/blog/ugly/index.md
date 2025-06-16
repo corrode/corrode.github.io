@@ -10,6 +10,13 @@ series = "Idiomatic Rust"
 It's clear that Rust has a readability problem -- or at least that's what people claim on a regular basis.
 After programming in Rust for 10 years, I think that your coding style has the biggest impact on how your Rust code will look and feel.
 
+In workshops I find people getting frustrated with Rust.
+They write Rust like they would write idiomatic code in other languages, but it doesn't feel right.
+"You can write bad Java code in any language," is a common saying, and I think it applies here as well.
+
+**Idiomatic Rust ticks all the boxes: it feels right, is correct, and readable.**
+
+
 Let's take a simple example: parsing a `.env` file in Rust. How hard can it be?
 
 ```sh
