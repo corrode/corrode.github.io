@@ -10,17 +10,18 @@ description = "Hi, I'm Matthias Endler, a Rust developer and open-source maintai
   <img class="img-stack-fg" src="/about/endler-fg.png" />
 </div>
 
-Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open-source maintainer with 20 years of experience in software development.
+Hi, I'm <strong>Matthias Endler</strong>, a Rust developer and open-source maintainer with 10 years of Rust experience. 
 
 I help clients worldwide get the most out of Rust through training and consulting.
 I like no-frills, easy-to-follow, [idiomatic Rust](/blog) code.
 
-But code is rarely the most important part!
+**But code is rarely the most important part!**
+
 Software development is a team effort, and I'll ensure that you and your colleagues feel heard and have a great experience working with me.
 I deeply care about the people I work with. 
 
 Don't take my word for it. Here's what <a href="https://www.linkedin.com/in/drernie/" target="_blank" rel="noopener noreferrer nofollow">Ernest</a> from
-<a href="https://www.quiltdata.com/" target="_blank" rel="noopener noreferrer nofollow">Quilt</a> recently had to say: 
+<a href="https://www.quiltdata.com/" target="_blank" rel="noopener noreferrer nofollow">Quilt</a> has to say: 
 
 > Matthias was a godsend for our team. We had a legacy codebase written while we were first learning Rust and didn’t even know how to think clearly about best practices. He didn’t fix the code for us; he created a safe space for us to learn how to fix it ourselves. His patient mentorship and vulnerable engagement accelerated the maturity of both our codebase and our developers.
 
@@ -50,11 +51,11 @@ From time to time I give talks about Rust and open-source software.
 
 ## Shall We Start? 
 
-Push the button below to get in touch. I'm looking forward to hearing from you!
+Push the button below to get in touch. I'm looking forward to hearing about your project!
 
 <div class="cta-wrapper">
   <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>
-      Schedule A Free 30-Minute Consultation
+      Book Your Free 30-Minute Strategy Call Now
   </a>
 </div>
 
