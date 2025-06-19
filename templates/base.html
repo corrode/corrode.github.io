@@ -150,15 +150,15 @@
                     </a>
                 </li>
                 <li>
-                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/learn' }}">
-                        <span>Learn</span>
-                    </a>
-                </li>
-                <li>
                     <a {% if current_path and current_path is starting_with("/blog") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
                         href="{{ config.base_url ~ '/blog' }}">
                         <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/learn' }}">
+                        <span>Learn</span>
                     </a>
                 </li>
                 <li>
