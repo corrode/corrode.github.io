@@ -12,6 +12,8 @@ episode = "06"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-0e3cbed3" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/1password-with-andrew-burkhart/player.js?size=s"></script></div>
+
 Handling secrets is extremely hard.
 You have to keep them safe (obviously), while at the same time you need to integrate with a ton of different systems and always provide a great user-experience, because otherwise people will just find a way around your system.
 When talking to peers, a lot of people mention 1Password as a company that nailed this balance.
