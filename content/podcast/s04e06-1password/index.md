@@ -37,7 +37,7 @@ He specifically specialized in that synchronization process, getting data federa
 
 - [Backend for Frontend Pattern](https://samnewman.io/patterns/architectural/bff/) - Architectural pattern for creating dedicated backends for specific frontends
 - [typeshare](https://github.com/1Password/typeshare) - Generate types for multiple languages from Rust code
-- [zeroize](https://docs.rs/zeroize/latest/zeroize) - Securely zero memory of sensitive data structures
+- [zeroizing-alloc](https://github.com/1Password/zeroizing-alloc) - 1Password's minimal secure heap zero-on-free implementation for Rust 
 - [arboard](https://github.com/1Password/arboard) - Cross-platform clipboard manager written in Rust
 - [passkey-rs](https://github.com/1password/passkey-rs) - Pure Rust implementation of the WebAuthn Passkey specification
 - [WebAssembly (WASM)](https://webassembly.org/) - Binary instruction format for portable execution across platforms
