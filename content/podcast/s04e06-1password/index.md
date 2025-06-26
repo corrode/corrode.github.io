@@ -47,7 +47,7 @@ He specifically specialized in that synchronization process, getting data federa
 - [Nix](https://nixos.org/) - Purely functional package manager for reproducible builds
 - [Nix Flakes](https://nixos.wiki/wiki/Flakes) - Experimental feature for hermetic, reproducible Nix builds
 - [direnv](https://direnv.net/) - Load and unload environment variables based on current directory
-- [Rust Community Guilds](https://www.rust-lang.org/governance/wgs) - Working groups and teams in the Rust community
+- [ACM: Spotify Guilds](https://cacm.acm.org/research/spotify-guilds/) - A study into Spotify's Agile Model's Guilds
 - [axum](https://github.com/tokio-rs/axum) - Ergonomic and modular web framework built on tokio and tower
 - [tower](https://github.com/tower-rs/tower) - Library for building robust networking clients and servers
 - [tracing](https://github.com/tokio-rs/tracing) - Application-level tracing framework for async-aware diagnostics
