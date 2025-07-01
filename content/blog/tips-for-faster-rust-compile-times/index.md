@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-06-12
+updated = 2025-07-01
 draft = false
 template = "article.html"
 [extra]
@@ -404,12 +404,12 @@ If the `link` step is slow, you can try to switch to a faster alternative:
 | Linker   | Platform    | Production Ready | Description                                 |
 | :------- | :---------- | :--------------- | :------------------------------------------ |
 | [`lld`]  | Linux/macOS | Yes              | Drop-in replacement for system linkers      |
-| [`mold`] | Linux       | [Yes]            | Optimized for Linux                         |
+| [`mold`] | Linux       | [Yes][mold_prod] | Optimized for Linux                         |
 | [`zld`]  | macOS       | No (deprecated)  | Drop-in replacement for Apple's `ld` linker |
 
 [`lld`]: https://lld.llvm.org/
 [`mold`]: https://github.com/rui314/mold
-[Yes]: https://github.com/bluewhalesystems/sold
+[mold_prod]: https://news.ycombinator.com/item?id=29568454
 [`zld`]: https://github.com/michaeleisel/zld
 
 ### macOS Only: Faster Incremental Debug Builds
