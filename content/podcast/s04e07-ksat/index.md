@@ -45,8 +45,28 @@ At KSAT, Vegard focuses on building high-performance data processing pipelines t
 from ground stations around the world. His work involves optimizing real-time data flows and ensuring system reliability
 for mission-critical space operations.
 
-
 ### Links From The Episode
+
+- [CCSDS](https://ccsds.org/) - Space data systems standardization body
+- [SpaceX](https://www.spacex.com/) - Private space exploration company revolutionizing satellite launches
+- [Blue Origin](https://www.blueorigin.com/) - Space exploration company focused on reusable rockets
+- [Rocket Lab](https://www.rocketlabusa.com/) - Small satellite launch provider
+- [AWS Ground Station](https://aws.amazon.com/ground-station/) - Cloud-based satellite ground station service
+- [K2 Space](https://www.k2space.com/) - Space company building satellites entirely in Rust
+- [RustConf Presentations](https://www.youtube.com/c/RustVideos) - Annual Rust conference presentations
+- [Rust](https://www.rust-lang.org/) - Systems programming language focused on safety and performance
+- [serde](https://serde.rs/) - Serialization and deserialization framework for Rust
+- [axum](https://github.com/tokio-rs/axum) - Ergonomic web framework built on tokio and tower
+- [sqlx](https://github.com/launchbadge/sqlx) - Async SQL toolkit with compile-time checked queries
+- [utoipa](https://github.com/juhaku/utoipa) - OpenAPI specification generation from Rust code
+- [rayon](https://github.com/rayon-rs/rayon) - Data parallelism library for Rust
+- [tokio](https://tokio.rs/) - Asynchronous runtime for Rust applications
+- [tokio-console](https://github.com/tokio-rs/console) - Debugger for async Rust applications
+- [tracing](https://tracing.rs/) - Application-level tracing framework for async-aware diagnostics
+- [W3C Trace Context](https://www.w3.org/TR/trace-context/) - Standard for distributed tracing context propagation
+- [OpenTelemetry](https://opentelemetry.io/) - Observability framework for distributed systems
+- [Honeycomb](https://www.honeycomb.io/) - Observability platform for complex distributed systems
+- [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) - Application performance monitoring service
 
 ### Official Links
 
