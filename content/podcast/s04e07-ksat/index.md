@@ -47,18 +47,24 @@ for mission-critical space operations.
 
 ### Links From The Episode
 
-- [CCSDS](https://ccsds.org/) - Space data systems standardization body
 - [SpaceX](https://www.spacex.com/) - Private space exploration company revolutionizing satellite launches
+- [CCSDS](https://ccsds.org/) - Space data systems standardization body
+- [Ground Station](https://en.wikipedia.org/wiki/Ground_station)
+- [Polar Orbit](https://en.wikipedia.org/wiki/Polar_orbit) - Orbit with usually limited ground station visibility
+- [TrollSat](https://en.wikipedia.org/wiki/Troll_Satellite_Station) - Remote Ground Station in Antarctica
+- [OpenStack](https://www.openstack.org/) - Build-your-own-cloud software stack
+- [RustConf 2024: K2 Space Lightning Talk](https://youtu.be/rME_t6Jn_Kw?list=PL2b0df3jKKiTWZeF7cip6ZUsaVXxWioRi&t=736) - K2 Space's sponsored lightning talk, talking about 100% Rust based satellites
+- [K2 Space](https://www.k2space.com/) - Space company building satellites entirely in Rust
 - [Blue Origin](https://www.blueorigin.com/) - Space exploration company focused on reusable rockets
 - [Rocket Lab](https://www.rocketlabusa.com/) - Small satellite launch provider
 - [AWS Ground Station](https://aws.amazon.com/ground-station/) - Cloud-based satellite ground station service
-- [K2 Space](https://www.k2space.com/) - Space company building satellites entirely in Rust
-- [RustConf Presentations](https://www.youtube.com/c/RustVideos) - Annual Rust conference presentations
-- [Rust](https://www.rust-lang.org/) - Systems programming language focused on safety and performance
+- [Strangler Pattern](https://en.wikipedia.org/wiki/Strangler_fig_pattern) - A software design pattern to replace legacy applications step-by-step
+- [Rust by Example: New Type Idiom](https://doc.rust-lang.org/rust-by-example/generics/new_types.html) - Creating new wrapper types to leverage Rust's type system guarantees for correct code
 - [serde](https://serde.rs/) - Serialization and deserialization framework for Rust
+- [utoipa](https://github.com/juhaku/utoipa) - OpenAPI specification generation from Rust code
+- [serde-json](https://github.com/serde-rs/json) - The go-to solution for parsing JSON in Rust
 - [axum](https://github.com/tokio-rs/axum) - Ergonomic web framework built on tokio and tower
 - [sqlx](https://github.com/launchbadge/sqlx) - Async SQL toolkit with compile-time checked queries
-- [utoipa](https://github.com/juhaku/utoipa) - OpenAPI specification generation from Rust code
 - [rayon](https://github.com/rayon-rs/rayon) - Data parallelism library for Rust
 - [tokio](https://tokio.rs/) - Asynchronous runtime for Rust applications
 - [tokio-console](https://github.com/tokio-rs/console) - Debugger for async Rust applications
