@@ -19,6 +19,13 @@ In this episode, we talk to Vegard Sandengen, a Rust engineer at KSAT, a company
 They use Rust to manage the data flow from hundreds of satellites, ensuring that data is received, processed, and stored efficiently.
 This data is then made available to customers around the world, enabling them to make informed decisions based on real-time satellite data.
 
+We dive deep into the technical challenges of building reliable, high-performance systems that operate 24/7 to capture and process satellite data.
+Vegard shares insights into why Rust was chosen for these mission-critical systems, how they handle the massive scale of data processing,
+and the unique reliability requirements when dealing with space-based infrastructure.
+
+From ground station automation to data pipeline optimization, this conversation explores how modern systems programming languages
+are enabling the next generation of space technology infrastructure.
+
 {{ codecrafters() }}
 
 ## Show Notes
@@ -33,6 +40,11 @@ for a wide range of applications, including weather monitoring, environmental re
 
 Vegard Sandengen is a Rust engineer at KSAT, where he works on the company's data management systems.
 He has a Master's degree in computer science and has been working in the space industry for several years.
+
+At KSAT, Vegard focuses on building high-performance data processing pipelines that handle satellite telemetry and payload data
+from ground stations around the world. His work involves optimizing real-time data flows and ensuring system reliability
+for mission-critical space operations.
+
 
 ### Links From The Episode
 
