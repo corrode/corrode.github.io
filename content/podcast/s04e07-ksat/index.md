@@ -12,6 +12,8 @@ episode = "07"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-204ce5f9" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/ksat-with-vegard-sandengen/player.js?size=s"></script></div>
+
 As a kid, I was always fascinated by space tech.
 That fascination has only grown as I've learned more about the engineering challenges involved in space exploration.
 
