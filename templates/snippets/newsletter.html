@@ -20,16 +20,34 @@
       <div style="display: none">
         <input type="text" name="hpfield" value="" />
       </div>
-      <input type="submit" value="Subscribe" />
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none;">
+          <div style="display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 8px;"></div>
+          Subscribing...
+        </div>
+      </button>
     </form>
   </div>
 </div>
+
+<style>
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
 
 <script>
   document
     .getElementById("newsletter-form")
     .addEventListener("submit", function (e) {
       e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
 
       const formData = new FormData(this);
       fetch("https://corrode-newsletter.fly.dev/subscribe", {

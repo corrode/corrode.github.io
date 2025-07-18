@@ -284,7 +284,8 @@ article .subheading a {
   color: $brightPrim;
 }
 
-.newsletter-callout input[type="submit"] {
+.newsletter-callout input[type="submit"],
+.newsletter-callout button[type="submit"] {
   font-size: 1em;
   padding: 0.8em;
   border: none;
@@ -353,7 +354,8 @@ article .subheading a {
     flex-direction: column;
   }
 
-  .newsletter-callout input[type="submit"] {
+  .newsletter-callout input[type="submit"],
+  .newsletter-callout button[type="submit"] {
     width: 100%;
   }
 
