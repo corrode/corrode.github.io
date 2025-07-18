@@ -322,7 +322,7 @@ I'll wait here.
 
 {% end %}
 
-### Read the Standard Library Documentation
+## Read the Standard Library Documentation
 
 Many common patterns are beautifully handled by the standard library.
 It is absolutely worth your time to [read the documentation](https://doc.rust-lang.org/std/).
@@ -359,7 +359,7 @@ becomes
 let mut cfg = HashMap::new();
 ```
 
-### Lean Into the Typesystem
+## Lean Into the Typesystem
 
 Manual string splitting is error-prone and very much discouraged.
 The reason is that strings are, in fact, very complicated.
@@ -501,7 +501,7 @@ fn parse_config_file(path: &str) -> HashMap<String, String> {
 You'd be forgiven if you called it a day at this point. 
 However, to truly embrace Rust, it helps to a step back and think about our problem for a little longer. 
 
-### Use Proper Error Handling
+## Use Proper Error Handling
 
 There's a few things we left on the table so far; one obvious one is error handling.
 It depends on the business logic how you want to handle invalid lines, but let's assume we want to return an error if the file is malformed.
@@ -680,6 +680,15 @@ fn parse_line(line: &str) -> Result<ParsedLine, ParseError> {
 
 We could even go one step further and express more of our invariants in the type system.
 For example, we can make use of the fact that parsing a key-value pair only depends on a single line.
+
+{% info(title="Note", icon="warning") %}
+
+Multiline environment variables exist, so instead of "parsing a single line," we should say "parsing a single key-value pair."
+For now, we will ignore multiline key-value pairs and assume that each line contains at most one key-value pair.
+However, the solution we are building here is extensible enough to handle multiline key-value pairs if we wanted to.
+
+{% end %}
+
 Since parsing is a fallible operation, we can implement `TryFrom` for our `KeyValue` struct:
 
 ```rust
