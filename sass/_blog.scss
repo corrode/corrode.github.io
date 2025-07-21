@@ -110,12 +110,13 @@
   .blog-filters {
     justify-content: center;
     margin-bottom: 2rem;
+    padding: 0 1rem;
   }
 
   .blog-link {
     grid-template-columns: 1fr;
     gap: 0.75rem;
-    padding: 1.25rem 0;
+    padding: 1.25rem 1rem;
   }
 
   .blog-date {
@@ -129,6 +130,11 @@
 
   .blog-chevron {
     display: none;
+  }
+  
+  // Remove side padding from blog sections to allow full-width hover backgrounds
+  .article-content.blog-section {
+    padding: 0;
   }
 }
 
