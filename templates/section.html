@@ -1,25 +1,61 @@
 {% extends "base.html" %} {% block content %}
-<article class="section-wrapper">
-  <h1>{{section.title}}</h1>
-  {{ section.description | safe }}
-  <div>{{ section.content | safe }}</div>
-  {% set sorted_pages = section.pages | filter(attribute="draft", value=false) |
-  sort(attribute="extra.series") %} {% for series, series_pages in sorted_pages
-  | group_by(attribute="extra.series") %}
-  <h2>{{ series }}</h2>
-  <ul class="blog-list">
-    {% for page in series_pages %}
-    <li class="blog-item">
-      <a href="{{ page.permalink }}" class="blog-link">
-        <time class="blog-date" datetime="{{ page.date }}"
-          >{{ page.date }}</time
-        >
-        <h3 class="blog-title">{{ page.title }}</h3>
-        <span class="chevron" aria-hidden="true"></span>
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
-  {% endfor %} {% include "snippets/newsletter.html" %}
+<article>
+  <div class="article-heading">
+    <h1>{{section.title}}</h1>
+    {{ section.description | safe }}
+    <div>{{ section.content | safe }}</div>
+  </div>
+  
+  <div class="article-content-wrapper">
+    <div class="article-content">
+      <div class="blog-filters">
+        <label for="category-filter">Filter by category:</label>
+        <select id="category-filter">
+          <option value="all">All Posts</option>
+          <option value="idiomatic-rust">Idiomatic Rust</option>
+          <option value="rust-insights">Rust Insights</option>
+        </select>
+      </div>
+      
+      {% set all_posts = section.pages | filter(attribute="draft", value=false) %}
+      <ul class="blog-list" id="blog-list">
+        {% for post in all_posts %}
+        <li class="blog-item" data-category="{{ post.extra.series | lower | replace(from=" ", to="-") }}">
+          <a href="{{ post.permalink }}" class="blog-link">
+            <time class="blog-date" datetime="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}</time>
+            <div class="blog-content">
+              <h3 class="blog-title">{{ post.title }}</h3>
+              <span class="blog-category">{{ post.extra.series }}</span>
+            </div>
+            <span class="blog-chevron" aria-hidden="true"></span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      
+      {% include "snippets/newsletter.html" %}
+    </div>
+  </div>
 </article>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryFilter = document.getElementById('category-filter');
+  const blogItems = document.querySelectorAll('.blog-item');
+  
+  function filterPosts() {
+    const selectedCategory = categoryFilter.value;
+    
+    blogItems.forEach(item => {
+      if (selectedCategory === 'all' || item.dataset.category === selectedCategory) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+  
+  categoryFilter.addEventListener('change', filterPosts);
+});
+</script>
 {% endblock content %}
