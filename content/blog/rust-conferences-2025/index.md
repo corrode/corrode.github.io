@@ -49,7 +49,14 @@ The organization, speaker lineup, and recordings are always top-notch.
 It's a great conference for Rust developers of all levels.
 As per tradition, they kick off the year of Rust conferences. 
 
-- **Recordings Available on [YouTube](https://www.youtube.com/watch?v=fmtykJT1acM&list=PL1AoGvxomykSSFFL4Qav3wKzL-dsi9I5L)**
+
+<button onclick="window.open('https://www.youtube.com/watch?v=fmtykJT1acM&list=PL1AoGvxomykSSFFL4Qav3wKzL-dsi9I5L', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
+
 - **When**: February 19-20, 2025
 - **Where**: [The Brewery, 52 Chiswell Street, London, EC1Y 4SD, UK](https://maps.app.goo.gl/QakezC3gjkyo7sNr9)
 - **Format**: 2 days (workshops + conference)
@@ -88,7 +95,13 @@ It features 12 speakers, 1 day of talks, and 250 attendees.
 
 An event in Poland, actively co-created by Rust enthusiasts.
 
-- **Recordings Available on [YouTube](https://www.youtube.com/watch?v=v3bpw7fcjp0&list=PLp10ZrVkzfVqLOjf9KXe25igeZXPNCwhL)**
+<button onclick="window.open('https://www.youtube.com/watch?v=v3bpw7fcjp0&list=PLp10ZrVkzfVqLOjf9KXe25igeZXPNCwhL', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
+
 - **When**: March 15-16, 2025
 - **Where**: [Gliwice, Poland](https://maps.app.goo.gl/38cqAgQBnDG7nNvM7)
 - **Format**: 2 days (talks + workshops)
@@ -109,7 +122,13 @@ An event in Poland, actively co-created by Rust enthusiasts.
 Aims to bring together Rust developers from the region and beyond.
 Expect a developer-friendly atmosphere with ~15 expert talks in a single-track format, perfect for staying connected and engaged. After a day of learning, unwind with us in a local pub and network with fellow devs. 
 
-- **Recordings Available on [YouTube](https://www.youtube.com/watch?v=4QkLD7JhD_I&list=PL8NC5lCgGs6MnMLJvhFH2jLa8bLYwCzmI)**
+<button onclick="window.open('https://www.youtube.com/watch?v=4QkLD7JhD_I&list=PL8NC5lCgGs6MnMLJvhFH2jLa8bLYwCzmI', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
+
 - **When**: March 26, 2025
 - **Where**: [POLIN Conference Centre, Warsaw](https://maps.app.goo.gl/XKR76zuE2D8XbZMp6)
 - **Format**: 1 day conference
@@ -175,6 +194,13 @@ RustWeek is a week-long event that combines talks, workshops, and social events.
 It's located in cozy Utrecht, the fourth-largest city in the Netherlands.
 This is organized by the team behind RustNL. RustWeek takes place during the 10 year
 anniversary of Rust 1.0. All Rustaceans are welcome to attend and submit talks.
+
+<button onclick="window.open('https://www.youtube.com/playlist?list=PL8Q1w7Ff68DCEXiGidlM0DMn8ztjlUlez', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
 
 - **When**: May 12-17, 2025
 - **Where**: [Kinepolis Utrecht](https://maps.app.goo.gl/NfdQrMmPHEpy3ZZMA)
@@ -247,7 +273,10 @@ The last edition was held in Montreal, Canada and the 2025 edition will be annou
 - **Where**: Seattle, Washington, USA
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
-- **Pricing**: TBA
+- **Pricing**: 
+  - Regular: $525
+  - Corporate: $775 
+  - [Get tickets here](https://rustconf.com/register/)
 - **CFP**: [Closed](https://rustconf.com/submit-a-talk/) 
 - **Links**: [Website](https://rustconf.com/) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf), [BlueSky](https://bsky.app/profile/rustconf.com)
@@ -268,7 +297,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 - **Pricing**:
   - Conference only: €505.75
   - Workshop + Conference: €653.31
-  - [Get Tickets here](https://ti.to/asquera-event-ug/oxidize-conference-2025)
+  - [Get tickets here](https://ti.to/asquera-event-ug/oxidize-conference-2025)
 - **CFP**: [Closed](https://pretalx.com/oxidize-conference-2025/cfp) 
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
@@ -320,9 +349,11 @@ It's lovingly organized featuring delicious italian food and a great community.
 
 ---
 
-So there you have it, our complete guide to all Rust developer conferences, workshops, and community meetups happening around the world in 2025. Whether you're interested in embedded systems, blockchain, or web development with Rust, there's an event for every Rustacean out there. 
-Let us know if we missed any events or if you have any updates to share. 
-You can directly propose changes by editing the list [here](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2025/index.md). We'll see you at the next Rust conference!
+That's the complete lineup of Rust conferences for 2025! From London to Hong Kong to Seattle, there's something for every Rustacean.
+
+Missing an event? Spot an error? Feel free to [edit this list directly](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2025/index.md) or let us know. 
+
+See you at the next conference! 🦀
 
 *Note: This list will be updated as more information becomes available. Some conferences are yet to announce their exact dates, venues, or ticket prices.*
 
