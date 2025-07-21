@@ -5,14 +5,14 @@
 
 .blog-item {
   border-bottom: 1px solid rgba($brightPrim, 0.08);
-  
+
   &:last-child {
     border-bottom: none;
   }
-  
+
   &:hover {
     background-color: rgba($brightBgrd, 0.15);
-    
+
     .blog-chevron {
       opacity: 1;
       transform: translateX(0) rotate(270deg);
@@ -65,8 +65,8 @@
   width: 25px;
   height: 25px;
   flex-shrink: 0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A") no-repeat center;
-  // Slightly move the arrow to the left
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A")
+    no-repeat center;
   transform: translateX(-20px) rotate(270deg);
   opacity: 0;
   transition: all 0.3s ease;
@@ -111,22 +111,22 @@
     justify-content: center;
     margin-bottom: 2rem;
   }
-  
+
   .blog-link {
     grid-template-columns: 1fr;
     gap: 0.75rem;
     padding: 1.25rem 0;
   }
-  
+
   .blog-date {
     font-size: 0.8rem;
     order: 2;
   }
-  
+
   .blog-content {
     order: 1;
   }
-  
+
   .blog-chevron {
     display: none;
   }
@@ -136,7 +136,7 @@
 @media (prefers-color-scheme: dark) {
   .blog-item {
     border-bottom-color: rgba(white, 0.1);
-    
+
     &:hover {
       background-color: rgba($brightBgrd, 0.1);
     }
@@ -149,27 +149,28 @@
   .blog-title {
     color: white;
   }
-  
+
   .blog-category {
     color: rgba(white, 0.5);
   }
-  
+
   .blog-filters select {
     background-color: $heroDark;
     color: white;
     border-color: rgba(white, 0.2);
-    
+
     &:hover {
       border-color: rgba(white, 0.4);
     }
-    
+
     &:focus {
       border-color: $brightBgrd;
       box-shadow: 0 0 0 2px rgba($brightBgrd, 0.1);
     }
   }
-  
+
   .blog-chevron {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='%23cdcaca' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A") no-repeat center;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='%23cdcaca' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A")
+      no-repeat center;
   }
 }
