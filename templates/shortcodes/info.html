@@ -2,9 +2,9 @@
   {% if title %}
   <div class="info-header">
     {% if icon %}
-      <i class="icon icon-{{ icon }}"></i>
+      <span class="icon icon-{{ icon }}"></span>
     {% else %}
-      <i class="icon icon-info"></i>
+      <span class="icon icon-info"></span>
     {% endif %}
     <h4>{{ title | markdown() | safe }}</h4>
   </div>
