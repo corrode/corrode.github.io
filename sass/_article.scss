@@ -186,6 +186,7 @@ article .subheading a {
 .icon {
   width: 30px;
   height: 30px;
+
 }
 
 .icon-calendar {
@@ -198,6 +199,11 @@ article .subheading a {
 
 .icon-info {
   background: url("/icons/info.svg") no-repeat;
+}
+
+.icon-ferris {
+  background: url("/icons/ferris.svg") no-repeat;
+  background-size: contain;
 }
 
 .icon-radio {
