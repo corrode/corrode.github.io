@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2025"
 date = 2024-12-03
-updated = 2025-05-19
+updated = 2025-07-21
 template = "article.html"
 draft = false
 [extra]
@@ -229,7 +229,7 @@ RustForge is the first conference in the Asia/Pacific region that focuses on Rus
   - Conference: $225
   - Workshops: $425
   - [Get tickets here](https://rust-forge-2025.lilregie.com/booking/attendees/new)
-- **CFP**: [Open until 28th of August 2025](https://pretalx.com/rust-forge-2025/cfp) 
+- **CFP**: [Closed](https://pretalx.com/rust-forge-2025/cfp) 
 - **Links**: [Website](https://rustforgeconf.com/)
 - **Social**: [Twitter](https://x.com/rustforgeconf) | [LinkedIn](https://www.linkedin.com/company/rustforgeconf/) | [Instagram](https://www.instagram.com/rustforgeconf/) 
 
@@ -294,7 +294,7 @@ This time, it's in Paris, France. 🥖
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Get tickets here](https://ti.to/events-matter/eurorust-2025)
-- **CFP**: [Open until 2nd of June 2025](https://www.papercall.io/eurorust-2025)
+- **CFP**: [Closed](https://www.papercall.io/eurorust-2025)
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
