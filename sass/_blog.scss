@@ -1,19 +1,30 @@
 .blog-list {
   list-style: none;
   padding: 0;
-  width: 43rem;
 }
 
-.blog-list .blog-item {
-  border-bottom: 1px solid rgba($brightPrim, 0.1);
+.blog-item {
+  border-bottom: 1px solid rgba($brightPrim, 0.08);
+  
   &:last-child {
     border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: rgba($brightBgrd, 0.15);
+    
+    .blog-chevron {
+      opacity: 1;
+      transform: translateX(0) rotate(270deg);
+    }
   }
 }
 
 .blog-link {
-  padding: 10px 0;
-  display: flex;
+  padding: 1.5rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
   align-items: center;
   text-decoration: none;
   color: inherit;
@@ -21,47 +32,144 @@
 
 .blog-date {
   font-family: monospace;
-  font-size: 0.8em;
+  font-size: 0.85rem;
   color: rgba($brightPrim, 0.6);
-  min-width: 100px;
-  flex-shrink: 0;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.blog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .blog-title {
   font-family: "Inter", Arial, sans-serif;
-  font-weight: 400;
-  font-size: 1em;
+  font-weight: 600;
+  font-size: 1.1rem;
   color: $brightPrim;
-  flex: 1;
-  margin: 0 1rem;
+  margin: 0;
+  line-height: 1.3;
 }
 
-.blog-item:hover {
-  background-color: rgba($brightBgrdLight, 0.3);
+.blog-category {
+  font-size: 0.8rem;
+  color: rgba($brightPrim, 0.5);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-@media (max-width: 650px) {
-  .blog-list {
-    // Full width on smaller screens
-    max-width: 100%;
+.blog-chevron {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A") no-repeat center;
+  // Slightly move the arrow to the left
+  transform: translateX(-20px) rotate(270deg);
+  opacity: 0;
+  transition: all 0.3s ease;
+  margin-right: 1rem;
+}
+
+.blog-filters {
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+
+  label {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  select {
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba($heroDark, 0.3);
+    border-radius: 6px;
+    background-color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: rgba($heroDark, 0.5);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $brightScnd;
+      box-shadow: 0 0 0 2px rgba($brightScnd, 0.1);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-filters {
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .blog-link {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1.25rem 0;
+  }
+  
+  .blog-date {
+    font-size: 0.8rem;
+    order: 2;
+  }
+  
+  .blog-content {
+    order: 1;
+  }
+  
+  .blog-chevron {
+    display: none;
   }
 }
 
 // Dark mode
 @media (prefers-color-scheme: dark) {
   .blog-item {
-    border-bottom: 1px solid rgba(white, 0.2);
-  }
-
-  .blog-item:hover {
-    background-color: $darkBgrd;
+    border-bottom-color: rgba(white, 0.1);
+    
+    &:hover {
+      background-color: rgba($brightBgrd, 0.1);
+    }
   }
 
   .blog-date {
-    color: $darkPrim;
+    color: rgba(white, 0.6);
   }
 
   .blog-title {
     color: white;
+  }
+  
+  .blog-category {
+    color: rgba(white, 0.5);
+  }
+  
+  .blog-filters select {
+    background-color: $heroDark;
+    color: white;
+    border-color: rgba(white, 0.2);
+    
+    &:hover {
+      border-color: rgba(white, 0.4);
+    }
+    
+    &:focus {
+      border-color: $brightBgrd;
+      box-shadow: 0 0 0 2px rgba($brightBgrd, 0.1);
+    }
+  }
+  
+  .blog-chevron {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 20'%3E%3Cpath fill='%23cdcaca' fill-rule='evenodd' d='M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z'%3E%3C/path%3E%3C/svg%3E%0A") no-repeat center;
   }
 }

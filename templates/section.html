@@ -17,16 +17,17 @@
         </select>
       </div>
       
-      {% set all_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="date", reverse=true) %}
+      {% set all_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="date", reverse=false) %}
       <ul class="blog-list" id="blog-list">
         {% for page in all_pages %}
-        <li class="blog-item" data-category="{{ page.extra.series | lower | replace(from=" ", to="-") }}" data-date="{{ page.date }}">
+        <li class="blog-item" data-category="{{ page.extra.series | lower | replace(from=" ", to="-") }}">
           <a href="{{ page.permalink }}" class="blog-link">
             <time class="blog-date" datetime="{{ page.date }}">{{ page.date }}</time>
             <div class="blog-content">
               <h3 class="blog-title">{{ page.title }}</h3>
               <span class="blog-category">{{ page.extra.series }}</span>
             </div>
+            <span class="blog-chevron" aria-hidden="true"></span>
           </a>
         </li>
         {% endfor %}
@@ -40,183 +41,21 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const categoryFilter = document.getElementById('category-filter');
-  const blogList = document.getElementById('blog-list');
-  const blogItems = Array.from(blogList.querySelectorAll('.blog-item'));
+  const blogItems = document.querySelectorAll('.blog-item');
   
   function filterPosts() {
     const selectedCategory = categoryFilter.value;
     
-    // Filter and sort items (always by date descending)
-    const filteredItems = blogItems.filter(item => {
-      if (selectedCategory === 'all') return true;
-      return item.dataset.category === selectedCategory;
-    });
-    
-    // Sort by date descending (newest first)
-    filteredItems.sort((a, b) => {
-      const dateA = new Date(a.dataset.date);
-      const dateB = new Date(b.dataset.date);
-      return dateB - dateA;
-    });
-    
-    // Clear and re-append items
-    blogList.innerHTML = '';
-    filteredItems.forEach(item => {
-      blogList.appendChild(item);
+    blogItems.forEach(item => {
+      if (selectedCategory === 'all' || item.dataset.category === selectedCategory) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
     });
   }
   
   categoryFilter.addEventListener('change', filterPosts);
 });
 </script>
-
-<style>
-.blog-filters {
-  margin-bottom: 2.5rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.blog-filters label {
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-.blog-filters select {
-  padding: 0.6rem 1rem;
-  border: 1px solid rgba(45, 49, 64, 0.3);
-  border-radius: 6px;
-  background-color: #fff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-}
-
-.blog-filters select:hover {
-  border-color: rgba(45, 49, 64, 0.5);
-}
-
-.blog-filters select:focus {
-  outline: none;
-  border-color: #ee3856;
-  box-shadow: 0 0 0 2px rgba(238, 56, 86, 0.1);
-}
-
-/* Enhanced blog list styling */
-.blog-list {
-  width: 100%;
-  max-width: none;
-}
-
-.blog-item {
-  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
-  transition: all 0.2s ease;
-}
-
-.blog-item:hover {
-  background-color: rgba(250, 183, 28, 0.15) !important;
-}
-
-.blog-link {
-  padding: 1.5rem 0;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1.5rem;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.blog-date {
-  font-family: monospace;
-  font-size: 0.85rem;
-  color: rgba(17, 17, 17, 0.6);
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.blog-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.blog-title {
-  font-family: "Inter", Arial, sans-serif;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #111;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.blog-category {
-  font-size: 0.8rem;
-  color: rgba(17, 17, 17, 0.5);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-@media (prefers-color-scheme: dark) {
-  .blog-filters select {
-    background-color: #2d3140;
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .blog-filters select:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-  }
-  
-  .blog-filters select:focus {
-    border-color: #fab71c;
-    box-shadow: 0 0 0 2px rgba(250, 183, 28, 0.1);
-  }
-  
-  .blog-item {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .blog-item:hover {
-    background-color: rgba(250, 183, 28, 0.1) !important;
-  }
-  
-  .blog-date {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  .blog-title {
-    color: #fff;
-  }
-  
-  .blog-category {
-    color: rgba(255, 255, 255, 0.5);
-  }
-}
-
-@media (max-width: 768px) {
-  .blog-filters {
-    justify-content: center;
-    margin-bottom: 2rem;
-  }
-  
-  .blog-link {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    padding: 1.25rem 0;
-  }
-  
-  .blog-date {
-    font-size: 0.8rem;
-    order: 2;
-  }
-  
-  .blog-content {
-    order: 1;
-  }
-}
-</style>
 {% endblock content %}
