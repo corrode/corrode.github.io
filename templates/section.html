@@ -17,15 +17,15 @@
         </select>
       </div>
       
-      {% set all_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="date", reverse=false) %}
+      {% set all_posts = section.pages | filter(attribute="draft", value=false) %}
       <ul class="blog-list" id="blog-list">
-        {% for page in all_pages %}
-        <li class="blog-item" data-category="{{ page.extra.series | lower | replace(from=" ", to="-") }}">
-          <a href="{{ page.permalink }}" class="blog-link">
-            <time class="blog-date" datetime="{{ page.date }}">{{ page.date }}</time>
+        {% for post in all_posts %}
+        <li class="blog-item" data-category="{{ post.extra.series | lower | replace(from=" ", to="-") }}">
+          <a href="{{ post.permalink }}" class="blog-link">
+            <time class="blog-date" datetime="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}</time>
             <div class="blog-content">
-              <h3 class="blog-title">{{ page.title }}</h3>
-              <span class="blog-category">{{ page.extra.series }}</span>
+              <h3 class="blog-title">{{ post.title }}</h3>
+              <span class="blog-category">{{ post.extra.series }}</span>
             </div>
             <span class="blog-chevron" aria-hidden="true"></span>
           </a>
