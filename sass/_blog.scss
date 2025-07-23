@@ -23,7 +23,7 @@
 .blog-link {
   padding: 1.5rem 0;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 1.5rem;
   align-items: center;
   text-decoration: none;
@@ -42,6 +42,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.blog-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .blog-title {
@@ -75,6 +81,7 @@
   justify-content: flex-end;
   align-items: center;
   gap: 0.75rem;
+  padding: 0 1rem;
 
   label {
     font-weight: 500;
@@ -104,7 +111,6 @@
 
 @media (max-width: 768px) {
   .blog-filters {
-    justify-content: center;
     margin-bottom: 2rem;
     padding: 0 1rem;
   }
@@ -113,15 +119,6 @@
     grid-template-columns: 1fr;
     gap: 0.75rem;
     padding: 1.25rem 1rem;
-  }
-
-  .blog-date {
-    font-size: 0.8rem;
-    order: 2;
-  }
-
-  .blog-content {
-    order: 1;
   }
 
   .blog-chevron {

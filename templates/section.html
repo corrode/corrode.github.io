@@ -22,10 +22,12 @@
         {% for post in all_posts %}
         <li class="blog-item" data-category="{{ post.extra.series | lower | replace(from=" ", to="-") }}">
           <a href="{{ post.permalink }}" class="blog-link">
-            <time class="blog-date" datetime="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}</time>
             <div class="blog-content">
               <h3 class="blog-title">{{ post.title }}</h3>
-              <span class="blog-category">{{ post.extra.series }}</span>
+              <div class="blog-meta">
+                <time class="blog-date" datetime="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}</time>
+                <span class="blog-category">{{ post.extra.series }}</span>
+              </div>
             </div>
             <span class="blog-chevron" aria-hidden="true"></span>
           </a>
