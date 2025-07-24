@@ -12,10 +12,7 @@ series = "Podcast"
 
 <div><script id="letscast-player-77a830f9" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/season-4-finale/player.js?size=s"></script></div>
 
-You know the drill by now. It's time for another recap!
-
-Sit back, get a warm beverage and look back at the highlights of Season 4 with
-us. 
+It's time for another recap including our highlights of Season 4. 
 
 We've been at this for a while now (four seasons, and 32 episodes to be exact).
 We had guests from a wide range of industries: from Microsoft to Astral, and
