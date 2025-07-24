@@ -20,12 +20,17 @@ from password managers to satellite systems.
 
 This time, it's all about using Rust for foundational software, which is
 software that is critical to a team or even an entire organization. Rust is a
-great fit for this type of software.  
+great fit for this type of software!  
 
 <!-- more -->
 
-If your'e interested in using Rust for your own projects, check out our
-dedicated [learn](/learn) page for additional content about Rust adoption.
+We'll take a break for the summer.
+In the meantime, we encourage you to catch up on any episodes you might have
+missed, and to check out the links below.
+
+And if you're interested in using Rust for your own projects, check out our
+dedicated [learn](/learn) page for additional content about Rust adoption
+or [reach out to us](/services) directly for a chat. 
 
 {{ codecrafters() }}
 
