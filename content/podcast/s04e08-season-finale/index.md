@@ -35,6 +35,11 @@ In the meantime, check out our dedicated [learn](/learn) page for additional con
 
 ## Show Notes
 
+## Links From The Episode
+
+- [10 Years of Stable Rust: An Infrastructure Story](https://rustfoundation.org/media/10-years-of-stable-rust-an-infrastructure-story/) - Graydon Hoare's reflection on Rust's 10th anniversary
+- [Rust For Foundational Software](https://corrode.dev/blog/foundational-software/) - Matthias' blog post on Rust's role in foundational software 
+
 ### About Us
 
 - [Simon Brüggen (M3t0r) on GitHub](https://github.com/M3t0r)
