@@ -53,7 +53,7 @@ If you missed any of the previous episodes, now is a great time to catch up:
 - [Episode 3: Astral with Charlie Marsh](/podcast/s04e03-astral) 
 - [Episode 4: Rust with Niko Matsakis](/podcast/s04e04-rust) 
 - [Episode 5: Tembo with Adam Hendel](/podcast/s04e05-tembo) 
-- [Episode 6: 1Password with Andrew Burkhard](/podcast/s04e06-1password) 
+- [Episode 6: 1Password with Andrew Burkhart](/podcast/s04e06-1password) 
 - [Episode 7: KSAT with Vegard Sandengen](/podcast/s04e07-ksat)
 
 
