@@ -10,26 +10,25 @@ episode = "08"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-77a830f9" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/season-4-finale/player.js?size=s"></script></div>
+
 You know the drill by now. It's time for another recap!
 
-Sit back, get a warm beverage and look back at the highlights of Season 4 with us. 
+Sit back, get a warm beverage and look back at the highlights of Season 4 with
+us. 
 
 We've been at this for a while now (four seasons, and 32 episodes to be exact).
-We had guests from a wide range of industries:
-from Microsoft to Astral, and from password managers to satellite systems. 
+We had guests from a wide range of industries: from Microsoft to Astral, and
+from password managers to satellite systems. 
 
-Our focus this time around was on the technical details of Rust in production,
-especially integration of Rust into existing codebases and ecosystem deep dives.
-Thanks to everyone who participated in the survey last season, which helped us dial in our content.
-Let us know if we hit the mark or missed it!
+This time, it's all about using Rust for foundational software, which is
+software that is critical to a team or even an entire organization. Rust is a
+great fit for this type of software.  
 
 <!-- more -->
 
-For the future, we hope to present an even more diverse set of guests and topics.
-If you have any suggestions, please reach out!
-
-We'll be back soon.
-In the meantime, check out our dedicated [learn](/learn) page for additional content about Rust adoption.
+If your'e interested in using Rust for your own projects, check out our
+dedicated [learn](/learn) page for additional content about Rust adoption.
 
 {{ codecrafters() }}
 
