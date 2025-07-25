@@ -39,7 +39,7 @@ Even the best developers in the world have had that experience.
 > He responded, **'I've never seen code this bad in my life. You managed to introduce three new bugs in two new lines of code. People like you should never be allowed to get close to a keyboard again.'**
 > That was my introduction to Linux.
 > 
-> -- Glauber Costa, co-founder of Torso, on the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
+> -- Glauber Costa, co-founder of Turso, on the [Top Shelf Podcast](https://www.youtube.com/watch?v=biBLEKm2dtY&t=307s)
 
 Glauber went on to work at Red Hat, Parallels, ScyllaDB, and Datadog on schedulers, databases, and performance optimizations, but just imagine how many capable developers got discouraged by similar early feedback or never even tried to contribute to the Linux kernel in the first place.
 
