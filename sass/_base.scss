@@ -208,7 +208,6 @@ nav {
 
   .menu {
     display: flex;
-    flex-direction: row;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -299,16 +298,11 @@ nav {
     border-radius: 6px;
     border: 2px solid $brightPrim;
     font-weight: 600;
-    font-size: 1em;
     transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
 
     &:hover {
       background-color: $brightScnd;
       border-color: $brightScnd;
-      color: white;
-      transform: translateY(-1px);
     }
 
     span {
@@ -393,15 +387,16 @@ nav {
     }
 
     .cta-button {
-      background-color: $brightScnd;
-      border-color: $brightScnd;
-      padding: 1.8em;
-      margin: 0.6em;
-      border-radius: 6px;
+      background-color: transparent;
+      border: none;
+      padding: 2.4em;
+      margin: 0;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(white, 0.3);
 
       &:hover {
-        background-color: $brightBgrd;
-        border-color: $brightBgrd;
+        background-color: transparent;
+        border-color: transparent;
         transform: none;
       }
 

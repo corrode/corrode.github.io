@@ -214,7 +214,7 @@ Download my free PDF for a brief overview of my services and expertise. Availabl
 
   <details class="faq-item">
     <summary>How do I know you're any good?</summary>
-    <p>I am a passionate open-source maintainer. Some popular Rust crates I built are <a href="https://github.com/tinysearch/tinysearch">tinysearch</a>, <a href=" https://github.com/mre/hyperjson">hyperjson</a>, and <a href="https://github.com/lycheeverse/lychee">lychee</a>. My projects are used by companies like Google, Microsoft, and Amazon and integrated into more than 10,000 repositories.
+    <p>I am a passionate open-source maintainer. Some popular Rust crates I built are <a href="https://github.com/tinysearch/tinysearch">tinysearch</a>, <a href=" https://github.com/mre/hyperjson">hyperjson</a>, and <a href="https://github.com/lycheeverse/lychee">lychee</a>. My projects are used by companies like Google, Microsoft, and Amazon and integrated into more than 30,000 repositories and my Rust crates have over 1.5 million downloads on crates.io.
     </p>
     <p>
       If you want to check how I communicate, check out my <a href="/podcast">podcast</a> where I talk to decision makers and lead engineers about Rust adoption in their companies.
@@ -228,7 +228,7 @@ Download my free PDF for a brief overview of my services and expertise. Availabl
 
   <details class="faq-item">
     <summary>How do you specialize in bringing teams to production with Rust?</summary>
-    <p>From experience, I learned that a lot of developers are excited about Rust and might even have started a project with it. However, they often struggle to bring it to production. This entails a lot of challenges, such as setting up a CI/CD pipeline, structuring the codebase, and dependency management.</p>
+    <p>From experience, I learned that a lot of developers are excited about Rust and might even have started a project with it. However, they often struggle to bring it to production. This entails a lot of challenges, such as setting up a CI/CD pipeline, structuring the codebase, and dependency management.
     <p>
     My expertise lies in guiding teams through the entire process of adopting Rust and deploying it to production. This includes initial strategy, architecture design, implementation, testing, and deployment. I focus on backend systems and APIs, ensuring they're robust, efficient, and scalable. My approach combines hands-on development with knowledge transfer, enabling your team to maintain and expand the system independently.</p>
   </details>
