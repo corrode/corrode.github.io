@@ -138,12 +138,6 @@
                     </a>
                 </li>
                 <li>
-                    <a {% if current_path and current_path is containing("/services") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/services' }}">
-                        <span>Services</span>
-                    </a>
-                </li>
-                <li>
                     <a {% if current_path and current_path is containing("/podcast") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
                         href="{{ config.base_url ~ '/podcast' }}">
                         <span>Podcast</span>
@@ -165,6 +159,11 @@
                     <a {% if current_path and current_path is containing("/about") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
                         href="{{ config.base_url ~ '/about' }}">
                         <span>About</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ config.base_url ~ '/services' }}" class="cta-button">
+                        <span>Get to Production</span>
                     </a>
                 </li>
             </ul>
