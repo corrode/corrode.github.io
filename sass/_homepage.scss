@@ -29,12 +29,13 @@
     width: 32px;
 }
 
-/* Part above the fold should stretch the whole height */
+/* Part above the fold */
 .fold {
-    min-height: calc(100vh - 90px); /* Navigation bar height considered */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Helps space out content and indicator */
+    justify-content: center;
+    padding: 4rem 0;
+    gap: 3rem;
 }
 
 .call-to-action {
@@ -206,8 +207,8 @@
 }
 
 .scroll-indicator {
-    display: block; /* Ensures the indicator takes up full width available */
-    margin: auto 0;
+    display: block;
+    margin: 0;
     animation: bounce 1s infinite;
 }
 
@@ -228,6 +229,11 @@
 }
 
 @media (max-width: 900px) {
+    .fold {
+        padding: 2rem 0;
+        gap: 2rem;
+    }
+
     .homepage .content {
         padding: 2em;
     }
@@ -244,9 +250,16 @@
     }
 }
 
+.brands-and-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
 .brands {
     text-align: center;
-    margin: 20px 0;
+    margin: 0;
 }
 
 .brands h2 {
