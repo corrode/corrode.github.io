@@ -159,6 +159,12 @@
         inputContainer.id = question.id;
         inputContainer.name = question.id;
         inputContainer.placeholder = question.placeholder || "";
+        if (question.type === "email") {
+          inputContainer.required = true;
+        }
+        if (!question.optional) {
+          inputContainer.required = true;
+        }
         break;
     }
 
@@ -217,6 +223,12 @@
     const answer = answers[question.id];
     if (!answer) return false;
     if (Array.isArray(answer)) return answer.length > 0;
+    
+    if (question.type === "email") {
+      const input = document.getElementById(question.id);
+      return input && input.checkValidity() && answer.trim().length > 0;
+    }
+    
     return answer.trim().length > 0;
   }
 
@@ -259,7 +271,11 @@
     if (question.type === "input" || question.type === "email") {
       const input = inputContainer;
       input.addEventListener("input", () => {
-        nextButton.disabled = !input.value.trim() && !question.optional;
+        if (question.type === "email") {
+          nextButton.disabled = !input.checkValidity() && !question.optional;
+        } else {
+          nextButton.disabled = !input.value.trim() && !question.optional;
+        }
       });
     } else if (question.type === "multipleChoice") {
       const inputs = inputContainer.querySelectorAll("input");
