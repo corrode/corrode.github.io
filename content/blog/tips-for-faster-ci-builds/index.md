@@ -1,7 +1,7 @@
 +++
 title = "Tips for Faster Rust CI Builds"
 date = 2025-01-28
-updated = 2025-06-12
+updated = 2025-08-16
 draft = false
 template = "article.html"
 [extra]
@@ -268,6 +268,7 @@ Here are some setup resources to get you started:
 - [Awesome Runners](https://github.com/jonico/awesome-runners)
 - [Using Hetzner Cloud GitHub Runners for Your Repository](https://altinity.com/blog/slash-ci-cd-bills-part-2-using-hetzner-cloud-github-runners-for-your-repository)
 - [Runs-on, a Github Actions hoster](https://runs-on.com/)
+- [Blacksmith](https://www.blacksmith.sh/)
 - [Awesome HCloud Repo](https://github.com/hetznercloud/awesome-hcloud)
 - [HCloud Runner](https://github.com/Cyclenerd/hcloud-github-runner)
 
