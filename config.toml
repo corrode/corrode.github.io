@@ -8,6 +8,7 @@ build_search_index = false
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
+
 [markdown]
 smart_punctuation = true
 highlight_code = true
@@ -17,6 +18,9 @@ highlight_themes_css = [
     { theme = "kronuz", filename = "syntax-theme-light-custom.css" },
 ]
 bottom_footnotes = true
+external_links_class = "external-link"
+external_links_target_blank = true
+external_links_no_referrer = true
 
 [extra]
 author = "Corrode Rust Consulting"
