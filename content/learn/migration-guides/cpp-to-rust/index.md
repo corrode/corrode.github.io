@@ -54,14 +54,14 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
       <td><pre><code class="language-rust">fn add(first: i32, second: i32) -> i32 {
     first + second
 }</code></pre></td>
-      <td><pre><code class="language-rust">int add(int first, int second) {
+      <td><pre><code class="language-cpp">int add(int first, int second) {
     return first + second;
 }</code></pre></td>
     </tr>
     <tr>
       <td><strong>Implicit Return</strong></td>
       <td><pre><code class="language-rust">fn add(a: i32, b: i32) -> i32 { a + b }</code></pre></td>
-      <td><pre><code class="language-rust">auto add(int a, int b) -> int { return a + b; }</code></pre></td>
+      <td><pre><code class="language-cpp">auto add(int a, int b) -> int { return a + b; }</code></pre></td>
     </tr>
     <tr>
       <td><strong>Immutable Reference</strong></td>
