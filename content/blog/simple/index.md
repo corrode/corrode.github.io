@@ -1,7 +1,7 @@
 +++
 title = "Be Simple"
 date = 2025-08-26
-draft = false
+draft = true
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
