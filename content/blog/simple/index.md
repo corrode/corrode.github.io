@@ -7,20 +7,24 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-Rust developers tend to be clever.
-Too clever for their own good.
-In code reviews, I often see people trying to outsmart themselves.
+Rust programmers tend to be very clever.
+Too clever for their own good at times.
 
 We love to stretch Rust to its limits.
-After all, this is Rust.
-Shouldn't you use it to its full extent?
+After all, this is Rust! A boundless playground of powerful abstractions.
+Shouldn't we use it to its full extent?
+
+But there's a problem.
 Advanced features are like salt: a little bit can enhance the flavor, but too much can ruin the dish.
 And advanced features have a tendency to overcomplicate things.
-
-Nothing in Rust forces you to make things harder than they should be.
-That is not a trait of the language, but a mindset.
-Software engineering is all about managing complexity.
+Software engineering is all about managing that complexity.
 As in life, complexity creeps in when you're not looking.
+
+Nothing in Rust forces us to make things harder than they should be.
+That is not a trait of the language, but a mindset.
+
+In code reviews, I often see people trying to outsmart themselves.
+I'd like to share a few thoughts on how to fight that tendency.
 
 ## What Simple Really Means
 
