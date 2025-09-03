@@ -140,6 +140,12 @@ After a while we forget how Rust beginners feel: it's the curse of knowledge.
 Abstractions are never zero cost. 
 For reference, see ["The Power of 10 Rules"](https://web.eecs.umich.edu/~imarkov/10rules.pdf) by Gerard J. Holzmann of the NASA/JPL Laboratory for Reliable Software.
 
+> Not all abstractions are created equal.
+> In fact, many are not abstractions at all — they're just thin veneers, layers of
+> indirection that add complexity without adding real value.
+
+[Fernando Hurtado Cardenas](https://fhur.me/posts/2024/thats-not-an-abstraction)
+
 Abstractions cause complexity. 
 Complexity has a cost.
 At some point, complexity will slow you down.
