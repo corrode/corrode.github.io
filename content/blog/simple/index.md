@@ -94,7 +94,7 @@ Software engineering is all about managing that complexity.
 As in life, complexity creeps in when you're not looking.
 
 Nothing in Rust forces us to make things harder than they should be.
-You can write easy to understand code in Rust just like in any other language.
+You can write easy-to-understand code in Rust just like in any other language.
 In code reviews, however, I often see people trying to outsmart themselves and stumble over their own shoestrings.
 
 Good code is mostly boring; especially for production use.
@@ -106,14 +106,14 @@ Predictable is good.
 
 I don't always agree with Edsger W. Dijkstra, but in this case, he was spot-on.
 Without simplicity, reliability is impossible or at least very hard to achieve.
-That's because simple systems have fewer moving parts are easier to reason about.
+That's because simple systems have fewer moving parts and are easier to reason about.
 
 ## Why Simple is Hard 
 
 Make no mistake: Being simple is tough!
 It doesn't always come naturally.
 
-> Simplicity and elegance are unpopular because they require hard work and discipline to achieve
+> Simplicity and elegance are unpopular because they require hard work and discipline to achieve.
 
 You said it best, Edsger.
 
@@ -128,7 +128,7 @@ Let's come back to that 3 AM phone call.
 
 The first version was built by a staff engineer who wanted to make the system "flexible and extensible."
 The second was written by a junior developer who just needed to parse a CSV file.
-Turns out there never once needed to parse anything other than CSV files.
+Turns out there was never once a need to parse anything other than CSV files.
 
 The lesson is that the path to complexity is paved with good intentions.
 A series of individually perfectly reasonable decisions can lead to an overly complex, unmaintainable system.
@@ -137,8 +137,7 @@ More experienced developers tend to use more abstractions because they get excit
 After a while we forget how Rust beginners feel: it's the curse of knowledge.
 
 Abstractions are never zero cost. 
-For reference, see the ["The Power of 10 Rules"][nasa] by Gerard J. Holzmann of the NASA/JPL Laboratory for Reliable Software.
-[nasa]: https://web.eecs.umich.edu/~imarkov/10rules.pdf
+For reference, see ["The Power of 10 Rules"](https://web.eecs.umich.edu/~imarkov/10rules.pdf) by Gerard J. Holzmann of the NASA/JPL Laboratory for Reliable Software.
 
 Abstractions cause complexity. 
 Complexity has a cost.
@@ -149,10 +148,10 @@ The people who are starting with Rust are often overwhelmed by the complexity of
 Try to keep that in mind as you get more proficient with Rust.
 
 If you fail to do that, you might alienate the team members who are not as experienced as you are and they might give up on the project or Rust altogether.
-Furthermore, if you leave the company and you leave behind a complex codebase, the team will have a hard time maintaining it and onboarding new team members.
+Furthermore, if you leave the company and leave behind a complex codebase, the team will have a hard time maintaining it and onboarding new team members.
 The biggest holdup is how quickly people will be able to get up to speed with Rust.
 Don't make it even harder on them.
-Looking at Rust through beginner's eyes.
+From time to time, look at Rust through beginner's eyes.
 
 ## Generics Are A Liability
 
@@ -161,7 +160,7 @@ Let's talk about generics for a moment.
 It might be a controversial opinion, but I think not only do they make the code harder to understand, they can also have a real cost on compile times.
 Each generic gets monomorphized, i.e. a separate copy of the code is generated for each type that is used with that generic at compile time.
 
-Only make generic if you need to switch out the implementation *right now*.
+Only make something generic if you need to switch out the implementation *right now*.
 Resist premature generalization.
 "We might need it in the future" is a dangerous assumption.
 Be careful with that assumption because it's hard to predict the future.
@@ -169,7 +168,7 @@ Your beautiful abstraction might become the biggest hurdle.
 If you can defer the decision, it's often better to do so.
 The thinking should be "this is generic functionality" instead of "I could make this generic."
 
-Abstractions have an impact on the "feel", of the entire codebase.
+Abstractions have an impact on the "feel" of the entire codebase.
 If you use a lot of abstractions, you will have to deal with the consequences everywhere.
 You will have to understand the signatures of functions and structs as well as the error messages that come with them.
 The hidden compilation cost of generics is hard to measure and optimize for.
@@ -178,8 +177,8 @@ Be careful with generics.
 They have a real cost!
 
 Let's say you are working on a public API.
-A function that will be used a lot will need to take some string based data from the user.
-You are confused if you should take a `&str` or a `String` or something else as an input to my functions and why?
+A function that will be used a lot will need to take some string-based data from the user.
+You are confused if you should take a `&str` or a `String` or something else as an input to your functions and why?
 
 ```rust
 fn process_user_input(input: &str) {
@@ -313,13 +312,13 @@ This also applies to variable names.
 Don't be too clever.
 Be explicit.
 The broader the scope, the more explicit you should be.
-Meaningful variable names are one of the easiest way to document intent and purpose.
+Meaningful variable names are one of the easiest ways to document intent and purpose.
 We are no longer constrained by the length of variable names and autocomplete fixes typing mostly, so don't be too greedy.
 
 ## But What About Performance?
 
 Some people argue that simple code can't be fast.
-Turns out many simple algorithms are surprisingly effective.
+It turns out many simple algorithms are surprisingly effective.
 Some of the simplest algorithms we discovered are also the most efficient.
 Take quicksort or path tracing for example.
 Both can be written down in a handful of lines and described in a few sentences.
@@ -355,7 +354,7 @@ The idea is pretty simple and can fit on a napkin:
 Yes, my simple version only supports `usize` right now, but my point is that simple algorithms pack a punch.
 This is an O(n log n) algorithm. It's as fast as it gets for a comparison-based sort and it's just a few lines of code. [^optimization]
 
-[^optimization]: Of course, this is not the most efficient implementation of quicksort. It allocates a lot of intermediate vectors and has O(n^2) worst-case performance. There are optimization for partially sorted data, better pivot selection strategies, and in-place partitioning. But they are just that: optimizations. The core idea remains the same.
+[^optimization]: Of course, this is not the most efficient implementation of quicksort. It allocates a lot of intermediate vectors and has O(n^2) worst-case performance. There are optimizations for partially sorted data, better pivot selection strategies, and in-place partitioning. But they are just that: optimizations. The core idea remains the same.
 
 The implementation is not too far away from the description of the algorithm.
 
@@ -436,7 +435,7 @@ You might come up with a simpler design.
 
 It can be tempting to use all of these fine, sharp tools you have at your disposal.
 But sharp tools they are.
-To master Rust is to say "no" to these tools more often than you say "yes".
+To master Rust is to say "no" to these tools more often than you say "yes."
 
 You might see an optimization opportunity but time and again, I see people make that optimization without prior validation.
 Measure first, optimize later.
@@ -450,7 +449,7 @@ If we refactor too early, we might end up in a worse place than where we started
 
 I propose to focus on simplicity first.
 That's because refactoring a simple program is way easier than doing the same for a complex one. 
-Everyone can do the former, while I can count the one who can do the latter.
+Everyone can do the former, while I can count on one hand those who can do the latter.
 Preserve the opportunity to refactor your code.
 It might look like the clever thing to do at the time, but if you allow the simple code to just stick around for a while, you'll eventually see the right opportunity for the refactor.
 
