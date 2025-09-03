@@ -81,6 +81,7 @@ You remove the bad line, deploy a fix, and go back to sleep.
 
 Rust programmers tend to be very clever.
 Too clever for their own good at times.
+Let me be the first to admit that I am guilty of that myself.
 
 We love to stretch Rust to its limits.
 After all, this is Rust! 
