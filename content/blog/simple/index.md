@@ -1,6 +1,6 @@
 +++
 title = "Be Simple"
-date = 2025-08-26
+date = 2025-09-03
 draft = true
 template = "article.html"
 [extra]
@@ -261,52 +261,59 @@ The caller likely needs to collect the results anyway since we're processing a f
 Memory usage isn't a big concern since the number of URLs in a document is typically small, we've already allocated for the input `Vec`, and the original `HashSet` was allocating anyway.
 But if neither applies, the Vec is the simpler and more idiomatic choice.
 
-## How Do You Know It's Good?
-
-One litmus test is "Does it feel good to add new functionality?"
-
-Watching experienced developers write code feels like they have a constant interaction with the data and the building blocks they are working with.
-It "clicks" once it fits.
-It just feels like there's no overlap between the abstractions and no extra work or conversions needed.
-The next step always feels obvious.
-Testing works without much mocking, your documentation for your structs almost writes itself.
-There's no "this struct does X and Y" in your documentation.
-It's just X or Y.
-Explaining the parts to a fellow developer is straightforward.
-This is when you know you have a winner.
-Getting there is not easy.
-It takes many iterations.
-All of that is easier if the code is simple in the beginning.
-
-On that note, DRY is also overrated.
-Feel free to repeat yourself.
-Don't try to avoid repetition at all costs.
-It usually leads to dense, hyper-optimized code that is hard to decipher.
-It is a fool's errand to try to avoid repetition at all costs.
-It's better to have a bit of repetition than to have a complex abstraction that is hard to undo.
-Developer experience suffers when you have to deal with complex abstractions.
-"Greppability" is a good metric for code quality.
-
 ## Clear Over Clever
 
-Clear is better than clever.
+Which of the following two functions do you find easier to understand?
 
 ```rust
-fn strip_type_name(name: Option<&str>) -> Option<&str> {
-    name.and_then(|s| s.split_once(':').map(|(_, after)| after.trim()))
+const MEMBERSHIP_DISCOUNT_RATE: f64 = 0.05;
+const MAX_DISCOUNT_RATE: f64 = 0.3;
+
+fn calculate_discount(order: &Order) -> f64 {
+    order.items.iter()
+        .filter_map(|i| (i.category == Category::Premium).then_some(i.price))
+        .chain(order.customer.membership.filter(|m| m.tier > 2)
+               .map(|_| order.subtotal() * MEMBERSHIP_DISCOUNT_RATE).into_iter())
+        .fold(0.0, |acc, x| acc + x.min(order.subtotal() * MAX_DISCOUNT_RATE))
 }
 ```
 
 vs
 
 ```rust
-fn strip_type_name2(name: &str) -> Option<&str> {
-    let (_, after) = name.split_once(':') else {
-        return None;
-    };
-    Some(after.trim())
+fn calculate_discount(order: &Order) -> f64 {
+    let mut total_discount = 0.0;
+    
+    // Apply premium item discounts
+    for item in &order.items {
+        if item.category == Category::Premium {
+            let max_item_discount = order.subtotal() * MAX_DISCOUNT_RATE;
+            let item_discount = item.price.min(max_item_discount);
+            total_discount += item_discount;
+        }
+    }
+    
+    // Apply membership discount for gold+ members
+    if let Some(membership) = &order.customer.membership {
+        if membership.tier > GOLD_TIER_THRESHOLD {
+            let membership_discount = order.subtotal() * MEMBERSHIP_DISCOUNT_RATE;
+            let max_membership_discount = order.subtotal() * MAX_DISCOUNT_RATE;
+            total_discount += membership_discount.min(max_membership_discount);
+        }
+    }
+    
+    total_discount
 }
 ```
+
+[Iterator patterns are great](/blog/iterators/), but in this case, I find the explicit version much easier to reason about.
+
+On top of that, the clever version has several hidden issues:
+
+- The 30% discount cap is applied per item/discount instead of to the total
+- The membership discount calculation is buried in the chain
+- If `subtotal()` is expensive, it gets called multiple times
+- Good luck stepping through this with a debugger
 
 This also applies to variable names.
 Don't be too clever.
@@ -315,15 +322,16 @@ The broader the scope, the more explicit you should be.
 Meaningful variable names are one of the easiest ways to document intent and purpose.
 We are no longer constrained by the length of variable names and autocomplete fixes typing mostly, so don't be too greedy.
 
-## But What About Performance?
+## Simple Code Is Often Fast Code 
 
 Some people argue that simple code can't be fast.
-It turns out many simple algorithms are surprisingly effective.
+Quite the contrary! It turns out many effective algorithms are surprisingly simple.
 Some of the simplest algorithms we discovered are also the most efficient.
+
 Take quicksort or path tracing for example.
 Both can be written down in a handful of lines and described in a few sentences.
 
-Here's one simple version of quicksort in Rust:
+Here's an ad-hoc version of quicksort in Rust:
 
 ```rust
 fn quicksort(mut v: Vec<usize>) -> Vec<usize> {
@@ -361,6 +369,10 @@ The implementation is not too far away from the description of the algorithm.
 Especially when you're doing something complicated, you should be extra careful to keep it simple.
 Simplicity is a sign of deep insight, of great understanding, of clarity.
 Clarity affects the way a system functions.
+Coincidentally, simple code be optimized by the compiler more easily and runs faster on CPUs.
+Often, CPUs are optimized for basic data structures and predictable access patterns.
+And parallelizing work is easier when that is the case.
+All of that works in our favor when our code is simple.
 
 What I appreciate about Rust is how it balances high-level and low-level programming.
 Most of the time, I write Rust code in a straightforward manner.
@@ -484,7 +496,34 @@ Understanding macros, lifetimes, interior mutability, etc. is very helpful, but 
 
 Use all the features you need and none that you don't.
 
-## The Courage to Be Simple
+### DRY Is Overrated
+
+Feel free to repeat yourself.
+Don't try to avoid repetition at all costs.
+It usually leads to dense, hyper-optimized code that is hard to decipher.
+It is a fool's errand to try to avoid repetition at all costs.
+It's better to have a bit of repetition than to have a complex abstraction that is hard to undo.
+Developer experience suffers when you have to deal with complex abstractions.
+"Greppability" is a good metric for code quality.
+
+## How to Recognize The Right Level of Abstraction 
+
+One litmus test is "Does it feel good to add new functionality?"
+
+Watching experienced developers write code feels like they have a constant interaction with the data and the building blocks they are working with.
+It "clicks" once it fits.
+It just feels like there's no overlap between the abstractions and no extra work or conversions needed.
+The next step always feels obvious.
+Testing works without much mocking, your documentation for your structs almost writes itself.
+There's no "this struct does X and Y" in your documentation.
+It's just X or Y.
+Explaining the parts to a fellow developer is straightforward.
+This is when you know you have a winner.
+Getting there is not easy.
+It takes many iterations.
+All of that is easier if the code is simple in the beginning.
+
+## I Invite You to Be Simple 
 
 It's possible that the most common error of a smart engineer is to optimize a thing that should not exist in the first place.
 Cross that bridge when you get there.
