@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-07-01
+updated = 2025-09-03
 draft = false
 template = "article.html"
 [extra]
@@ -44,6 +44,7 @@ Click here to expand the table of contents.
   - [Split Big Crates Into Smaller Ones Using Workspaces](#split-big-crates-into-smaller-ones-using-workspaces)
   - [Disable Unused Features Of Crate Dependencies](#disable-unused-features-of-crate-dependencies)
   - [Add Features For Expensive Code](#add-features-for-expensive-code)
+  - [Find The Root Cause For Rebuilds](#find-the-root-cause-for-rebuilds)
   - [Cache Dependencies With sccache](#cache-dependencies-with-sccache)
   - [Cranelift: The Alternative Rust Compiler](#cranelift-the-alternative-rust-compiler)
   - [Switch To A Faster Linker](#switch-to-a-faster-linker)
@@ -335,6 +336,53 @@ disabled.
 You can do the same in your code. In the above example, the `json` feature
 in your `Cargo.toml` enables JSON support while the `complex_feature` feature
 enables another expensive code path.
+
+### Find The Root Cause For Rebuilds
+
+Sometimes many crates rebuild even when no code has changed, often due to environment variable differences between build processes (like your Makefile builds vs rust-analyzer vs CI builds).
+
+Use cargo's fingerprint logging to identify exactly why rebuilds are triggered:
+
+```bash
+export CARGO_LOG="cargo::core::compiler::fingerprint=info"
+export RUST_LOG=trace
+cargo build -vv
+```
+
+Look for lines showing what caused the rebuild.
+For example:
+
+```
+INFO prepare_target: cargo::core::compiler::fingerprint: dirty: EnvVarChanged { name: "VIRTUAL_ENV", old_value: None, new_value: Some("/path/to/.venv") }
+
+Dirty pyo3-build-config v0.24.1: the env variable VIRTUAL_ENV changed
+```
+
+See that "Dirty" line? It tells you exactly what caused the rebuild.
+You can grep for that line to find all rebuild causes.
+
+Common culprits include:
+- Environment variables (CC, CXX, VIRTUAL_ENV, PATH changes)
+- Feature flag mismatches between different build tools
+- Different cargo profiles being used
+- Timestamp differences in generated files
+
+Once you identify the cause, ensure consistency across all your build processes. For rust-analyzer in VS Code, you can configure matching environment variables in `.vscode/settings.json`:
+
+```json
+{
+  "rust-analyzer.check.extraEnv": {
+    "CC": "clang",
+    "CXX": "clang++", 
+    "VIRTUAL_ENV": "/path/to/your/.venv"
+  },
+  "rust-analyzer.cargo.features": "all"
+}
+```
+
+This debugging approach can dramatically reduce unnecessary rebuilds when different tools use inconsistent environments.
+
+Credit: This technique was mentioned in [this write-up](https://github.com/twitu/twitu/blob/54a8915eac80562a15824988bac629583e6befd1/fixing-frequent-full-rust-builds-with-cargo-fingerprints.md) by [Ishan Bhanuka](https://github.com/twitu).
 
 ### Cache Dependencies With sccache
 
