@@ -409,7 +409,7 @@ shared build servers.
 Did you know that the Rust project is using an alternative
 compiler that runs in parallel with `rustc` for every CI build?
 
-[rustc_codegen_cranelift](https://github.com/bjorn3/rustc_codegen_cranelift),
+[rustc_codegen_cranelift](https://github.com/rust-lang/rustc_codegen_cranelift/),
 also called `CG_CLIF`, is an experimental backend for the Rust compiler that
 is based on the [Cranelift](https://cranelift.dev/) compiler framework.
 
