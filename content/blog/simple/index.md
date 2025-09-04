@@ -275,13 +275,15 @@ Which of the following two functions do you find easier to understand?
 ```rust
 const MEMBERSHIP_DISCOUNT_RATE: f64 = 0.05;
 const MAX_DISCOUNT_RATE: f64 = 0.3;
+const PREMIUM_ITEM_DISCOUNT_RATE: f64 = 0.1;
+const GOLD_TIER_THRESHOLD: u32 = 2;
 
 fn calculate_discount(order: &Order) -> f64 {
     order.items.iter()
-        .filter_map(|i| (i.category == Category::Premium).then_some(i.price))
-        .chain(order.customer.membership.filter(|m| m.tier > 2)
-               .map(|_| order.subtotal() * MEMBERSHIP_DISCOUNT_RATE).into_iter())
-        .fold(0.0, |acc, x| acc + x.min(order.subtotal() * MAX_DISCOUNT_RATE))
+        .filter_map(|i| (i.category == Category::Premium).then_some(i.price * PREMIUM_ITEM_DISCOUNT_RATE))
+        .chain(order.customer.membership.filter(|m| m.tier > GOLD_TIER_THRESHOLD) 
+               .map(|_| order.total * MEMBERSHIP_DISCOUNT_RATE).into_iter())
+        .fold(0.0, |acc, x| acc + x.min(order.total * MAX_DISCOUNT_RATE))
 }
 ```
 
@@ -291,11 +293,10 @@ vs
 fn calculate_discount(order: &Order) -> f64 {
     let mut total_discount = 0.0;
     
-    // Apply premium item discounts
+    // Apply premium item discounts (10% off each premium item)
     for item in &order.items {
         if item.category == Category::Premium {
-            let max_item_discount = order.subtotal() * MAX_DISCOUNT_RATE;
-            let item_discount = item.price.min(max_item_discount);
+            let item_discount = item.price * PREMIUM_ITEM_DISCOUNT_RATE;
             total_discount += item_discount;
         }
     }
@@ -303,13 +304,13 @@ fn calculate_discount(order: &Order) -> f64 {
     // Apply membership discount for gold+ members
     if let Some(membership) = &order.customer.membership {
         if membership.tier > GOLD_TIER_THRESHOLD {
-            let membership_discount = order.subtotal() * MEMBERSHIP_DISCOUNT_RATE;
-            let max_membership_discount = order.subtotal() * MAX_DISCOUNT_RATE;
-            total_discount += membership_discount.min(max_membership_discount);
+            let membership_discount = order.total * MEMBERSHIP_DISCOUNT_RATE;
+            total_discount += membership_discount;
         }
     }
     
-    total_discount
+    // Cap total discount at 30% of order total
+    total_discount.min(order.total * MAX_DISCOUNT_RATE)
 }
 ```
 
@@ -319,7 +320,6 @@ On top of that, the clever version has several hidden issues:
 
 - The 30% discount cap is applied per item/discount instead of to the total
 - The membership discount calculation is buried in the chain
-- If `subtotal()` is expensive, it gets called multiple times
 - Good luck stepping through this with a debugger
 
 This also applies to variable names.
