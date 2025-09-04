@@ -475,7 +475,6 @@ It might look like the clever thing to do at the time, but if you allow the simp
 Just like premature optimization, premature refactoring can get in your way.
 Not every possible abstraction is worth adding.
 But if an abstraction is worth adding, you'll know.
-Like a sore thumb, it will be obvious once you see it.
 A good time to reflect is when your code starts to feel repetitive. 
 That's a sign that there's a hidden pattern in your data.
 The right abstraction is trying to talk to you, to reveal itself.
