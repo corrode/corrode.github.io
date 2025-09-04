@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-09-03
+updated = 2025-09-04
 draft = false
 template = "article.html"
 [extra]
@@ -129,13 +129,21 @@ whenever you change a file.
 ### Remove Unused Dependencies
 
 ```sh
+# Install cargo-machete 🔪️
 cargo install cargo-machete && cargo machete
+
+# Install cargo-shear ✂️🐑
+cargo install cargo-shear
+
+# Install cargo-udeps 🧼🧹️
+cargo install cargo-udeps --locked
 ```
 
 Dependencies sometimes become obsolete after refactoring. From time to time
 it helps to check if you can remove any unused dependencies.
 
-This command will list all unused dependencies in your project.
+The above tools will list all unused dependencies in your project.
+Each tool has its limitations, producing both false positives and false negatives. Using all three tools together provides the best results.
 
 ```sh
 Analyzing dependencies of crates in this directory...
@@ -151,7 +159,9 @@ crate2 -- <project>/crate2/Cargo.toml:
         url
 ```
 
-More info on the [cargo-machete project page](https://github.com/bnjbvr/cargo-machete).
+More info on the [cargo-machete](https://github.com/bnjbvr/cargo-machete), [cargo-shear](https://github.com/Boshen/cargo-shear), and [cargo-udeps](https://github.com/est31/cargo-udeps) project pages.
+
+Thanks for mentioning `cargo-sheer` and `cargo-udeps` to reader [Nicholas Nethercote](https://nnethercote.github.io/) who is the author of the [Rust Performance Book](https://nnethercote.github.io/perf-book/) and the famous [How to speed up the Rust compiler series](https://nnethercote.github.io/2025/05/22/how-to-speed-up-the-rust-compiler-in-may-2025.html).
 
 ### Update Dependencies
 
