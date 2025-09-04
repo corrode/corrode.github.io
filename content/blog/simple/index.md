@@ -42,7 +42,7 @@ The error must be buried *somewhere* in the interaction between that `DataFormat
 You scroll through 200 lines of trait implementations and generic constraints.
 Each layer adds another level of indirection.
 The stack trace is 15 levels deep.
-It's like peeling an onion... and it makes you cry.
+It's like peeling an onion... it makes you cry.
 
 You run `git blame` and curse the colleague who wrote this code.
 Of course it was them!
