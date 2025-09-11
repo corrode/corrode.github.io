@@ -395,7 +395,7 @@ It's fine to offer additional functionality, but don't make the easy thing hard 
 
 Simplicity is especially important when working with other developers because code is a way to communicate ideas, and you should strive to express your ideas clearly.
 
-## Fight Complexity
+## Tips For Fighting Complexity
 
 ### Start Small
 
@@ -413,7 +413,7 @@ Switch off that inner critic.
 Who knows?
 You might just come up with a simpler design.
 
-### Resist the Temptation
+### Resist the Temptation To Optimize Early
 
 It can be tempting to use all of these fine, sharp tools you have at your disposal.
 But sharp tools they are!
