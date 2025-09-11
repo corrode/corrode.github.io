@@ -103,10 +103,11 @@ And advanced features have a tendency to overcomplicate things and make readabil
 Software engineering is all about managing complexity, and complexity creeps in when we're not looking.
 We should focus on keeping complexity down.
 
-Good code is mostly boring; especially for production use.
-Simple is obvious.
-Simple is predictable.
-Predictable is good.
+Of course, some complexity is truly unavoidable.
+That's the inherent complexity of the task.
+What we should avoid, however, is the accidental complexity, which we introduce ourselves.
+As projects grow, accidental complexity tends to grow with it.
+That is the cruft we all should challenge.
 
 And simplicity also makes systems more reliable:
 
@@ -115,6 +116,11 @@ And simplicity also makes systems more reliable:
 I don't always agree with Edsger W. Dijkstra, but in this case, he was spot-on.
 Without simplicity, reliability is impossible (or at least hard to achieve).
 That's because simple systems have fewer moving parts to reason about. 
+
+Good code is mostly boring; especially for production use.
+Simple is obvious.
+Simple is predictable.
+Predictable is good.
 
 ## Why Simple is Hard 
 
