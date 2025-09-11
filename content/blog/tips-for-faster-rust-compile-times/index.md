@@ -56,6 +56,7 @@ Click here to expand the table of contents.
   - [Windows Only: Set Up Dev Drive For Rust](#windows-only-set-up-dev-drive-for-rust)
   - [Tweak Codegen Options And Compiler Flags](#tweak-codegen-options-and-compiler-flags)
   - [Avoid Procedural Macro Crates](#avoid-procedural-macro-crates)
+  - [Find Expensive Proc Macros](#find-expensive-proc-macros)
   - [Conditional Compilation for Procedural Macros](#conditional-compilation-for-procedural-macros)
   - [Generics: Use an Inner Non-Generic Function](#generics-use-an-inner-non-generic-function)
   - [Improve Workspace Build Times with cargo-hakari](#improve-workspace-build-times-with-cargo-hakari)
@@ -573,6 +574,23 @@ From the docs:
 > complex procedural macros and their dependencies.
 
 Note that this crate is still experimental.
+
+### Find Expensive Proc Macros
+
+```bash
+RUSTFLAGS="-Zmacro-stats" cargo +nightly build
+```
+
+Some macros have a big compile-time cost; but exactly how big?
+It can help to quantify the costs to see if a macro is worth optimizing (or removing).
+One way is to understand exactly how much code they generate.
+
+One way is to use `cargo expand` to see the generated code, but that doesn't scale to large codebases and the output is hard to quantify.
+
+The alternative is to use the `-Zmacro-stats` flag to identify proc macros that generate a lot of code.
+This tool has already led to successful optimizations in projects like [Bevy](https://github.com/bevyengine/bevy/issues/19873) and [Arbitrary](https://nnethercote.github.io/2025/08/16/speed-wins-when-fuzzing-rust-code-with-derive-arbitrary.html).
+
+For more information, read [Nicholas Nethercote's blog post](https://nnethercote.github.io/2025/06/26/how-much-code-does-that-proc-macro-generate.html) on the topic.
 
 ### Conditional Compilation for Procedural Macros
 
