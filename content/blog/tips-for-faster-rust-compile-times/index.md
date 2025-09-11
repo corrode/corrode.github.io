@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-09-04
+updated = 2025-09-11
 draft = false
 template = "article.html"
 [extra]
@@ -15,7 +15,10 @@ resources = [
  "[arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler takes to compile common Rust programs.",
  "[Speeding up the Rust edit-build-run cycle ](https://davidlattimore.github.io/posts/2024/02/04/speeding-up-the-rust-edit-build-run-cycle.html): A benchmark-driven approach to improving Rust compile times.",
 ]
-hero = "rust-compile-times.svg"
+reviews = [ 
+    { name = "Nicholas Nethercote", url = "https://nnethercote.github.io/" },
+    { name = "Ishan Bhanuka", url = "https://github.com/twitu" },
+]
 +++
 
 **Slow Rust Builds?**
@@ -161,7 +164,7 @@ crate2 -- <project>/crate2/Cargo.toml:
 
 More info on the [cargo-machete](https://github.com/bnjbvr/cargo-machete), [cargo-shear](https://github.com/Boshen/cargo-shear), and [cargo-udeps](https://github.com/est31/cargo-udeps) project pages.
 
-Thanks for mentioning `cargo-sheer` and `cargo-udeps` to reader [Nicholas Nethercote](https://nnethercote.github.io/) who is the author of the [Rust Performance Book](https://nnethercote.github.io/perf-book/) and the famous [How to speed up the Rust compiler series](https://nnethercote.github.io/2025/05/22/how-to-speed-up-the-rust-compiler-in-may-2025.html).
+Thanks for mentioning `cargo-shear` and `cargo-udeps` to reader [Nicholas Nethercote](https://nnethercote.github.io/) who is the author of the [Rust Performance Book](https://nnethercote.github.io/perf-book/) and the famous [How to speed up the Rust compiler series](https://nnethercote.github.io/2025/05/22/how-to-speed-up-the-rust-compiler-in-may-2025.html).
 
 ### Update Dependencies
 
