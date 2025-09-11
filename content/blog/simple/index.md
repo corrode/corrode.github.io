@@ -84,23 +84,24 @@ You remove the bad line, deploy a fix, and go back to sleep.
 
 Rust programmers tend to be very clever.
 Too clever for their own good at times.
-Let me be the first to admit that I am guilty of that myself.
+Let me be the first to admit that I'm guilty of this myself.
 
 We love to stretch Rust to its limits.
 After all, this is Rust! 
 An empowering playground of infinite possibility.
-Shouldn't we the language to its full extent?
+Shouldn't we use the language to its full extent?
 
 Nothing in Rust forces us to get fancy. 
 You can write straightforward code in Rust just like in any other language.
 But in code reviews, I often see people trying to outsmart themselves and stumble over their own shoelaces.
 They use all the advanced features at their disposal without thinking much about maintainability.
 
-But that's the problem: [Writing code is easy. Reading it isn’t.](https://idiallo.com/blog/writing-code-is-easy-reading-is-hard)
+But here's the problem: [Writing code is easy. Reading it isn't.](https://idiallo.com/blog/writing-code-is-easy-reading-is-hard)
 These advanced features are like salt: a little bit can enhance the flavor, but too much can ruin the dish.
 And advanced features have a tendency to overcomplicate things and make readability harder.
 
-Software engineering is all about managing complexity and complexity creeps in when we're not looking, so we should focus on keeping complexity down.
+Software engineering is all about managing complexity, and complexity creeps in when we're not looking.
+We should focus on keeping complexity down.
 
 Good code is mostly boring; especially for production use.
 Simple is obvious.
@@ -117,12 +118,12 @@ That's because simple systems have fewer moving parts to reason about.
 
 ## Why Simple is Hard 
 
-But if simplicity is so obviously "better", why isn't it the norm?
+But if simplicity is so obviously "better," why isn't it the norm?
 Because achieving simplicity is hard!
 It doesn't come naturally.
 Simplicity is typically not the *first attempt* but the *last revision*. [^pascal]
 
-[^pascal]: I think there is a similarity to writing here where it elegance (which is correlated with simplicity in my opinion) requires an iterative process of constant improvement. The editing process is what makes most writing great. In 1657 Blaise Pascal famously wrote: "I have only made this letter longer because I have not had the time to make it shorter." I think about that a lot when I write.
+[^pascal]: I think there's a similarity to writing here, where elegance (which is correlated with simplicity, in my opinion) requires an iterative process of constant improvement. The editing process is what makes most writing great. In 1657, Blaise Pascal famously wrote: "I have only made this letter longer because I have not had the time to make it shorter." I think about that a lot when I write.
 
 > Simplicity and elegance are unpopular because they require hard work and discipline to achieve.
 
@@ -139,13 +140,13 @@ The first version of the code was built by an engineer who wanted to make the sy
 The second was written by a developer who just solved the problem at hand and tried to parse a CSV file.
 Turns out there was never once a need to parse anything other than CSV files.
 
-One lesson is that the path to complexity is paved with good intentions.
+One lesson here is that the path to complexity is paved with good intentions.
 **A series of individually perfectly reasonable decisions can lead to an overly complex, unmaintainable system.**
 
 More experienced developers tend to use more abstractions because they get excited about the possibilities.
 And I can't blame them, really.
 Writing simple code is oftentimes pretty boring.
-Much more fun to test out that new feature we just learned.
+It's much more fun to test out that new feature we just learned.
 But after a while we forget how Rust beginners feel about our code: it's the [curse of knowledge](https://en.wikipedia.org/wiki/Curse_of_knowledge).
 
 Remember: **abstractions are never zero cost.** [^nasa]
@@ -158,13 +159,13 @@ Remember: **abstractions are never zero cost.** [^nasa]
 >
 > -- [Fernando Hurtado Cardenas](https://fhur.me/posts/2024/thats-not-an-abstraction)
 
-Abstractions cause complexity and complexity has a very real cost.
-At some point, complexity will slow you down because they cause cognitive load.
+Abstractions cause complexity, and complexity has a very real cost.
+At some point, complexity will slow you down because it causes cognitive load.
 And cognitive load matters a lot.
 
 The people who are starting with Rust are often overwhelmed by the complexity of the language.
 Try to keep that in mind as you get more proficient with Rust.
-If you fail to do that, you might alienate the team members who are not as experienced as you are and they might give up on the project or Rust altogether.
+If you fail to do that, you might alienate team members who are not as experienced as you, and they might give up on the project or Rust altogether.
 
 Furthermore, if you leave the company and leave behind a complex codebase, the team will have a hard time maintaining it and onboarding new team members.
 The biggest holdup is [how quickly people will be able to get up to speed with Rust](/blog/flattening-rusts-learning-curve).
@@ -190,7 +191,7 @@ Your beautiful abstraction might become your biggest nemesis.
 If you can defer the decision for just a little longer, it's often better to do so.
 
 Generics have an impact on the "feel" of the entire codebase.
-If you use a lot of genereics, you will have to deal with the consequences everywhere.
+If you use a lot of generics, you will have to deal with the consequences everywhere.
 You will have to understand the signatures of functions and structs as well as the error messages that come with them.
 The hidden compilation cost of generics is hard to measure and optimize for.
 
@@ -200,7 +201,7 @@ The thinking should be "this is generic functionality" instead of "I could make 
 
 Let's say you are working on a public API.
 A function that will be used a lot will need to take some string-based data from the user.
-You are confused if you should take a `&str` or a `String` or something else as an input to your functions and why?
+You wonder whether you should take a `&str` or a `String` or something else as an input to your functions and why.
 
 ```rust
 fn process_user_input(input: &str) {
@@ -229,7 +230,7 @@ fn process_user_input(input: impl AsRef<str>) {
 That works.
 But do you see how the complexity goes up?
 
-But in the background it monomorphizes the function for each type that implements `AsRef<str>`.
+Behind the scenes, it monomorphizes the function for each type that implements `AsRef<str>`.
 
 That means that if we pass a `String` and a `&str`, we get two copies of that function.
 That means longer compile times and larger binaries.
@@ -277,7 +278,7 @@ pub(crate) fn create(
 }
 ```
 
-The iterator doesn't look too bad but the vec is simpler.
+The iterator doesn't look too bad, but the vec is simpler.
 What to do?
 The caller likely needs to collect the results anyway.
 Since we're processing a finite set of URLs, the link checker needs all results to report successes/failures, and the results will probably be iterated multiple times.
@@ -289,9 +290,9 @@ All else being equal, the vec is probably the simpler choice.
 There's a prejudice that simple code is slow. 
 Quite the contrary!
 It turns out many effective algorithms are surprisingly simple.
-In fact, some of the simplest algorithms we discovered are also the most efficient.
+In fact, some of the simplest algorithms we've discovered are also the most efficient.
 
-Take quicksort or path tracing for example.
+Take quicksort or path tracing, for example.
 Both can be written down in a handful of lines and described in a few sentences.
 
 Here's an ad-hoc version of quicksort in Rust:
@@ -330,17 +331,17 @@ It's as fast as it gets for a comparison-based sort and it's just a few lines of
 
 [^optimization]: Of course, this is not the most efficient implementation of quicksort. It allocates a lot of intermediate vectors and has O(n^2) worst-case performance. There are optimizations for partially sorted data, better pivot selection strategies, and in-place partitioning. But they are just that: optimizations. The core idea remains the same.
 
-Oftentimes, simple code can be optimized by the compiler more easily and runs faster on CPUs.
-That's because, CPUs are optimized for basic data structures and predictable access patterns.
+Often, simple code can be optimized by the compiler more easily and runs faster on CPUs.
+That's because CPUs are optimized for basic data structures and predictable access patterns.
 And parallelizing work is also easier when that is the case.
 All of that works in our favor when our code is simple.
 
 Somewhat counterintuitively, especially when you're doing something complicated, you should be extra careful to keep it simple.
-Simplicity is a sign of deep insight, of great understanding, of clarity and clarity has a positive effect on the way a system functions.
+Simplicity is a sign of deep insight, of great understanding, of clarity—and clarity has a positive effect on the way a system functions.
 And since complicated systems are, well, complicated, that extra clarity helps keep things under control.
 
 What I appreciate about Rust is how it balances high-level and low-level programming.
-Most of the time, I write Rust code in a straightforward manner and when that extra bit of performance becomes critical, Rust always lets me go back and optimize. 
+Most of the time, I write Rust code in a straightforward manner, and when that extra bit of performance becomes critical, Rust always lets me go back and optimize. 
 
 ## Keep Your Fellow Developers in Mind 
 
@@ -350,8 +351,8 @@ There's no need to get fancy here.
 Application code should be straightforward.
 
 Library code can be a slightly different story.
-It can get get complicated if it ends up being an important building block for other code. 
-For example, in hot code paths, avoiding allocations might make sense at which point you might have to deal with [lifetimes](/blog/lifetimes).
+It can get complicated if it ends up being an important building block for other code. 
+For example, in hot code paths, avoiding allocations might make sense, at which point you might have to deal with [lifetimes](/blog/lifetimes).
 This uncertainty about how code might get used by others can lead to overabstraction.
 Try to make the common case straightforward.
 The correct path should be the obvious path users take.
@@ -392,7 +393,7 @@ let encoded = base64_encode("Hello, world!");
 You could call the function above `base64_encode_simple` or `base64_encode_standard` to make it clear that it's a simplified version of a more generic algorithm.
 It's fine to offer additional functionality, but don't make the easy thing hard in the process.
 
-Simplicity is especially important when working with other developers because code is a way to communicate ideas and you should strive to express your ideas clearly.
+Simplicity is especially important when working with other developers because code is a way to communicate ideas, and you should strive to express your ideas clearly.
 
 ## Fight Complexity
 
@@ -402,7 +403,7 @@ Jerry Seinfeld had two writing modes: [creating mode and editing mode](https://p
 - When in creation mode, he's exploring possibilities and letting ideas flow freely.
 - When in editing mode, he's refining, cutting, and polishing.
 
-These modes require different mindsets and trying to do both simultaneously leads to paralysis.
+These modes require different mindsets, and trying to do both simultaneously leads to paralysis.
 As a consequence, Seinfeld would never edit while creating because it would kill the creative flow.
 
 The same principle applies to coding.
@@ -418,22 +419,22 @@ It can be tempting to use all of these fine, sharp tools you have at your dispos
 But sharp tools they are!
 To master Rust is to say "no" to these tools more often than you say "yes."
 
-You might see an optimization opportunity and feel to urge to jump at it. 
+You might see an optimization opportunity and feel the urge to jump at it. 
 But time and again, I see people make that optimization without prior validation.
 Measure twice, cut once. 
 
 ### Delay Refactoring 
 
 That might sound counterintuitive.
-After all shouldn't constant refactoring make our code better as we go?
+After all, shouldn't constant refactoring make our code better as we go?
 
 The problem is that we have limited information at the time of writing our first prototype.
 If we refactor too early, we might end up in a worse place than where we started.
 
 Take the CSV exporter from the beginning as an example: a smart engineer saw an opportunity to refactor the code in order to support multiple input formats.
-That locked us into a place where we had a generic exporter, which became a huge debugging burden while it prevented us to see a better abstraction had we deferred the refactoring.
+That locked us into a place where we had a generic exporter, which became a huge debugging burden while preventing us from seeing a better abstraction had we deferred the refactoring.
 Maybe we would have noticed that we're always dealing with CSV data, but we could decouple data validation from data exportation.
-If we saw that, it would have lead to better error messages like
+If we had seen that, it would have led to better error messages like:
 
 ```
 Error: Customer 123 has invalid address field: invalid UTF-8 sequence at byte index 23: Address: "123 M\xE9n St."
@@ -441,7 +442,7 @@ Error: Customer 123 has invalid address field: invalid UTF-8 sequence at byte in
 
 This opportunity was lost because we jumped the gun and refactored too early.
 
-I propose to solve the problem at hand first and refactor afterwards. 
+I propose solving the problem at hand first and refactoring afterward. 
 That's because refactoring a simple program is way easier than doing the same for a complex one. 
 Everyone can do the former, while I can count on one hand those who can do the latter.
 Preserve the opportunity to refactor your code.
@@ -460,14 +461,14 @@ Rust is super fast, so you can literally make all the performance crimes you wan
 Clone liberally, iterate over the same data structure multiple times, use a vector if a hashmap is too daunting.
 
 It simply doesn't matter.
-Hardware is fast and cheap so put it to work.
+Hardware is fast and cheap, so put it to work.
 
 ### Be Curious But Conservative 
 
 All of the above doesn't mean you should not learn about all of these abstractions.
 It's fun to learn and to be knowledgeable. 
 
-But you can focus on learning new concepts without hurting themselves.
+But you can focus on learning new concepts without hurting yourself.
 Understanding macros, lifetimes, interior mutability, etc. is very helpful, but in everyday "normal" Rust code you almost never make use of these concepts, so don't worry about them too much.
 
 Use all the features you need and none that you don't.
