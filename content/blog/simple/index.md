@@ -8,7 +8,8 @@ template = "article.html"
 series = "Idiomatic Rust"
 reviews = [
     { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
-    { name = "Thomas Zahner",  url = "https://github.com/thomas-zahner"}
+    { name = "Thomas Zahner",  url = "https://github.com/thomas-zahner" },
+    { name = "Dirkjan Ochtman", url = "https://dirkjan.ochtman.nl/" },
 ]
 +++
 
