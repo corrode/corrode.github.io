@@ -1,6 +1,7 @@
 +++
 title = "Be Simple"
 date = 2025-09-11
+updated = 2025-09-15
 draft = false
 template = "article.html"
 [extra]
@@ -91,12 +92,12 @@ After all, this is Rust!
 An empowering playground of infinite possibility.
 Shouldn't we use the language to its full extent?
 
-Nothing in Rust forces us to get fancy. 
+Nothing in Rust forces us to be fancy. 
 You can write straightforward code in Rust just like in any other language.
-But in code reviews, I often see people trying to outsmart themselves and stumble over their own shoelaces.
+But in code reviews, I often see people trying to outsmart themselves and stumbling over their own shoelaces.
 They use all the advanced features at their disposal without thinking much about maintainability.
 
-But here's the problem: [Writing code is easy. Reading it isn't.](https://idiallo.com/blog/writing-code-is-easy-reading-is-hard)
+Here's the problem: [Writing code is easy. Reading it isn't.](https://idiallo.com/blog/writing-code-is-easy-reading-is-hard)
 These advanced features are like salt: a little bit can enhance the flavor, but too much can ruin the dish.
 And advanced features have a tendency to overcomplicate things and make readability harder.
 
@@ -106,10 +107,10 @@ We should focus on keeping complexity down.
 Of course, some complexity is truly unavoidable.
 That's the inherent complexity of the task.
 What we should avoid, however, is the accidental complexity, which we introduce ourselves.
-As projects grow, accidental complexity tends to grow with it.
+As projects grow, accidental complexity tends to grow with them.
 That is the cruft we all should challenge.
 
-And simplicity also makes systems more reliable:
+And simplicity also has other benefits: 
 
 > Simplicity is prerequisite for reliability.
 
@@ -117,7 +118,7 @@ I don't always agree with Edsger W. Dijkstra, but in this case, he was spot-on.
 Without simplicity, reliability is impossible (or at least hard to achieve).
 That's because simple systems have fewer moving parts to reason about. 
 
-Good code is mostly boring; especially for production use.
+Good code is mostly boring, especially for production use.
 Simple is obvious.
 Simple is predictable.
 Predictable is good.
@@ -144,10 +145,12 @@ Let's come back to our 3 AM phone call.
 
 The first version of the code was built by an engineer who wanted to make the system "flexible and extensible."
 The second was written by a developer who just solved the problem at hand and tried to parse a CSV file.
-Turns out there was never once a need to parse anything other than CSV files.
 
+Turns out there was never once a need to parse anything other than CSV files.
 One lesson here is that the path to complexity is paved with good intentions.
 **A series of individually perfectly reasonable decisions can lead to an overly complex, unmaintainable system.**
+And taken in isolation, each small bit of complexity looks harmless.
+But complexity quickly compounds.
 
 More experienced developers tend to use more abstractions because they get excited about the possibilities.
 And I can't blame them, really.
@@ -176,7 +179,7 @@ If you fail to do that, you might alienate team members who are not as experienc
 Furthermore, if you leave the company and leave behind a complex codebase, the team will have a hard time maintaining it and onboarding new team members.
 The biggest holdup is [how quickly people will be able to get up to speed with Rust](/blog/flattening-rusts-learning-curve).
 Don't make it even harder on them.
-From time to time, look at Rust through beginner's eyes.
+From time to time, look at Rust through a beginner's eyes.
 
 ## Generics Are A Liability
 
@@ -187,7 +190,7 @@ Each generic gets monomorphized, i.e. a separate copy of the code is generated f
 
 My advice is to only make something generic if you need to switch out the implementation *right now*.
 Resist premature generalization!
-(Which is related -- but not identical to -- premature optimization.)
+(Which is related—but not identical to—premature optimization.)
 
 "We might need it in the future" is a dangerous statement.
 Be careful with that assumption because it's hard to predict the future. [^future]
@@ -241,9 +244,34 @@ Behind the scenes, it monomorphizes the function for each type that implements `
 That means that if we pass a `String` and a `&str`, we get two copies of that function.
 That means longer compile times and larger binaries.
 
+Wait, what if we need to return something that references the input and we need the result to live as long as the input?
+
+```rust
+fn process_user_input<'a, S>(input: &'a S) -> &'a str 
+where 
+    S: AsRef<str> + ?Sized,
+{
+    // do something with input
+}
+```
+
+Oh wait, we might need to send this across threads:
+
+```rust
+fn process_user_input<'a, S>(input: &'a S) -> &'a str 
+where 
+    S: AsRef<str> + Send + Sync + ?Sized,
+{
+    // do something with input
+}
+```
+
+See how we went from a simple `&str` parameter to this monstrosity?
+Each step seemed "reasonable," but we've created a nightmare that nobody wants to read or debug.
+
 The problem is so simple, so how did that complexity creep in?
-We're trying to be clever.
-We are trying to make the function "better" by making it more generic.
+We were trying to be clever!
+We were trying to make the function "better" by making it more generic.
 But is it really "better"?
 
 All we wanted was a simple function that takes a string and does something with it.
@@ -255,16 +283,9 @@ Say we're writing a [link checker](https://github.com/lycheeverse/lychee) and we
 We could use a function that returns a `Vec<Result<Request>>`.
 
 ```rust
-pub(crate) fn create(
-  uris: Vec<RawUri>,
-  source: &InputSource,
-  root_dir: Option<&PathBuf>,
-  base: Option<&Base>,
-  extractor: Option<&BasicAuthExtractor>,
-) -> Vec<Result<Request>> {
-    let base = base.cloned().or_else(|| Base::from_source(source));
-    uris.into_iter()
-        .map(|raw_uri| create_request(&raw_uri, source, root_dir, base.as_ref(), extractor))
+fn create_requests(urls: Vec<String>) -> Vec<Result<Request>> {
+    urls.into_iter()
+        .map(|url| create_request(&url))
         .collect()
 }
 ```
@@ -272,15 +293,8 @@ pub(crate) fn create(
 Or, we could return an iterator instead:
 
 ```rust
-pub(crate) fn create(
-    uris: Vec<RawUri>,
-    source: &InputSource,
-    root_dir: Option<&PathBuf>,
-    base: Option<&Base>,
-    extractor: Option<&BasicAuthExtractor>,
-) -> impl Iterator<Item = Result<Request>> {
-    let base = base.cloned().or_else(|| Base::from_source(source));
-    uris.into_iter().map(move |raw_uri| create_request(&raw_uri, source, root_dir, base.as_ref(), extractor))
+fn create_requests(urls: Vec<String>) -> impl Iterator<Item = Result<Request>> {
+    urls.into_iter().map(|url| create_request(&url))
 }
 ```
 
@@ -304,12 +318,10 @@ Both can be written down in a handful of lines and described in a few sentences.
 Here's an ad-hoc version of quicksort in Rust:
 
 ```rust
-fn quicksort(mut v: Vec<usize>) -> Vec<usize> {
-    if v.len() <= 1 {
+pub fn quicksort(mut v: Vec<usize>) -> Vec<usize> {
+    let Some(pivot) = v.pop() else {
         return v;
-    }
-
-    let pivot = v.remove(0);
+    };
 
     let (smaller, larger) = v.into_iter().partition(|x| x < &pivot);
 
@@ -323,18 +335,18 @@ fn quicksort(mut v: Vec<usize>) -> Vec<usize> {
 
 The idea is pretty simple and can fit on a napkin:
 
-1. If the list is empty or has one element, it's already sorted and we're done.
-2. If not, pick a random element as the pivot. (For simplicity, we pick the first element here.)
-3. Split the list into two sublists: elements smaller than the pivot and elements larger than or equal to the pivot.
-4. Sort each sublist recursively.
-5. By combining the sorted smaller list, the pivot, and the sorted larger list, you get the fully sorted list!
+1. Try to get the first element from the list. If there is no element, the list is empty and we're done.
+2. Split the list into two sublists: elements smaller than the pivot and elements larger than or equal to the pivot.
+3. Sort each sublist recursively.
+4. By combining the sorted smaller list, the pivot, and the sorted larger list, you get the fully sorted list!
 
 The implementation is not too far off from the description of the algorithm.
 
-Yes, my simple version only supports `usize` right now, but my point is that simple algorithms pack a punch.
+Yes, my simple version only supports `usize` right now and for any real-world use case, you should use the [built-in sort algorithm](https://doc.rust-lang.org/std/primitive.slice.html#method.sort), which is 20x faster than the above version in my benchmarks, but my point is that simple code packs a punch.
+On my machine, this implementation sorts 100k numbers in 1 millisecond.
+
 This is an O(n log n) algorithm.
 It's as fast as it gets for a comparison-based sort and it's just a few lines of code. [^optimization]
-
 [^optimization]: Of course, this is not the most efficient implementation of quicksort. It allocates a lot of intermediate vectors and has O(n^2) worst-case performance. There are optimizations for partially sorted data, better pivot selection strategies, and in-place partitioning. But they are just that: optimizations. The core idea remains the same.
 
 Often, simple code can be optimized by the compiler more easily and runs faster on CPUs.
@@ -347,6 +359,7 @@ Simplicity is a sign of deep insight, of great understanding, of clarity—and c
 And since complicated systems are, well, complicated, that extra clarity helps keep things under control.
 
 What I appreciate about Rust is how it balances high-level and low-level programming.
+We should make good use of that.
 Most of the time, I write Rust code in a straightforward manner, and when that extra bit of performance becomes critical, Rust always lets me go back and optimize. 
 
 ## Keep Your Fellow Developers in Mind 
@@ -386,7 +399,7 @@ fn base64_encode<T: AsRef<[u8]>>(input: T, alphabet: Base64Alphabet) -> String;
 let encoded = Base64Encoder::new()
     .with_alphabet(Base64Alphabet::UrlSafe) // What is UrlSafe?
     .with_decode_allow_trailing_bits(true) // Huh?
-    .with_decode_padding_mode(engine::DecodePaddingMode::RequireNone); // I don't even...
+    .with_decode_padding_mode(engine::DecodePaddingMode::RequireNone) // I don't even...
     .encode("Hello, world!");
 ```
 
@@ -427,9 +440,10 @@ To master Rust is to say "no" to these tools more often than you say "yes."
 
 You might see an optimization opportunity and feel the urge to jump at it. 
 But time and again, I see people make that optimization without prior validation.
+The result is that the code performs the same or becomes slower.
 Measure twice, cut once. 
 
-### Delay Refactoring 
+### Defer Refactoring 
 
 That might sound counterintuitive.
 After all, shouldn't constant refactoring make our code better as we go?
@@ -442,7 +456,7 @@ That locked us into a place where we had a generic exporter, which became a huge
 Maybe we would have noticed that we're always dealing with CSV data, but we could decouple data validation from data exportation.
 If we had seen that, it would have led to better error messages like:
 
-```
+```sh
 Error: Customer 123 has invalid address field: invalid UTF-8 sequence at byte index 23: Address: "123 M\xE9n St."
 ```
 
@@ -452,7 +466,7 @@ I propose solving the problem at hand first and refactoring afterward.
 That's because refactoring a simple program is way easier than doing the same for a complex one. 
 Everyone can do the former, while I can count on one hand those who can do the latter.
 Preserve the opportunity to refactor your code.
-Refactoring might look like the smart thing to do at the time, but if you allow the simple code to just stick around for a little longer, the right opportunity for the refactor will present itself.
+Refactoring might look like the smart thing to do at the time, but if you allow the simple code to just stick around for a little longer, the right opportunity for the refactor might reveal itself.
 
 A good time to reflect is when your code starts to feel repetitive. 
 That's a sign that there's a hidden pattern in your data.
@@ -463,7 +477,7 @@ If none of it does, just go back to the simple version and document your finding
 
 ### Performance Crimes Are "OK"
 
-Rust is super fast, so you can literally make all the performance crimes you want.
+Rust is super fast, so you can literally commit all the performance crimes you want.
 Clone liberally, iterate over the same data structure multiple times, use a vector if a hashmap is too daunting.
 
 It simply doesn't matter.
