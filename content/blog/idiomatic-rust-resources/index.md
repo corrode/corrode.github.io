@@ -68,7 +68,7 @@ code {
     padding: 5px;
     margin: 5px;
     font-size: 14px;
-    font-family: monospace;
+    font-family: JetBrainsMono;
     color: #111;
     cursor: pointer;
 }
