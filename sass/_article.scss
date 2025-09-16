@@ -468,7 +468,7 @@ article a code:not(pre > code) {
 /* Avoid extra width in mobile view and add some margin around the content */
 @media (max-width: 800px) {
     .article-content {
-        margin: 0 2px;
+        margin: 0 4px;
     }
 
     .code-block-container {
