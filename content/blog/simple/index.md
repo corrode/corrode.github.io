@@ -1,7 +1,7 @@
 +++
 title = "Be Simple"
 date = 2025-09-11
-updated = 2025-09-15
+updated = 2025-09-20
 draft = false
 template = "article.html"
 [extra]
@@ -10,6 +10,10 @@ reviews = [
     { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
     { name = "Thomas Zahner",  url = "https://github.com/thomas-zahner" },
     { name = "Dirkjan Ochtman", url = "https://dirkjan.ochtman.nl/" },
+]
+resources = [
+    "[Why Can't We Make Simple Software?](https://www.youtube.com/watch?v=czzAVuVz7u4) - Peter van Hardenberg, Handmade Cities Conference 2024",
+    "[Simple Made Easy](https://www.youtube.com/watch?v=SxdOUGdseq4) - Rich Hickey, Strange Loop Conference 2011",
 ]
 +++
 
@@ -145,9 +149,9 @@ Going from simple to more complex is much easier than the reverse.
 Let's come back to our 3 AM phone call.
 
 The first version of the code was built by an engineer who wanted to make the system "flexible and extensible."
-The second was written by a developer who just solved the problem at hand and tried to parse a CSV file.
+The second was written by a developer who just wanted to parse a CSV file.
 
-Turns out there was never once a need to parse anything other than CSV files.
+Turns out there never once was a need to parse anything other than CSV files.
 One lesson here is that the path to complexity is paved with good intentions.
 **A series of individually perfectly reasonable decisions can lead to an overly complex, unmaintainable system.**
 And taken in isolation, each small bit of complexity looks harmless.
@@ -169,15 +173,15 @@ Remember: **abstractions are never zero cost.** [^nasa]
 >
 > -- [Fernando Hurtado Cardenas](https://fhur.me/posts/2024/thats-not-an-abstraction)
 
-Abstractions cause complexity, and complexity has a very real cost.
+Abstractions cause complexity, and complexity has very real consequences.
 At some point, complexity will slow you down because it causes cognitive load.
-And cognitive load matters a lot.
+And cognitive load matters a lot because our mental capacity is finite.
 
 The people who are starting with Rust are often overwhelmed by the complexity of the language.
-Try to keep that in mind as you get more proficient with Rust.
+Try to keep that in mind as you get more proficient.
 If you fail to do that, you might alienate team members who are not as experienced as you, and they might give up on the project or Rust altogether.
 
-Furthermore, if you leave the company and leave behind a complex codebase, the team will have a hard time maintaining it and onboarding new team members.
+Furthermore, if you switch companies and leave behind a complex codebase, the team will have a hard time maintaining it and onboarding new team members.
 The biggest holdup is [how quickly people will be able to get up to speed with Rust](/blog/flattening-rusts-learning-curve).
 Don't make it even harder on them.
 From time to time, look at Rust through a beginner's eyes.
@@ -198,15 +202,14 @@ Be careful with that assumption because it's hard to predict the future. [^futur
 [^future]: I should know because I passed on a few very risky but lucrative investment opportunities because I lacked the ability to accurately predict the future.
 
 Your beautiful abstraction might become your biggest nemesis.
-If you can defer the decision for just a little longer, it's often better to do so.
+If you can defer the decision for *just* a little longer, it's often better to do so.
 
-Generics have an impact on the "feel" of the entire codebase.
+Generics also have an impact on the "feel" of the entire codebase.
 If you use a lot of generics, you will have to deal with the consequences everywhere.
 You will have to understand the signatures of functions and structs as well as the error messages that come with them.
 The hidden compilation cost of generics is hard to measure and optimize for.
 
-Be careful with generics.
-They have a real cost!
+Use generics sparingly.
 The thinking should be "this is generic functionality" instead of "I could make this generic."
 
 Let's say you are working on a public API.
@@ -272,7 +275,7 @@ Each step seemed "reasonable," but we've created a nightmare that nobody wants t
 
 The problem is so simple, so how did that complexity creep in?
 We were trying to be clever!
-We were trying to make the function "better" by making it more generic.
+We were trying to improve the function by making it more generic.
 But is it really "better"?
 
 All we wanted was a simple function that takes a string and does something with it.
@@ -316,7 +319,14 @@ In fact, some of the simplest algorithms we've discovered are also the most effi
 Take quicksort or path tracing, for example.
 Both can be written down in a handful of lines and described in a few sentences.
 
-Here's an ad-hoc version of quicksort in Rust:
+The idea is pretty simple and can fit on a napkin:
+
+1. Try to get the first element from the list. If there is no element, the list is empty and we're done.
+2. Split the list into two sublists: elements smaller than the pivot and elements larger than or equal to the pivot.
+3. Sort each sublist recursively.
+4. By combining the sorted smaller list, the pivot, and the sorted larger list, you get the fully sorted list!
+
+Here's an ad-hoc version of this algorithm in Rust:
 
 ```rust
 pub fn quicksort(mut v: Vec<usize>) -> Vec<usize> {
@@ -334,16 +344,9 @@ pub fn quicksort(mut v: Vec<usize>) -> Vec<usize> {
 }
 ```
 
-The idea is pretty simple and can fit on a napkin:
+It's not too far off from the description.
 
-1. Try to get the first element from the list. If there is no element, the list is empty and we're done.
-2. Split the list into two sublists: elements smaller than the pivot and elements larger than or equal to the pivot.
-3. Sort each sublist recursively.
-4. By combining the sorted smaller list, the pivot, and the sorted larger list, you get the fully sorted list!
-
-The implementation is not too far off from the description of the algorithm.
-
-Yes, my simple version only supports `usize` right now and for any real-world use case, you should use the [built-in sort algorithm](https://doc.rust-lang.org/std/primitive.slice.html#method.sort), which is 20x faster than the above version in my benchmarks, but my point is that simple code packs a punch.
+Yes, my simple implementation only supports `usize` right now and for any real-world use case, you should use the [built-in sort algorithm](https://doc.rust-lang.org/std/primitive.slice.html#method.sort), which is 20x faster than the above version in my benchmarks, but my point is that simple code packs a punch.
 On my machine, this implementation sorts 100k numbers in 1 millisecond.
 
 This is an O(n log n) algorithm.
@@ -360,10 +363,10 @@ Simplicity is a sign of deep insight, of great understanding, of clarity—and c
 And since complicated systems are, well, complicated, that extra clarity helps keep things under control.
 
 What I appreciate about Rust is how it balances high-level and low-level programming.
-We should make good use of that.
+We should leverage that more often. 
 Most of the time, I write Rust code in a straightforward manner, and when that extra bit of performance becomes critical, Rust always lets me go back and optimize. 
 
-## Keep Your Fellow Developers in Mind 
+## Keep Your Users in Mind 
 
 Most of the code you'll write for companies will be application code, not library code.
 That's because most companies don't make money writing libraries, but business logic.
@@ -404,23 +407,23 @@ let encoded = Base64Encoder::new()
     .encode("Hello, world!");
 ```
 
-But all that most users want is to get an encoded string:
+But what most users care about is how to get an encoded string:
 
 ```rust
 let encoded = base64_encode("Hello, world!");
 ```
 
-You could call the function above `base64_encode_simple` or `base64_encode_standard` to make it clear that it's a simplified version of a more generic algorithm.
-It's fine to offer additional functionality, but don't make the easy thing hard in the process.
+You could call the function above `base64_encode_simple` or `base64::encode_standard` to make it clear that it's a simplified version of a more generic algorithm.
 
 Simplicity is especially important when working with other developers because code is a way to communicate ideas, and you should strive to express your ideas clearly.
+It's fine to offer additional functionality, but don't make the easy thing hard in the process.
 
 ## Tips For Fighting Complexity
 
 ### Start Small
 
 Jerry Seinfeld had two writing modes: [creating mode and editing mode](https://perell.com/note/the-jerry-seinfeld-guide-to-writing/).
-- When in creation mode, he's exploring possibilities and letting ideas flow freely.
+- When in creating mode, he's exploring possibilities and letting ideas flow freely.
 - When in editing mode, he's refining, cutting, and polishing.
 
 These modes require different mindsets, and trying to do both simultaneously leads to paralysis.
@@ -428,10 +431,10 @@ As a consequence, Seinfeld would never edit while creating because it would kill
 
 The same principle applies to coding.
 Don't try to architect the perfect solution on your first attempt.
-Write the naive implementation first, then let your inner editor refine it. 
+Write the naïve implementation first, then let your inner editor refine it. 
 Switch off that inner critic.
 Who knows?
-You might just come up with a simpler design.
+You might just come up with a simpler design!
 
 ### Resist the Temptation To Optimize Early
 
@@ -441,7 +444,7 @@ To master Rust is to say "no" to these tools more often than you say "yes."
 
 You might see an optimization opportunity and feel the urge to jump at it. 
 But time and again, I see people make that optimization without prior validation.
-The result is that the code performs the same or becomes slower.
+The result is that the code performs the same or becomes slower or is otherwise less ideal than the previous version. 
 Measure twice, cut once. 
 
 ### Defer Refactoring 
@@ -457,8 +460,9 @@ That locked us into a place where we had a generic exporter, which became a huge
 Maybe we would have noticed that we're always dealing with CSV data, but we could decouple data validation from data exportation.
 If we had seen that, it would have led to better error messages like:
 
-```sh
-Error: Customer 123 has invalid address field: invalid UTF-8 sequence at byte index 23: Address: "123 M\xE9n St."
+```
+Error: Customer 123 has invalid address field:
+Invalid UTF-8 sequence at byte index 23: Address: "123 M\xE9n St."
 ```
 
 This opportunity was lost because we jumped the gun and refactored too early.
@@ -467,32 +471,32 @@ I propose solving the problem at hand first and refactoring afterward.
 That's because refactoring a simple program is way easier than doing the same for a complex one. 
 Everyone can do the former, while I can count on one hand those who can do the latter.
 Preserve the opportunity to refactor your code.
-Refactoring might look like the smart thing to do at the time, but if you allow the simple code to just stick around for a little longer, the right opportunity for the refactor might reveal itself.
+Refactoring might look like the smart thing to do at the time, but if you allow the simple code to just stick around for a little longer, the right opportunity for the refactor might present itself.
 
 A good time to reflect is when your code starts to feel repetitive. 
 That's a sign that there's a hidden pattern in your data.
-The right abstraction is trying to talk to you and reveal itself!
-It's fine to do multiple attempts at an abstraction.
+The right abstraction is trying to talk to you!
+It's fine to make multiple attempts at an abstraction.
 See what feels right.
 If none of it does, just go back to the simple version and document your findings.
 
 ### Performance Crimes Are "OK"
 
-Rust is super fast, so you can literally commit all the performance crimes you want.
-Clone liberally, iterate over the same data structure multiple times, use a vector if a hashmap is too daunting.
+Rust is super fast, so you can literally commit all the performance crimes you like.
+Clone liberally, iterate over the same data structure multiple times, use a vector where a hashmap would be better.
 
 It simply doesn't matter.
 Hardware is fast and cheap, so put it to work.
 
 ### Be Curious But Conservative 
 
-All of the above doesn't mean you should not learn about all of these abstractions.
+All of the above doesn't mean you should not learn about the good abstractions.
 It's fun to learn and to be knowledgeable. 
 
 But you can focus on learning new concepts without hurting yourself.
-Understanding macros, lifetimes, interior mutability, etc. is very helpful, but in everyday "normal" Rust code you almost never make use of these concepts, so don't worry about them too much.
+Understanding macros, lifetimes, interior mutability, etc. is very helpful, but in everyday "normal" Rust code you almost never make use of these concepts, so don't worry about them too much and keep moving.
 
-Use all the features you need and none that you don't.
+Use all the features you need and none you don't.
 
 ## How to Recognize The Right Level of Abstraction 
 
@@ -502,20 +506,21 @@ Good abstractions tend to "click" together.
 It just feels like there's no overlap between the abstractions and no grunt work or extra conversions needed.
 The next step always feels obvious.
 Testing works without much mocking, your documentation for your structs almost writes itself.
-There's no "this struct does X and Y" in your documentation.
+There's no "this struct does X **and** Y" in your documentation.
 It's either X **or** Y.
 Explaining the design to a fellow developer is straightforward.
 This is when you know you have a winner.
+
 Getting there is not easy.
 It can take many iterations.
-What you see in popular libraries is often the result of that process.
+The result of that process is what you'll often see in popular libraries.
 
 The right abstractions guide you to do the right thing: to find the obvious place to add new functionality, the right place to look for a bug, the right spot to make that database query. 
 
 All of that is easier if the code is simple.
 That's why experienced developers always have simplicity in mind when they build out abstractions.
 
-It's possible that the most common error of a smart engineer is to optimize a thing that should not exist in the first place.
+It's possible that the original sin of a smart engineer is to optimize a thing that should not exist in the first place.
 Cross that bridge when you get there.
 
 ## Write Code for Humans
