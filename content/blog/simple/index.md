@@ -488,6 +488,13 @@ Clone liberally, iterate over the same data structure multiple times, use a vect
 It simply doesn't matter.
 Hardware is fast and cheap, so put it to work.
 
+Despite this reality, there's a noticeable tendency among Rust developers to add significant complexity or extra code to avoid any and all allocations in code that isn't even performance-critical.
+I think that's because Rust is very anal about memory management, which makes developers hyper-aware of these costs.
+This awareness can get in the way of simplicity. 
+Sometimes using `Arc` or `Box` is not worth optimizing away if it keeps the code simple.
+
+If you'd like to learn more, I gave a talk on that topic titled [The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk).
+
 ### Be Curious But Conservative 
 
 All of the above doesn't mean you should not learn about the good abstractions.
