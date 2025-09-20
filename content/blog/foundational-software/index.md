@@ -98,7 +98,7 @@ Rust is used for building platforms: systems which enable building other systems
 These services need to be robust and reliable and serve as platforms for other code that might or might not be written in Rust.
 This is, in my opinion, the core value proposition of Rust: to build things that form the bedrock of critical infrastructure and must operate reliably for years.
 
-Rust is a day-2-language, i.e. it only starts to shine after taking a leap of faith and using it for an extensive period of time.
+Rust is a day-2 language, i.e. it only starts to shine after taking a leap of faith and using it for an extensive period of time.
 In Rust, all of the problems that you have during the lifecycle of your application surface early in development.
 Once a service hits production, maintaining it is a breeze.
 There is very little on-call work.
@@ -124,14 +124,14 @@ Writing a media-processing pipeline is foundational.
 
 Rust serves as a catalyst: companies start using it for critical software but then, as they get more comfortable with the language, expand into using it in other areas of their business:
 
-> I've seen it play out as we built Aurora DSQL - we chose Rust for the new dataplane components, and started off developing other components with other tools. The control plane in Kotlin, operations tools in Typescript, etc. Standard "right tool for the job" stuff. But, as the team has become more and more familiar and comfortable with Rust, it's become the way everything is built. A lot of this is because we've seen the benefits of Rust, but at least some is because the team just enjoys writing Rust.
+> I've seen it play out as we built Aurora DSQL - we chose Rust for the new dataplane components, and started off developing other components with other tools. The control plane in Kotlin, operations tools in TypeScript, etc. Standard "right tool for the job" stuff. But, as the team has become more and more familiar and comfortable with Rust, it's become the way everything is built. A lot of this is because we've seen the benefits of Rust, but at least some is because the team just enjoys writing Rust.
 >
 > -- [Marc Brooker, engineer at Amazon Web Services in Seattle on lobste.rs](https://smallcultfollowing.com/babysteps/blog/2025/05/15/10-years-of-rust/)
 
 That fully aligns with my experience: I find that teams become ambitious after a while.
 They reach for loftier goals because they *can*.
 The fact they don't have to deal with security issues anymore enables better affordances.
-From my conversations with other Rustaceans, we all made the same observation: suddenly we can build more ambitious projects that we never dared tackling before.
+From my conversations with other Rustaceans, we all made the same observation: suddenly we can build more ambitious projects that we never dared tackle before.
 
 It feels to me as if this direction is more promising: starting with the foundational tech and growing into application-level/business-level code if needed/helpful.
 That's better than the other way around, which often feels unnecessarily clunky.
@@ -153,7 +153,7 @@ It might be:
 - a storage layer
 - a satellite control system 
 - an SDK for multiple languages 
-- a real time notification service
+- a real-time notification service
 
 and many, many more.
 
@@ -178,7 +178,7 @@ At no point did they think about using Rust as a C++ replacement.
 Instead, they saw the potential of Rust as a language for building scalable and reliable systems.
 Many more companies followed suit: 
 Amazon, Google, Microsoft, Meta, Discord, Cloudflare, and many more.
-These organizations build platforms and  Rust, a tool for professional programmers, developed by world experts over more than a decade of hard work, is best equipped to fit the bill.
+These organizations build platforms and Rust, a tool for professional programmers, developed by world experts over more than a decade of hard work, is best equipped to fit the bill.
 
 ## Rust Is A Tool For Professionals
 
