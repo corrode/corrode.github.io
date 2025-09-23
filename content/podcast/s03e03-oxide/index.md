@@ -79,6 +79,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [Jujutsu (jj)](https://martinvonz.github.io/jj/) - Git replacement
 - [Steve's Jujutsu Tutorial](https://steveklabnik.github.io/jujutsu-tutorial/introduction/introduction.html) - Guide to jj
 - [Steve's blog post on not naming branches](https://steveklabnik.com/writing/against-names/)
+- [Steve's talk about Oxide at Oxidize Conference 2024](https://www.youtube.com/watch?v=q8qn0dyT3xc)
 
 ### Official Links
 
