@@ -1,7 +1,7 @@
 +++
 title = "Be Simple"
 date = 2025-09-11
-updated = 2025-09-20
+updated = 2025-09-23
 draft = false
 template = "article.html"
 [extra]
@@ -150,12 +150,25 @@ Let's come back to our 3 AM phone call.
 
 The first version of the code was built by an engineer who wanted to make the system "flexible and extensible."
 The second was written by a developer who just wanted to parse a CSV file.
-
 Turns out there never once was a need to parse anything other than CSV files.
-One lesson here is that the path to complexity is paved with good intentions.
-**A series of individually perfectly reasonable decisions can lead to an overly complex, unmaintainable system.**
+
+Of course, the original author likely had good reasons for their design.
+Maybe prior experience might have suggested that more formats would be needed in the future?
+Or the team wanted to simplify testing by mocking the data format and ended up with a set of abstractions that turned out to be limiting?
+And shouldn't the problem have been discovered during code review?
+
+These are all valid points!
+But code reviews also take effort, and it's easy to miss the forest for the trees.
+A less experienced Rust developer might not have the experience to evaluate the situation properly and saying "I don't get it" also takes courage.
+And even if the code review had caught the complexity, it might have consumed a lot of energy to convince the original author to simplify the code or to change the design because of deadlines or sunk cost fallacies.
+It's easy to judge past decisions with hindsight; that's not my intention.
+Quite the opposite, actually:
+**a series of individually perfectly reasonable decisions can lead to an overly complex, unmaintainable system.**
 And taken in isolation, each small bit of complexity looks harmless.
 But complexity quickly compounds.
+
+One lesson here is that the path to complexity is paved with good intentions.
+Another is that senior engineers should pair with junior ones more often to avoid knowledge silos. 
 
 More experienced developers tend to use more abstractions because they get excited about the possibilities.
 And I can't blame them, really.
