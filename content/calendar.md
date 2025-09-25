@@ -1,5 +1,5 @@
 +++
-title = "Client Meetings | corrode"
-aliases = ["/clients/", "/book/", "/meet/"]
-template = "calendar.html"
+title = "Book a Meeting | corrode"
+aliases = ["/book/", "/meet/"]
+template = "calendar-default.html"
 +++
