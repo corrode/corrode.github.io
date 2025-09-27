@@ -1,7 +1,7 @@
 +++
 title = "Be Simple"
 date = 2025-09-11
-updated = 2025-09-23
+updated = 2025-09-27
 draft = false
 template = "article.html"
 [extra]
@@ -168,7 +168,7 @@ And taken in isolation, each small bit of complexity looks harmless.
 But complexity quickly compounds.
 
 One lesson here is that the path to complexity is paved with good intentions.
-Another is that senior engineers should pair with junior ones more often to avoid knowledge silos. 
+Another is that senior engineers should pair with junior ones more often to avoid knowledge silos.
 
 More experienced developers tend to use more abstractions because they get excited about the possibilities.
 And I can't blame them, really.
@@ -211,6 +211,7 @@ Resist premature generalization!
 (Which is related—but not identical to—premature optimization.)
 
 "We might need it in the future" is a dangerous statement.
+The classic example is "we might need to switch databases in the future" leading to over-abstracted data access layers that nobody asked for.
 Be careful with that assumption because it's hard to predict the future. [^future]
 [^future]: I should know because I passed on a few very risky but lucrative investment opportunities because I lacked the ability to accurately predict the future.
 
@@ -517,6 +518,15 @@ But you can focus on learning new concepts without hurting yourself.
 Understanding macros, lifetimes, interior mutability, etc. is very helpful, but in everyday "normal" Rust code you almost never make use of these concepts, so don't worry about them too much and keep moving.
 
 Use all the features you need and none you don't.
+
+### Don't Confuse Simple with Sloppy 
+
+Crucially, writing simple software does not mean implementing "good-enough-for-now" software.
+That approach surely will lead to technical debt and maintenance nightmares further down the line as workarounds get stacked on top of each other.
+No, simple software can still be well-designed software, but it keeps the current requirements in mind.
+The goal is not to take shortcuts. Quite the contrary: the goal is to avoid unnecessary complexity, which often is the root cause for having
+to take shortcuts later on when bad systems design prevents a cleaner solution. 
+In [code reviews](https://endler.dev/2025/how-to-review-code/), I pay extra attention to ensuring we don't cut corners to avoid doing the necessary design work.
 
 ## How to Recognize The Right Level of Abstraction 
 
