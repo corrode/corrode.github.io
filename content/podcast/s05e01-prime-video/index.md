@@ -31,7 +31,7 @@ Alexandru worked on the transition of Prime Video's user interface from JavaScri
 - [Ferris Makes Emulators Ep.001 - The Journey Begins](https://www.youtube.com/watch?v=Fsi9HPcyrU8) - First episode of a famous series where Jake Taylor wrote a Nintendo 64 emulator in Rust from scratch
 - [CMake](https://en.wikipedia.org/wiki/CMake) - Very common build system used in C++ applications
 - [Conan](https://conan.io/) - C++ Package Manager community project  
-- [C++ Smart Pointers - Still a footgun](https://ericlippert.com/2003/09/16/smart-pointers-are-too-smart/)
+- [C++ Smart Pointers](https://ericlippert.com/2003/09/16/smart-pointers-are-too-smart/) - Still a footgun
 - [Herb Sutter: The Free Lunch Is Over](http://gotw.ca/publications/concurrency-ddj.htm) - The seminal 2005 paper that highlights the importance of concurrency, well past C++'s mainstream adoption  
 - [Rust in Production: cURL](https://corrode.dev/podcast/s02e01-curl/) - Baseline library used everywhere, written in C, but performant *and* safe  
 - [Prime Video Platforms](https://www.amazon.com/b?node=16775794011) - One app runs on all of these
