@@ -12,6 +12,8 @@ episode = "01"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-111a5334" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/prime-video-with-alexandru-ene/player.js?size=s"></script></div>
+
 Are you one of over 240 million subscribers of Amazon's Prime Video service? If so, you might be surprised to learn that much of the infrastructure behind Prime Video is built using Rust. They use a single codebase for media players, game consoles, and tablets. In this episode, we sit down with Alexandru Ene, a Principal Engineer at Amazon, to discuss how Rust is used at Prime Video, the challenges they face in building a global streaming service, and the benefits of using Rust for their systems. 
 
 {{ codecrafters() }}
@@ -29,9 +31,9 @@ Alexandru worked on the transition of Prime Video's user interface from JavaScri
 ### Links From The Episode
 
 - [Ferris Makes Emulators Ep.001 - The Journey Begins](https://www.youtube.com/watch?v=Fsi9HPcyrU8) - First episode of a famous series where Jake Taylor wrote a Nintendo 64 emulator in Rust from scratch
-- [CMake](https://en.wikipedia.org/wiki/CMake)
+- [CMake](https://en.wikipedia.org/wiki/CMake) - Very common build system used in C++ applications
 - [Conan](https://conan.io/) - C++ Package Manager community project  
-- [C++ Smart Pointers - Still a footgun](https://ericlippert.com/2003/09/16/smart-pointers-are-too-smart/)
+- [C++ Smart Pointers](https://ericlippert.com/2003/09/16/smart-pointers-are-too-smart/) - Still a footgun
 - [Herb Sutter: The Free Lunch Is Over](http://gotw.ca/publications/concurrency-ddj.htm) - The seminal 2005 paper that highlights the importance of concurrency, well past C++'s mainstream adoption  
 - [Rust in Production: cURL](https://corrode.dev/podcast/s02e01-curl/) - Baseline library used everywhere, written in C, but performant *and* safe  
 - [Prime Video Platforms](https://www.amazon.com/b?node=16775794011) - One app runs on all of these
