@@ -1,7 +1,7 @@
 +++
 title = "Pitfalls of Safe Rust"
 date = 2025-04-01
-updated = 2025-04-05
+updated = 2025-10-09
 draft = false
 template = "article.html"
 [extra]
@@ -20,7 +20,7 @@ resources = [
 When people say Rust is a "safe language", they often mean memory safety.
 And while memory safety is a great start, it's far from all it takes to build robust applications.
 
-**Memory safety is important but not sufficient for overall reliability.**
+**Memory safety is necessary but not sufficient for overall reliability.**
 
 In this article, I want to show you a few common gotchas in safe Rust that the compiler doesn't detect and how to avoid them.
 
@@ -173,9 +173,9 @@ There are three main ways to convert between numeric types in Rust:
 
 **If in doubt, prefer `From::from()` and `TryFrom` over `as`.**
 
-- use `From::from()` when you can guarantee no data loss.
-- use `TryFrom` when you need to handle potential data loss gracefully.
-- only use `as` when you're comfortable with potential truncation or know the values will fit within the target type's range and when performance is absolutely critical.
+1. use `From::from()` when you can guarantee no data loss.
+2. use `TryFrom` when you need to handle potential data loss gracefully.
+3. only use `as` when you're comfortable with potential truncation or know the values will fit within the target type's range and when performance is absolutely critical.
 
 (*Adapted from [StackOverflow answer by delnan](https://stackoverflow.com/a/28280042/270334) and [additional context](https://stackoverflow.com/a/48795524/270334).*)
 
@@ -184,7 +184,7 @@ There are three main ways to convert between numeric types in Rust:
 The `as` operator is **not safe for narrowing conversions**.
 It will silently truncate the value, leading to unexpected results.
 
-What is a narrowing conversion?
+What is a "narrowing conversion"?
 It's when you convert a larger type to a smaller type, e.g. `i32` to `i8`.
 
 For example, see how `as` chops off the high bits from our value:
@@ -213,7 +213,6 @@ let y = i8::try_from(x).ok_or("Number is too big to be used here")?;
 ## Use Bounded Types for Numeric Values
 
 Bounded types make it easier to express invariants and avoid invalid states.
-
 E.g. if you have a numeric type and 0 is *never* a correct value, use [`std::num::NonZeroUsize`](https://doc.rust-lang.org/std/num/type.NonZeroUsize.html) instead.
 
 You can also create your own bounded types:
@@ -250,7 +249,7 @@ Whenever I see the following, I get goosebumps 😨:
 
 ```rust
 let arr = [1, 2, 3];
-let elem = arr[3];  // Panic!
+let elem = arr[3];  // uh-oh!
 ```
 
 That's a common source of bugs.
@@ -264,7 +263,6 @@ let elem = arr.get(3);
 ```
 
 It returns an `Option` which you can now handle gracefully.
-
 See [this blog post](https://shnatsel.medium.com/how-to-avoid-bounds-checks-in-rust-without-unsafe-f65e618b4c1e) for more info on the topic.
 
 ## Use `split_at_checked` Instead Of `split_at`
@@ -281,7 +279,7 @@ let (left, right) = arr.split_at(mid);
 You might expect that this returns a tuple of slices where the first slice contains all elements
 and the second slice is empty.
 
-**Instead, the above code will panic because the mid index is out of bounds!**
+⚠️ **Instead, the above code will panic because the mid index is out of bounds!**
 
 To handle that more gracefully, use `split_at_checked` instead:
 
@@ -315,10 +313,11 @@ fn authenticate_user(username: String) {
 }
 ```
 
-However, do you really accept any string as a valid username?
+However, do you really accept *any* string as a valid username?
 What if it's empty? What if it contains emojis or special characters?
+That would likely be unexpected.
 
-You can create a custom type for your domain instead:
+Instead, you can create a custom type for your domain:
 
 ```rust
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -360,8 +359,6 @@ fn authenticate_user(username: Username) {
 
 ## Make Invalid States Unrepresentable
 
-The next point is closely related to the previous one. 
-
 Can you spot the bug in the following code?
 
 ```rust
@@ -376,26 +373,27 @@ struct Configuration {
 
 The problem is that you can have `ssl` set to `true` but `ssl_cert` set to `None`.
 That's an invalid state! If you try to use the SSL connection, you can't because there's no certificate.
-This issue can be detected at compile-time:
 
-Use types to enforce valid states:
+This issue can be detected at compile-time by using types to enforce valid states.
+First, let's define the possible states for the connection:
 
 ```rust
-// First, let's define the possible states for the connection
 enum ConnectionSecurity {
     Insecure,
     // We can't have an SSL connection
     // without a certificate!
     Ssl { cert_path: String },
 }
+```
 
+Now we can't have an invalid state!
+Either we have an SSL connection with a certificate or we don't have SSL at all.
+
+```rust
 struct Configuration {
     port: u16,
     host: String,
-    // Now we can't have an invalid state!
-    // Either we have an SSL connection with a certificate
-    // or we don't have SSL at all.
-    security: ConnectionSecurity,
+    security: ConnectionSecurity, // All possible states are valid! 
 }
 ```
 
@@ -403,11 +401,12 @@ In comparison to the previous section, the bug was caused by an *invalid combina
 To prevent that, clearly map out all possible states and transitions between them.
 A simple way is to define an enum with optional metadata for each state.
 
+The learning here is that Rust can't protect you from logic bugs.
 If you're curious to learn more, here is a more in-depth [blog post on the topic](/blog/illegal-state/).
 
 ## Handle Default Values Carefully
 
-It's quite common to add a blanket `Default` implementation to your types.
+It's quite common to add a blanket `Default` implementation to your types without thinking twice about it.
 But that can lead to unforeseen issues.
 
 For example, here's a case where the port is set to 0 by default, which is not a valid port number.[^port]
@@ -419,13 +418,14 @@ So, `TcpListener::bind("127.0.0.1:0").unwrap()` is valid, but it might not be su
 // DON'T: Implement `Default` without consideration
 #[derive(Default)]  // Might create invalid states!
 struct ServerConfig {
-    port: u16,      // Will be 0, which isn't a valid port!
+    port: u16,      // Will be 0, which might be unexpected 
     max_connections: usize,
     timeout_seconds: u64,
 }
 ```
 
 Instead, consider if a default value makes sense for your type.
+If there is no sane default, don't implement `Default` at all and let the user be explicit.
 
 ```rust
 // DO: Make Default meaningful or don't implement it
@@ -448,22 +448,23 @@ impl ServerConfig {
 
 ## Implement `Debug` Safely
 
-If you blindly derive `Debug` for your types, you might expose sensitive data.
+A related issue is the `Debug` trait.
+One might assume that `Debug` is only used for "debugging purposes" and is therefore harmless, but if you blindly derive `Debug` for all types, you might expose sensitive data.
+That's because `Debug` is often used in logging and error messages, even in production code.
 Instead, implement `Debug` manually for types that contain sensitive information.
 
 ```rust
-// DON'T: Expose sensitive data in debug output
+// This would expose sensitive data in logs!
 #[derive(Debug)]
 struct User {
     username: String,
-    password: String,  // Will be printed in debug output!
+    password: String,  // Will be printed as plain text!
 }
 ```
 
 Instead, you could write:
 
 ```rust
-// DO: Implement Debug manually
 #[derive(Debug)]
 struct User {
     username: String,
@@ -472,26 +473,29 @@ struct User {
 
 struct Password(String);
 
+// Here we implement Debug manually to redact the password
 impl std::fmt::Debug for Password {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str("[REDACTED]")
     }
 }
-
-fn main() {
-    let user = User {
-        username: String::from(""),
-        password: Password(String::from("")),
-    };
-    println!("{user:#?}");
-}
 ```
 
-This prints
+Let's say we were to print a `User` instance:
+
+```rust
+let user = User {
+    username: String::from("ferris"),
+    password: Password(String::from("supersecret")),
+};
+println!("{user:#?}");
+```
+
+The output would be:
 
 ```rust
 User {
-    username: "",
+    username: "ferris",
     password: [REDACTED],
 }
 ```
@@ -546,11 +550,10 @@ Thanks to [Wesley Moore (wezm)](https://www.wezm.net) for the hint and to [Simon
 
 ## Careful With Serialization 
 
-Don't blindly derive `Serialize` and `Deserialize` -- especially for sensitive data. 
+Don't blindly derive `Serialize` and `Deserialize` either, especially for sensitive data. 
 The values you read/write might not be what you expect!
 
 ```rust
-// DON'T: Blindly derive Serialize and Deserialize 
 #[derive(Serialize, Deserialize)]
 struct UserCredentials {
     #[serde(default)]  // ⚠️ Accepts empty strings when deserializing!
@@ -561,7 +564,7 @@ struct UserCredentials {
 ```
 
 When deserializing, the fields might be empty.
-Empty credentials could potentially pass validation checks if not properly handled
+Empty credentials could potentially pass validation checks if not properly handled.
 
 On top of that, the serialization behavior could also leak sensitive data.
 By default, `Serialize` will include the password field in the serialized output, which could expose sensitive credentials in logs, API responses, or debug output.
@@ -647,10 +650,11 @@ fn remove_dir(path: &Path) -> io::Result<()> {
     // Open the directory WITHOUT following symlinks
     let handle = OpenOptions::new()
         .read(true)
-        .custom_flags(O_NOFOLLOW | O_DIRECTORY) // Fails if not a directory or is a symlink
+        // Fails if not a directory or is a symlink
+        .custom_flags(O_NOFOLLOW | O_DIRECTORY) 
         .open(path)?;
     
-    // Now we can safely remove the directory contents using the open handle
+    // We can now safely remove the directory contents using the open handle
     remove_dir_impl(&handle)
 }
 ```
