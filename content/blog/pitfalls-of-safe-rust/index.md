@@ -918,6 +918,6 @@ strong verification methods.
 
 I hope you found this article helpful!
 If you want to take your Rust code to the next level, consider a code review by an expert.
-I offer code reviews for Rust projects of all sizes. [Get in touch](/about/) to learn more.
+I offer code reviews for Rust projects of all sizes. [Get in touch](/services/) to learn more.
 
 {% end %}

@@ -3,6 +3,7 @@ title = "From Prototype To Production In Half The Time"
 template = "page.html"
 sort_by = "date"
 description = "Friendly, professional Rust consulting services to help companies make the most of Rust. Our offerings include training, consulting, mentoring, code reviews, and team augmentation."
+aliases = ["about"]
 +++
 
 <script src="https://fast.wistia.com/embed/medias/crzddicf9e.jsonp" async></script><script src="https://fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_crzddicf9e seo=false videoFoam=true" style="height:100%;position:relative;width:100%"><div class="wistia_swatch" style="height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;"><img src="https://fast.wistia.com/embed/medias/crzddicf9e/swatch" style="filter:blur(5px);height:100%;object-fit:contain;width:100%;" alt="" aria-hidden="true" onload="this.parentNode.style.opacity=1;" /></div></div></div></div>
@@ -202,6 +203,29 @@ const formUrl = "https://submit-form.com/r7PT0RxiL";
 
 {% end %}
 
+## Media
+
+I'm thankful to be featured in various podcasts and interviews. Here are some of my recent appearances:
+
+- SE Radio Interview - [Prototyping in Rust](https://se-radio.net/2025/05/se-radio-670-matthias-endler-on-prototype-in-rust/) 
+- Rustacean Station Podcast - [lychee and Open Source Maintenance](https://rustacean-station.org/episode/matthias-endler/)
+- Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
+- RustShip Podcast Episode 5 - [corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
+- Engineering Kiosk Podcast - [Der Hype um Rust (German)](https://engineeringkiosk.dev/podcast/episode/98-der-hype-um-rust-mit-matthias-endler/)
+- Working Draft Podcast Revision 569 - [Von Link-Checkern und Rabbit Holes (German)](https://workingdraft.de/569/)
+- programmier.bar podcast - [Rust Deep Dive (German)](https://www.programmier.bar/podcast/deep-dive-49-rust-mit-matthias-endler)
+
+## Talks
+
+From time to time I give talks about Rust and open-source software.
+
+- Softwerkskammer Cologne Meetup - [Testing in Rust](https://www.meetup.com/softwerkskammer-koln/events/300415441/)
+- inovex Meetup Cologne, Germany - [Rust in Production](https://speakerdeck.com/mre/rust-in-production)
+- FOSDEM 2024, Brussels, Belgium - [The Four Horsemen of Bad Rust Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
+- RustLab 2023, Florence, Italy - [Writing a Link Checker in Rust](https://rustlab.it/talks/lychee-writing-a-link-checker-in-a-weekend-plus-two-short-years)
+- Rust Linz 2023, Linz, Austria - [Writing a Link Checker in Rust](https://www.youtube.com/watch?v=BIguvia6AvM)
+- FrOSCon 2023, Bonn, Germany - [Writing a Link Checker in Rust](https://programm.froscon.org/2023/events/2867.html)
+- [View Previous Talks →](https://endler.dev/talks/)
 
 
 ## Happy To Answer Your Questions

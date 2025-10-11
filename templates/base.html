@@ -138,9 +138,9 @@
                     </a>
                 </li>
                 <li>
-                    <a {% if current_path and current_path is containing("/podcast") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/podcast' }}">
-                        <span>Podcast</span>
+                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/learn' }}">
+                        <span>Learn</span>
                     </a>
                 </li>
                 <li>
@@ -150,15 +150,9 @@
                     </a>
                 </li>
                 <li>
-                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/learn' }}">
-                        <span>Learn</span>
-                    </a>
-                </li>
-                <li>
-                    <a {% if current_path and current_path is containing("/about") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/about' }}">
-                        <span>About</span>
+                    <a {% if current_path and current_path is containing("/podcast") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/podcast' }}">
+                        <span>Podcast</span>
                     </a>
                 </li>
                 <li>
@@ -183,7 +177,6 @@
                     <li><a href="/services/">Consulting</a></li>
                     <li><a href="/quote/">Business Inquiries</a></li>
                     <li><a href="/blog/why-rust/">Why Rust?</a></li>
-                    <li><a href="/about/">About</a></li>
                 </ul>
             </div>
     

@@ -11,7 +11,7 @@ It was a hell of a ride, but I decided to stop it in 2021. I'm still very much i
 
 Here are a few things that might interest you:
 
-- I'm open for consulting work. [Get in touch](/about) with me if you're interested.
+- I'm open for consulting work. [Get in touch](/services) with me if you're interested.
 - Want to read articles on idiomatic Rust? Check out my [article series](/blog).
 - Find the original Hello Rust website [here](https://hello-rust.github.io).
 - Want to start your own YouTube channel? Here are my [lessons learned](https://github.com/hello-rust/show/blob/master/LESSONS_LEARNED.md).

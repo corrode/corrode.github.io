@@ -381,7 +381,7 @@ A successful migration requires careful planning:
 2. **Invest in Training**
 
    - Allocate time for learning Rust fundamentals
-   - Consider bringing in [external expertise](/about) for guidance
+   - Consider bringing in [external expertise](/services) for guidance
    - Set realistic expectations for the learning curve
 
 3. **Measure Success**
@@ -535,6 +535,6 @@ However, if you're hitting the limits of Python, Rust is a strong replacement.
 
 I help teams make successful transitions from Python to Rust.
 My clients moved critical workloads to Rust and saw significant improvements in performance and reliability.
-Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/about).
+Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/services).
 
 {% end %}

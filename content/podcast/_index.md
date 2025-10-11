@@ -13,4 +13,4 @@ stories** of companies using it in production often **remain untold**.
 *Rust in Production* brings those stories to light.
 We show how these companies use Rust to solve some of the most complex technical problems in the world.
 
-Stories of companies who bet big on Rust. Every other Thursday at 4 pm UTC.
+Stories of companies who bet big on Rust. **Every other Thursday at 4 pm UTC.**

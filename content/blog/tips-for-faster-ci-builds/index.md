@@ -303,6 +303,6 @@ Start with the easier wins like Swatinem's cache action and `--locked` flag, the
 
 Is your Rust CI still too slow despite implementing these optimizations?
 I can help you identify and fix performance bottlenecks in your build pipeline.
-[Book a free consultation](/about) to discuss your specific needs.
+[Book a free consultation](/services) to discuss your specific needs.
 
 {% end %}

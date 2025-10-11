@@ -18,7 +18,7 @@ authors = [
 
 We’ve been asked this question multiple times in the last year. It is a fair question, as adopting any new technology requires an investment and comes with uncertainties, one of them being the durability of the technology. This article explains why we expect Rust to stand the test of time.
 
-*This article is a friendly collaboration between Tweede golf (author: [Hugo](https://tweedegolf.nl/en/about/9/hugo)) and corrode Rust Consulting (author: [Matthias](https://corrode.dev/about/)). For more insights on Rust, also visit [the Tweede golf blog](https://tweedegolf.nl/en/blog).*
+*This article is a friendly collaboration between Tweede golf (author: [Hugo](https://tweedegolf.nl/en/about/9/hugo)) and corrode Rust Consulting (author: [Matthias](/services/)). For more insights on Rust, also visit [the Tweede golf blog](https://tweedegolf.nl/en/blog).*
 
 {% end %}
 
@@ -159,4 +159,4 @@ Rust is at an exciting point in its history. With large corporations investing h
 
 If your organization is considering migrating to Rust and is unsure about the language's long-term viability, we hope this information (be sure to check out some of the resources/links!) helps ease your decision-making process.
 
-And if you need assistance along the way, why not reach out to [Tweede golf](https://tweedegolf.nl/en/expertise/rust-engineering) and [corrode](https://corrode.dev/about)?
+And if you need assistance along the way, why not reach out to [Tweede golf](https://tweedegolf.nl/en/expertise/rust-engineering) and [corrode](/services)?

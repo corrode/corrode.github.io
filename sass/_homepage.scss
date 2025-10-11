@@ -65,13 +65,6 @@
     color: white;
 }
 
-.cta-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 1em;
-    margin-top: 2em;
-}
-
 .cta-button {
     display: inline-block;
     border: none;
@@ -149,7 +142,7 @@
 }
 
 .testimonial-text::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -10px;
     left: 50%;
@@ -164,7 +157,6 @@
 .testimonial-text b {
     color: $darkBgrd;
 }
-
 
 .testimonial-text q {
     font-size: 1.2em;

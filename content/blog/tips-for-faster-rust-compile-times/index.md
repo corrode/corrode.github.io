@@ -1171,5 +1171,5 @@ questions or feedback, I'd love to hear from you.
 {% info(title="Get Professional Support", icon="crab") %}
 If you need support for commercial Rust projects,
 I can also help you with performance problems and reducing your build times.
-[Get in touch.](/about)
+[Get in touch.](/services)
 {% end %}

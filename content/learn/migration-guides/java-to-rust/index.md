@@ -245,7 +245,7 @@ Resources like [Rustlings](https://github.com/rust-lang/rustlings), [Rust By Exa
 [100 Exercises To Learn Rust](https://github.com/mainmatter/100-exercises-to-learn-rust), and 
 [Rustfinity](https://www.rustfinity.com/) are all great for self-learning. 
 
-If you're looking for a more structured approach, [consider hiring a Rust consultant or trainer](/about).
+If you're looking for a more structured approach, [consider hiring a Rust consultant or trainer](/services).
 Bringing in experts can make the transition even faster and smoother.
 Your team will not only learn Rust but also feel more confident working with it in production.
 
@@ -439,6 +439,6 @@ I offer consulting services to help you make the right decisions for your projec
 
 Is your company considering to migrate from Java to Rust? 
 I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting. 
-[Get in touch for a free consultation](/about).
+[Get in touch for a free consultation](/services).
 
 {% end %}

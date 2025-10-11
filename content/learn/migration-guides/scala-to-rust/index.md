@@ -94,6 +94,6 @@ I can help you evaluate your current systems, design a migration strategy, and
 help you make an informed decision about moving to Rust. I offer consulting
 services to help you assess the technical and business implications of a
 migration, and I can train your developers to succeed with Rust.
-[Get in touch for a free consultation](/about).
+[Get in touch for a free consultation](/services).
 
 {% end %}

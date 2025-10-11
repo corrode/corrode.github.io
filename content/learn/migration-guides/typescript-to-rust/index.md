@@ -190,7 +190,7 @@ Politics and inertia hold us back.
 Sometimes you need an outside perspective.
 I can help you evaluate your situation objectively and create a solid migration plan.
 This might sound expensive, but think about your team's salaries and the cost of making the wrong decision.
-Good consulting pays for itself quickly. [Reach out for a free consultation](/about).
+Good consulting pays for itself quickly. [Reach out for a free consultation](/services).
 
 ## Integration Strategies
 
@@ -234,5 +234,5 @@ Build confidence through early wins.
 
 {% info(title="Ready to make the switch to Rust?", icon="crab") %}
 I help teams make successful transitions from TypeScript to Rust.
-Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/about).
+Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/services).
 {% end %}

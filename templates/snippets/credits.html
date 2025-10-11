@@ -1,48 +1,48 @@
 <article class="metadata">
-  <div class="published">
-    <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">
-      Published: {{ page.date }}
-    </time>
-  </div>
+    <div class="published">
+        <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">
+            Published: {{ page.date }}
+        </time>
+    </div>
 
-  {%- if page.updated -%}
-  <div class="updated">
-    <time datetime="{{ page.updated | date(format='%Y-%m-%d') }}">
-      Last updated: {{ page.updated }}
-    </time>
-  </div>
-  {% endif %}
+    {%- if page.updated -%}
+    <div class="updated">
+        <time datetime="{{ page.updated | date(format='%Y-%m-%d') }}">
+            Last updated: {{ page.updated }}
+        </time>
+    </div>
+    {% endif %}
 
-  <div class="authors">
-    <span>Author:</span>
-    <a href="/about">Matthias Endler</a>
-  </div>
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
 
-  <div class="editor">
-    <span>Editor:</span>
-    <a
-      href="https://hachyderm.io/@m3t0r"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Simon Brüggen
-    </a>
-  </div>
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
 
-  {% if page.extra.reviews %}
-  <div class="reviewers">
-    <span>Reviewers:</span>
-    {% for review in page.extra.reviews %}
-    <a href="{{ review.url }}" target="_blank" rel="noopener noreferrer">
-      {{ review.name }}
-    </a>
-    {%- if not loop.last -%} {%- if loop.index == page.extra.reviews | length -
-    1 %} and {% else %}, {% endif -%} {%- endif -%} {%- endfor %}
-  </div>
-  {% endif %} {% if page.extra.credits %}
-  <div class="credits">
-    <span>Credits:</span>
-    {% for credit in page.extra.credits %} {{ credit | safe }} {%- endfor %}
-  </div>
-  {% endif %}
+    {% if page.extra.reviews %}
+    <div class="reviewers">
+        <span>Reviewers:</span>
+        {% for review in page.extra.reviews %}
+        <a href="{{ review.url }}" target="_blank" rel="noopener noreferrer">
+            {{ review.name }}
+        </a>
+        {%- if not loop.last -%} {%- if loop.index == page.extra.reviews |
+        length - 1 %} and {% else %}, {% endif -%} {%- endif -%} {%- endfor %}
+    </div>
+    {% endif %} {% if page.extra.credits %}
+    <div class="credits">
+        <span>Credits:</span>
+        {% for credit in page.extra.credits %} {{ credit | safe }} {%- endfor %}
+    </div>
+    {% endif %}
 </article>

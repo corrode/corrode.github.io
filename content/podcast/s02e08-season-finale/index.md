@@ -174,7 +174,7 @@ To learn more, [check out the office hours page](/office-hours) on our website.
 - [Simon Brüggen (M3t0r) on GitHub](https://github.com/M3t0r)
 - [Simon Brüggen (M3t0r) on Mastodon](https://hachyderm.io/@m3t0r)
 - [Matthias Endler on Mastodon](https://mastodon.social/@mre)
-- [About corrode Rust Consulting](https://corrode.dev/about)
+- [About corrode Rust Consulting](https://corrode.dev/services)
 - ['Rust in Production' Podcast on Apple](https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330)
 - ['Rust in Production' Podcast on Spotify](https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT)
 
