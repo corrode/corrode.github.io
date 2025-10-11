@@ -42,11 +42,13 @@
     }
   }
 </script>
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
 <div class="hero">
   <div class="hero-font">
-    {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{ hero_font
-    | safe }}
+    {% set hero_font = load_data(path="/podcast/hero-font.svg") %}
+    {{ hero_font | safe }}
   </div>
   <img class="hero-img" src="/podcast/hero.svg" />
 </div>
@@ -105,46 +107,43 @@
     </ul>
   </div>
 
-  {% for season, season_episodes in section.pages | filter(attribute="draft",
-  value=false) | group_by(attribute="extra.season") %}
-
-  <h3>Season {{ season }}</h3>
-  <ol class="podcast-list">
-    {% for episode in season_episodes %}
-    <li>
-      <a href="{{ episode.permalink }}" class="podcast-link">
-        <div class="podcast-item">
-          <div class="podcast-header">
-            <div class="podcast-logo-wrapper">
-              <img
-                class="podcast-logo invert"
-                src="{{ episode.permalink }}/logo.svg"
-                alt="{{ episode.title }} Logo"
-              />
-            </div>
-            <div class="podcast-title">
-              {{ episode.title }} {% if episode.extra.guest %}
-              <span style="opacity: 0.7">with {{ episode.extra.guest }}</span>
-              {% endif %}
-            </div>
-          </div>
-          <div class="podcast-details">
-            <div>
-              <div>{{ episode.date }}</div>
-              <div>
-                <code
-                  >S{{ episode.extra.season }} E{{ episode.extra.episode
-                  }}</code
-                >
-              </div>
-            </div>
-            <div class="chevron"></div>
-          </div>
-        </div>
-      </a>
-    </li>
-    {% endfor %}
-  </ol>
+  {% for season, season_episodes in section.pages | filter(attribute="draft", value=false) | group_by(attribute="extra.season") %}
+    <h3>Season {{ season }}</h3>
+    <ol class="podcast-list">
+        {% for episode in season_episodes %}
+            <li>
+                <a href="{{ episode.permalink }}" class="podcast-link">
+                    <div class="podcast-item">
+                    <div class="podcast-header">
+                        <div class="podcast-logo-wrapper">
+                        <img
+                            class="podcast-logo invert"
+                            src="{{ episode.permalink }}/logo.svg"
+                            alt="{{ episode.title }} Logo"
+                        />
+                        </div>
+                        <div class="podcast-title">
+                        {{ episode.title }}
+                        {% if episode.extra.guest %}
+                            <span style="opacity: 0.7">with {{ episode.extra.guest }}</span>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="podcast-details">
+                        <div>
+                        <div>{{ episode.date }}</div>
+                        <div>
+                            <code>S{{ episode.extra.season }} E{{ episode.extra.episode}}</code
+                            >
+                        </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                    </div>
+                </a>
+            </li>
+        {% endfor %}
+    </ol>
   {% endfor %}
 
   <p class="podcast-footer">
