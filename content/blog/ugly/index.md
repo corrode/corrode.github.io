@@ -249,6 +249,8 @@ The moment you start to listen to what Rust is trying to teach you, everything s
 Here is one of my favorite things about Rust, that I never experienced in other languages: **better semantics enable nicer syntax.**
 That means, the more you learn about the core mechanics behind Rust (traits, pattern matching, expressions, composition over inheritance, etc.), the more you can leverage these concepts to write code that is readable and extensible.
 
+The syntax takes a backseat. It gives way to semantics, which are much more important.
+
 
 ## The Five Stages Of Grief 
 
