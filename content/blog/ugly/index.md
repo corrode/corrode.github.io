@@ -20,6 +20,8 @@ From these frustrations, people often conclude that Rust not for them and quit.
 
 But after programming in Rust for 10 years, I think that **your coding style has the biggest impact on how your Rust code will look and feel**.
 
+**People often say Rust has ugly syntax, but I'd argue the syntax is the least interesting thing about Rust. Rather, the semantics -- the bits and pieces the language provides to express your ideas and how those bits combine to build interesting things -- is much more important.**
+
 If you write Rust like they would write idiomatic code in other languages, it will *never feel right*. 
 "You can write bad Java code in any language," is a common saying, and I think it applies here as well.
 
