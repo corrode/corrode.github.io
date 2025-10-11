@@ -33,11 +33,15 @@
     <div class="reviewers">
         <span>Reviewers:</span>
         {% for review in page.extra.reviews %}
-        <a href="{{ review.url }}" target="_blank" rel="noopener noreferrer">
-            {{ review.name }}
-        </a>
-        {%- if not loop.last -%} {%- if loop.index == page.extra.reviews |
-        length - 1 %} and {% else %}, {% endif -%} {%- endif -%} {%- endfor %}
+                <a href="{{ review.url }}" target="_blank" rel="noopener noreferrer">{{ review.name }}</a>
+            {%- if not loop.last -%}
+                {%- if loop.index == page.extra.reviews | length - 1 %}
+                    and
+                {%- else -%}
+                    ,
+                {% endif -%}
+            {%- endif -%}
+        {%- endfor %}
     </div>
     {% endif %} {% if page.extra.credits %}
     <div class="credits">
