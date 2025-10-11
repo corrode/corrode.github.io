@@ -536,7 +536,7 @@ tooling for Rust developers and that they expect Rust to become more mainstream.
 
 ### Learning Curve
 
-Rust has a famously steep learning curve. It is a complex language with many
+Rust has a [famously steep learning curve](/blog/flattening-rusts-learning-curve/). It is a complex language with many
 advanced features. 
 
 When asked why they don't use Rust, participants of the [2022 Annual Rust Survey](https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html#rust-usage)

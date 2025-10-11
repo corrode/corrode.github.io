@@ -237,7 +237,7 @@ These changes take time to internalize. Plan for an adjustment period, but know 
 ## Tip 1: Flatten The Learning Curve 
 
 Migrating to a new language is always tough at first, and Rust is no exception.
-It has a famously steep learning curve and requires a different mindset from Java.
+It has a [famously steep learning curve](/blog/flattening-rusts-learning-curve/) and requires a different mindset from Java.
 Plan 4-6 months for your engineers to get comfortable with Rust, and expect a few bumps along the way.
 
 That said, there's plenty of material to help your team get up to speed.
