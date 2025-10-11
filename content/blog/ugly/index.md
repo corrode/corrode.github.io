@@ -236,6 +236,8 @@ The code carries all the hallmarks of a beginner Rust programmer (possibly with 
 - Cryptic variable names
 - Very imperative coding style
 
+Rust makes all of these problems painfully explicit. And if you refuse to learn how to avoid such problems, you will end up writing bad code in any programming language.
+
 This not just makes the code harder to read. 
 What is worse is that it leads to business logic bugs in the code, because the code makes quite a few unsound assumptions about its input.
 
