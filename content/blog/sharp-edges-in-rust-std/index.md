@@ -222,7 +222,7 @@ fn main() {
 ```
 
 These `path.as_os_str().to_str()` operations must be repeated everywhere.
-It makes path manipulation every so slightly annoying. 
+It makes path manipulation ever so slightly annoying. 
 
 There are a few more issues with paths in Rust:
 
