@@ -23,7 +23,7 @@ talk or workshop proposal?
 
 ## Q1 2026
 
-### Rust Nation (London, UK)
+### Rust Nation (London, UK) 
 
 <a href="https://www.rustnationuk.com/" target="_blank">
   <img src="rustnation.jpg" alt="Rust Nation" />
@@ -42,7 +42,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Links**: [Website](https://www.rustnationuk.com/) | [Tickets](https://www.rustnationuk.com/tickets)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
 
-### Rust in Paris (France)
+### Rust in Paris (France) <span class="conference-badge tentative">Dates TBA</span>
 
 <a href="https://rustinparis.com/" target="_blank">
   <img src="rustinparis.jpg" alt="Rust in Paris" />
@@ -58,7 +58,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **CFP**: TBA
 - **Links**: [Website](https://rustinparis.com/)
 
-### RUSTMEET (Gliwice, Poland)
+### RUSTMEET (Gliwice, Poland) <span class="conference-badge tentative">Dates TBA</span>
 
 <a href="https://rustmeet.eu/" target="_blank">
   <img src="rustmeet.jpg" alt="RUSTMEET" />
@@ -75,7 +75,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Links**: [Website](https://rustmeet.eu/)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
-### Rustikon (Warsaw, Poland)
+### Rustikon (Warsaw, Poland) <span class="conference-badge tentative">Dates TBA</span>
 
 <a href="https://www.rustikon.dev/" target="_blank">
   <img src="rustikon.jpg" alt="Rustikon" />
@@ -93,7 +93,7 @@ Expect a developer-friendly atmosphere with expert talks in a single-track forma
 - **Links**: [Website](https://www.rustikon.dev/)
 - **Social**: [Twitter](https://x.com/rustikonconf) | [Mastodon](https://mastodon.social/@Rustikon)
 
-### RUSTAsia (Hong Kong)
+### RUSTAsia (Hong Kong) <span class="conference-badge tentative">Dates TBA</span>
 
 <a href="https://rustasiaconf.com/" target="_blank">
   <img src="rustasia.jpg" alt="RUSTAsia" />
@@ -112,7 +112,7 @@ A conference for Rust developers in Asia.
 
 ## Q2 2026
 
-### RustWeek (Utrecht, Netherlands)
+### RustWeek (Utrecht, Netherlands) 
 
 <a href="https://2026.rustweek.org/" target="_blank">
   <img src="rustweek.jpg" alt="RustWeek" />
@@ -134,7 +134,7 @@ All Rustaceans are welcome to attend and submit talks.
 
 ## Q3 2026
 
-### RustForge (Wellington, New Zealand)
+### RustForge (Wellington, New Zealand) <span class="conference-badge tentative">Dates TBA</span>
 
 <a href="https://rustforgeconf.com/" target="_blank">
   <img src="rustforge.jpg" alt="RustForge" />
@@ -151,7 +151,7 @@ RustForge is a conference in the Asia/Pacific region that focuses on Rust.
 - **Links**: [Website](https://rustforgeconf.com/)
 - **Social**: [Twitter](https://x.com/rustforgeconf) | [LinkedIn](https://www.linkedin.com/company/rustforgeconf/) | [Instagram](https://www.instagram.com/rustforgeconf/)
 
-### RustConf (Montreal, Canada)
+### RustConf (Montreal, Canada) 
 
 <a href="https://rustconf.com/" target="_blank">
   <img src="rustconf.jpg" alt="RustConf" />
@@ -170,7 +170,7 @@ After Seattle in 2025, RustConf returns to beautiful Montreal, Canada.
 - **Links**: [Website](https://rustconf.com/) | [Newsletter](https://mailchi.mp/e0f01ceec688/rustconf-newsletter-registration) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf) | [BlueSky](https://bsky.app/profile/rustconf.com)
 
-### Oxidize (Berlin, Germany)
+### Oxidize (Berlin, Germany) 
 
 <a href="https://oxidizeconf.com/" target="_blank">
   <img src="oxidize.jpg" alt="Oxidize" />
@@ -190,7 +190,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 
 ## Q4 2026
 
-### EuroRust (Barcelona, Spain)
+### EuroRust (Barcelona, Spain) 
 
 <a href="https://eurorust.eu/" target="_blank">
   <img src="eurorust.jpg" alt="EuroRust" />
@@ -204,7 +204,7 @@ embedded systems.
 The conference travels to a different European city each year.
 This time, it's in Barcelona, Spain. 🇪🇸
 
-- **When**: TBA (typically October)
+- **When**: October 14-17, 2026
 - **Where**: Barcelona, Spain
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
@@ -213,7 +213,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
-### RustLab (Florence, Italy)
+### RustLab (Florence, Italy) <span class="conference-badge tentative">Dates TBA</span>
 
 <a href="https://rustlab.it/" target="_blank">
   <img src="rustlab.jpg" alt="RustLab" />
@@ -244,5 +244,112 @@ See you at the next conference! 🦀
 <style>
   iframe, object, embed {
     max-width: 100%;
-}
+  }
+
+  /* Conference badge styling */
+  .conference-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border: 2px solid;
+    display: inline-block;
+    margin-left: 0.75rem;
+    vertical-align: middle;
+  }
+
+  .conference-badge.tentative {
+    color: #666;
+    background: #f5f5f5;
+    border-color: #ccc;
+  }
+
+  .conference-badge.days {
+    color: #111;
+    background: #fab71c;
+    border-color: #fab71c;
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .conference-badge.days {
+      color: #111;
+      background: #fab71c;
+      border-color: #fab71c;
+    }
+
+    .conference-badge.tentative {
+      color: #ccc;
+      background: #2a2a2a;
+      border-color: #555;
+    }
+  }
 </style>
+
+
+<script>
+// Add days until conference start
+function addDaysUntilConference() {
+    // Find all h3 headings (conference titles)
+    const headings = document.querySelectorAll('article h3');
+    
+    headings.forEach(h3 => {
+        // Find the next list that contains conference details
+        let currentElement = h3.nextElementSibling;
+        while (currentElement) {
+            if (currentElement.tagName === 'UL') {
+                // Found the list, now look for the "When:" item
+                const listItems = currentElement.querySelectorAll('li');
+                
+                listItems.forEach(li => {
+                    const text = li.textContent;
+                    
+                    // Check if this list item contains "When:" and doesn't have "TBA"
+                    if (!text.includes('When:') || text.includes('TBA')) return;
+                    
+                    // Match date pattern: Month Day(-Day), Year
+                    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-\d{1,2})?,\s+(\d{4})/;
+                    const match = text.match(datePattern);
+                    
+                    if (match) {
+                        const monthDay = match[1] + ' ' + match[2]; // e.g., "May 18"
+                        const year = match[3];
+                        
+                        // Parse the date
+                        const confDate = new Date(`${monthDay}, ${year}`);
+                        const today = new Date();
+                        
+                        // Calculate days difference
+                        const diffTime = confDate - today;
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        // Add a days badge if conference is in the future
+                        if (diffDays > 0) {
+                            // Check if badge already exists
+                            const existingDaysBadge = h3.querySelector('.conference-badge.days');
+                            if (!existingDaysBadge) {
+                                const daysBadge = document.createElement('span');
+                                daysBadge.className = 'conference-badge days';
+                                daysBadge.textContent = `In ${diffDays} days`;
+                                h3.appendChild(daysBadge);
+                            }
+                        }
+                    }
+                });
+                
+                break;
+            }
+            currentElement = currentElement.nextElementSibling;
+        }
+    });
+}
+
+// Run after DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addDaysUntilConference);
+} else {
+    addDaysUntilConference();
+}
+</script>
+
