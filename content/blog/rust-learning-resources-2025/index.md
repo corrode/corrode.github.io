@@ -85,7 +85,9 @@ You can learn more about the course [here](https://rust-exercises.com/100-exerci
 
 ## CodeCrafters
 
-![CodeCrafters Rust track](./codecrafters.jpg)
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/aZ5sfhGmEVU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 Key Points:
 - **Level**: Intermediate to Advanced
@@ -97,8 +99,10 @@ I like that they focus on real-world systems programming projects, which is wher
 
 You'll learn how to build your own shell, HTTP server, Redis, Kafka, Git, SQLite, or DNS server from scratch.
 
-Most people work on the projects on evenings and weekends, and it takes a few days or weeks to complete a project, 
+Most people work on the projects on evenings and weekends, and it takes a few days or weeks to complete a challenge, 
 but the sense of accomplishment when you finish is incredible: you'll complete a project that teaches you both Rust and the inner workings of systems you use daily. 
+
+If you got curious, the video above is my full walkthrough of the "Build your own HTTP server" challenge.
 
 {% info(title="Try CodeCrafters For Free", icon="crab") %}
 
