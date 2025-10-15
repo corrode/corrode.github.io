@@ -26,7 +26,7 @@ talk or workshop proposal?
 ### Rust Nation (London, UK)
 
 <a href="https://www.rustnationuk.com/" target="_blank">
-  <img src="../rust-conferences-2025/rustnation.jpg" alt="Rust Nation" />
+  <img src="rustnation.jpg" alt="Rust Nation" />
 </a>
 
 Rust Nation has evolved into a staple event in the Rust community.
@@ -45,7 +45,7 @@ As per tradition, they kick off the year of Rust conferences.
 ### Rust in Paris (France)
 
 <a href="https://rustinparis.com/" target="_blank">
-  <img src="../rust-conferences-2025/rustinparis.jpg" alt="Rust in Paris" />
+  <img src="rustinparis.jpg" alt="Rust in Paris" />
 </a>
 
 "When Safety Meets Elegance" is the tagline for Rust in Paris.
@@ -61,7 +61,7 @@ As per tradition, they kick off the year of Rust conferences.
 ### RUSTMEET (Gliwice, Poland)
 
 <a href="https://rustmeet.eu/" target="_blank">
-  <img src="../rust-conferences-2025/rustmeet.jpg" alt="RUSTMEET" />
+  <img src="rustmeet.jpg" alt="RUSTMEET" />
 </a>
 
 An event in Poland, actively co-created by Rust enthusiasts.
@@ -78,7 +78,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 ### Rustikon (Warsaw, Poland)
 
 <a href="https://www.rustikon.dev/" target="_blank">
-  <img src="../rust-conferences-2025/rustikon.jpg" alt="Rustikon" />
+  <img src="rustikon.jpg" alt="Rustikon" />
 </a>
 
 Aims to bring together Rust developers from the region and beyond.
@@ -96,7 +96,7 @@ Expect a developer-friendly atmosphere with expert talks in a single-track forma
 ### RUSTAsia (Hong Kong)
 
 <a href="https://rustasiaconf.com/" target="_blank">
-  <img src="../rust-conferences-2025/rustasia.jpg" alt="RUSTAsia" />
+  <img src="rustasia.jpg" alt="RUSTAsia" />
 </a>
 
 A conference for Rust developers in Asia.
@@ -115,7 +115,7 @@ A conference for Rust developers in Asia.
 ### RustWeek (Utrecht, Netherlands)
 
 <a href="https://2026.rustweek.org/" target="_blank">
-  <img src="../rust-conferences-2025/rustweek.jpg" alt="RustWeek" />
+  <img src="rustweek.jpg" alt="RustWeek" />
 </a>
 
 RustWeek is a week-long event that combines talks, workshops, and social events.
@@ -154,7 +154,7 @@ RustForge is a conference in the Asia/Pacific region that focuses on Rust.
 ### RustConf (Montreal, Canada)
 
 <a href="https://rustconf.com/" target="_blank">
-  <img src="../rust-conferences-2025/rustconf.jpg" alt="RustConf" />
+  <img src="rustconf.jpg" alt="RustConf" />
 </a>
 
 RustConf is the official Rust conference organized by the Rust Foundation.
@@ -216,7 +216,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 ### RustLab (Florence, Italy)
 
 <a href="https://rustlab.it/" target="_blank">
-  <img src="../rust-conferences-2025/rustlab.jpg" alt="RustLab" />
+  <img src="rustlab.jpg" alt="RustLab" />
 </a>
 
 The Italian Rust conference traditionally takes place in Florence.
