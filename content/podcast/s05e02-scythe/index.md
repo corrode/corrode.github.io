@@ -12,7 +12,7 @@ episode = "02"
 series = "Podcast"
 +++
 
-<!-- <div><script id="letscast-player-XXXXX" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/scythe-robotics-with-andrew-tinka/player.js?size=s"></script></div> -->
+<div><script id="letscast-player-ae39496a" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/scythe-with-andrew-tinka/player.js?size=s"></script></div>
 
 Building autonomous robots that operate safely in the real world is one of the most challenging engineering problems today. When those robots carry sharp blades and work around people, the margin for error is razor-thin.
 
