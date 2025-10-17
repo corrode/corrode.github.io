@@ -146,6 +146,16 @@ match self {
 By spelling out all variants explicitly, the compiler will warn you when a new variant is added, forcing you to handle it.
 Another case of putting the compiler to work.
 
+If the code for two variants is the same, you can group them:
+
+```rust
+match self {
+    Self::Variant1 => { /* ... */ }
+    Self::Variant2 => { /* ... */ }
+    Self::Variant3 | Self::Variant4 => { /* shared logic */ }
+}
+```
+
 ## Code Smell: `_` Placeholders for Unused Variables
 
 Using `_` as a placeholder for unused variables can lead to confusion.
@@ -439,6 +449,25 @@ Adding new parameters doesn't break existing call sites, and you can easily add 
 The preset methods also document common use cases and make it easy to use the right configuration for different scenarios.
 
 Rust is often criticized for not having named parameters, but using a parameter struct is arguably even better for larger functions with many options.
+
+## Clippy Lints for Defensive Programming
+
+Many of these patterns can be enforced automatically using Clippy lints.
+Here are the most relevant ones:
+
+| Lint | Description |
+|------|-------------|
+| [`clippy::indexing_slicing`](https://rust-lang.github.io/rust-clippy/master/index.html#indexing_slicing) | Prevents direct indexing into slices and vectors |
+| [`clippy::fallible_impl_from`](https://rust-lang.github.io/rust-clippy/master/index.html#fallible_impl_from) | Warns about `From` implementations that can panic and should be `TryFrom` instead. |
+| [`clippy::wildcard_enum_match_arm`](https://rust-lang.github.io/rust-clippy/master/index.html#wildcard_enum_match_arm) | Disallows wildcard `_` patterns. |
+| [`clippy::unneeded_field_pattern`](https://rust-lang.github.io/rust-clippy/master/index.html#unneeded_field_pattern) | Identifies when you're ignoring too many struct fields with `..` unnecessarily. |
+| [`clippy::fn_params_excessive_bools`](https://rust-lang.github.io/rust-clippy/master/index.html#fn_params_excessive_bools) | Warns when a function has too many boolean parameters (4 or more by default). |
+
+You can enable these in your project by adding them to your `Cargo.toml` or at the top of your crate, e.g.
+
+```rust
+#![deny(clippy::indexing_slicing)]
+```
 
 ## Conclusion
 
