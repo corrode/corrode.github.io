@@ -19,7 +19,7 @@ Often, violating implicit invariants that aren't enforced by the compiler are th
 Yes, the compiler prevents memory safety issues, and the standard library is best-in-class.
 But even the standard library [has its warts](/blog/pitfalls-of-safe-rust) and bugs in business logic can still happen.
 
-All we can work with are hard-learned patterns to write more defensive Rust code, learned throughout years of shipping Rust code to production,
+All we can work with are hard-learned patterns to write more defensive Rust code, learned throughout years of shipping Rust code to production.
 I'm not talking about design patterns here, but rather small idioms, which are rarely documented, but make a big difference in the overall code quality.
 
 ## Code Smell: Indexing Into a Vector
@@ -39,7 +39,7 @@ match matching_users.len() {
 
 This code works for now, but what if you refactor it and forget to keep the length check?
 That's our first implicit invariant that's not enforced by the compiler.
-The problem is that indexing into a vector is decoupled from checking its length: these are two separate operations, which can be changed independently without the compiler ringing alarm. 
+The problem is that indexing into a vector is decoupled from checking its length: these are two separate operations, which can be changed independently without the compiler ringing the alarm. 
 
 If we use slice pattern matching, we'll only get access to the element if the `match` arm is executed. 
 
@@ -93,7 +93,7 @@ Now when you add a new field to `Foo`, the compiler will remind you to set it he
 
 Sometimes there's no conversion that will work 100% of the time.
 That's fine.
-When that's the case, resist the tempatation to offer a `From` implementation out of habit; use `TryFrom` instead.
+When that's the case, resist the temptation to offer a `From` implementation out of habit; use `TryFrom` instead.
 
 Here's an example of `TryFrom` in disguise:
 
@@ -120,7 +120,7 @@ We fail fast instead of continuing with a potentially flawed business logic.
 ## Code Smell: Non-Exhaustive Matches
 
 It's tempting to use `match` in combination with a catch-all pattern like `_ => {}`, but this can haunt you later.
-The problem is that you might forget to handle a new case which got added later.
+The problem is that you might forget to handle a new case that was added later.
 
 Instead of:
 
@@ -291,6 +291,154 @@ pub struct S {
 
 Now the struct cannot be instantiated directly even inside the module.
 You have to go through the constructor, which enforces the validation logic.
+
+## Pattern: Use `#[must_use]` on Important Types
+
+The `#[must_use]` attribute is often neglected.
+That's sad, because it's such a simple yet powerful mechanism to prevent callers from accidentally ignoring important return values.
+
+```rust
+#[must_use = "Configuration must be applied to take effect"]
+pub struct Config {
+    // ...
+}
+
+impl Config {
+    pub fn new() -> Self {
+        // ...
+    }
+
+    pub fn with_timeout(mut self, timeout: Duration) -> Self {
+        self.timeout = timeout;
+        self
+    }
+}
+```
+
+Now if someone creates a `Config` but forgets to use it, the compiler will warn them:
+
+```rust
+let config = Config::new();
+config.with_timeout(Duration::from_secs(30)); // Warning: unused `Config` that must be used
+
+// Correct usage:
+let config = Config::new()
+    .with_timeout(Duration::from_secs(30));
+apply_config(config);
+```
+
+This is especially useful for guard types that need to be held for their lifetime and results from operations that must be checked.
+The standard library uses this extensively.
+For example, `Result` is marked with `#[must_use]`, which is why you get warnings if you don't handle errors.
+
+## Code Smell: Boolean Parameters
+
+Boolean parameters make code hard to read at the call site and are error-prone.
+We all know the scenario where we're sure this will be the last boolean parameter we'll ever add to a function.
+
+```rust
+// Too many boolean parameters
+fn process_data(data: &[u8], compress: bool, encrypt: bool, validate: bool) {
+    // ...
+}
+
+// At the call site, what do these booleans mean?
+process_data(&data, true, false, true);  // What does this do?
+```
+
+It's impossible to understand what this code does without looking at the function signature.
+Even worse, it's easy to accidentally swap the boolean values.
+
+Instead, use enums to make the intent explicit:
+
+```rust
+enum Compression {
+    Strong,
+    Medium,
+    None,
+}
+
+enum Encryption {
+    AES,
+    ChaCha20,
+    None,
+}
+
+enum Validation {
+    Enabled,
+    Disabled,
+}
+
+fn process_data(
+    data: &[u8],
+    compression: Compression,
+    encryption: Encryption,
+    validation: Validation,
+) {
+    // ...
+}
+
+// Now the call site is self-documenting
+process_data(
+    &data,
+    Compression::Strong,
+    Encryption::None,
+    Validation::Enabled
+);
+```
+
+This is much more readable and the compiler will catch mistakes if you pass the wrong enum type.
+You will notice that the enum variants can be more descriptive than just `true` or `false`.
+And more often than not, there are more than two meaningful options; especially for programs which grow over time.
+
+For functions with many options, you can configure them using a parameter struct:
+
+```rust
+struct ProcessDataParams {
+    compression: Compression,
+    encryption: Encryption,
+    validation: Validation,
+}
+
+impl ProcessDataParams {
+    // Common configurations as constructor methods
+    pub fn production() -> Self {
+        Self {
+            compression: Compression::Strong,
+            encryption: Encryption::AES,
+            validation: Validation::Enabled,
+        }
+    }
+
+    pub fn development() -> Self {
+        Self {
+            compression: Compression::None,
+            encryption: Encryption::None,
+            validation: Validation::Enabled,
+        }
+    }
+}
+
+fn process_data(data: &[u8], params: ProcessDataParams) {
+    // ...
+}
+
+// Usage with preset configurations
+process_data(&data, ProcessDataParams::production());
+
+// Or customize for specific needs
+process_data(&data, ProcessDataParams {
+    compression: Compression::Medium,
+    encryption: Encryption::ChaCha20,
+    validation: Validation::Enabled, 
+});
+```
+
+This approach scales much better as your function evolves.
+Adding new parameters doesn't break existing call sites, and you can easily add defaults or make certain fields optional.
+The preset methods also document common use cases and make it easy to use the right configuration for different scenarios.
+
+Rust is often criticized for not having named parameters, but using a parameter struct is arguably even better for larger functions with many options.
 
 ## Conclusion
 
