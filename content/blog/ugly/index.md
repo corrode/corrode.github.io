@@ -22,6 +22,9 @@ But after programming in Rust for 10 years, I think that **your coding style has
 
 **People often say Rust has ugly syntax, but I'd argue the syntax is the least interesting thing about Rust. Rather, the semantics -- the bits and pieces the language provides to express your ideas and how those bits combine to build interesting things -- is much more important.**
 
+Ugly is only skin-deep.
+Rust's beauty is underneath the surface.
+
 If you write Rust like they would write idiomatic code in other languages, it will *never feel right*. 
 "You can write bad Java code in any language," is a common saying, and I think it applies here as well.
 
@@ -1015,6 +1018,8 @@ Our improved implementation handles many of these cases, but not all.
 This just goes to show that it's easy to gloss over details.
 
 ## Summary
+
+Rust's beauty is in its core mechanics.
 
 What I find interesting in these exercises is that the benefits of looking for better abstractions are not about memory safety.
 Instead, it Rust makes testing easier, which meant that the developers in the experiment were able to find bugs that had remain completely hidden otherwise. 
