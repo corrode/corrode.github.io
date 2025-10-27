@@ -14,7 +14,7 @@ series = "Podcast"
 
 <div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/canonical-with-jon-seager/player.js?size=s"></script></div>
 
-What does it take to rewrite the foundational components of one of the world's most popular Linux distributions? Ubuntu serves over 12 million daily desktop users alone, and the systems that power it—from sudo to core utilities—have been running for decades with what Jon Seager calls "shaky underpinnings."
+What does it take to rewrite the foundational components of one of the world's most popular Linux distributions? Ubuntu serves over 12 million daily desktop users alone, and the systems that power it, from sudo to core utilities, have been running for decades with what Jon Seager calls "shaky underpinnings."
 
 In this episode, we talk to Jon Seager, VP Engineering for Ubuntu at Canonical, about the bold decision to "oxidize" Ubuntu's foundation. We explore why they're rewriting critical components like sudo in Rust, how they're managing the immense risk of changing software that millions depend on daily, and what it means to modernize a 20-year-old operating system without breaking the internet.
 
@@ -33,7 +33,7 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 ### Links From The Episode
 
 - [sudo-rs](https://github.com/trifectatechfoundation/sudo-rs) - A memory-safe implementation of sudo in Rust
-- [Trifecta Tech Foundation](https://trifectatechfoundation.org/) - Foundation supporting sudo-rs development
+- [Trifecta Tech Foundation](https://trifectatech.org/) - Foundation supporting sudo-rs development
 - [uutils coreutils](https://github.com/uutils/coreutils) - Cross-platform Rust rewrite of GNU coreutils
 - [Mir](https://mir-server.io/) - Canonical's display server with Rust support
 - [Anbox Cloud](https://anbox-cloud.io/) - Android container cloud for game streaming
@@ -47,7 +47,6 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 - [Juju](https://juju.is/) - Canonical's application modeling tool
 - [Ubuntu Foundations](https://ubuntu.com/core) - Core components of Ubuntu
 - [Debcrafters](https://jnsgr.uk/2025/06/introducing-debcrafters/) - Global team ensuring Ubuntu Archive health
-- [Ubuntu Project Docs](https://ubuntu.com/docs) - Documentation hub for Ubuntu contributors
 - [Jon's Blog: Engineering Ubuntu For The Next 20 Years](https://jnsgr.uk/2025/02/engineering-ubuntu-for-the-next-20-years/)
 - [Jon's Blog: Ubuntu Engineering in 2025](https://jnsgr.uk/2025/10/ubuntu-25)
 
