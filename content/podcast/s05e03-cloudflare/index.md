@@ -57,6 +57,41 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 - [Pull Request: Add support for s2n-tls to Pingora](https://github.com/cloudflare/pingora/pull/675) - by  Bryan Gilbert (gilbertw1)
 - [ClickHouse Rust client](https://clickhouse.com/docs/integrations/rust) - The official Rust client for connecting to ClickHouse, originally developed by Paul Loyd.
 
+
+- [Pingora](https://github.com/cloudflare/pingora) - Serving 90+ million requests per second (7e12 per day) at Cloudflare
+- Oxide Episode
+- Anycast Address - Route traffic to the closest point of presence worldwide
+- Lua - A small, embedable scripting language
+- nginx - 
+- coredump - 
+- [OpenResty](https://openresty.org/en/nginx.html) - Extending nginx with Lua
+- [Ashley Williams](https://github.com/ashleygwilliams) - Famous Rust developer who worked at Cloudflare at one point
+- [Yuchen Wu](https://github.com/eaufavor) - One of the first drivers of Pingora development
+- [Andrew Hauck](https://github.com/andrewhavck/) -  Another of the first drivers of Pingora development
+- [Pingora]() - The Mountain
+- [Oxy](https://blog.cloudflare.com/introducing-oxy/) - Another Proxy developed at Cloudflare in Rust
+- [shellflip](https://github.com/cloudflare/shellflip) - Crate to restart network services without dropping requests
+- [tableflip](https://github.com/cloudflare/tableflip) - The inspiration for shellflip
+- [The Cargo Book: Specifying dependencies from git repositories](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories) - Who needs a registry anyway?
+- [cargo audit] - Make sure you are not publishing insecure code
+- [epoll](https://en.wikipedia.org/wiki/Epoll) - Async I/O API in Linux
+- [mio](https://github.com/tokio-rs/mio) - Tokio's abstraction over epoll and other async I/O OS interfaces
+- Noah Kennedy - An actual Tokio expert on the Pingora team
+- [Rain: Cancelling Async Rust](https://youtu.be/zrv5Cy1R7r4) - RustConf 2025 talk with many examples of pitfalls
+- [foundations](https://github.com/cloudflare/foundations) - Cloudflare's foundational crate for Rust project that exposes Tokio internal metrics
+- [io_uring](https://en.wikipedia.org/wiki/Io_uring) - Shiny new kernel toy for async I/O
+- [ThePrimeTime: Cloudflare - Trie Hard - Big Savings On Cloud](https://www.youtube.com/watch?v=xV4rLfpidIk&t=111s) - It's not a millie, it's not a billie, it's a trillie
+- [valuable](https://github.com/tokio-rs/valuable) - Invaluable crate for introspection of objects for logging and tracing
+- [bytes](https://github.com/tokio-rs/bytes) - Very foundational crate for reference counted byte buffers
+- [DashMap](https://github.com/xacrimon/dashmap) - Concurrent HashMap with as little lock contention as possible
+- [Prossimo](https://www.memorysafety.org/about/) - Project to drive better memory safety in projects crucial to the internet
+- [River](https://www.memorysafety.org/initiative/reverse-proxy/) - Prossimo funded reverse proxy based on Pingora
+- [Rustls](https://github.com/rustls/rustls) - TLS implementation in Rust, also funded by Prossimo
+- http
+- h2
+- hyper - Ubiquitous crate for HTTP related things
+- ClickHouse - 
+
 ### Official Links
 
 - [Cloudflare](https://www.cloudflare.com/)
@@ -64,3 +99,4 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 - [Pingora on GitHub](https://github.com/cloudflare/pingora)
 - [Edward Wang's Blog Posts](https://blog.cloudflare.com/author/edward-h-wang/)
 - [Kevin Guthrie's Blog Posts](https://blog.cloudflare.com/author/kevin-guthrie/)
+
