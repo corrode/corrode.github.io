@@ -1,6 +1,6 @@
 +++
 title = "Cloudflare"
-date = 2025-11-06
+date = 2025-10-30
 template = "episode.html"
 draft = false
 aliases = ["/p/s05e03"]
@@ -37,25 +37,25 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 ### Links From The Episode
 
 - [Pingora](https://github.com/cloudflare/pingora) - Cloudflare's open-source Rust framework for building network services
-- [nginx](https://nginx.org/) - The HTTP server and reverse proxy that Pingora replaced
-- [Tokio](https://tokio.rs/) - The async runtime powering Pingora
-- [OpenResty](https://openresty.org/) - Nginx with Lua scripting support
-- [rust-tracing](https://github.com/tokio-rs/tracing) - Application-level tracing for Rust
-- [tokio-tracing](https://tokio.rs/tokio/topics/tracing) - Tokio's tracing integration
-- [valuable](https://github.com/tokio-rs/valuable) - Lightweight serialization for tracing data
-- [thingbuf](https://github.com/hawkw/thingbuf) - Lock-free circular queue by Eliza Weisman
-- [River](https://github.com/memorysafety/river) - a Reverse Proxy Application based on the pingora library from Cloudflare by James Munns
-- [Pingap](https://github.com/vicanso/pingap) - Community project built on Pingora
-- [foundations](https://github.com/cloudflare/foundations) - Cloudflare's open-source Rust service foundation library
-- [trie-hard](https://github.com/cloudflare/trie-hard) - Fast trie implementation for routing optimization
-- [h2](https://github.com/hyperium/h2) - HTTP/2 implementation in Rust
-- [Serde](https://serde.rs/) - Serialization framework for Rust
-- [Tonic](https://github.com/hyperium/tonic) - gRPC framework for Rust
-- [Advent of Code](https://adventofcode.com/) - Programming puzzles used for learning Rust
-- [The Rust Book](https://doc.rust-lang.org/book/) - Official Rust programming language book
 - [How we built Pingora](https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/) - Cloudflare blog post on Pingora's architecture
 - [Open sourcing Pingora](https://blog.cloudflare.com/pingora-open-source/) - Announcement of Pingora's open source release
 - [Pingora: saving compute 1% at a time](https://blog.cloudflare.com/pingora-saving-compute-1-percent-at-a-time/) - Kevin's blog post on performance optimization
+- [nginx](https://nginx.org/) - The HTTP server and reverse proxy that Pingora replaced
+- [nginx Proxy Server Setup](https://nginx.org/en/docs/beginners_guide.html#proxy) - A tutorial on configuring NGINX as a proxy server 
+- [Tokio](https://tokio.rs/) - The async runtime powering Pingora
+- [foundations](https://github.com/cloudflare/foundations) - Cloudflare's open-source Rust service foundation library
+- [OpenResty](https://openresty.org/) - Nginx with Lua scripting support
+- [Pingora](https://en.wikipedia.org/wiki/Pingora_Peak) - The actual mountain in Wyoming, U.S. where one of Cloudflare's product managers almost fell off
+- [shellflip](https://github.com/cloudflare/shellflip)- Graceful process restarter in Rust, used by Pingora
+- [Rain, Rustconf 2025 - Cancelling async Rust](https://sunshowers.io/posts/cancelling-async-rust/) - A talk by about async cancellation in Rust 
+- [Bytes crate](https://docs.rs/bytes/latest/bytes/) - Efficient byte buffers for Rust
+- [valuable](https://github.com/tokio-rs/valuable) - Lightweight serialization for tracing data
+- [Dashmap](https://docs.rs/dashmap/latest/dashmap) - Concurrent HashMap for Rust
+- [River Project](https://www.memorysafety.org/initiative/reverse-proxy/) - Blog post by Prossimo about building a reverse proxy in Rust
+- [Pingap](https://crates.io/crates/pingap) -  A reverse proxy like nginx written in Rust, built on Pingora
+- [Pull Request: Add Rustls compile time implementation to Pingora](https://github.com/cloudflare/pingora/pull/336) - by Harald Gutmann (hargut)
+- [Pull Request: Add support for s2n-tls to Pingora](https://github.com/cloudflare/pingora/pull/675) - by  Bryan Gilbert (gilbertw1)
+- [ClickHouse Rust client](https://clickhouse.com/docs/integrations/rust) - The official Rust client for connecting to ClickHouse, originally developed by Paul Loyd.
 
 ### Official Links
 
