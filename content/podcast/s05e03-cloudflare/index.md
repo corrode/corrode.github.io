@@ -36,7 +36,8 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 
 ### Links From The Episode
 
-- [Pingora](https://github.com/cloudflare/pingora) - Cloudflare's open-source Rust framework for building network services
+- [Pingora](https://github.com/cloudflare/pingora) - Serving 90+ million requests per second (7e12 per day) at Cloudflare
+- [Rust in Production S03E03 - Oxide](https://corrode.dev/podcast/s03e03-oxide/) - Interview with Steve Klabnik
 - [How we built Pingora](https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/) - Cloudflare blog post on Pingora's architecture
 - [Open sourcing Pingora](https://blog.cloudflare.com/pingora-open-source/) - Announcement of Pingora's open source release
 - [Pingora: saving compute 1% at a time](https://blog.cloudflare.com/pingora-saving-compute-1-percent-at-a-time/) - Kevin's blog post on performance optimization
@@ -58,8 +59,6 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 - [ClickHouse Rust client](https://clickhouse.com/docs/integrations/rust) - The official Rust client for connecting to ClickHouse, originally developed by Paul Loyd.
 
 
-- [Pingora](https://github.com/cloudflare/pingora) - Serving 90+ million requests per second (7e12 per day) at Cloudflare
-- Oxide Episode
 - Anycast Address - Route traffic to the closest point of presence worldwide
 - Lua - A small, embedable scripting language
 - nginx - 
