@@ -12,7 +12,7 @@ episode = "03"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/cloudflare-with-edward-wang-and-kevin-guthrie/player.js?size=s"></script></div>
+<div><script id="letscast-player-1126fbc7" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/cloudflare-with-edward-wang-kevin-guthrie/player.js?size=s"></script></div>
 
 How do you build a system that handles 90 million requests per second? That's the scale that Cloudflare operates at, processing roughly 25% of all internet traffic through their global network of 330+ edge locations.
 
@@ -39,40 +39,44 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 - [Pingora](https://github.com/cloudflare/pingora) - Serving 90+ million requests per second (7e12 per day) at Cloudflare
 - [How we built Pingora](https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/) - Cloudflare blog post on Pingora's architecture
 - [Open sourcing Pingora](https://blog.cloudflare.com/pingora-open-source/) - Announcement of Pingora's open source release
-- [Pingora: saving compute 1% at a time](https://blog.cloudflare.com/pingora-saving-compute-1-percent-at-a-time/) - Kevin's blog post on performance optimization
-- [Pingora Peak](https://en.wikipedia.org/wiki/Pingora_Peak) - The actual mountain in Wyoming where a Cloudflare product manager almost fell off
+- [Rust in Production: Oxide](/podcast/s03e03-oxide/) - Interview with Steve Klabnik 
+- [Anycast](https://www.cloudflare.com/learning/cdn/glossary/anycast-network/) - Routing traffic to the closest point of presence
+- [Lua](https://www.lua.org/) - A small, embeddable scripting language
 - [nginx](https://nginx.org/) - The HTTP server and reverse proxy that Pingora replaced
-- [OpenResty](https://openresty.org/) - Nginx with Lua scripting support
+- [coredump](https://en.wikipedia.org/wiki/Core_dump) - File capturing the memory of a running process for debugging
+- [OpenResty](https://openresty.org/en/nginx.html) - Extending nginx with Lua
 - [Oxy](https://blog.cloudflare.com/introducing-oxy/) - Another proxy developed at Cloudflare in Rust
-- [Tokio](https://tokio.rs/) - The async runtime powering Pingora
-- [foundations](https://github.com/cloudflare/foundations) - Cloudflare's foundational crate exposing Tokio internal metrics
+- [Ashley Williams](https://github.com/ashleygwilliams) - Famous Rust developer who worked at Cloudflare at one point
+- [Yuchen Wu](https://github.com/eaufavor) - One of the first drivers of Pingora development
+- [Andrew Hauck](https://github.com/andrewhavck/) - Early driver of Pingora development
+- [Pingora Peak](https://en.wikipedia.org/wiki/Pingora_Peak) - The actual mountain in Wyoming where a Cloudflare product manager almost fell off
+- [Oxy](https://blog.cloudflare.com/introducing-oxy/) - Another Proxy developed at Cloudflare in Rust
 - [shellflip](https://github.com/cloudflare/shellflip) - Graceful process restarter in Rust, used by Pingora
 - [tableflip](https://github.com/cloudflare/tableflip) - Go library that inspired shellflip
 - [bytes](https://github.com/tokio-rs/bytes) - Reference-counted byte buffers for Rust
-- [valuable](https://github.com/tokio-rs/valuable) - Object introspection for logging and tracing
-- [DashMap](https://github.com/xacrimon/dashmap) - Concurrent HashMap with minimal lock contention
-- [mio](https://github.com/tokio-rs/mio) - Tokio's abstraction over epoll and async I/O interfaces
-- [hyper](https://hyper.rs/) - Fast HTTP implementation for Rust
-- [h2](https://github.com/hyperium/h2) - HTTP/2 implementation in Rust
-- [Rustls](https://github.com/rustls/rustls) - Memory-safe TLS implementation
-- [River](https://www.memorysafety.org/initiative/reverse-proxy/) - Prossimo-funded reverse proxy based on Pingora
-- [Prossimo](https://www.memorysafety.org/about/) - Initiative for memory safety in critical internet infrastructure
-- [Pingap](https://crates.io/crates/pingap) - Reverse proxy built on Pingora
-- [ClickHouse Rust client](https://clickhouse.com/docs/integrations/rust) - Official Rust client by Paul Loyd
-- [Rain: Cancelling Async Rust](https://sunshowers.io/posts/cancelling-async-rust/) - RustConf 2025 talk on async cancellation pitfalls
+- [The Cargo Book: Specifying dependencies from git repositories](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories) - Who needs a registry anyway?
 - [cargo audit](https://github.com/rustsec/rustsec) - Security vulnerability scanner for Rust dependencies
-- [epoll](https://en.wikipedia.org/wiki/Epoll) - Linux async I/O event notification API
-- [io_uring](https://en.wikipedia.org/wiki/Io_uring) - Modern Linux async I/O interface
-- [Anycast](https://www.cloudflare.com/learning/cdn/glossary/anycast-network/) - Routing traffic to the closest point of presence
-- [Ashley Williams](https://github.com/ashleygwilliams) - Rust developer who worked at Cloudflare
-- [Yuchen Wu](https://github.com/eaufavor) - Early driver of Pingora development
-- [Andrew Hauck](https://github.com/andrewhavck/) - Early driver of Pingora development
-- [Noah Kennedy](https://github.com/Noah-Kennedy) - Tokio expert on the Pingora team
-- [ThePrimeTime: Cloudflare Trie Hard](https://www.youtube.com/watch?v=xV4rLfpidIk&t=111s) - "It's not a millie, it's not a billie, it's a trillie"
-- [Add Rustls to Pingora PR](https://github.com/cloudflare/pingora/pull/336) - by Harald Gutmann
-- [Add s2n-tls to Pingora PR](https://github.com/cloudflare/pingora/pull/675) - by Bryan Gilbert
-- [Cargo Book: Git Dependencies](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories) - Using git repos as dependencies
-- [Rust in Production: Oxide](/podcast/s03e03-oxide/) - Interview with Steve Klabnik 
+- [epoll](https://en.wikipedia.org/wiki/Epoll) - Async I/O API in Linux
+- [Tokio](https://tokio.rs/) - The async runtime powering Pingora
+- [mio](https://github.com/tokio-rs/mio) - Tokio's abstraction over epoll and other async I/O OS interfaces
+- [Noah Kennedy](https://github.com/Noah-Kennedy) - An actual Tokio expert on the Pingora team
+- [Rain: Cancelling Async Rust](https://youtu.be/zrv5Cy1R7r4) - RustConf 2025 talk with many examples of pitfalls
+- [foundations](https://github.com/cloudflare/foundations) - Cloudflare's foundational crate for Rust project that exposes Tokio internal metrics
+- [io_uring](https://en.wikipedia.org/wiki/Io_uring) - Shiny new kernel toy for async I/O
+- [ThePrimeTime: Cloudflare - Trie Hard - Big Savings On Cloud](https://www.youtube.com/watch?v=xV4rLfpidIk&t=111s) - "It's not a millie, it's not a billie, it's a trillie"
+- [valuable](https://github.com/tokio-rs/valuable) - Invaluable crate for introspection of objects for logging and tracing
+- [bytes](https://github.com/tokio-rs/bytes) - Very foundational crate for reference counted byte buffers
+- [DashMap](https://github.com/xacrimon/dashmap) - Concurrent HashMap with as little lock contention as possible
+- [Prossimo](https://www.memorysafety.org/about/) - Initiative for memory safety in critical internet infrastructure
+- [River](https://www.memorysafety.org/initiative/reverse-proxy/) - Prossimo-funded reverse proxy based on Pingora
+- [Rustls](https://github.com/rustls/rustls) - Memory-safe TLS implementation in Rust, also funded by Prossimo
+- [http crate](https://docs.rs/http/latest/http/) - HTTP types for Rust
+- [h2](https://github.com/hyperium/h2) - HTTP/2 implementation in Rust
+- [hyper](https://hyper.rs/) - Fast HTTP implementation for Rust
+- [ClickHouse Rust client](https://clickhouse.com/docs/integrations/rust) - Official Rust client by Paul Loyd
+- [Pingap](https://crates.io/crates/pingap) - Reverse proxy built on Pingora
+- [PR: Add Rustls to Pingora](https://github.com/cloudflare/pingora/pull/336) - by Harald Gutmann
+- [PR: Add s2n-tls to Pingora](https://github.com/cloudflare/pingora/pull/675) - by Bryan Gilbert
 
 ### Official Links
 
