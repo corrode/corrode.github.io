@@ -17,7 +17,7 @@
                 align-items: center;
             }
 
-            #my-cal-inline-30min {
+            #my-cal-inline-chat {
                 width: 100%;
                 min-width: 800px !important;
                 max-width: 1200px;
@@ -26,8 +26,8 @@
                 margin: 0 auto;
             }
 
-            #my-cal-inline-30min > div,
-            #my-cal-inline-30min iframe {
+            #my-cal-inline-chat > div,
+            #my-cal-inline-chat iframe {
                 width: 100% !important;
                 min-width: 800px !important;
                 height: 100% !important;
@@ -38,7 +38,7 @@
         <!-- Cal inline embed code begins -->
         <div
             style="width: 100%; height: 100%; overflow: scroll"
-            id="my-cal-inline-30min"
+            id="my-cal-inline-chat"
         ></div>
         <script type="text/javascript">
             (function (C, A, L) {
@@ -74,15 +74,15 @@
                         p(cal, ar);
                     };
             })(window, "https://app.cal.com/embed/embed.js", "init");
-            Cal("init", "30min", { origin: "https://app.cal.com" });
+            Cal("init", "chat", { origin: "https://app.cal.com" });
 
-            Cal.ns["30min"]("inline", {
-                elementOrSelector: "#my-cal-inline-30min",
+            Cal.ns["chat"]("inline", {
+                elementOrSelector: "#my-cal-inline-chat",
                 config: { layout: "month_view" },
                 calLink: "corrode",
             });
 
-            Cal.ns["30min"]("ui", {
+            Cal.ns["chat"]("ui", {
                 cssVarsPerTheme: {
                     light: { "cal-brand": "#292929" },
                     dark: { "cal-brand": "#fab71c" },
