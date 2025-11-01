@@ -89,7 +89,7 @@ let foo = Foo {
 Yes, it's slightly more verbose, but what you gain is that the compiler will force you to handle all fields explicitly.
 Now when you add a new field to `Foo`, the compiler will remind you to set it here as well and reflect on which value makes sense.
 
-## Code Smell: Not Future-Proofing Trait Implementations
+## Code Smell: Fragile Trait Implementations
 
 Let's say you're building a pizza ordering system and have an order type like this:
 
