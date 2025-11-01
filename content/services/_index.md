@@ -36,6 +36,11 @@ The right mentor can make all the difference.
 I offer **friendly, human-centered** mentoring based on a decade of Rust experience and dozens of production success stories.
 I provide support for teams who care.
 
+My expertise focuses on three key areas:
+- **Time**: Get to production faster through proven strategies and best practices
+- **Quality**: Learn to write robust, idiomatic Rust code
+- **Cost**: Avoid costly mistakes and rework by getting it right the first time
+
 My training helps you get Rust to production in half the time and brings your team up to speed in 2 months instead of 4.
 It's the training which prepares you for the years to come, teaching you how to write Rust code **well**... and then getting out of your way.
 I'll help you navigate the Rust crate ecosystem, systems architecture, code reviews, and idiomatic Rust.
