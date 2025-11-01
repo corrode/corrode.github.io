@@ -89,9 +89,9 @@ let foo = Foo {
 Yes, it's slightly more verbose, but what you gain is that the compiler will force you to handle all fields explicitly.
 Now when you add a new field to `Foo`, the compiler will remind you to set it here as well and reflect on which value makes sense.
 
-There's another place where destructuring helps: making sure trait implementations stay correct when structs change.
+## Code Smell: Not Future-Proofing Trait Implementations
 
-Let's say you're building a pizza ordering system: 
+Let's say you're building a pizza ordering system and have an order type like this:
 
 ```rust
 struct PizzaOrder {
@@ -102,9 +102,9 @@ struct PizzaOrder {
 }
 ```
 
-For your order tracking system, you want to compare orders based on what's actually on the pizza - the `size`, `toppings`, and `crust_type`.
-The `ordered_at` timestamp shouldn't affect whether two orders are considered the same.
-The obvious approach is to implement `PartialEq` like this:
+For your order tracking system, you want to compare orders based on what's actually on the pizza - the `size`, `toppings`, and `crust_type`. The `ordered_at` timestamp shouldn't affect whether two orders are considered the same.
+
+Here's the problem with the obvious approach:
 
 ```rust
 impl PartialEq for PizzaOrder {
@@ -117,7 +117,7 @@ impl PartialEq for PizzaOrder {
 }
 ```
 
-But now imagine a colleague adds a field for extra cheese: 
+Now imagine your team adds a field for customization options:
 
 ```rust
 struct PizzaOrder {
@@ -129,9 +129,9 @@ struct PizzaOrder {
 }
 ```
 
-The `PartialEq` implementation still compiles... but is it still correct?
+Your `PartialEq` implementation still compiles, but is it correct?
 Should `extra_cheese` be part of the equality check?
-Probably yes because a pizza with extra cheese is a different order!
+Probably yes - a pizza with extra cheese is a different order!
 But you'll never know because the compiler won't remind you to think about it.
 
 Here's the defensive approach using destructuring:
@@ -157,9 +157,10 @@ impl PartialEq for PizzaOrder {
 }
 ```
 
-Now the compiler forces you to decide: should `extra_cheese` be included in the comparison or explicitly ignored with `extra_cheese: _`?``
+Now when someone adds the `extra_cheese` field, this code won't compile anymore.
+The compiler forces you to decide: should `extra_cheese` be included in the comparison or explicitly ignored with `extra_cheese: _`?
 
-This pattern works for any trait implementation where you need to handle struct fields: `Hash`, `Debug`, `Clone`, and so on.
+This pattern works for any trait implementation where you need to handle struct fields: `Hash`, `Debug`, `Clone`, etc. It's especially valuable in codebases where structs evolve frequently as requirements change.
 
 ## Code Smell: `From` Impls That Are Really `TryFrom`
 
@@ -250,50 +251,6 @@ match self {
 ```
 
 Even if you don't use the variables, it's clear what they represent and the code becomes more readable and easier to review without inline type hints.
-
-## Code Smell: Not Future-Proofing Trait Implementations
-
-Consider this `PartialEq` implementation:
-
-```rust
-impl PartialEq for MyType {
-    fn eq(&self, other: &Self) -> bool {
-        self.field1 == other.field1 && self.field2 == other.field2
-    }
-}
-```
-
-But what if you add a new field later?
-The compiler won't warn you that it might need to be added to your `PartialEq` implementation.
-
-You could `derive(PartialEq)` but that's not always possible.
-Instead, spell out the fields explicitly by destructuring:
-
-```rust
-impl PartialEq for MyType {
-    fn eq(&self, other: &Self) -> bool {
-        let Self { field1: f1, field2: f2, field3: f3 } = self;
-        let Self { field1: o1, field2: o2, field3: o3 } = other;
-
-        f1 == o1 && f2 == o2 && f3 == o3
-    }
-}
-```
-
-Again, the compiler will warn you if you forget to add a new field to the `PartialEq` implementation.
-
-We can still decide to ignore fields from comparison, but we capture the fields so we have to do so explicitly:
-
-```rust
-impl PartialEq for MyType {
-    fn eq(&self, other: &Self) -> bool {
-        let Self { field1: f1, field2: f2, field3: _ } = self; // Explicitly ignore field3
-        let Self { field1: o1, field2: o2, field3: _ } = other;
-
-        f1 == o1 && f2 == o2
-    }
-}
-```
 
 ## Pattern: Temporary Mutability 
 
