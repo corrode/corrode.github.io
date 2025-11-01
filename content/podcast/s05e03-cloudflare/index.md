@@ -50,7 +50,6 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 - [Yuchen Wu](https://github.com/eaufavor) - One of the first drivers of Pingora development
 - [Andrew Hauck](https://github.com/andrewhavck/) - Early driver of Pingora development
 - [Pingora Peak](https://en.wikipedia.org/wiki/Pingora_Peak) - The actual mountain in Wyoming where a Cloudflare product manager almost fell off
-- [Oxy](https://blog.cloudflare.com/introducing-oxy/) - Another Proxy developed at Cloudflare in Rust
 - [shellflip](https://github.com/cloudflare/shellflip) - Graceful process restarter in Rust, used by Pingora
 - [tableflip](https://github.com/cloudflare/tableflip) - Go library that inspired shellflip
 - [bytes](https://github.com/tokio-rs/bytes) - Reference-counted byte buffers for Rust
