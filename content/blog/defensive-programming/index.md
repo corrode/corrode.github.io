@@ -89,6 +89,78 @@ let foo = Foo {
 Yes, it's slightly more verbose, but what you gain is that the compiler will force you to handle all fields explicitly.
 Now when you add a new field to `Foo`, the compiler will remind you to set it here as well and reflect on which value makes sense.
 
+There's another place where destructuring helps: making sure trait implementations stay correct when structs change.
+
+Let's say you're building a pizza ordering system: 
+
+```rust
+struct PizzaOrder {
+    size: PizzaSize,
+    toppings: Vec<Topping>,
+    crust_type: CrustType,
+    ordered_at: SystemTime,
+}
+```
+
+For your order tracking system, you want to compare orders based on what's actually on the pizza - the `size`, `toppings`, and `crust_type`.
+The `ordered_at` timestamp shouldn't affect whether two orders are considered the same.
+The obvious approach is to implement `PartialEq` like this:
+
+```rust
+impl PartialEq for PizzaOrder {
+    fn eq(&self, other: &Self) -> bool {
+        self.size == other.size 
+            && self.toppings == other.toppings 
+            && self.crust_type == other.crust_type
+            // Oops! What happens when we add extra_cheese or delivery_address later?
+    }
+}
+```
+
+But now imagine a colleague adds a field for extra cheese: 
+
+```rust
+struct PizzaOrder {
+    size: PizzaSize,
+    toppings: Vec<Topping>,
+    crust_type: CrustType,
+    ordered_at: SystemTime,
+    extra_cheese: bool, // New field added
+}
+```
+
+The `PartialEq` implementation still compiles... but is it still correct?
+Should `extra_cheese` be part of the equality check?
+Probably yes because a pizza with extra cheese is a different order!
+But you'll never know because the compiler won't remind you to think about it.
+
+Here's the defensive approach using destructuring:
+
+```rust
+impl PartialEq for PizzaOrder {
+    fn eq(&self, other: &Self) -> bool {
+        let Self {
+            size,
+            toppings,
+            crust_type,
+            ordered_at: _,
+        } = self;
+        let Self {
+            size: other_size,
+            toppings: other_toppings,
+            crust_type: other_crust,
+            ordered_at: _,
+        } = other;
+
+        size == other_size && toppings == other_toppings && crust_type == other_crust
+    }
+}
+```
+
+Now the compiler forces you to decide: should `extra_cheese` be included in the comparison or explicitly ignored with `extra_cheese: _`?``
+
+This pattern works for any trait implementation where you need to handle struct fields: `Hash`, `Debug`, `Clone`, and so on.
+
 ## Code Smell: `From` Impls That Are Really `TryFrom`
 
 Sometimes there's no conversion that will work 100% of the time.
