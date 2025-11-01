@@ -1,6 +1,6 @@
 +++
 title = "Patterns for Defensive Programming in Rust"
-date = 2025-10-17
+date = 2025-11-02
 draft = false
 template = "article.html"
 [extra]
