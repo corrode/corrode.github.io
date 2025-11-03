@@ -5,6 +5,10 @@ draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+reviews = [
+    { name = "Tyler Stevens", url = "https://www.linkedin.com/in/tpstevens/" },
+    { name = "kat", url = "https://www.sakurakat.systems/" },
+]
 +++
 
 I have a hobby.
