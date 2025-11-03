@@ -1,6 +1,6 @@
 +++
 title = "Patterns for Defensive Programming in Rust"
-date = 2025-11-02
+date = 2025-11-03
 draft = false
 template = "article.html"
 [extra]
@@ -58,7 +58,7 @@ We hadn't considered this case before.
 The compiler-enforced pattern matching forces us to think about all possible states!
 This is a common pattern throughout robust Rust code, the attempt to put the compiler in charge of enforcing invariants.
 
-## Code Smell: Lazy Use of `Default`
+## Code Smell: Fragile Trait Implementations
 
 When initializing an object with many fields, it's tempting to use `..Default::default()` to fill in the rest.
 In practice, this is a common source of bugs.
@@ -89,9 +89,7 @@ let foo = Foo {
 Yes, it's slightly more verbose, but what you gain is that the compiler will force you to handle all fields explicitly.
 Now when you add a new field to `Foo`, the compiler will remind you to set it here as well and reflect on which value makes sense.
 
-## Code Smell: Fragile Trait Implementations
-
-Let's say you're building a pizza ordering system and have an order type like this:
+For example, let's say you're building a pizza ordering system and have an order type like this:
 
 ```rust
 struct PizzaOrder {
@@ -160,7 +158,8 @@ impl PartialEq for PizzaOrder {
 Now when someone adds the `extra_cheese` field, this code won't compile anymore.
 The compiler forces you to decide: should `extra_cheese` be included in the comparison or explicitly ignored with `extra_cheese: _`?
 
-This pattern works for any trait implementation where you need to handle struct fields: `Hash`, `Debug`, `Clone`, etc. It's especially valuable in codebases where structs evolve frequently as requirements change.
+This pattern works for any trait implementation where you need to handle struct fields: `Hash`, `Debug`, `Clone`, etc.
+It's especially valuable in codebases where structs evolve frequently as requirements change.
 
 ## Code Smell: `From` Impls That Are Really `TryFrom`
 
