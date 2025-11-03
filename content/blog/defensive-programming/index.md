@@ -521,11 +521,13 @@ impl Config {
 }
 ```
 
-Now if someone creates a `Config` but forgets to use it, the compiler will warn them:
+Now if someone creates a `Config` but forgets to use it, the compiler will warn them
+(even with a custom message!):
 
 ```rust
 let config = Config::new();
-config.with_timeout(Duration::from_secs(30)); // Warning: unused `Config` that must be used
+// Warning: Configuration must be applied to take effect
+config.with_timeout(Duration::from_secs(30)); 
 
 // Correct usage:
 let config = Config::new()
