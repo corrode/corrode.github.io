@@ -340,17 +340,17 @@ The scope makes it crystal clear that these variables are only meant for initial
 
 ## Pattern: Defensively Handle Constructors
 
-Let's say you had a simple type like the following:
+Let's say you have a simple type like the following:
 
 ```rust
 pub struct S {
-    field1: String,
-    field2: u32,
+    pub field1: String,
+    pub field2: u32,
 }
 ```
 
-Now you want to make invalid states unrepresentable.
-One pattern is to return a `Result` from the constructor.
+Now you want to add validation logic to ensure invalid states are never created.
+One pattern is to return a `Result` from the constructor:
 
 ```rust
 impl S {
@@ -366,7 +366,7 @@ impl S {
 }
 ```
 
-But nothing stops someone from creating an instance of `S` directly:
+But nothing stops someone from bypassing your validation by creating an instance directly:
 
 ```rust
 let s = S {
@@ -376,31 +376,127 @@ let s = S {
 ```
 
 This should not be possible!
-One way to prevent this is to make the struct non-exhaustive:
+It is our implicit invariant that's not enforced by the compiler: the validation logic is decoupled from struct construction.
+These are two separate operations, which can be changed independently and the compiler won't complain. 
+
+To force **external code** to go through your constructor, add a private field:
+
+```rust
+pub struct S {
+    pub field1: String,
+    pub field2: u32,
+    _private: (), // This prevents external construction 
+}
+
+impl S {
+    pub fn new(field1: String, field2: u32) -> Result<Self, String> {
+        if field1.is_empty() {
+            return Err("field1 cannot be empty".to_string());
+        }
+        if field2 == 0 {
+            return Err("field2 cannot be zero".to_string());
+        }
+        Ok(Self { field1, field2, _private: () })
+    }
+}
+```
+
+Now code outside your module cannot construct `S` directly because it cannot access the `_private` field.
+The compiler enforces that all construction must go through your `new()` method, which includes your validation logic!
+
+{% info(title="Why the underscore in `_private`?", icon="info") %}
+
+Note that the underscore prefix is just a **naming convention** to indicate the field is intentionally unused; it's the lack of `pub` that makes it private and prevents external construction.
+
+{% end %}
+
+For libraries that need to evolve over time, you can also use the `#[non_exhaustive]` attribute instead:
 
 ```rust
 #[non_exhaustive]
 pub struct S {
-    field1: String,
-    field2: u32,
+    pub field1: String,
+    pub field2: u32,
 }
 ```
 
-Now the struct cannot be instantiated directly outside of the module.
-However, what about the module itself?
+This has the same effect of preventing construction outside your crate, but also signals to users that you might add more fields in the future.
+The compiler will prevent them from using struct literal syntax, forcing them to use your constructor.
 
-One way to prevent this is to add a hidden field:
+{% info(title="`Should you use #[non_exhaustive]` or `_private`?", icon="info") %}
+
+There's a big difference between these two approaches:
+
+- `#[non_exhaustive]` only works across crate boundaries. **It prevents construction outside your crate.**
+- `_private` works at the module boundary. **It prevents construction outside the module**, but within the same crate.
+
+On top of that, some developers find `_private: ()` more explicit about intent: "this struct has a private field that prevents construction."
+
+With `#[non_exhaustive]`, the primary intent is signaling that fields might be added in the future, and preventing construction is more of a side effect.
+
+{% end %}
+
+### Preventing Internal Construction
+
+But what about code within the **same module**?
+With the patterns above, code in the same module can still bypass your validation:
 
 ```rust
-pub struct S {
-    field1: String,
-    field2: u32,
+// Still compiles in the same module!
+let s = S {
+    field1: "".to_string(),
+    field2: 0,
     _private: (),
-}
+};
 ```
 
-Now the struct cannot be instantiated directly even inside the module.
-You have to go through the constructor, which enforces the validation logic.
+Rust's privacy works at the module level, not the type level.
+Anything in the same module can access private items.
+
+If you need to enforce constructor usage even within your own module, you need a more defensive approach using nested private modules:
+
+```rust
+mod inner {
+    pub struct S {
+        pub field1: String,
+        pub field2: u32,
+        _seal: Seal,
+    }
+    
+    // This type is private to the inner module
+    struct Seal;
+    
+    impl S {
+        pub fn new(field1: String, field2: u32) -> Result<Self, String> {
+            if field1.is_empty() {
+                return Err("field1 cannot be empty".to_string());
+            }
+            if field2 == 0 {
+                return Err("field2 cannot be zero".to_string());
+            }
+            Ok(Self { field1, field2, _seal: Seal })
+        }
+    }
+}
+
+// Re-export for public use
+pub use inner::S;
+```
+
+Now even code in your outer module cannot construct `S` directly because `Seal` is trapped in the private `inner` module.
+Only the `new()` method, which lives in the same module as `Seal`, can construct it.
+The compiler guarantees that all construction, even internal construction, goes through your validation logic.
+
+### When to Use Each
+
+To enforce validation through constructors:
+
+- **For external code**: Add a private field like `_private: ()` or use `#[non_exhaustive]`
+- **For internal code**: Use nested private modules with a private "seal" type
+- **Choose based on your needs**: Most code only needs to prevent external construction; forcing internal construction is more defensive but also more complex
+
+The key insight is that by making construction impossible without access to a private type, you turn your validation logic from a convention into a guarantee enforced by the compiler. 
+So let's put that compiler to work!
 
 ## Pattern: Use `#[must_use]` on Important Types
 
