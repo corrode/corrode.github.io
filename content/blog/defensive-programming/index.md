@@ -292,6 +292,33 @@ let data = data;  // Shadow to make immutable
 This pattern is often called "temporary mutability" and helps prevent accidental modifications after initialization.
 See the [Rust unofficial patterns book](https://rust-unofficial.github.io/patterns/idioms/temporary-mutability.html) for more details.
 
+You can go one step further and do the initialization part in a scope block:
+
+```rust
+let data = {
+    let mut data = get_vec();
+    data.sort();
+    data  // Return the final value
+};
+// Here `data` is immutable
+```
+
+This way, the mutable variable is confined to the inner scope, making it clear that it's only used for initialization.
+In case you use any temporary variables during initialization, they won't leak into the outer scope.
+In our case above, there were none, but imagine if we had a temporary vector to hold intermediate results:
+
+```rust
+let data = {
+    let mut data = get_vec();
+    let temp = compute_something();
+    data.extend(temp);
+    data.sort();
+    data  // Return the final value
+};
+```
+
+Here, `temp` is only accessible within the inner scope, which prevents it from accidental use later on.
+
 ### Scoped Temporary Mutability
 
 You can take this further by wrapping the initialization in a scope block to ensure temporary variables don't leak:
