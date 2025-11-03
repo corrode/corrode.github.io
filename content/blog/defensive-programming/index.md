@@ -58,7 +58,7 @@ We hadn't considered this case before.
 The compiler-enforced pattern matching forces us to think about all possible states!
 This is a common pattern throughout robust Rust code, the attempt to put the compiler in charge of enforcing invariants.
 
-## Code Smell: Fragile Trait Implementations
+## Code Smell: Lazy use of `Default`
 
 When initializing an object with many fields, it's tempting to use `..Default::default()` to fill in the rest.
 In practice, this is a common source of bugs.
@@ -89,6 +89,32 @@ let foo = Foo {
 Yes, it's slightly more verbose, but what you gain is that the compiler will force you to handle all fields explicitly.
 Now when you add a new field to `Foo`, the compiler will remind you to set it here as well and reflect on which value makes sense.
 
+If you still prefer to use `Default` but don't want to lose compiler checks, you can also destructure the default instance:
+
+```rust
+let Foo { field1, field2, field3, field4 } = Foo::default();
+```
+
+This way, you get all the default values assigned to local variables and you can still override what you need:
+
+```rust
+let foo = Foo {
+    field1: value1,    // Override what you need
+    field2: value2,    // Override what you need
+    field3,            // Use default value
+    field4,            // Use default value
+};
+```
+
+This pattern gives you the best of both worlds:
+- You get default values without duplicating default logic
+- The compiler will complain when new fields are added to the struct
+- Your code automatically adapts when default values change
+- It's clear which fields use defaults and which have custom values
+
+## Code Smell: Fragile Trait Implementations
+
+Completely destructuring a struct into its components can also be a defensive strategy for API adherence.
 For example, let's say you're building a pizza ordering system and have an order type like this:
 
 ```rust
@@ -251,7 +277,7 @@ match self {
 
 Even if you don't use the variables, it's clear what they represent and the code becomes more readable and easier to review without inline type hints.
 
-## Pattern: Temporary Mutability 
+## Pattern: Temporary Mutability
 
 If you only want your data to be mutable temporarily, make that explicit.
 
@@ -265,6 +291,25 @@ let data = data;  // Shadow to make immutable
 
 This pattern is often called "temporary mutability" and helps prevent accidental modifications after initialization.
 See the [Rust unofficial patterns book](https://rust-unofficial.github.io/patterns/idioms/temporary-mutability.html) for more details.
+
+### Scoped Temporary Mutability
+
+You can take this further by wrapping the initialization in a scope block to ensure temporary variables don't leak:
+
+```rust
+let data = {
+    let mut data = get_vec();
+    let temp = compute_something();
+    data.extend(temp);
+    data.sort();
+    data  // Return the final value
+};
+
+// Here `data` is immutable and `temp` is out of scope
+```
+
+This is especially useful when you have multiple temporary variables during initialization that you don't want accessible in the rest of the function.
+The scope makes it crystal clear that these variables are only meant for initialization.
 
 ## Pattern: Defensively Handle Constructors
 
