@@ -1,6 +1,6 @@
 +++
 title = "Patterns for Defensive Programming in Rust"
-date = 2025-11-03
+date = 2025-11-07
 draft = false
 template = "article.html"
 [extra]
@@ -32,35 +32,36 @@ Here's some innocent-looking code:
 
 
 ```rust
-match matching_users.len() {
-    1 => {
-        let existing_user = &matching_users[0];
-        // ...
-    }
-    _ => Err(RepositoryError::DuplicateUsers)
+if !matching_users.is_empty() {
+    let existing_user = &matching_users[0];
+    // ...
 }
 ```
 
-This code works for now, but what if you refactor it and forget to keep the length check?
-That's our first implicit invariant that's not enforced by the compiler.
-The problem is that indexing into a vector is decoupled from checking its length: these are two separate operations, which can be changed independently without the compiler ringing the alarm. 
+What if you refactor it and forget to keep the `is_empty()` check? 
+The problem is that the vector indexing is decoupled from checking the length.
+So `matching_users[0]` can panic at runtime if the vector is empty.
 
-If we use slice pattern matching, we'll only get access to the element if the `match` arm is executed. 
+Checking the length and indexing are two separate operations, which can be changed independently.
+That's our first implicit invariant that's not enforced by the compiler.
+
+If we use slice pattern matching instead, we'll only get access to the element if the correct `match` arm is executed. 
 
 ```rust
 match matching_users.as_slice() {
+    [] => todo!("What to do if no users found!?"),
     [existing_user] => {  // Safe! Compiler guarantees exactly one element
-        // ...
+        // No need to index into the vector,
+        // we can directly use `existing_user` here 
     }
-    [] => Ok(Success::NotFound),
     _ => Err(RepositoryError::DuplicateUsers)
 }
 ```
 
 Note how this automatically uncovered one more edge case: what if the list is empty?
-We hadn't considered this case before.
-The compiler-enforced pattern matching forces us to think about all possible states!
-This is a common pattern throughout robust Rust code, the attempt to put the compiler in charge of enforcing invariants.
+We hadn't explicitly considered this case before.
+The compiler-enforced pattern matching requires us to think about all possible states!
+This is a common pattern in all robust Rust code: putting the compiler in charge of enforcing invariants.
 
 ## Code Smell: Lazy use of `Default`
 
@@ -323,26 +324,21 @@ let data = {
 
 Here, `temp` is only accessible within the inner scope, which prevents it from accidental use later on.
 
-### Scoped Temporary Mutability
-
-You can take this further by wrapping the initialization in a scope block to ensure temporary variables don't leak:
-
-```rust
-let data = {
-    let mut data = get_vec();
-    let temp = compute_something();
-    data.extend(temp);
-    data.sort();
-    data  // Return the final value
-};
-
-// Here `data` is immutable and `temp` is out of scope
-```
-
 This is especially useful when you have multiple temporary variables during initialization that you don't want accessible in the rest of the function.
 The scope makes it crystal clear that these variables are only meant for initialization.
 
 ## Pattern: Defensively Handle Constructors
+
+{% info(title="Tip for libraries", icon="crab") %}
+
+The following pattern is only truly helpful for libraries and APIs that need to be robust against future changes.
+In such a case, you want to ensure that all instances of a type are created through a constructor function that enforces validation logic.
+Because without that, future refactorings can easily lead to invalid states.
+
+For application code, it's probably best to keep things simple.
+You typically have all the call sites under control and can ensure that validation logic is always called.
+
+{% end %}
 
 Let's say you have a simple type like the following:
 
@@ -440,8 +436,6 @@ With `#[non_exhaustive]`, the primary intent is signaling that fields might be a
 
 {% end %}
 
-### Preventing Internal Construction
-
 But what about code within the **same module**?
 With the patterns above, code in the same module can still bypass your validation:
 
@@ -490,6 +484,49 @@ pub use inner::S;
 Now even code in your outer module cannot construct `S` directly because `Seal` is trapped in the private `inner` module.
 Only the `new()` method, which lives in the same module as `Seal`, can construct it.
 The compiler guarantees that all construction, even internal construction, goes through your validation logic.
+
+You could still access the public fields directly, though.
+
+```rust
+let s = S::new("valid".to_string(), 42).unwrap();
+s.field1 = "".to_string(); // Still possible to mutate fields directly
+```
+
+To prevent that, you can make the fields private and provide getter methods instead:
+
+```rust
+mod inner {
+    pub struct S {
+        field1: String,
+        field2: u32,
+        _seal: Seal,
+    }
+    
+    struct Seal;
+    
+    impl S {
+        pub fn new(field1: String, field2: u32) -> Result<Self, String> {
+            if field1.is_empty() {
+                return Err("field1 cannot be empty".to_string());
+            }
+            if field2 == 0 {
+                return Err("field2 cannot be zero".to_string());
+            }
+            Ok(Self { field1, field2, _seal: Seal })
+        }
+
+        pub fn field1(&self) -> &str {
+            &self.field1
+        }
+
+        pub fn field2(&self) -> u32 {
+            self.field2
+        }
+    }
+}
+```
+
+Now the only way to create an instance of `S` is through the `new()` method, and the only way to access its fields is through the getter methods.
 
 ### When to Use Each
 
@@ -665,10 +702,25 @@ Here are the most relevant ones:
 | [`clippy::unneeded_field_pattern`](https://rust-lang.github.io/rust-clippy/master/index.html#unneeded_field_pattern) | Identifies when you're ignoring too many struct fields with `..` unnecessarily. |
 | [`clippy::fn_params_excessive_bools`](https://rust-lang.github.io/rust-clippy/master/index.html#fn_params_excessive_bools) | Warns when a function has too many boolean parameters (4 or more by default). |
 
-You can enable these in your project by adding them to your `Cargo.toml` or at the top of your crate, e.g.
+You can enable these in your project by adding them at the top of your crate, e.g.
 
 ```rust
 #![deny(clippy::indexing_slicing)]
+#![deny(clippy::fallible_impl_from)]
+#![deny(clippy::wildcard_enum_match_arm)]
+#![deny(clippy::unneeded_field_pattern)]
+#![deny(clippy::fn_params_excessive_bools)]
+```
+
+Or in your `Cargo.toml`:
+
+```toml
+[lints.clippy]
+indexing_slicing = "deny"
+fallible_impl_from = "deny"
+wildcard_enum_match_arm = "deny"
+unneeded_field_pattern = "deny"
+fn_params_excessive_bools = "deny"
 ```
 
 ## Conclusion
