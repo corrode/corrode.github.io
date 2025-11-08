@@ -701,6 +701,7 @@ Here are the most relevant ones:
 | [`clippy::wildcard_enum_match_arm`](https://rust-lang.github.io/rust-clippy/master/index.html#wildcard_enum_match_arm) | Disallows wildcard `_` patterns. |
 | [`clippy::unneeded_field_pattern`](https://rust-lang.github.io/rust-clippy/master/index.html#unneeded_field_pattern) | Identifies when you're ignoring too many struct fields with `..` unnecessarily. |
 | [`clippy::fn_params_excessive_bools`](https://rust-lang.github.io/rust-clippy/master/index.html#fn_params_excessive_bools) | Warns when a function has too many boolean parameters (4 or more by default). |
+| [`clippy::must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate) | Suggests adding `#[must_use]` to types that are good candidates for it. |
 
 You can enable these in your project by adding them at the top of your crate, e.g.
 
