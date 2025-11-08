@@ -1,6 +1,6 @@
 +++
 title = "Patterns for Defensive Programming in Rust"
-date = 2025-11-07
+date = 2025-11-08
 draft = false
 template = "article.html"
 [extra]
@@ -710,6 +710,7 @@ You can enable these in your project by adding them at the top of your crate, e.
 #![deny(clippy::wildcard_enum_match_arm)]
 #![deny(clippy::unneeded_field_pattern)]
 #![deny(clippy::fn_params_excessive_bools)]
+#![deny(clippy::must_use_candidate)]
 ```
 
 Or in your `Cargo.toml`:
@@ -721,6 +722,7 @@ fallible_impl_from = "deny"
 wildcard_enum_match_arm = "deny"
 unneeded_field_pattern = "deny"
 fn_params_excessive_bools = "deny"
+must_use_candidate = "deny"
 ```
 
 ## Conclusion
