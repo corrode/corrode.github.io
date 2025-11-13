@@ -1,14 +1,14 @@
 +++
 title = "Roc"
-date = 2025-10-30
+date = 2025-11-13
 template = "episode.html"
 draft = false
-aliases = ["/p/s05e03"]
+aliases = ["/p/s05e04"]
 [extra]
 guest = "Richard Feldman"
 role = "Creator of Roc"
 season = "05"
-episode = "03"
+episode = "04"
 series = "Podcast"
 +++
 
