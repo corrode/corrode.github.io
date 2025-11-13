@@ -12,7 +12,7 @@ episode = "04"
 series = "Podcast"
 +++
 
-<!-- <div><script id="letscast-player-XXXXX" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/roc-with-richard-feldman/player.js?size=s"></script></div> -->
+<div><script id="letscast-player-080f1fca" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/roc-with-richard-feldman/player.js?size=s"></script></div>
 
 Building a new programming language from scratch is a monumental undertaking. In this episode, we talk to Richard Feldman, creator of the Roc programming language, about building a functional language that is fast, friendly, and functional. We discuss why the Roc team moved away from using Rust as a host language and instead is in the process of migrating to Zig. What was the decision-making process like? What can Rust learn this decision? And how does Zig compare to Rust for this kind of systems programming work?
 
@@ -31,7 +31,7 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 ### Links From The Episode
 
 - [Zig](https://ziglang.org/) - Better than Rust?
-- [Rust in Production: Zed] - Our interview with Richard's colleague with more details about Zed
+- [Rust in Production: Zed](https://corrode.dev/podcast/s03e01-zed/) - Our interview with Richard's colleague with more details about Zed
 - Richards blogpost about migrating - Send in by many listeners
 - [Elm](https://elm-lang.org/) - Initial inspiration for Roc
 - [NoRedInk](https://www.noredink.com/) - Richard's first experience with Elm
