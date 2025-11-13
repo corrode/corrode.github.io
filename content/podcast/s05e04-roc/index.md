@@ -55,7 +55,7 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 - [Andrew Kelly](https://andrewkelley.me/) - Creator of Zig
 - [Software Unscripted](https://pod.link/1602572955) - Richard's Podcast
 - [GPUI](https://www.gpui.rs/) - Zed's own UI crate
-- [Structure of Arrays vs Array of structures](https://en.wikipedia.org/wiki/AoS_and_SoA( - A big source of unsafe code in the Rust implementation of Roc
+- [Structure of Arrays vs Array of structures](https://en.wikipedia.org/wiki/AoS_and_SoA) - A big source of unsafe code in the Rust implementation of Roc
 - [The Zig Programming Language: comptime](https://ziglang.org/documentation/0.15.2/#comptime) - Zig's replacement for Rust's proc-macros, with much broader utility
 - [crabtime](https://docs.rs/crabtime/latest/crabtime/) - Comptime crate for Rust
 - [Roc](https://en.wikipedia.org/wiki/Roc_(mythology)) - Roc's namesake, the mythical bird
