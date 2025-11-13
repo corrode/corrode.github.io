@@ -32,7 +32,7 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 
 - [Zig](https://ziglang.org/) - Better than Rust?
 - [Rust in Production: Zed](https://corrode.dev/podcast/s03e01-zed/) - Our interview with Richard's colleague with more details about Zed
-- Richards blogpost about migrating - Send in by many listeners
+- [Richards blogpost about migrating from Rust to Zig](https://gist.github.com/rtfeldman/77fb430ee57b42f5f2ca973a3992532f) - Sent in by many listeners
 - [Elm](https://elm-lang.org/) - Initial inspiration for Roc
 - [NoRedInk](https://www.noredink.com/) - Richard's first experience with Elm
 - [Haskell](https://www.haskell.org/) - A workable Elm on the backend substitute
@@ -55,7 +55,7 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 - [Andrew Kelly](https://andrewkelley.me/) - Creator of Zig
 - [Software Unscripted](https://pod.link/1602572955) - Richard's Podcast
 - [GPUI](https://www.gpui.rs/) - Zed's own UI crate
-- structive arrays - A big source of unsafe code in the Rust implementation of Roc
+- [Structure of Arrays vs Array of structures](https://en.wikipedia.org/wiki/AoS_and_SoA( - A big source of unsafe code in the Rust implementation of Roc
 - [The Zig Programming Language: comptime](https://ziglang.org/documentation/0.15.2/#comptime) - Zig's replacement for Rust's proc-macros, with much broader utility
 - [crabtime](https://docs.rs/crabtime/latest/crabtime/) - Comptime crate for Rust
 - [Roc](https://en.wikipedia.org/wiki/Roc_(mythology)) - Roc's namesake, the mythical bird
@@ -69,3 +69,4 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 - [Richard Feldman on LinkedIn](https://www.linkedin.com/in/rtfeldman/)
 - [Richard Feldman on X](https://x.com/rtfeldman)
 - [Software Unscripted Podcast](https://pod.link/1602572955)
+
