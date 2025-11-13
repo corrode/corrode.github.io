@@ -12,7 +12,7 @@ episode = "02"
 series = "Podcast"
 +++
 
-<!-- <div><script id="letscast-player-XXXXX" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/scythe-robotics-with-andrew-tinka/player.js?size=s"></script></div> -->
+<div><script id="letscast-player-ae39496a" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/scythe-with-andrew-tinka/player.js?size=s"></script></div>
 
 Building autonomous robots that operate safely in the real world is one of the most challenging engineering problems today. When those robots carry sharp blades and work around people, the margin for error is razor-thin.
 
@@ -32,10 +32,18 @@ Andrew is the Director of Software Engineering at Scythe Robotics, where he driv
 
 ### Links From The Episode
 
-- [ROS (Robot Operating System)](https://www.ros.org/) - Popular robotics middleware framework
-- [Path Planning Algorithms](https://en.wikipedia.org/wiki/Motion_planning) - Core challenge in autonomous robotics
-- [LIDAR](https://en.wikipedia.org/wiki/Lidar) - Laser-based sensing technology for autonomous systems
-- [Kalman Filters](https://en.wikipedia.org/wiki/Kalman_filter) - Essential for sensor fusion in robotics
+- [Ski trails rating](https://en.wikipedia.org/wiki/Piste#North_America,_Australia_and_New_Zealand) - A difficulty rating system common in Colorado
+- [NVIDIA Jetson](https://developer.nvidia.com/embedded/jetson-modules) - Combined ARM CPU with a GPU for AI workloads at the heart of every Scythe robot
+- [The Rust Book: Variables and Mutability](https://doc.rust-lang.org/stable/book/ch03-01-variables-and-mutability.html#variables-and-mutability) - Immutability is the default in Rust
+- [Jon Gjengset: Sguaba](https://www.youtube.com/watch?v=kESBAiTYMoQ) - A type safe spatial maths library
+- [The Rust Book: Inheritance as a Type System and as Code Sharing](https://doc.rust-lang.org/stable/book/ch18-01-what-is-oo.html#inheritance-as-a-type-system-and-as-code-sharing) - Unlike Java, Rust doesn't have inheritance
+- [Using `{..Default::default}` when creating structs](https://rust-unofficial.github.io/patterns/idioms/default.html) - The alternative is to initialize each field explicitly
+- [The Rust Book: Refutability](https://doc.rust-lang.org/stable/book/ch19-02-refutability.html) - Rust tells you when you forgot something
+- [Clippy](https://github.com/rust-lang/rust-clippy) - Rust's official linter
+- [Deterministic fleet management for autonomous mobile robots using Rust - Andy Brinkmeyer from Arculus](https://www.youtube.com/watch?v=ao-CLgci-e8) - 2024 Oxidize warehouse robot talk with deterministic testing
+- [ROS](https://www.ros.org/) - The Robot Operating System
+- [Ractor](https://slawlor.github.io/ractor/) - A good modern actor framework
+- [Rain: Cancelling Async Rust](https://youtu.be/zrv5Cy1R7r4) - RustConf 2025 talk with many examples of pitfalls
 
 ### Official Links
 

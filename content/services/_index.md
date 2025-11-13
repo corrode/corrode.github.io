@@ -6,7 +6,10 @@ description = "Friendly, professional Rust consulting services to help companies
 aliases = ["about"]
 +++
 
-<script src="https://fast.wistia.com/embed/medias/crzddicf9e.jsonp" async></script><script src="https://fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_crzddicf9e seo=false videoFoam=true" style="height:100%;position:relative;width:100%"><div class="wistia_swatch" style="height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;"><img src="https://fast.wistia.com/embed/medias/crzddicf9e/swatch" style="filter:blur(5px);height:100%;object-fit:contain;width:100%;" alt="" aria-hidden="true" onload="this.parentNode.style.opacity=1;" /></div></div></div></div>
+<video controls style="width: 100%; max-width: 800px; height: auto; margin: 0 auto; display: block;">
+  <source src="https://github.com/corrode/corrode.github.io/releases/download/assets/corrode.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Here’s the problem...
 
@@ -32,6 +35,11 @@ The right mentor can make all the difference.
 
 I offer **friendly, human-centered** mentoring based on a decade of Rust experience and dozens of production success stories.
 I provide support for teams who care.
+
+My expertise focuses on three key areas:
+- **Time**: Get to production faster through proven strategies and best practices
+- **Quality**: Learn to write robust, idiomatic Rust code
+- **Cost**: Avoid costly mistakes and rework by getting it right the first time
 
 My training helps you get Rust to production in half the time and brings your team up to speed in 2 months instead of 4.
 It's the training which prepares you for the years to come, teaching you how to write Rust code **well**... and then getting out of your way.
@@ -66,7 +74,7 @@ I'll help you navigate the Rust crate ecosystem, systems architecture, code revi
 ## Get Expert Help That's Hard To Hire For
 
 <div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
-  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
+  <a class="cta-button" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Schedule A Free Consultation</a>
   <p>
     or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
@@ -384,8 +392,16 @@ From time to time I give talks about Rust and open-source software.
 ## Accelerate Your Team's Rust Adoption Today
 
 <div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
-  <a class="cta-button" data-cal-link="corrode/30min" data-cal-namespace="" data-cal-config='{"layout":"month_view"}'>Schedule A Free 30-Minute Consultation</a>
+  <a class="cta-button" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Schedule A Free Consultation</a>
   <p>
     or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
 </div>  
+
+
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "chat", {origin:"https://app.cal.com"});
+
+Cal.ns.chat("ui", {"cssVarsPerTheme":{"light":{"cal-brand":"#292929"},"dark":{"cal-brand":"#fab71c"}},"hideEventTypeDetails":true,"layout":"month_view"});
+</script>
