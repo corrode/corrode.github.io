@@ -39,7 +39,6 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 - [OCaml](https://ocaml.org/) - Functional language, but pure functions only encouraged
 - [F#](https://fsharp.org/) - Similar shortcomings as OCaml
 - [Evan Czaplicki](https://github.com/evancz) - Creator of Elm
-- [CoffeScript](https://coffeescript.org/) - A language that the creator did not spend more than a decade of time on
 - [Ghostty](https://ghostty.org/) - Terminal emulator from Mitchel Hashimoto with lots of code contributions in Zig
 - [RAII](https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization) - Resource acquisition is initialization, developed for C++, now a core part of Rust
 - [Frontend Masters: The Rust Programming Language](https://frontendmasters.com/courses/rust/) - Richard's course teaching Rust
