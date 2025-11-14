@@ -1,7 +1,7 @@
 +++
 title = "Be Simple"
 date = 2025-09-11
-updated = 2025-09-27
+updated = 2025-11-14
 draft = false
 template = "article.html"
 [extra]
@@ -12,6 +12,7 @@ reviews = [
     { name = "Dirkjan Ochtman", url = "https://dirkjan.ochtman.nl/" },
 ]
 resources = [
+    "[The Complexity of Simplicity](https://www.youtube.com/watch?v=Cum5uN2634o) - Bryan Cantrill's talk at TalosCon 2025",
     "[Why Can't We Make Simple Software?](https://www.youtube.com/watch?v=czzAVuVz7u4) - Peter van Hardenberg, Handmade Cities Conference 2024",
     "[Simple Made Easy](https://www.youtube.com/watch?v=SxdOUGdseq4) - Rich Hickey, Strange Loop Conference 2011",
 ]
@@ -434,6 +435,9 @@ It's fine to offer additional functionality, but don't make the easy thing hard 
 
 ## Tips For Fighting Complexity
 
+> Controlling complexity is the essence of computer programming.
+> -- [Brian Kernighan and P.J. Plauger, The Elements of Programming Style](https://en.wikipedia.org/wiki/The_Elements_of_Programming_Style)
+
 ### Start Small
 
 Jerry Seinfeld had two writing modes: [creating mode and editing mode](https://perell.com/note/the-jerry-seinfeld-guide-to-writing/).
@@ -563,3 +567,4 @@ Simplicity is to succinctly express the essence of a thing.
 Simplicity is about removing the unnecessary, the irrelevant, the noise.
 Simple is good.
 Be simple.
+
