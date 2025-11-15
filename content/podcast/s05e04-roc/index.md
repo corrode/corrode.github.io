@@ -40,6 +40,7 @@ Richard Feldman is the creator of the Roc programming language and author of "El
 - [F#](https://fsharp.org/) - Similar shortcomings as OCaml
 - [Evan Czaplicki](https://github.com/evancz) - Creator of Elm
 - [Ghostty](https://ghostty.org/) - Terminal emulator from Mitchel Hashimoto with lots of code contributions in Zig
+- [bumpref](https://github.com/corrode/bumpref) - A tiny Rust crate that came out of this discussion, providing `Arc::bump()`, which is an alias for `clone()`.
 - [RAII](https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization) - Resource acquisition is initialization, developed for C++, now a core part of Rust
 - [Frontend Masters: The Rust Programming Language](https://frontendmasters.com/courses/rust/) - Richard's course teaching Rust
 - [Rust by Example: From and Into](https://doc.rust-lang.org/rust-by-example/conversion/from_into.html) - Traits for ergonomic initialising of objects in Rust
