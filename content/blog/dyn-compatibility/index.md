@@ -168,7 +168,18 @@ The difference is that with generics, the compiler knows the concrete type at co
 For instance, we might know that `W` is `Button` in this case, so `duplicate` returns a `Button`.
 Now the confusion about what `Self` means is gone!
 
-The downside is that you can't fully lean on dynamic dispatch anymore and that you might have to refactor a lot of code if you were using trait objects extensively before.
+The downside is that you can't fully lean on dynamic dispatch anymore [^why-dynamic-dispatch] and that you might have to refactor a lot of code if you were using trait objects extensively before.
+
+[^why-dynamic-dispatch]: **"What's the benefit of fully leaning on dynamic dispatch"**, you ask? Fair question!
+
+    Dynamic dispatch has a bunch of really nice properties:
+
+    - It's very flexible. You can swap out implementations at runtime, which is great for plugins or when you want to change behavior without recompiling.
+    - It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
+      You could technically do the same with generics, but as I mentioned sometimes you can't afford the increase in code size or compile times that come with monomorphization.
+    - It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
+      For exmaple, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
+      Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
 
 ### Fix #2: Opt Out Problem Methods with `where Self: Sized`
 
