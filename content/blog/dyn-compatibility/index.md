@@ -1,14 +1,16 @@
 +++
 title = "Understanding Dyn Compatibility"
-date = 2025-11-18
+date = 2025-11-20
 draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+reviews = [
+    { name = "Theodor-Alexandru Irimia", url = "https://github.com/tirimia" },
+]
 resources = [
 "[The Rust Reference: Dyn Compatibility](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility)",
 "[The Rust Reference: Trait Objects](https://doc.rust-lang.org/reference/types/trait-object.html)",
-"[RFC 255: Object Safety](https://rust-lang.github.io/rfcs/0255-object-safety.html)",
 ]
 +++
 
@@ -304,24 +306,7 @@ fn main() {
 }
 ```
 
-## Understanding the Rules
-
-A trait is **dyn compatible** if it follows these rules:
-
-| Rule | Why? |
-|------|------|
-| No `Self: Sized` supertrait | The trait itself must not require `Self: Sized`, otherwise it can never be used as a trait object |
-| Methods must have a receiver | All methods need `&self`, `&mut self`, or similar. Static methods (no receiver) can't be called through a vtable |
-| No generic type parameters on methods | The vtable is a static struct created at compile time and can't have infinite entries. Generic methods are monomorphized at compile time (one copy per type), but trait objects work at runtime when the type is erased |
-| No `Self` in method parameters (except receiver) | `other: &Self` means "the same type as `self`", but with trait objects, we only know both are "`dyn Comparable`". They could be different underlying types! |
-| No `Self` return type | The compiler needs to know the size of the return value, but `Self` could be any size. With trait objects, the type is erased |
-| No `impl Trait` in return position | Similar to `Self` - the actual type needs to be known at compile time, but it's erased with trait objects |
-
-That's quite a lot of exceptions, but they all boil down to the same core issue: **the compiler needs to know sizes and types at compile time, but with trait objects, that information is erased at runtime.**
-
-To understand why that is so important, we have to look at how trait objects work under the hood.
-
-{% info(title="Side Quest: What are Trait Objects anyway?", icon="crab") %}
+## What's Going On Under the Hood?
 
 When you write `&dyn Trait`, you're creating a **trait object**.
 It's a special kind of value that consists of two pointers (a "fat pointer"):
@@ -338,10 +323,11 @@ As you can see, a trait object has:
 1. A **data pointer** that points to the actual data (the concrete type implementing the trait)
 2. A **vtable pointer** that points to a table of function pointers for the methods
 
-The vtable is created at compile time and contains pointers to the methods for the specific type.
+The [vtable](https://en.wikipedia.org/wiki/Virtual_method_table) is created at compile time and contains pointers to the methods for the specific type.
+It is a concept that is common in many programming languages that support dynamic dispatch, such as C++, C#, or D. 
 When you call a method on a trait object, Rust uses the vtable to look up the correct function to call based on the actual type of the data.
 
-In order to create a vtable, the compiler needs to know:
+But in order to create a vtable, the compiler needs to know:
 - The size of the type (to allocate memory)
 - The exact method signatures (to create function pointers)
 
@@ -349,7 +335,19 @@ If a trait has methods that return `Self` or have generic parameters, the compil
 
 That is the root cause of dyn compatibility issues.
 
-{% end %}
+In summary, a trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility):
+
+| Rule | Why? |
+|------|------|
+| No `Self: Sized` supertrait | The trait itself must not require `Self: Sized`, otherwise it can never be used as a trait object |
+| Methods must have a receiver | All methods need `&self`, `&mut self`, or similar. Static methods (no receiver) can't be called through a vtable |
+| No generic type parameters on methods | The vtable is a static struct created at compile time and can't have infinite entries. Generic methods are monomorphized at compile time (one copy per type), but trait objects work at runtime when the type is erased |
+| No `Self` in method parameters (except receiver) | `other: &Self` means "the same type as `self`", but with trait objects, we only know both are "`dyn Comparable`". They could be different underlying types! |
+| No `Self` return type | The compiler needs to know the size of the return value, but `Self` could be any size. With trait objects, the type is erased |
+| No `impl Trait` in return position | Similar to `Self` - the actual type needs to be known at compile time, but it's erased with trait objects |
+
+That's quite a lot of rules, but they all boil down to the same core issue:
+**the compiler needs to know sizes and types at compile time, but with trait objects, that information is erased at runtime.**
 
 ## Summary
 
@@ -360,14 +358,16 @@ That is the root cause of dyn compatibility issues.
 3. Type information is erased at runtime in order to allow polymorphism
 4. The compiler must guarantee type safety at all times, even if it can't see the concrete type
 
-Many standard library traits (Clone, Iterator, etc.) are also not dyn compatible, so don't worry.
-As we've seen, you can work around these limitations with type erasure and other techniques.
-
+If your trait is not dyn compatible, don't worry! Many standard library traits (`Clone`, `Iterator`, etc.) are also not dyn compatible.
+As we've seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits. 
 
 ### Historical Notes
 
-- [RFC 255](https://rust-lang.github.io/rfcs/0255-object-safety.html): Introduced object safety (2014, before Rust 1.0)
-- [RFC 546](https://rust-lang.github.io/rfcs/0546-Self-not-sized-by-default.html): Removed implied `Sized` bound on traits
-- [Issue #428](https://github.com/rust-lang/rfcs/issues/428): Object-safety and static methods
-- [Rust 1.72](https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html): GATs can be opted out with `where Self: Sized`
-- [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/): Renamed "object safety" to "dyn compatibility" (not mentioned in the release notes)
+I find it interesting to see how dyn compatibility evolved over time in Rust.
+If you do, too, here are some resources to dig deeper:
+
+- 2014-09-22: [RFC 255](https://rust-lang.github.io/rfcs/0255-object-safety.html) - Introduced object safety (2014, before Rust 1.0)
+- 2014-11-03: [Issue #428](https://github.com/rust-lang/rfcs/issues/428) - Object-safety and static methods
+- 2015-01-03: [RFC 546](https://rust-lang.github.io/rfcs/0546-Self-not-sized-by-default.html) - Removed implied `Sized` bound on traits
+- 2023-08-24: [Rust 1.72](https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html) - GATs can be opted out with `where Self: Sized`
+- 2025-01-09: [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/) - Silently renamed "object safety" to "dyn compatibility" (tragically, not mentioned in the release notes!)
