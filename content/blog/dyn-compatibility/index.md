@@ -1,6 +1,6 @@
 +++
 title = "Understanding Dyn Compatibility"
-date = 2025-11-20
+date = 2025-11-24
 draft = false
 template = "article.html"
 [extra]
@@ -11,6 +11,7 @@ reviews = [
 resources = [
 "[The Rust Reference: Dyn Compatibility](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility)",
 "[The Rust Reference: Trait Objects](https://doc.rust-lang.org/reference/types/trait-object.html)",
+"[Two Ways To Do Dynamic Dispatch](https://www.youtube.com/watch?v=wU8hQvU8aKM) - Video by Logan Smith, which explains dyn dispatch from first principles"
 ]
 +++
 
