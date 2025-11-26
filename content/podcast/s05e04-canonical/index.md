@@ -14,9 +14,9 @@ series = "Podcast"
 
 <div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/canonical-with-jon-seager/player.js?size=s"></script></div>
 
-What does it take to rewrite the foundational components of one of the world's most popular Linux distributions? Ubuntu serves over 12 million daily desktop users alone, and the systems that power it, from sudo to core utilities, have been running for decades with what Jon Seager calls "shaky underpinnings."
+What does it take to rewrite the foundational components of one of the world's most popular Linux distributions? Ubuntu serves over 12 million daily desktop users alone, and the systems that power it, from sudo to core utilities, have been running for decades with what Jon Seager, VP of Engineering for Ubuntu at Canonical, calls "shaky underpinnings."
 
-In this episode, we talk to Jon Seager, VP Engineering for Ubuntu at Canonical, about the bold decision to "oxidize" Ubuntu's foundation. We explore why they're rewriting critical components like sudo in Rust, how they're managing the immense risk of changing software that millions depend on daily, and what it means to modernize a 20-year-old operating system without breaking the internet.
+In this episode, we talk to Jon about the bold decision to "oxidize" Ubuntu's foundation. We explore why they're rewriting critical components like sudo in Rust, how they're managing the immense risk of changing software that millions depend on daily, and what it means to modernize a 20-year-old operating system without breaking the internet.
 
 {{ codecrafters() }}
 
@@ -77,3 +77,4 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 - [Canonical Blog](https://canonical.com/blog)
 - [Ubuntu Blog](https://ubuntu.com/blog)
 - [Canonical Careers: Engineering](https://canonical.com/careers/engineering) - Apply your Rust skills in the Linux ecosystem
+
