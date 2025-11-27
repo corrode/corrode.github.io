@@ -64,16 +64,12 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 - [clap](https://github.com/clap-rs/clap) - Superstar library for CLI option parsing
 - [serde](https://serde.rs/) - Famous high-level serilization and deserialization interface crate
 
-- [zlibrs](https://github.com/trifectatechfoundation/zlib-rs) - Memory-safe zlib implementation in Rust
-- [Debcrafters](https://jnsgr.uk/2025/06/introducing-debcrafters/) - Global team ensuring Ubuntu Archive health
-- [Jon's Blog: Engineering Ubuntu For The Next 20 Years](https://jnsgr.uk/2025/02/engineering-ubuntu-for-the-next-20-years/)
-- [Jon's Blog: Ubuntu Engineering in 2025](https://jnsgr.uk/2025/10/ubuntu-25)
-
 ### Official Links
 
 - [Canonical](https://canonical.com/)
 - [Ubuntu](https://ubuntu.com/)
 - [Jon Seager's Website](https://jnsgr.uk/)
+- [Jon's Blog: Engineering Ubuntu For The Next 20 Years](https://jnsgr.uk/2025/02/engineering-ubuntu-for-the-next-20-years/)
 - [Canonical Blog](https://canonical.com/blog)
 - [Ubuntu Blog](https://ubuntu.com/blog)
 - [Canonical Careers: Engineering](https://canonical.com/careers/engineering) - Apply your Rust skills in the Linux ecosystem
