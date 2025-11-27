@@ -1,18 +1,18 @@
 +++
 title = "Canonical"
-date = 2025-11-13
+date = 2025-11-27
 template = "episode.html"
 draft = false
-aliases = ["/p/s05e04"]
+aliases = ["/p/s05e05"]
 [extra]
 guest = "Jon Seager"
 role = "VP Engineering for Ubuntu"
 season = "05"
-episode = "04"
+episode = "05"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/canonical-with-jon-seager/player.js?size=s"></script></div>
+<div><script id="letscast-player-84d68eec" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/canonical-with-jon-seager-ea273862-48ff-40d8-b3d6-bc85c680a3a6/player.js?size=s"></script></div>
 
 What does it take to rewrite the foundational components of one of the world's most popular Linux distributions? Ubuntu serves over 12 million daily desktop users alone, and the systems that power it, from sudo to core utilities, have been running for decades with what Jon Seager, VP of Engineering for Ubuntu at Canonical, calls "shaky underpinnings."
 
