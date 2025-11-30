@@ -37,7 +37,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Where**: [1 America Square (Workshops) & The Brewery (Main Conference), London, UK](https://www.rustnationuk.com/)
 - **Format**: 2 days (workshops + conference)
 - **Focus**: Rust ecosystem and community
-- **Pricing**: Early bird tickets available
+- **Pricing**: [£220.00 + £44.00 VAT](https://www.rustnationuk.com/tickets) 
 - **CFP**: [Open](https://www.rustnationuk.com/call-for-papers)
 - **Links**: [Website](https://www.rustnationuk.com/) | [Tickets](https://www.rustnationuk.com/tickets)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
@@ -50,13 +50,13 @@ As per tradition, they kick off the year of Rust conferences.
 
 "When Safety Meets Elegance" is the tagline for Rust in Paris.
 
-- **When**: TBA (typically March)
-- **Where**: Paris, France
+- **When**: Thursday, March 27, 2026 
+- **Where**: [L'Apollo Théâtre 18, Rue du Faubourg du Temple, 75011 Paris – France](https://www.google.com/maps/place/Apollo+Th%C3%A9%C3%A2tre/@48.8682435,2.3637481,17z/data=!3m2!4b1!5s0x47e66e084be9ac71:0x5452be83db948318!4m6!3m5!1s0x47e66e0852167e43:0xa259bf31ee319054!8m2!3d48.86824!4d2.366323!16s%2Fg%2F120z_cmr?entry=ttu)
 - **Format**: 1 day conference
-- **Focus**: Building secure, high-performing software with Rust
+- **Focus**: Crafting safe & efficient futures
 - **Pricing**: [€120](https://ti.to/xperhub/rust-in-paris-2026)
 - **CFP**: [Open](https://docs.google.com/forms/d/e/1FAIpQLSfuNFQNFcLorqGE4VnjFcE7OmsEQWkWnkr-SCpoIOeFb6HVWw/viewform) 
-- **Links**: [Website](https://rustinparis.com/)
+- **Links**: [Website](https://rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
 
 ### RUSTMEET (Gliwice, Poland) <span class="conference-badge tentative">Dates TBA</span>
 
@@ -84,12 +84,12 @@ An event in Poland, actively co-created by Rust enthusiasts.
 Aims to bring together Rust developers from the region and beyond.
 Expect a developer-friendly atmosphere with expert talks in a single-track format, perfect for staying connected and engaged.
 
-- **When**: TBA (typically March)
-- **Where**: Warsaw, Poland
-- **Format**: 1 day conference
+- **When**: 19-20 March 2026 
+- **Where**: [POLIN Conference Centre, Warsaw, Poland](https://maps.app.goo.gl/tPT7GzRc7kUh4d3s5)
+- **Format**: 2 day conference
 - **Focus**: Rust adoption in Poland and beyond
-- **Pricing**: TBA
-- **CFP**: TBA
+- **Pricing**: [€300](https://www.rustikon.dev/tickets) 
+- **CFP**: [Closed](https://sessionize.com/rustikon-2026/)
 - **Links**: [Website](https://www.rustikon.dev/)
 - **Social**: [Twitter](https://x.com/rustikonconf) | [Mastodon](https://mastodon.social/@Rustikon)
 
@@ -128,7 +128,7 @@ All Rustaceans are welcome to attend and submit talks.
 - **Format**: Full week (2 days talks + 1 day workshops + social events)
 - **Focus**: Broad, open to everyone
 - **Pricing**: [Tickets available](https://event.onliveevent.nl/rustweek-2026)
-- **CFP**: [Open](https://2026.rustweek.org/cfp)
+- **CFP**: [Open until 31st of December](https://2026.rustweek.org/cfp)
 - **Links**: [Website](https://2026.rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL)
 
@@ -205,10 +205,10 @@ The conference travels to a different European city each year.
 This time, it's in Barcelona, Spain. 🇪🇸
 
 - **When**: October 14-17, 2026
-- **Where**: Barcelona, Spain
-- **Format**: 2 days talks
+- **Where**: [Auditori L’illa, Barcelona, Spain](https://maps.app.goo.gl/nUzwZ1x7fahyD7aW9)
+- **Format**: 2 day event
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
-- **Pricing**: TBA
+- **Pricing**: [Private Ticket €275, Freelancer Ticket €332, Company Ticket: €600](https://ti.to/events-matter/eurorust-2026)
 - **CFP**: TBA
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
