@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2025-10-15
+updated = 2025-11-30
 template = "article.html"
 draft = false
 [extra]
@@ -54,8 +54,8 @@ As per tradition, they kick off the year of Rust conferences.
 - **Where**: Paris, France
 - **Format**: 1 day conference
 - **Focus**: Building secure, high-performing software with Rust
-- **Pricing**: TBA
-- **CFP**: TBA
+- **Pricing**: [€120](https://ti.to/xperhub/rust-in-paris-2026)
+- **CFP**: [Open](https://docs.google.com/forms/d/e/1FAIpQLSfuNFQNFcLorqGE4VnjFcE7OmsEQWkWnkr-SCpoIOeFb6HVWw/viewform) 
 - **Links**: [Website](https://rustinparis.com/)
 
 ### RUSTMEET (Gliwice, Poland) <span class="conference-badge tentative">Dates TBA</span>
