@@ -10,12 +10,8 @@ hero = "teaching.svg"
 series = "Rust Insights"
 +++
 
-{% info(title="Looking to attend a Rust conference in 2026?", icon="ferris") %}
-This is an overview of all the events we know of so far. We'll update the list as we learn more.
-{% end %}
-
 The Rust community continues to grow, and with it, the number of conferences around the world.
-While many 2026 conferences haven't announced their dates yet, we're tracking what's confirmed so far.
+While some 2026 conferences haven't announced their dates yet, we're tracking what's confirmed so far.
 Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) 
 
 Oh, and in case the call for proposals (CFP) is still open, why not submit a
