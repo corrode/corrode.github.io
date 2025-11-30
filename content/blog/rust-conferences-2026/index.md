@@ -38,7 +38,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Links**: [Website](https://www.rustnationuk.com/) | [Tickets](https://www.rustnationuk.com/tickets)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
 
-### Rust in Paris (France) <span class="conference-badge tentative">Dates TBA</span>
+### Rust in Paris (France)
 
 <a href="https://rustinparis.com/" target="_blank">
   <img src="rustinparis.jpg" alt="Rust in Paris" />
@@ -46,7 +46,7 @@ As per tradition, they kick off the year of Rust conferences.
 
 "When Safety Meets Elegance" is the tagline for Rust in Paris.
 
-- **When**: Thursday, March 27, 2026 
+- **When**: March 27, 2026 
 - **Where**: [L'Apollo Théâtre 18, Rue du Faubourg du Temple, 75011 Paris – France](https://www.google.com/maps/place/Apollo+Th%C3%A9%C3%A2tre/@48.8682435,2.3637481,17z/data=!3m2!4b1!5s0x47e66e084be9ac71:0x5452be83db948318!4m6!3m5!1s0x47e66e0852167e43:0xa259bf31ee319054!8m2!3d48.86824!4d2.366323!16s%2Fg%2F120z_cmr?entry=ttu)
 - **Format**: 1 day conference
 - **Focus**: Crafting safe & efficient futures
@@ -71,7 +71,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Links**: [Website](https://rustmeet.eu/)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
-### Rustikon (Warsaw, Poland) <span class="conference-badge tentative">Dates TBA</span>
+### Rustikon (Warsaw, Poland)
 
 <a href="https://www.rustikon.dev/" target="_blank">
   <img src="rustikon.jpg" alt="Rustikon" />
@@ -80,7 +80,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 Aims to bring together Rust developers from the region and beyond.
 Expect a developer-friendly atmosphere with expert talks in a single-track format, perfect for staying connected and engaged.
 
-- **When**: 19-20 March 2026 
+- **When**: March 19-20, 2026 
 - **Where**: [POLIN Conference Centre, Warsaw, Poland](https://maps.app.goo.gl/tPT7GzRc7kUh4d3s5)
 - **Format**: 2 day conference
 - **Focus**: Rust adoption in Poland and beyond
@@ -300,26 +300,35 @@ function addDaysUntilConference() {
                 
                 listItems.forEach(li => {
                     const text = li.textContent;
-                    
+
                     // Check if this list item contains "When:" and doesn't have "TBA"
                     if (!text.includes('When:') || text.includes('TBA')) return;
-                    
-                    // Match date pattern: Month Day(-Day), Year
+
+                    // Match date pattern: "Month Day(-Day)?, Year"
                     const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-\d{1,2})?,\s+(\d{4})/;
                     const match = text.match(datePattern);
-                    
+
                     if (match) {
-                        const monthDay = match[1] + ' ' + match[2]; // e.g., "May 18"
-                        const year = match[3];
-                        
-                        // Parse the date
-                        const confDate = new Date(`${monthDay}, ${year}`);
+                        const monthName = match[1];
+                        const day = parseInt(match[2], 10);
+                        const year = parseInt(match[3], 10);
+
+                        // Map month names to numbers (0-indexed)
+                        const monthMap = {
+                            'January': 0, 'February': 1, 'March': 2, 'April': 3,
+                            'May': 4, 'June': 5, 'July': 6, 'August': 7,
+                            'September': 8, 'October': 9, 'November': 10, 'December': 11
+                        };
+
+                        // Create date object using Date constructor with explicit parameters
+                        const confDate = new Date(year, monthMap[monthName], day);
                         const today = new Date();
-                        
+                        today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate day calculation
+
                         // Calculate days difference
                         const diffTime = confDate - today;
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        
+
                         // Add a days badge if conference is in the future
                         if (diffDays > 0) {
                             // Check if badge already exists
