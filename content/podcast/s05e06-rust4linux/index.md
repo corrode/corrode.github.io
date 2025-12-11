@@ -1,12 +1,12 @@
 +++
 title = "Rust for Linux"
-date = 2025-12-04
+date = 2025-12-11
 template = "episode.html"
 draft = false
 aliases = ["/p/s05e06"]
 [extra]
 guest = "Danilo Krummrich"
-role = "Rust for Linux Kernel Developer at Red Hat"
+role = "Linux Kernel Maintainer"
 season = "05"
 episode = "06"
 series = "Podcast"
@@ -16,7 +16,7 @@ series = "Podcast"
 
 Bringing Rust into the Linux kernel is one of the most ambitious modernization efforts in open source history. The Linux kernel, with its decades of C code and deeply ingrained development practices, is now opening its doors to a memory-safe language. It's the first time in over 30 years that a new programming language has been officially adopted for kernel development. But the journey is far from straightforward.
 
-In this episode, we speak with Danilo Krummrich, a Rust for Linux kernel developer at Red Hat, about the groundbreaking work of integrating Rust into the Linux kernel. Among other things, we we talk about the Nova GPU driver, a Rust-based successor to Nouveau for NVIDIA graphics cards, and discuss the technical challenges and cultural shifts required for large-scale Rust adoption in the kernel as well as the future of the Rust4Linux project. 
+In this episode, we speak with Danilo Krummrich, Linux kernel maintainer and Rust for Linux core team member, about the groundbreaking work of integrating Rust into the Linux kernel. Among other things, we talk about the Nova GPU driver, a Rust-based successor to Nouveau for NVIDIA graphics cards, and discuss the technical challenges and cultural shifts required for large-scale Rust adoption in the kernel as well as the future of the Rust4Linux project. 
 
 {{ codecrafters() }}
 
@@ -58,5 +58,5 @@ Danilo Krummrich is a software engineer at Red Hat and a core contributor to the
 ### Official Links
 
 - [Rust for Linux GitHub](https://github.com/Rust-for-Linux)
-- [Danilo Krummich on GitHub](https://github.com/dakr) 
+- [Danilo Krummrich on GitHub](https://github.com/dakr) 
 - [Danilo Krummrich on LinkedIn](https://www.linkedin.com/in/danilo-krummrich-796885153/)
