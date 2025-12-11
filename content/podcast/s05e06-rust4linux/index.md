@@ -58,5 +58,5 @@ Danilo Krummrich is a software engineer at Red Hat and a core contributor to the
 ### Official Links
 
 - [Rust for Linux GitHub](https://github.com/Rust-for-Linux)
-- [Danilo Krummich on GitHub](https://github.com/dakr) 
+- [Danilo Krummrich on GitHub](https://github.com/dakr) 
 - [Danilo Krummrich on LinkedIn](https://www.linkedin.com/in/danilo-krummrich-796885153/)
