@@ -28,7 +28,7 @@ Rust for Linux is a project aimed at bringing the Rust programming language into
 
 ### About Danilo Krummrich
 
-Danilo Krummrich is a software engineer at Red Hat and a core contributor to the Rust for Linux project. In January 2025, he was officially added as a reviewer to the RUST entry in the kernel's MAINTAINERS file, recognizing his expertise in developing Rust abstractions and APIs for kernel development. Danilo maintains the `staging/dev` and `staging/rust-device` branches and is the primary developer of the Nova GPU driver, a fully Rust-based driver for modern NVIDIA GPUs. He is also a maintainer of RUST [ALLOC] and several DRM-related kernel subsystems.
+Danilo Krummrich is a software engineer at Red Hat and a core contributor to the Rust for Linux project. His fundamental contribution to Rust for Linux is the driver-core infrastructure, the foundational framework that makes it possible to write drivers in Rust at all. This includes both C and Rust code that provides the core abstractions for device drivers in the kernel. Danilo is a maintainer for multiple critical kernel subsystems, including Driver Core, DRM (GPUVM, Rust, GPU Scheduler), GPU drivers for NVIDIA GPUs (Nova, Nouveau), Firmware Loader API, as well as Rust bindings for PCI, DMA, and ALLOC. He is the primary developer of the Nova GPU driver, a fully Rust-based driver for modern NVIDIA GPUs.
 
 ### Links From The Episode
 
