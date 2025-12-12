@@ -222,8 +222,7 @@ This means you don't lose all the flexibility of trait objects (in contrast to g
 
 We can change the return type of the problematic method to return a boxed trait object instead of `Self`.
 
-This works because `Box<dyn Widget>` has a known size at compile time -- it's a pointer to an object on the heap! Pointers have a known size (usually 8 bytes on 64-bit systems), 
-so the compiler knows how much space to allocate for it, unlike `Self` which varies based on the concrete type.
+This works because `Box<dyn Widget>` has a known size at compile time -- it's a pointer to an object on the heap! Pointers have a known size (usually 8 bytes on 64-bit systems),  so the compiler knows how much space to allocate for it, unlike `Self` which varies based on the concrete type.
 
 ```rust
 trait Widget {
@@ -262,8 +261,7 @@ fn main() {
 }
 ```
 
-The downside is that `Box<dyn>` is often viral in your codebase: 
-you'll end up writing out the concrete type as `Box<dyn Widget>` more often than you'd like, which can lead to noisy code.
+The downside is that `Box<dyn>` is often viral in your codebase:  you'll end up writing out the concrete type as `Box<dyn Widget>` more often than you'd like, which can lead to noisy code.
 
 ### Fix #4: Split Into Two Traits
 
