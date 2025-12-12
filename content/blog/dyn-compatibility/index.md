@@ -132,7 +132,6 @@ We have a bunch of options:
 
 Let's look at each of these in detail.
 
-
 ### Fix #1: Use Generics Instead
 
 One common way to fix the problem is to use generics instead of trait objects.
@@ -182,7 +181,7 @@ The downside is that you can't fully lean on dynamic dispatch anymore [^why-dyna
       For exmaple, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
       Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
 
-### Fix #2: Opt Out Problem Methods with `where Self: Sized`
+### Fix #2: Opt Out Problematic Methods with `where Self: Sized`
 
 Another option is to keep using trait objects but change the problematic method to only work with concrete types.
 
