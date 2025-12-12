@@ -116,7 +116,6 @@ That's a problem, because the compiler needs to know the size of the return type
 
 It will become clearer once we look at some fixes.
 
-
 ## How To Fix It
 
 Don't worry, we won't have to refactor all our code!
@@ -131,6 +130,8 @@ We have a bunch of options:
 4. Split Into Two Traits
 
 Let's look at each of these in detail.
+Each approach comes with different tradeoffs.
+Depending on the type of dyn-compatibility issue, one might be more suitable than the others or you might even need to use a combination of them. 
 
 ### Fix #1: Use Generics Instead
 
@@ -262,6 +263,9 @@ fn main() {
 ```
 
 The downside is that `Box<dyn>` is often viral in your codebase:  you'll end up writing out the concrete type as `Box<dyn Widget>` more often than you'd like, which can lead to noisy code.
+
+On top of that, this fix only works for methods that return `Self`.
+If your trait also has static methods or generic methods, you'll need to combine this approach with one of the other fixes.
 
 ### Fix #4: Split Into Two Traits
 
