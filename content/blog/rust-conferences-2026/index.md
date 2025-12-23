@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2025-11-30
+updated = 2025-12-23
 template = "article.html"
 draft = false
 [extra]
@@ -103,7 +103,7 @@ A conference for Rust developers in Asia.
 - **Focus**: Rust in Asia
 - **Pricing**: TBA
 - **CFP**: TBA
-- **Links**: [Website](https://rustasiaconf.com/)
+- **Links**: Website offline
 - **Social**: [Twitter](https://x.com/rustasiaconf)
 
 ## Q2 2026
@@ -158,11 +158,11 @@ It's a great place to meet the Rust core team and other community members.
 After Seattle in 2025, RustConf returns to beautiful Montreal, Canada.
 
 - **When**: September 8-11, 2026
-- **Where**: Montreal, Canada
+- **Where**: [Palais des Congrès de Montréal](https://congresmtl.com/), Montréal, Canada, Québec 
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
 - **Pricing**: TBA
-- **CFP**: TBA
+- **CFP**: [Open until 16 Feb 2026](https://sessionize.com/rustconf-2026)
 - **Links**: [Website](https://rustconf.com/) | [Newsletter](https://mailchi.mp/e0f01ceec688/rustconf-newsletter-registration) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf) | [BlueSky](https://bsky.app/profile/rustconf.com)
 
@@ -209,7 +209,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
-### RustLab (Florence, Italy) <span class="conference-badge tentative">Dates TBA</span>
+### RustLab (Bologna, Italy)
 
 <a href="https://rustlab.it/" target="_blank">
   <img src="rustlab.jpg" alt="RustLab" />
@@ -218,8 +218,8 @@ This time, it's in Barcelona, Spain. 🇪🇸
 The Italian Rust conference traditionally takes place in Florence.
 It's lovingly organized featuring delicious Italian food and a great community.
 
-- **When**: TBA (typically November)
-- **Where**: Florence, Italy
+- **When**: November 1-3, 2026 
+- **Where**: [Savoia Regency Hotel, Bologna](https://maps.app.goo.gl/PFdKnc3hivvwjj6X7)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
 - **Pricing**: TBA
