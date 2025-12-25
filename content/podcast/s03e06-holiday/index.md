@@ -1,5 +1,5 @@
 +++
-title = "Holiday Episode"
+title = "2024 Holiday Special"
 date = 2024-12-26
 template = "episode.html"
 draft = false
