@@ -10,7 +10,7 @@ episode = "07"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-holiday2025" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/holiday-special-2025/player.js?size=s"></script></div>
+<div><script id="letscast-player-43310bc9" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/holiday-episode/player.js?size=l"></script></div>
 
 As we close the chapter on 2025 and celebrate our second year of 'Rust in Production', it's time to reflect on the highlights of the 17 episodes since our last holiday special. We looked at Rust from all angles, from cloud infrastructure to embedded systems, and from robotics to satellite technology. One thing that all these stories have in common is the passion and dedication of the Rust community to build faster, safer, and more reliable software.
 
