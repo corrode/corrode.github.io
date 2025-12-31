@@ -41,55 +41,86 @@
             id="my-cal-inline-chat"
         ></div>
         <script type="text/javascript">
-            (function (C, A, L) {
-                let p = function (a, ar) {
-                    a.q.push(ar);
-                };
-                let d = C.document;
-                C.Cal =
-                    C.Cal ||
-                    function () {
-                        let cal = C.Cal;
-                        let ar = arguments;
-                        if (!cal.loaded) {
-                            cal.ns = {};
-                            cal.q = cal.q || [];
-                            d.head.appendChild(d.createElement("script")).src =
-                                A;
-                            cal.loaded = true;
-                        }
-                        if (ar[0] === L) {
-                            const api = function () {
-                                p(api, arguments);
-                            };
-                            const namespace = ar[1];
-                            api.q = api.q || [];
-                            if (typeof namespace === "string") {
-                                cal.ns[namespace] = cal.ns[namespace] || api;
-                                p(cal.ns[namespace], ar);
-                                p(cal, ["initNamespace", namespace]);
-                            } else p(cal, ar);
-                            return;
-                        }
-                        p(cal, ar);
+            // Function to initialize Cal with the appropriate domain
+            function initializeCal(isEU) {
+                const calDomain = isEU
+                    ? "https://app.cal.eu"
+                    : "https://app.cal.com";
+                const embedScript = calDomain + "/embed/embed.js";
+
+                (function (C, A, L) {
+                    let p = function (a, ar) {
+                        a.q.push(ar);
                     };
-            })(window, "https://app.cal.com/embed/embed.js", "init");
-            Cal("init", "chat", { origin: "https://app.cal.com" });
+                    let d = C.document;
+                    C.Cal =
+                        C.Cal ||
+                        function () {
+                            let cal = C.Cal;
+                            let ar = arguments;
+                            if (!cal.loaded) {
+                                cal.ns = {};
+                                cal.q = cal.q || [];
+                                d.head.appendChild(
+                                    d.createElement("script"),
+                                ).src = A;
+                                cal.loaded = true;
+                            }
+                            if (ar[0] === L) {
+                                const api = function () {
+                                    p(api, arguments);
+                                };
+                                const namespace = ar[1];
+                                api.q = api.q || [];
+                                if (typeof namespace === "string") {
+                                    cal.ns[namespace] =
+                                        cal.ns[namespace] || api;
+                                    p(cal.ns[namespace], ar);
+                                    p(cal, ["initNamespace", namespace]);
+                                } else p(cal, ar);
+                                return;
+                            }
+                            p(cal, ar);
+                        };
+                })(window, embedScript, "init");
+                Cal("init", "chat", { origin: calDomain });
 
-            Cal.ns["chat"]("inline", {
-                elementOrSelector: "#my-cal-inline-chat",
-                config: { layout: "month_view" },
-                calLink: "corrode",
-            });
+                Cal.ns["chat"]("inline", {
+                    elementOrSelector: "#my-cal-inline-chat",
+                    config: { layout: "month_view" },
+                    calLink: "corrode",
+                });
 
-            Cal.ns["chat"]("ui", {
-                cssVarsPerTheme: {
-                    light: { "cal-brand": "#292929" },
-                    dark: { "cal-brand": "#fab71c" },
-                },
-                hideEventTypeDetails: false,
-                layout: "month_view",
-            });
+                Cal.ns["chat"]("ui", {
+                    cssVarsPerTheme: {
+                        light: { "cal-brand": "#292929" },
+                        dark: { "cal-brand": "#fab71c" },
+                    },
+                    hideEventTypeDetails: false,
+                    layout: "month_view",
+                });
+            }
+
+            // Check for override via URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const regionOverride = urlParams.get("region");
+
+            if (regionOverride === "eu") {
+                initializeCal(true);
+            } else if (regionOverride === "us") {
+                initializeCal(false);
+            } else {
+                // Detect user location and initialize appropriate Cal embed
+                fetch("https://ipapi.co/json/")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        initializeCal(data.in_eu === true);
+                    })
+                    .catch(() => {
+                        // Default to cal.com if geolocation fails
+                        initializeCal(false);
+                    });
+            }
         </script>
         <!-- Cal inline embed code ends -->
     </body>
