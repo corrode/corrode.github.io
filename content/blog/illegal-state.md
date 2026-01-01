@@ -50,10 +50,12 @@ Now, how can we fix this?
 
 ## The Type System Is Your Friend
 
-Consider the `String` type. It's a type that represents 
+Consider the `String` type. It's a type that represents
 an arbitrary sequence of unicode characters. In our case, we need much stricter
 constraints. For a start, we want to make sure that the username is *not
 empty*.
+
+One powerful way to model these constraints is through [enums](/blog/enums/), which allow you to represent a set of possible values in a type-safe way.
 
 Whenever you're uncertain how to model something in Rust,
 start by defining your basic types &mdash; your domain.
@@ -314,3 +316,10 @@ but you could consider using a validation library like
 If possible, use self-contained, custom types to model your domain.
 It will improve your system design, making it easier to test and reason
 about. Handle errors at the lowest possible level (as early as possible).
+
+## Further Reading
+
+For more on idiomatic Rust patterns, check out:
+
+- [Using Enums to Represent State](/blog/enums/) - Learn how to use Rust's powerful enum types for state management
+- [Compile-Time Invariants](/blog/compile-time-invariants/) - Explore advanced techniques for encoding invariants in the type system

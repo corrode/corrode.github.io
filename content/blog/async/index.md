@@ -260,7 +260,7 @@ additional memory usage; in embedded environments, these mechanisms are often
 not available at all.
 
 **Multi-threaded-by-default runtimes cause accidental complexity completely
-unrelated to the task of writing async code.**
+unrelated to the task of writing async code.** This additional complexity can also impact build times, as discussed in our guide on [Tips for Faster Compile Times](/blog/tips-for-faster-rust-compile-times/).
 
 Futures should be designed for brief, scoped lifespans rather than the `'static` lifetime.
 Ideally, we'd lean on an explicit `spawn::async` instead of `spawn::blocking`. 
@@ -382,6 +382,8 @@ Async Rust promises efficient resource handling, at the cost of complexity and
 worse ergonomics. As an example, if the function were _async_ and you called it
 _outside_ of a runtime, it would compile, but not run. Futures do nothing unless
 being polled; a common footgun for newcomers.
+
+For teams evaluating async Rust for production use, it's worth understanding the full trade-offs. See [Why Rust in Production](/blog/why-rust/) for a broader perspective on when these complexities are justified.
 
 ```rust
 use tokio::fs;

@@ -39,9 +39,9 @@ You might also want to listen to [this podcast episode of Rust in Production](/p
 
 Key Highlights:
 
-- Insights into hiring Rust engineers.
-- Tips to flatten the learning curve.
-- Effective strategies for Rust adoption.
+- Insights into [hiring Rust engineers](/blog/hiring-rust-engineers/).
+- Tips to [flatten the learning curve](/blog/flattening-rusts-learning-curve/).
+- Effective strategies for [Rust adoption](/blog/successful-rust-business-adoption-checklist/).
 - The significant impact of Rust's performance on user experience.
 - And much more.
 
@@ -274,7 +274,7 @@ Rust has great developer ergonomics. Its expressive type system allows
 developers to model their domain in a way that lets the compiler help with
 writing correct code.
 
-Furthermore, functional concepts like pattern matching, enums, `Result` and `Option` types
+Furthermore, functional concepts like pattern matching, [enums](/blog/enums/), `Result` and [`Option` types](/blog/rust-option-handling-best-practices/)
 allow for concise and expressive code.
 
 Rust's robust error handling story, which requires the programmer to explicitly handle
@@ -349,8 +349,8 @@ Report](https://www.jetbrains.com/lp/devecosystem-2021/rust/#:~:text=Rust%20deve
 Rust developers are typically more proficient compared to developers in other
 languages, as many have more experience and often occupy senior roles.
 
-Many developers enjoy working with Rust. It is the most admired language for the
-6th year in a row according to the [StackOverflow Developer Survey](https://survey.stackoverflow.co/2023/#section-admired-and-desired-programming-scripting-and-markup-languages).
+Many developers enjoy working with Rust. It has consistently been the most admired language
+according to the [StackOverflow Developer Survey](https://survey.stackoverflow.co/2023/#section-admired-and-desired-programming-scripting-and-markup-languages).
 More than 80% of developers that use it want to use it again next year.
 
 For teams that are looking to hire and retain talent, Rust can be a great choice
@@ -498,7 +498,7 @@ async/await in Rust](/blog/async/).
 ### Lack Of Developers
 
 Related to the previous point, the Rust community is still relatively small.
-It is hard to find developers with professional Rust experience. 
+It is hard to find developers with professional Rust experience.
 
 From talking to companies that use Rust in production, I found that they are
 mostly training their developers on the job.
@@ -509,6 +509,8 @@ On the other hand, Rust developers are generally very passionate about their
 craft and are actively seeking out jobs that allow them to use Rust,
 so the market for Rust developers is growing. (Also see
 the previous section about developer happiness.)
+
+For more insights on finding and hiring Rust talent, see our dedicated guide on [how to hire Rust engineers](/blog/hiring-rust-engineers/).
 
 > Rust has more than tripled the size of its community over the past two years
 > and currently has 3.7M users, of which 0.6M joined in the last six months
@@ -682,4 +684,7 @@ from adopting Rust in production by companies that shape the future of infrastru
 ## Next Steps
 
 * [Listen to the Rust in Production Podcast](/podcast)
+* [Explore our curated Rust Learning Resources](/blog/rust-learning-resources-2026/)
+* [Learn how to hire Rust engineers](/blog/hiring-rust-engineers/)
+* [Read our Rust Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/)
 * [Reach Out for Rust Training and Consulting](/services/)

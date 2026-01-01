@@ -307,7 +307,7 @@ No matter how you plan to integrate Rust into your project, make sure to read up
 - [Rustlings](https://github.com/rust-lang/rustlings): Fun, short exercises to get started with Rust.
 
 Which resources I would recommend after that depends on the team's background and the project's requirements.
-Take a look at this [Rust books list](https://github.com/sger/RustBooks) and my resources for [idiomatic Rust](https://corrode.dev/blog/idiomatic-rust-resources/).
+Take a look at this [Rust books list](https://github.com/sger/RustBooks), our [curated Rust learning resources](/blog/rust-learning-resources-2026/), and resources for [idiomatic Rust](/blog/idiomatic-rust-resources/).
 
 ## Budgeting
 
@@ -393,6 +393,8 @@ Feel free to make a copy and adapt it to suit your project's needs.
 
 Hiring Rust talent takes time and effort.
 This section provides insights into hiring strategies and what to look for in candidates for Rust projects specifically.
+
+For a comprehensive guide on hiring Rust developers, see our dedicated article on [How to Hire Rust Engineers](/blog/hiring-rust-engineers/).
 
 ### People with Production Experience Are Hard to Find and Expensive
 

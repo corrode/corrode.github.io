@@ -27,6 +27,8 @@ Here are some tips to speed up your compile times.
 This list was originally released on my [private blog](https://endler.dev/), but I decided to
 update it for 2025 and move it here.
 
+While compile times can be a challenge when adopting Rust, they're often manageable with the right techniques. For a broader perspective on Rust adoption, see [Why Rust in Production](/blog/why-rust/).
+
 All tips are roughly ordered by impact so you can start from the top and work your way down.
 
 <h2>Table of Contents</h2>
@@ -927,9 +929,7 @@ on CI.
 
 {% info(title="Tips for CI Builds") %}
 
-I wrote a dedicated article on [how to speed up your CI builds](/blog/tips-for-faster-ci-builds/).
-It covers a lot of the tips mentioned here in more detail and also includes
-more specific advice for Github Actions.
+Many of the techniques in this article also apply to CI builds. For CI-specific optimizations and best practices, check out my dedicated guide on [Tips for Faster CI Builds](/blog/tips-for-faster-ci-builds/), which covers caching strategies, workflow optimization, and GitHub Actions-specific improvements.
 
 {% end %}
 
@@ -1163,6 +1163,8 @@ Credit: This tip was shared by [asparck on Reddit](https://www.reddit.com/r/rust
 In this article, we've covered a lot of ground. We've looked at how to speed up
 your Rust builds by using better hardware, optimizing your code, and using
 better tools.
+
+For CI-specific optimizations, don't forget to check out [Tips for Faster CI Builds](/blog/tips-for-faster-ci-builds/), which complements the techniques discussed here.
 
 I hope that you were able to use some of these tips to speed up your Rust builds.
 In case you found other ways to speed up your Rust builds, or if you have any

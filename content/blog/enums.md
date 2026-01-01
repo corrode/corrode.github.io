@@ -263,7 +263,7 @@ like, say, triggering an expensive cleanup job twice) or re-activate a deleted u
 Out of the box, enums don't prevent us from making invalid state transitions. We
 can still write code that transitions from `Active` to `Suspended` without
 checking if the user is already suspended. A simple fix is to return a `Result` from the transition methods (as we did above) to indicate if the transition was successful. This way, we can handle errors gracefully at compile-time without too much ceremony.
-It's a simple and effective way towards avoiding [illegal state](/blog/illegal-state).
+It's a simple and effective way towards [making illegal states unrepresentable](/blog/illegal-state/).
 
 Another often mentioned drawback is that you need pattern matching to handle state transitions.
 
@@ -496,4 +496,11 @@ Here's a quick summary of the different state management approaches in Rust:
 Remember, the goal is to write code that is not only correct but also maintainable and understandable by your team.
 
 My recommendation is to use enums whenever you need to represent a set of possible values, like when representing the state of an object. For even stronger guarantees, consider the typestate pattern, especially in safety-critical applications.
+
+## Further Reading
+
+If you enjoyed this article, you might also like:
+
+- [Make Illegal States Unrepresentable](/blog/illegal-state/) - Learn how to use Rust's type system to prevent invalid states at compile time
+- [Idiomatic Rust](/#series-idiomatic-rust) - More articles on writing idiomatic Rust code
 

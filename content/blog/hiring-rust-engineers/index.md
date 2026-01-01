@@ -44,7 +44,7 @@ In reality, the Rust community has more than tripled in size over the past two y
 <img src="communities.svg" class="invert" alt="Programming Language Communities Size">
 </a>
 
-In contrast, companies that already use Rust in production rarely struggle with these issues and are generally very happy with their choice. 
+In contrast, companies that already use Rust in production rarely struggle with these issues and are generally very happy with their choice. If you're still evaluating Rust for your organization, check out our guide on [Why Rust in Production](/blog/why-rust/). 
 
 Here are some of the quotes from the [season 1 finale of the 'Rust in Production' podcast](/podcast/s01e07-season-finale/?t=23%3A06):
 
@@ -83,8 +83,8 @@ Granted, the Rust job market is still relatively small compared to other languag
 limit themselves by only looking for senior Rust developers. That's a mistake.
 
 With some training, you can save a lot of time and money by hiring mid-level developers or smart juniors who are eager to learn Rust.
-Yes, [there is a learning curve](/blog/flattening-rusts-learning-curve/), but it's probably less expensive to train a 
-junior/mid-level developer in Rust compared to hiring a senior/staff Rust developer.
+Yes, [there is a learning curve](/blog/flattening-rusts-learning-curve/), but it's probably less expensive to train a
+junior/mid-level developer in Rust compared to hiring a senior/staff Rust developer. For training resources, see our curated list of [Rust Learning Resources](/blog/rust-learning-resources-2026/).
 
 Currently, the best way to find Rust devs is 
 
@@ -134,7 +134,7 @@ Let's look at the points in more detail:
 
 ## Takeaways
 
-**If you're a hiring manager** don't just look at raw Rust expertise; think outside the box and consider related skills and experience. The current hiring market is challenging, with an imbalance between eager developers and limited job opportunities. However, this presents a unique opportunity for forward-thinking companies to invest in talent. People exceed expectations when given trust and opportunity.
+**If you're a hiring manager** don't just look at raw Rust expertise; think outside the box and consider related skills and experience. The current hiring market is challenging, with an imbalance between eager developers and limited job opportunities. However, this presents a unique opportunity for forward-thinking companies to invest in talent. People exceed expectations when given trust and opportunity. For a comprehensive guide on adopting Rust in your organization, check out our [Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/).
 
 **If you're a professional Rust developer** looking to improve the situation, 
 work with your hiring manager to help them understand how to hire more Rust devs. Perhaps this guide can help you get started.
