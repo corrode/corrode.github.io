@@ -59,6 +59,7 @@
     width: 40px;
     height: 40px;
     flex-shrink: 0;
+    margin: 0 20px;
 }
 
 .podcast-logo {
@@ -113,6 +114,8 @@
 .chevron {
     flex-shrink: 0;
     margin-left: auto;
+    transform: translateX(-20px) rotate(270deg);
+    transition: all 0.3s ease;
 }
 
 /* Mobile responsive design */
@@ -128,6 +131,7 @@
     .podcast-logo-wrapper {
         width: 48px;
         height: 48px;
+        margin-right: 12px;
     }
 
     .podcast-content {
@@ -144,11 +148,6 @@
     .podcast-meta {
         font-size: 0.75em;
         gap: 8px;
-    }
-
-    .chevron {
-        width: 16px;
-        height: 16px;
     }
 }
 
