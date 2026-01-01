@@ -10,31 +10,12 @@ hero = "teaching.svg"
 series = "Rust Insights"
 +++
 
-{% info(title="Looking to attend a Rust conference in 2025?", icon="ferris") %}
-Here's a list of all major Rust events happening around the world. Find dates,
-locations, ticket prices, CFP deadlines, and more.
+{% info(title="Looking for upcoming Rust conferences?", icon="ferris") %}
+This page covers Rust conferences in 2025. For upcoming events, check out our [Rust Conferences 2026](/blog/rust-conferences-2026/) page with dates, locations, ticket prices, CFP deadlines, and more.
 {% end %}
 
 Rustaceans like to mingle, learn, and share their knowledge at conferences.
-With 10-12 conferences happening in 2025, it will be a busy year for the Rust community.
-To make it easier to keep track of all the events, we've compiled a list of all Rust conferences in 2025.
-Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) 
-
-Oh, and in case the call for proposals (CFP) is still open, why not submit a
-talk or workshop proposal?
-
-## Subscribe For Updates 
-
-Stay up to date with all Rust conferences in 2025 by subscribing to this Google calendar.
-
-<iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FBerlin&showPrint=0&src=ZjAwNDE4Mzk3YzJiN2Q4MTkwNjk3NDJhMTBkMjQyOGE4OGFlZjE3MzU5NWNjYmU2ZTVmYjVlOGY1MDlmNjEzMkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23AD1457&mode=AGENDA" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-
-Or download the static calendar file and import it into your favorite calendar application.
-Check back periodically for updated versions as new conferences are announced.
-
-<div style="display: flex; gap: 20px">
-  <button class="button" onclick="window.location.href='rust-conferences-2025.ics'" style="display: inline-block; padding: 20px 40px">Download Calendar File (ICS)</button>
-</div>
+With 13 conferences happening in 2025, it was a busy year for the Rust community.
 
 ## Q1 2025
 
@@ -48,7 +29,6 @@ Rust Nation has evolved into a staple event in the Rust community.
 The organization, speaker lineup, and recordings are always top-notch.
 It's a great conference for Rust developers of all levels.
 As per tradition, they kick off the year of Rust conferences. 
-
 
 <button onclick="window.open('https://www.youtube.com/watch?v=fmtykJT1acM&list=PL1AoGvxomykSSFFL4Qav3wKzL-dsi9I5L', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -349,80 +329,5 @@ It's lovingly organized featuring delicious italian food and a great community.
 
 ---
 
-That's the complete lineup of Rust conferences for 2025! From London to Hong Kong to Seattle, there's something for every Rustacean.
-
-Missing an event? Spot an error? Feel free to [edit this list directly](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2025/index.md) or let us know. 
-
+That was the complete lineup of Rust conferences for 2025! From London to Hong Kong to Seattle, there was something for every Rustacean.
 See you at the next conference! 🦀
-
-*Note: This list will be updated as more information becomes available. Some conferences are yet to announce their exact dates, venues, or ticket prices.*
-
-<script>
-// Add days until conference start
-function addDaysUntilConference() {
-    // Get all elements containing conference dates (assumes they're in <strong> tags after "When")
-    const dateElements = document.querySelectorAll('li strong:contains("When")');
-    
-    dateElements.forEach(element => {
-        // Get the date text that follows the "When: " label
-        const dateText = element.nextSibling.textContent.trim();
-        
-        // Extract the start date (handles both single dates and ranges)
-        const startDate = dateText.split('-')[0].trim().split(',')[0];
-        
-        // Parse the date
-        const confDate = new Date(startDate + ", 2025");
-        const today = new Date();
-        
-        // Calculate days difference
-        const diffTime = confDate - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        // Add the days count in parentheses
-        if (diffDays > 0) {
-            element.nextSibling.textContent += ` (in ${diffDays} days)`;
-        }
-    });
-}
-
-function addDaysUntilConference() {
-    // Get all text nodes containing dates
-    const walker = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_TEXT,
-        null,
-        false
-    );
-
-    let node;
-    const datePattern = /(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:-\d{1,2})?,\s+2025/i;
-
-    while (node = walker.nextNode()) {
-        if (datePattern.test(node.textContent)) {
-            const dateText = node.textContent.match(datePattern)[0];
-            const startDate = dateText.split('-')[0].split(',')[0];
-            
-            const confDate = new Date(startDate + ", 2025");
-            const today = new Date();
-            
-            const diffTime = confDate - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays > 0) {
-                node.textContent = node.textContent.replace(
-                    dateText,
-                    `${dateText} (in ${diffDays} days)`
-                );
-            }
-        }
-    }
-}
-
-addDaysUntilConference();
-</script>
-
-<style>
-  iframe, object, embed {
-    max-width: 100%;
-}
-</style>
