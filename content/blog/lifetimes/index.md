@@ -6,6 +6,9 @@ template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 resources = [
+    "[Why Rust in Production?](/blog/why-rust/) - Learn about the broader benefits of Rust beyond just lifetimes",
+    "[Make Illegal States Unrepresentable](/blog/illegal-state/) - Another powerful technique for writing safer Rust code",
+    "[Rust Learning Resources](/blog/rust-learning-resources-2026/) - Curated resources to deepen your Rust knowledge",
     "Go through the [Rustlings move semantics examples](https://github.com/rust-lang/rustlings/tree/main/exercises/06_move_semantics) to get a better understanding of lifetimes.",
     "[Lifetime safety is static typing](https://www.circle-lang.org/draft-profiles.html#lifetime-safety-is-static-typing) by Sean Baxter",
 ]
@@ -273,9 +276,3 @@ I only have to add lifetimes in two kinds of situations: returning references fr
 In all other cases, the compiler does a great job of inferring lifetimes
 for you, and you should only add them when you have a good reason to do so, i.e.  when the compiler tells you to, when optimizing for performance, or
 when you want to explicitly describe the relationships in your code to humans.
-
-## Further Reading
-
-- [Why Rust in Production?](/blog/why-rust/) - Learn about the broader benefits of Rust beyond just lifetimes
-- [Make Illegal States Unrepresentable](/blog/illegal-state/) - Another powerful technique for writing safer Rust code
-- [Rust Learning Resources](/blog/rust-learning-resources-2026/) - Curated resources to deepen your Rust knowledge

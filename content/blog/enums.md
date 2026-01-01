@@ -6,7 +6,11 @@ date = 2023-08-08
 updated = 2024-08-20
 [extra]
 series = "Idiomatic Rust"
-reviews = [ 
+resources = [
+    "[Make Illegal States Unrepresentable](/blog/illegal-state/) - Learn how to use Rust's type system to prevent invalid states at compile time",
+    "[Idiomatic Rust](/#series-idiomatic-rust) - More articles on writing idiomatic Rust code",
+]
+reviews = [
     { name = "Maikel", url = "https://mastodon.social/@the@mkl.lol" }
 ]
 +++
@@ -496,11 +500,3 @@ Here's a quick summary of the different state management approaches in Rust:
 Remember, the goal is to write code that is not only correct but also maintainable and understandable by your team.
 
 My recommendation is to use enums whenever you need to represent a set of possible values, like when representing the state of an object. For even stronger guarantees, consider the typestate pattern, especially in safety-critical applications.
-
-## Further Reading
-
-If you enjoyed this article, you might also like:
-
-- [Make Illegal States Unrepresentable](/blog/illegal-state/) - Learn how to use Rust's type system to prevent invalid states at compile time
-- [Idiomatic Rust](/#series-idiomatic-rust) - More articles on writing idiomatic Rust code
-

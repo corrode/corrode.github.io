@@ -6,7 +6,11 @@ template = "article.html"
 draft = false
 [extra]
 series = "Idiomatic Rust"
-reviews = [ 
+resources = [
+    "[Using Enums to Represent State](/blog/enums/) - Learn how to use Rust's powerful enum types for state management",
+    "[Compile-Time Invariants](/blog/compile-time-invariants/) - Explore advanced techniques for encoding invariants in the type system",
+]
+reviews = [
     { name = "Wesley Moore", url = "https://www.wezm.net" },
     { name = "Nicolas Kosinski", url = "https://github.com/nicokosi" },
     { name = "zSchön", url = "https://mastodon.social/@TheAlgorythm@chaos.social" },
@@ -316,10 +320,3 @@ but you could consider using a validation library like
 If possible, use self-contained, custom types to model your domain.
 It will improve your system design, making it easier to test and reason
 about. Handle errors at the lowest possible level (as early as possible).
-
-## Further Reading
-
-For more on idiomatic Rust patterns, check out:
-
-- [Using Enums to Represent State](/blog/enums/) - Learn how to use Rust's powerful enum types for state management
-- [Compile-Time Invariants](/blog/compile-time-invariants/) - Explore advanced techniques for encoding invariants in the type system
