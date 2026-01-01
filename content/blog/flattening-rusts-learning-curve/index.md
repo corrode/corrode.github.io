@@ -356,7 +356,7 @@ In the long run, finding the right resource saves you time because you will lear
 I personally don't like doing toy exercises that others have built out for me.
 That's why I don't like Rustlings too much; the exercises are not "fun" and too theoretical. I want more practical exercises.
 I found that [Project Euler](https://projecteuler.net/) or [Advent of Code](https://adventofcode.com/) work way better for me.
-The question comes up quite often, so I wrote a blog post about [my favorite Rust learning resources](/blog/rust-learning-resources-2025).
+The question comes up quite often, so I wrote a blog post about [my favorite Rust learning resources](/blog/rust-learning-resources-2026).
 
 #### Don't Just Watch YouTube
 
