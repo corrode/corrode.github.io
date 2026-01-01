@@ -1,7 +1,7 @@
 +++
-title = "Rust Learning Resources 2025"
+title = "Rust Learning Resources 2026"
 date = 2025-03-06
-updated = 2025-04-06
+updated = 2026-01-01
 template = "article.html"
 [extra]
 series = "Rust Insights"
@@ -20,9 +20,9 @@ When I ask developers what they look for in a Rust learning resource, I tend to 
 - They look for **up-to-date material** from **experienced developers**
 - They prefer to use **their own development environment**
 
-All of the above are valid points, especially for learning Rust -- a language known for its notoriously steep learning curve.
+All of the above are valid points, especially for learning Rust, a language known for its notoriously [steep learning curve](/blog/flattening-rusts-learning-curve).
 
-If you've been thinking about learning Rust for a while now and perhaps you've already started dabbling with it, now's the time to fully commit. I've put together my favorite Rust learning resources for 2025 to help you jumpstart your Rust journey. 
+If you've been thinking about learning Rust for a while now and perhaps you've already started dabbling with it, now's the time to fully commit. I've put together my favorite Rust learning resources for 2026 to help you jumpstart your Rust journey. 
 I made sure to include a healthy mix of self-paced resources, interactive exercises, and hands-on workshops.
 
 ## Rustlings
