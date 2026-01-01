@@ -64,7 +64,7 @@ It features 12 speakers, 1 day of talks, and 250 attendees.
 - **Pricing**: 
   - Standard: $311 (early bird)
   - Student: $124
-- **CFP**: [Closed](https://docs.google.com/forms/d/e/1FAIpQLSdamzdbUi3EIGBrmEw0-Na4myXP0088kvxVmVT4YU-1BEiyCg/viewform)
+- **CFP**: Closed
 - **Links**: [Website](https://rustinparis.com/) | [Schedule](https://rustinparis.com/schedule)
 
 ### RUSTMEET (Gliwice, Poland)
@@ -122,11 +122,11 @@ Expect a developer-friendly atmosphere with ~15 expert talks in a single-track f
 
 ### RUSTAsia (Hong Kong)
 
-<a href="https://rustasiaconf.com/" target="_blank">
+<a target="_blank">
   <img src="rustasia.jpg" alt="RUSTAsia" />
 </a>
 
-Another first-time event, RUSTAsia is a conference for Rust developers in Asia.  
+Another first-time event, RUSTAsia is a conference for Rust developers in Asia.
 After many years without a Rust conference in Asia (the last one being RustCon Asia in 2019), the community is excited to have a new event in Hong Kong.
 
 - **When**: March 28, 2025
@@ -138,8 +138,8 @@ After many years without a Rust conference in Asia (the last one being RustCon A
   - Standard: $245 (early bird)
   - VIP: $375
   - Corporate: $450
-- **CFP**: [Closed](https://rustasiaconf.com/proposals)
-- **Links**: [Website](https://rustasiaconf.com/)
+- **CFP**: Closed
+- **Links**: Website offline
 - **Social**: [Twitter](https://x.com/rustasiaconf)
 
 ## Q2 2025
@@ -227,6 +227,13 @@ blockchain sectors and those who are interested in it.
 
 RustForge is the first conference in the Asia/Pacific region that focuses on Rust.
 
+<button onclick="window.open('https://www.youtube.com/watch?v=es48dmNWMVQ', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
+
 - **When**: August 27-30, 2025
 - **Where**: [Shed 6, Wellington, New Zealand](https://maps.app.goo.gl/PDbFTB5Gqs5iVmeNA)
 - **Format**: 4 days (2 days workshops + 2 days conference)
@@ -249,15 +256,22 @@ RustConf is the official Rust conference organized by the Rust Foundation.
 It's a great place to meet the Rust core team and other community members.
 The last edition was held in Montreal, Canada and the 2025 edition will be announced soon.
 
+<button onclick="window.open('https://www.youtube.com/watch?v=dA-uv3yCMZc&list=PL2b0df3jKKiRFEuVNk76ufXagOgEJ9sBZ', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
+
 - **When**: September 2-5, 2025
 - **Where**: Seattle, Washington, USA
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
-- **Pricing**: 
+- **Pricing**:
   - Regular: $525
-  - Corporate: $775 
+  - Corporate: $775
   - [Get tickets here](https://rustconf.com/register/)
-- **CFP**: [Closed](https://rustconf.com/submit-a-talk/) 
+- **CFP**: Closed
 - **Links**: [Website](https://rustconf.com/) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf), [BlueSky](https://bsky.app/profile/rustconf.com)
 
@@ -270,6 +284,13 @@ The last edition was held in Montreal, Canada and the 2025 edition will be annou
 Two days of applied Rust insights from industry innovators.
 Topics range from cross-platform GUI development to Rust in safety-critical systems.
 
+<button onclick="window.open('https://www.youtube.com/watch?v=jyGVk2aMEjE&list=PLilpJp3WAOvcn5_VDv3VIkQzniMWl_BfO', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
+
 - **When**: September 16-18, 2025
 - **Where**: [Tagungswerk, Berlin, Germany](https://maps.app.goo.gl/Q3SzoU7EDJv4kxnHA)
 - **Format**: 3 days (1 day workshops + 2 days talks)
@@ -278,7 +299,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
   - Conference only: €505.75
   - Workshop + Conference: €653.31
   - [Get tickets here](https://ti.to/asquera-event-ug/oxidize-conference-2025)
-- **CFP**: [Closed](https://pretalx.com/oxidize-conference-2025/cfp) 
+- **CFP**: Closed
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
 
@@ -297,6 +318,13 @@ embedded systems.
 
 The conference travels to a different European city each year.
 This time, it's in Paris, France. 🥖
+
+<button onclick="window.open('https://www.youtube.com/watch?v=4sYzxv6YijI&list=PLH6-VpZ3SvUUO_lfxniFmyKxUMngBOWFg', '_blank')" class="button" style="display: inline-flex; align-items: center; gap: 8px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+  Recordings Available
+</button>
 
 - **When**: October 9-10, 2025
 - **Where**: [Cité des Sciences et de l'Industrie, Paris, France](https://maps.app.goo.gl/4SNzfvFVF3VqMDY5A)
