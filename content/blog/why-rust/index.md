@@ -84,7 +84,6 @@ Click here to expand the table of contents.
   - [Compile Times](#compile-times)
 - [Conclusion](#conclusion)
 - [Talks](#talks)
-- [Further Reading](#further-reading)
 - [Next Steps](#next-steps)
 
 </details>
