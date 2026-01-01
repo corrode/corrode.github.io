@@ -287,15 +287,16 @@ See you at the next conference! 🦀
     text-transform: uppercase;
     padding: 0.4rem 0.9rem;
     border: 2px solid;
+    border-radius: 4px;
     display: inline-block;
     margin-left: 0.75rem;
     vertical-align: middle;
   }
 
   .conference-badge.tentative {
-    color: #666;
-    background: #f5f5f5;
-    border-color: #ccc;
+    color: #111;
+    background: transparent;
+    border-color: rgba(17, 17, 17, 0.3);
   }
 
   .conference-badge.days {
@@ -305,7 +306,7 @@ See you at the next conference! 🦀
   }
 
   .conference-badge.cfp-open {
-    color: #fff;
+    color: #111;
     background: #22c55e;
     border-color: #22c55e;
   }
@@ -329,16 +330,16 @@ See you at the next conference! 🦀
       border-color: white;
     }
 
+    .conference-badge.tentative {
+      color: white;
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
     .conference-badge.days {
       color: #111;
       background: #fab71c;
       border-color: #fab71c;
-    }
-
-    .conference-badge.tentative {
-      color: #ccc;
-      background: #2a2a2a;
-      border-color: #555;
     }
 
     .conference-badge.cfp-open {
