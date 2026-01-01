@@ -25,9 +25,7 @@ reviews = [
 
 Here are some tips to speed up your compile times.
 This list was originally released on my [private blog](https://endler.dev/), but I decided to
-update it for 2025 and move it here.
-
-While compile times can be a challenge when adopting Rust, they're often manageable with the right techniques. For a broader perspective on Rust adoption, see [Why Rust in Production](/blog/why-rust/).
+update it and move it here.
 
 All tips are roughly ordered by impact so you can start from the top and work your way down.
 
