@@ -114,31 +114,26 @@
             <li>
                 <a href="{{ episode.permalink }}" class="podcast-link">
                     <div class="podcast-item">
-                    <div class="podcast-header">
                         <div class="podcast-logo-wrapper">
-                        <img
-                            class="podcast-logo invert"
-                            src="{{ episode.permalink }}/logo.svg"
-                            alt="{{ episode.title }} Logo"
-                        />
+                            <img
+                                class="podcast-logo invert"
+                                src="{{ episode.permalink }}/logo.svg"
+                                alt="{{ episode.title }} Logo"
+                            />
                         </div>
-                        <div class="podcast-title">
-                        {{ episode.title }}
-                        {% if episode.extra.guest %}
-                            <span style="opacity: 0.7">with {{ episode.extra.guest }}</span>
-                        {% endif %}
-                        </div>
-                    </div>
-                    <div class="podcast-details">
-                        <div>
-                        <div>{{ episode.date }}</div>
-                        <div>
-                            <code>S{{ episode.extra.season }} E{{ episode.extra.episode}}</code
-                            >
-                        </div>
+                        <div class="podcast-content">
+                            <div class="podcast-title">
+                                {{ episode.title }}
+                                {% if episode.extra.guest %}
+                                    <span class="podcast-guest">with {{ episode.extra.guest }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="podcast-meta">
+                                <span>{{ episode.date }}</span>
+                                <code>S{{ episode.extra.season }} E{{ episode.extra.episode}}</code>
+                            </div>
                         </div>
                         <div class="chevron"></div>
-                    </div>
                     </div>
                 </a>
             </li>

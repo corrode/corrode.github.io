@@ -51,25 +51,14 @@
 
 .podcast-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.podcast-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.podcast-footer {
-    padding: 10px 0px;
-    font-size: 0.8em;
-    opacity: 0.8;
+    gap: 15px;
 }
 
 .podcast-logo-wrapper {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
 }
 
 .podcast-logo {
@@ -79,18 +68,94 @@
     filter: grayscale(1);
 }
 
-.podcast-title {
-    text-align: left;
-    font-weight: bold;
+.podcast-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.podcast-details {
-    font-family: JetBrainsMono;
-    text-align: right;
-    font-size: 0.8em;
+.podcast-title {
+    font-weight: bold;
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: baseline;
+}
+
+.podcast-guest {
+    opacity: 0.7;
+    font-weight: normal;
+}
+
+.podcast-meta {
+    font-family: JetBrainsMono;
+    font-size: 0.8em;
+    opacity: 0.8;
+    display: flex;
+    gap: 10px;
     align-items: center;
+}
+
+.podcast-meta code {
+    padding: 2px 6px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.podcast-footer {
+    padding: 10px 0px;
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+.chevron {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* Mobile responsive design */
+@media (max-width: 640px) {
+    .podcast-link {
+        padding: 15px 12px;
+    }
+
+    .podcast-item {
+        gap: 12px;
+    }
+
+    .podcast-logo-wrapper {
+        width: 48px;
+        height: 48px;
+    }
+
+    .podcast-content {
+        gap: 8px;
+    }
+
+    .podcast-title {
+        font-size: 0.95em;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+    }
+
+    .podcast-meta {
+        font-size: 0.75em;
+        gap: 8px;
+    }
+
+    .chevron {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .podcast-meta code {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 }
 
 .article-meta-top {

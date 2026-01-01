@@ -27,24 +27,45 @@
 }
 
 .podcast-callout ul {
-  padding: 10px;
+  padding: 10px 0;
   list-style: none;
   display: flex;
   max-width: 600px;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .podcast-callout img {
   filter: invert(1);
 }
 
+.podcast-callout li {
+  margin: 0;
+}
+
 .podcast-callout li a {
   display: flex;
   gap: 10px;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.podcast-callout li a:hover {
+  text-decoration: none;
 }
 
 @media (max-width: 600px) {
   .podcast-callout ul {
     flex-direction: column;
+    gap: 5px;
+  }
+
+  .podcast-callout li a {
+    padding: 12px 15px;
+    border-radius: 4px;
+  }
+
+  .podcast-callout li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
