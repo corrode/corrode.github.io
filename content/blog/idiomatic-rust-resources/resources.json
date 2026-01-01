@@ -14,7 +14,7 @@
   },
   {
     "title": "blessed.rs",
-    "url": "https://blessed.rs",
+    "url": "https://blessed.rs/crates",
     "description": "An unofficial guide to the Rust ecosystem. Suggestions for popular, well-maintained crates.",
     "tags": ["guide", "ecosystem", "crates"],
     "official": false,
@@ -131,7 +131,7 @@
   },
   {
     "title": "Hecto: Build your own text editor in Rust",
-    "url": "https://www.flenker.blog/hecto/",
+    "url": "https://philippflenker.com/hecto/",
     "description": "This is a series of blog posts that shows you how to build a text editor in Rust",
     "tags": ["project", "learning"],
     "official": false,
@@ -209,7 +209,7 @@
   },
   {
     "title": "Rust Development at Sentry",
-    "url": "https://develop.sentry.dev/rust/",
+    "url": "https://develop.sentry.dev/engineering-practices/rust/",
     "description": "A document containing useful resources for getting started with Rust and adhering to Sentry coding principles.",
     "tags": ["guide", "coding-principles", "development"],
     "official": true,
@@ -222,7 +222,7 @@
   },
   {
     "title": "Rust 101",
-    "url": "https://101-rs.tweede.golf/",
+    "url": "https://teach-rs.trifectatech.org/",
     "description": "A Rust University course by tweede golf.",
     "tags": ["course", "university", "learning"],
     "official": false,
@@ -235,7 +235,7 @@
   },
   {
     "title": "Command Line Applications in Rust",
-    "url": "https://rust-cli.github.io/book",
+    "url": "https://rust-cli.github.io/book/",
     "description": "A tutorial on how to write CLI apps in Rust, learning many aspects of the ecosystem.",
     "tags": ["tutorial", "cli", "ecosystem"],
     "official": false,
@@ -261,7 +261,7 @@
   },
   {
     "title": "Discover the world of microcontrollers through Rust!",
-    "url": "https://rust-embedded.github.io/discovery/",
+    "url": "https://docs.rust-embedded.org/discovery/",
     "description": "An introductory course on microcontroller-based embedded systems using Rust.",
     "tags": ["embedded-systems", "microcontroller", "course"],
     "official": false,
@@ -391,7 +391,7 @@
   },
   {
     "title": "Wrapping errors in Rust",
-    "url": "https://edgarluque.com/blog/wrapping-errors-in-rust",
+    "url": "https://edgl.dev/blog/wrapping-errors-in-rust/",
     "description": "Wrapping 'reqwest::Error' and a custom error type as an enum to make library usage easier.",
     "tags": ["error-handling", "rust-tips", "programming"],
     "official": false,
@@ -404,7 +404,7 @@
   },
   {
     "title": "Hexagonal architecture in Rust",
-    "url": "https://alexis-lozano.com/hexagonal-architecture-in-rust-1/",
+    "url": "https://alexis-lozano.com/blog/hexagonal-architecture-in-rust-1/",
     "description": "Describes how to build a Rust service using domain driven design and a test-first approach.",
     "tags": ["architecture", "domain-driven-design", "rust-service"],
     "official": false,
@@ -469,7 +469,7 @@
   },
   {
     "title": "Are out parameters idiomatic in Rust?",
-    "url": "https://steveklabnik.com/writing/are-out-parameters-idiomatic-in-rust",
+    "url": "https://steveklabnik.com/writing/are-out-parameters-idiomatic-in-rust/",
     "description": "Discusses the pros and cons of functions returning a value vs. modifying a parameter in-place.",
     "tags": ["functions", "parameters"],
     "official": false,
@@ -508,7 +508,7 @@
   },
   {
     "title": "Rust Patterns: Enums Instead Of Booleans",
-    "url": "http://blakesmith.me/2019/05/07/rust-patterns-enums-instead-of-booleans.html",
+    "url": "https://blakesmith.me/2019/05/07/rust-patterns-enums-instead-of-booleans.html",
     "description": "Discusses how using enums instead of booleans can express intent more clearly in Rust.",
     "tags": ["enums", "booleans", "patterns"],
     "official": false,
@@ -560,7 +560,7 @@
   },
   {
     "title": "Math with distances in Rust: safety and correctness across units",
-    "url": "https://ferrisellis.com/content/rust-implementing-units-for-types/",
+    "url": "https://www.ferrisellis.com/content/rust-implementing-units-for-types/",
     "description": "How to create a system to cleanly and safely do arithmetic with lengths.",
     "tags": ["math", "safety", "type-system"],
     "official": false,
@@ -703,7 +703,7 @@
   },
   {
     "title": "Error Handling in Rust",
-    "url": "https://blog.burntsushi.net/rust-error-handling/",
+    "url": "https://burntsushi.net/rust-error-handling/",
     "description": "Understanding and handling errors in Rust in an idiomatic way.",
     "tags": ["error-handling"],
     "official": false,
@@ -716,7 +716,7 @@
   },
   {
     "title": "Creating a Rust function that accepts String or &str",
-    "url": "https://hermanradtke.com/2015/05/06/creating-a-rust-function-that-accepts-string-or-str.html",
+    "url": "https://hermanradtke.com/2015/05/06/creating-a-rust-function-that-accepts-string-or-str.html/",
     "description": "How to make calling your code both ergonomic and fast (zero-allocation).",
     "tags": ["functions", "string-handling"],
     "official": false,
@@ -729,7 +729,7 @@
   },
   {
     "title": "Creating a Rust function that returns a &str or String",
-    "url": "https://hermanradtke.com/2015/05/29/creating-a-rust-function-that-returns-string-or-str.html",
+    "url": "https://hermanradtke.com/2015/05/29/creating-a-rust-function-that-returns-string-or-str.html/",
     "description": "How 'Into' and 'Cow' (Clone-on-write) work together to avoid allocations for string types.",
     "tags": ["functions", "string-handling"],
     "official": false,
@@ -742,7 +742,7 @@
   },
   {
     "title": "Effectively Using Iterators In Rust",
-    "url": "https://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html",
+    "url": "https://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html/",
     "description": "Explanation of the 'Iter' and 'IntoIter' traits and how loops actually work in Rust.",
     "tags": ["iterators", "traits"],
     "official": false,
@@ -755,7 +755,7 @@
   },
   {
     "title": "Strategies for solving 'cannot move out of' borrowing errors in Rust",
-    "url": "https://hermanradtke.com/2015/06/09/strategies-for-solving-cannot-move-out-of-borrowing-errors-in-rust.html",
+    "url": "https://hermanradtke.com/2015/06/09/strategies-for-solving-cannot-move-out-of-borrowing-errors-in-rust.html/",
     "description": "Practical tips to help understand the borrow-checker and move semantics.",
     "tags": ["borrow-checker", "move-semantics"],
     "official": false,

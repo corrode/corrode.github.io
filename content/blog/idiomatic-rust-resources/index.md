@@ -1,7 +1,7 @@
 +++
 title = "Learning Material for Idiomatic Rust"
 date = 2024-01-28
-updated = 2024-05-15
+updated = 2026-01-01
 draft = false
 template = "article.html"
 aliases = ["idiomatic-rust"]
