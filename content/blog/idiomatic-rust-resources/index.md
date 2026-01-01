@@ -23,7 +23,7 @@ Discover a wealth of tutorials, workshops, and articles created by Rust experts,
 <script src="table.js"></script>
 
 <div style="margin-bottom: 20px">
-    <button class="reset-filter">Reset filters</button>
+    <button class="button reset-filter">Reset filters</button>
 </div>
 
 <div>
@@ -45,6 +45,7 @@ Discover a wealth of tutorials, workshops, and articles created by Rust experts,
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
 
 <style>
+/* DataTables overrides */
 .dataTables_wrapper .dataTables_filter {
     margin: 20px 0 40px;
 }
@@ -52,43 +53,62 @@ Discover a wealth of tutorials, workshops, and articles created by Rust experts,
 .dataTables_filter input[type="search"] {
     font-size: 18px;
     margin: 0 0 0 10px;
-    padding: 8px;
+    padding: 8px 16px;
     width: 350px;
     color: #111;
-    border: 1px solid #111;
-    background: rgb(255, 255, 255, 0.2);
+    border: 2px solid rgba(17, 17, 17, 0.3);
+    border-radius: 4px;
+    background: transparent;
 }
 
+.dataTables_filter input[type="search"]:focus {
+    outline: none;
+    border-color: #111;
+}
+
+/* Tag badges - similar to conference badges */
 .dataTables_wrapper code {
     cursor: pointer;
 }
 
 code {
     border-radius: 4px;
-    padding: 5px;
-    margin: 5px;
-    font-size: 14px;
+    padding: 5px 10px;
+    margin: 3px;
+    font-size: 0.85rem;
     font-family: JetBrainsMono;
     color: #111;
+    background: transparent;
+    border: 2px solid rgba(17, 17, 17, 0.2);
     cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+code:hover {
+    border-color: #111;
+    background: rgba(17, 17, 17, 0.05);
 }
 
 code.active {
     color: white;
-    background-color: #111;
+    background: #111;
+    border-color: #111;
 }
 
+/* Reset filter button - minimal override of .button class */
 .reset-filter {
-    padding: 10px;
     display: none;
-    margin-bottom: 20px;
-    color: white;
-    background-color: #111;
-    border: none;
 }
 
 .toggle-vis {
     cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: rgba(17, 17, 17, 0.3);
+}
+
+.toggle-vis:hover {
+    text-decoration-color: #111;
 }
 
 .toggle-vis.active {
@@ -103,16 +123,39 @@ table.dataTable td.dt-control::before {
   color: #111;
 }
 
-/* If prefers color scheme is bright, change background color of code tags and filter input */
+/* Dark mode support */
 @media (prefers-color-scheme: dark) {
-
-    .reset-filter {
-        background-color: #ee3856;
+    .dataTables_filter input[type="search"] {
+        color: white;
+        border-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* border white with 20% opacity */
-    .dataTables_filter input[type="search"] {
-        border: 1px solid rgb(255, 255, 255, 0.6);
+    .dataTables_filter input[type="search"]:focus {
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    code {
+        color: white;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    code:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    code.active {
+        color: #111;
+        background: white;
+        border-color: white;
+    }
+
+    .toggle-vis {
+        text-decoration-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .toggle-vis:hover {
+        text-decoration-color: white;
     }
 
     table.dataTable td.dt-control::before {
@@ -120,7 +163,7 @@ table.dataTable td.dt-control::before {
     }
 
     .difficultyLevel {
-      color: transparent;  
+      color: transparent;
       text-shadow: 0 0 0 #ee3856;
     }
 }
