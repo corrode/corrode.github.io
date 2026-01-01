@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2025-12-23
+updated = 2026-01-01
 template = "article.html"
 draft = false
 [extra]
@@ -34,7 +34,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Format**: 2 days (workshops + conference)
 - **Focus**: Rust ecosystem and community
 - **Pricing**: [£220.00 + £44.00 VAT](https://www.rustnationuk.com/tickets) 
-- **CFP**: [Open](https://www.rustnationuk.com/call-for-papers)
+- **CFP**: Closed
 - **Links**: [Website](https://www.rustnationuk.com/) | [Tickets](https://www.rustnationuk.com/tickets)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
 
@@ -51,7 +51,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Format**: 1 day conference
 - **Focus**: Crafting safe & efficient futures
 - **Pricing**: [€120](https://ti.to/xperhub/rust-in-paris-2026)
-- **CFP**: [Open](https://docs.google.com/forms/d/e/1FAIpQLSfuNFQNFcLorqGE4VnjFcE7OmsEQWkWnkr-SCpoIOeFb6HVWw/viewform) 
+- **CFP**: [Open until 15th of January](https://docs.google.com/forms/d/e/1FAIpQLSfuNFQNFcLorqGE4VnjFcE7OmsEQWkWnkr-SCpoIOeFb6HVWw/viewform) 
 - **Links**: [Website](https://rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
 
 ### RUSTMEET (Gliwice, Poland) <span class="conference-badge tentative">Dates TBA</span>
@@ -91,7 +91,7 @@ Expect a developer-friendly atmosphere with expert talks in a single-track forma
 
 ### RUSTAsia (Hong Kong) <span class="conference-badge tentative">Dates TBA</span>
 
-<a href="https://rustasiaconf.com/" target="_blank">
+<a target="_blank">
   <img src="rustasia.jpg" alt="RUSTAsia" />
 </a>
 
@@ -124,7 +124,7 @@ All Rustaceans are welcome to attend and submit talks.
 - **Format**: Full week (2 days talks + 1 day workshops + social events)
 - **Focus**: Broad, open to everyone
 - **Pricing**: [Tickets available](https://event.onliveevent.nl/rustweek-2026)
-- **CFP**: [Open until 31st of December](https://2026.rustweek.org/cfp)
+- **CFP**: [Extended until 18th of January](https://2026.rustweek.org/cfp)
 - **Links**: [Website](https://2026.rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL)
 
@@ -267,6 +267,12 @@ See you at the next conference! 🦀
     border-color: #fab71c;
   }
 
+  .conference-badge.cfp-open {
+    color: #fff;
+    background: #22c55e;
+    border-color: #22c55e;
+  }
+
   /* Dark mode support */
   @media (prefers-color-scheme: dark) {
     .conference-badge.days {
@@ -279,6 +285,12 @@ See you at the next conference! 🦀
       color: #ccc;
       background: #2a2a2a;
       border-color: #555;
+    }
+
+    .conference-badge.cfp-open {
+      color: #111;
+      background: #4ade80;
+      border-color: #4ade80;
     }
   }
 </style>
@@ -350,11 +362,59 @@ function addDaysUntilConference() {
     });
 }
 
+// Add CFP open badges
+function addCFPBadges() {
+    // Find all h3 headings (conference titles)
+    const headings = document.querySelectorAll('article h3');
+
+    headings.forEach(h3 => {
+        // Find the next list that contains conference details
+        let currentElement = h3.nextElementSibling;
+        while (currentElement) {
+            if (currentElement.tagName === 'UL') {
+                // Found the list, now look for the "CFP:" item
+                const listItems = currentElement.querySelectorAll('li');
+
+                listItems.forEach(li => {
+                    const text = li.textContent;
+
+                    // Check if this list item contains "CFP:"
+                    if (!text.includes('CFP:')) return;
+
+                    // Check if CFP is open (contains "Open" or "Extended" but not "Closed" or "TBA")
+                    const isOpen = (text.includes('Open') || text.includes('Extended')) &&
+                                  !text.includes('Closed') &&
+                                  !text.includes('TBA');
+
+                    if (isOpen) {
+                        // Check if badge already exists
+                        const existingCFPBadge = h3.querySelector('.conference-badge.cfp-open');
+                        if (!existingCFPBadge) {
+                            const cfpBadge = document.createElement('span');
+                            cfpBadge.className = 'conference-badge cfp-open';
+                            cfpBadge.textContent = 'CFP Open';
+                            cfpBadge.title = 'Call for Proposals is currently open';
+                            h3.appendChild(cfpBadge);
+                        }
+                    }
+                });
+
+                break;
+            }
+            currentElement = currentElement.nextElementSibling;
+        }
+    });
+}
+
 // Run after DOM is loaded
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addDaysUntilConference);
+    document.addEventListener('DOMContentLoaded', () => {
+        addDaysUntilConference();
+        addCFPBadges();
+    });
 } else {
     addDaysUntilConference();
+    addCFPBadges();
 }
 </script>
 
