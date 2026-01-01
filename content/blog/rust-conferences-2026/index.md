@@ -17,6 +17,12 @@ Come say hi if you see us at any of these events! (We'll bring [Rust in Producti
 Oh, and in case the call for proposals (CFP) is still open, why not submit a
 talk or workshop proposal?
 
+<div class="conference-filters">
+  <button class="filter-btn active" data-filter="all">All Conferences</button>
+  <button class="filter-btn" data-filter="cfp-open">CFP Open</button>
+  <button class="filter-btn" data-filter="announced">Dates Announced</button>
+</div>
+
 ## Q1 2026
 
 ### Rust Nation (London, UK) 
@@ -242,6 +248,37 @@ See you at the next conference! 🦀
     max-width: 100%;
   }
 
+  /* Filter buttons */
+  .conference-filters {
+    display: flex;
+    gap: 0.75rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 16px;
+    border: 2px solid rgba(17, 17, 17, 0.2);
+    background: transparent;
+    color: #111;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: #111;
+    background: rgba(17, 17, 17, 0.05);
+  }
+
+  .filter-btn.active {
+    background: #111;
+    color: white;
+    border-color: #111;
+  }
+
   /* Conference badge styling */
   .conference-badge {
     font-size: 0.85rem;
@@ -275,6 +312,23 @@ See you at the next conference! 🦀
 
   /* Dark mode support */
   @media (prefers-color-scheme: dark) {
+    .filter-btn {
+      background: transparent;
+      color: white;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .filter-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .filter-btn.active {
+      background: white;
+      color: #111;
+      border-color: white;
+    }
+
     .conference-badge.days {
       color: #111;
       background: #fab71c;
@@ -406,15 +460,86 @@ function addCFPBadges() {
     });
 }
 
+// Filter conferences
+function setupFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const headings = document.querySelectorAll('article h3');
+
+    // Store conference data for filtering
+    const conferences = [];
+    headings.forEach(h3 => {
+        let currentElement = h3.nextElementSibling;
+        const conferenceElements = [h3];
+        let cfpText = '';
+        let whenText = '';
+
+        // Collect all elements for this conference
+        while (currentElement && currentElement.tagName !== 'H3' && currentElement.tagName !== 'H2') {
+            conferenceElements.push(currentElement);
+
+            // Extract CFP and When info
+            if (currentElement.tagName === 'UL') {
+                const listItems = currentElement.querySelectorAll('li');
+                listItems.forEach(li => {
+                    const text = li.textContent;
+                    if (text.includes('CFP:')) cfpText = text;
+                    if (text.includes('When:')) whenText = text;
+                });
+            }
+
+            currentElement = currentElement.nextElementSibling;
+        }
+
+        conferences.push({
+            elements: conferenceElements,
+            cfpText: cfpText,
+            whenText: whenText
+        });
+    });
+
+    // Handle filter button clicks
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active state
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+
+            // Filter conferences
+            conferences.forEach(conf => {
+                let shouldShow = true;
+
+                if (filter === 'cfp-open') {
+                    const hasCFP = conf.cfpText &&
+                                  (conf.cfpText.includes('Open') || conf.cfpText.includes('Extended')) &&
+                                  !conf.cfpText.includes('Closed') &&
+                                  !conf.cfpText.includes('TBA');
+                    shouldShow = hasCFP;
+                } else if (filter === 'announced') {
+                    shouldShow = conf.whenText && !conf.whenText.includes('TBA');
+                }
+                // 'all' shows everything
+
+                conf.elements.forEach(el => {
+                    el.style.display = shouldShow ? '' : 'none';
+                });
+            });
+        });
+    });
+}
+
 // Run after DOM is loaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         addDaysUntilConference();
         addCFPBadges();
+        setupFilters();
     });
 } else {
     addDaysUntilConference();
     addCFPBadges();
+    setupFilters();
 }
 </script>
 
