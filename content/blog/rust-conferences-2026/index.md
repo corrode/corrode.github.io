@@ -18,9 +18,9 @@ Oh, and in case the call for proposals (CFP) is still open, why not submit a
 talk or workshop proposal?
 
 <div class="conference-filters">
-  <button class="filter-btn active" data-filter="all">All Conferences</button>
-  <button class="filter-btn" data-filter="cfp-open">CFP Open</button>
-  <button class="filter-btn" data-filter="announced">Dates Announced</button>
+  <button class="button filter-btn active" data-filter="all">All Conferences</button>
+  <button class="button filter-btn" data-filter="cfp-open">CFP Open</button>
+  <button class="button filter-btn" data-filter="announced">Dates Announced</button>
 </div>
 
 ## Q1 2026
@@ -248,7 +248,7 @@ See you at the next conference! 🦀
     max-width: 100%;
   }
 
-  /* Filter buttons */
+  /* Filter buttons - overrides for .button class */
   .conference-filters {
     display: flex;
     gap: 0.75rem;
@@ -258,24 +258,20 @@ See you at the next conference! 🦀
 
   .filter-btn {
     padding: 8px 16px;
-    border: 2px solid rgba(17, 17, 17, 0.2);
-    background: transparent;
-    color: #111;
     font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    border: 2px solid rgba(17, 17, 17, 0.2);
+    background: transparent !important;
+    color: #111 !important;
   }
 
   .filter-btn:hover {
     border-color: #111;
-    background: rgba(17, 17, 17, 0.05);
+    background: rgba(17, 17, 17, 0.05) !important;
   }
 
   .filter-btn.active {
-    background: #111;
-    color: white;
+    background: #111 !important;
+    color: white !important;
     border-color: #111;
   }
 
@@ -314,38 +310,28 @@ See you at the next conference! 🦀
   /* Dark mode support */
   @media (prefers-color-scheme: dark) {
     .filter-btn {
-      background: transparent;
-      color: white;
+      color: white !important;
       border-color: rgba(255, 255, 255, 0.3);
     }
 
     .filter-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.1) !important;
       border-color: rgba(255, 255, 255, 0.5);
     }
 
     .filter-btn.active {
-      background: white;
-      color: #111;
+      background: white !important;
+      color: #111 !important;
       border-color: white;
     }
 
     .conference-badge.tentative {
       color: white;
-      background: transparent;
       border-color: rgba(255, 255, 255, 0.3);
     }
 
-    .conference-badge.days {
-      color: #111;
-      background: #fab71c;
-      border-color: #fab71c;
-    }
-
     .conference-badge.cfp-open {
-      color: #111;
       background: #4ade80;
-      border-color: #4ade80;
     }
   }
 </style>
