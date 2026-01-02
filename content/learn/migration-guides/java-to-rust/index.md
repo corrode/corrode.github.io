@@ -1,7 +1,7 @@
 +++
 title = "Migrating from Java to Rust"
 date = 2024-12-09
-updated = 2025-06-07
+updated = 2026-01-02
 template = "article.html"
 draft = false
 [extra]
@@ -212,17 +212,19 @@ Many developers find they write better code in all languages after working with 
 
 ### Rethinking Null
 
-Rust eliminates null entirely. Instead of null checks and NullPointerExceptions, you work with `Option<T>`. This type makes uncertainty explicit in your code, forcing you to handle cases where values might not exist. The compiler ensures you handle both success and failure paths.
+Rust eliminates `null` entirely. Instead of `null` checks and `NullPointerExceptions`, you work with `Option<T>`. This type makes uncertainty explicit in your code, forcing you to handle cases where values might not exist. The compiler ensures you handle both success and failure paths.
 
-**This isn't just about safety - it's about efficiency.** In Java, defensive programming requires null checks at every public interface. It adds overhead even when you know the value can't be null. With Rust's references and ownership system, you can guarantee non-null values without runtime checks, making your interfaces both safer and faster.
+In Java, defensive programming requires null checks at every public interface. It adds overhead even when you know the value can't be null. With Rust's references and ownership system, you can guarantee non-null values without runtime checks, making your interfaces both safer and faster.
 
-### From Inheritance to Interfaces
+### From Inheritance to Composition
 
-**Rust doesn't have class inheritance at all** - there's no equivalent to extending a class in Java. Instead, Rust uses traits, which are much closer to Java interfaces than to inheritance.
+**Rust doesn't have class inheritance at all.** There's no equivalent to extending a class in Java. Instead, Rust uses traits, which are much closer to Java interfaces than to inheritance.
 
-This is actually the better approach. [Even James Gosling, Java's creator, has said he would have preferred pure interfaces over class inheritance if he could redesign Java.](https://softwareengineering.stackexchange.com/a/370519) Rust implements this vision through traits. You can even have trait inheritance by requiring one trait to implement another, but it's all interface-based composition rather than implementation inheritance.
+This is actually the better approach. [Even James Gosling, Java's creator, has said he would have preferred pure interfaces over class inheritance if he could redesign Java.](https://softwareengineering.stackexchange.com/a/370519) Rust implements this vision through traits. You can even have trait inheritance by requiring one trait to implement another, but it's all trait-based composition rather than implementation inheritance.
 
-**Traits encourage more flexible and maintainable code design.** Rather than building rigid inheritance hierarchies, you compose behavior through trait implementations. This leads to systems that are easier to test, modify, and extend.
+**Traits encourage more flexible and maintainable code design.** Rather than building rigid inheritance hierarchies, you **compose behavior** through trait implementations. This leads to systems that are easier to test, modify, and extend.
+
+It takes a while to get used to that approach. The key is to think in terms of capabilities (traits). For example, instead of a `Dog` class extending an `Animal` class, you might have a `Bark` trait that both `Dog` and `Wolf` implement. This leads to more reusable and modular code.
 
 ### Compiler as Collaborator
 
@@ -391,7 +393,7 @@ On top of that, concurrency in Java can be tricky to get right and is therefore 
 
 Rust gives you both thread-based concurrency and async execution. With libraries like Tokio, you can use async/await without worrying about the underlying mechanics. It scales incredibly well, often in ways that Java simply can't match due to its reliance on threads.
 
-What's powerful about Rust's concurrency is how it's baked into the language itself. It's not something your team has to think about too much. The libraries handle most of the heavy lifting, and once you structure your code properly, Rust's runtime handles the rest—efficiently and safely.
+What's powerful about Rust's concurrency is how it's baked into the language itself. It's not something your team has to think about too much. The libraries handle most of the heavy lifting, and once you structure your code properly, Rust's runtime handles the rest.
 
 Rust's memory management ensures that concurrency is safe, so you won't need to worry about thread synchronization issues like you would in Java.
 
