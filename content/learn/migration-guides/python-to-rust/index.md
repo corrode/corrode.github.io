@@ -1,7 +1,7 @@
 +++
 title = "Migrating from Python to Rust"
 date = 2024-12-13
-updated = 2025-02-18
+updated = 2026-01-02
 template = "article.html"
 draft = false
 [extra]
@@ -289,9 +289,9 @@ Plan for a 3-4 month learning period where developers will need to understand co
 - Borrowing and move semantics
 - Trait-based composition (instead of Python's OOP model)
 
-These are fundamental concepts in Rust and it's important to get them right to become really effective.
+These are fundamental concepts in Rust that Python developers are not used to, and it's important to get them right to become really effective.
 
-Lifetimes are another concept that can be challenging to grasp initially, but you can get a long way without fully understanding them. [Don't worry about lifetimes](/blog/lifetimes) when you're just starting out.
+Lifetimes are another concept that can be challenging to grasp initially, but you can get a long way without fully understanding them. [Don't worry about lifetimes](/blog/lifetimes) when you're just starting out. [Keep it simple](/blog/simple).
 
 Pointer handling and boxing is another area where Python developers need to adjust. However, beginners can often get by without understanding this in detail.
 
@@ -339,10 +339,10 @@ The new services can be deployed alongside the old ones, and you can ensure that
 
 ### 3. CLI Tools and Utilities
 
-If you're just staring out, I recommend to write a command-line tool, which is an excellent candidate for
+If you're just starting out, I recommend to write a command-line tool, which is an excellent candidate for
 getting your feet wet. 
 
-They have all the positive indicators for a successful first project: 
+CLI tools have all the positive indicators for a successful first project: 
 
 - They are self-contained, so you don't have to worry about integrating with the rest of the codebase 
 - The deployment is simple, as you can just ship a single binary 
@@ -470,7 +470,7 @@ They have Python bindings, so you get a lot of the benefits of Rust without havi
 Rust wasn't initially planned to be a strong contender in the web development space.
 This has changed in recent years with the rise of frameworks like [Axum](https://axum.rs/) and [Loco](https://loco.rs/).
 Now, Rust is a viable option for building high-performance APIs and web applications.
-It is one key are the Rust team is investing in, and the ecosystem is maturing rapidly.
+It is one key area the Rust team is investing in, and the ecosystem is maturing rapidly.
 
 In combination with [sqlx](https://github.com/launchbadge/sqlx) for database access and [serde](https://serde.rs/) for serialization, Rust is a very effective choice for web backends. 
 What surprises many Python developers is how similar it is to working with other web frameworks like Flask or FastAPI.
@@ -483,7 +483,7 @@ I expect more backend services to be written in Rust in the future -- especially
 
 Not everything needs to be migrated! Python excels at:
 
-- I personally [prototype in Rust](/blog/protoyping), but Python is still a fine choice for prototyping. 
+- [I personally prototype in Rust](/blog/protoyping), but Python is still a fine choice for prototyping. 
 - Data analysis and visualization are great in Python (e.g., Pandas, Matplotlib)
 - Machine learning workflows (e.g., TensorFlow, PyTorch)
 - Admin interfaces and tools (e.g., Django admin)
