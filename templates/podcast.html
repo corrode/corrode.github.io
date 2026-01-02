@@ -113,22 +113,22 @@
         {% for episode in season_episodes %}
             <li>
                 <a href="{{ episode.permalink }}" class="podcast-link">
-                    <div class="podcast-item">
-                        <div class="podcast-logo-wrapper">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
                             <img
-                                class="podcast-logo invert"
+                                class="card-img invert"
                                 src="{{ episode.permalink }}/logo.svg"
                                 alt="{{ episode.title }} Logo"
                             />
                         </div>
-                        <div class="podcast-content">
-                            <div class="podcast-title">
+                        <div class="card-content">
+                            <div class="card-title">
                                 {{ episode.title }}
                                 {% if episode.extra.guest %}
                                     <span class="podcast-guest">with {{ episode.extra.guest }}</span>
                                 {% endif %}
                             </div>
-                            <div class="podcast-meta">
+                            <div class="card-meta">
                                 <span>{{ episode.date }}</span>
                                 <code>S{{ episode.extra.season }} E{{ episode.extra.episode}}</code>
                             </div>

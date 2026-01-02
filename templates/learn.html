@@ -91,27 +91,25 @@
     {% for page in guides %}
     <li>
       <a href="{{ page.permalink }}" class="learn-link">
-        <div class="learn-item">
-          <div class="learn-header">
-            <div class="podcast-logo-wrapper">
-              <img
-                class="podcast-logo invert"
-                src="{{ page.permalink }}/{{ page.extra.icon }}"
-              />
+        <div class="card-item">
+          <div class="card-logo-wrapper">
+            <img
+              class="card-img invert"
+              src="{{ page.permalink }}/{{ page.extra.icon }}"
+              alt="{{ page.title }}"
+            />
+          </div>
+          <div class="card-content">
+            <div class="card-title">{{ page.title }}</div>
+            <div class="card-meta">
+              {% if page.updated %}
+              <time datetime="{{ page.updated }}">{{ page.updated }}</time>
+              {% else %}
+              <time datetime="{{ page.date }}">{{ page.date }}</time>
+              {% endif %}
             </div>
-            <div>{{ page.title }}</div>
-            {% if page.description %}
-            <div class="learn-description">{{ page.description }}</div>
-            {% endif %}
           </div>
-          <div class="learn-details">
-            {% if page.updated %}
-            <time datetime="{{ page.updated }}">{{ page.updated }}</time>
-            {% else %}
-            <time datetime="{{ page.date }}">{{ page.date }}</time>
-            {% endif %}
-            <div class="chevron"></div>
-          </div>
+          <div class="chevron"></div>
         </div>
       </a>
     </li>

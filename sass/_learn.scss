@@ -15,6 +15,10 @@
 
   &:hover {
     background-color: $brightScndLight;
+
+    .chevron {
+      transform: translateX(4px) rotate(270deg);
+    }
   }
 
   &:last-child {
@@ -51,12 +55,6 @@
   padding: 20px 0; // Consistent vertical padding
 }
 
-.learn-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .learn-description {
   font-size: 0.9em;
   opacity: 0.8;
@@ -75,16 +73,6 @@
   margin-left: 8px;
 }
 
-.learn-details {
-  text-align: right;
-  font-size: 0.8em;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  align-self: center;
-  flex-shrink: 0;
-}
-
 @media (max-width: 768px) {
   .learn-item {
     flex-direction: column;
@@ -100,12 +88,6 @@
 
   .learn-content {
     padding: 0;
-  }
-
-  .learn-details {
-    align-self: flex-start; // Align to the left on mobile
-    margin-top: 10px;
-    width: 100%;
   }
 
   .learn-link {
