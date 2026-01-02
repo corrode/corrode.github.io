@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Why Rust in Production? | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="Interest in Rust has surged in recent years, with tech leaders such as
+Microsoft, Google, and Amazon coming forward to share their experiences of
+leveraging Rust for critical systems.
+Much of the dialogue about Rust, however, is still drive…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Why Rust in Production? | corrode Rust Consulting">
+    <meta property="og:description" content="Interest in Rust has surged in recent years, with tech leaders such as
+Microsoft, Google, and Amazon coming forward to share their experiences of
+leveraging Rust for critical systems.
+Much of the dialogue about Rust, however, is still drive…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;why-rust&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;why-rust&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2023-08-01">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Why Rust in Production? | corrode Rust Consulting">
+    <meta name="twitter:description" content="Interest in Rust has surged in recent years, with tech leaders such as
+Microsoft, Google, and Amazon coming forward to share their experiences of
+leveraging Rust for critical systems.
+Much of the dialogue about Rust, however, is still drive…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;why-rust&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/why-rust/"
+      },
+      "headline": "Why Rust in Production?",
+      "description": "Interest in Rust has surged in recent years, with tech leaders such as
+Microsoft, Google, and Amazon coming forward to share their experiences of
+leveraging Rust for critical systems.
+Much of the dialogue about Rust, however, is still drive…",
+      
+      "image": "https://corrode.dev/hero.svg",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2023-08-01",
+      
+      "dateModified": "2024-05-26"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </h2>
+    <h1>Why Rust in Production?</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2024-05-26
+        
+      </span>
+    </div>
+    
+    <div class="article-hero">
+      <img
+        
+        src="hero.svg" alt="Why Rust in Production?" />
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>Interest in Rust has surged in recent years, with tech leaders such as
+Microsoft, Google, and Amazon coming forward to share their experiences of
+leveraging Rust for critical systems.</p>
+<p>Much of the dialogue about Rust, however, is still driven by those who have not
+leveraged Rust in a significant production capacity or have only done so for
+non-critical systems. This results in a skewed understanding of Rust’s
+application in production settings, especially for small and medium-sized
+businesses, where discussions tend to highlight performance benefits and gloss
+over other crucial aspects.</p>
+<p>In my role as a Rust consultant, <a href="/podcast">I have had the opportunity to engage with many
+companies, large and small</a>. I found that companies value Rust’s
+stability, and long-term maintainability on par with its performance benefits.</p>
+<p>This overview distills key insights, offering a resource for businesses to
+assess whether Rust is the right tool for their use-case or not.</p>
+<p>The intent is to provide an honest look at Rust’s practicality for production
+to help decision-makers understand its benefits and challenges.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-radio"></span>
+    
+    <h4><p>Streamline Your Decision-Making with Our Compact Audio Guide on Rust</p>
+</h4>
+  </div>
+  
+  <p>Considering Rust for your production needs?<br />
+You might also want to listen to <a href="/podcast/s01e07-season-finale/">this podcast episode of Rust in Production</a>.</p>
+<p>Key Highlights:</p>
+<ul>
+<li>Insights into <a href="/blog/hiring-rust-engineers/">hiring Rust engineers</a>.</li>
+<li>Tips to <a href="/blog/flattening-rusts-learning-curve/">flatten the learning curve</a>.</li>
+<li>Effective strategies for <a href="/blog/successful-rust-business-adoption-checklist/">Rust adoption</a>.</li>
+<li>The significant impact of Rust’s performance on user experience.</li>
+<li>And much more.</li>
+</ul>
+<p>This episode offers a balanced perspective on the advantages and challenges of implementing Rust, supported by real-life experiences and insights from CTOs and lead engineers who have navigated this transition.</p>
+
+</div>
+<h2>Table of Contents</h2>
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+<ul>
+<li><a href="https://corrode.dev/blog/why-rust/#reasons-for-using-rust-in-production">Reasons For Using Rust In Production</a>
+<ul>
+<li><a href="https://corrode.dev/blog/why-rust/#reliability-and-stability">Reliability and Stability</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#maintainability">Maintainability</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#predictable-runtime-behavior">Predictable Runtime Behavior</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#cost-savings">Cost Savings</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#ergonomics">Ergonomics</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#focus-on-long-term-sustainability">Focus on Long-Term Sustainability</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#productivity-and-developer-happiness">Productivity And Developer Happiness</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#performance-and-energy-efficiency">Performance And Energy Efficiency</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#gradual-adoption-and-ffi">Gradual Adoption and FFI</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#support-for-a-wide-range-of-environments">Support for a Wide Range of Environments</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/why-rust/#reasons-against-using-rust-in-production">Reasons Against Using Rust In Production</a>
+<ul>
+<li><a href="https://corrode.dev/blog/why-rust/#immature-ecosystem">Immature ecosystem</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#lack-of-developers">Lack Of Developers</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#tooling">Tooling</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#learning-curve">Learning Curve</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#compile-times">Compile Times</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/why-rust/#conclusion">Conclusion</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#talks">Talks</a></li>
+<li><a href="https://corrode.dev/blog/why-rust/#next-steps">Next Steps</a></li>
+</ul>
+</details>
+<h2 id="reasons-for-using-rust-in-production"><a class="zola-anchor" href="#reasons-for-using-rust-in-production" aria-label="Anchor link for: reasons-for-using-rust-in-production">Reasons For Using Rust In Production</a></h2>
+<h3 id="reliability-and-stability"><a class="zola-anchor" href="#reliability-and-stability" aria-label="Anchor link for: reliability-and-stability">Reliability and Stability</a></h3>
+<p>From experience, the majority of companies care less about uncompromising
+performance and more about <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://talks.osfc.io/osfc2021/talk/JTWYEH/">reliability and
+stability</a> of their services.</p>
+<p>This is backed by the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://cloud.google.com/devops/state-of-devops/"><em>State of DevOps Report 2023</em></a>
+by Google Cloud, which states:</p>
+<blockquote>
+<p><strong>Reliability unlocks performance.</strong> […]
+Strong reliability practices predict better operational performance, team
+performance, and organizational performance. […]
+Being able to operate the machine effectively allows teams to achieve more,
+which allows organizations to thrive. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://cloud.google.com/devops/state-of-devops/"><em>State of DevOps Report 2023</em></a></p>
+</blockquote>
+<p>More predictable and stable services are easier to maintain and cheaper to
+operate. Less time is spent on debugging and on-call, and more time on building
+new features. Scaling services is also easier when you know how systems behave
+under load.</p>
+<blockquote>
+<p>Given our small team size, infrastructure reliability is crucial, otherwise,
+maintenance starves innovation. Rust provides us with confidence that any code
+modification or refactor is likely to produce working programs that will run for
+months with minimal supervision. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://x.ai/">xAI (formerly Twitter)</a></p>
+</blockquote>
+<p>As another example, the npm registry migrated to Rust in 2019. (See their whitepaper
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.rust-lang.org/static/pdfs/Rust-npm-Whitepaper.pdf">here</a>.) As the
+largest software registry in the world, it sees upwards of 1.3 billion package
+downloads… <em>per day</em>. Npm is critical infrastructure for the JavaScript
+ecosystem, and the stability of its services is paramount. This focus on
+stability directly impacts the effectiveness and reliability of the entire
+JavaScript ecosystem.</p>
+<blockquote>
+<p>My biggest compliment to Rust is that it’s boring, and this is an amazing compliment.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/christophersdickinson/">Chris Dickinson</a>, former Engineer at <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.npmjs.com/about">npm, Inc</a></p>
+</blockquote>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://deepsource.com/blog/exponential-cost-of-fixing-bugs">Bugs cost more to fix the later they are found.</a>
+Below is the relative cost of fixing bugs at various stages of the development lifecycle.
+Bugs found in production are significantly more expensive to fix than bugs found
+during development. (Source: NIST <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.nist.gov/system/files/documents/director/planning/report02-3.pdf">Costs of Software Defects</a>)</p>
+<img src="bug-costs.svg" class="invert" alt="Cost of fixing bugs over time">
+<p>In a survey, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://msrc.microsoft.com/blog/2019/07/a-proactive-approach-to-more-secure-code/">Microsoft found that 70% of their bugs are due to memory safety
+issues</a>.
+In 2018, the number of CVEs (Common Vulnerabilities and Exposures) at Microsoft
+was 468. Each CVE costs an average of $150,000 to fix, which, as Microsoft
+points out, is a very conservative estimate. (Source: <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=NQBVUjdkLAA&amp;t=1s">Ryan Levick - Rust at
+Microsoft</a>).
+Rust couldn’t have prevented all of these bugs, but it would have drastically
+reduced the total amount.</p>
+<p>Rust’s strong type system and its borrow checker allow you to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://kerkour.com/bugs-rust-compiler-helps-prevent">catch bugs
+earlier in the development lifecycle, typically at compile-time</a> (instead of
+runtime as in languages with less stringent type systems or static analysis
+capabilities). This results in real cost savings for companies.</p>
+<blockquote>
+<p>We always talk about the performance gains […] when using Rust but honestly I
+much more look for the stability gains. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=KTJIsicwW5s">Stefan Baumgartner, Senior Product Architect at Dynatrace</a></p>
+</blockquote>
+<p>As requirements grow, Rust is a great language for building larger applications
+that are maintained by a bigger team over a long period of time. This is due to
+its strong type system, its focus on memory safety, its powerful tooling (cargo,
+rustfmt, clippy, etc.) and its stability guarantees (backwards compatibility)
+due to its edition system. All of that makes large-scale refactoring easier.</p>
+<blockquote>
+<p>What I usually hear is that [efficiency is] what people are first excited about
+but the reason that they keep using [Rust] is because actually it’s better for
+building more reliable systems. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=oGN62EEHyn8">Nicholas Matsakis, Senior Principal Engineer at AWS and lead of the Rust language design team.</a></p>
+</blockquote>
+<p>In a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">Google survey</a>,
+developers were asked about their confidence in Rust code compared to other
+languages. The results were overwhelmingly positive:
+<strong>85% of respondents were more confident in their team’s Rust code in comparison
+to other languages.</strong></p>
+<img src="rust_code_confidence.svg" class="invert" alt="Google Survey: confidence in Rust code is very high compared to other languages">
+<h3 id="maintainability"><a class="zola-anchor" href="#maintainability" aria-label="Anchor link for: maintainability">Maintainability</a></h3>
+<p>Rust’s design principles significantly contribute to software maintainability.</p>
+<blockquote>
+<p>We find that when we build things in Rust, they are pretty easy to maintain.
+They just don’t break. Our requirements can change; we may need to modify
+them, but it’s pretty reliable - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=1faOd6KH-w4&amp;t=740s">Edward Wright, Staff Engineer at Vortexa</a></p>
+</blockquote>
+<p>This ease of maintainability means that Rust applications require less effort to
+adapt and evolve over time, reducing overall technical debt and freeing up
+developer resources for new features rather than maintenance.</p>
+<p>Emphasizing Rust’s impact on development efficiency and time-to-market, Wright continues</p>
+<blockquote>
+<p>We’re probably spending our time more focused on actually adding value for our
+customers and changing things when the requirements change — work that we
+should be doing rather than busy work. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=1faOd6KH-w4&amp;t=761s">Edward Wright, Staff Engineer at Vortexa</a></p>
+</blockquote>
+<h3 id="predictable-runtime-behavior"><a class="zola-anchor" href="#predictable-runtime-behavior" aria-label="Anchor link for: predictable-runtime-behavior">Predictable Runtime Behavior</a></h3>
+<p>Predictable runtime behavior is closely related to reliability and stability.
+It means that services run smoothly without any hiccups. This is especially
+important for latency-sensitive services like games, chat applications, or
+services that need to act on real-time data.</p>
+<p>Smooth operation is of uppermost importance for organizations as it is a
+significant cost factor and can impact customer satisfaction. According to a
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.techrepublic.com/article/on-call-cloud-operations-cost-organizations-an-average-of-2-5-million-per-year/">recent
+study</a>,
+organizations are spending an average of $2.5 million per year on on-call
+operations. <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.pragmaticengineer.com/oncall-compensation/">Compensation for on-call
+engineers</a> is a big
+part of that cost.</p>
+<blockquote>
+<p>People just didn’t like getting paged in the middle of the night, and Rust was
+helping avoid that - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=oGN62EEHyn8">Nicholas Matsakis</a>
+(in the context of npm migrating to Rust)</p>
+</blockquote>
+<p>Discord has a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://discord.com/blog/why-discord-is-switching-from-go-to-rust">great
+article</a>
+about why they switched from Go to Rust. They mention that Go’s garbage
+collector was a source of unpredictable latency spikes. After switching to Rust,
+they were able to fully get rid of garbage collection and have a more
+predictable runtime behavior.</p>
+<blockquote>
+<p>When we started load testing, we were instantly pleased with the results. The
+latency of the Rust version was just as good as Go’s and had no latency spikes!</p>
+</blockquote>
+<p>Here is a diagram from the above article by Discord.
+Notice how the latency spikes in the Go version (purple) are gone in the Rust
+version (blue) and how that impacts the 95th percentile response time, making it
+much more predictable and smooth.</p>
+<img src="discord.png" alt="Discord Go (purple) vs Rust (blue)">
+<p>Another example is
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.cloudflare.com/big-pineapple-intro/">Cloudflare</a>,
+which uses Rust to power their DNS service, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://1.1.1.1/">1.1.1.1</a>. They
+mention that Rust’s predictable runtime behavior is a big reason for using it:</p>
+<blockquote>
+<p>One of the things we’ve learned with the previous implementations is that, for
+a service open to the public, a peak performance of the I/O matters less than
+the ability to pace clients fairly.</p>
+</blockquote>
+<p>Furthermore, Rust shows excellent runtime behavior when handling network requests.
+In a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f7">benchmark by Eugene Retunsky</a>, Rust had the lowest tail latency and maximum throughput next to C and C++.</p>
+<p>Here is the diagram from the benchmark, showing the p99.9 latency for each
+language under test. As the requests per second increase, the latency for Rust
+stays low and stable. Go and Java on the other hand have a higher baseline
+latency while Python shows latency spikes at a certain point.</p>
+<img src="runtime.png" alt="Rust Runtime behavior">
+<p>The author concludes:</p>
+<blockquote>
+<p>In conclusion, Rust has a much lower latency variance than Golang, Python, and especially Java.
+[…] Rust might be a better alternative to Golang, Java, or Python if predictable performance is crucial for your service. Also, before starting to write a new service in C or C++, it’s worth considering Rust. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://medium.com/star-gazers/benchmarking-low-level-i-o-c-c-rust-golang-java-python-9a0d505f85f7">Eugene Retunsky</a></p>
+</blockquote>
+<h3 id="cost-savings"><a class="zola-anchor" href="#cost-savings" aria-label="Anchor link for: cost-savings">Cost Savings</a></h3>
+<p>We touched on cost savings already, but its significance warrants a dedicated
+section.</p>
+<p>Rust has a low runtime overhead. This is especially important for services that
+need to scale to handle a large number of requests.
+It can save a lot of money on cloud infrastructure costs if the same workload
+can be handled with fewer resources.</p>
+<p>For example, AWS has a service called
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://aws.amazon.com/blogs/aws/firecracker-lightweight-virtualization-for-serverless-computing/">Firecracker</a>,
+which runs virtual machines with very low overhead. It powers AWS Lambda functions and AWS Fargate containers.</p>
+<blockquote>
+<p>Firecracker consumes about 5 MiB of memory per microVM. You can run thousands
+of secure VMs with widely varying vCPU and memory configurations on the same
+instance.</p>
+</blockquote>
+<p>The better hardware utilization translates to lower costs for companies.</p>
+<p>Firecracker allowed AWS to improve the efficiency of Fargate, which passed on
+cost savings to customers. As a result, they were able to reduce the price of Fargate by
+up to 50%.
+(<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://shahbhargav.medium.com/firecracker-secure-and-fast-microvms-628e6043b572">Image source</a> and
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://aws.amazon.com/blogs/compute/aws-fargate-price-reduction-up-to-50/">AWS announcement</a>)</p>
+<img src="fargate.png" alt="Firecracker" />
+<h3 id="ergonomics"><a class="zola-anchor" href="#ergonomics" aria-label="Anchor link for: ergonomics">Ergonomics</a></h3>
+<p>Rust has great developer ergonomics. Its expressive type system allows
+developers to model their domain in a way that lets the compiler help with
+writing correct code.</p>
+<p>Furthermore, functional concepts like pattern matching, <a href="/blog/enums/">enums</a>, <code>Result</code> and <a href="/blog/rust-option-handling-best-practices/"><code>Option</code> types</a>
+allow for concise and expressive code.</p>
+<p>Rust’s robust error handling story, which requires the programmer to explicitly handle
+errors, is a big reason for its reliability.</p>
+<p>All these features make it easier to write correct code, reduce the cognitive
+load on developers and catch bugs at compile-time instead of runtime.</p>
+<blockquote>
+<p>More than its memory safety and thread safety guarantees, the language exposes
+facilities to library designers for building abstractions that resist misuse.
+The emergent safe library ecosystem enables “if it compiles, then it’s correct”
+programming unmatched by other mainstream languages, even garbage collected
+ones. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/dtolnay/0.0.11/dtolnay/macro._03__soundness_bugs.html">David Tolnay, author of serde</a></p>
+</blockquote>
+<p>Rust’s static analysis <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Shift-left_testing">shifts the quality assurance of code to the
+left</a>:</p>
+<img src="robustness.svg" class="invert" alt="Bug detection over time">
+<blockquote>
+<p>Rust has been a force multiplier for our team, and betting on Rust was one of
+the best decisions we made. More than performance, its ergonomics and focus on
+correctness has helped us tame sync’s complexity. We can encode complex
+invariants about our system in the type system and have the compiler check them
+for us. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://dropbox.tech/infrastructure/rewriting-the-heart-of-our-sync-engine">Dropbox</a></p>
+</blockquote>
+<p>An often mentioned benefit of Rust is the possibility to refactor code without
+fear. This should not be underestimated as it allows you to improve your
+codebase over time and make it more robust. Especially for applications that use
+multi-threading, this is a big advantage as <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2015/04/10/Fearless-Concurrency.html">typical error scenarios of
+concurrent programming are detected by the
+compiler</a>.</p>
+<h3 id="focus-on-long-term-sustainability"><a class="zola-anchor" href="#focus-on-long-term-sustainability" aria-label="Anchor link for: focus-on-long-term-sustainability">Focus on Long-Term Sustainability</a></h3>
+<p>Companies rarely rewrite their services in another language. It incurs a lot of costs
+and risks. Only if a rewrite promises a <em>significant</em> upside, companies will
+consider it.</p>
+<p>One well-known company that started to heavily invest in Rust is Microsoft.</p>
+<blockquote>
+<p>Microsoft is going big on Rust and spending $10 million to make it 1st class
+language in our engineering systems + $1 million @rustlang foundation. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/dwizzzleMSFT/status/1720134540822520268">David Weston, Vice President of OS Security and Enterprise at Microsoft</a></p>
+</blockquote>
+<p>Microsoft even <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/markrussinovich/status/1656416376125538304">integrated Rust into the Windows kernel</a>.
+The fact that they take big bets on Rust shows that they are in it
+for the long run. This is a good sign for the Rust ecosystem, as the backing of
+a large company can help Rust to become more mainstream and ensure
+long-term sustainability.</p>
+<p>Similarly, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.kernel.org/doc/html/next/rust/index.html">the Linux kernel now supports Rust</a>
+as well.
+The Kernel incorporating Rust is a major endorsement of the language. Notably,
+the Linux Kernel maintainers have previously <a class="external-link" rel="noopener noreferrer" target="_blank" href="http://harmful.cat-v.org/software/c++/linus">refused to integrate C++ in the Kernel</a>.</p>
+<p>In a landmark development for Rust, the open source <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://ferrous-systems.com/blog/officially-qualified-ferrocene/">Ferrocene
+toolchain</a> has
+achieved a significant milestone: Ferrocene, based on Rust 1.68, is now ISO
+26262 and IEC 61508 qualified. This certification means that the Rust compiler
+meets rigorous safety standards, making it fully usable in safety-critical
+environments like automotive or avionics. Few other languages have
+achieved this level of certification. It is another strong signal that Rust is
+here to stay.</p>
+<p>For another take on this, watch <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=WnIWRks35Fk">“In It for the Long
+Haul”</a> by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/carols10cents">Carol
+Nichols</a>.</p>
+<h3 id="productivity-and-developer-happiness"><a class="zola-anchor" href="#productivity-and-developer-happiness" aria-label="Anchor link for: productivity-and-developer-happiness">Productivity And Developer Happiness</a></h3>
+<p>As mentioned in the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.jetbrains.com/lp/devecosystem-2021/rust/#:~:text=Rust%20developers%20are%20generally%20more,senior%20positions%20than%20other%20developers">2021 JetBrains Developer Ecosystem
+Report</a>,
+Rust developers are typically more proficient compared to developers in other
+languages, as many have more experience and often occupy senior roles.</p>
+<p>Many developers enjoy working with Rust. It has consistently been the most admired language
+according to the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://survey.stackoverflow.co/2023/#section-admired-and-desired-programming-scripting-and-markup-languages">StackOverflow Developer Survey</a>.
+More than 80% of developers that use it want to use it again next year.</p>
+<p>For teams that are looking to hire and retain talent, Rust can be a great choice
+because <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.microsoft.com/en-us/research/publication/towards-a-theory-of-software-developer-job-satisfaction-and-perceived-productivity/">developer happiness is a big factor in job satisfaction and has a positive
+impact on productivity</a>.</p>
+<h3 id="performance-and-energy-efficiency"><a class="zola-anchor" href="#performance-and-energy-efficiency" aria-label="Anchor link for: performance-and-energy-efficiency">Performance And Energy Efficiency</a></h3>
+<p>As stated earlier, performance often gets mentioned as a main reason for using Rust.
+On top of that, Rust has great support for multi-threaded workloads. Libraries like
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rayon-rs/rayon">rayon</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://tokio.rs/">Tokio</a> are considered
+best-in-class for writing high-performance applications.</p>
+<p>Making efficient use of compute resources has much deeper implications for
+companies than just raw execution speed.</p>
+<p>One important aspect is scalability: companies can defer costly performance optimizations
+and scaling efforts by choosing a language that is efficient by default. This way, they
+can focus on building features and growing their business before they need to worry about
+performance bottlenecks.</p>
+<p>In his talk at FrOSCon 2024, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/kerkmann">Daniél Kerkmann</a>, software engineer at
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opentalk.eu">OpenTalk</a> – a secure video conferencing platform written in Rust – shared that
+sentiment:</p>
+<blockquote>
+<p><strong>The performance of Rust kept us afloat for a long time.</strong></p>
+<p>Up to a point of 10.000 video participants we didn’t have to refactor thanks to Rust’s performance.
+We could focus on features instead without worrying about bottlenecks.<br />
+— Source: <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://media.ccc.de/v/froscon2024-3105-in_rust_radikal_refactorn#t=1198">FrOSCon 2024 talk by Daniél Kerkmann (German)</a></p>
+</blockquote>
+<p>Another aspect of performance is energy efficiency.</p>
+<p>In the below benchmark, taken from <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf">“Energy Efficiency across Programming Languages”</a>
+by Pereira et al., Rust has superior runtime performance on par with C and C++
+and faster than Go by a factor of 2-3x as well as Python by a factor of 70x.</p>
+<table><thead><tr><th>Lang</th><th>Time (Normalized)</th></tr></thead><tbody>
+<tr><td>C</td><td>1.00</td></tr>
+<tr><td>Rust</td><td>1.04</td></tr>
+<tr><td>C++</td><td>1.56</td></tr>
+<tr><td>Java</td><td>1.89</td></tr>
+<tr><td>Go</td><td>2.83</td></tr>
+<tr><td>JavaScript</td><td>6.52</td></tr>
+<tr><td>PHP</td><td>27.64</td></tr>
+<tr><td>Ruby</td><td>59.34</td></tr>
+<tr><td>Python</td><td>71.90</td></tr>
+</tbody></table>
+<p>This translates to lower energy consumption as well.
+Energy is another important cost factor for companies at scale.</p>
+<img src="energy-consumption.svg" class="invert" alt="Energy Efficiency across Programming Languages" />
+<h3 id="gradual-adoption-and-ffi"><a class="zola-anchor" href="#gradual-adoption-and-ffi" aria-label="Anchor link for: gradual-adoption-and-ffi">Gradual Adoption and FFI</a></h3>
+<p>One often overlooked aspect of Rust is that it can be incrementally integrated
+into existing codebases. Interoperability is a key concern of Rust, allowing it
+to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://users.rust-lang.org/t/tips-and-experiences-integrating-rust-into-other-projects/12091/12">natively interface with other languages like C, C++, or Python</a>.</p>
+<p>This makes it possible for Rust to take on a supporting role in existing
+codebases, where it can be used for security- or performance-critical parts
+while the rest of the codebase remains in the original language. <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=l--5nx_q0_Y">This greatly
+reduces risks as big rewrites are avoided.</a></p>
+<p>In a data science environment dominated by Python, integrating Rust offers
+significant performance enhancements.
+By using Rust to process data originally managed with Python libraries such as
+Pandas and NumPy, data can be strategically copied from Python into Rust
+structures, and leveraging Rust’s powerful concurrency tools like Rayon for
+parallel processing.</p>
+<p>As a case-study, this approach, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://youtu.be/1faOd6KH-w4?si=pdd04RikPpsohiza&amp;t=1111">significantly accelerated a critical data
+processing task at
+Vortexa</a>, which wrote a
+Python extension in Rust to optimize the performance of a hot path in their data
+processing pipeline. The result was a reduction from 24 hours to 1 hour with 400
+lines of Rust code. The rest of the codebase remained intact.</p>
+<p>It shows Rust’s potential to serve as a <em>surgical tool</em> within other ecosystems,
+dramatically optimizing performance with minimal intrusion.</p>
+<p>On top of that, the Rust library code could be reused across projects from
+embedded programs to cloud services, which streamlines the development process
+and further reduces maintenance costs.</p>
+<h3 id="support-for-a-wide-range-of-environments"><a class="zola-anchor" href="#support-for-a-wide-range-of-environments" aria-label="Anchor link for: support-for-a-wide-range-of-environments">Support for a Wide Range of Environments</a></h3>
+<p>Rust is a versatile language, which can be used in a wide range of applications, from embedded systems to
+high-performance web services.</p>
+<table><thead><tr><th>Environment</th><th>Rust</th><th>Kotlin</th><th>Go</th><th>C++</th><th>TypeScript</th><th>Python</th></tr></thead><tbody>
+<tr><td>Frontend Development</td><td>Yes (via WASM)</td><td>Partial (via Kotlin/JS)</td><td>No</td><td>No</td><td>Yes</td><td>Partial (via frameworks like PyScript)</td></tr>
+<tr><td>Backend Development</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Mobile Development</td><td>Yes</td><td>Yes (Android)</td><td>No</td><td>Partial</td><td>No</td><td>Partial (Kivy, BeeWare)</td></tr>
+<tr><td>Data Science</td><td>Yes</td><td>Yes</td><td>Partial</td><td>Partial</td><td>No</td><td>Yes</td></tr>
+<tr><td>Game Development</td><td>Yes</td><td>Partial</td><td>Partial</td><td>Yes</td><td>Partial</td><td>Partial</td></tr>
+<tr><td>DevOps</td><td>Yes</td><td>Partial</td><td>Yes</td><td>Yes</td><td>Partial</td><td>Yes</td></tr>
+<tr><td>Systems Programming</td><td>Yes</td><td>No</td><td>Partial</td><td>Yes</td><td>No</td><td>Partial</td></tr>
+<tr><td>Embedded Systems</td><td>Yes</td><td>Partial</td><td>Partial</td><td>Yes</td><td>No</td><td>Partial (MicroPython)</td></tr>
+</tbody></table>
+<p>For companies with diverse product portfolios,
+it can be beneficial to have a single language that can be used across the
+entire stack. Clients often mention that the same crates can be used in
+different contexts, reducing boundaries between teams and making it easier to
+share code.</p>
+<h2 id="reasons-against-using-rust-in-production"><a class="zola-anchor" href="#reasons-against-using-rust-in-production" aria-label="Anchor link for: reasons-against-using-rust-in-production">Reasons Against Using Rust In Production</a></h2>
+<p>Every technology comes with its own set of challenges, and Rust is no exception.
+The following points highlight some common concerns about using Rust in
+production. You need to weigh them against the benefits discussed earlier to
+make an informed decision for your team.</p>
+<h3 id="immature-ecosystem"><a class="zola-anchor" href="#immature-ecosystem" aria-label="Anchor link for: immature-ecosystem">Immature ecosystem</a></h3>
+<p>Rust is a relatively young language. Version 1.0 was first released in 2015.
+This means that the ecosystem is still maturing. Many important libraries <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/11byl6u/why_is_every_crate_pre10/">did not see their 1.0 release yet</a>.</p>
+<p>This phenomenon has been <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/11byl6u/why_is_every_crate_pre10/ja3auop/">brought up as a reason to be cautious when using Rust in production</a>.</p>
+<p>In practice, it might be hard to find production-grade libraries for specific
+needs. Your team might be required to write custom crates or improve existing
+ones. Furthermore, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/sponsors/explore?ecosystem=RUST">sponsoring open source maintainers</a> to work on critical
+dependencies is a good way to ensure that the long-term sustainability of the
+ecosystem.</p>
+<p>That said, libraries for common tasks like JSON parsing or network handling are
+very robust and stable and considered best-in-class. Breaking changes are rare
+and important crates like <code>serde</code> or <code>tokio</code> are already past their 1.0 release.</p>
+<p>A relatively recent addition to the Rust ecosystem is async/await support, a
+feature designed to streamline the writing of concurrent applications. This support
+represents a significant evolution in Rust’s capabilities, but it is still
+in its early stages.
+If you’re planning to write network applications in Rust, there is a high chance
+that you will need to use async/await. As such it’s important to stay on top of
+its ongoing development and limitations. For a detailed exploration of where
+async/await in Rust stands today, including its practical implications, we
+invite you to read our comprehensive post detailing the current <a href="/blog/async/">state of
+async/await in Rust</a>.</p>
+<h3 id="lack-of-developers"><a class="zola-anchor" href="#lack-of-developers" aria-label="Anchor link for: lack-of-developers">Lack Of Developers</a></h3>
+<p>Related to the previous point, the Rust community is still relatively small.
+It is hard to find developers with professional Rust experience.</p>
+<p>From talking to companies that use Rust in production, I found that they are
+mostly training their developers on the job.
+Moreover, Rust is noted for enabling a smooth onboarding process for engineers
+already proficient in languages like C++ or Java.</p>
+<p>On the other hand, Rust developers are generally very passionate about their
+craft and are actively seeking out jobs that allow them to use Rust,
+so the market for Rust developers is growing. (Also see
+the previous section about developer happiness.)</p>
+<p>For more insights on finding and hiring Rust talent, see our dedicated guide on <a href="/blog/hiring-rust-engineers/">how to hire Rust engineers</a>.</p>
+<blockquote>
+<p>Rust has more than tripled the size of its community over the past two years
+and currently has 3.7M users, of which 0.6M joined in the last six months
+alone.[…] Furthermore, Rust has built a loyal community of developers who care
+about memory safety and security. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023">State of the Developer Nation 24th Edition - Q1 2023 report</a></p>
+</blockquote>
+<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
+<img src="communities.svg" class="invert" alt="Programming Language Communities Size">
+</a>
+<h3 id="tooling"><a class="zola-anchor" href="#tooling" aria-label="Anchor link for: tooling">Tooling</a></h3>
+<p>Cargo, rustfmt, clippy, and rust-analyzer
+are all great tools that make Rust development a joy.
+Debugging support is still lacking, but it is <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rustc-dev-guide.rust-lang.org/debugging-support-in-rustc.html">steadily improving</a>.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.jetbrains.com/lp/devecosystem-2021/rust/#Rust_what-profiling-tools-do-you-use-for-rust">The story for profiling support is similar.</a>
+It should be noted, that Rust integrates well with existing tools like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.logrocket.com/debugging-rust-apps-with-gdb/">GDB</a> or
+perf, although <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rustup/issues/2838">the experience is not seamless on all platforms yet</a>.
+For an up-to-date overview, see this list of <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/perf-book/profiling.html">Rust profiling tools</a>.</p>
+<p>Recently, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.jetbrains.com/rust/">JetBrains announced RustRover</a>,
+a new IDE for Rust which is based on IntelliJ.
+This is a strong signal that JetBrains sees it as a good investment to build
+tooling for Rust developers and that they expect Rust to become more mainstream.</p>
+<h3 id="learning-curve"><a class="zola-anchor" href="#learning-curve" aria-label="Anchor link for: learning-curve">Learning Curve</a></h3>
+<p>Rust has a <a href="/blog/flattening-rusts-learning-curve/">famously steep learning curve</a>. It is a complex language with many
+advanced features.</p>
+<p>When asked why they don’t use Rust, participants of the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html#rust-usage">2022 Annual Rust Survey</a>
+mentioned the learning curve as the main reason:</p>
+<img src="why-not-rust.svg" class="invert" alt="Why not Rust?">
+<p>In the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2020/12/16/rust-survey-2020.html#improved-learnability">Rust 2020
+survey</a>,
+participants were asked to rate the difficulty of various Rust concepts. Here
+are the results:</p>
+<img src="topic-difficulty-ratings.svg" class="invert" alt="Difficulty by topic">
+<p>Lifetime annotations, ownership, and borrowing were mentioned as the most
+difficult topics to grasp. In real-world applications, lifetimes
+are less of an issue, however, as the compiler can often infer them through
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/reference/lifetime-elision.html">lifetime elision</a>.
+Ownership and borrowing however are crucial concepts in Rust that need to be
+understood to become proficient.</p>
+<p>It is important to set clear expectations for your team when adopting Rust: Rust
+is not a language that you can learn in a few days. It requires practice to internalize
+the concepts around ownership and borrowing to become productive with it.</p>
+<p>There is an upfront cost of learning the language and training your team with
+the expectation that it will pay off in the long run.</p>
+<p>The time to become productive with Rust varies. Google’s experience suggests:</p>
+<blockquote>
+<p>Based on our studies, more than 2/3 of respondents are confident in
+contributing to a Rust codebase within two months or less when learning Rust.
+Further, a third of respondents become as productive using Rust as other
+languages in two months or less. <strong>Within four months, that number increased to
+over 50%.</strong> - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">Google</a></p>
+</blockquote>
+<p>Microsoft also shared a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://msrc.microsoft.com/blog/2020/04/the-safety-boat-kubernetes-and-rust/">similar experience</a>:</p>
+<blockquote>
+<p><strong>It takes several weeks of hard effort</strong> learning how to code properly in Rust
+before the learning curve levels out. However, that hard effort up front pays
+off in dividends due to the aforementioned safety features. We also noticed that
+once developers are over that initial curve, they are able to contribute to code
+just as easily as with any other language. Just be aware that there will be some
+initial pain.</p>
+</blockquote>
+<p>Depending on your immediate needs, this might be a deal-breaker for your team.
+Other languages like Go or Python have a much lower learning curve and are
+a better fit for rapid prototyping.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://mdwdotla.medium.com/using-rust-at-a-startup-a-cautionary-tale-42ab823d9454">Think twice before adopting it in a fast-paced startup
+environment</a>
+, particularly if your team doesn’t include seasoned Rust developers.</p>
+<blockquote>
+<p>Assuming you’re building a product in the right domain for Rust […], even
+then the answer is not clear-cut. […] Development velocity and being able to
+make rapid iterations is so important for an early stage startup that it
+outweighs a lot of the benefits that Rust brings to the table. -
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.shuttle.rs/blog/2021/10/08/building-a-startup-with-rust">Christos Hadjiaslanis - Founder of Shuttle</a></p>
+</blockquote>
+<h3 id="compile-times"><a class="zola-anchor" href="#compile-times" aria-label="Anchor link for: compile-times">Compile Times</a></h3>
+<p>Rust has a reputation for having long compile times. This is especially true for
+large projects with many dependencies.</p>
+<blockquote>
+<p>Slow build speeds were by far the #1 reported challenge that developers have
+when using Rust, with only a little more than 40% of respondents finding the
+speed acceptable. - <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">Google</a></p>
+</blockquote>
+<p>Rapid iteration is important for developers. Long compile times can be a
+productivity killer. This is most noticeable for developers that are used to
+languages like Go or Python, where the feedback loop is much faster.</p>
+<p>Compile times are a known issue and the Rust team is <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/2023/03/24/how-to-speed-up-the-rust-compiler-in-march-2023.html">continously working on improving them</a>.
+And these incremental improvements are paying off. The Rust compiler is getting
+faster over time. For example, the Rust compiler is twice as fast than it was in
+2018 for <code>cargo check</code> (which is the most common command to quickly check
+for errors):</p>
+<img src="compile-times.svg" class="invert" alt="Rust Compile Times Over Time">
+<p>Very recently, the Rust compiler frontend also gained support for <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2023/11/09/parallel-rustc.html">parallel
+compilation</a>, which
+could drastically reduce compile times for large projects. The feature is
+currently in <em>nightly</em> only and highly experimental, but it promises speedups
+of up to 50%. Details on how to test it can be found in the announcement
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2023/11/09/parallel-rustc.html">blog post</a>.</p>
+<p>For more advice on how to improve compile times, see <a href="/blog/tips-for-faster-rust-compile-times/">my article on this
+topic</a> with many practical tips.
+For medium-sized projects, compile times are less of an issue. <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/">Modern hardware
+can also mitigate the issue to some
+extent.</a></p>
+<h2 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">Conclusion</a></h2>
+<p>Rust is a great language for building large-scale, reliable, and stable
+applications. It is a good fit for companies that value productivity and
+developer happiness and see it as a long-term investment.</p>
+<p>On the other side, Rust is still a young language and the ecosystem is still
+maturing. It has a steep learning curve and long compile times.</p>
+<p>These challenges are not insurmountable, however. They require a commitment to
+Rust and a willingness to invest in training and tooling.</p>
+<p>Navigating the decision to integrate Rust into your technology stack is pivotal
+and requires thoughtful consideration. Should you find yourself weighing its
+benefits against your specific requirements, professional guidance can prove
+invaluable. Equally, if you are ready to embrace Rust and are seeking expertise
+in training or consulting to ensure a smooth transition, specialized support is
+essential.</p>
+<p><a href="/services/">Get in touch</a> to explore if Rust is the right choice for your
+organization and how it can contribute to your long-term success.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-radio"></span>
+    
+    <h4><p>Rust in Production Podcast</p>
+</h4>
+  </div>
+  
+  <p>Real-world experiences are the best way to learn about the benefits and
+challenges of a technology. That’s why we started <a href="/podcast">Rust in Production</a>, a
+podcast about companies that bet big on Rust.</p>
+<p>Listen to the first-hand accounts from decision-makers about why they chose Rust and how it
+impacted their business.
+Each episode is a deep dive into the motivations, challenges, and lessons learned
+from adopting Rust in production by companies that shape the future of infrastructure.</p>
+<p><a href="/podcast">More information here</a>.</p>
+
+</div>
+<h2 id="talks"><a class="zola-anchor" href="#talks" aria-label="Anchor link for: talks">Talks</a></h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank">Considering Rust — Jon Gjengset, 2020</a></li>
+<li><a href="https://www.youtube.com/watch?v=GCsxYAxw3JQ" target="_blank">How I Convinced the World’s Largest Package Manager to Use Rust, and So Can You! — Ashley Williams, 2017</a></li>
+<li><a href="https://www.youtube.com/watch?v=QrrH2lcl9ew" target="_blank">Beyond Safety and Speed: How Rust Fuels Team Productivity — Lars Bergstrom, 2024</a></li>
+</ul>
+<h2 id="next-steps"><a class="zola-anchor" href="#next-steps" aria-label="Anchor link for: next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="/services/">Reach Out for Rust Training and Consulting</a></li>
+</ul>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a href="/blog/rust-learning-resources-2026/">Explore our curated Rust Learning Resources</a></p>
+</li>
+        
+        <li><p><a href="/blog/hiring-rust-engineers/">Learn how to hire Rust engineers</a></p>
+</li>
+        
+        <li><p><a href="/blog/successful-rust-business-adoption-checklist/">Read our Rust Business Adoption Checklist</a></p>
+</li>
+        
+        <li><p><a href="/podcast">Listen to the Rust in Production Podcast</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">Rust Fact vs. Fiction: 5 Insights from Google’s Rust Journey</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://survey.stackoverflow.co/">StackOverflow Developer Surveys</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2023/08/07/Rust-Survey-2023-Results.html">Annual Rust Survey Results</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://kerkour.com/rust-in-production-2021">Quotes of companies using Rust in production (2021)</a></p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;why-rust&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;why-rust&#x2F;&title=Why Rust in Production?"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;why-rust&#x2F;&t=Why Rust in Production?"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2023-08-01">
+            Published: 2023-08-01
+        </time>
+    </div><div class="updated">
+        <time datetime="2024-05-26">
+            Last updated: 2024-05-26
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;why-rust&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+    <div class="credits">
+        <span>Credits:</span>
+         Title image adapted from <a href='https://www.freepik.com/free-vector/metallurgical-industry-company-isometric-vector-web-banner-with-pouring-molten-metal-from-steel-ladl_4015233.htm#page=2&query=rust%20in%20production&position=28&from_view=search&track=ais' target='_blank' rel='noopener noreferrer'>vectorpouch</a> on Freepik.
+    </div>
+    
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

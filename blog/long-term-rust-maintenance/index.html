@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Long-term Rust Project Maintenance | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="Rust has reached a level of maturity where it is being used for critical
+infrastructure, replacing legacy systems written in C or C++.
+This means, some Rust projects need to be maintained for years or even decades to come.
+…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Long-term Rust Project Maintenance | corrode Rust Consulting">
+    <meta property="og:description" content="Rust has reached a level of maturity where it is being used for critical
+infrastructure, replacing legacy systems written in C or C++.
+This means, some Rust projects need to be maintained for years or even decades to come.
+…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2024-05-13">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Long-term Rust Project Maintenance | corrode Rust Consulting">
+    <meta name="twitter:description" content="Rust has reached a level of maturity where it is being used for critical
+infrastructure, replacing legacy systems written in C or C++.
+This means, some Rust projects need to be maintained for years or even decades to come.
+…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/long-term-rust-maintenance/"
+      },
+      "headline": "Long-term Rust Project Maintenance",
+      "description": "Rust has reached a level of maturity where it is being used for critical
+infrastructure, replacing legacy systems written in C or C++.
+This means, some Rust projects need to be maintained for years or even decades to come.
+…",
+      
+      "image": "https://corrode.dev/maintenance.svg",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2024-05-13",
+      
+      "dateModified": "2024-06-24"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </h2>
+    <h1>Long-term Rust Project Maintenance</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2024-06-24
+        
+      </span>
+    </div>
+    
+    <div class="article-hero">
+      <img
+        
+        src="maintenance.svg" alt="Long-term Rust Project Maintenance" />
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>Rust has reached a level of maturity where it is being used for critical
+infrastructure, replacing legacy systems written in C or C++.
+This means, <strong>some Rust projects need to be maintained for years or even decades to come</strong>.</p>
+<p>By some estimates, the cost of maintaining a product is more than <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/">90% of the
+software’s total cost</a>.</p>
+<p>Critical software demands minimal downtime and high reliability, so it is
+reassuring that the Rust core team highlights its commitment to these values in
+their post <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2014/10/30/Stability.html">“Stability as a
+Deliverable.”</a></p>
+<p>The following is a collection of best practices and advice for maintaining Rust
+projects over a very long timeframe. It covers topics like team dynamics, managing dependencies, software architecture, and tooling.</p>
+<p>This guide is based on my experience assisting clients with medium to large Rust
+projects. While much of the advice may be applicable to other languages, I will emphasize aspects specific to Rust.</p>
+<h2>Table of Contents</h2>
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+<ul>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#your-team-needs-to-be-on-board">Your Team Needs to be On Board</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#building-for-rust-stability-and-longevity">Building for Rust Stability and Longevity</a>
+<ul>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#prefer-stable-rust-over-nightly">Prefer Stable Rust Over Nightly</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#regularly-update-your-compiler">Regularly Update Your Compiler</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#editions">Editions</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#use-rust-language-features-conservatively">Use Rust Language Features Conservatively</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#be-conservative-about-async-rust">Be Conservative About Async Rust</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#managing-dependencies">Managing Dependencies</a>
+<ul>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#dependencies-are-a-liability">Dependencies are a Liability</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#limit-the-number-of-dependencies">Limit The Number Of Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#how-to-choose-dependencies">How To Choose Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#do-not-pin-dependencies">Do Not Pin Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#stick-to-std-where-possible">Stick to <code>std</code> Where Possible</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#use-stable-dependencies">Use Stable Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#disable-unnecessary-features">Disable Unnecessary Features</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#building-on-solid-foundations">Building On Solid Foundations</a>
+<ul>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#software-architecture">Software Architecture</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#api-design">API design</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#testing">Testing</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#documentation">Documentation</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#about-unsafe-code">About Unsafe Code</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#tooling-and-infrastructure">Tooling and Infrastructure</a>
+<ul>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#use-boring-technology">Use Boring Technology</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#use-linters-and-formatters">Use Linters and Formatters</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#make-releases-boring">Make Releases Boring</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#invest-in-the-rust-ecosystem">Invest in the Rust Ecosystem</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#stick-to-a-regular-maintenance-schedule">Stick To A Regular Maintenance Schedule</a></li>
+<li><a href="https://corrode.dev/blog/long-term-rust-maintenance/#conclusion">Conclusion</a></li>
+</ul>
+</details>
+<h2 id="your-team-needs-to-be-on-board"><a class="zola-anchor" href="#your-team-needs-to-be-on-board" aria-label="Anchor link for: your-team-needs-to-be-on-board">Your Team Needs to be On Board</a></h2>
+<p>First, make sure that your team buys into the <a href="/blog/why-rust">decision to use
+Rust</a> and that they have the necessary skills to work with the
+language.</p>
+<p>Introducing Rust is often a disruptive change
+and requires a long-term mindset. <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://mainmatter.com/blog/2023/12/13/rust-adoption-playbook-for-ctos-and-engineering-managers/">It is important to have the backing of both the
+team and leadership to make this transition successful.</a></p>
+<p>On top of that, every language comes with its own set of tools,
+libraries, and idioms. It takes time for a team to become proficient in
+a new environment, and Rust is well-known for its steep learning curve.</p>
+<p>Investing in Rust training and team-augmentation is a good way to accelerate
+this process. While it means higher upfront costs, it will pay off in the long run, because the team will feel confident in their ability to maintain the codebase.</p>
+<p><img src="https://corrode.dev/blog/long-term-rust-maintenance/scale.svg" alt="Rust Maintenance" /></p>
+<h2 id="building-for-rust-stability-and-longevity"><a class="zola-anchor" href="#building-for-rust-stability-and-longevity" aria-label="Anchor link for: building-for-rust-stability-and-longevity">Building for Rust Stability and Longevity</a></h2>
+<h3 id="prefer-stable-rust-over-nightly"><a class="zola-anchor" href="#prefer-stable-rust-over-nightly" aria-label="Anchor link for: prefer-stable-rust-over-nightly">Prefer Stable Rust Over Nightly</a></h3>
+<p>Rust has a stable release every six weeks, which brings new features and bug
+fixes to the language.</p>
+<p>The stable release is the most reliable and well-tested version of Rust.
+In contrast, the nightly release is a daily snapshot of the Rust compiler
+and is more likely to break your code.</p>
+<p>For long-term maintenance, it’s important to stick to the stable release
+of Rust if at all possible. This ensures that your code will continue to compile and run without modification, even as the language evolves.</p>
+<p>There are only very few cases where nightly Rust is still necessary
+and you should carefully evaluate if the benefits outweigh the risks.</p>
+<blockquote>
+<p>If you are writing code that should live for a while, or a library that is
+aimed to be widely used, avoiding nightly features is likely your best bet.
+— Andre Bogus in <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.getsynth.com/docs/blog/2021/10/11/nightly">The nightly elephant in the room</a></p>
+</blockquote>
+<h3 id="regularly-update-your-compiler"><a class="zola-anchor" href="#regularly-update-your-compiler" aria-label="Anchor link for: regularly-update-your-compiler">Regularly Update Your Compiler</a></h3>
+<p>Dependencies can specify a minimum version of the Rust compiler they require. Keeping your compiler up-to-date ensures you can use the latest versions of your dependencies.</p>
+<p>Additionally, continuous integration tools, like the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/dtolnay/rust-toolchain"><code>dtolnay/rust-toolchain</code></a> GitHub Action, default to the latest stable Rust version. Therefore, it’s adivsable to keep your compiler current.</p>
+<p>Updating your compiler toolchain is simple. Do it regularly:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">rustup</span></span><span class="z-meta z-function-call z-arguments z-shell"> update</span>
+</span></code></pre>
+<h3 id="editions"><a class="zola-anchor" href="#editions" aria-label="Anchor link for: editions">Editions</a></h3>
+<p>An often underrated feature which is not found in other languages is Rust’s <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/edition-guide/editions/">edition
+system</a>. It ensures
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2014/10/30/Stability.html#the-plan">stability without
+stagnation</a>:
+every three years, a new edition is released, which allows the language to
+evolve without breaking existing code. For example, the 2018 edition introduced
+the <code>async</code> and <code>await</code> keywords, which are now widely used in Rust codebases;
+but code written in the 2015 edition still compiles and runs without
+modification. Mixing crates from different editions is
+possible as well.</p>
+<p>As a result, organizations have time to migrate their codebase to the new
+edition at their own pace.</p>
+<p>That said, try to keep your codebase up-to-date with the latest edition, as it
+will make it easier to benefit from new features and improvements in the
+language.</p>
+<h3 id="use-rust-language-features-conservatively"><a class="zola-anchor" href="#use-rust-language-features-conservatively" aria-label="Anchor link for: use-rust-language-features-conservatively">Use Rust Language Features Conservatively</a></h3>
+<p>Rust comes with a wealth of powerful features, such as macros, traits,
+generics, and lifetimes. While these features can make code more expressive and
+efficient, they can also make code harder to read and maintain.</p>
+<p>For long-term maintenance, it’s important to be conservative about using
+advanced language features. At times, this might come at the cost of
+performance or verbosity, but the benefit is code that is easier to understand
+by a larger part of the team.</p>
+<p>Here are a few examples of conservative use of Rust language features:</p>
+<ul>
+<li><strong>Use macros only for boilerplate code</strong>: Macros can be powerful tools for
+code generation, but can be hard to read and debug and take a toll on
+compile times. Use them sparingly and only for code that is repetitive.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://earthly.dev/blog/rust-macros/">Know When to Use Macros vs. Functions</a></li>
+<li><strong>Avoid complex trait bounds</strong>: Traits are a common way to abstract over types
+in Rust, but complex <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/rust-by-example/generics/bounds.html">trait bounds</a>
+can lead to hard-to-understand error messages and obfuscate business logic.
+Some code duplication is often preferable to complex trait bounds.</li>
+<li><strong><code>clone</code> is fine</strong>: While <code>clone</code> can be a performance bottleneck, it is
+often the simplest way to avoid lifetimes and keep code readable.
+In many cases, the performance overhead is negligible.
+If you are considering to introduce lifetimes to avoid <code>clone</code>, ask yourself
+if the added complexity is worth the performance gain.</li>
+</ul>
+<p>I discussed these and other antipatterns in my talk <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/">The Four Horsemen of Bad
+Rust
+Code</a>.</p>
+<h3 id="be-conservative-about-async-rust"><a class="zola-anchor" href="#be-conservative-about-async-rust" aria-label="Anchor link for: be-conservative-about-async-rust">Be Conservative About Async Rust</a></h3>
+<p>There is one point in particular that is worth calling out in the context of
+long-term maintenance in Rust: <strong>keep your core business logic synchronous</strong>.</p>
+<p>This ensures that you don’t have to clutter your types with trait bounds like
+<code>Send</code> and <code>Sync</code>, and that you can easily test your code without having to
+deal with asynchronous runtimes.</p>
+<p>Especially in core libraries, it’s important to be conservative about exposing async functions in the public API. This ensures that your library can be used in both synchronous and asynchronous contexts and does not impose a specific runtime on the user.</p>
+<p>To learn more about the tradeoffs of the async Rust ecosystem, I recommend reading
+<a href="/blog/async/">The State of Async Rust</a>.</p>
+<h2 id="managing-dependencies"><a class="zola-anchor" href="#managing-dependencies" aria-label="Anchor link for: managing-dependencies">Managing Dependencies</a></h2>
+<h3 id="dependencies-are-a-liability"><a class="zola-anchor" href="#dependencies-are-a-liability" aria-label="Anchor link for: dependencies-are-a-liability">Dependencies are a Liability</a></h3>
+<p>One of the most important aspects of long-term Rust maintenance is being
+conservative about dependencies.</p>
+<p>Rust has a very active ecosystem, with thousands of crates available on
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://crates.io/">crates.io</a>, but there is no guarantee that a crate will be
+maintained in the long term; and even if it is, you need to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://tweedegolf.nl/en/blog/104/dealing-with-dependencies-in-rust">trust the team
+behind it</a>.
+Security fixes in dependencies could take a long time to be released, and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/marshallpierce/rust-base64/issues/213">the API of a dependency could change in undesirable ways</a>.</p>
+<p>As a consequence, every dependency should be seen as a liability.</p>
+<h3 id="limit-the-number-of-dependencies"><a class="zola-anchor" href="#limit-the-number-of-dependencies" aria-label="Anchor link for: limit-the-number-of-dependencies">Limit The Number Of Dependencies</a></h3>
+<p>Rust’s standard library is intentionally small to avoid issues like those in
+Python’s extensive standard library, where certain parts are discouraged from
+use:</p>
+<blockquote>
+<p>Python’s standard library is piling up with cruft, unnecessary duplication of
+functionality, and dispensable features. — <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://peps.python.org/pep-0594/">PEP 594</a></p>
+</blockquote>
+<p>Rust encourages using small, focused packages called crates, promoting modular development and simplifying the core library’s
+maintenance. However, over-reliance on many third-party packages can create
+maintenance challenges. <strong>Keep the number of dependencies low</strong>.</p>
+<p>Each dependency increases:</p>
+<ul>
+<li>Compile times</li>
+<li>Complexity in build scripts and CI</li>
+<li>Documentation to read</li>
+<li>Attack surface</li>
+<li>Etc.</li>
+</ul>
+<h3 id="how-to-choose-dependencies"><a class="zola-anchor" href="#how-to-choose-dependencies" aria-label="Anchor link for: how-to-choose-dependencies">How To Choose Dependencies</a></h3>
+<p>Now that we’ve established the importance of limiting dependencies, how do you
+choose the right ones? Here are some factors to consider when choosing a crate:</p>
+<ul>
+<li><strong>Popularity</strong>: The more popular a crate is, the more likely it is to be
+maintained. Check the number of downloads, the number of open
+issues, and the last commit date. Here is a list of <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://lib.rs/std">popular Rust
+crates</a>.</li>
+<li><strong>License</strong>: Make sure the crate’s license is compatible with your project’s
+license. The most common licenses in the Rust ecosystem are MIT and Apache 2.0, which are both permissive licenses.
+However, some crates come with more restrictive licenses, such as GPL or AGPL. These licenses can pose challenges for closed source software projects, as they require you to release your source code if you distribute the software. For open source projects, these licenses can be a viable option, but it’s important to understand the implications for your specific use case.</li>
+<li><strong>Maintenance</strong>: Check the crate’s GitHub repository for signs of active maintenance. Are issues being addressed? Are pull requests being merged? Is the crate following best practices? While it’s important to see activity, keep in mind that a repository with a last commit from a few months ago isn’t necessarily unmaintained, especially for small and stable crates. Prefer crates from well-known community members or companies who have gained trust over time.</li>
+<li><strong>Security</strong>: Make sure the crate has a good security track record and that<br />
+the maintainers are responsive to security issues.
+Check <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rustsec.org/">RustSec</a> for known vulnerabilities in Rust crates
+before adding them to your project.
+Run <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://crates.io/crates/cargo-audit">cargo-audit</a> for known vulnerabilities in your dependencies.</li>
+</ul>
+<p>Take a look at <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blessed.rs/">blessed.rs</a> for a list of recommended
+crates in the Rust ecosystem. Use tools like
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/commands/cargo-tree.html">cargo-tree</a> and
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/est31/cargo-udeps">cargo udeps</a> to find duplicate, outdated,
+or unused dependencies.</p>
+<p>For a case study on how to reduce the number of dependencies in a real-world
+Rust project, read <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.memorysafety.org/blog/reducing-dependencies-in-sudo/">Sudo-rs dependencies: when less is
+better</a> by
+Ruben Nijveld from Prossimo.</p>
+<h3 id="do-not-pin-dependencies"><a class="zola-anchor" href="#do-not-pin-dependencies" aria-label="Anchor link for: do-not-pin-dependencies">Do Not Pin Dependencies</a></h3>
+<p>A common reaction to hedge the risks of exposing your project to breaking
+changes is to pin dependencies to a specific version. While this sounds like a
+good idea, it can in fact result in the opposite: a project with outdated
+dependencies that are no longer maintained and have known security
+vulnerabilities. This is a big maintenance burden.</p>
+<p>Instead, it is better to be proactive about keeping dependencies up-to-date:</p>
+<ul>
+<li><strong>Use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/kbknapp/cargo-outdated"><code>cargo outdated</code></a></strong>: This command shows you which
+dependencies are out of date. Run it regularly to keep track of new versions.</li>
+<li><strong>Automate dependency updates</strong>: Use tools like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://dependabot.com/">Dependabot</a>
+or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.mend.io/renovate/">Renovate</a> to receive automated pull
+requests for dependency updates.</li>
+<li><strong>Regularly run <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/commands/cargo-update.html"><code>cargo update</code></a></strong>: It updates your dependencies
+to the latest version that matches the version constraints in your <code>Cargo.toml</code>.</li>
+<li><strong>Use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/commands/cargo-tree.html"><code>cargo tree</code></a></strong>: This shows you a tree of your
+dependencies, to help you find duplicate- or outdated dependencies
+— including transitive dependencies.</li>
+<li>Try not to skip any major versions of your dependencies, as this can make it
+harder to upgrade in the future.</li>
+<li>Be proactive about replacing deprecated or unmaintained dependencies with a
+more recent alternative.</li>
+</ul>
+<p>For major dependencies (like the web framework or your async runtime) it’s a good idea to follow the release notes or blog posts to stay up-to-date with
+upcoming changes. For example, you <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions">can watch for new releases (including the changelog) on GitHub</a> or subscribe to the project’s newsletter.</p>
+<p>Keep in mind that it takes time for the broader ecosystem to catch up with new
+releases of these major dependencies, so it can take a while before you can
+safely upgrade. In such a case, it’s a good idea to add regular reminders to
+your calendar to handle the upgrade.</p>
+<h3 id="stick-to-std-where-possible"><a class="zola-anchor" href="#stick-to-std-where-possible" aria-label="Anchor link for: stick-to-std-where-possible">Stick to <code>std</code> Where Possible</a></h3>
+<p>The Rust standard library is well-maintained and has a strong focus on backwards
+compatibility. It is a good idea to stick to <code>std</code> where possible.</p>
+<p>For example, the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/collections/"><code>std::collections</code></a> module provides a good selection of data
+structures, such as <code>HashMap</code>, <code>Vec</code>, and <code>HashSet</code>, which are well-tested.
+While there are great third-party crates that provide similar data structures,
+which might be faster or have additional features, it is often better to stick
+to the standard library, as it is used by a wide range of projects and
+guaranteed to be maintained in the long term.</p>
+<h3 id="use-stable-dependencies"><a class="zola-anchor" href="#use-stable-dependencies" aria-label="Anchor link for: use-stable-dependencies">Use Stable Dependencies</a></h3>
+<p>Crates which <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/reference/semver.html">follow
+semver</a> and reach version
+1.0 are considered stable and should be preferred over non-stable crates. This
+is because crates below version 1.0 are allowed to make breaking changes in
+minor versions, which can lead to unexpected breakage in your project.</p>
+<p>Since the Rust ecosystem is still relatively young, many crates have not reached
+a stable 1.0 version release yet. Nonetheless, it is a good idea to prefer
+stable crates over unstable ones where possible.</p>
+<h3 id="disable-unnecessary-features"><a class="zola-anchor" href="#disable-unnecessary-features" aria-label="Anchor link for: disable-unnecessary-features">Disable Unnecessary Features</a></h3>
+<p>Many crates offer optional features that can be enabled or disabled. These
+features can add additional functionality to the crate, but they can also
+increase compile times and the complexity of the crate. If you don’t need a
+feature, it’s a good idea to disable it.
+You can find the available features in the crate’s <code>Cargo.toml</code> file or on the
+crate’s documentation page.
+For example, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/crate/tokio/latest/features">here are the <code>tokio</code> features</a>.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>Pro Tip: Quickly Discovering Unnecessary Features</p>
+</h4>
+  </div>
+  
+  <p>A nice trick is to use the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/reference/features.html#the-default-feature"><code>default-features = false</code></a> option for each dependency in your
+<code>Cargo.toml</code>, which disables all features, which are enabled by default.</p>
+<p>This way you can inspect which features are crucial for your project and
+carefully add them back one by one. It’s a good way to avoid unnecessary
+bloat.</p>
+<p>For example:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">dependencies</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">flate2</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">version</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>1.0.30<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">default-features</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-language z-toml">false</span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">features</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>zlib<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span>
+</span></code></pre>
+
+</div>
+<h2 id="building-on-solid-foundations"><a class="zola-anchor" href="#building-on-solid-foundations" aria-label="Anchor link for: building-on-solid-foundations">Building On Solid Foundations</a></h2>
+<h3 id="software-architecture"><a class="zola-anchor" href="#software-architecture" aria-label="Anchor link for: software-architecture">Software Architecture</a></h3>
+<p>Conversely, maintaining a codebase for a long time <em>doesn’t</em> mean you should leave
+it untouched; quite the opposite: it requires constant effort and work.</p>
+<p>Some of the most robust codebases in the world are continuously updated.
+Projects like the Linux kernel, which has been in development for over 30 years,
+or Mozilla Firefox, are constantly being improved and refactored.</p>
+<p>Here are some principles for durable software design:</p>
+<ol>
+<li>Learn about <a href="/blog/idiomatic-rust-resources">idiomatic Rust</a> and follow the best practices of the Rust community.</li>
+<li>Heavily lean into the type system: prefer a type-first design, where you use the <a href="/blog/compile-time-invariants">type system to enforce invariants</a> and prevent bugs. For example, here is how to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://cliffle.com/blog/rust-typestate/">use the typestate pattern to guarantee object behavior at compile-time</a>.</li>
+<li>Don’t be afraid to take ownership: refactor and rewrite where necessary. Rust makes it <em>easy</em> to refactor and you should take advantage of that.</li>
+<li>Strive for <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://highassurance.rs/chp16_appendix/components.html">low coupling and high cohesion</a> between your modules and crates.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)"><img src="https://corrode.dev/blog/long-term-rust-maintenance/CouplingVsCohesion.svg" alt="Low coupling and high cohesion" /></a></li>
+<li>Learn about <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html">design principles such as SOLID</a>.</li>
+<li>Avoid premature optimization and over-engineering.</li>
+<li>Consider <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-cqrs.org/theory_ddd.html">Domain-driven design</a>. It is a way to express your business logic in a common business language that everyone on the team understands.</li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://alexis-lozano.com/hexagonal-architecture-in-rust-1/">Study hexagonal architecture</a> (a.k.a onion Architecture or ‘Ports and Adapters’). This architecture separates the core business logic from the infrastructure, making it easier to test and maintain.</li>
+</ol>
+<p>The Rust ecosystem continues to develop, with new frameworks frequently being introduced. To avoid chasing a moving target, it’s a good idea to keep the core of your application framework-agnostic. This way, you can replace your web framework or UI layer without having to rewrite the entire application.
+The above mentioned design principles can help you with that.</p>
+<h3 id="api-design"><a class="zola-anchor" href="#api-design" aria-label="Anchor link for: api-design">API design</a></h3>
+<p>API design is part of software architecture, but it deserves its own section.</p>
+<p>Software that gets maintained for a long time is often critical and heavily used
+by other software. Changing an API can break downstream users and cause churn.
+Defensive API design minimizes the risk of these breaking changes.</p>
+<p>Here are some tips for designing APIs that stand the test of time:</p>
+<ul>
+<li><strong>Minimize the public API surface</strong>:
+It’s very hard to remove features once they are public. Only expose what is
+absolutely necessary for users to interact with your system. While this sounds
+obvious, it’s easy to expose too much in a public API. Keeping functions and
+structs private prevents implementation details from leaking out of modules,
+making future refactoring easier since you can change the internals without
+affecting the public API.</li>
+<li><strong>Consider making enums non-exhaustive</strong>: For enums that may introduce new variants in the future, use the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/reference/attributes/type_system.html"><code>#[non_exhaustive]</code></a> attribute. This allows adding new variants without breaking existing code. However, this approach encourages catch-all patterns, which can be problematic if new variants require specific handling. Use <code>non_exhaustive</code> only if a catch-all pattern is acceptable. If your enum represents a fixed set of options with no foreseeable additions, it’s better to keep it exhaustive. Breaking changes in such cases ensure the code is updated to handle new cases explicitly, maintaining correctness and clarity. (See this <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/hyperium/http/issues/188">discussion in the hyperium/http crate</a>.)</li>
+<li><strong>Hide implementation details behind own types</strong>: Use the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-unofficial.github.io/patterns/patterns/behavioural/newtype.html#motivation">newtype
+pattern</a>
+to hide implementation details and prevent users from relying on them. For
+example, instead of exposing that you depend on a specific crate, wrap it in a
+newtype, so use <code>pub Request(reqwest::Request)</code> instead of exposing the
+dependency directly.
+Don’t be afraid to introduce your own types around basic types. E.g. <code>Miles(u64)</code> and <code>Kilometers(u64)</code> are both <code>u64</code> under the hood, but
+their explicit types make it harder to mix them up.</li>
+<li><strong>Use semver</strong>: Follow the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://semver.org/">Semantic Versioning</a> guidelines to communicate changes to your users. This will help them understand the impact of a new release and make it easier to upgrade. Consider using <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/obi1kenobi/cargo-semver-checks">cargo-semver-checks</a> to detect breaking changes in your code.</li>
+</ul>
+<p>For more information, the Rust team has published a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-lang.github.io/api-guidelines/checklist.html">Rust API Guidelines
+Checklist</a>, which is
+well worth a read.</p>
+<h3 id="testing"><a class="zola-anchor" href="#testing" aria-label="Anchor link for: testing">Testing</a></h3>
+<p>Tests are a form of documentation that gets verified automatically.
+If you have a hard time writing tests, it’s a sign that your code is too
+complex and needs refactoring. If you can’t explain what a struct or function
+does, it might do too much. Split it up into smaller parts and test those parts
+individually.</p>
+<p>In Rust, unit tests reside alongside the code within the same module, which is
+where the majority of testing should happen.</p>
+<p>Make sure that the tests are easy to run without any manual setup (ideally, just
+a <code>cargo test</code> should be enough), and that they run quickly (think seconds, not minutes)
+and mostly without external dependencies. If tests are slow, they won’t be run
+as often, and you’ll lose the benefits of having them. Integrate your tests into
+a continuous integration pipeline on GitHub Actions or GitLab CI to ensure that
+they run automatically on every commit.</p>
+<h3 id="documentation"><a class="zola-anchor" href="#documentation" aria-label="Anchor link for: documentation">Documentation</a></h3>
+<p>Rust has great support for documentation.
+You can write documentation as Markdown comments right next to your code, and
+it gets rendered into a nice HTML page with <code>cargo doc</code>.
+Make extensive use of this!</p>
+<p>Here are some tips for writing good documentation:</p>
+<ul>
+<li>Don’t expect to be around to explain your code. Even if you are, you might not
+remember why you wrote something a certain way.</li>
+<li>It’s easiest to write documentation as soon as you start writing code. Update it as
+your mental model of the code evolves.</li>
+<li>Take the time to document, why certain optimizations were <em>not</em> done and the
+trade-offs of your design decisions.</li>
+</ul>
+<p>Some tooling can help you with this:</p>
+<ul>
+<li>Enforce documentation for public functions and types with clippy’s <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/rustdoc/write-documentation/what-to-include.html"><code>#![deny(missing_docs)]</code></a> lint.</li>
+<li>Run <code>cargo doc --open</code> from time to time to see how your documentation looks like
+and fill in the gaps.</li>
+<li>Add doctests to your documentation. This way, you can ensure that the examples
+in your documentation are correct and up-to-date.</li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://frehberg.com/2022/12/docs-as-code-mermaid-inline-diagrams/">Add mermaid diagrams to your documentation</a> to visualize complex concepts.</li>
+<li>Use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/GuillaumeGomez/doc-comment">doc-comment</a> to ensure that your examples in the <code>README.md</code> are up-to-date.</li>
+</ul>
+<p>As an example, here is the documentation for the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/axum/latest/axum">Axum web framework</a>, which is generated from comments in the code:</p>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/axum/latest/axum/"><img src="https://corrode.dev/blog/long-term-rust-maintenance/axum-docs.png" alt="Axum Documentation" /></a></p>
+<p>Here are the things I like about this introduction:</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+It’s approachable and easy to read.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+It immediately shows how to use the library for simple, real-world scenarios.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+It explains core concepts and how they relate to each other.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+It provides links to more detailed information.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+It includes a table of contents for easy navigation.</li>
+</ul>
+<p>If you feel intrigued, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.guillaume-gomez.fr/articles/2020-03-12+Guide+on+how+to+write+documentation+for+a+Rust+crate">here is a great guide on how to write documentation in Rust</a>.</p>
+<h3 id="about-unsafe-code"><a class="zola-anchor" href="#about-unsafe-code" aria-label="Anchor link for: about-unsafe-code">About Unsafe Code</a></h3>
+<p>Unsafe code relies on the author to ensure its correctness and adherence to
+current and future rules. Due to the inherent complexity, errors in unsafe
+code are typically difficult to detect and debug.</p>
+<ul>
+<li>Minimize the use of unsafe code and encapsulate it in a safe API. This way,
+the unsafe code can at least be isolated and its behavior can be more easily
+understood and tested.</li>
+<li>If you find yourself using unsafe code to improve performance, consider using
+better algorithms or data structures instead. Rust’s performance is often
+competitive with C and C++ without resorting to unsafe code.
+See <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=uUu9eFNNbjg">this video on datastructures in the Zed Text Editor, which shows how
+<code>Rope</code>s and <code>SumTree</code>s get used for performant and safe code</a>.</li>
+<li>Use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/geiger-rs/cargo-geiger">cargo-geiger</a> to check for
+unsafe code.</li>
+</ul>
+<p><img src="https://corrode.dev/blog/long-term-rust-maintenance/cargo-geiger.png" alt="cargo-geiger" /></p>
+<h2 id="tooling-and-infrastructure"><a class="zola-anchor" href="#tooling-and-infrastructure" aria-label="Anchor link for: tooling-and-infrastructure">Tooling and Infrastructure</a></h2>
+<h3 id="use-boring-technology"><a class="zola-anchor" href="#use-boring-technology" aria-label="Anchor link for: use-boring-technology">Use Boring Technology</a></h3>
+<p>Based on personal experience, the latest technology can be tempting, but for long-term codebase maintenance in a production environment, it’s wise to use reliable, well-established tools like JSON and SQL. These tools offer abundant documentation and support, making it easier to find help when needed.</p>
+<p>The same principle applies when choosing Virtual Machines or Containers over newer options like WebAssembly or Edge Computing, as the former have more providers and established ecosystems.</p>
+<p>Overall, proven technologies change less frequently, allowing you to focus on your business rather than constantly chasing the latest trends.</p>
+<h3 id="use-linters-and-formatters"><a class="zola-anchor" href="#use-linters-and-formatters" aria-label="Anchor link for: use-linters-and-formatters">Use Linters and Formatters</a></h3>
+<p>There are a number of well-established tools that can help you maintain a
+consistent code style and catch common errors:</p>
+<ul>
+<li>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rustfmt">rustfmt</a> formats your code according to
+the Rust style guidelines.</p>
+</li>
+<li>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/clippy/">clippy</a> is a collection of lints to catch
+common mistakes and improve your code.</p>
+<p>I use the most pedantic clippy settings in my projects.
+To enable them, add the following lines to the top of your <code>main.rs</code> or <code>lib.rs</code>:</p>
+<pre data-lang="rs" class="language-rs z-code"><code class="language-rs" data-lang="rs"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#!</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">deny</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::all</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#!</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">warn</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::pedantic</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#!</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">warn</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::restriction</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#!</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">warn</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::nursery</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#!</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">warn</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">clippy::cargo</span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span></code></pre>
+<p>This will enable all lints, including the pedantic ones, which are not enabled by default.
+Chances are, you will get a lot of warnings when you first enable them.
+But fixing them will make your code more idiomatic and less error-prone.
+You can disable specific lints if you find them too noisy.</p>
+<p>More detailed information on pedantic clippy settings can be found <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://zhauniarovich.com/post/2021/2021-09-pedantic-clippy/">here</a>.</p>
+</li>
+<li>
+<p>Also check this <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://analysis-tools.dev/tag/rust">list of Rust static analysis tools</a>.</p>
+</li>
+</ul>
+<h3 id="make-releases-boring"><a class="zola-anchor" href="#make-releases-boring" aria-label="Anchor link for: make-releases-boring">Make Releases Boring</a></h3>
+<p>Run your CI pipeline on a regular basis to ensure that your codebase is always
+in a deployable state. The worst time to find out that something is broken is when
+you’re trying to deploy a fix.</p>
+<p>Look into <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/MarcoIeni/release-plz">release-plz</a> for release
+automation. It can create pull requests for new releases, which you can review
+and merge when you’re ready.</p>
+<p><img src="https://corrode.dev/blog/long-term-rust-maintenance/release-plz.png" alt="release-plz" /></p>
+<p>If you are afraid of triggering a release, it’s a sign that your release process
+is too complex. Simplify it until you are confident that you can release at any
+time.</p>
+<h2 id="invest-in-the-rust-ecosystem"><a class="zola-anchor" href="#invest-in-the-rust-ecosystem" aria-label="Anchor link for: invest-in-the-rust-ecosystem">Invest in the Rust Ecosystem</a></h2>
+<p>If you depend on the Rust ecosystem for your business, it is in your best
+interest to invest in it. Being an active member of the Rust community will ensure that your voice gets heard, and you can influence the direction of the language and ecosystem.</p>
+<p>This can be done in a number of ways:</p>
+<ul>
+<li>Report bugs and contribute code to the crates you use.</li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/sponsors/explore?account=mre&amp;ecosystems=RUST&amp;sort_by=MOST_USED">Sponsor crates that you depend on</a>.</li>
+<li>Give talks and write blog posts about your experiences with Rust.</li>
+<li>Support the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://foundation.rust-lang.org/">Rust Foundation</a> and core team members.</li>
+<li>Encourage your team to contribute to the Rust ecosystem.</li>
+</ul>
+<h2 id="stick-to-a-regular-maintenance-schedule"><a class="zola-anchor" href="#stick-to-a-regular-maintenance-schedule" aria-label="Anchor link for: stick-to-a-regular-maintenance-schedule">Stick To A Regular Maintenance Schedule</a></h2>
+<p>It’s quite easy to let things slip when you’re focused on new features and high-priority tasks.
+That’s why it’s important to set aside regular time for maintenance.</p>
+<p>For example, you could schedule a <strong>quarterly project review</strong> to check for
+outdated dependencies, security vulnerabilities, and code smells.
+Find a time that works for your team and stick to it.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>Download My Free Maintenance Checklist</p>
+</h4>
+  </div>
+  
+  <p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://corrode.notion.site/Rust-Maintenance-Checklist-3fa116db4c6149cbacbe3c16f81c6bb0">Here is my own checklist for regular maintenance.</a>
+Feel free to create a copy and adapt it to your needs. If you have any suggestions for improvements, please let me know and I’ll update the list.</p>
+
+</div>
+<h2 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">Conclusion</a></h2>
+<p><img src="https://corrode.dev/blog/long-term-rust-maintenance/conclusion.svg" alt="Conclusion" /></p>
+<p>Maintaining a long-term codebase is challenging, regardless of the programming
+language. However, Rust excels in this area due to its focus on safety, solid
+tooling, and active community.</p>
+<p>By following the principles outlined in this post, you can
+ensure that your codebase remains robust and maintainable for years to come.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-radio"></span>
+    
+    <h4><p>Supercharge Your Rust Adoption</p>
+</h4>
+  </div>
+  
+  <p>If you want to learn from top companies that have successfully adopted Rust,
+consider subscribing to the <a href="/podcast">Rust In Production Podcast</a>.</p>
+<p>In case your company is considering to adopt Rust for a new project, feel free to reach out for a <a href="/#contact">consultation</a>.</p>
+
+</div>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=Y7oqumBxWGo">Cost of a Dependency - Lee Campbell</a> — presentation on building maintainable architectures</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://maddevs.io/customer-university/software-maintenance-costs/">Software Maintenance Costs - Vladislav Andreev </a> — Factors &amp; ways to reduce software maintenance costs</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;&title=Long-term Rust Project Maintenance"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;&t=Long-term Rust Project Maintenance"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2024-05-13">
+            Published: 2024-05-13
+        </time>
+    </div><div class="updated">
+        <time datetime="2024-06-24">
+            Last updated: 2024-06-24
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;long-term-rust-maintenance&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+        
+                <a href="https:&#x2F;&#x2F;github.com&#x2F;flba-eb" target="_blank" rel="noopener noreferrer">Florian Bartels</a>
+                    and
+                <a href="https:&#x2F;&#x2F;mastodon.social&#x2F;@mo8it@fosstodon.org" target="_blank" rel="noopener noreferrer">mo8it</a>
+    </div>
+     
+    <div class="credits">
+        <span>Credits:</span>
+         <a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>
+    </div>
+    
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

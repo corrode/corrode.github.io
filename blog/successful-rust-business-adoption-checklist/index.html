@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Making Your First Real-World Rust Project a Success | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web developme…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Making Your First Real-World Rust Project a Success | corrode Rust Consulting">
+    <meta property="og:description" content="Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web developme…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2024-06-14">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Making Your First Real-World Rust Project a Success | corrode Rust Consulting">
+    <meta name="twitter:description" content="Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web developme…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/successful-rust-business-adoption-checklist/"
+      },
+      "headline": "Making Your First Real-World Rust Project a Success",
+      "description": "Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web developme…",
+      
+      "image": "https://corrode.dev/hero.svg",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2024-06-14",
+      
+      "dateModified": "2024-06-18"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </h2>
+    <h1>Making Your First Real-World Rust Project a Success</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2024-06-18
+        
+      </span>
+    </div>
+    
+    <div class="article-hero">
+      <img
+        
+        src="hero.svg" alt="Making Your First Real-World Rust Project a Success" />
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>Rust has quickly become a popular choice for teams seeking to write safe and efficient systems. Its unique blend of performance, safety, and concurrency makes it an attractive option for various applications, from embedded systems to web development.</p>
+<p>However, adopting Rustlang for your first production project requires careful planning and strategy. After all, this is a big deal: betting on a new programming language could be a business decision that you base the next ten years of your company on.</p>
+<p>The goal of this guide is to provide you with a comprehensive checklist and actionable advice to make your first real-world Rust project a success.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Looking for a Detailed Rust Project Plan?</p>
+</h4>
+  </div>
+  
+  <p>Get my proven Rust project plan that I use for my consulting projects.<br />
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://corrode.notion.site/8e2457230e75438f95e0620fcf09b034">Access it here</a> and customize it to fit your needs.</p>
+
+</div>
+<h2>Table of Contents</h2>
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#know-why-you-are-considering-rust">Know Why You Are Considering Rust</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#get-the-buy-in-from-stakeholders">Get The Buy-In From Stakeholders</a>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#your-team-must-be-on-board">Your Team Must Be On Board</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#keep-an-eye-on-the-bus-factor">Keep an Eye on The Bus Factor</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#find-a-rust-champion">Find a Rust Champion</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#run-a-survey-to-gauge-interest-and-concerns">Run a Survey to Gauge Interest and Concerns</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#address-concerns-and-answer-questions-in-a-relaxed-setting">Address Concerns and Answer Questions in a Relaxed Setting</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#project-planning">Project Planning</a>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#finding-the-right-project">Finding The Right Project</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#choose-the-right-integration-method">Choose The Right Integration Method</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#check-the-ecosystem">Check the Ecosystem</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#set-standards-for-crates">Set Standards for Crates</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#establish-a-policy-on-async-rust">Establish a Policy on Async Rust</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#have-a-migration-strategy">Have a Migration Strategy</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#become-an-active-member-of-the-community">Become An Active Member Of The Community</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#project-setup">Project Setup</a>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#fully-embrace-rust-tooling">Fully Embrace Rust Tooling</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#consider-an-internal-styleguide">Consider An Internal Styleguide</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#team-building">Team Building</a>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#start-with-a-small-team">Start With a Small Team</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#start-a-team-channel">Start a Team Channel</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#consider-expert-mentorship">Consider Expert Mentorship</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#allocate-time-for-learning">Allocate Time for Learning</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#learning-resources">Learning Resources</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#budgeting">Budgeting</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#on-hiring-talent">On Hiring Talent</a>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#people-with-production-experience-are-hard-to-find-and-expensive">People with Production Experience Are Hard to Find and Expensive</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#source-talent-from-your-existing-teams-instead">Source Talent From Your Existing Teams Instead</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#scaling-the-team">Scaling The Team</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#ongoing-maintenance">Ongoing Maintenance</a>
+<ul>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#emphasize-code-reviews-and-pair-programming">Emphasize Code Reviews and Pair Programming</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#encourage-refactoring">Encourage Refactoring</a></li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#regularly-review-progress-and-adjust-strategies">Regularly Review Progress and Adjust Strategies</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/successful-rust-business-adoption-checklist/#next-steps">Next Steps</a></li>
+</ul>
+</details>
+<h2 id="know-why-you-are-considering-rust"><a class="zola-anchor" href="#know-why-you-are-considering-rust" aria-label="Anchor link for: know-why-you-are-considering-rust">Know Why You Are Considering Rust</a></h2>
+<p>Understanding <em>why</em> you are considering adopting Rust is crucial.</p>
+<ul>
+<li>Define clear goals and expectations for the project — this is a good idea, no matter if you decide on Rust or another language in the end.</li>
+<li>Set out to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=DnT-LUQgc7s">compare all the available options by fairly evaluating the pros and cons of each language</a> in a table or a document. Share this document with your team and stakeholders to fill in the gaps and ensure transparency.</li>
+<li>Focus on business value and long-term benefits, not personal preferences.</li>
+<li>Rust needs a catalyst for success, i.e., a clear benefit, which will be the driving force behind the adoption. Good catalysts are higher service stability, reduced operational costs, and better security. Don’t focus on performance alone.</li>
+<li>Write down your success criteria, such as improved robustness (lower number of bugs), developer productivity, and better scalability.</li>
+</ul>
+<h2 id="get-the-buy-in-from-stakeholders"><a class="zola-anchor" href="#get-the-buy-in-from-stakeholders" aria-label="Anchor link for: get-the-buy-in-from-stakeholders">Get The Buy-In From Stakeholders</a></h2>
+<h3 id="your-team-must-be-on-board"><a class="zola-anchor" href="#your-team-must-be-on-board" aria-label="Anchor link for: your-team-must-be-on-board">Your Team Must Be On Board</a></h3>
+<p>Introducing Rust will be a disruptive change, and it’s vital to have the backing from both the team and leadership. One side is not enough. Make sure everyone understands the <a href="/blog/why-rust">benefits and challenges of using Rust</a>.</p>
+<p>Rust is an organization-wide commitment, and it’s vital to have a long-term mindset. If you need to get something done quickly and can afford tech debt, consider using another language. However, for long-term projects, Rust’s benefits will offset the initial learning curve.</p>
+<p>Management should understand the benefits of Rust and be willing to invest in training, hiring, and tooling. They should also be aware of the potential challenges (e.g., delayed project timelines, increased costs, etc.) and have a clear understanding of the trade-offs involved.</p>
+<p>The magnitude of this decision should not be underestimated. Therefore, at the beginning of your adoption journey, consider bringing in a consultancy (<a href="/">like corrode</a>) to help decision-makers fully understand the costs and benefits of Rust. This can be crucial for assessing risks and avoiding major surprises down the road. While this means a higher upfront cost, it ultimately provides clarity and allows your team to focus on the technical aspects, setting the project up for success.</p>
+<h3 id="keep-an-eye-on-the-bus-factor"><a class="zola-anchor" href="#keep-an-eye-on-the-bus-factor" aria-label="Anchor link for: keep-an-eye-on-the-bus-factor">Keep an Eye on The Bus Factor</a></h3>
+<p>The <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Bus_factor">bus factor</a> is the number of people on your team who need to be hit by a bus before your project is in trouble. Make sure this bus factor is bigger than 1.</p>
+<p>Rust adoption should not be driven by ego or your CV but by business needs.
+If you love Rust, but your organization is not ready for it, don’t force it on them — it will fall back on you. There should always be more than one person who knows the system well enough to maintain it.</p>
+<p>Similarly, if you are the manager who has merely heard about the benefits of Rust, but your team is perfectly happy with the current technology stack, there might be no need to switch. Don’t choose Rust because of the hype; listen to your team.</p>
+<h3 id="find-a-rust-champion"><a class="zola-anchor" href="#find-a-rust-champion" aria-label="Anchor link for: find-a-rust-champion">Find a Rust Champion</a></h3>
+<p>Find a Rust champion within your team who is passionate about Rust, good at teaching, and willing to lead the adoption effort. They will serve as the cornerstone for your Rust adoption process and can significantly ease the learning process for the rest of the team.</p>
+<p>They don’t have to be a Rust expert, but ideally, a good champion already has some experience with Rust in production or has built a few larger side projects with it.</p>
+<p>If there is nobody willing to take on that role, reconsider if Rust is the right choice; perhaps the team is not ready for the transition yet or is satisfied with the current technology stack. An external consultant cannot replace an internal champion (if anything, they work in tandem). The initial motivation has to come from within.</p>
+<h3 id="run-a-survey-to-gauge-interest-and-concerns"><a class="zola-anchor" href="#run-a-survey-to-gauge-interest-and-concerns" aria-label="Anchor link for: run-a-survey-to-gauge-interest-and-concerns">Run a Survey to Gauge Interest and Concerns</a></h3>
+<p>Run a survey to gauge the team’s initial interest in Rust. Ask questions like:</p>
+<ul>
+<li>What is your current language of choice?</li>
+<li>On a scale from 1 to 5, how interested are you in learning Rust?</li>
+<li>What are your main concerns about adopting Rust?</li>
+<li>Which other languages would you consider for the project?</li>
+<li>What are the main benefits of choosing Rust for this project?</li>
+<li>Would you be willing to take on a Rust project? If so, in what capacity?</li>
+</ul>
+<p>If you need a comprehensive survey template to get started, feel free to <a href="/services">reach out to me</a>. The template includes detailed questions that can help uncover your team’s readiness and potential challenges for adopting Rust.</p>
+<h3 id="address-concerns-and-answer-questions-in-a-relaxed-setting"><a class="zola-anchor" href="#address-concerns-and-answer-questions-in-a-relaxed-setting" aria-label="Anchor link for: address-concerns-and-answer-questions-in-a-relaxed-setting">Address Concerns and Answer Questions in a Relaxed Setting</a></h3>
+<p>If you get mixed results, consider holding a Rust Q&amp;A session with the team on a Friday afternoon. This way, you can address concerns and answer questions in a relaxed environment.</p>
+<h2 id="project-planning"><a class="zola-anchor" href="#project-planning" aria-label="Anchor link for: project-planning">Project Planning</a></h2>
+<h3 id="finding-the-right-project"><a class="zola-anchor" href="#finding-the-right-project" aria-label="Anchor link for: finding-the-right-project">Finding The Right Project</a></h3>
+<p>My number one rule is: start small, but not too small.</p>
+<p>Begin with a project that is close to your core business but not mission-critical. This approach allows your team to gain experience with Rust with less disruption to the business.</p>
+<p>Choose a project in a domain you know very well. This way, you can focus on learning Rust and not on understanding the domain. On top of that, you can compare the performance of Rust with the existing system and see if it lives up to the expectations. It will be easier to onboard new team members if they are already familiar with the domain.</p>
+<h3 id="choose-the-right-integration-method"><a class="zola-anchor" href="#choose-the-right-integration-method" aria-label="Anchor link for: choose-the-right-integration-method">Choose The Right Integration Method</a></h3>
+<p>There are various ways to integrate Rust into your existing infrastructure:</p>
+<ul>
+<li><strong>CLI Tool</strong>: Develop a command-line tool in Rust.</li>
+<li><strong>FFI Layer</strong>: Call Rust code from another language using the Foreign Function Interface.</li>
+<li><strong>Microservice / Network Layer</strong>: Implement a microservice in Rust.</li>
+<li><strong>WebAssembly</strong>: Use Rust to compile to WebAssembly (e.g. for frontend).</li>
+<li><strong>Embedded System</strong>: Develop an embedded system in Rust.</li>
+</ul>
+<p>Pick the integration method which best aligns with your project’s requirements and team’s expertise. Choose a method that allows you to leverage Rust’s strengths while minimizing risks. Rust can be a great fit for performance-critical parts of your application, such as networking and data processing. Once the team sees the benefits of Rust, they will be more open to using it in other parts of the business. Pick a project with a huge upside and one that is easy to replace if things go wrong.</p>
+<p><strong>A microservice</strong> is a good candidate for this. In the worst case, you can rewrite it in another language. You can gradually shift over traffic to the Rust service and see how it performs in production.</p>
+<p>However, starting with a <strong>CLI tool</strong> might be easier for the team to manage and understand, even if it is not central to the core business. It can be a quick win and a manageable way to introduce Rust without significant risk, helping the team to see its potential.</p>
+<p>Beginning with <strong>WebAssembly</strong> can be challenging due to its complexity. The team might get frustrated with the tooling and ecosystem, and there might not be any immediate benefits, such as faster performance. This could lead to a negative impression of Rust.</p>
+<p>I saw some great results with Rust for <strong>embedded systems</strong>, where the tooling is excellent, and there is a clear project boundary. Tools like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://probe.rs/">probe-rs</a> are often considered best-in-class.</p>
+<p>The <strong>FFI layer</strong> is a good choice if you have a large codebase in another language and want to gradually replace parts of it with Rust. For example, some teams rewrite a performance-critical section of their Java monolith in Rust for 2-3x performance improvements. The <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/jni">jni crate</a> allows you to create a compatible library.</p>
+<h3 id="check-the-ecosystem"><a class="zola-anchor" href="#check-the-ecosystem" aria-label="Anchor link for: check-the-ecosystem">Check the Ecosystem</a></h3>
+<p>Before starting a Rust project, check the ecosystem for libraries, tools, and resources you will need. Make sure that the libraries are available and well-maintained. Look at the issues and documentation of critical crates for your project. Get familiar with the maintainers. Join the Discord or Matrix channels of the main crates you plan to use. This will give you a good idea of the health of the ecosystem and the community.</p>
+<h3 id="set-standards-for-crates"><a class="zola-anchor" href="#set-standards-for-crates" aria-label="Anchor link for: set-standards-for-crates">Set Standards for Crates</a></h3>
+<p>Some companies are fine with using any crate from crates.io, while others are more conservative and only use crates that have been around for a while and have a good reputation. I find <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blessed.rs/">blessed.rs</a> to be a good resource for finding high-quality crates.</p>
+<p>Choosing the right crates can have a big impact on the <a href="/blog/long-term-rust-maintenance/">long-term maintainability</a> of your project.</p>
+<p>Run <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/cargo-audit/latest/cargo_audit/">cargo-audit</a> regularly to check for security vulnerabilities in your dependencies.</p>
+<h3 id="establish-a-policy-on-async-rust"><a class="zola-anchor" href="#establish-a-policy-on-async-rust" aria-label="Anchor link for: establish-a-policy-on-async-rust">Establish a Policy on Async Rust</a></h3>
+<p>Async Rust requires proficiency in the language and can be challenging for beginners. <a href="/blog/async">Navigating the space is hard.</a></p>
+<p>Establish early on if you want to use async Rust in your project because it can have a big impact on your project. Some companies are fine with using async Rust everywhere, while others use it only when there is no other choice (e.g. the ecosystem does not provide a synchronous alternative).
+I saw success in keeping the core of the application synchronous while using async for I/O-bound tasks. For example, you could have a lib, which is synchronous and a wrapper around it that is async. This makes testing easier and allows you to use the synchronous lib in other projects.</p>
+<p>Either way, establish a policy early on and make sure everyone is on the same page.</p>
+<h3 id="have-a-migration-strategy"><a class="zola-anchor" href="#have-a-migration-strategy" aria-label="Anchor link for: have-a-migration-strategy">Have a Migration Strategy</a></h3>
+<p>Answer the following questions before starting the migration:</p>
+<ul>
+<li>What are the milestones for the migration?</li>
+<li>How will you handle the transition period? E.g., will you run both systems in parallel?</li>
+<li>How will you ensure that the team is productive during the migration?</li>
+<li>What is your fallback plan if the migration fails? Can you roll back to the old system?</li>
+<li>How will you measure the success of the migration? What are the key metrics?</li>
+<li>How will you ensure that the team is productive with the new technology?</li>
+</ul>
+<p>Document your position on these questions for future reference and to ensure that everyone is on the same page.</p>
+<h3 id="become-an-active-member-of-the-community"><a class="zola-anchor" href="#become-an-active-member-of-the-community" aria-label="Anchor link for: become-an-active-member-of-the-community">Become An Active Member Of The Community</a></h3>
+<p>If you’re starting to get serious about Rust, don’t stand on the sidelines! Engage with the Rust community through <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://users.rust-lang.org/">forums</a>, and share your insights on your developer blog. Subscribe to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://this-week-in-rust.org/">This Week in Rust</a> to stay up-to-date on the latest news and developments in the Rust ecosystem. Keep an eye on the announcements on the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/">Rust blog</a> as well as the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://foundation.rust-lang.org/">Rust Foundation</a>. Being an active community member can provide valuable support and keep you updated on best practices.</p>
+<h2 id="project-setup"><a class="zola-anchor" href="#project-setup" aria-label="Anchor link for: project-setup">Project Setup</a></h2>
+<h3 id="fully-embrace-rust-tooling"><a class="zola-anchor" href="#fully-embrace-rust-tooling" aria-label="Anchor link for: fully-embrace-rust-tooling">Fully Embrace Rust Tooling</a></h3>
+<p>Rust has some of the best tooling in the industry. Make good use of it! Use <code>cargo fmt</code> to format your code, <code>cargo clippy</code> to catch common mistakes, and <code>cargo test</code> or <code>cargo nextest</code> to test your project.</p>
+<p>Use <code>rust-analyzer</code> for code completion and <code>rustup</code> to manage your Rust toolchain. There are also many other tools available, such as <code>cargo-watch</code> for automatically recompiling your code when it changes.</p>
+<p>For CI/CD, consider using GitHub Actions, GitLab CI, or Azure Pipelines. They all have good support for Rust. For GitHub Actions in particular, take a look at <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/dtolnay/rust-toolchain">dtolnay/rust-toolchain</a>.
+Enforce <code>cargo fmt --check</code> and <code>cargo clippy</code> in your CI pipeline.</p>
+<p>Have these tools in place from the start and encourage all team members to
+routinely use them while developing. There should be no exceptions.</p>
+<h3 id="consider-an-internal-styleguide"><a class="zola-anchor" href="#consider-an-internal-styleguide" aria-label="Anchor link for: consider-an-internal-styleguide">Consider An Internal Styleguide</a></h3>
+<p>You can get pretty far with the above-mentioned tools.
+However, one often overlooked aspect is the social side of Rust.
+In languages like Python or Go, there typically is one idiomatic way to do things. That makes it easier to work in a group as the code looks coherent between authors and style discussions are reduced to a minimum.</p>
+<p>In Rust, that is not the case as there tend to be multiple ways to
+solve a problem, which all end up being valid. This can lead to
+style discussions and code reviews that are more about personal preference than actual issues. Ultimately, these discussions end up not creating business value
+and can be a source of frustration for the team.</p>
+<p>Typical areas of churn are:</p>
+<ul>
+<li>Zero-cost abstractions vs. explicitness: are <code>.clone()</code>s okay or should you introduce lifetimes instead?</li>
+<li>Generics: when does it make sense to introduce them? How many type parameters are too many?</li>
+<li>Static vs dynamic dispatch: is it okay to use <code>Box&lt;dyn Trait&gt;</code> or should you always use <code>impl Trait</code>?</li>
+<li>Macros: when are they okay and when should you avoid them? How complex can they get?</li>
+<li>Functional vs. imperative style: e.g. when is it okay to use <code>for</code> loops and when should you use iterators?</li>
+</ul>
+<p>It’s better to be upfront about these decisions and make them explicit.</p>
+<p>As the project evolves, try to document your standpoints
+on these topics in an internal style guide. This can be as simple as a markdown file in your repository. It will help new team members to get up to speed faster and reduce the amount of churn in code reviews.</p>
+<p>Here is my take on the above topics:</p>
+<ul>
+<li>Prefer explicitness over zero-cost abstractions. Only introduce lifetimes when necessary. <code>.clone()</code> is okay most of the time. If not, consider <code>Rc</code> or <code>Arc</code>. Always measure the performance impact before introducing lifetimes.
+In general, beginners <a href="/blog/lifetimes/">worry about lifetimes too much</a></li>
+<li>Generics are okay, but don’t overdo it. If you have more than 3 type parameters, consider if you can reduce them. If not, it might be a sign that your function is doing too much.</li>
+<li>Prefer <code>impl Trait</code> over <code>Box&lt;dyn Trait&gt;</code>, but don’t be religious about it.
+If a trait object reduces complexity, it’s okay to use it.</li>
+<li>Macros are okay for repetitive tasks (such as writing out an <code>impl</code> block for
+a long list of types), but avoid them for complex logic. Macros are hard to debug and can lead to cryptic error messages. They are almost like a language within a language.</li>
+<li>Use OOP/iterative style for global control flow and functional style for local transformations. Get acquainted with iterator patterns, but don’t overdo it. Sometimes a simple <code>for</code> loop is more readable than a chain of iterators.
+Read my post on <a href="/blog/iterators">thinking in iterators</a> to learn more.</li>
+</ul>
+<p>In general, resist the urge to be clever.
+Don’t expect everyone on the team to know every Rust feature like higher-level trait bounds or non-trivial lifetimes.
+Stuff like <code>impl &lt;T, U, V&gt; SomeTrait for YourType&lt;T, U, V&gt; where T: ....</code>
+is challenging to read and understand for most people.</p>
+<p>If you have to use advanced features, try to hide them behind a simple interface for the rest of the team.</p>
+<p>Don’t underestimate documentation. Perhaps you have a rule that you should always document public structs and functions and you enforce this in your CI pipeline. You can do so by adding <code>#![deny(missing_docs)]</code> at the top of your <code>lib.rs</code> or <code>main.rs</code> and the compiler will refuse to compile code if there is any public item without documentation.</p>
+<h2 id="team-building"><a class="zola-anchor" href="#team-building" aria-label="Anchor link for: team-building">Team Building</a></h2>
+<h3 id="start-with-a-small-team"><a class="zola-anchor" href="#start-with-a-small-team" aria-label="Anchor link for: start-with-a-small-team">Start With a Small Team</a></h3>
+<p>Start with a small team of 2-3 developers who are excited about Rust. They will be the pioneers and can help spread the word about Rust within the organization. Once the team has gained experience and confidence and has delivered a minimum viable product (MVP), you can expand the Rust team.</p>
+<h3 id="start-a-team-channel"><a class="zola-anchor" href="#start-a-team-channel" aria-label="Anchor link for: start-a-team-channel">Start a Team Channel</a></h3>
+<p>Create a dedicated channel for the Rust team on your company’s communication platform (e.g., Slack, Discord, or Microsoft Teams). This channel can be used to share resources, ask questions, and discuss Rust-related topics. It’s a great way to build a sense of community and encourage knowledge sharing among team members.</p>
+<h3 id="consider-expert-mentorship"><a class="zola-anchor" href="#consider-expert-mentorship" aria-label="Anchor link for: consider-expert-mentorship">Consider Expert Mentorship</a></h3>
+<p>Many companies wait too long to get professional help for their Rust projects. Some may have been burned in the past by hiring consultants who didn’t deliver what they promised. Other organizations think they can do it all by themselves, but this often leads to a hard-to-maintain codebase, poor developer experience, frustration, and in the worst case, the discontinuation of the project.</p>
+<p>On the other hand, a good instructor can be an accelerator. They can help avoid costly mistakes, ask the hard questions around Rust adoption, and set the team up for success. Hiring consultants can accelerate the exploration process and mitigate risks. Experts can scaffold the project architecture, implement best practices like testing and CI/CD, and train the team, ensuring a smooth transition for everyone involved.</p>
+<p>Most importantly, bringing in a consultant early in the project can eliminate the “unknown unknowns” for your team and back up your decisions with expert advice.</p>
+<p>Many companies fear the cost of hiring consultants. However, clarifying things early on and avoiding costly mistakes can be more economical in the long run. The team will benefit the most early on, starting with a solid foundation.</p>
+<p>Even if it turns out that Rust is not the right choice for your project, it’s better to know that sooner rather than later. You can document the reasons which led to this decision and share them with the team for transparency. When the question comes up again in the future, you can refer back to this document and save time.</p>
+<div style="display: flex; justify-content: space-evenly; align-items: stretch; gap: 20px;">
+  <p style="flex: 1; margin: 0; display: flex; align-items: center;">
+    Think of it like this: if you were to go rock climbing for the first time, would
+    you rather have a seasoned climbing partner or go it alone? The guide can
+    help you avoid dangerous routes, give you some tips, and make the experience much more
+    pleasant for everyone involved.
+  </p>
+  <img src="climb.svg" alt="A good consultant is like a climbing partner or belayer" width="100" height="153">
+</div>
+<h3 id="allocate-time-for-learning"><a class="zola-anchor" href="#allocate-time-for-learning" aria-label="Anchor link for: allocate-time-for-learning">Allocate Time for Learning</a></h3>
+<p>Once an initial prototype is in place, it’s time to bring on the rest of the team.</p>
+<p>The biggest concern about Rust that I hear from engineers is that they are worried they won’t have enough time to properly learn Rust. Set aside dedicated learning time for your team to get up to speed with Rust. Encourage your team to work on small Rust projects or contribute to open-source projects to gain practical experience. It takes around <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">4 months to get comfortable with Rust</a>, so plan accordingly.</p>
+<p>This might be a good time to compare Rust workshops and training programs. Some consultancies (like <a href="/">corrode</a>) offer dedicated Rust training for teams and provide discounts for larger groups. An on-site training can be a great way to kick off your Rust project and get everyone excited about the opportunity to work on the project. Remember to plan some time to schedule the training and to get the budget approved, so reach out to the training provider early.</p>
+<h3 id="learning-resources"><a class="zola-anchor" href="#learning-resources" aria-label="Anchor link for: learning-resources">Learning Resources</a></h3>
+<p>No matter how you plan to integrate Rust into your project, make sure to read up on the language and its ecosystem. Here are the best resources I know of right now:</p>
+<ul>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/book/">The Rust Book</a>: A must-read for every developer on the team. Make sure that everyone on the team gets a copy or reads it online.</li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rustlings">Rustlings</a>: Fun, short exercises to get started with Rust.</li>
+</ul>
+<p>Which resources I would recommend after that depends on the team’s background and the project’s requirements.
+Take a look at this <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/sger/RustBooks">Rust books list</a>, our <a href="/blog/rust-learning-resources-2026/">curated Rust learning resources</a>, and resources for <a href="/blog/idiomatic-rust-resources/">idiomatic Rust</a>.</p>
+<h2 id="budgeting"><a class="zola-anchor" href="#budgeting" aria-label="Anchor link for: budgeting">Budgeting</a></h2>
+<p>To avoid any surprises, it’s essential to plan your budget carefully.
+Be aware of the (hidden) costs associated with adopting Rust. And there’s quite a few of them.</p>
+<details>
+<summary>Click here to expand the list.</summary>
+<ol>
+<li>
+<p><strong>Initial Setup and Planning</strong></p>
+<ul>
+<li>Rust exploration and evaluation (conducting surveys, research)</li>
+<li>Alignment between stakeholders (meetings, design documents)</li>
+<li>Planning and architecture</li>
+<li>Feasibility study (proof of concept for your domain)</li>
+<li>Transition management (project management resources)</li>
+</ul>
+</li>
+<li>
+<p><strong>Opportunity costs</strong></p>
+<ul>
+<li>Costs of delaying other projects and features: time spent on Rust could
+be devoted to other projects.</li>
+</ul>
+</li>
+<li>
+<p><strong>Training and Team Preparation</strong></p>
+<ul>
+<li>Training (4 months of dedicated time)</li>
+<li>Rust training and resources (books, online courses, conferences)</li>
+<li>Mentorship and coaching</li>
+<li>Team building activities (team lunches, offsites)</li>
+</ul>
+</li>
+<li>
+<p><strong>Hiring and Team Expansion</strong></p>
+<ul>
+<li>Staffing costs for Rust developers (recruiting, job postings, onboarding)</li>
+<li>Hiring people in infrastructure roles (SREs, DevOps)</li>
+</ul>
+</li>
+<li>
+<p><strong>Setup Costs</strong></p>
+<ul>
+<li>Project structure</li>
+<li>Workflows and tools (IDEs, linters, formatters)</li>
+<li>Tooling setup (initial configuration of development environments)</li>
+<li>CI/CD pipelines</li>
+</ul>
+</li>
+<li>
+<p><strong>Development and Implementation</strong></p>
+<ul>
+<li>Costs of fast development machines (<a href="/blog/tips-for-faster-rust-compile-times/">Rust builds are hardware-intensive</a>)</li>
+<li>Development costs (coding, testing, debugging)</li>
+<li>Documentation</li>
+<li>Writing guidelines and best practices</li>
+<li>Code reviews and pair programming (to ensure code quality and knowledge sharing)</li>
+<li>Performance tuning (if needed)</li>
+<li>Security audits</li>
+<li>Compliance and legal reviews (regulations and standards, e.g. GDPR or software licenses)</li>
+</ul>
+</li>
+<li>
+<p><strong>Infrastructure and Tooling</strong></p>
+<ul>
+<li>Licensing for proprietary tools (rarely needed, but consider it)</li>
+<li>Additional hardware during migration (a separate set of infrastructure
+for the new system)</li>
+<li>Monitoring and alerting tools (tools for monitoring performance
+and reliability)</li>
+</ul>
+</li>
+<li>
+<p><strong>Ongoing Maintenance and Support</strong></p>
+<ul>
+<li>Cloud costs (compute, storage, networking)</li>
+<li>Ongoing maintenance costs (monitoring, logging, on-call, CI/CD pipelines)</li>
+<li>Refactoring and cleaning up technical debt</li>
+</ul>
+</li>
+<li>
+<p><strong>Communication and Marketing</strong></p>
+<ul>
+<li>Internal communication (presentations)</li>
+<li>External communication (blog posts, conference talks)</li>
+</ul>
+</li>
+<li>
+<p><strong>Risk Management</strong></p>
+<ul>
+<li>Account for the cost of failure</li>
+<li>Consider costs of rollback mechanisms</li>
+<li>Costs of rollback if the migration fails</li>
+<li>Contingency funds (allocating a budget for unforeseen expenses)</li>
+</ul>
+</li>
+</ol>
+</details>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>How Much Will Your Rust Project Cost?</p>
+</h4>
+  </div>
+  
+  <p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://corrode.notion.site/862b591975e64a72aba3f8c66e01a3f1">Here’s my detailed checklist for budgeting Rust projects.</a></p>
+<p>I use this list to help my clients plan their Rust projects and avoid any surprises. By going through this checklist, you can make sure that you have considered all major costs associated with adopting Rust and have a clear plan for your project.</p>
+<p>Feel free to make a copy and adapt it to suit your project’s needs.</p>
+
+</div>
+<h2 id="on-hiring-talent"><a class="zola-anchor" href="#on-hiring-talent" aria-label="Anchor link for: on-hiring-talent">On Hiring Talent</a></h2>
+<p>Hiring Rust talent takes time and effort.
+This section provides insights into hiring strategies and what to look for in candidates for Rust projects specifically.</p>
+<p>For a comprehensive guide on hiring Rust developers, see our dedicated article on <a href="/blog/hiring-rust-engineers/">How to Hire Rust Engineers</a>.</p>
+<h3 id="people-with-production-experience-are-hard-to-find-and-expensive"><a class="zola-anchor" href="#people-with-production-experience-are-hard-to-find-and-expensive" aria-label="Anchor link for: people-with-production-experience-are-hard-to-find-and-expensive">People with Production Experience Are Hard to Find and Expensive</a></h3>
+<p>It’s challenging to find developers with Rust <em>production</em> experience. Competing with the crypto industry, which heavily uses Rust, makes it even harder. Salaries for Rust developers in crypto can be 2-3 times higher than in other industries, and the pool of talent is small.</p>
+<p>Unless you are a hot new startup or have a big budget, finding people with Rust production experience can be challenging and costly. Consider training your own team instead.</p>
+<h3 id="source-talent-from-your-existing-teams-instead"><a class="zola-anchor" href="#source-talent-from-your-existing-teams-instead" aria-label="Anchor link for: source-talent-from-your-existing-teams-instead">Source Talent From Your Existing Teams Instead</a></h3>
+<p>Instead of focusing solely on experience, consider finding junior- to mid-level developers who are smart, curious, and eager to learn. From my experience, good candidates often have experience in related areas (like Kotlin or TypeScript) and are known for being quick learners. Place them near your Rust champion or an expert mentor to help them get up to speed quickly.</p>
+<p>People in infrastructure roles are also a great fit. Those who tend to have an interest in scalability, performance, and networking can also be great additions to your team. Look for those with previous admin roles, who have worked close to the metal and have a good understanding of how things work under the hood.
+These people are often excited to pick up Rust as their background aligns well with the language’s strengths.</p>
+<h3 id="scaling-the-team"><a class="zola-anchor" href="#scaling-the-team" aria-label="Anchor link for: scaling-the-team">Scaling The Team</a></h3>
+<p>Once your project reaches a certain level of maturity, you can start hiring Rust developers to scale your team and maintain the project.</p>
+<p>Using Rust can be a competitive advantage for smaller companies, as it attracts developers who are excited about the language’s potential. Companies like InfluxData have seen a notable increase in interest from developers after announcing projects involving Rust:</p>
+<blockquote>
+<p>I announced that we’re working on this new core of the database in November of
+2020 in a talk I did. And I said we were hiring and we got a bunch
+of inbound interest because of the fact that it was written in Rust.
+— Paul Dix, InfluxData</p>
+</blockquote>
+<p>If you’re interested in learning more about hiring Rust developers, don’t miss the season finale of ‘Rust in Production.’ Paul Dix from InfluxData and Micah Wylde from Arroyo share insights on why smaller companies find hiring Rust talent a competitive advantage while larger companies face unique challenges.</p>
+<p>Find the section from the episode about hiring Rust engineers <a href="/podcast/s01e07-season-finale/?t=23%3A06">here</a>.</p>
+<h2 id="ongoing-maintenance"><a class="zola-anchor" href="#ongoing-maintenance" aria-label="Anchor link for: ongoing-maintenance">Ongoing Maintenance</a></h2>
+<p>I wrote a separate <a href="/blog/long-term-rust-maintenance/">blog post on long-term Rust maintenance</a>, which might be helpful for you, but here are some specific tips for your first Rust project:</p>
+<h3 id="emphasize-code-reviews-and-pair-programming"><a class="zola-anchor" href="#emphasize-code-reviews-and-pair-programming" aria-label="Anchor link for: emphasize-code-reviews-and-pair-programming">Emphasize Code Reviews and Pair Programming</a></h3>
+<p>Code reviews and pair programming are a great way to share knowledge and best practices among team members. Make sure that code reviews are a regular part of your development process and that everyone on the team understands the importance of them.</p>
+<p>Consider strategies like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Mob_programming">mob programming</a> to get the team up to speed quickly. This can be especially helpful for new team members who are still learning Rust and might be too shy to ask questions in a code review or on a team channel.</p>
+<h3 id="encourage-refactoring"><a class="zola-anchor" href="#encourage-refactoring" aria-label="Anchor link for: encourage-refactoring">Encourage Refactoring</a></h3>
+<p>Encourage your team to refactor code regularly to keep it clean and maintainable. Make sure it is a regular part of your development process and that everyone on the team can change the codebase without fear. Unless you work in a safety-critical environment, everyone should be able to make changes to the codebase without asking for permission.</p>
+<h3 id="regularly-review-progress-and-adjust-strategies"><a class="zola-anchor" href="#regularly-review-progress-and-adjust-strategies" aria-label="Anchor link for: regularly-review-progress-and-adjust-strategies">Regularly Review Progress and Adjust Strategies</a></h3>
+<p>As you go, adjust your strategies as needed. Make sure that you are hitting your milestones and that the team feels productive.</p>
+<p>Some projects have the tendency to become overly complex, so regularly ask newcomers to review the codebase and give feedback on what they find confusing.
+Keep the code straightforward and fight abstractions. Focus on being readable, not clever.</p>
+<h2 id="next-steps"><a class="zola-anchor" href="#next-steps" aria-label="Anchor link for: next-steps">Next Steps</a></h2>
+<p>By acknowledging the challenges and following these strategies, you can ensure a successful Rust adoption for your first production project. With careful planning and a dedicated team, Rust can drive significant improvements in your organization.</p>
+<p>Check out our <a href="/podcast/">‘Rust in Production’ podcast</a> for insights from industry experts on how their teams successfully adopted Rust in production.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>Need Help with Your Rust Project?</p>
+</h4>
+  </div>
+  
+  <p>If you’re considering adopting Rust for your next project, I can help you get started.
+<a href="/#contact">Reach out for a free consultation</a> if you need help with your Rust project. I’m happy to help you get the most out of Rust and guide you through the process.</p>
+
+</div>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p>There’s a nice talk by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ashleygwilliams">Ashley Williams</a> titled <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=Pn-1so-Ibsg">Zen and the Art of Convincing Your Company to Use Rust</a> that covers this topic in more detail.</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;&title=Making Your First Real-World Rust Project a Success"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;&t=Making Your First Real-World Rust Project a Success"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2024-06-14">
+            Published: 2024-06-14
+        </time>
+    </div><div class="updated">
+        <time datetime="2024-06-18">
+            Last updated: 2024-06-18
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;successful-rust-business-adoption-checklist&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+        
+                <a href="https:&#x2F;&#x2F;github.com&#x2F;theredfish" target="_blank" rel="noopener noreferrer">Julian Didier</a>
+    </div>
+     
+    <div class="credits">
+        <span>Credits:</span>
+         <a href='http://www.freepik.com'>Hero image designed by upklyak / Freepik</a>
+    </div>
+    
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

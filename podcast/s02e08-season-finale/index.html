@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Season 2 - Finale - Rust in Production Podcast | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="As we approach the finale of our second season, it&#x27;s time for another recap.
+Could we shed some light on the current state of Rust’s usage in the industry?
+What has changed in our perception of Rust in production since our last season?
+While more companies started to embrace Rust, some of the magic of Rust’s early days is gone.
+I expect more ripple effects as the community clashes with the industry’s demands.
+This episode takes on a more somber tone, as we peer into the massive tech debt we have accumulated as an industry.
+And in the dark: a faint glow, a narrow golden path that points us towards a more hopeful future.">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Season 2 - Finale - Rust in Production Podcast | corrode Rust Consulting">
+    <meta property="og:description" content="As we approach the finale of our second season, it&#x27;s time for another recap.
+Could we shed some light on the current state of Rust’s usage in the industry?
+What has changed in our perception of Rust in production since our last season?
+While more companies started to embrace Rust, some of the magic of Rust’s early days is gone.
+I expect more ripple effects as the community clashes with the industry’s demands.
+This episode takes on a more somber tone, as we peer into the massive tech debt we have accumulated as an industry.
+And in the dark: a faint glow, a narrow golden path that points us towards a more hopeful future.">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e08-season-finale&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e08-season-finale&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2024-08-08">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Season 2 - Finale - Rust in Production Podcast | corrode Rust Consulting">
+    <meta name="twitter:description" content="As we approach the finale of our second season, it&#x27;s time for another recap.
+Could we shed some light on the current state of Rust’s usage in the industry?
+What has changed in our perception of Rust in production since our last season?
+While more companies started to embrace Rust, some of the magic of Rust’s early days is gone.
+I expect more ripple effects as the community clashes with the industry’s demands.
+This episode takes on a more somber tone, as we peer into the massive tech debt we have accumulated as an industry.
+And in the dark: a faint glow, a narrow golden path that points us towards a more hopeful future.">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e08-season-finale&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article class="section-wrapper">
+    <h2 class="subheading"><a href="/podcast">Podcast</a></h2>
+    <h1>
+        Season 2 - Finale
+    </h1>
+    <div class="article-meta-top">
+        <div class="article-meta-left">
+            <code>S02 E08</code>
+            Published on 2024-08-08
+        </div>
+        <ul>
+            <li>
+                <a
+                    href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+                    ><img
+                        class="invert"
+                        src="/podcast/rss.svg"
+                        alt="RSS"
+                        width="30"
+                        height="30"
+                    />
+                </a>
+            </li>
+            <li>
+                <a
+                    href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+                    ><img
+                        class="invert"
+                        src="/podcast/apple.svg"
+                        alt="Apple Podcasts"
+                        width="30"
+                        height="30"
+                    />
+                </a>
+            </li>
+            <li>
+                <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+                    ><img
+                        class="invert"
+                        src="/podcast/spotify.svg"
+                        alt="Spotify"
+                        width="30"
+                        height="30"
+                    />
+                </a>
+            </li>
+            <li>
+                <a
+                    href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+                    ><img
+                        class="invert"
+                        src="/podcast/youtube.svg"
+                        alt="YouTube"
+                        width="40"
+                        height="40"
+                    />
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div><div><script id="letscast-player-7ae4f95b" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-15-season-finale/player.js?size=s"></script></div>
+As we approach the finale of our second season, it's time for another recap.
+<p>Could we shed some light on the current state of Rust’s usage in the industry?
+What has changed in our perception of Rust in production since our last season?</p>
+<p>While more companies started to embrace Rust, some of the magic of Rust’s early days is gone.
+I expect more ripple effects as the community clashes with the industry’s demands.</p>
+<p>This episode takes on a more somber tone, as we peer into the massive tech debt we have accumulated as an industry.
+And in the dark: a faint glow, a narrow golden path that points us towards a more hopeful future.</p>
+<span id="continue-reading"></span><div class="info dashed">
+  <div class="info-header">
+    <i class="icon icon-info"></i>
+    <h4>Proudly Supported by CodeCrafters</h4>
+  </div>
+  <p>
+    CodeCrafters helps you become proficient in Rust by building real-world,
+    production-grade projects. Learn hands-on by creating your own shell, HTTP
+    server, Redis, Kafka, Git, SQLite, or DNS service from scratch.
+  </p>
+  <p>
+    Start for free today and enjoy 40% off any paid plan by using
+    <a href="https://app.codecrafters.io/join?via=mre">this link</a>.
+  </p>
+</div>
+<h2 id="show-notes">Show Notes</h2>
+<h3 id="results-from-the-survey">Results from the Survey</h3>
+<p>A few weeks ago, we asked you to fill out a survey about the Rust in Production podcast.
+Thank you to everyone who participated! We received a lot of valuable feedback.</p>
+<p>In total, we got 82 responses. Here are some of the key takeaways:</p>
+<h4 id="how-did-you-discover-the-rust-in-production-podcast">How did you discover the “Rust in Production” podcast?</h4>
+<ul>
+<li>43% of respondents found the podcast on Mastodon.</li>
+<li>21% Podcast directory (Apple, Spotify, etc.)</li>
+<li>9% Recommended by a friend</li>
+<li>6% Twitter</li>
+<li>5% LinkedIn</li>
+<li>5% Search engine</li>
+<li>4% Reddit</li>
+<li>7% Other</li>
+</ul>
+<h4 id="how-many-episodes-have-you-listened-to">How Many Episodes Have You Listened To?</h4>
+<ul>
+<li>26% of respondents have listened to all episodes.</li>
+<li>27% have listened to most episodes (more than half).</li>
+<li>27% have listened to some episodes (less than half).</li>
+<li>10% have only listened to one episode.</li>
+<li>10% Other</li>
+</ul>
+<h4 id="which-aspects-of-the-show-do-you-enjoy-the-most">Which Aspects Of The Show Do You Enjoy The Most?</h4>
+<ul>
+<li>96% of respondents enjoy the technical content. (Tech Deep Dives)</li>
+<li>49% enjoy the business motivations to choose Rust.</li>
+<li>8% other</li>
+</ul>
+<h4 id="are-there-any-topics-related-to-rust-in-production-that-you-d-like-to-see-covered-in-future-episodes">Are there any topics related to Rust in production that you’d like to see covered in future episodes?</h4>
+<p>We got a lot of great suggestions for future episodes.
+In total, we received 30 unique responses.
+Here are the top 5 key insights:</p>
+<ul>
+<li>
+<p><strong>Cloud native development and microservices:</strong> Addressing misconceptions about Rust’s suitability for cloud-native applications, including microservices and Kubernetes operators.</p>
+</li>
+<li>
+<p><strong>Enterprise adoption:</strong> How large companies implement Rust, including getting buy-in, training/hiring strategies, and integrating Rust into existing processes.</p>
+</li>
+<li>
+<p><strong>Performance-critical applications:</strong> Exploring Rust’s potential as an alternative to C++ in performance-critical domains like machine learning, including C++/Rust interoperability.</p>
+</li>
+<li>
+<p><strong>Web and network services:</strong> Coverage of Rust in web applications, WebAssembly, and network services.</p>
+</li>
+<li>
+<p><strong>Ecosystem deep dives:</strong> Technical deep dives into popular crates, the Tokio ecosystem, and best practices for structuring large Rust projects.</p>
+</li>
+</ul>
+<h4 id="if-you-could-change-one-thing-about-the-rust-in-production-podcast-what-would-it-be-and-why">If you could change one thing about the “Rust in Production” podcast, what would it be and why?</h4>
+<p>We received 20 unique responses. Top 5 key insights:</p>
+<ul>
+<li>
+<p><strong>More technical focus:</strong> Many listeners expressed a desire for more in-depth technical discussions rather than high-level or business-oriented content.</p>
+</li>
+<li>
+<p><strong>Improved audio quality:</strong> Some mentioned that the audio can be hard to hear at times and suggested better audio production.</p>
+</li>
+<li>
+<p><strong>Diversity in guests:</strong> There’s a request for more diverse guests, including women and people from atypical backgrounds.</p>
+</li>
+<li>
+<p><strong>Tighter editing:</strong> Some listeners feel the discussions can ramble and could benefit from more focused editing.</p>
+</li>
+<li>
+<p><strong>Format variations:</strong> Suggestions include offering video versions, having occasional casual discussions with a co-host on ecosystem topics, and potentially shortening episode lengths.</p>
+</li>
+</ul>
+<h4 id="what-is-your-current-level-of-experience-with-rust">What is your current level of experience with Rust?</h4>
+<ul>
+<li>15% Beginner (less than 1 year of experience)</li>
+<li>46% Intermediate (1-3 years of experience)</li>
+<li>19% Advanced (3-5 years of experience)</li>
+<li>14% Expert (5+ years of experience)</li>
+<li>6% I don’t use Rust, but I’m interested in learning</li>
+</ul>
+<h4 id="who-should-be-a-guest-and-why">Who should be a guest and why?</h4>
+<p>We don’t want to name specific people, but here are some categories of guests that were suggested:</p>
+<ul>
+<li><strong>Industry leaders and enterprise adopters:</strong> Senior engineers and decision-makers from major tech companies who have implemented Rust at scale.</li>
+<li><strong>Core Rust ecosystem contributors:</strong> Developers and maintainers of the Rust language, compiler, and critical libraries/crates.</li>
+<li><strong>Systems programmers:</strong> Professionals working on operating systems, embedded systems, and low-level infrastructure using Rust.</li>
+<li><strong>Open-source project leads:</strong> Maintainers of significant open-source projects built with Rust, including developer tools and frameworks.</li>
+<li><strong>Domain specialists:</strong> Experts applying Rust in specific fields such as game development, cybersecurity, or academic research.</li>
+</ul>
+<h4 id="how-do-you-typically-listen-to-rust-in-production">How do you typically listen to “Rust in Production”?</h4>
+<ul>
+<li>60% While doing household chores</li>
+<li>58% While commuting</li>
+<li>26% While exercising</li>
+<li>21% Dedicated listening time</li>
+<li>10% During work breaks</li>
+<li>9% While coding</li>
+<li>10% Other</li>
+</ul>
+<h3 id="how-has-rust-in-production-influenced-your-perception-of-rust-s-viability-in-production-environments">How has ‘Rust in Production’ influenced your perception of Rust’s viability in production environments?</h3>
+<ul>
+<li>19% Significantly improved my confidence in Rust for production use</li>
+<li>41% Somewhat improved my confidence in Rust for production use</li>
+<li>36% No change in my perception</li>
+<li>4% I don’t have an opinion</li>
+</ul>
+<p>Here’s the data ordered by percentage with a markdown header:</p>
+<h3 id="which-aspects-of-rust-in-production-are-you-most-interested-in">Which aspects of Rust in Production are you most interested in?</h3>
+<ul>
+<li>75% Systems programming</li>
+<li>59% Web development</li>
+<li>48% Data processing and analysis</li>
+<li>46% Embedded systems</li>
+<li>43% Network programming</li>
+<li>25% Game development</li>
+<li>21% Machine learning / AI</li>
+</ul>
+<h3 id="which-of-the-following-formats-audio-or-video-would-you-be-most-interested-in">Which of the following formats (audio or video) would you be most interested in?</h3>
+<ul>
+<li>35% System architecture deep dives</li>
+<li>28% Advanced Programming Concepts in Rust</li>
+<li>27% Idiomatic Rust discussions</li>
+<li>9% Pair programming sessions</li>
+<li>1% Other</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<p>Thanks to everyone who participated in the survey! We appreciate your feedback and will use it to improve the show.
+Simon and me will discuss the results in more detail and see how we can incorporate your suggestions into future episodes.</p>
+<h3 id="office-hours">Office Hours</h3>
+<p>If you’re interested in the topics we discuss, perhaps you’d like to join our
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338">Corrode Office Hours</a>
+every Thursday at 4 PM UTC. Bring your questions, and we’ll try to help you out!
+Mark your calendars and join us next time.</p>
+<p>Here are the dates:</p>
+<ul>
+<li>August 15, 22, 29</li>
+<li>September 5, 12, 19, 26</li>
+<li>October 3</li>
+</ul>
+<p>To learn more, <a href="/office-hours">check out the office hours page</a> on our website.</p>
+<h3 id="links-from-the-episode-in-order-of-appearance">Links from the Episode (in order of appearance)</h3>
+<ul>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://youtu.be/79PSagCD_AY?si=oNH9u1HPQ9welYjZ">The History of Rust - Steve Klabnik</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nickel-org.github.io">Nickel Framework by Christoph Burgdorf</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://crates.io/crates/tokio"><code>tokio</code> on crates.io</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://newrustacean.com/">The ‘New Rustacean’ podcast — an inspiration for the show</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/M3t0r">Simon Brüggen (M3t0r) on GitHub</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://hachyderm.io/@m3t0r">Simon Brüggen (M3t0r) on Mastodon</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://mastodon.social/@mre">Matthias Endler on Mastodon</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://corrode.dev/services">About corrode Rust Consulting</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330">‘Rust in Production’ Podcast on Apple</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">‘Rust in Production’ Podcast on Spotify</a></li>
+</ul>
+<h3 id="additional-links">Additional Links</h3>
+<ul>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.premiumbeat.com/royalty-free-tracks/cassiopeia">‘Rust in Production’ title music (while you wait for season 2)</a></li>
+</ul>
+<h3 id="all-episodes-of-season-2">All Episodes of Season 2</h3>
+<p>If you missed any of the previous episodes, you can find them here:</p>
+<ul>
+<li><a href="/podcast/s02e01-curl">Episode 1: curl with Daniel Stenberg</a></li>
+<li><a href="/podcast/s02e02-amp">Episode 2: AMP with Carter Schultz</a></li>
+<li><a href="/podcast/s02e03-thunderbird">Episode 3: Thunderbird with Brendan Abolivier</a></li>
+<li><a href="/podcast/s02e04-matic">Episode 4: Matic with Eric Seppanen</a></li>
+<li><a href="/podcast/s02e05-oxidos">Episode 5: OxidOS with Alexandru Radovici</a></li>
+<li><a href="/podcast/s02e06-fusion-engineering">Episode 6: Fusion Engineering with Jakub Valtar</a></li>
+<li><a href="/podcast/s02e07-system76">Episode 7: System76 with Jeremy Soller</a></li>
+</ul>
+<h3 id="credits">Credits</h3>
+<p>We would like to thank the guests of the second season for their time and
+insights. We would also like to thank the listeners for their support and
+feedback. We are looking forward to the third season and hope you will join us
+again!</p>
+<p>Audio editing and mastering by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://m3t0r.de/">Simon Brüggen (M3t0r)</a>.</p>
+</div>
+
+    <div>
+        <h3>About corrode</h3>
+        <p>
+            "Rust in Production" is a podcast by corrode, a company that helps
+            teams adopt Rust. We offer training, consulting, and development
+            services to help you succeed with Rust. If you want to learn more
+            about how we can help you, please
+            <a href="/services">get in touch</a>.
+        </p>
+    </div>
+
+    <div class="podcast-callout">
+  <h2>Subscribe to Rust In Production</h2>
+  <p>
+    Rust in Production is a bi-weekly podcast by corrode. New episodes are
+    released every other Thursday at 4pm UTC. You can subscribe to new episodes
+    on
+    <a
+      href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+      >Apple</a
+    >,
+    <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">Spotify</a>,
+    <a
+      href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+      >YouTube</a
+    >,
+    <a
+      href="https://podcasters.amazon.com/podcasts/acc3a064-4c50-42de-940e-61726d73514a"
+      >Amazon</a
+    >, through our
+    <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+      >RSS feed</a
+    >, or <a href="https://pod.link/aHR0cHM6Ly9sZXRzY2FzdC5mbS9wb2RjYXN0cy9ydXN0LWluLXByb2R1Y3Rpb24tODIyODE1MTIvZmVlZA">any other platform</a>.
+  </p>
+  <ul>
+    <li>
+      <a
+        href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+        ><img
+          class="invert"
+          src="/podcast/apple.svg"
+          alt="Apple Podcasts"
+          width="30"
+          height="30"
+        />
+        <span>Apple Podcasts</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">
+        <img
+          class="invert"
+          src="/podcast/spotify.svg"
+          alt="Spotify"
+          width="30"
+          height="30"
+        />
+        <span>Spotify</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+        ><img
+          class="invert"
+          src="/podcast/youtube.svg"
+          alt="YouTube"
+          width="30"
+          height="30"
+        />
+        <span>YouTube</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed">
+        <img
+          class="invert"
+          src="/podcast/rss.svg"
+          alt="RSS"
+          width="30"
+          height="30"
+        />
+        <span>RSS</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

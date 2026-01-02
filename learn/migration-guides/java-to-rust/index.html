@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Migrating from Java to Rust | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="A Practical Guide for Decision Makers
+
+  
+  
+  This article is aimed at technical product managers and CTOs who are co…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Migrating from Java to Rust | corrode Rust Consulting">
+    <meta property="og:description" content="A Practical Guide for Decision Makers
+
+  
+  
+  This article is aimed at technical product managers and CTOs who are co…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2024-12-09">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Migrating from Java to Rust | corrode Rust Consulting">
+    <meta name="twitter:description" content="A Practical Guide for Decision Makers
+
+  
+  
+  This article is aimed at technical product managers and CTOs who are co…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/learn/migration-guides/java-to-rust/"
+      },
+      "headline": "Migrating from Java to Rust",
+      "description": "
+  
+  
+    
+      
+    
+    A Practical Guide for Decision Makers
+
+  
+  
+  This article is aimed at technical product managers and CTOs who are co…",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2024-12-09",
+      
+      "dateModified": "2026-01-02"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/learn">Migration Guides</a>
+    </h2>
+    <h1>Migrating from Java to Rust</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2026-01-02
+        
+      </span>
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>A Practical Guide for Decision Makers</p>
+</h4>
+  </div>
+  
+  <p>This article is aimed at technical product managers and CTOs who are considering migrating a production Java application — or part of it — to Rust.
+I will give an <strong>honest overview</strong> of the challenges and benefits of such a migration, as well as practical tips to make it successful
+based on years of experience and successful transitions.</p>
+
+</div>
+<p>Java is an amazing language.
+It’s a true workhorse, powering some of the world’s most critical systems.
+Even so, large organizations are increasingly looking to Rust as a way to improve reliability, resource usage, and reduce costs.
+Decision makers need to weigh the benefits and risks of migrating to Rust, and it’s not always an easy choice.</p>
+<p>In this article, you’ll learn:</p>
+<ul>
+<li>How to plan and execute a successful Java-to-Rust migration</li>
+<li>Common pitfalls to avoid during the transition</li>
+<li>Practical strategies for managing mixed Java/Rust codebases</li>
+<li>How to measure success and maintain productivity during migration</li>
+</ul>
+<p>By the end, you’ll have a clear idea if Rust is the right choice for your organization and if so, how to make the transition as smooth as possible.</p>
+<h2 id="get-your-customized-migration-plan"><a class="zola-anchor" href="#get-your-customized-migration-plan" aria-label="Anchor link for: get-your-customized-migration-plan">Get Your Customized Migration Plan</a></h2>
+<p>I help teams migrate from Java to Rust, providing tailored guidance and training.
+If you’re considering a migration, answer a few questions about your project, and I’ll reach out with a customized plan.</p>
+<div class="quiz-container">
+  <div class="quiz-progress-container">
+    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+  </div>
+  <div id="quiz-question-container"></div>
+
+  <div id="quiz-navigation-container">
+    <button
+      class="quiz-navbutton"
+      id="quiz-prev-question"
+      style="display: none"
+    >
+      ← Previous
+    </button>
+    <button class="quiz-navbutton" id="quiz-next-question">Next →</button>
+  </div>
+
+  <div id="quiz-results" style="display: none">
+    <h2>Thank you for your interest!</h2>
+    <p>
+      I'll send you a customized migration strategy based on your responses.
+    </p>
+    <p>
+      In the meantime, feel free to check out my
+      <a href="/blog">other articles about Rust</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  const languageOptions = [
+    "Python",
+    "Java",
+    "C++",
+    "Go",
+    "TypeScript",
+    "JavaScript",
+    "C#",
+    "Ruby",
+    "PHP",
+    "Swift",
+    "Kotlin",
+    "Other",
+  ];
+
+  const questions = [
+  {
+    type: "multipleChoice",
+    question: "Which languages are currently used in your codebase?",
+    id: "currentLanguages",
+    options: languageOptions,
+  },
+  {
+    type: "multipleChoice",
+    question: "Which types of applications are you looking to migrate?",
+    id: "applicationType",
+    direction: "column",
+    options: [
+      "Web services / APIs",
+      "Desktop applications",
+      "CLI tools",
+      "Embedded systems",
+      "WebAssembly modules",
+      "Data processing pipelines",
+      "Machine learning systems",
+      "Other",
+    ],
+  },
+  {
+    type: "radio",
+    question: "What's the size of your codebase?",
+    id: "codebaseSize",
+    options: ["< 10k lines", "< 100k lines", "> 100k lines"],
+  },
+  {
+    type: "radio",
+    question: "What's your team's experience with Rust?",
+    id: "rustExperience",
+    direction: "column",
+    options: [
+      "No experience yet",
+      "Some team members have experimented with it",
+      "We have one or more small projects in production",
+      "We have significant production experience",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What are your main motivations for migrating to Rust?",
+    direction: "column",
+    id: "motivations",
+    options: [
+      "Performance improvements",
+      "Better type safety",
+      "Memory efficiency",
+      "Production reliability",
+      "Cross-platform deployment",
+      "WebAssembly support",
+      "Embedded systems development",
+      "Microservices migration",
+      "Other",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What are your main concerns about migrating to Rust?",
+    id: "concerns",
+    direction: "column",
+    options: [
+      "Learning curve for the team",
+      "Migration complexity",
+      "Maintaining productivity during transition",
+      "Finding Rust developers",
+      "Integration with existing Java code",
+      "Third-party library availability",
+      "Build times",
+      "Testing and deployment changes",
+      "None/Other",
+    ],
+  },
+  {
+    type: "radio",
+    question: "What's your timeline for the migration?",
+    id: "timeline",
+    options: [
+      "Immediate (next 3 months)",
+      "Medium-term (3-12 months)",
+      "Long-term (12+ months)",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What kind of support is most important for your team?",
+    id: "supportNeeded",
+    direction: "column",
+    options: [
+      "Planning and strategy",
+      "Project audit",
+      "Training and workshops",
+      "Code reviews and mentoring",
+      "Java integration support",
+      "Performance optimization",
+      "Architecture design",
+      "Best practices guidance",
+      "Team hiring support",
+    ],
+  },
+  {
+    type: "radio",
+    question: "How many developers would be involved in the migration?",
+    options: ["1", "2-3", "4-9", "10+"],
+    id: "teamSize",
+  },
+  {
+    type: "input",
+    question: "Anything else you'd like to share about your migration plans?",
+    id: "additionalComments",
+    placeholder: "Share your thoughts...",
+    optional: true,
+  },
+  {
+    type: "email",
+    question:
+      "What's your email? I'll send you a customized migration strategy based on your responses.",
+    id: "email",
+    placeholder: "Your email address",
+  },
+];
+
+const formUrl = "https://submit-form.com/OH6mf241q";
+
+  // Quiz state
+  let answers = {};
+  let currentQuestionIndex = 0;
+  let totalQuestions;
+
+  // DOM elements
+  const progressBar = document.getElementById("progress-bar");
+  const questionContainer = document.getElementById("quiz-question-container");
+  const prevButton = document.getElementById("quiz-prev-question");
+  const nextButton = document.getElementById("quiz-next-question");
+
+  function initQuiz() {
+    totalQuestions = questions.length;
+    nextButton.addEventListener("click", nextQuestion);
+    prevButton.addEventListener("click", previousQuestion);
+
+    // Handle browser back/forward buttons
+    window.addEventListener("popstate", (event) => {
+      if (event.state) {
+        currentQuestionIndex = event.state.index;
+        answers = event.state.answers || {};
+        displayQuestion(currentQuestionIndex);
+      } else {
+        resetQuiz();
+      }
+    });
+
+    displayQuestion(0);
+  }
+
+  function resetQuiz() {
+    answers = {};
+    currentQuestionIndex = 0;
+    displayQuestion(0);
+  }
+
+  function updateProgressBar() {
+    const progressPercentage =
+      ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+  }
+
+  function createQuestionElement(question) {
+    const element = document.createElement("div");
+    element.className = "question";
+    element.innerHTML = `<h3>${question.question}${
+      question.optional ? " (Optional)" : ""
+    }</h3>`;
+
+    let inputContainer;
+
+    switch (question.type) {
+      case "multipleChoice":
+        inputContainer = document.createElement("div");
+        if (question.direction) {
+          inputContainer.style.display = "flex";
+          inputContainer.style.flexDirection = question.direction;
+        } else {
+          inputContainer.className = "checkbox-grid";
+        }
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.className = "checkbox-label";
+
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = question.id;
+          input.value = option;
+
+          label.appendChild(input);
+          label.append(` ${option}`);
+          inputContainer.appendChild(label);
+        });
+        break;
+
+      case "radio":
+        inputContainer = document.createElement("div");
+        inputContainer.className = "quiz-flex-container";
+        if (question.direction) {
+          inputContainer.style.flexDirection = question.direction;
+        }
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.className = "quiz-button";
+          label.textContent = option;
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = question.id;
+          input.value = option;
+
+          input.addEventListener("change", () => {
+            saveCurrentAnswers();
+            nextButton.disabled = false;
+            // Auto-advance
+            if (currentQuestionIndex < totalQuestions - 1) {
+              nextQuestion();
+            }
+          });
+
+          label.appendChild(input);
+          inputContainer.appendChild(label);
+        });
+        break;
+
+      case "input":
+      case "email":
+        inputContainer = document.createElement("input");
+        inputContainer.type = question.type;
+        inputContainer.id = question.id;
+        inputContainer.name = question.id;
+        inputContainer.placeholder = question.placeholder || "";
+        if (question.type === "email") {
+          inputContainer.required = true;
+        }
+        if (!question.optional) {
+          inputContainer.required = true;
+        }
+        break;
+    }
+
+    element.appendChild(inputContainer);
+    return { element, inputContainer };
+  }
+
+  function saveCurrentAnswers() {
+    const inputs = questionContainer.querySelectorAll("input");
+    const questionId = questions[currentQuestionIndex].id;
+
+    delete answers[questionId];
+
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        if (input.checked) {
+          answers[questionId] = answers[questionId] || [];
+          answers[questionId].push(input.value);
+        }
+      } else if (
+        (input.type === "radio" && input.checked) ||
+        input.type === "text" ||
+        input.type === "email"
+      ) {
+        if (input.value.trim()) {
+          answers[questionId] = input.value;
+        }
+      }
+    });
+  }
+
+  function restorePreviousAnswers(question, container) {
+    const previousAnswer = answers[question.id];
+    if (!previousAnswer) return;
+
+    const inputs = container.querySelectorAll("input");
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        input.checked = previousAnswer.includes(input.value);
+      } else if (input.type === "radio") {
+        input.checked = input.value === previousAnswer;
+      } else {
+        input.value = previousAnswer;
+      }
+    });
+  }
+
+  function updateNavigationState() {
+    prevButton.style.display = currentQuestionIndex > 0 ? "" : "none";
+    const question = questions[currentQuestionIndex];
+    nextButton.disabled = !isQuestionAnswered(question);
+  }
+
+  function isQuestionAnswered(question) {
+    if (question.optional) return true;
+    const answer = answers[question.id];
+    if (!answer) return false;
+    if (Array.isArray(answer)) return answer.length > 0;
+    
+    if (question.type === "email") {
+      const input = document.getElementById(question.id);
+      return input && input.checkValidity() && answer.trim().length > 0;
+    }
+    
+    return answer.trim().length > 0;
+  }
+
+  function nextQuestion() {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      saveCurrentAnswers();
+      currentQuestionIndex++;
+      displayQuestion(currentQuestionIndex);
+    } else {
+      submitQuiz();
+    }
+  }
+
+  function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      saveCurrentAnswers();
+      currentQuestionIndex--;
+      displayQuestion(currentQuestionIndex);
+    }
+  }
+
+  function displayQuestion(index) {
+    const question = questions[index];
+    if (!question) return;
+
+    history.pushState(
+      { index, answers: { ...answers } },
+      `Question ${index + 1}`,
+      `?question=${index + 1}`
+    );
+
+    questionContainer.innerHTML = "";
+    const { element, inputContainer } = createQuestionElement(question);
+    questionContainer.appendChild(element);
+
+    restorePreviousAnswers(question, inputContainer);
+    updateProgressBar();
+    updateNavigationState();
+
+    if (question.type === "input" || question.type === "email") {
+      const input = inputContainer;
+      input.addEventListener("input", () => {
+        if (question.type === "email") {
+          nextButton.disabled = !input.checkValidity() && !question.optional;
+        } else {
+          nextButton.disabled = !input.value.trim() && !question.optional;
+        }
+      });
+    } else if (question.type === "multipleChoice") {
+      const inputs = inputContainer.querySelectorAll("input");
+      inputs.forEach((input) => {
+        input.addEventListener("change", () => {
+          const anyChecked = Array.from(inputs).some((i) => i.checked);
+          nextButton.disabled = !anyChecked && !question.optional;
+        });
+      });
+    }
+
+    if (question.type === "radio") {
+      nextButton.disabled = !answers[question.id] && !question.optional;
+    }
+  }
+
+  async function submitQuiz() {
+    saveCurrentAnswers();
+
+    // Hide the quiz
+    questionContainer.innerHTML = "";
+    document.getElementById("quiz-navigation-container").style.display = "none";
+
+    // Show the thank you message
+    const resultsContainer = document.getElementById("quiz-results");
+    resultsContainer.style.display = "block";
+
+    try {
+      // Using Formspark as an example
+      const response = await fetch(formUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
+    } catch (error) {
+      console.error("Failed to submit form:", error);
+      // Optionally show an error message to the user
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", initQuiz);
+</script>
+
+<style>
+  .quiz-container {
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .quiz-progress-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 5px;
+    margin-bottom: 20px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background-color: #ee3856;
+    transition: width 0.5s ease-in-out;
+  }
+
+  #quiz-navigation-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .quiz-navbutton {
+    padding: 10px 20px;
+    background-color: #111;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+
+  .quiz-flex-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .quiz-button {
+    padding: 14px;
+    border-radius: 4px;
+    background-color: #111;
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: large;
+  }
+
+  .quiz-button:hover {
+    background-color: #ee3856;
+  }
+
+  input,
+  .checkbox-label,
+  .quiz-button:hover {
+    cursor: pointer;
+  }
+
+  #quiz-next-question:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .quiz-button input[type="radio"] {
+    display: none;
+  }
+
+  .quiz-container input[type="input"],
+  .quiz-container input[type="text"],
+  .quiz-container input[type="email"] {
+    font-size: larger;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .quiz-container input::placeholder {
+    color: #ccc;
+  }
+
+  .question h2 {
+    margin: 0;
+  }
+
+  .question .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .question input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #111;
+    border-radius: 4px;
+    margin: 0; /* Remove margin, we're using gap instead */
+  }
+
+  .question input[type="checkbox"]:checked {
+    border: 2px solid #111;
+    background-color: #ee3856;
+  }
+
+  @media (max-width: 600px) {
+    .quiz-container input[type="text"],
+    .quiz-container input[type="email"] {
+      width: calc(100% - 30px);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .quiz-button {
+      background-color: #fab71c;
+      color: #111;
+    }
+
+    .question input[type="checkbox"] {
+      border-color: #fff;
+    }
+
+    .question input[type="checkbox"]:checked {
+      border: 2px solid #fff;
+      background-color: #ee3856;
+    }
+  }
+</style>
+<h2 id="differences-between-java-and-rust"><a class="zola-anchor" href="#differences-between-java-and-rust" aria-label="Anchor link for: differences-between-java-and-rust">Differences Between Java and Rust</a></h2>
+<p>Before diving into migration tips, let’s look at key differences between Java and Rust:</p>
+<table><thead><tr><th>Aspect</th><th>Java</th><th>Rust</th></tr></thead><tbody>
+<tr><td>Memory Management</td><td>Garbage collector; possible memory leaks and GC pauses</td><td>Borrow checker at compile time; no GC pauses</td></tr>
+<tr><td>Performance</td><td>JVM bytecode, requires runtime</td><td>Native machine code via LLVM</td></tr>
+<tr><td>Default Mutability</td><td>Mutable by default</td><td>Immutable by default, requires <code>mut</code></td></tr>
+<tr><td>Null Safety</td><td>Allows null pointers</td><td>No null pointers, uses <code>Option&lt;T&gt;</code></td></tr>
+<tr><td>Code Organization</td><td>Classes with inheritance and interfaces</td><td>Structs with traits (no inheritance)</td></tr>
+<tr><td>Package Management</td><td>Gradle/Maven</td><td>Cargo (integrated build + deps)</td></tr>
+<tr><td>Concurrency</td><td>Thread-based with synchronized blocks</td><td>Built-in safety via ownership system; async/await</td></tr>
+<tr><td>Error Handling</td><td>Checked exceptions</td><td>Result and Option types</td></tr>
+<tr><td>Compilation Speed</td><td>Fast to medium</td><td>Slow</td></tr>
+<tr><td>Learning Curve</td><td>Moderate</td><td>Steep</td></tr>
+<tr><td>Deployment</td><td>Requires JVM runtime</td><td>Small, self-contained binaries</td></tr>
+</tbody></table>
+<p>These differences highlight why organizations might consider migrating to Rust, particularly for performance-critical or resource-constrained applications. However, migration isn’t just about technical differences - it requires careful planning and execution. Let’s look at how to make this transition successful.</p>
+<h2 id="mindset-shifts-for-java-developers"><a class="zola-anchor" href="#mindset-shifts-for-java-developers" aria-label="Anchor link for: mindset-shifts-for-java-developers">Mindset Shifts for Java Developers</a></h2>
+<p>Moving from Java to Rust requires some fundamental shifts in how you think about programming. Here are the key changes that will help your team succeed.</p>
+<h3 id="from-objects-to-ownership"><a class="zola-anchor" href="#from-objects-to-ownership" aria-label="Anchor link for: from-objects-to-ownership">From Objects to Ownership</a></h3>
+<p>Java lets you pass objects freely between methods and classes. Rust doesn’t. Each piece of data has exactly one owner, and the compiler enforces this strictly. While this feels limiting at first, it prevents entire categories of memory issues at compile time rather than runtime. Instead of relying on garbage collection to clean up, you plan your memory usage upfront. Most developers find this leads to more predictable and efficient code once they adapt to the mindset.</p>
+<p><strong>The ownership model also forces better data structure design.</strong> Rust’s has stricter memory rules, which encourage you to think more carefully about how you organize data and pass it between functions. This often leads to more efficient algorithms and cleaner architectures.</p>
+<h3 id="embracing-immutability"><a class="zola-anchor" href="#embracing-immutability" aria-label="Anchor link for: embracing-immutability">Embracing Immutability</a></h3>
+<p>Java makes everything mutable by default, which is arguably its single biggest issue. In large codebases, this mutability makes maintenance nearly impossible - you have to trace through deeply nested call trees to ensure variables aren’t modified somewhere unexpected. Code reviews become nightmarish exercises in hunting down potential side effects.</p>
+<p>Rust does the opposite - everything stays immutable unless marked with <code>mut</code>. This simple change has profound effects on code quality. You think more carefully about what really needs to change, leading to fewer bugs and easier concurrent programming. <strong>This also enables better compiler optimizations</strong> since the compiler can make stronger assumptions about your data.</p>
+<p>Many developers find they write better code in all languages after working with Rust’s immutability model.</p>
+<h3 id="rethinking-null"><a class="zola-anchor" href="#rethinking-null" aria-label="Anchor link for: rethinking-null">Rethinking Null</a></h3>
+<p>Rust eliminates <code>null</code> entirely. Instead of <code>null</code> checks and <code>NullPointerExceptions</code>, you work with <code>Option&lt;T&gt;</code>. This type makes uncertainty explicit in your code, forcing you to handle cases where values might not exist. The compiler ensures you handle both success and failure paths.</p>
+<p>In Java, defensive programming requires null checks at every public interface. It adds overhead even when you know the value can’t be null. With Rust’s references and ownership system, you can guarantee non-null values without runtime checks, making your interfaces both safer and faster.</p>
+<h3 id="from-inheritance-to-composition"><a class="zola-anchor" href="#from-inheritance-to-composition" aria-label="Anchor link for: from-inheritance-to-composition">From Inheritance to Composition</a></h3>
+<p><strong>Rust doesn’t have class inheritance at all.</strong> There’s no equivalent to extending a class in Java. Instead, Rust uses traits, which are much closer to Java interfaces than to inheritance.</p>
+<p>This is actually the better approach. <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://softwareengineering.stackexchange.com/a/370519">Even James Gosling, Java’s creator, has said he would have preferred pure interfaces over class inheritance if he could redesign Java.</a> Rust implements this vision through traits. You can even have trait inheritance by requiring one trait to implement another, but it’s all trait-based composition rather than implementation inheritance.</p>
+<p><strong>Traits encourage more flexible and maintainable code design.</strong> Rather than building rigid inheritance hierarchies, you <strong>compose behavior</strong> through trait implementations. This leads to systems that are easier to test, modify, and extend.</p>
+<p>It takes a while to get used to that approach. The key is to think in terms of capabilities (traits). For example, instead of a <code>Dog</code> class extending an <code>Animal</code> class, you might have a <code>Bark</code> trait that both <code>Dog</code> and <code>Wolf</code> implement. This leads to more reusable and modular code.</p>
+<h3 id="compiler-as-collaborator"><a class="zola-anchor" href="#compiler-as-collaborator" aria-label="Anchor link for: compiler-as-collaborator">Compiler as Collaborator</a></h3>
+<p>The Rust compiler catches far more issues than Java’s. It identifies race conditions, memory leaks, and thread safety problems before they reach production. While its strictness can feel frustrating initially, the detailed error messages actually help you learn. Most teams find that working with the compiler rather than against it leads to faster development in the long run.</p>
+<h3 id="memory-management-mindset"><a class="zola-anchor" href="#memory-management-mindset" aria-label="Anchor link for: memory-management-mindset">Memory Management Mindset</a></h3>
+<p>Instead of relying on garbage collection, Rust makes you think explicitly about memory lifecycles. You consider who owns data and how long it needs to live. The borrow checker ensures these decisions are correct at compile time. This leads to more efficient resource usage and eliminates many common runtime errors. Despite the learning curve, most developers find this explicit memory model makes them better programmers overall.</p>
+<p>These changes take time to internalize. Plan for an adjustment period, but know that the investment typically pays off in more reliable and efficient code. The key is understanding these differences upfront so you can help your team adapt effectively.</p>
+<h2 id="tip-1-flatten-the-learning-curve"><a class="zola-anchor" href="#tip-1-flatten-the-learning-curve" aria-label="Anchor link for: tip-1-flatten-the-learning-curve">Tip 1: Flatten The Learning Curve</a></h2>
+<p>Migrating to a new language is always tough at first, and Rust is no exception.
+It has a <a href="/blog/flattening-rusts-learning-curve/">famously steep learning curve</a> and requires a different mindset from Java.
+Plan 4-6 months for your engineers to get comfortable with Rust, and expect a few bumps along the way.</p>
+<p>That said, there’s plenty of material to help your team get up to speed.
+Resources like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rustlings">Rustlings</a>, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/rust-by-example/">Rust By Example</a>,
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/mainmatter/100-exercises-to-learn-rust">100 Exercises To Learn Rust</a>, and
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.rustfinity.com/">Rustfinity</a> are all great for self-learning.</p>
+<p>If you’re looking for a more structured approach, <a href="/services">consider hiring a Rust consultant or trainer</a>.
+Bringing in experts can make the transition even faster and smoother.
+Your team will not only learn Rust but also feel more confident working with it in production.</p>
+<h2 id="tip-2-have-a-clear-migration-plan"><a class="zola-anchor" href="#tip-2-have-a-clear-migration-plan" aria-label="Anchor link for: tip-2-have-a-clear-migration-plan">Tip 2: Have A Clear Migration Plan</a></h2>
+<p>Migrating to Rust comes with some risks, but careful planning will minimize them. Here’s how to ensure success:</p>
+<ol>
+<li>
+<p><strong>Start Small</strong><br />
+Pick a small, non-critical part of your application for the first Rust implementation. This lets your team experiment and build confidence without affecting core systems. Expand gradually as you see results.</p>
+</li>
+<li>
+<p><strong>Prepare Your Team</strong><br />
+Don’t just decide this for your developers—decide together. Get the team ready with training or external expertise, and focus on integration with your existing Java system. Rust will likely need new dependencies, so research the ecosystem and be ready to roll up your sleeves to contribute if necessary.
+Take a look at <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blessed.rs">blessed.rs</a>, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://lib.rs/std">lib.rs</a>, and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-unofficial/awesome-rust">awesome-rust</a> for a curated list of libraries.</p>
+</li>
+<li>
+<p><strong>Evaluate Dependencies Upfront</strong><br />
+Consider potential constraints like proprietary tools or databases that may complicate integration with Rust. Make sure the libraries you need are available, or be prepared to write your own.</p>
+</li>
+<li>
+<p><strong>Have a Plan B</strong><br />
+Rust migration doesn’t need to be all-or-nothing. Keep Java components running while testing and migrating. If issues arise, you can scale back or swap components as needed.</p>
+</li>
+<li>
+<p><strong>Set Clear KPIs</strong><br />
+Establish your own definition of success—don’t just follow industry benchmarks. Whether it’s performance, resource savings, or developer experience, make sure you know what you want from Rust and measure it.</p>
+</li>
+<li>
+<p><strong>Training Pays Off</strong><br />
+Even if you eventually decide against Rust, the training will improve your team’s programming skills. It’s an investment that pays dividends in the long run.</p>
+</li>
+<li>
+<p><strong>Monitor and Test</strong><br />
+Use monitoring and automated tests throughout the migration. Rust’s safety guarantees help, but you still need to test thoroughly and catch any issues early.</p>
+</li>
+</ol>
+<h2 id="tip-3-choose-the-right-migration-strategy"><a class="zola-anchor" href="#tip-3-choose-the-right-migration-strategy" aria-label="Anchor link for: tip-3-choose-the-right-migration-strategy">Tip 3: Choose The Right Migration Strategy</a></h2>
+<p>Initially, you will likely be dealing with a mix of Java and Rust.
+Where should you start?
+<strong>Look at the boundaries in your application—network layers, APIs, or microservices.</strong>
+These natural seams are perfect places to migrate first.</p>
+<p>For Java-to-Rust migration, you have a few options:</p>
+<ol>
+<li>Set up inter-process communication (IPC) via <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://grpc.io/">gRPC</a> between Java and Rust services.</li>
+<li>Use a message broker like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://kafka.apache.org/">Kafka</a> or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nats.io/">NATS</a> in between the two languages.</li>
+<li>Use a REST API as the communication layer.</li>
+<li>Use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/jni/latest/jni/">JNI</a> to call Rust functions from Java.</li>
+</ol>
+<p>Each approach has its pros and cons, so choose the one that fits your use case best.
+How do you decide?
+This is something you should discuss with your team and possibly a Rust consultant.
+They can help you weigh the trade-offs and make the right choice.</p>
+<p>If you’d like to get a primer on Java-to-Rust interop, check out <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=fYaaBoKbDQs">this talk</a>
+from Rust Nation UK 2024 by Konstantin Grechishchev.</p>
+<h2 id="tip-4-partial-migration-might-be-enough"><a class="zola-anchor" href="#tip-4-partial-migration-might-be-enough" aria-label="Anchor link for: tip-4-partial-migration-might-be-enough">Tip 4: Partial Migration Might Be Enough</a></h2>
+<p>Big organizations often have large, complex Java codebases.
+A full rewrite is not feasible and can be risky.</p>
+<p><strong>Consider rewriting the most CPU- or memory-hungry parts of your application in Rust while leaving the rest untouched.</strong></p>
+<p>Perhaps you find that you only need to migrate a tiny portion, say 10-20%, to Rust for a significant performance boost.
+In that case, you can keep the rest of the application in Java and gradually migrate more parts over time if you see benefits.
+This incremental approach ensures that your team can slowly adapt to Rust and share some quick wins along the way, which is great for morale.</p>
+<p>A good way to test the waters is with isolated components — CLI tools or monitoring sidecars. These smaller parts let your team gain experience with Rust without affecting critical system functions.</p>
+<h2 id="tip-5-evaluate-the-ecosystem"><a class="zola-anchor" href="#tip-5-evaluate-the-ecosystem" aria-label="Anchor link for: tip-5-evaluate-the-ecosystem">Tip 5: Evaluate The Ecosystem</a></h2>
+<p>When migrating to a different language, the new tooling is just as important as the language itself.
+However, it’s often overlooked in the decision-making process.</p>
+<p>Rust’s tooling is excellent, and among the most loved advantages of the language.
+The tooling is best in class, mature and easy to adopt. Here’s how it stacks up:</p>
+<ul>
+<li><strong>Package Management</strong>: Rust’s package manager, cargo, simplifies dependencies and builds. No more convoluted Gradle configurations.</li>
+<li><strong>IDEs</strong>: Rust’s integration with VS Code and IntelliJ (via rust-analyzer) is seamless, making it easy for your developers to dive right in.</li>
+<li><strong>CI/CD</strong>: GitHub Actions and other CI tools work beautifully with Rust, with dedicated actions for testing and deployment.</li>
+<li><strong>Debugging</strong>: Debugging tools work out of the box, and IDE integrations are robust by now.</li>
+<li><strong>Linting and Formatting</strong>: <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-lang.github.io/rust-clippy/">Rustfmt</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-lang.github.io/rust-clippy/stable/index.html">clippy</a> ensure consistent code style and catch common errors early. They actively help your team write better code.</li>
+</ul>
+<p>However, also consider the constraints and risks your project might face—proprietary tools, unusual databases, or special dependencies.
+Do the research upfront to avoid surprises.
+And if you need new libraries, be prepared to get your hands dirty and write your own.</p>
+<p>For example, if you’re building a web application, Rust has several frameworks to choose from, with the most popular being <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/tokio-rs/axum">axum</a>, but none as mature as Spring Boot. Projects like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/LukeMathWalker/pavex">Pavex</a> or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://loco.rs/">Loco</a> could fill this gap, but they’re still in early stages.</p>
+<h2 id="tip-6-simplify-your-deployment-pipeline"><a class="zola-anchor" href="#tip-6-simplify-your-deployment-pipeline" aria-label="Anchor link for: tip-6-simplify-your-deployment-pipeline">Tip 6: Simplify Your Deployment Pipeline</a></h2>
+<p>Rust shines when it comes to cross-platform builds. Unlike Java, where you often need to install a runtime (like the JVM) on every machine, Rust’s binaries are small, self-contained, and ready to run anywhere.</p>
+<p>Rust compiles directly to machine code, which means you don’t need to worry about dependencies that are typically required by dynamic runtimes. The only consideration might be system libraries (like OpenSSL), but this is manageable with established solutions. <sup class="footnote-reference" id="fr-1-1"><a href="#fn-1">1</a></sup></p>
+<p>In containerized environments, Docker works just as well with Rust as with any other language, and it’s easier to scale because of Rust’s low overhead. Whether you’re running on AWS, Cloud Run, or any other platform, the experience is reliable and consistent.</p>
+<p>Rust supports a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/nightly/rustc/platform-support.html">wide variety of platforms</a>, including ARM and x64, and can be used seamlessly across development machines, servers, and the cloud.</p>
+<h2 id="tip-7-don-t-focus-on-raw-performance-alone"><a class="zola-anchor" href="#tip-7-don-t-focus-on-raw-performance-alone" aria-label="Anchor link for: tip-7-don-t-focus-on-raw-performance-alone">Tip 7: Don’t Focus On Raw Performance Alone</a></h2>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.sergetoro.com/microbench-go-java-rust-js-python/">Yes, Rust has awesome runtime performance.</a> But you shouldn’t focus on raw numbers alone.
+Thanks to technologies like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.graalvm.org/">GraalVM</a>, Java can be
+very fast as well, especially for long-running applications.</p>
+<a href="https://blog.consol.de/software-engineering/web-application-development/rust-vs-quarkus-native-vs-spring-native/">
+    <img src="bench.png" alt="Rust vs Quarkus">
+</a>
+<p>The image above shows a comparison between Rust, Quarkus-Native, and Spring-Native.
+In terms of raw performance, Rust is the clear winner.
+Rust uses 12 MB RAM and less than a third of the CPU power of both Quarkus-Native and Spring-Native.</p>
+<p>When you migrate to Rust, also consider the secondary effects of improved performance:</p>
+<ul>
+<li><strong>Lower Latency</strong>: Rust doesn’t have the pauses or unpredictability that garbage collection introduces in Java. This makes it easier to predict system performance, especially during peak load.</li>
+<li><strong>Higher Throughput</strong>: Rust’s memory model and zero-cost abstractions make it ideal for handling high-volume, high-concurrency applications. Expect performance boosts, often between 2x and 3x, depending on the workload.</li>
+<li><strong>Lower Resource Usage</strong>: After migrating to Rust, you’ll likely need fewer CPUs or instances to handle the same load. This means less infrastructure to manage and lower costs in production.</li>
+<li><strong>Fast Scalability</strong>: Rust’s low overhead means you can scale up or down quickly. Whether you’re running on Kubernetes or a traditional VM, Rust’s efficiency makes it easier to manage your infrastructure. In contrast, this is a common pain point for Java applications in the cloud. It can take 30 seconds or more until a new JVM instance <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.ibm.com/docs/en/sdk-java-technology/8?topic=reference-jit-compiler">JIT-compiles</a> your code, which can lead to cold start issues.</li>
+</ul>
+<p>Based on my experience helping teams migrate to Rust, here are some ballpark improvements you might see:</p>
+<ul>
+<li>
+<p><strong>Memory Usage</strong>: For data-heavy applications, expect to see 30-50% reduction in heap size for most services.
+This is a very conservative estimate. Depending on your workload, you might see even more significant improvements.</p>
+</li>
+<li>
+<p><strong>Startup Time</strong>: While Java services often need 20-30 seconds to warm up in production, equivalent Rust services typically start in under a second. This makes a big difference for scaling containerized deployments.</p>
+</li>
+<li>
+<p><strong>Latency</strong>: The exact numbers vary widely, but you’ll often see P95 latency improve by 40-60%. The biggest win is usually in tail latencies (P99.9) due to the lack of GC pauses.</p>
+</li>
+<li>
+<p><strong>Throughput</strong>: Again, this depends heavily on your workload, but teams I’ve worked with typically see:</p>
+<ul>
+<li>CPU-bound tasks: 2-3x improvement</li>
+<li>I/O-bound tasks with high concurrency: 1.5-2x improvement</li>
+<li>Most importantly, throughput becomes more consistent and predictable</li>
+</ul>
+</li>
+<li>
+<p><strong>Resource Costs</strong>: Several teams have managed to cut their cloud costs by 40-60% after migration, mainly due to lower CPU and memory requirements.</p>
+</li>
+</ul>
+<p>These are rough numbers from my consulting experience, and your results may vary significantly depending on your specific use case. The key takeaway isn’t the exact numbers, but rather that teams consistently see meaningful improvements across different metrics.</p>
+<p>Rust helps you get more done with less, making it easier to scale and manage your infrastructure.</p>
+<h2 id="tip-8-fearless-concurrency"><a class="zola-anchor" href="#tip-8-fearless-concurrency" aria-label="Anchor link for: tip-8-fearless-concurrency">Tip 8: Fearless Concurrency</a></h2>
+<p>Rust’s concurrency model is a major advantage.
+Traditional Java applications tend to be thread-heavy, and while this works on modern Linux systems, Rust offers more flexibility.
+On top of that, concurrency in Java can be tricky to get right and is therefore often avoided.</p>
+<p>Rust gives you both thread-based concurrency and async execution. With libraries like Tokio, you can use async/await without worrying about the underlying mechanics. It scales incredibly well, often in ways that Java simply can’t match due to its reliance on threads.</p>
+<p>What’s powerful about Rust’s concurrency is how it’s baked into the language itself. It’s not something your team has to think about too much. The libraries handle most of the heavy lifting, and once you structure your code properly, Rust’s runtime handles the rest.</p>
+<p>Rust’s memory management ensures that concurrency is safe, so you won’t need to worry about thread synchronization issues like you would in Java.</p>
+<h2 id="tip-9-reliable-production-environments"><a class="zola-anchor" href="#tip-9-reliable-production-environments" aria-label="Anchor link for: tip-9-reliable-production-environments">Tip 9: Reliable Production Environments</a></h2>
+<p>One of Rust’s underrated strengths is developer ergonomics.</p>
+<p>With Rust’s strict compiler checks, a lot of potential bugs are caught during development, meaning fewer bugs in production. This leads to fewer code reviews and a smoother development process overall. You can move faster with more confidence.</p>
+<p>Over time, this leads to <strong>more reliable code in production</strong>. Rust’s emphasis on memory safety and strict typing means that, once your system is built, you’re less likely to face random crashes or bugs.
+This saves on-call costs and reduces the risk of downtime.</p>
+<p>There are no garbage collector pauses to worry about, and the code has a predictable performance profile.
+You’ll have a “boring” production environment in the best way possible — things will work consistently and predictably.</p>
+<p>Rust is committed to stability. While some core libraries haven’t reached a stable 1.0 version yet, the 0.x versions are highly reliable, with breaking changes becoming less frequent over time. When Rust releases new versions, they follow <strong>semantic versioning</strong>, so updates are usually predictable and don’t introduce surprises.</p>
+<p>If you’re worried about future-proofing your application, Rust’s ecosystem is built with long-term support in mind. If you do encounter missing functionality, you’ll often need to contribute back to the community—this is part of the Rust philosophy.</p>
+<p>Training your team in Rust isn’t just about the immediate migration. Even if you eventually decide to stick with Java, Rust’s focus on good practices will make your developers better overall.</p>
+<h2 id="tip-10-make-the-decision-together"><a class="zola-anchor" href="#tip-10-make-the-decision-together" aria-label="Anchor link for: tip-10-make-the-decision-together">Tip 10: Make The Decision Together</a></h2>
+<p>Adopting Rust is a big commitment.
+Don’t make the decision in a vacuum — involve your team in the process.
+They’re the ones who will be working with Rust day in and day out, so their input is crucial.</p>
+<p>If you’re considering a migration, start by discussing the benefits and challenges of Rust.
+What are your hopes for Rust? What are the alternatives considered? What are your key KPIs for success?
+What is the skill level of your team, and how can you support them in learning Rust?
+It helps to put your thoughts into writing and share them with the team.</p>
+<p>On that note, hiring Rust developers can be challenging. It’s a relatively new language, and most Rust developers
+don’t have any production experience yet. Instead, consider upskilling your existing Java developers.
+They already know your systems and can learn Rust with the right training and support.</p>
+<h2 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">Conclusion</a></h2>
+<p>At the end of the day, Rust’s investment pays off. Even if you don’t go full Rust, the knowledge gained will make your developers better programmers.</p>
+<p>If you’d like to discuss this further, feel free to book a call with me.
+I offer consulting services to help you make the right decisions for your project – even if that means sticking with Java.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Make the most of Rust</p>
+</h4>
+  </div>
+  
+  <p>Is your company considering to migrate from Java to Rust?
+I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting.
+<a href="/services">Get in touch for a free consultation</a>.</p>
+
+</div>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-1">
+<p>For example, you can <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/openssl/latest/openssl/#vendored">vendor OpenSSL to build it statically</a>. <a href="#fr-1-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://llogiq.github.io/2016/02/28/java-rust.html">Comparing Rust and Java - Andre Bogus</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=a0LtFp-7T2s">My Experience with Rust as a Java Dev - Forrest Knight</a></p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;&title=Migrating from Java to Rust"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;&t=Migrating from Java to Rust"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2024-12-09">
+            Published: 2024-12-09
+        </time>
+    </div><div class="updated">
+        <time datetime="2026-01-02">
+            Last updated: 2026-01-02
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;learn&#x2F;migration-guides&#x2F;java-to-rust&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+        
+                <a href="https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;mark-beinker-71a1671&#x2F;)" target="_blank" rel="noopener noreferrer">Mark Beinker</a>
+    </div>
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

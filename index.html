@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+
+    <title>corrode | Friendly, Professional Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler.">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="corrode | Friendly, Professional Rust Consulting">
+    <meta property="og:description" content="corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler.">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;social&#x2F;default.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="corrode | Friendly, Professional Rust Consulting">
+    <meta name="twitter:description" content="corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler.">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;social&#x2F;default.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    
+    <script type="application/ld+json">
+        {
+    "@context": "http://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Corrode Consulting",
+    "description": "Custom Rust consulting and development based in Germany that puts people first.",
+    "url": "https://corrode.dev/",
+    "logo": "https://corrode.dev/corrode.svg",
+    "image": "https://corrode.dev/social/default.png",
+    "telephone": "+4915231997564",
+    "email": "hi@corrode.dev",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Düsseldorf",
+        "addressCountry": "DE"
+    },
+    "serviceArea": {
+        "@type": "AdministrativeArea",
+        "name": "Global"
+    },
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Consulting Services",
+        "itemListElement": [
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Rust Programming Consulting"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Mentoring and Coaching"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Code Reviews"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Training"
+                }
+            }
+        ]
+    },
+    "areaServed": "Global",
+    "sameAs": [
+        "https://twitter.com/matthiasendler",
+        "https://github.com/corrode",
+        "https://www.linkedin.com/company/corrode"
+    ]
+}
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item active" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<div class="homepage">
+    <div class="fold">
+        <div class="hero">
+            <div class="hero-font">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 274 221"><desc>High-quality consulting services for the Rust programming language.</desc><g fill="#ffd885"><path d="m10.5 173 219-4.9-2.38 47.8-217 2.13zm.8-173 194 .302 5.14 45-201 2.72z"/><path d="m7.31 57.1 250-.539-1.13 48-249-.539zM6.95 114l106-1.03.095 45.7-106 3.62z" style="paint-order:stroke fill markers"/></g><path d="M20.9 7.97h18.4v5.6H26.7v6.68h10.9v5.6H26.7v11.6h-5.8zm28.1 12 .52 4.8-.12-.72q.76-1.56 2.08-2.64 1.32-1.12 2.6-1.72 1.32-.6 2-.6l-.28 5.6q-1.96-.24-3.36.64t-2.16 2.32-.76 2.96v6.84h-5.56v-17.5zm11.4 0H66v17.5h-5.6zm-.12-6.2q0-1.24.96-2.04 1-.8 2.12-.8t2.04.8q.96.8.96 2.04t-.96 2.04q-.92.76-2.04.76t-2.12-.76q-.96-.8-.96-2.04m20.1 24.2q-3.2 0-5.44-1.2-2.2-1.2-3.36-3.32t-1.16-4.88q0-2.64 1.36-4.76t3.64-3.36q2.28-1.28 5.08-1.28 3.76 0 6.16 2.2 2.44 2.16 3.16 6.28l-13.6 4.32-1.24-3.04 9.84-3.32-1.16.52q-.32-1.04-1.16-1.8-.8-.8-2.44-.8-1.24 0-2.2.6-.92.56-1.44 1.64-.48 1.04-.48 2.48 0 1.64.6 2.76.6 1.08 1.64 1.64t2.32.56q.92 0 1.76-.32.88-.32 1.72-.84l2.48 4.16q-1.4.8-3.04 1.28-1.6.48-3.04.48m18.6-18 .44 3.12-.08-.28q.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-.04-1.16-.64-1.84-.56-.72-1.92-.72-1.28 0-2.24.84t-1.48 2.28-.52 3.32v7.12h-5.6v-17.5zm25.8 18q-2.44 0-4.36-1.12-1.92-1.16-3.04-3.32-1.08-2.16-1.08-5.12t1.2-5.04 3.28-3.16 4.72-1.08q1.68 0 3.2.52 1.56.52 2.6 1.6v1.76-17.1h5.56v31.6h-5.6v-3.4l.44 1.2q-1.36 1.12-3.04 1.92-1.68.76-3.88.76zm1.84-4.72q1.12 0 1.96-.28.88-.32 1.52-.88.68-.6 1.16-1.48v-4.28q-.32-.88-1-1.48-.64-.64-1.6-.96-.92-.36-2.04-.36-1.24 0-2.32.64-1.04.6-1.68 1.68t-.64 2.48.64 2.52 1.68 1.76q1.08.64 2.32.64m16-27.3h5.6v31.6h-5.6zm12.8 40 11.6-25.9h5.04l-11.3 25.9zm4.68-8.32-8.56-17.6h6.28l6.6 14.8zm19.9-3.6q-.88 2.12-1.76 4.2t-1.76 4.2H172q.8-2.12 1.56-4.2.8-2.08 1.6-4.2z" aria-label="Friendly,"/><path d="M30.1 93.4q-1.56 0-3.08-.56-1.48-.6-2.48-1.68l.16-1.64v11.8h-5.56v-26.3h4.8l.8 3.4-.44-1.2q1.36-1.16 3.04-1.92t3.88-.76q2.44 0 4.36 1.16 1.92 1.12 3 3.28 1.12 2.12 1.12 5.12 0 2.96-1.24 5.04t-3.4 3.16-4.96 1.08zM28.98 89q1.36 0 2.48-.6 1.16-.6 1.84-1.68.72-1.12.72-2.52 0-1.48-.64-2.56-.6-1.12-1.68-1.72-1.04-.64-2.32-.64-1.12 0-2 .32-.84.28-1.52.88-.64.56-1.12 1.44v4.28q.32.84.92 1.48t1.44 1q.88.32 1.88.32m20.2-13.6.52 4.8-.12-.72q.76-1.56 2.08-2.64 1.32-1.12 2.6-1.72 1.32-.6 2-.6l-.28 5.6q-1.96-.24-3.36.64t-2.16 2.32-.76 2.96v6.84h-5.56v-17.5zm9.2 8.52q0-2.68 1.24-4.8Q60.9 77 63.18 75.8q2.28-1.24 5.24-1.24 3 0 5.2 1.24 2.2 1.2 3.36 3.32 1.2 2.12 1.2 4.8t-1.2 4.84q-1.16 2.12-3.36 3.36t-5.28 1.24q-2.88 0-5.16-1.12-2.24-1.12-3.52-3.24t-1.28-5.08m5.64.04q0 1.36.56 2.48.56 1.08 1.52 1.72t2.16.64q1.32 0 2.28-.64t1.48-1.72q.52-1.12.52-2.48 0-1.4-.52-2.48t-1.48-1.72-2.28-.64q-1.2 0-2.16.64t-1.52 1.72-.56 2.48m20.2 8.92v-12.6h-2.96v-4.96h2.96v-6.08q0-3.44 1.96-5.6 2-2.2 5.76-2.2 1.12 0 2.48.36 1.4.32 2.44 1.08l-2.36 4.04q-.4-.52-.96-.68-.52-.2-1-.2-1.2 0-1.96.8t-.76 2.56v5.92h5.28v4.96h-5.28v12.6zm23.1.48q-3.2 0-5.44-1.2-2.2-1.2-3.36-3.32t-1.16-4.88q0-2.64 1.36-4.76t3.64-3.36q2.28-1.28 5.08-1.28 3.76 0 6.16 2.2 2.44 2.16 3.16 6.28l-13.6 4.32-1.24-3.04 9.84-3.32-1.16.52q-.32-1.04-1.16-1.8-.8-.8-2.44-.8-1.24 0-2.2.6-.92.56-1.44 1.64-.48 1.04-.48 2.48 0 1.64.6 2.76.6 1.08 1.64 1.64t2.32.56q.92 0 1.76-.32.88-.32 1.72-.84l2.48 4.16q-1.4.8-3.04 1.28-1.6.48-3.04.48m19.2-.12q-2.16 0-4.04-.76-1.84-.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12.48 2 .48.68 0 1.2-.12.56-.16.88-.44.32-.32.32-.8 0-.68-.56-1.08-.52-.4-1.36-.64-.84-.28-1.8-.56-2.4-.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32.68-2.64.72-1.36 2.24-2.24 1.56-.92 4-.92 2.2 0 3.72.44t2.88 1.44l-2.12 3.28q-.76-.6-1.72-1-.92-.44-1.72-.48-.72-.04-1.24.16-.48.2-.76.52t-.28.68q-.04.76.56 1.2.64.44 1.6.68t1.88.56q1.28.4 2.2 1.08t1.4 1.64q.52.92.52 2.24 0 1.6-.84 3.04-.8 1.4-2.48 2.28-1.64.88-4.2.88m17.9 0q-2.16 0-4.04-.76-1.84-.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12.48 2 .48.68 0 1.2-.12.56-.16.88-.44.32-.32.32-.8 0-.68-.56-1.08-.52-.4-1.36-.64-.84-.28-1.8-.56-2.4-.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32.68-2.64.72-1.36 2.24-2.24 1.56-.92 4-.92 2.2 0 3.72.44t2.88 1.44l-2.12 3.28q-.76-.6-1.72-1-.92-.44-1.72-.48-.72-.04-1.24.16-.48.2-.76.52t-.28.68q-.04.76.56 1.2.64.44 1.6.68t1.88.56q1.28.4 2.2 1.08t1.4 1.64q.52.92.52 2.24 0 1.6-.84 3.04-.8 1.4-2.48 2.28-1.64.88-4.2.88m12.2-17.8h5.6v17.5h-5.6zm-.12-6.2q0-1.24.96-2.04 1-.8 2.12-.8t2.04.8q.96.8.96 2.04t-.96 2.04q-.92.76-2.04.76t-2.12-.76q-.96-.8-.96-2.04m10.1 14.7q0-2.68 1.24-4.8 1.28-2.12 3.56-3.32 2.28-1.24 5.24-1.24 3 0 5.2 1.24 2.2 1.2 3.36 3.32 1.2 2.12 1.2 4.8t-1.2 4.84q-1.16 2.12-3.36 3.36t-5.28 1.24q-2.88 0-5.16-1.12-2.24-1.12-3.52-3.24t-1.28-5.08m5.64.04q0 1.36.56 2.48.56 1.08 1.52 1.72t2.16.64q1.32 0 2.28-.64t1.48-1.72q.52-1.12.52-2.48 0-1.4-.52-2.48t-1.48-1.72-2.28-.64q-1.2 0-2.16.64t-1.52 1.72-.56 2.48m23.6-8.56.44 3.12-.08-.28q.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-.04-1.16-.64-1.84-.56-.72-1.92-.72-1.28 0-2.24.84t-1.48 2.28-.52 3.32v7.12h-5.6v-17.5zm26 18q-2.44 0-4.44-.96-1.96-1-3.12-3.04t-1.16-5.2q0-2.96 1.2-5.12t3.16-3.32q1.96-1.2 4.16-1.2 2.6 0 3.92.88 1.36.84 2.24 1.88l-.24.68.52-2.56h5.2v17.5h-5.6v-3.8l.44 1.2q-.08 0-.48.48-.4.44-1.2 1.08-.76.6-1.92 1.04-1.12.48-2.68.48zm1.6-4.56q1 0 1.8-.28.8-.32 1.4-.88.6-.6 1.04-1.48v-4.28q-.32-.88-.96-1.48-.64-.64-1.52-.96-.88-.36-1.96-.36-1.2 0-2.24.64-1 .6-1.6 1.68t-.6 2.48.64 2.52 1.68 1.76q1.08.64 2.32.64m15.6-27.5h5.6v31.6h-5.6z" aria-label="professional"/><path d="M29 121q2.76 0 4.92.72 2.16.68 3.6 2 1.48 1.28 2.24 3.12.76 1.8.76 4.08 0 1.8-.56 3.6-.52 1.8-1.76 3.28-1.2 1.48-3.2 2.4-2 .88-4.96.88h-4.16v9.36h-5.8v-29.4zm1 14.5q1.32 0 2.2-.44t1.36-1.12q.52-.68.72-1.4.24-.76.24-1.4 0-.48-.16-1.2-.12-.76-.56-1.52t-1.36-1.28q-.88-.52-2.4-.52h-4.16v8.88zm5.44 3.6 7.28 11.4h-6.76l-7.44-11.2zm16.8 12.2q-2.36 0-3.96-1.44-1.6-1.48-1.68-3.8v-13.1h5.6v11q.08 1.16.6 1.88.52.68 1.76.68t2.12-.84q.92-.84 1.4-2.28.52-1.48.52-3.32v-7.12h5.6v17.5h-5.08l-.44-3.2.08.36q-.6 1.08-1.52 1.92t-2.2 1.28q-1.24.48-2.8.48m23.4-.48q-2.16 0-4.04-.76-1.84-.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12.48 2 .48.68 0 1.2-.12.56-.16.88-.44.32-.32.32-.8 0-.68-.56-1.08-.52-.4-1.36-.64-.84-.28-1.8-.56-2.4-.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32.68-2.64.72-1.36 2.24-2.24 1.56-.92 4-.92 2.2 0 3.72.44t2.88 1.44l-2.12 3.28q-.76-.6-1.72-1-.92-.44-1.72-.48-.72-.04-1.24.16-.48.2-.76.52t-.28.68q-.04.76.56 1.2.64.44 1.6.68t1.88.56q1.28.4 2.2 1.08t1.4 1.64q.52.92.52 2.24 0 1.6-.84 3.04-.8 1.4-2.48 2.28-1.64.88-4.2.88m13.8-25.5h5.6v7.6h4.24v4.36h-4.24v13.2h-5.6v-13.2h-2.72v-4.36h2.72z" aria-label="Rust"/><path d="M42.1 204q-.48.4-1.8 1.08-1.28.68-3.16 1.2t-4.16.48q-3.48-.08-6.24-1.24-2.72-1.2-4.64-3.24-1.88-2.04-2.88-4.68t-1-5.64q0-3.36 1-6.16 1.04-2.8 2.92-4.84 1.92-2.04 4.56-3.16t5.84-1.12q2.96 0 5.24.8t3.72 1.72l-2.28 5.48q-1-.76-2.68-1.56-1.64-.84-3.8-.84-1.68 0-3.24.72-1.52.68-2.72 1.96-1.16 1.28-1.84 3-.68 1.68-.68 3.68 0 2.12.6 3.88.64 1.76 1.8 3.04 1.16 1.24 2.76 1.92 1.64.68 3.68.68 2.36 0 4.04-.76t2.56-1.6zm3.52-6.52q0-2.68 1.24-4.8 1.28-2.12 3.56-3.32 2.28-1.24 5.24-1.24 3 0 5.2 1.24 2.2 1.2 3.36 3.32 1.2 2.12 1.2 4.8t-1.2 4.84q-1.16 2.12-3.36 3.36t-5.28 1.24q-2.88 0-5.16-1.12-2.24-1.12-3.52-3.24t-1.28-5.08m5.64.04q0 1.36.56 2.48.56 1.08 1.52 1.72t2.16.64q1.32 0 2.28-.64t1.48-1.72q.52-1.12.52-2.48 0-1.4-.52-2.48t-1.48-1.72-2.28-.64q-1.2 0-2.16.64t-1.52 1.72-.56 2.48m23.6-8.56.44 3.12-.08-.28q.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-.04-1.16-.64-1.84-.56-.72-1.92-.72-1.28 0-2.24.84t-1.48 2.28-.52 3.32v7.12h-5.6v-17.5zm24.4 17.8q-2.16 0-4.04-.76-1.84-.76-3.12-2.12l2.32-3.08q1.28 1.16 2.36 1.68 1.12.48 2 .48.68 0 1.2-.12.56-.16.88-.44.32-.32.32-.8 0-.68-.56-1.08-.52-.4-1.36-.64-.84-.28-1.8-.56-2.4-.76-3.48-2.2-1.04-1.48-1.04-3.2 0-1.32.68-2.64.72-1.36 2.24-2.24 1.56-.92 4-.92 2.2 0 3.72.44t2.88 1.44l-2.12 3.28q-.76-.6-1.72-1-.92-.44-1.72-.48-.72-.04-1.24.16-.48.2-.76.52t-.28.68q-.04.76.56 1.2.64.44 1.6.68t1.88.56q1.28.4 2.2 1.08t1.4 1.64q.52.92.52 2.24 0 1.6-.84 3.04-.8 1.4-2.48 2.28-1.64.88-4.2.88m17.8.48q-2.36 0-3.96-1.44-1.6-1.48-1.68-3.8v-13.1h5.6v11q.08 1.16.6 1.88.52.68 1.76.68t2.12-.84q.92-.84 1.4-2.28.52-1.48.52-3.32v-7.12h5.6v17.5h-5.08l-.44-3.2.08.36q-.6 1.08-1.52 1.92t-2.2 1.28q-1.24.48-2.8.48m17.7-32.4h5.6v31.6h-5.6zm13 6.4h5.6v7.6h4.24v4.36h-4.24v13.2h-5.6v-13.2h-2.72v-4.36h2.72zm14.1 7.68h5.6v17.5h-5.6zm-.12-6.2q0-1.24.96-2.04 1-.8 2.12-.8t2.04.8q.96.8.96 2.04t-.96 2.04q-.92.76-2.04.76t-2.12-.76q-.96-.8-.96-2.04m16.6 6.2.44 3.12-.08-.28q.92-1.64 2.6-2.64 1.68-1.04 4.12-1.04 2.48 0 4.12 1.48 1.68 1.44 1.72 3.76v13.1h-5.6v-11q-.04-1.16-.64-1.84-.56-.72-1.92-.72-1.28 0-2.24.84t-1.48 2.28-.52 3.32v7.12h-5.6v-17.5zm27.7 26.3q-2.36 0-4-.56-1.6-.56-2.72-1.36t-2-1.52l3.28-3.84q.92.84 2.12 1.6 1.24.8 3.24.8 1.32 0 2.44-.48 1.16-.44 1.84-1.32.72-.88.72-2.2v-3.84l.2 1q-.64 1.36-2.32 2.4-1.68 1-4.4 1-2.36 0-4.4-1.2-2-1.24-3.2-3.32-1.2-2.12-1.2-4.8 0-2.76 1.28-4.88 1.28-2.16 3.32-3.4t4.32-1.24 3.92.68q1.68.64 2.52 1.6l-.2.52.6-1.92h5.16v17.5q0 2.56-1.44 4.52-1.44 2-3.84 3.12-2.36 1.16-5.24 1.16zm-4.76-17.8q0 1.4.64 2.52t1.72 1.76q1.12.64 2.48.64 1.16 0 2.04-.28.92-.32 1.6-.88.72-.6 1.2-1.48v-4.28q-.36-.88-1.08-1.48-.72-.64-1.68-.96-.92-.36-2.08-.36-1.36 0-2.48.64-1.08.6-1.72 1.68t-.64 2.48" aria-label="Consulting"/></svg>
+            </div>
+            <img class="hero-img" src="/hero/hero-img.svg" />
+            <h1 class="visually-hidden">Friendly, Professional Rust Consulting</h1>
+        </div>
+
+        <div class="brands-and-scroll">
+            <div class="brands">
+                <h2>Trusted By Industry Leaders</h2>
+                <p class="brands-subtitle">Helping teams at these companies succeed with Rust</p>
+                <div class="brand-logos">
+                    <a href="https://tech.trivago.com/" target="_blank" rel="noreferrer">
+                        <img height="48" src="/brands/trivago.svg" alt="Trivago Logo" />
+                    </a>
+                    <a href="https://aboutbits.it/" target="_blank" rel="noreferrer">
+                        <img height="28" src="/brands/aboutbits.svg" alt="AboutBits Logo" />
+                    </a>
+                    <a href="https://www.kraken.com/" target="_blank" rel="noreferrer">
+                        <img height="64" src="/brands/kraken.svg" alt="Kraken Logo" />
+                    </a>
+                    <a href="https://quiltdata.com/" target="_blank" rel="noreferrer">
+                        <img height="40" src="/brands/quilt.svg" alt="Quilt Logo" />
+                    </a>
+                    <a href="https://festo.com/" target="_blank" rel="noreferrer">
+                        <img height="48" src="/brands/festo.svg" alt="Festo Logo" />
+                    </a>
+                    <a href="https://amcon.de/" target="_blank" rel="noreferrer">
+                        <img height="28" src="/brands/amcon.svg" alt="Amcon Logo" />
+                    </a>
+                    <a href="https://www.bakerhughes.com/waygate-technologies" target="_blank" rel="noreferrer">
+                        <img height="34" src="/brands/waygate.svg" alt="Waygate Logo" />
+                    </a>
+                    <a href="https://www.apsensing.com" target="_blank" rel="noreferrer">
+                        <img height="20" src="/brands/apsensing.svg" alt="AP Sensing Logo" />
+                    </a>
+                </div>
+            </div>
+
+            <a href="#call-to-action" class="smooth-scroll">
+                <div class="scroll-indicator invert">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20">
+                        <path fill-rule="evenodd" d="M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z"/>
+                    </svg>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div id="call-to-action" class="call-to-action">
+        <div class="cta-content">
+            <h2>Turn Your Team Into Rust Experts In Half The Time</h2>
+            <p class="hero-subtitle">Expert guidance from prototype to production.</p>
+            <p>
+            <div class="hero-ctas">
+                <a href="#contact" class="cta-button cta-button-large">Schedule Now</a>
+                <a href="/services" class="cta-button-secondary">View Services →</a>
+            </div>
+            </p>
+        </div>
+    </div>
+
+    <div class="content dark">
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2>Hi, I'm Matthias Endler</h2>
+                    <p class="section-paragraph">
+                        I help companies large and small adopt Rust. With a decade of Rust experience, and five years of running Rust in production, <b>I probably made every mistake in the book so you don't have to.</b>
+                    </p>
+                    <p class="section-paragraph">
+                        Take a look at my services below and <a href="#contact">get in touch</a> if you'd like to work together.
+                    </p>
+                </div>
+                <img class="section-image section-image-profile" width="300" height="300" src="/sections/matthias-endler.png" alt="Profile photo of Matthias Endler" />
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="380" height="380" src="/sections/teaching.svg" alt="A cute ferris in front of a whiteboard" />
+                <div class="section-text">
+                    <h2>From Prototype to Production</h2>
+                    <p class="section-paragraph">
+                        Whether your team is just getting started or you're already using it in production,
+                        <b>I can help you get the most out of Rust</b>.
+                    </p>
+                    <p class="section-paragraph">
+                        I teach your team how to write <a href="/blog">idiomatic, testable,
+                        well-documented Rust</a> that is a joy to work with and maintain.
+                        Need help to get your project production ready? I can jump in and help
+                        you get it done.
+                    </p>
+                    <p class="section-paragraph">
+                        Together, we can
+                    <ul>
+                        <li>Build scalable, well-architected systems</li>
+                        <li>Transform messy code into clean, maintainable Rust</li>
+                        <li>Eliminate bugs through better testing and error handling</li>
+                        <li>Boost performance and system reliability</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2>Integrating Rust Into Your Ecosystem</h2>
+                    <p class="section-paragraph">
+                        No project exists in a vacuum. <b>I help you integrate Rust into
+                        your existing tech stack</b>.
+                        While I'm most comfortable writing Rust, I'm also proficient in Python, TypeScript, and Go.
+                    </p>
+                    <p class="section-paragraph">
+                        I can help you with:
+                        <ul>
+                            <li>Deploying Rust to <b>Google Cloud</b> and <b>AWS</b></li>
+                            <li>Setting up a fast CI/CD process</li>
+                            <li>Integrating Rust with your existing services</li>
+                            <li>Writing Rust bindings for C, C++, and Python</li>
+                            <li>Using WebAssembly</li>
+                        </ul>
+                    </p>
+                    <p class="section-paragraph">
+                        If you're looking to migrate to Rust I can provide the expertise you need.
+                    </p>
+                </div>
+                <img class="section-image" width="300" height="300" src="/sections/gears.svg" alt="Gears icon" />
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="300" height="300" src="/sections/stars.svg" alt="GitHub stars" />
+                <div class="section-text">
+                    <h2>Working Remotely & Asynchronously</h2>
+                    <p class="section-paragraph">
+                        I have more than a decade of experience working remotely
+                        as part of being an open-source maintainer.
+                        Having worked with teams from all over the world, from San Francisco to Berlin,
+                        we'll surely find a workflow that fits your team.
+                    </p>
+                    <p class="section-paragraph">
+                        I have experience working in the open.
+                        With over <a href="https://github.com/mre">30,000 stars on GitHub</a>
+                        I know how to contribute to and maintain large open-source projects,
+                        so collaborating on GitHub or GitLab is no problem.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-content">
+                <div class="section-text">
+                    <h2>I Love Sharing Knowledge</h2>
+                    <p class="section-paragraph">
+                        Clear communication is at the heart of effective mentoring and code reviews.
+                    </p>
+                    <p class="section-paragraph">
+                        You can expect a structured approach with simple, actionable explanations when sharing knowledge with your team. 
+                        Check out my <a href="/blog">articles</a>, <a href="/services#talks">talks</a>, and <a href="/podcast">Rust in Production Podcast</a> 
+                        to see if my style fits your team.
+                    </p>
+                    <p class="section-paragraph">
+                        Decision makers will have a good overview of the progress and the next steps.
+                        If Rust turns out not to be the right fit for your project, I'll let you know.
+                    </p>
+                </div>
+                <img class="section-image" width="300" height="300" src="/sections/hello_rust.svg" alt="Hello Rust Logo" />
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-content">
+                <img class="section-image" width="300" height="300" src="/sections/human.svg" alt="Human Icon" />
+                <div class="section-text">
+                    <h2>Humans First</h2>
+                    <p class="section-paragraph">
+                        Code is the easy part. Beyond technical expertise, I value empathy, communication, and
+                        teamwork. I strive to understand not just the software, but also the
+                        people behind it and the business goals it serves.
+                    </p>
+                    <p class="section-paragraph">
+                        I'm always focused on building close working relationships with my clients. 
+                        If you bring me onto your team, expect a proactive player who is not afraid to ask
+                        questions and ensures everyone is on the same page.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="testimonials">
+                <h2>Success Stories</h2>
+                <div class="testimonial-list">
+                    <div class="testimonial">
+                        <div class="testimonial-text">
+                            <q>
+                                <b>Matthias was a godsend for our team.</b> We had a
+                                legacy codebase written while we were first
+                                learning Rust, and didn’t even know how to think
+                                clearly about best practices. He didn’t fix the
+                                code for us; he created a safe space for us to
+                                learn how to fix it ourselves. His patient
+                                mentorship and vulnerable engagement accelerated
+                                the maturity of both our codebase and our
+                                developers.
+                            </q>
+                        </div>
+                        <div class="testimonial-author">
+                            <img class="testimonial-avatar" src="/testimonials/ernest.jpg" />
+                            <div>
+                                <a class="testimonial-author-text" href="https://www.quiltdata.com/">Ernie Prabhakar</a>
+                                <div class="testimonial-author-role">Director of Product, Quilt Data</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">
+                            <q>
+                                I worked closely with Matthias to build a workshop for the Rust
+                                community. He did an outstanding job in coming up with ideas and things
+                                that made complex concepts easy to understand.
+                                Not only was he a nice and fun person to work with, but the attendees
+                                also found him engaging and entertaining.
+                            </q>
+                        </div>
+                        <div class="testimonial-author">
+                            <img class="testimonial-avatar" src="/testimonials/santiago.jpg" />
+                            <div>
+                                <a class="testimonial-author-text" href="https://santiagopastorino.com/">Santiago Pastorino</a>
+                                <div class="testimonial-author-role">Rust Compiler Team Contributor</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">
+                            <q>
+                                I had the pleasure of collaborating with
+                                Matthias to take my product from a prototype to
+                                a production ready solution. Thanks
+                                to Matthias's guidance, I now have a robust
+                                product built on Rust that I can trust to
+                                deliver performance and reliability.
+                            </q>
+                        </div>
+                        <div class="testimonial-author">
+                            <img class="testimonial-avatar" src="/testimonials/somdip.jpg" />
+                            <div>
+                                <a class="testimonial-author-text" href="#">Somdip Datta</a>
+                                <div class="testimonial-author-role">Financial Engineer and Author</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">
+                            <q>
+                                Matthias is reliable, good with people, and the kind of guy you can trust to
+                                figure it out, whatever it happens to be. We've run some conference
+                                workshops together, and I keep thinking that I should find an excuse to work
+                                with him again!
+                            </q>
+                        </div>
+                        <div class="testimonial-author">
+                            <img class="testimonial-avatar" src="/testimonials/hanno.jpg" />
+                            <div>
+                                <a class="testimonial-author-text" href="https://hanno.braun-odw.eu/">Hanno Braun</a>
+                                <div class="testimonial-author-role">Embedded Rust Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div id="contact" class="call-to-action">
+    <div class="cta-content">
+        <h2>Ready to Accelerate Your Rust Journey?</h2>
+        <div class="hero-ctas-bottom">
+            
+        Schedule Your Free Consultation Below or <a href="/services" class="cta-button-secondary">View Services →</a>
+        </div>  
+        
+        <!-- Cal inline embed code begins -->
+        <div style="width: 100%; height: 100%" id="my-cal-inline"></div>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                const calContainer = document.getElementById('my-cal-inline');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            (function (C, A, L) {
+                                let p = function (a, ar) { a.q.push(ar); };
+                                let d = C.document;
+                                C.Cal = C.Cal || function () {
+                                    let cal = C.Cal;
+                                    let ar = arguments;
+                                    if (!cal.loaded) {
+                                        cal.ns = {};
+                                        cal.q = cal.q || [];
+                                        d.head.appendChild(d.createElement("script")).src = A;
+                                        cal.loaded = true;
+                                    }
+                                    if (ar[0] === L) {
+                                        const api = function () { p(api, arguments); };
+                                        const namespace = ar[1];
+                                        api.q = api.q || [];
+                                        typeof namespace === "string"
+                                            ? (cal.ns[namespace] = api) && p(api, ar)
+                                            : p(cal, ar);
+                                        return api;
+                                    }
+                                    p(cal, ar);
+                                };
+                            })(window, "https://app.cal.com/embed/embed.js", "init");
+                            Cal("init", {origin: "https://app.cal.com"});
+                            Cal("inline", {
+                                elementOrSelector: "#my-cal-inline",
+                                calLink: "corrode/chat",
+                            });
+                            Cal("ui", {
+                                styles: {branding: {brandColor: "#000000"}},
+                                hideEventTypeDetails: false,
+                            });
+
+                            observer.unobserve(calContainer); // Stop observing after load
+                        }
+                    });
+                }, {
+                    rootMargin: "0px",
+                    threshold: 0.1
+                });
+                observer.observe(calContainer);
+            });
+        </script>
+        <!-- Cal inline embed code ends -->
+        
+        <div class="content-icons">
+            Contact me via
+            
+            <a title="LinkedIn" href="https://www.linkedin.com/company/corrode" target="_blank" rel="noreferrer">
+                <img class="content-icon" src="/icons/linkedin.svg" />
+            </a>
+            
+            <a title="&#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;" href="mailto:&#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;" target="_blank" rel="noreferrer">
+                <img class="content-icon" src="/icons/envelope.svg" />
+            </a>
+            
+            <a title="X" href="https://twitter.com/matthiasendler" target="_blank" rel="noreferrer">
+                <img class="content-icon" src="/icons/x.svg" />
+            </a>
+            
+        </div>
+    </div>
+</div>
+
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

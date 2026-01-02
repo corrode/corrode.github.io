@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Flattening Rust&#x27;s Learning Curve | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="I see people make the same mistakes over and over again when learning Rust.
+Here are my thoughts (ordered by importance) on how you can ease the learning process.
+My goal is to help you save time and frustration.
+&lt;…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Flattening Rust&#x27;s Learning Curve | corrode Rust Consulting">
+    <meta property="og:description" content="I see people make the same mistakes over and over again when learning Rust.
+Here are my thoughts (ordered by importance) on how you can ease the learning process.
+My goal is to help you save time and frustration.
+&lt;…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2025-05-05">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flattening Rust&#x27;s Learning Curve | corrode Rust Consulting">
+    <meta name="twitter:description" content="I see people make the same mistakes over and over again when learning Rust.
+Here are my thoughts (ordered by importance) on how you can ease the learning process.
+My goal is to help you save time and frustration.
+&lt;…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/flattening-rusts-learning-curve/"
+      },
+      "headline": "Flattening Rust's Learning Curve",
+      "description": "I see people make the same mistakes over and over again when learning Rust.
+Here are my thoughts (ordered by importance) on how you can ease the learning process.
+My goal is to help you save time and frustration.
+&lt;…",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2025-05-05",
+      
+      "dateModified": "2025-05-05"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </h2>
+    <h1>Flattening Rust&#x27;s Learning Curve</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Published: 2025-05-05
+        
+      </span>
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>I see people make the same mistakes over and over again when learning Rust.
+Here are my thoughts (ordered by importance) on how you can ease the learning process.
+My goal is to help you save time and frustration.</p>
+<h2 id="let-your-guard-down"><a class="zola-anchor" href="#let-your-guard-down" aria-label="Anchor link for: let-your-guard-down">Let Your Guard Down</a></h2>
+<p>Stop resisting. That’s the most important lesson.</p>
+<p>Accept that learning Rust requires adopting a completely different mental model than what you’re used to.
+There are a ton of new concepts to learn like lifetimes, ownership, and the trait system.
+And depending on your background, you’ll need to add generics, pattern matching, or macros to the list.</p>
+<p>Your learning pace doesn’t have much to do with whether you’re smart or not or if you have a lot of programming experience.
+Instead, what matters more is <strong>your attitude toward the language</strong>.</p>
+<p>I have seen junior devs excel at Rust with no prior training and senior engineers struggle for weeks/months or even give up entirely. Leave your hubris at home.</p>
+<p>Treat the borrow checker as a co-author, not an adversary. This reframes the relationship.
+Let the compiler do the teaching: for example, this works great with lifetimes, because the compiler will tell you when a lifetime is ambiguous.
+Then just add it but take the time to reason about <em>why</em> the compiler couldn’t figure it out itself.</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">longest</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">x</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-type z-rust">str</span>, <span class="z-variable z-parameter z-rust">y</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-type z-rust">str</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-type z-rust">str</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-keyword z-control z-rust">if</span> x<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">len</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-comparison z-rust">&gt;</span> y<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">len</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        x
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span> <span class="z-keyword z-control z-rust">else</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">        y
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>If you try to compile this, the compiler will ask you to add a lifetime parameter.
+It provides this helpful suggestion:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span> <span class="z-keyword z-operator z-bitwise z-rust">|</span> <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">longest</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">x</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span> <span class="z-storage z-type z-rust">str</span>, <span class="z-variable z-parameter z-rust">y</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span> <span class="z-storage z-type z-rust">str</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-lifetime z-rust">&#39;a</span> <span class="z-storage z-type z-rust">str</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">  <span class="z-keyword z-operator z-bitwise z-rust">|</span>           <span class="z-keyword z-operator z-arithmetic z-rust">+</span><span class="z-keyword z-operator z-arithmetic z-rust">+</span><span class="z-keyword z-operator z-arithmetic z-rust">+</span><span class="z-keyword z-operator z-arithmetic z-rust">+</span>     <span class="z-keyword z-operator z-arithmetic z-rust">+</span><span class="z-keyword z-operator z-arithmetic z-rust">+</span>          <span class="z-keyword z-operator z-arithmetic z-rust">+</span><span class="z-keyword z-operator z-arithmetic z-rust">+</span>          <span class="z-keyword z-operator z-arithmetic z-rust">+</span><span class="z-keyword z-operator z-arithmetic z-rust">+</span>
+</span></span></span></code></pre>
+<p>So you don’t have to guess what the compiler wants and can follow its instructions.
+But also sit down and wonder <em>why</em> the compiler couldn’t figure it out itself.</p>
+<p>Most of the time when fighting the compiler it is actually exposing a design flaw.
+Similarly, if your code gets overly verbose or looks ugly, there’s probably a better way.
+Declare defeat and learn to do it the Rust way.</p>
+<p>If you come from a dynamic language like Python, you’ll find that Rust is more verbose in general.
+Most of it just comes from type annotations, though.
+Some people might dismiss Rust as being “unelegant” or “ugly”, but the verbosity actually serves a good purpose and is immensely helpful for building large-scale applications:</p>
+<ul>
+<li>First off, you will read the code more often than you write it,
+which means type annotations will give you more local context to reason with.</li>
+<li>Second, it helps immensely with refactoring because the compiler can check if you broke any code while you move things around.
+If your code turns out to look very ugly, take a step back and ask if there’s a simpler solution.
+Don’t dismiss the language right away.</li>
+</ul>
+<p>Turn on all <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/clippy/">clippy lints</a> on day one – even the pedantic ones.
+Run the linter and follow the suggestions religiously.
+Don’t skip that step once your program compiles.</p>
+<p>Resistance is futile.
+The longer you refuse to learn, the longer you will suffer;
+but the moment you let your guard down is the moment you’ll start to learn.
+Forget what you think you knew about programming and really start to listen to what the compiler, the standard library, and clippy are trying to tell you.</p>
+<h2 id="baby-steps"><a class="zola-anchor" href="#baby-steps" aria-label="Anchor link for: baby-steps">Baby Steps</a></h2>
+<p>I certainly tried to run before I could walk.
+That alone cost me a lot of precious time.</p>
+<p>Don’t make it too hard on yourself in the beginning.
+Here are some tips:</p>
+<ul>
+<li>Use <code>String</code> and <code>clone()</code> and <code>unwrap</code> generously; you can always refactor later – and refactoring is the best part about Rust!
+I wrote an article on saving yourself time during that phase <a href="/blog/prototyping">here</a>.</li>
+<li>Use simple if or match statements before starting to learn some of the more idiomatic <code>.and_then</code> etc. combinators</li>
+<li>Avoid async Rust in week 1. The additional rules are a tax on people still learning the core ownership model.</li>
+</ul>
+<p>Don’t introduce too many new concepts at the same time!
+Instead, while you learn about a new concept, have an editor open and write out a few examples.
+What helped was to just write some code in the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://play.rust-lang.org/">Rust playground</a> and try to get it to compile. Write super small snippets (e.g., one <code>main.rs</code> for one concept) instead of using one big “tutorial” repo.
+Get into the habit of throwing most of your code away.</p>
+<p>I still do that and test out ideas in the playground or when I brainstorm with clients.</p>
+<p>For instance, here’s one of my favorite code snippets to explain the concept of ownership:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">my_func</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">v</span><span class="z-punctuation z-separator z-rust">:</span> String</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> do something with v
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> s <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">String</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>hello<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-support z-function z-rust">my_func</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>s</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-support z-function z-rust">my_func</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>s</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> error, but why?
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>Can you fix it?
+Can you explain it?
+Ask yourself what would change if <code>v</code> was an <code>i32</code>.</p>
+<p>If Rust code looks scary to you, <strong>break it down</strong>.
+Write your own, simpler version, then slowly increase the complexity.
+Rust is easier to write than to read.
+By writing lots of Rust, you will also learn how to read it better as well.</p>
+<h2 id="be-accurate"><a class="zola-anchor" href="#be-accurate" aria-label="Anchor link for: be-accurate">Be Accurate</a></h2>
+<blockquote>
+<p>How you do anything is how you do everything.
+– An ancient Rust proverb</p>
+</blockquote>
+<p>You can be sloppy in other languages, but not in Rust.
+That means you have to be accurate while you code or the code just won’t compile.
+The expectation is that this approach will save you debugging time in the future.</p>
+<p>I found that the people who learn Rust the fastest all have great attention to detail.
+If you try to just get things done and move on, you will have a harder time than if you aim to do things right on your first try.
+You will have a much better time if you re-read your code to fix stupid typos before pressing “compile.”
+Also build a habit of automatically adding <code>&amp;</code> and <code>mut</code> where necessary as you go.</p>
+<p>A good example of someone who thinks about these details while coding is
+Tsoding. For example, watch <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=b0KIDIOL_i4">this stream where he builds a search engine in Rust from scratch</a> to see what I mean.
+I think you can learn this skill as long as you’re putting in your best effort and give it some time.</p>
+<h2 id="don-t-cheat"><a class="zola-anchor" href="#don-t-cheat" aria-label="Anchor link for: don-t-cheat">Don’t Cheat</a></h2>
+<p>With today’s tooling it is very easy to offload the bulk of the work to the computer.
+Initially, it will feel like you’re making quick progress, but in reality, you just strengthen bad habits in your workflow.
+If you can’t explain what you wrote to someone else or if you don’t know about the tradeoffs/assumptions a part of your code makes,
+you took it too far.</p>
+<p>Often, this approach stems from a fear that you’re not making progress fast enough.
+But you don’t have to prove to someone else that you’re clever enough to pick up Rust very quickly.</p>
+<h4 id="walk-the-walk"><a class="zola-anchor" href="#walk-the-walk" aria-label="Anchor link for: walk-the-walk">Walk the Walk</a></h4>
+<p>To properly learn Rust you actually have to write a lot of code by hand.
+Don’t be a lurker on Reddit, reading through other people’s success stories.
+Have some skin in the game!
+Put in the hours because there is no silver bullet.
+Once it works, consider open sourcing your code even if you know it’s not perfect.</p>
+<h4 id="don-t-go-on-auto-pilot"><a class="zola-anchor" href="#don-t-go-on-auto-pilot" aria-label="Anchor link for: don-t-go-on-auto-pilot">Don’t Go on Auto-Pilot</a></h4>
+<p>LLMs are like driving a car on auto-pilot.
+It’s comfortable at first, but you won’t feel in control and slowly, that uneasy feeling will creep in.
+Turn off the autopilot while learning.</p>
+<p>A quick way to set you up for success is to learn by writing code in the Rust Playground first.
+Don’t use LLMs or code completion. Just type it out!
+If you can’t, that means you haven’t fully internalized a concept yet.
+That’s fine!
+Go to the standard library and read the docs.
+Take however long it takes and then come back and try again.</p>
+<p>Slow is steady and steady is fast.</p>
+<h4 id="build-muscle-memory"><a class="zola-anchor" href="#build-muscle-memory" aria-label="Anchor link for: build-muscle-memory">Build Muscle Memory</a></h4>
+<p>Muscle memory in programming is highly underrated.
+People will tell you that this is what code completion is for, but I believe it’s a requirement to reach a state of flow:
+if you constantly blunder over syntax errors or, worse, just wait for the next auto-completion to make progress,
+that is a terrible developer experience.</p>
+<p>When writing manually, you will make more mistakes.
+Embrace them!
+These mistakes will help you learn to understand the compiler output.
+You will get a “feeling” for how the output looks in different error scenarios.
+Don’t gloss over these errors.
+Over time you will develop an intuition about what feels “rustic.”</p>
+<h4 id="predict-the-output"><a class="zola-anchor" href="#predict-the-output" aria-label="Anchor link for: predict-the-output">Predict The Output</a></h4>
+<p>Another thing I like to do is to run “prediction exercises” where I guess if code will compile before running it.
+This builds intuition.
+Try to make every program free of syntax errors before you run it.
+Don’t be sloppy.
+Of course, you won’t always succeed, but you will get much better at it over time.</p>
+<h4 id="try-to-solve-problems-yourself-only-then-look-up-the-solution"><a class="zola-anchor" href="#try-to-solve-problems-yourself-only-then-look-up-the-solution" aria-label="Anchor link for: try-to-solve-problems-yourself-only-then-look-up-the-solution">Try To Solve Problems Yourself, Only <em>Then</em> Look Up The Solution.</a></h4>
+<p>Read lots of other people’s code. I recommend <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/BurntSushi/ripgrep"><code>ripgrep</code></a>, for example,
+which is some of the best Rust code out there.</p>
+<h4 id="develop-a-healthy-share-of-reading-writing-code"><a class="zola-anchor" href="#develop-a-healthy-share-of-reading-writing-code" aria-label="Anchor link for: develop-a-healthy-share-of-reading-writing-code">Develop A Healthy Share Of Reading/Writing Code.</a></h4>
+<p>Don’t be afraid to get your hands dirty.
+Which areas of Rust do you avoid?
+What do you run away from?
+Focus on that.
+Tackle your blind spots.
+Track your common “escape hatches” (unsafe, clone, etc.) to identify your current weaknesses.
+For example, if you are scared of proc macros, write a bunch of them.</p>
+<h4 id="break-your-code"><a class="zola-anchor" href="#break-your-code" aria-label="Anchor link for: break-your-code">Break Your Code</a></h4>
+<p>After you’re done with an exercise, break it! See what the compiler says.
+See if you can explain what happens.</p>
+<h4 id="don-t-use-other-people-s-crates-while-learning"><a class="zola-anchor" href="#don-t-use-other-people-s-crates-while-learning" aria-label="Anchor link for: don-t-use-other-people-s-crates-while-learning">Don’t Use Other People’s Crates While Learning</a></h4>
+<p>A poor personal version is better than a perfect external crate (at least while learning).
+Write some small library code yourself as an exercise.
+Notable exceptions are probably <code>serde</code> and <code>anyhow</code>, which can save you time dealing with JSON inputs and setting up error handling that you can spend on other tasks
+as long as you know how they work.</p>
+<h2 id="build-good-intuitions"><a class="zola-anchor" href="#build-good-intuitions" aria-label="Anchor link for: build-good-intuitions">Build Good Intuitions</a></h2>
+<p>Concepts like lifetimes are hard to grasp.
+Sometimes it helps to draw how data moves through your system.
+Develop a habit to explain concepts to yourself and others through drawing.
+I’m not sure, but I think this works best for “visual”/creative people (in comparison to highly analytical people).</p>
+<p>I personally use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://excalidraw.com/">excalidraw</a> for drawing.
+It has a “comicy” feel, which takes the edge off a bit.
+The implication is that it doesn’t feel highly accurate, but rather serves as a rough sketch.
+Many good engineers (as well as great Mathematicians and Physicists) are able to visualize concepts with sketches.</p>
+<p>In Rust, sketches can help to visualize lifetimes and ownership of data or for architecture diagrams.</p>
+<h2 id="build-on-top-of-what-you-already-know"><a class="zola-anchor" href="#build-on-top-of-what-you-already-know" aria-label="Anchor link for: build-on-top-of-what-you-already-know">Build On Top Of What You Already Know</a></h2>
+<p>Earlier I said you should forget everything you know about programming.
+How can I claim now that you should build on top of what you already know?</p>
+<p>What I meant is that Rust is the most different in familiar areas like control flow handling and value passing.
+E.g., mutability is very explicit in Rust and calling a function typically “moves” its arguments.
+That’s where you have to accept that Rust is just <em>different</em> and learn from <em>first principles</em>.</p>
+<p>However, it is okay to map Rust concepts to other languages you already know.
+For instance, “a trait is a bit like an interface” is wrong, but it is a good starting point
+to understand the concept.</p>
+<p>Here are a few more examples:</p>
+<ul>
+<li>“A struct is like a class (minus the inheritance)”</li>
+<li>“A closure is like a lambda function (but it can capture variables)”</li>
+<li>“A module is like a namespace (but more powerful)”</li>
+<li>“A borrow is like a pointer (but with single owner).”</li>
+</ul>
+<p>And if you have a functional background, it might be:</p>
+<ul>
+<li>“<code>Option</code> is like the <code>Maybe</code> monad”</li>
+<li>“Traits are like type-classes”</li>
+<li>“Enums are algebraic data types”</li>
+</ul>
+<p>The idea is that mapping concepts helps fill in the gaps more quickly.</p>
+<p>Map what you already know from another language (e.g., Python, TypeScript) to Rust concepts.
+As long as you know that there are subtle differences, I think it’s helpful.</p>
+<p>I don’t see people mention this a lot, but I believe that <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a> is a great resource for that.
+You basically browse their list of tasks, pick one you like and start comparing the Rust solution with the language you’re strongest in.</p>
+<p>Also, port code from a language you know to Rust.
+This way, you don’t have to learn a new domain at the same time as you learn Rust.
+You can build on your existing knowledge and experience.</p>
+<ul>
+<li>Translate common language idioms from your strongest language to Rust. E.g., how would you convert a list comprehension from Python to Rust?
+Try it first, then look for resources, which explain the concept in Rust. For instance, <a href="/blog/iterators">I wrote one</a> on this topic specifically.</li>
+<li>I know people who have a few standard exercises that they port to every new language they learn.
+For example, that could be a ray-tracer, a sorting algorithm, or a small web app.</li>
+</ul>
+<p>Finally, find other people who come from the same background as you.
+Read their blogs where they talk about their experiences learning Rust.
+Write down your experiences as well.</p>
+<h2 id="don-t-guess"><a class="zola-anchor" href="#don-t-guess" aria-label="Anchor link for: don-t-guess">Don’t Guess</a></h2>
+<p>I find that people who tend to <em>guess</em> their way through challenges
+often have the hardest time learning Rust.</p>
+<p>In Rust, the details are everything.
+Don’t gloss over details, because they always reveal some wisdom about the task at hand.
+Even if you don’t care about the details, they will come back to bite you later.</p>
+<p>For instance, why do you have to call <code>to_string()</code> on a thing that’s already a string?</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-support z-function z-rust">my_func</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>hello<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">to_string</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></code></pre>
+<p>Those stumbling blocks are learning opportunities.
+It might look like a waste of time to ask these questions and means that it will take longer to finish a task,
+but it will pay off in the long run.</p>
+<p>Reeeeeally read the error messages the compiler prints.
+Everyone thinks they do this, but time and again I see people look confused while the solution is right there in their terminal.
+There are <code>hints</code> as well; don’t ignore those.
+This alone will save you sooo much time.
+Thank me later.</p>
+<p>You might say that is true for every language, and you’d be right.
+But in Rust, the error messages are actually worth your time.
+Some of them are like small meditations: opportunities to think about the problem at a deeper level.</p>
+<p>If you get any borrow-checker errors, refuse the urge to guess what’s going on.
+Instead of guessing, <em>walk through the data flow by hand</em> (who owns what and when).
+Try to think it through for yourself and only try to compile again once you understand the problem.</p>
+<h2 id="lean-on-type-driven-development"><a class="zola-anchor" href="#lean-on-type-driven-development" aria-label="Anchor link for: lean-on-type-driven-development">Lean on Type-Driven Development</a></h2>
+<p>The key to good Rust code is through its type system.</p>
+<p>It’s <strong>all</strong> in the type system.
+Everything you need is hidden in plain sight.
+But often, people skip too much of the documentation and just look at the examples.</p>
+<p>What few people do is <em>read the actual function documentation</em>.
+You can even click through the standard library all the way to the source code to read the thing they are using.
+There is no magic (and that’s what’s so magical about it).</p>
+<p>You can do that in Rust much better than in most other languages.
+That’s because Python for example is written in C, which requires you to cross that language boundary to learn what’s going on.
+Similarly, the C++ standard library isn’t a single, standardized implementation, but rather has several different implementations maintained by different organizations.
+That makes it super hard to know <em>what exactly is going on</em>.
+In Rust, the source code is available right inside the documentation. Make good use of that!</p>
+<p>Function signatures tell a lot!
+The sooner you will embrace this additional information, the quicker you will be off to the races with Rust.
+If you have the time, read interesting parts of the standard library docs.
+Even after years, I always learn something when I do.</p>
+<p>Try to model your own projects with types first.
+This is when you start to have way more fun with the language.
+It feels like you have a conversation with the compiler about the problem you’re trying to solve.</p>
+<p>For example, once you learn how concepts like expressions, iterators and traits fit together,
+you can write more concise, readable code.</p>
+<p>Once you learn how to encode invariants in types, you can write more correct code
+that you don’t have to run to test. Instead, you can’t compile incorrect code in the first place.</p>
+<p>Learn Rust through “type-driven development” and let the compiler errors guide your design.</p>
+<h2 id="invest-time-in-finding-good-learning-resources"><a class="zola-anchor" href="#invest-time-in-finding-good-learning-resources" aria-label="Anchor link for: invest-time-in-finding-good-learning-resources">Invest Time In Finding Good Learning Resources</a></h2>
+<p>Before you start, shop around for resources that fit your personal learning style.
+To be honest, there is not that much good stuff out there yet.
+On the plus side, it doesn’t take too long to go through the list of resources
+<em>before</em> settling on one specific platform/book/course.
+The right resource depends on what learner you are.
+In the long run, finding the right resource saves you time because you will learn quicker.</p>
+<p>I personally don’t like doing toy exercises that others have built out for me.
+That’s why I don’t like Rustlings too much; the exercises are not “fun” and too theoretical. I want more practical exercises.
+I found that <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://projecteuler.net/">Project Euler</a> or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://adventofcode.com/">Advent of Code</a> work way better for me.
+The question comes up quite often, so I wrote a blog post about <a href="/blog/rust-learning-resources-2026">my favorite Rust learning resources</a>.</p>
+<h4 id="don-t-just-watch-youtube"><a class="zola-anchor" href="#don-t-just-watch-youtube" aria-label="Anchor link for: don-t-just-watch-youtube">Don’t Just Watch YouTube</a></h4>
+<p>I like to watch YouTube, but exclusively for recreational purposes.
+In my opinion, watching <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/c/theprimeagen">ThePrimeagen</a> is for entertainment only.
+He’s an amazing programmer, but trying to learn how to program by watching someone else do it is like trying to learn how to become a great athlete by watching the Olympics.
+Similarly, I think we all can agree that <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/c/JonGjengset">Jon Gjengset</a> is an exceptional programmer and teacher, but watching him might be overwhelming
+if you’re just starting out. (Love the content though!)</p>
+<p>Same goes for conference talks or podcasts: they are great for context, and for soft-skills, but not for learning Rust.</p>
+<p>Instead, invest in a good book if you can.
+Books are not yet outdated and you can read them offline, add personal notes, type out the code yourself and get a
+“spatial overview” of the depth of the content by flipping through the pages.</p>
+<p>Similarly, if you’re serious about using Rust professionally, buy a course or get your boss to invest in a trainer.
+Of course, I’m super biased here as I run a Rust consultancy, but I truly believe that it will save you and your company countless
+hours and will set you up for long-term success. Think about it: you will work with this codebase for years to come. Better make that experience a pleasant one.
+A good trainer, just like a good teacher, will not go through the Rust book with you, but watch you program Rust in the wild and give you personalized feedback about your weak spots.</p>
+<h2 id="find-a-coding-buddy"><a class="zola-anchor" href="#find-a-coding-buddy" aria-label="Anchor link for: find-a-coding-buddy">Find A Coding Buddy</a></h2>
+<p>“Shadow” more experienced team members or friends.</p>
+<p>Don’t be afraid to ask for a code review on Mastodon or the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://users.rust-lang.org/">Rust forum</a> and return the favor and do code reviews there yourself.
+Take on opportunities for pair programming.</p>
+<h4 id="explain-rust-code-to-non-rust-developers"><a class="zola-anchor" href="#explain-rust-code-to-non-rust-developers" aria-label="Anchor link for: explain-rust-code-to-non-rust-developers">Explain Rust Code To Non-Rust Developers</a></h4>
+<p>This is such a great way to see if you truly understood a concept.
+Don’t be afraid to say “I don’t know.”
+Then go and explore the answer together by going straight to the docs.
+It’s way more rewarding and honest.</p>
+<p>Help out with OSS code that is abandoned.
+If you put in a solid effort to fix an unmaintained codebase, you will help others while learning how to work with other people’s Rust code.</p>
+<p>Read code out loud and explain it.
+There’s no shame in that!
+It helps you “serialize” your thoughts and avoid skipping important details.</p>
+<p>Take notes.
+Write your own little “Rust glossary” that maps Rust terminology to concepts in your business domain.
+It doesn’t have to be complete and just has to serve your needs.</p>
+<p>Write down things you found hard and things you learned.
+If you find a great learning resource, share it!</p>
+<h2 id="believe-in-the-long-term-benefit"><a class="zola-anchor" href="#believe-in-the-long-term-benefit" aria-label="Anchor link for: believe-in-the-long-term-benefit">Believe In The Long-Term Benefit</a></h2>
+<p>If you learn Rust because you want to put it on your CV, stop.
+Learn something else instead.</p>
+<p>I think you have to actually <em>like</em> programming (and not just the idea of it) to enjoy Rust.</p>
+<p>If you want to be successful with Rust, you have to be in it for the long run.
+Set realistic expectations: You won’t be a “Rust grandmaster” in a week but you can achieve a lot in a month of focused effort.
+There is no silver bullet, but if you avoid the most common ways to shoot yourself in the foot, you pick up the language much faster.
+Rust is a day 2 language. You won’t “feel” as productive as in your first week of Go or Python, but stick it out and it will pay off.
+Good luck and have fun!</p>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;&title=Flattening Rust&#x27;s Learning Curve"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;&t=Flattening Rust&#x27;s Learning Curve"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2025-05-05">
+            Published: 2025-05-05
+        </time>
+    </div>
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;flattening-rusts-learning-curve&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
