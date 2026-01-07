@@ -34,9 +34,11 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 ### Links From The Episode
 
 - [Radar Blog: High-Performance Geocoding in Rust](https://radar.com/blog/high-performance-geocoding-in-rust) - The blog post, which describes Radar's migration from Elasticsearch and MongoDB to Rust and RocksDB
+- [FourSquare](https://foursquare.com/) - The compay Jeff worked at before
+- [Ruby](https://www.ruby-lang.org/) - The basis for Rails
+- [PagerDuty)](https://www.pagerduty.com/) - Another company Jeff worked at. Hes' been around!
 - [CoffeeScript](https://coffeescript.org/) - The first big JavaScript alternative before TypeScript
 - [Scala](https://www.scala-lang.org/) - A functional JVM based language
-- [Ruby](https://www.ruby-lang.org/) - The basis for Rails
 - [Wikipedia: MapReduce](https://en.wikipedia.org/wiki/MapReduce) - Distributed application of functional programming
 - [Wikipedia: Algebraic Data Types](https://en.wikipedia.org/wiki/Algebraic_data_type) - The concept behind Rust's Enums, also present in e.g. Scala
 - [Kotlin](https://kotlinlang.org/) - Easier than Scala, better than Java
@@ -75,4 +77,3 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 - [Radar Blog](https://radar.com/blog)
 - [Radar Documentation](https://radar.com/documentation)
 - [Jeff Kao on LinkedIn](https://www.linkedin.com/in/jeff-kao/)
-
