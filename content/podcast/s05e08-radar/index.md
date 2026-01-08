@@ -12,7 +12,7 @@ episode = "08"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-XXXXXXXX" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/holiday-episode/player.js?size=s"></script></div>
+<div><script id="letscast-player-7e84c99d" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/radar-with-jeff-kao/player.js?size=s"></script></div>
 
 Radar processes billions of location events daily, powering geofencing and location APIs for companies like Uber, Lyft, and thousands of other apps.
 When their existing infrastructure started hitting performance and cost limits, they built HorizonDB, a specialized database which replaced both Elasticsearch and MongoDB with a custom single binary written in Rust and backed by RocksDB.
