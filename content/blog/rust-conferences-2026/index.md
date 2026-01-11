@@ -126,7 +126,7 @@ A conference for Rust developers in Asia.
 The first-ever dedicated conference for developers building high-performance network applications with Tokio and async Rust. A single-track event bringing together ~300 developers from across the Rust ecosystem.
 
 - **When**: April 20-22, 2026
-- **Where**: [Hyatt Regency Portland, 375 NE Holladay St, Portland, OR 97232](https://maps.app.goo.gl/DKsYV8rPZp1q5dZs9)
+- **Where**: [Hyatt Regency Portland, 375 NE Holladay St, Portland, OR 97232](https://www.hyatt.com/hyatt-regency/en-US/pdxrp-hyatt-regency-portland-at-the-oregon-convention-center)
 - **Format**: 3 days (1 day optional workshops + 2 days single-track conference)
 - **Focus**: Async Rust, Tokio, high-performance network applications
 - **Pricing**: [Early Bird $650, General Admission $750](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
