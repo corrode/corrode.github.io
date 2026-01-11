@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2026-01-01
+updated = 2026-01-11
 template = "article.html"
 draft = false
 [extra]
@@ -16,6 +16,9 @@ Come say hi if you see us at any of these events! (We'll bring [Rust in Producti
 
 Oh, and in case the call for proposals (CFP) is still open, why not submit a
 talk or workshop proposal?
+
+<!-- Interactive Map -->
+<div id="conference-map" style="height: 500px; width: 100%; margin: 2rem 0; border-radius: 8px; overflow: hidden;"></div>
 
 <div class="conference-filters">
   <button class="button filter-btn active" data-filter="all">All Conferences</button>
@@ -243,6 +246,21 @@ See you at the next conference! 🦀
 
 *Note: This list will be updated regularly as more conferences announce their 2026 dates. Most conferences are yet to announce their exact dates, venues, ticket prices, and CFP timelines. Check back often for updates!*
 
+<!-- Leaflet JS -->
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin=""
+></script>
+
+<!-- Leaflet CSS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
+/>
+
 <style>
   iframe, object, embed {
     max-width: 100%;
@@ -307,6 +325,87 @@ See you at the next conference! 🦀
     border-color: #22c55e;
   }
 
+  /* Map styles */
+  #conference-map {
+    position: relative;
+  }
+
+  /* Marker container (no animation here to avoid conflicts with Leaflet positioning) */
+  .marker-container {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Pulsating pink marker - applied to inner element */
+  .pulse-marker {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ff1493;
+    box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7);
+    animation: pulse 2s infinite;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .pulse-marker::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 20, 147, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 15px rgba(255, 20, 147, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 20, 147, 0);
+    }
+  }
+
+  /* Custom tooltip styling */
+  .leaflet-tooltip {
+    background: white;
+    border: 2px solid #ff1493;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    line-height: 1.5;
+    min-width: 200px;
+  }
+
+  .leaflet-tooltip::before {
+    border-top-color: #ff1493;
+  }
+
+  .tooltip-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #ff1493;
+    margin-bottom: 6px;
+  }
+
+  .tooltip-dates {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .tooltip-location {
+    font-size: 12px;
+    color: #888;
+  }
+
   /* Dark mode support */
   @media (prefers-color-scheme: dark) {
     .filter-btn {
@@ -333,11 +432,206 @@ See you at the next conference! 🦀
     .conference-badge.cfp-open {
       background: #4ade80;
     }
+
+    /* Map dark mode */
+    .leaflet-tooltip {
+      background: #1f2937;
+      border-color: #ff1493;
+      color: #e5e7eb;
+    }
+
+    .tooltip-title {
+      color: #ff69b4;
+    }
+
+    .tooltip-dates {
+      color: #9ca3af;
+    }
+
+    .tooltip-location {
+      color: #6b7280;
+    }
   }
 </style>
 
 
 <script>
+// Initialize conference map
+function initConferenceMap() {
+  // Conference data with coordinates - only confirmed conferences
+  const conferences = [
+    {
+      name: 'Rust Nation',
+      city: 'London',
+      country: 'UK',
+      lat: 51.5074,
+      lng: -0.1278,
+      dates: 'February 18-19, 2026'
+    },
+    {
+      name: 'Rust in Paris',
+      city: 'Paris',
+      country: 'France',
+      lat: 48.8682,
+      lng: 2.3663,
+      dates: 'March 27, 2026'
+    },
+    {
+      name: 'Rustikon',
+      city: 'Warsaw',
+      country: 'Poland',
+      lat: 52.2297,
+      lng: 21.0122,
+      dates: 'March 19-20, 2026'
+    },
+    {
+      name: 'RustWeek',
+      city: 'Utrecht',
+      country: 'Netherlands',
+      lat: 52.0907,
+      lng: 5.1214,
+      dates: 'May 18-23, 2026'
+    },
+    {
+      name: 'RustConf',
+      city: 'Montreal',
+      country: 'Canada',
+      lat: 45.5017,
+      lng: -73.5673,
+      dates: 'September 8-11, 2026'
+    },
+    {
+      name: 'Oxidize',
+      city: 'Berlin',
+      country: 'Germany',
+      lat: 52.5200,
+      lng: 13.4050,
+      dates: 'September 14-16, 2026'
+    },
+    {
+      name: 'EuroRust',
+      city: 'Barcelona',
+      country: 'Spain',
+      lat: 41.3851,
+      lng: 2.1734,
+      dates: 'October 14-17, 2026'
+    },
+    {
+      name: 'RustLab',
+      city: 'Bologna',
+      country: 'Italy',
+      lat: 44.4949,
+      lng: 11.3426,
+      dates: 'November 1-3, 2026'
+    }
+  ];
+
+  // Create the map
+  const map = L.map('conference-map', {
+    center: [30, 10],
+    zoom: 2,
+    minZoom: 2,
+    maxZoom: 10
+  });
+
+  // Light and dark tile layers - using CartoDB Positron/DarkMatter for cleaner look
+  const lightLayer = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }
+  );
+
+  const darkLayer = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }
+  );
+
+  function applyMapTheme(scheme) {
+    if (scheme === 'dark') {
+      if (map.hasLayer(lightLayer)) {
+        map.removeLayer(lightLayer);
+      }
+      if (!map.hasLayer(darkLayer)) {
+        darkLayer.addTo(map);
+      }
+    } else {
+      if (map.hasLayer(darkLayer)) {
+        map.removeLayer(darkLayer);
+      }
+      if (!map.hasLayer(lightLayer)) {
+        lightLayer.addTo(map);
+      }
+    }
+  }
+
+  // Hook into site's theme system
+  const originalToggleColorScheme = window.toggleColorScheme;
+  window.toggleColorScheme = function() {
+    if (originalToggleColorScheme) {
+      originalToggleColorScheme();
+    }
+    // Wait a bit for the theme to apply, then update map
+    setTimeout(() => {
+      const scheme = typeof getPreferredColorScheme === 'function'
+        ? getPreferredColorScheme()
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      applyMapTheme(scheme);
+    }, 50);
+  };
+
+  // Get initial theme from site's theme system
+  const currentScheme = typeof getPreferredColorScheme === 'function'
+    ? getPreferredColorScheme()
+    : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+  applyMapTheme(currentScheme);
+
+  // Add conference markers
+  conferences.forEach(conf => {
+    // Create custom divIcon with pulsating marker
+    // Use wrapper class and inner HTML to avoid conflicts with Leaflet's transform positioning
+    const icon = L.divIcon({
+      className: 'marker-container',
+      html: '<div class="pulse-marker"></div>',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+      tooltipAnchor: [0, -10]
+    });
+
+    // Create tooltip content
+    const tooltipContent = `
+      <div class="tooltip-title">${conf.name}</div>
+      <div class="tooltip-dates">${conf.dates}</div>
+      <div class="tooltip-location">${conf.city}, ${conf.country}</div>
+    `;
+
+    // Create marker
+    const marker = L.marker([conf.lat, conf.lng], { icon: icon })
+      .addTo(map)
+      .bindTooltip(tooltipContent, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -10]
+      });
+
+    // Show tooltip on hover
+    marker.on('mouseover', function() {
+      this.openTooltip();
+    });
+
+    marker.on('mouseout', function() {
+      this.closeTooltip();
+    });
+  });
+}
+
 // Add days until conference start
 function addDaysUntilConference() {
     // Find all h3 headings (conference titles)
@@ -519,11 +813,13 @@ function setupFilters() {
 // Run after DOM is loaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
+        initConferenceMap();
         addDaysUntilConference();
         addCFPBadges();
         setupFilters();
     });
 } else {
+    initConferenceMap();
     addDaysUntilConference();
     addCFPBadges();
     setupFilters();
