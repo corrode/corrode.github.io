@@ -552,7 +552,7 @@ function initConferenceMap() {
 
   // Create the map
   const map = L.map('conference-map', {
-    attributionControl:false,
+    attributionControl: true,
     center: [30, 10],
     zoom: 2,
     minZoom: 2,
