@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Sharp Edges In The Rust Standard Library | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="The Rust standard library, affectionately called std, is exceptionally well-designed, but that doesn’t mean it’s perfect.
+Mor…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Sharp Edges In The Rust Standard Library | corrode Rust Consulting">
+    <meta property="og:description" content="The Rust standard library, affectionately called std, is exceptionally well-designed, but that doesn’t mean it’s perfect.
+Mor…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2025-05-21">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sharp Edges In The Rust Standard Library | corrode Rust Consulting">
+    <meta name="twitter:description" content="The Rust standard library, affectionately called std, is exceptionally well-designed, but that doesn’t mean it’s perfect.
+Mor…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/sharp-edges-in-rust-std/"
+      },
+      "headline": "Sharp Edges In The Rust Standard Library",
+      "description": "The Rust standard library, affectionately called std, is exceptionally well-designed, but that doesn’t mean it’s perfect.
+Mor…",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2025-05-21",
+      
+      "dateModified": "2025-06-06"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </h2>
+    <h1>Sharp Edges In The Rust Standard Library</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2025-06-06
+        
+      </span>
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>The <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/">Rust standard library</a>, affectionately called <code>std</code>, is exceptionally well-designed, but that doesn’t mean it’s perfect.
+More experienced Rust developers tend to navigate around some of its sharper parts.</p>
+<p>In this article, I want to highlight the areas in <code>std</code> that I personally avoid.
+Keep in mind that this list is subjective, so take it with a grain of salt.
+My intention is to point out some pitfalls and suggest alternatives where appropriate.</p>
+<h2 id="threading"><a class="zola-anchor" href="#threading" aria-label="Anchor link for: threading">Threading</a></h2>
+<p>Rust’s threading library is quite solid.
+That said, managing threads can be a bit of a footgun.
+In particular, forgetting to <em>join</em> a thread can have some unexpected side effects.</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span>thread<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">time<span class="z-punctuation z-accessor z-rust">::</span></span>Duration<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">Resource</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-storage z-type z-impl z-rust">impl</span> </span><span class="z-meta z-impl z-rust">Drop <span class="z-keyword z-other z-rust">for</span></span><span class="z-meta z-impl z-rust"> <span class="z-entity z-name z-impl z-rust">Resource</span> </span><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust">    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">drop</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> <span class="z-variable z-parameter z-rust">self</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> This never gets called
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-support z-macro z-rust">println!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>CRITICAL CLEANUP: Resource dropped<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-impl z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> handle <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">thread<span class="z-punctuation z-accessor z-rust">::</span></span>spawn<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> resource <span class="z-keyword z-operator z-assignment z-rust">=</span> Resource<span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Do some work... 
+</span></span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-meta z-path z-rust">thread<span class="z-punctuation z-accessor z-rust">::</span></span>sleep<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">Duration<span class="z-punctuation z-accessor z-rust">::</span></span>from_secs<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">60</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">        <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Resource should be dropped here when thread ends
+</span></span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-group z-rust"><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Main thread exits immediately.
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> But! We forgot to join the spawned thread!
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> handle.join().unwrap();
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>In the above scenario, cleanup tasks (such as flushing caches or closing files) might not get executed.
+So, even if you do nothing with the handle, it is still a best practice to <code>join()</code> it.
+For more details on the topic, check out matklad’s article: <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://matklad.github.io/2019/08/23/join-your-threads.html">“Join Your Threads”</a>.</p>
+<p>In fact, there was a proposal to make <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/thread/struct.JoinHandle.html"><code>std::thread::JoinHandle</code></a> be <code>#[must_use]</code>, but it was ultimately <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust/pull/48830">declined</a> because it would produce too many warnings.</p>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust/pull/48830#issuecomment-371649213">This comment summarized the situation pretty well</a>:</p>
+<blockquote>
+<p>I’d say the key issue here is that <code>thread::spawn</code> is the easiest way of spawning threads, but not the best one for casual use. Manually calling <code>.join().unwrap()</code> is a chore and easy to forget, which makes <code>thread::spawn</code> a potential footgun.</p>
+</blockquote>
+<p>For new code, <strong>I recommend using <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/thread/fn.scope.html"><code>thread::scope</code></a></strong> instead, which is a much better API in every conceivable way.
+The documentation addresses the above issue directly:</p>
+<blockquote>
+<p>Unlike non-scoped threads, scoped threads can borrow non-<code>'static</code> data, as the scope guarantees <strong>all threads will be joined at the end of the scope</strong>.
+All threads spawned within the scope that <strong>haven’t been manually joined will be automatically joined</strong> before this function returns.</p>
+</blockquote>
+<p>Alternatively, you could use a thread pool library or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rayon-rs/rayon">rayon</a>, in case you have an iterator you want to parallelize without manually managing threads.</p>
+<h2 id="std-collections-linkedlist"><a class="zola-anchor" href="#std-collections-linkedlist" aria-label="Anchor link for: std-collections-linkedlist"><code>std::collections::LinkedList</code></a></h2>
+<p>Implementing a linked list in Rust is <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-unofficial.github.io/too-many-lists/">not easy</a>.
+That’s because Rust’s ownership model is detrimental to self-referential data structures.</p>
+<p>Some people might not know that the standard library ships an implementation of a linked list at <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/collections/struct.LinkedList.html"><code>std::collections::LinkedList</code></a>.
+In all those years, I never felt the urge to use it.
+It might even be the least-used collection type in the standard library overall.</p>
+<p>For all ordinary use cases, a <code>Vec</code> is superior and straightforward to use.
+Vectors also have better cache locality and performance characteristics: all items are stored in contiguous memory, which is much better for fast memory access.
+On the other side, elements in a linked list can be scattered all over the heap.
+If you want to learn more, you can read <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://arxiv.org/pdf/2306.06942">this paper</a>, which contains some benchmarks.</p>
+<p>You might be wondering why linked lists get used at all.
+They have their place as a very specialized data structure that is only really helpful in some resource-constrained or low-level environments like a kernel. The Linux kernel, for example, uses a lot of linked lists.
+The reason is that the kernel’s intrusive linked list implementation embeds list nodes directly within data structures which is very memory efficient and allows objects to be in multiple lists simultaneously without additional allocations. <sup class="footnote-reference" id="fr-linux-1"><a href="#fn-linux">1</a></sup></p>
+<p>As for normal, everyday code, just use a <code>Vec</code>.
+Even <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/nightly/std/collections/struct.LinkedList.html">the documentation of <code>LinkedList</code></a> itself agrees:</p>
+<blockquote>
+<p>NOTE: It is almost always better to use <code>Vec</code> or <code>VecDeque</code> because array-based
+containers are generally faster, more memory efficient, and make better use of
+CPU cache.</p>
+</blockquote>
+<p>I believe the LinkedList should not have been included in the standard library in the first place.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-unofficial.github.io/too-many-lists/sixth.html">Even its original author agrees</a>.</p>
+<p>There are some surprising gaps in the API; for instance, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/collections/struct.LinkedList.html#method.remove"><code>LinkedList::remove</code></a> is still a nightly-only feature<sup class="footnote-reference" id="fr-ll-remove-1"><a href="#fn-ll-remove">2</a></sup>:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">collections<span class="z-punctuation z-accessor z-rust">::</span></span>LinkedList<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> list <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">LinkedList<span class="z-punctuation z-accessor z-rust">::</span></span>from<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span><span class="z-punctuation z-separator z-rust">,</span><span class="z-constant z-numeric z-integer z-decimal z-rust">2</span><span class="z-punctuation z-separator z-rust">,</span><span class="z-constant z-numeric z-integer z-decimal z-rust">3</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-support z-macro z-rust">dbg!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>list</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> This is still unstable!
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> https://github.com/rust-lang/rust/issues/69210
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> The operation should compute in O(n) time.
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Panics if out of range...
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> list.remove(0);
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>Even if you wanted a linked list, it probably would not be <code>std::collections::LinkedList</code>:</p>
+<ul>
+<li>It doesn’t support O(1) splice, O(1) node erasure, or O(1) node insertion - only O(1) operations at the list ends</li>
+<li>It has all the disadvantages of a doubly-linked list but none of its advantages</li>
+<li>Custom implementations are often needed anyway. For example, many real-world use cases require an <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.data-structures-in-practice.com/intrusive-linked-lists/">intrusive linked list</a> implementation, not provided by <code>std</code>.
+An intrusive list is what the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://elixir.bootlin.com/linux/v6.14.5/source/include/linux/list.h">Linux kernel provides</a>
+and even Rust for Linux has <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-for-linux.github.io/docs/rust/src/kernel/linked_list.rs.html">its own implementation</a> of an intrusive list.</li>
+<li>Arena-based linked lists are often needed for better performance.</li>
+</ul>
+<p>There is a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://internals.rust-lang.org/t/whats-the-status-of-std-linkedlist-maybe-deprecate-in-rust-2018/8068">longer discussion in the Rust forum</a>.</p>
+<p>Better implementations exist that provide more of the missing operations expected from a proper linked list implementation:</p>
+<ul>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/contain-rs/linked-list">contain-rs/linked-list</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/Amanieu/intrusive-rs">intrusive-collections</a></li>
+</ul>
+<p>There’s a thing to be said about <code>BTreeMap</code> as well, but I leave it at that. <sup class="footnote-reference" id="fr-btreemap-1"><a href="#fn-btreemap">3</a></sup></p>
+<h2 id="path-handling"><a class="zola-anchor" href="#path-handling" aria-label="Anchor link for: path-handling">Path Handling</a></h2>
+<p><code>Path</code> does a decent job of abstracting away the underlying file system.
+One thing I always disliked was that <code>Path::join</code> returns a <code>PathBuf</code> instead of a <code>Result&lt;PathBuf, Error&gt;</code>.
+I mentioned in my <a href="/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths">‘Pitfalls of Safe Rust’</a> article
+that <code>Path::join</code> joining a relative path with an absolute path results in the absolute path being returned.</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">path<span class="z-punctuation z-accessor z-rust">::</span></span>Path<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> relative_path <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Path<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>relative/path<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> absolute_path <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Path<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>/absolute/path<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> This will return &quot;/absolute/path&quot;
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-storage z-type z-rust">let</span> result <span class="z-keyword z-operator z-assignment z-rust">=</span> relative_path<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">join</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>absolute_path</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-support z-macro z-rust">assert_eq!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>result<span class="z-punctuation z-separator z-rust">,</span> absolute_path</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span> 
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>I think that’s pretty counterintuitive and a potential source of bugs.
+On top of that, many programs assume paths are UTF-8 encoded and frequently convert them to <code>str</code>.
+That’s always a fun dance:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">path<span class="z-punctuation z-accessor z-rust">::</span></span>Path<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">   <span class="z-storage z-type z-rust">let</span> path <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">Path<span class="z-punctuation z-accessor z-rust">::</span></span>new<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>/path/to/file.txt<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">   
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">   <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> The awkward dance with multiple conversions
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">   <span class="z-keyword z-control z-rust">match</span> path<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">as_os_str</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">to_str</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">       <span class="z-support z-type z-rust">Some</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>s</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-rust">=&gt;</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">           <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Yay! We can use string operations
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">       </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">       <span class="z-support z-type z-rust">None</span> <span class="z-keyword z-operator z-rust">=&gt;</span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">           <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Oh well, it&#39;s not UTF-8.
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">           <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Many developers just use lossy conversion to avoid dealing with this
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">           <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Which might _silently_ corrupt path data but keeps the code moving...
+</span></span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">           <span class="z-storage z-type z-rust">let</span> lossy <span class="z-keyword z-operator z-assignment z-rust">=</span> path<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">to_string_lossy</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">           
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">       </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">   </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>These <code>path.as_os_str().to_str()</code> operations must be repeated everywhere.
+It makes path manipulation ever so slightly annoying.</p>
+<p>There are a few more issues with paths in Rust:</p>
+<ul>
+<li><code>Path</code>/<code>OsStr</code> lacks common string manipulation methods (like <code>find()</code>, <code>replace()</code>, etc.), which makes many common operations on paths quite tedious</li>
+<li>The design creates a poor experience for Windows users, with inefficient <code>Path</code>/<code>OsStr</code> handling that doesn’t fit the platform well. It’s a cross-platform compromise, but it creates some real problems.</li>
+</ul>
+<p>Of course, for everyday use, <code>Path</code> is perfectly okay, but if path handling is a core part of your application, you might want to consider using an external crate instead.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/camino-rs/camino"><code>camino</code></a> is a good alternative crate, which just assumes that paths are UTF-8 (which, in 2025, is a fair assumption).
+This way, operations have much better ergonomics.</p>
+<h2 id="platform-specific-date-and-time-handling"><a class="zola-anchor" href="#platform-specific-date-and-time-handling" aria-label="Anchor link for: platform-specific-date-and-time-handling">Platform-Specific Date and Time Handling</a></h2>
+<p>In my opinion, it’s actually great to have some basic time functionality right in the standard library.
+However, just be aware that <code>std::time::SystemTime</code> is platform dependent, which <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust/issues/44394">causes some headaches</a>.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust/issues/48980">Same for <code>Instant</code></a>, which is a wrapper around the most precise time source on each OS.</p>
+<p>Since time is such a thin wrapper around whatever the operating system provides, you can run into some nasty behavior.
+For example, <strong>this does not always result in “1 nanosecond” on Windows</strong>:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">time<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>Duration<span class="z-punctuation z-separator z-rust">,</span> SystemTime</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">main</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-storage z-type z-rust">let</span> now <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">SystemTime<span class="z-punctuation z-accessor z-rust">::</span></span>now<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-support z-macro z-rust">dbg!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>now <span class="z-keyword z-operator z-arithmetic z-rust">+</span> <span class="z-meta z-path z-rust">Duration<span class="z-punctuation z-accessor z-rust">::</span></span>from_nanos<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">duration_since</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>now</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>The documentation does not specify the clock’s accuracy or how it handles leap seconds, except to note that <code>SystemTime</code> does not account for them.</p>
+<p>If you depend on proper control over time, such as managing leap seconds or cross-platform support, you’re better off using an external crate.
+For a great overview, see this survey in the Rust forum, titled: <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://users.rust-lang.org/t/the-state-of-time-in-rust-leaps-and-bounds/107620">‘The state of time in Rust: leaps and bounds’</a>.</p>
+<p>In general, I believe <code>std::time</code> works well in combination with the rest of the standard library, such as for <code>sleep</code>:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span>thread<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">time<span class="z-punctuation z-accessor z-rust">::</span></span>Duration<span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-path z-rust">thread<span class="z-punctuation z-accessor z-rust">::</span></span>sleep<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-path z-rust">Duration<span class="z-punctuation z-accessor z-rust">::</span></span>from_secs<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">1</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></code></pre>
+<p>…but apart from that, I don’t use it for much else. If I had to touch any sort of date calculations, I would defer to an external crate.</p>
+<p>There are a few options:</p>
+<ul>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/jiff/latest/jiff/_documentation/comparison/index.html"><code>jiff</code></a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/chronotope/chrono"><code>chrono</code></a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/time-rs/time"><code>time</code></a></li>
+</ul>
+<p><code>jiff</code> is a new library, which aims to improve upon the existing libraries.</p>
+<h2 id="summary"><a class="zola-anchor" href="#summary" aria-label="Anchor link for: summary">Summary</a></h2>
+<p>As you can see, my list of warts in the Rust standard library is quite short.
+Given that Rust 1.0 was released more than a decade ago, the standard library has held up <em>really</em> well.
+That said, I reserve the right to update this article in case I become aware of additional sharp edges in the future.</p>
+<p>In general, I like that Rust has a relatively small standard library because once a feature is in there it stays there forever. <sup class="footnote-reference" id="fr-forever-1"><a href="#fn-forever">4</a></sup></p>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-linux">
+<p>For a more in-depth discussion on why the Linux kernel uses linked lists, see <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.data-structures-in-practice.com/intrusive-linked-lists/">this article</a>. <a href="#fr-linux-1">↩</a></p>
+</li>
+<li id="fn-ll-remove">
+<p>Perhaps this is a little surprising if you mostly use vectors, but removing an element from a list is an <code>O(n)</code> operation. <a href="#fr-ll-remove-1">↩</a></p>
+</li>
+<li id="fn-btreemap">
+<p>“Hold on, what’s wrong with BTreeMap?” you might ask.</p>
+<details><summary>
+This is just a mild observation rather than a strong criticism.
+If you're truly interested, expand the details by clicking here.</summary>
+<p>Okay, as you know, Rust has two map implementations in the standard library:
+<code>BTreeMap</code>, which guarantees insertion ordering, while <code>HashMap</code> is unordered, but more commonly used.
+For a long time, a <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://users.rust-lang.org/t/hashmap-vs-btreemap/13804/2">“performance trick”</a> was to use <code>BTreeMap</code> if you needed a faster hash map implementation.</p>
+<p>Since then, the performance of <code>HashMap</code> has improved significantly.
+One reason is that the implementation of <code>HashMap</code> has <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/book/ch08-03-hash-maps.html#hashing-functions">changed to use a “siphash” algorithm</a> and is now <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/std/collections/struct.HashMap.html">based on Google’s SwissTable</a>.
+The combination of these changes has made <code>HashMap</code> much more performant than before, so there is no good reason to use <code>BTreeMap</code> anymore, other than the ordering guarantee.</p>
+<p>One important distinction to note: iteration order over a <code>HashMap</code> is random, while <code>BTreeMap</code>’s iteration order is always sorted by the key’s <code>Ord</code> implementation (not by insertion order). This makes <code>BTreeMap</code> useful when you need to iterate over keys in a sorted manner. If you’re aggregating data in a <code>HashMap</code> but need a sorted list, you’ll need to collect into a vector and sort it manually. In contrast, <code>BTreeMap</code> gives you sorted iteration for free. So while <code>HashMap</code> is better for random access operations, <code>BTreeMap</code> is still helpful when sorted iteration is required.
+I would argue that it’s a bit of a niche use case, however.</p>
+<p>In <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.scattered-thoughts.net/writing/smolderingly-fast-btrees/">“Smolderingly fast b-trees”</a>, Jamie Brandon compares the performance of Rust’s <code>BTreeMap</code> and <code>HashMap</code>. Here are the key takeaways:</p>
+<ul>
+<li>When comparing performance, btrees were found to be significantly slower than hashmaps in most scenarios,
+especially for lookups. In the worst case with random-ish strings that share common prefixes, btrees performed dramatically worse.</li>
+<li>Hashmaps benefit more from speculative execution between multiple lookups, while btrees don’t.</li>
+<li>btrees have performance “cliffs” when comparisons get more expensive and touch more memory</li>
+<li>For space usage, the author estimates that btrees would use &gt;60% more memory than hashmaps for random keys.</li>
+</ul>
+<p>I’d argue that a normal HashMap is almost always the better choice and having two map implementations in the standard library can be confusing.</p>
+<p>On top of that, if the hash map is your bottleneck, you’re doing pretty well already.
+If you need anything faster, there are plenty of great external crates like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/indexmap-rs/indexmap">indexmap</a> for insertion-order preservation and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/xacrimon/dashmap">dashmap</a> for concurrent access.</p>
+<p>As I said, nothing earth-shaking, but I think it’s worth mentioning that there are better alternatives to <code>BTreeMap</code>
+out there in the ecosystem.</p>
+</details>
+ <a href="#fr-btreemap-1">↩</a></li>
+<li id="fn-forever">
+<p>Yes, you <em>can</em> deprecate functionality, but this is a very timid and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://rust-lang.github.io/rfcs/1270-deprecation.html">laborious process</a> and that still doesn’t mean functionality gets removed. For example, <code>std::env::home_dir()</code> has been deprecated for years and is now not getting removed, but instead will be <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://releases.rs/docs/1.85.0/#compatibility-notes">fixed with a bugfix release and un-deprecated</a>. <a href="#fr-forever-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a href="/blog/pitfalls-of-safe-rust/#surprising-behavior-of-path-join-with-absolute-paths">Pitfalls of Safe Rust</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/f7vimo/programming_language_warts/">Programming Language Warts on Reddit</a></p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;&title=Sharp Edges In The Rust Standard Library"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;&t=Sharp Edges In The Rust Standard Library"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2025-05-21">
+            Published: 2025-05-21
+        </time>
+    </div><div class="updated">
+        <time datetime="2025-06-06">
+            Last updated: 2025-06-06
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;sharp-edges-in-rust-std&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+        
+                <a href="https:&#x2F;&#x2F;www.wezm.net" target="_blank" rel="noopener noreferrer">Wesley Moore (wezm)</a>,
+                
+                <a href="https:&#x2F;&#x2F;ashdnazg.github.io&#x2F;" target="_blank" rel="noopener noreferrer">Eshed Schacham</a>
+                    and
+                <a href="https:&#x2F;&#x2F;github.com&#x2F;LeoniePhiline" target="_blank" rel="noopener noreferrer">LeoniePhiline</a>
+    </div>
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

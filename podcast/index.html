@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Rust in Production Podcast | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="This is &#x27;Rust in Production&#x27;, a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world.">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Rust in Production Podcast | corrode Rust Consulting">
+    <meta property="og:description" content="This is &#x27;Rust in Production&#x27;, a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world.">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rust in Production Podcast | corrode Rust Consulting">
+    <meta name="twitter:description" content="This is &#x27;Rust in Production&#x27;, a podcast about companies who use Rust to shape the future of infrastructure. We follow their journey in pursuit of more reliable and efficient software as they solve some of the most challenging technical problems in the world.">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    "name": "Rust in Production",
+    "description": "Rust in Production brings to light the real-world stories of companies using Rust in production, focusing on the challenges and complex technical problems solved with Rust. New episodes ever second Thursday.",
+    "url": "https://corrode.dev/podcast/",
+    "image": "https://corrode.dev/social/podcast.png",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Corrode Consulting",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://corrode.dev/corrode.svg"
+      },
+      "location": {
+        "@type": "PostalAddress",
+        "addressLocality": "Düsseldorf",
+        "addressCountry": "DE"
+      }
+    },
+    "license": "https://creativecommons.org/licenses/by-nd/4.0/",
+    "potentialAction": {
+      "@type": "ListenAction",
+      "target": [
+        "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
+        "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
+        "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
+        "https://www.amazon.de/Rust-in-Production/dp/B0CPYJ725K",
+        "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+      ],
+      "expectsAcceptanceOf": {
+        "@type": "Offer",
+        "eligibleRegion": [
+          {
+            "@type": "Country",
+            "name": "Global"
+          }
+        ]
+      }
+    }
+  }
+</script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<div class="hero">
+  <div class="hero-font">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 274 221"><path fill="#ffd885" d="m24.7 110 230 5.28-.027 40.2-230 2.26z"/><path d="M45.7 119q3.86 0 6.53 1.31 2.67 1.27 4.07 3.64 1.4 2.33 1.4 5.55 0 1.91-.593 3.86-.551 1.91-1.82 3.48-1.23 1.57-3.35 2.54-2.08.932-5.13.932h-4.41v9.87h-6.15v-31.2zm1.06 15.3q1.4 0 2.33-.466.932-.509 1.44-1.23.551-.763.763-1.57.254-.805.254-1.4 0-.466-.17-1.23-.127-.805-.593-1.61t-1.44-1.36q-.932-.551-2.54-.551h-4.41v9.41zm20.8-2.67.551 5.09-.127-.763q.805-1.65 2.2-2.8 1.4-1.19 2.75-1.82 1.4-.636 2.12-.636l-.297 5.93q-2.08-.254-3.56.678t-2.29 2.46q-.805 1.53-.805 3.14v7.25h-5.89v-18.5zm9.75 9.03q0-2.84 1.31-5.09 1.36-2.25 3.77-3.52 2.42-1.31 5.55-1.31 3.18 0 5.51 1.31 2.33 1.27 3.56 3.52 1.27 2.25 1.27 5.09t-1.27 5.13q-1.23 2.25-3.56 3.56t-5.59 1.31q-3.05 0-5.47-1.19-2.37-1.19-3.73-3.43t-1.36-5.38zm5.98.042q0 1.44.593 2.63.593 1.14 1.61 1.82 1.02.678 2.29.678 1.4 0 2.42-.678t1.57-1.82q.551-1.19.551-2.63 0-1.48-.551-2.63t-1.57-1.82-2.42-.678q-1.27 0-2.29.678t-1.61 1.82-.593 2.63m27.2 9.96q-2.59 0-4.62-1.19-2.03-1.23-3.22-3.52-1.14-2.29-1.14-5.42t1.27-5.34 3.48-3.35 5-1.14q1.78 0 3.39.551 1.65.551 2.75 1.7v1.86-18.1h5.89v33.4h-5.93v-3.6l.466 1.27q-1.44 1.19-3.22 2.03-1.78.805-4.11.805zm1.95-5q1.19 0 2.08-.297.932-.339 1.61-.932.72-.636 1.23-1.57v-4.53q-.339-.932-1.06-1.57-.678-.678-1.7-1.02-.975-.38-2.16-.38-1.31 0-2.46.677-1.1.636-1.78 1.78-.678 1.14-.678 2.63t.678 2.67q.678 1.19 1.78 1.86 1.14.678 2.46.678zm22.9 5.38q-2.5 0-4.2-1.53-1.7-1.57-1.78-4.03v-13.9h5.93v11.7q.085 1.23.636 1.99.551.72 1.86.72t2.25-.89q.975-.89 1.48-2.42.551-1.57.551-3.52v-7.54h5.93v18.5h-5.38l-.466-3.39.085.381q-.636 1.14-1.61 2.03t-2.33 1.36q-1.31.51-2.97.51zm34.5-2.54q-1.23.975-3.09 1.57-1.82.593-3.6.593-3.18 0-5.55-1.14-2.33-1.19-3.64-3.35-1.27-2.2-1.27-5.3t1.4-5.26q1.4-2.2 3.64-3.35 2.29-1.14 4.79-1.14t4.32.678q1.86.678 3.18 1.78l-2.88 3.81q-.593-.466-1.65-.932-1.02-.509-2.42-.509-1.23 0-2.25.636t-1.61 1.74-.593 2.54q0 1.36.636 2.5t1.74 1.82q1.14.636 2.67.636.975 0 1.78-.254.848-.297 1.44-.805zm6.31-25h5.93v8.05h4.49v4.62h-4.49v14h-5.93v-14h-2.88v-4.62h2.88zm15 8.14h5.93v18.5h-5.93zm-.127-6.57q0-1.31 1.02-2.16 1.06-.848 2.25-.848t2.16.848q1.02.848 1.02 2.16 0 1.31-1.02 2.16-.975.805-2.16.805t-2.25-.805q-1.02-.848-1.02-2.16m10.7 15.6q0-2.84 1.31-5.09 1.36-2.25 3.77-3.52 2.42-1.31 5.55-1.31 3.18 0 5.51 1.31 2.33 1.27 3.56 3.52 1.27 2.25 1.27 5.09t-1.27 5.13q-1.23 2.25-3.56 3.56t-5.59 1.31q-3.05 0-5.47-1.19-2.37-1.19-3.73-3.43-1.36-2.25-1.36-5.38zm5.98.043q0 1.44.593 2.63.593 1.14 1.61 1.82 1.02.678 2.29.678 1.4 0 2.42-.678t1.57-1.82q.551-1.19.551-2.63 0-1.48-.551-2.63-.551-1.14-1.57-1.82t-2.42-.678q-1.27 0-2.29.678t-1.61 1.82q-.593 1.14-.593 2.63m25-9.07.466 3.31-.085-.297q.975-1.74 2.75-2.8 1.78-1.1 4.37-1.1 2.63 0 4.37 1.57 1.78 1.53 1.82 3.98v13.9h-5.93v-11.7q-.042-1.23-.678-1.95-.593-.763-2.03-.763-1.36 0-2.37.89-1.02.89-1.57 2.42t-.55 3.52v7.54h-5.93v-18.5z" aria-label="Production"/><path fill="#ffd885" d="m6.95 114 106-1.03.095 45.7-106 3.62z" style="paint-order:stroke fill markers" transform="translate(72.2 -113)scale(1.12)"/><path d="M104.68 22.52q3.091 0 5.51.806 2.42.762 4.032 2.24 1.658 1.434 2.51 3.495.85 2.016.85 4.57 0 2.015-.627 4.031-.582 2.016-1.971 3.674-1.344 1.658-3.584 2.688-2.24.986-5.555.986h-4.66v10.483H94.69V22.565zm1.12 16.24q1.478 0 2.464-.493t1.523-1.254q.583-.762.807-1.568.268-.851.268-1.568 0-.538-.179-1.344-.134-.851-.627-1.703t-1.523-1.433q-.986-.583-2.688-.583h-4.66v9.946zm6.093 4.032 8.153 12.768h-7.57l-8.334-12.544zm18.816 13.664q-2.643 0-4.435-1.613-1.792-1.657-1.882-4.256V35.915h6.272v12.32q.09 1.3.672 2.106.582.761 1.971.761t2.375-.94q1.03-.941 1.568-2.554.582-1.658.582-3.718v-7.975h6.272v19.6h-5.69l-.492-3.584.09.403q-.673 1.21-1.703 2.15t-2.464 1.434q-1.389.538-3.136.538m26.208-.538q-2.42 0-4.525-.85-2.06-.852-3.494-2.375l2.598-3.45q1.434 1.3 2.643 1.882 1.255.537 2.24.537.762 0 1.344-.134.627-.18.986-.493.358-.358.358-.896 0-.761-.627-1.21-.582-.447-1.523-.716-.941-.314-2.016-.627-2.688-.852-3.898-2.464-1.165-1.658-1.165-3.584 0-1.479.762-2.957.806-1.523 2.509-2.509 1.747-1.03 4.48-1.03 2.464 0 4.166.492t3.226 1.613l-2.375 3.674q-.85-.672-1.926-1.12-1.03-.493-1.926-.538-.807-.045-1.39.18-.537.223-.85.582t-.314.761q-.045.852.627 1.344.717.493 1.792.762t2.106.627q1.433.448 2.464 1.21t1.568 1.837q.582 1.03.582 2.508 0 1.792-.94 3.405-.897 1.568-2.778 2.554-1.837.985-4.704.985m15.456-28.56h6.272v8.512h4.749v4.884h-4.75v14.784h-6.271V40.754h-3.047V35.87h3.047z" aria-label="Rust"/><path fill="#ffd885" d="m135 72.6 39.7-1.93.729 34.6-37.7 1.02z" style="paint-order:stroke fill markers"/><path d="M148 85.9h4.14v12.9H148zm-.089-4.58q0-.917.71-1.51.74-.592 1.57-.592t1.51.592q.71.592.71 1.51 0 .917-.71 1.51-.68.562-1.51.562t-1.57-.562q-.71-.592-.71-1.51m12.2 4.58.325 2.31-.059-.207q.68-1.21 1.92-1.95 1.24-.769 3.05-.769 1.83 0 3.05 1.09 1.24 1.06 1.27 2.78v9.67h-4.14v-8.13q-.03-.858-.473-1.36-.414-.532-1.42-.532-.946 0-1.66.621-.71.621-1.09 1.69-.384 1.06-.384 2.45v5.26h-4.14v-12.9z" aria-label="in"/><path fill="#ffd885" d="m50.6 172 183-6.5-2.19 49.4-178 3.46z"/><path fill="#ee3756" d="M76.6 179q3.86 0 6.53 1.31 2.67 1.27 4.07 3.64 1.4 2.33 1.4 5.55 0 1.91-.593 3.86-.551 1.91-1.82 3.48-1.23 1.57-3.35 2.54-2.08.932-5.13.932h-4.41v9.87h-6.15v-31.2zm1.06 15.3q1.4 0 2.33-.466.932-.509 1.44-1.23.551-.763.763-1.57.254-.805.254-1.4 0-.466-.17-1.23-.127-.805-.593-1.61t-1.44-1.36q-.932-.551-2.54-.551h-4.41v9.41zm14 6.36q0-2.84 1.31-5.09 1.36-2.25 3.77-3.52 2.42-1.31 5.55-1.31 3.18 0 5.51 1.31 2.33 1.27 3.56 3.52 1.27 2.25 1.27 5.09t-1.27 5.13q-1.23 2.25-3.56 3.56t-5.59 1.31q-3.05 0-5.47-1.19-2.37-1.19-3.73-3.43t-1.36-5.38zm5.98.042q0 1.44.593 2.63.593 1.14 1.61 1.82 1.02.678 2.29.678 1.4 0 2.42-.678t1.57-1.82q.551-1.19.551-2.63 0-1.48-.551-2.63-.551-1.14-1.57-1.82-1.02-.678-2.42-.678-1.27 0-2.29.678t-1.61 1.82q-.593 1.14-.593 2.63m27.2 9.96q-2.59 0-4.62-1.19-2.03-1.23-3.22-3.52-1.14-2.29-1.14-5.42t1.27-5.34q1.27-2.2 3.48-3.35 2.2-1.14 5-1.14 1.78 0 3.39.551 1.65.551 2.75 1.7v1.86-18.1h5.89v33.4h-5.93v-3.6l.466 1.27q-1.44 1.19-3.22 2.03-1.78.805-4.11.805zm1.95-5q1.19 0 2.08-.297.932-.339 1.61-.932.72-.636 1.23-1.57v-4.53q-.339-.932-1.06-1.57-.678-.678-1.7-1.02-.975-.38-2.16-.38-1.31 0-2.46.677-1.1.636-1.78 1.78-.678 1.14-.678 2.63 0 1.48.678 2.67t1.78 1.86q1.14.678 2.46.678zm32.7 2.84q-1.23.975-3.09 1.57-1.82.593-3.6.593-3.18 0-5.55-1.14-2.33-1.19-3.64-3.35-1.27-2.2-1.27-5.3t1.4-5.26q1.4-2.2 3.64-3.35 2.29-1.14 4.79-1.14t4.32.678q1.86.678 3.18 1.78l-2.88 3.81q-.593-.466-1.65-.932-1.02-.509-2.42-.509-1.23 0-2.25.636t-1.61 1.74q-.593 1.1-.593 2.54 0 1.36.636 2.5t1.74 1.82q1.14.636 2.67.636.975 0 1.78-.254.848-.297 1.44-.805zm12.4 2.16q-2.59 0-4.7-1.02-2.08-1.06-3.31-3.22t-1.23-5.51q0-3.14 1.27-5.42t3.35-3.52q2.08-1.27 4.41-1.27 2.75 0 4.15.932 1.44.89 2.37 1.99l-.254.72.551-2.71h5.51v18.5h-5.93v-4.03l.466 1.27q-.085 0-.509.51-.424.465-1.27 1.14-.805.635-2.03 1.1-1.19.508-2.84.508zm1.7-4.83q1.06 0 1.91-.297.848-.339 1.48-.932.636-.636 1.1-1.57v-4.53q-.339-.932-1.02-1.57-.678-.678-1.61-1.02-.932-.38-2.08-.38-1.27 0-2.37.677-1.06.636-1.7 1.78-.636 1.14-.636 2.63 0 1.48.678 2.67t1.78 1.86q1.14.678 2.46.678zm22.5 4.7q-2.29 0-4.28-.805-1.95-.805-3.31-2.25l2.46-3.26q1.36 1.23 2.5 1.78 1.19.51 2.12.51.72 0 1.27-.128.593-.17.932-.466.339-.339.339-.848 0-.72-.593-1.14-.551-.424-1.44-.678-.89-.297-1.91-.593-2.54-.805-3.69-2.33-1.1-1.57-1.1-3.39 0-1.4.72-2.8.763-1.44 2.37-2.37 1.65-.975 4.24-.975 2.33 0 3.94.466t3.05 1.53l-2.25 3.48q-.805-.636-1.82-1.06-.975-.466-1.82-.509-.763-.042-1.31.17-.509.212-.805.551t-.297.72q-.042.805.593 1.27.678.466 1.7.72 1.02.254 1.99.593 1.36.424 2.33 1.14.975.72 1.48 1.74.551.975.551 2.37 0 1.7-.89 3.22-.848 1.48-2.63 2.42-1.74.932-4.45.932zm14.7-27h5.93v8.05h4.49v4.62h-4.49v14h-5.93v-14h-2.88v-4.62h2.88z" aria-label="Podcast"/></svg>
+  </div>
+  <img class="hero-img" src="/podcast/hero.svg" />
+</div>
+<article class="section-wrapper">
+  <div><h1 id="rust-in-production-the-podcast">Rust in Production – The Podcast</h1>
+<p>Rust is known for its exceptional safety and speed, but the <strong>real-world
+stories</strong> of companies using it in production often <strong>remain untold</strong>.</p>
+<p><em>Rust in Production</em> brings those stories to light.
+We show how these companies use Rust to solve some of the most complex technical problems in the world.</p>
+<p>Stories of companies who bet big on Rust. <strong>Every other Thursday at 4 pm UTC.</strong></p>
+</div>
+
+  <div class="season-header">
+    <ul>
+      <li>Subscribe on</li>
+      <li>
+        <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+          ><img
+            class="invert"
+            src="/podcast/rss.svg"
+            alt="RSS"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+          ><img
+            class="invert"
+            src="/podcast/apple.svg"
+            alt="Apple Podcasts"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
+          ><img
+            class="invert"
+            src="/podcast/spotify.svg"
+            alt="Spotify"
+            width="30"
+            height="30"
+          />
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+          ><img
+            class="invert"
+            src="/podcast/youtube.svg"
+            alt="YouTube"
+            width="40"
+            height="40"
+          />
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  
+    <h3>Season 05</h3>
+    <ol class="podcast-list">
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e08-radar&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e08-radar&#x2F;/logo.svg"
+                                alt="Radar Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Radar
+                                
+                                    <span class="podcast-guest">with Jeff Kao</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2026-01-08</span>
+                                <code>S05 E08</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e07-holiday&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e07-holiday&#x2F;/logo.svg"
+                                alt="2025 Holiday Special Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                2025 Holiday Special
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-12-25</span>
+                                <code>S05 E07</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e06-rust4linux&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e06-rust4linux&#x2F;/logo.svg"
+                                alt="Rust for Linux Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Rust for Linux
+                                
+                                    <span class="podcast-guest">with Danilo Krummrich</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-12-11</span>
+                                <code>S05 E06</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e05-canonical&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e05-canonical&#x2F;/logo.svg"
+                                alt="Canonical Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Canonical
+                                
+                                    <span class="podcast-guest">with Jon Seager</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-11-27</span>
+                                <code>S05 E05</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e04-roc&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e04-roc&#x2F;/logo.svg"
+                                alt="Roc Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Roc
+                                
+                                    <span class="podcast-guest">with Richard Feldman</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-11-13</span>
+                                <code>S05 E04</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e03-cloudflare&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e03-cloudflare&#x2F;/logo.svg"
+                                alt="Cloudflare Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Cloudflare
+                                
+                                    <span class="podcast-guest">with Edward Wang &amp; Kevin Guthrie</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-10-30</span>
+                                <code>S05 E03</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e02-scythe&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e02-scythe&#x2F;/logo.svg"
+                                alt="Scythe Robotics Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Scythe Robotics
+                                
+                                    <span class="podcast-guest">with Andrew Tinka</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-10-16</span>
+                                <code>S05 E02</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e01-prime-video&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s05e01-prime-video&#x2F;/logo.svg"
+                                alt="Prime Video Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Prime Video
+                                
+                                    <span class="podcast-guest">with Alexandru Ene</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-10-02</span>
+                                <code>S05 E01</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+    </ol>
+  
+    <h3>Season 04</h3>
+    <ol class="podcast-list">
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e08-season-finale&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e08-season-finale&#x2F;/logo.svg"
+                                alt="Season 4 - Finale Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Season 4 - Finale
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-07-24</span>
+                                <code>S04 E08</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e07-ksat&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e07-ksat&#x2F;/logo.svg"
+                                alt="KSAT Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                KSAT
+                                
+                                    <span class="podcast-guest">with Vegard Sandengen</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-07-10</span>
+                                <code>S04 E07</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e06-1password&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e06-1password&#x2F;/logo.svg"
+                                alt="1Password Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                1Password
+                                
+                                    <span class="podcast-guest">with Andrew Burkhart</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-06-26</span>
+                                <code>S04 E06</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e05-tembo&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e05-tembo&#x2F;/logo.svg"
+                                alt="Tembo Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Tembo
+                                
+                                    <span class="podcast-guest">with Adam Hendel</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-06-12</span>
+                                <code>S04 E05</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e04-rust&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e04-rust&#x2F;/logo.svg"
+                                alt="Rust Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Rust
+                                
+                                    <span class="podcast-guest">with Niko Matsakis</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-05-29</span>
+                                <code>S04 E04</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e03-astral&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e03-astral&#x2F;/logo.svg"
+                                alt="Astral Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Astral
+                                
+                                    <span class="podcast-guest">with Charlie Marsh</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-05-15</span>
+                                <code>S04 E03</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e02-svix&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e02-svix&#x2F;/logo.svg"
+                                alt="Svix Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Svix
+                                
+                                    <span class="podcast-guest">with Tom Hacohen</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-05-01</span>
+                                <code>S04 E02</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e01-microsoft&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s04e01-microsoft&#x2F;/logo.svg"
+                                alt="Microsoft Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Microsoft
+                                
+                                    <span class="podcast-guest">with Victor Ciura</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-04-17</span>
+                                <code>S04 E01</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+    </ol>
+  
+    <h3>Season 03</h3>
+    <ol class="podcast-list">
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e09-season-finale&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e09-season-finale&#x2F;/logo.svg"
+                                alt="Season 3 - Finale Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Season 3 - Finale
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-02-06</span>
+                                <code>S03 E09</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e08-volvo&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e08-volvo&#x2F;/logo.svg"
+                                alt="Volvo Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Volvo
+                                
+                                    <span class="podcast-guest">with Julius Gustavsson</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-01-23</span>
+                                <code>S03 E08</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e07-brave&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e07-brave&#x2F;/logo.svg"
+                                alt="Brave Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Brave
+                                
+                                    <span class="podcast-guest">with Anton Lazarev</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2025-01-09</span>
+                                <code>S03 E07</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e06-holiday&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e06-holiday&#x2F;/logo.svg"
+                                alt="2024 Holiday Special Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                2024 Holiday Special
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-12-26</span>
+                                <code>S03 E06</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e05-zoo&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e05-zoo&#x2F;/logo.svg"
+                                alt="Zoo Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Zoo
+                                
+                                    <span class="podcast-guest">with Jessie Frazelle</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-12-12</span>
+                                <code>S03 E05</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e04-gitbutler&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e04-gitbutler&#x2F;/logo.svg"
+                                alt="GitButler Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                GitButler
+                                
+                                    <span class="podcast-guest">with Scott Chacon and Kiril Videlov</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-11-28</span>
+                                <code>S03 E04</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e03-oxide&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e03-oxide&#x2F;/logo.svg"
+                                alt="Oxide Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Oxide
+                                
+                                    <span class="podcast-guest">with Steve Klabnik</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-11-14</span>
+                                <code>S03 E03</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e02-infinyon&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e02-infinyon&#x2F;/logo.svg"
+                                alt="InfinyOn Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                InfinyOn
+                                
+                                    <span class="podcast-guest">with Deb Roy Chowdhury</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-10-31</span>
+                                <code>S03 E02</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e01-zed&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s03e01-zed&#x2F;/logo.svg"
+                                alt="Zed Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Zed
+                                
+                                    <span class="podcast-guest">with Conrad Irwin</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-10-17</span>
+                                <code>S03 E01</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+    </ol>
+  
+    <h3>Season 02</h3>
+    <ol class="podcast-list">
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e08-season-finale&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e08-season-finale&#x2F;/logo.svg"
+                                alt="Season 2 - Finale Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Season 2 - Finale
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-08-08</span>
+                                <code>S02 E08</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e07-system76&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e07-system76&#x2F;/logo.svg"
+                                alt="System76 Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                System76
+                                
+                                    <span class="podcast-guest">with Jeremy Soller</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-07-25</span>
+                                <code>S02 E07</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e06-fusion-engineering&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e06-fusion-engineering&#x2F;/logo.svg"
+                                alt="Fusion Engineering Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Fusion Engineering
+                                
+                                    <span class="podcast-guest">with Jakub Valtar</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-07-11</span>
+                                <code>S02 E06</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e05-oxidos&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e05-oxidos&#x2F;/logo.svg"
+                                alt="OxidOS Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                OxidOS
+                                
+                                    <span class="podcast-guest">with Alexandru Radovici</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-06-27</span>
+                                <code>S02 E05</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e04-matic&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e04-matic&#x2F;/logo.svg"
+                                alt="Matic Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Matic
+                                
+                                    <span class="podcast-guest">with Eric Seppanen</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-06-13</span>
+                                <code>S02 E04</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e03-thunderbird&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e03-thunderbird&#x2F;/logo.svg"
+                                alt="Thunderbird Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Thunderbird
+                                
+                                    <span class="podcast-guest">with Brendan Abolivier</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-05-30</span>
+                                <code>S02 E03</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e02-amp&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e02-amp&#x2F;/logo.svg"
+                                alt="AMP Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                AMP
+                                
+                                    <span class="podcast-guest">with Carter Schultz</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-05-16</span>
+                                <code>S02 E02</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e01-curl&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s02e01-curl&#x2F;/logo.svg"
+                                alt="curl Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                curl
+                                
+                                    <span class="podcast-guest">with Daniel Stenberg</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-05-02</span>
+                                <code>S02 E01</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+    </ol>
+  
+    <h3>Season 01</h3>
+    <ol class="podcast-list">
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e07-season-finale&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e07-season-finale&#x2F;/logo.svg"
+                                alt="Season 1 - Finale Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Season 1 - Finale
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-03-07</span>
+                                <code>S01 E07</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e06-sentry&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e06-sentry&#x2F;/logo.svg"
+                                alt="Sentry Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Sentry
+                                
+                                    <span class="podcast-guest">with Arpad Borsos</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-02-22</span>
+                                <code>S01 E06</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e05-tweede-golf&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e05-tweede-golf&#x2F;/logo.svg"
+                                alt="Tweede Golf Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Tweede Golf
+                                
+                                    <span class="podcast-guest">with Folkert de Vries</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-02-08</span>
+                                <code>S01 E05</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e04-arroyo&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e04-arroyo&#x2F;/logo.svg"
+                                alt="Arroyo Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Arroyo
+                                
+                                    <span class="podcast-guest">with Micah Wylde</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-01-25</span>
+                                <code>S01 E04</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e03-apollo&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e03-apollo&#x2F;/logo.svg"
+                                alt="Apollo Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Apollo
+                                
+                                    <span class="podcast-guest">with Nicolas Moutschen</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2024-01-11</span>
+                                <code>S01 E03</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e02-pubnub&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e02-pubnub&#x2F;/logo.svg"
+                                alt="PubNub Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                PubNub
+                                
+                                    <span class="podcast-guest">with Stephen Blum</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2023-12-28</span>
+                                <code>S01 E02</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e01-influxdata&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e01-influxdata&#x2F;/logo.svg"
+                                alt="InfluxData Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                InfluxData
+                                
+                                    <span class="podcast-guest">with Paul Dix</span>
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2023-12-14</span>
+                                <code>S01 E01</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e00-teaser&#x2F;" class="podcast-link">
+                    <div class="card-item">
+                        <div class="card-logo-wrapper">
+                            <img
+                                class="card-img invert"
+                                src="https:&#x2F;&#x2F;corrode.dev&#x2F;podcast&#x2F;s01e00-teaser&#x2F;/logo.svg"
+                                alt="Teaser Logo"
+                            />
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">
+                                Teaser
+                                
+                            </div>
+                            <div class="card-meta">
+                                <span>2023-12-11</span>
+                                <code>S01 E00</code>
+                            </div>
+                        </div>
+                        <div class="chevron"></div>
+                    </div>
+                </a>
+            </li>
+        
+    </ol>
+  
+
+  <p class="podcast-footer">
+    Podcast recordings are licensed under
+    <a href="https://creativecommons.org/licenses/by-nd/4.0">CC BY-ND 4.0</a>.
+  </p>
+  <div class="podcast-callout">
+  <h2>Subscribe to Rust In Production</h2>
+  <p>
+    Rust in Production is a bi-weekly podcast by corrode. New episodes are
+    released every other Thursday at 4pm UTC. You can subscribe to new episodes
+    on
+    <a
+      href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+      >Apple</a
+    >,
+    <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">Spotify</a>,
+    <a
+      href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+      >YouTube</a
+    >,
+    <a
+      href="https://podcasters.amazon.com/podcasts/acc3a064-4c50-42de-940e-61726d73514a"
+      >Amazon</a
+    >, through our
+    <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+      >RSS feed</a
+    >, or <a href="https://pod.link/aHR0cHM6Ly9sZXRzY2FzdC5mbS9wb2RjYXN0cy9ydXN0LWluLXByb2R1Y3Rpb24tODIyODE1MTIvZmVlZA">any other platform</a>.
+  </p>
+  <ul>
+    <li>
+      <a
+        href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
+        ><img
+          class="invert"
+          src="/podcast/apple.svg"
+          alt="Apple Podcasts"
+          width="30"
+          height="30"
+        />
+        <span>Apple Podcasts</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">
+        <img
+          class="invert"
+          src="/podcast/spotify.svg"
+          alt="Spotify"
+          width="30"
+          height="30"
+        />
+        <span>Spotify</span>
+      </a>
+    </li>
+    <li>
+      <a
+        href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
+        ><img
+          class="invert"
+          src="/podcast/youtube.svg"
+          alt="YouTube"
+          width="30"
+          height="30"
+        />
+        <span>YouTube</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed">
+        <img
+          class="invert"
+          src="/podcast/rss.svg"
+          alt="RSS"
+          width="30"
+          height="30"
+        />
+        <span>RSS</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+  <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Tips For Faster Rust Compile Times | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="Slow Rust Builds?
+Here are some tips to speed up your compile times.
+This list was originally released on my private blog, bu…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Tips For Faster Rust Compile Times | corrode Rust Consulting">
+    <meta property="og:description" content="Slow Rust Builds?
+Here are some tips to speed up your compile times.
+This list was originally released on my private blog, bu…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2024-01-12">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tips For Faster Rust Compile Times | corrode Rust Consulting">
+    <meta name="twitter:description" content="Slow Rust Builds?
+Here are some tips to speed up your compile times.
+This list was originally released on my private blog, bu…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/tips-for-faster-rust-compile-times/"
+      },
+      "headline": "Tips For Faster Rust Compile Times",
+      "description": "Slow Rust Builds?
+Here are some tips to speed up your compile times.
+This list was originally released on my private blog, bu…",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2024-01-12",
+      
+      "dateModified": "2025-09-11"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </h2>
+    <h1>Tips For Faster Rust Compile Times</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2025-09-11
+        
+      </span>
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p><strong>Slow Rust Builds?</strong></p>
+<p>Here are some tips to speed up your compile times.
+This list was originally released on my <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://endler.dev/">private blog</a>, but I decided to
+update it and move it here.</p>
+<p>All tips are roughly ordered by impact so you can start from the top and work your way down.</p>
+<h2>Table of Contents</h2>
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+<ul>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#general-tips">General Tips</a>
+<ul>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#update-the-rust-compiler-and-toolchain">Update The Rust Compiler And Toolchain</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#use-cargo-check-instead-of-cargo-build">Use cargo check Instead Of cargo build</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#remove-unused-dependencies">Remove Unused Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#update-dependencies">Update Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#find-the-slow-crate-in-your-codebase">Find the slow crate in your codebase</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#profile-compile-times">Profile Compile Times</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#replace-heavy-dependencies">Replace Heavy Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#split-big-crates-into-smaller-ones-using-workspaces">Split Big Crates Into Smaller Ones Using Workspaces</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#disable-unused-features-of-crate-dependencies">Disable Unused Features Of Crate Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#add-features-for-expensive-code">Add Features For Expensive Code</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#find-the-root-cause-for-rebuilds">Find The Root Cause For Rebuilds</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#cache-dependencies-with-sccache">Cache Dependencies With sccache</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#cranelift-the-alternative-rust-compiler">Cranelift: The Alternative Rust Compiler</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#switch-to-a-faster-linker">Switch To A Faster Linker</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#macos-only-faster-incremental-debug-builds">macOS Only: Faster Incremental Debug Builds</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#macos-only-exclude-rust-compilations-from-gatekeeper">macOS Only: Exclude Rust Compilations From Gatekeeper</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#windows-only-set-up-dev-drive-for-rust">Windows Only: Set Up Dev Drive For Rust</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#tweak-codegen-options-and-compiler-flags">Tweak Codegen Options And Compiler Flags</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#avoid-procedural-macro-crates">Avoid Procedural Macro Crates</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#find-expensive-proc-macros">Find Expensive Proc Macros</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#conditional-compilation-for-procedural-macros">Conditional Compilation for Procedural Macros</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#generics-use-an-inner-non-generic-function">Generics: Use an Inner Non-Generic Function</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#improve-workspace-build-times-with-cargo-hakari">Improve Workspace Build Times with cargo-hakari</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#speeding-up-incremental-rust-compilation-with-dylibs">Speeding up incremental Rust compilation with dylibs</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#switch-to-the-new-parallel-compiler-frontend">Switch To The New Parallel Compiler Frontend</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#use-a-scratch-disk-for-faster-builds">Use A Scratch Disk For Faster Builds</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#invest-in-better-hardware">Invest In Better Hardware</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#compile-in-the-cloud">Compile in the Cloud</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#cache-all-crates-locally">Cache All Crates Locally</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#test-execution">Test Execution</a>
+<ul>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#use-cargo-nextest-instead-of-cargo-test">Use Cargo Nextest Instead of <code>cargo test</code></a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#combine-all-integration-tests-into-a-single-binary">Combine All Integration Tests Into A Single Binary</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#put-slow-tests-behind-an-environment-variable">Put slow tests behind an environment variable</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#ci-builds">CI Builds</a>
+<ul>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#use-a-cache-for-your-dependencies">Use A Cache For Your Dependencies</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#split-up-compile-and-test-steps">Split Up Compile And Test Steps</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#disable-incremental-compilation-in-ci">Disable Incremental Compilation In CI</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#turn-off-debuginfo">Turn Off Debuginfo</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#deny-warnings-through-an-environment-variable">Deny Warnings Through An Environment Variable</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#switch-to-a-faster-github-actions-runner">Switch To A Faster Github Actions Runner</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#faster-docker-builds">Faster Docker Builds</a>
+<ul>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#use-cargo-chef-to-speed-up-docker-builds">Use <code>cargo-chef</code> To Speed Up Docker Builds</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#consider-earthly-for-better-build-caching">Consider Earthly For Better Build Caching</a></li>
+</ul>
+</li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#ide-specific-optimizations">IDE Specific Optimizations</a>
+<ul>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#slow-debug-sessions-in-visual-studio-code">Slow Debug Sessions In Visual Studio Code</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#close-unrelated-projects">Close Unrelated Projects</a></li>
+<li><a href="https://corrode.dev/blog/tips-for-faster-rust-compile-times/#fix-rust-analyzer-cache-invalidation">Fix Rust Analyzer Cache Invalidation</a></li>
+</ul>
+</li>
+</ul>
+</details>
+<h2 id="general-tips"><a class="zola-anchor" href="#general-tips" aria-label="Anchor link for: general-tips">General Tips</a></h2>
+<h3 id="update-the-rust-compiler-and-toolchain"><a class="zola-anchor" href="#update-the-rust-compiler-and-toolchain" aria-label="Anchor link for: update-the-rust-compiler-and-toolchain">Update The Rust Compiler And Toolchain</a></h3>
+<p>Make sure you use the latest Rust version:</p>
+<pre class="z-code"><code><span class="z-text z-plain">rustup update
+</span></code></pre>
+<p>Making the Rust compiler faster is an <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.mozilla.org/nnethercote/2020/04/24/how-to-speed-up-the-rust-compiler-in-2020/">ongoing process</a>.
+Thanks to their hard work, compiler speed has improved <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/cezxjn/compiler_speed_has_improved_3040_across_the_board/">30-40% across the board
+year-to-date, with some projects seeing up to 45%+ improvements</a>. It pays off to keep your toolchain up-to-date.</p>
+<h3 id="use-cargo-check-instead-of-cargo-build"><a class="zola-anchor" href="#use-cargo-check-instead-of-cargo-build" aria-label="Anchor link for: use-cargo-check-instead-of-cargo-build">Use cargo check Instead Of cargo build</a></h3>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Slow 🐢</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> build</span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Fast 🐇 (2x-3x speedup)</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> check</span>
+</span></code></pre>
+<p>Most of the time, you don’t even have to <em>compile</em> your project at all; you just
+want to know if you messed up somewhere. Whenever you can, <strong>skip compilation
+altogether</strong>. What you need instead is laser-fast code linting, type- and
+borrow-checking.</p>
+<p>Use <code>cargo check</code> instead of <code>cargo build</code> whenever possible.
+It will only check your code for errors, but not produce an executable binary.</p>
+<p>Consider the differences in the number of instructions between <code>cargo check</code> on
+the left and <code>cargo debug</code> in the middle. (Pay attention to the different
+scales.)</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/cargo-check.png" alt="Speedup factors: check 1, debug 5, opt 20" /></p>
+<p>A sweet trick I use is to run it in the background with <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/passcod/cargo-watch"><code>cargo watch</code></a>. This way, it will <code>cargo check</code>
+whenever you change a file.</p>
+<p><strong>Bonus</strong>: Use <code>cargo watch -c</code> to clear the screen before every run.</p>
+<h3 id="remove-unused-dependencies"><a class="zola-anchor" href="#remove-unused-dependencies" aria-label="Anchor link for: remove-unused-dependencies">Remove Unused Dependencies</a></h3>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Install cargo-machete 🔪️</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-machete</span> <span class="z-keyword z-operator z-logical z-and z-shell">&amp;&amp;</span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> machete</span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Install cargo-shear ✂️🐑</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-shear</span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Install cargo-udeps 🧼🧹️</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-udeps<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>locked</span></span>
+</span></code></pre>
+<p>Dependencies sometimes become obsolete after refactoring. From time to time
+it helps to check if you can remove any unused dependencies.</p>
+<p>The above tools will list all unused dependencies in your project.
+Each tool has its limitations, producing both false positives and false negatives. Using all three tools together provides the best results.</p>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">Analyzing</span></span><span class="z-meta z-function-call z-arguments z-shell"> dependencies of crates in this directory...</span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo-machete</span></span><span class="z-meta z-function-call z-arguments z-shell"> found the following unused dependencies in <span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;</span>project<span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span>:</span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">crate1</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;</span>project<span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span>/Cargo.toml:</span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">clap</span></span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">crate2</span></span><span class="z-meta z-function-call z-arguments z-shell"><span class="z-keyword z-operator z-end-of-options z-shell"> --</span></span><span class="z-meta z-function-call z-arguments z-shell"> <span class="z-keyword z-operator z-assignment z-redirection z-shell">&lt;</span>project<span class="z-keyword z-operator z-assignment z-redirection z-shell">&gt;</span>/crate2/Cargo.toml:</span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">anyhow</span></span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">async-once-cell</span></span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">dirs</span></span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">log</span></span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">tracing</span></span>
+</span><span class="z-source z-shell z-bash">        <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">url</span></span>
+</span></code></pre>
+<p>More info on the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/bnjbvr/cargo-machete">cargo-machete</a>, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/Boshen/cargo-shear">cargo-shear</a>, and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/est31/cargo-udeps">cargo-udeps</a> project pages.</p>
+<p>Thanks for mentioning <code>cargo-shear</code> and <code>cargo-udeps</code> to reader <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/">Nicholas Nethercote</a> who is the author of the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/perf-book/">Rust Performance Book</a> and the famous <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/2025/05/22/how-to-speed-up-the-rust-compiler-in-may-2025.html">How to speed up the Rust compiler series</a>.</p>
+<h3 id="update-dependencies"><a class="zola-anchor" href="#update-dependencies" aria-label="Anchor link for: update-dependencies">Update Dependencies</a></h3>
+<ol>
+<li>Run <code>cargo update</code> to update to the latest <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://semver.org/">semver</a>
+compatible version.</li>
+<li>Run <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/kbknapp/cargo-outdated"><code>cargo outdated -wR</code></a> to find newer, possibly incompatible dependencies.
+Update those and fix code as needed.</li>
+<li>Run <code>cargo tree --duplicate</code> to find dependencies which come in multiple versions.
+Aim to consolidate to a single version by updating dependencies that rely on older versions.
+(Thanks to /u/dbdr for <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/hdb5m4/tips_for_faster_rust_compile_times/fvm1r2w/">pointing this out</a>.)</li>
+</ol>
+<p>(Instructions by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/gi7v2v/is_it_wrong_of_me_to_think_that_rust_crates_have/fqe848y">/u/oherrala on Reddit</a>.)</p>
+<p>On top of that, use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/RustSec/cargo-audit"><code>cargo audit</code></a> to
+get notified about any vulnerabilities which need to be addressed, or deprecated
+crates which need a replacement.</p>
+<h3 id="find-the-slow-crate-in-your-codebase"><a class="zola-anchor" href="#find-the-slow-crate-in-your-codebase" aria-label="Anchor link for: find-the-slow-crate-in-your-codebase">Find the slow crate in your codebase</a></h3>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> build<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>timings</span></span>
+</span></code></pre>
+<p>This gives information about how long each crate takes to compile.</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/cargo-concurrency-over-time.png" alt="Diagram of cargo build –timings" /></p>
+<p>The red line in this diagram shows the number of units (crates) that are
+currently waiting to be compiled (and are blocked by another crate).
+If there are a large number of crates bottlenecked on a single crate, focus your
+attention on improving that one crate to improve parallelism.</p>
+<p>The meaning of the colors:</p>
+<ul>
+<li><em>Waiting</em> (red) — Crates waiting for a CPU slot to open.</li>
+<li><em>Inactive</em> (blue) — Crates that are waiting for their dependencies to finish.</li>
+<li><em>Active</em> (green) — Crates currently being compiled.</li>
+</ul>
+<p>More info <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/reference/timings.html">in the documentation</a>.</p>
+<h3 id="profile-compile-times"><a class="zola-anchor" href="#profile-compile-times" aria-label="Anchor link for: profile-compile-times">Profile Compile Times</a></h3>
+<p>If you like to dig deeper than <code>cargo --timings</code>, Rust compilation can be profiled with <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/inside-rust/2020/02/25/intro-rustc-self-profile.html#profiling-the-compiler"><code>cargo rustc -- -Zself-profile</code></a>.
+The resulting trace file can be visualized with a flamegraph or the Chromium
+profiler:</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/chrome_profiler.png" alt="Image of Chrome profiler with all crates" /></p>
+<p>Another golden one is
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/dtolnay/cargo-llvm-lines"><code>cargo-llvm-lines</code></a>, which shows
+the number of lines generated and the number of copies of each generic function in the
+final binary. This can help you identify which functions are the most expensive
+to compile.</p>
+<pre class="z-code"><code><span class="z-text z-plain">$ cargo llvm-lines | head -20
+</span><span class="z-text z-plain">
+</span><span class="z-text z-plain">  Lines        Copies         Function name
+</span><span class="z-text z-plain">  -----        ------         -------------
+</span><span class="z-text z-plain">  30737 (100%)   1107 (100%)  (TOTAL)
+</span><span class="z-text z-plain">   1395 (4.5%)     83 (7.5%)  core::ptr::drop_in_place
+</span><span class="z-text z-plain">    760 (2.5%)      2 (0.2%)  alloc::slice::merge_sort
+</span><span class="z-text z-plain">    734 (2.4%)      2 (0.2%)  alloc::raw_vec::RawVec&lt;T,A&gt;::reserve_internal
+</span><span class="z-text z-plain">    666 (2.2%)      1 (0.1%)  cargo_llvm_lines::count_lines
+</span><span class="z-text z-plain">    490 (1.6%)      1 (0.1%)  &lt;std::process::Command as cargo_llvm_lines::PipeTo&gt;::pipe_to
+</span><span class="z-text z-plain">    476 (1.5%)      6 (0.5%)  core::result::Result&lt;T,E&gt;::map
+</span><span class="z-text z-plain">    440 (1.4%)      1 (0.1%)  cargo_llvm_lines::read_llvm_ir
+</span><span class="z-text z-plain">    422 (1.4%)      2 (0.2%)  alloc::slice::merge
+</span><span class="z-text z-plain">    399 (1.3%)      4 (0.4%)  alloc::vec::Vec&lt;T&gt;::extend_desugared
+</span><span class="z-text z-plain">    388 (1.3%)      2 (0.2%)  alloc::slice::insert_head
+</span><span class="z-text z-plain">    366 (1.2%)      5 (0.5%)  core::option::Option&lt;T&gt;::map
+</span><span class="z-text z-plain">    304 (1.0%)      6 (0.5%)  alloc::alloc::box_free
+</span><span class="z-text z-plain">    296 (1.0%)      4 (0.4%)  core::result::Result&lt;T,E&gt;::map_err
+</span><span class="z-text z-plain">    295 (1.0%)      1 (0.1%)  cargo_llvm_lines::wrap_args
+</span><span class="z-text z-plain">    291 (0.9%)      1 (0.1%)  core::char::methods::&lt;impl char&gt;::encode_utf8
+</span><span class="z-text z-plain">    286 (0.9%)      1 (0.1%)  cargo_llvm_lines::run_cargo_rustc
+</span><span class="z-text z-plain">    284 (0.9%)      4 (0.4%)  core::option::Option&lt;T&gt;::ok_or_else
+</span></code></pre>
+<h3 id="replace-heavy-dependencies"><a class="zola-anchor" href="#replace-heavy-dependencies" aria-label="Anchor link for: replace-heavy-dependencies">Replace Heavy Dependencies</a></h3>
+<p>From time to time, it helps to shop around for more lightweight alternatives to
+popular crates.</p>
+<p>Again, <code>cargo tree</code> is your friend here to help you understand which of your
+dependencies are quite <em>heavy</em>: they require many other crates, cause
+excessive network I/O and slow down your build. Then search for lighter
+alternatives.</p>
+<p>Also, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/RazrFalcon/cargo-bloat"><code>cargo-bloat</code></a> has a <code>--time</code>
+flag that shows you the per-crate build time. Very handy!</p>
+<p>Here are a few examples:</p>
+<table><thead><tr><th style="text-align: left">Crate</th><th style="text-align: left">Alternative</th></tr></thead><tbody>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/bnjbvr/cargo-machete">serde</a></td><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/dtolnay/miniserde">miniserde</a>, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/not-fl3/nanoserde">nanoserde</a></td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/seanmonstar/reqwest">reqwest</a></td><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/algesten/ureq">ureq</a></td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/clap-rs/clap">clap</a></td><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/blyxxyz/lexopt">lexopt</a></td></tr>
+</tbody></table>
+<p>Here’s an example where switching crates reduced compile times <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.kodewerx.org/2020/06/the-rust-compiler-isnt-slow-we-are.html">from 2:22min to
+26
+seconds</a>.</p>
+<h3 id="split-big-crates-into-smaller-ones-using-workspaces"><a class="zola-anchor" href="#split-big-crates-into-smaller-ones-using-workspaces" aria-label="Anchor link for: split-big-crates-into-smaller-ones-using-workspaces">Split Big Crates Into Smaller Ones Using Workspaces</a></h3>
+<p>Cargo has that neat feature called <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html">workspaces</a>, which allow you to split one
+big crate into multiple smaller ones. This code-splitting is great for avoiding
+repetitive compilation because only crates with changes have to be recompiled.
+Bigger projects like
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/servo/servo/blob/master/Cargo.toml">servo</a> and
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/timberio/vector/blob/1629f7f82e459ae87f699e931ca2b89b9080cfde/Cargo.toml#L28-L34">vector</a>
+make heavy use of workspaces to reduce compile times.</p>
+<h3 id="disable-unused-features-of-crate-dependencies"><a class="zola-anchor" href="#disable-unused-features-of-crate-dependencies" aria-label="Anchor link for: disable-unused-features-of-crate-dependencies">Disable Unused Features Of Crate Dependencies</a></h3>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/ToBinio/cargo-features-manager"><code>cargo-features-manager</code></a> is a relatively new tool that helps you to disable unused features of your dependencies.</p>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-features-manager</span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> features prune</span>
+</span></code></pre>
+<p>From time to time, check the feature flags of your dependencies. A lot of
+library maintainers take the effort to split their crate into separate features
+that can be toggled off on demand. Maybe you don’t need all the default
+functionality from every crate?</p>
+<p>For example, <code>tokio</code> has <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/tokio-rs/tokio/blob/2bc6bc14a82dc4c8d447521005e044028ae199fe/tokio/Cargo.toml#L26-L91">a ton of
+features</a>
+that you can disable if not needed.</p>
+<p>Another example is <code>bindgen</code>, which enables <code>clap</code> support by default for its
+binary usage. This isn’t needed for library usage, which is the common use-case.
+Disabling that feature <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-rocksdb/rust-rocksdb/pull/491">improved compile time of rust-rocksdb by ~13s and ~9s
+for debug and release builds
+respectively</a>. Thanks to
+reader <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/lilianmoraru">Lilian Anatolie Moraru</a> for mentioning
+this.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-warning"></span>
+    
+    <h4><p>Fair Warning</p>
+</h4>
+  </div>
+  
+  <p>It seems that switching off features doesn’t always improve
+compile time. (See <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/tikv/tikv/pull/4453#issuecomment-481789292">tikv’s experiences
+here</a>.)
+It may still be a good idea for improving security by reducing the code’s attack surface.
+Furthermore, disabling features can help slim down the dependency tree.</p>
+
+</div>
+<p>You get a list of features of a crate when installing it with <code>cargo add</code>.</p>
+<p>If you want to look up the feature flags of a crate, they are listed on
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/">docs.rs</a>. E.g. check out <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/crate/tokio/latest/features">tokio’s feature
+flags</a>.</p>
+<p>After you removed unused features, check the diff of your <code>Cargo.lock</code> file to
+see all the unnecessary dependencies that got cleaned up.</p>
+<h3 id="add-features-for-expensive-code"><a class="zola-anchor" href="#add-features-for-expensive-code" aria-label="Anchor link for: add-features-for-expensive-code">Add Features For Expensive Code</a></h3>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">features</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> Basic feature for default functionality</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">default</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span><span class="z-source z-toml">
+</span><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> Optional feature for JSON support</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">json</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>serde_json<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span><span class="z-source z-toml">
+</span><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> Another optional feature for more expensive or complex code</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">complex_feature</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>some-expensive-crate<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span></code></pre>
+<p>Not all the code in your project is equally expensive to compile. You can use
+Cargo features to split up your code into smaller chunks on a more granular
+level than crates. This way, you can compile only the functionality you need.</p>
+<p>This is a common practice for libraries. For example, <code>serde</code> has a feature
+called <code>derive</code> that enables code generation for serialization and
+deserialization. It’s not always needed, so it’s disabled by default.
+Similarly, <code>Tokio</code> and <code>reqwest</code> have a lot of features that can be enabled or
+disabled.</p>
+<p>You can do the same in your code. In the above example, the <code>json</code> feature
+in your <code>Cargo.toml</code> enables JSON support while the <code>complex_feature</code> feature
+enables another expensive code path.</p>
+<h3 id="find-the-root-cause-for-rebuilds"><a class="zola-anchor" href="#find-the-root-cause-for-rebuilds" aria-label="Anchor link for: find-the-root-cause-for-rebuilds">Find The Root Cause For Rebuilds</a></h3>
+<p>Sometimes many crates rebuild even when no code has changed, often due to environment variable differences between build processes (like your Makefile builds vs rust-analyzer vs CI builds).</p>
+<p>Use cargo’s fingerprint logging to identify exactly why rebuilds are triggered:</p>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">CARGO_LOG</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>cargo::core::compiler::fingerprint=info<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span></span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-storage z-modifier z-shell">export</span> <span class="z-variable z-other z-readwrite z-assignment z-shell">RUST_LOG</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell">trace</span></span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> build<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> -</span>vv</span></span>
+</span></code></pre>
+<p>Look for lines showing what caused the rebuild.
+For example:</p>
+<pre class="z-code"><code><span class="z-text z-plain">INFO prepare_target: cargo::core::compiler::fingerprint: dirty: EnvVarChanged { name: &quot;VIRTUAL_ENV&quot;, old_value: None, new_value: Some(&quot;/path/to/.venv&quot;) }
+</span><span class="z-text z-plain">
+</span><span class="z-text z-plain">Dirty pyo3-build-config v0.24.1: the env variable VIRTUAL_ENV changed
+</span></code></pre>
+<p>See that “Dirty” line? It tells you exactly what caused the rebuild.
+You can grep for that line to find all rebuild causes.</p>
+<p>Common culprits include:</p>
+<ul>
+<li>Environment variables (CC, CXX, VIRTUAL_ENV, PATH changes)</li>
+<li>Feature flag mismatches between different build tools</li>
+<li>Different cargo profiles being used</li>
+<li>Timestamp differences in generated files</li>
+</ul>
+<p>Once you identify the cause, ensure consistency across all your build processes. For rust-analyzer in VS Code, you can configure matching environment variables in <code>.vscode/settings.json</code>:</p>
+<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-json">  </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>rust-analyzer.check.extraEnv<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>CC<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>clang<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>CXX<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>clang++<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span> 
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>VIRTUAL_ENV<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>/path/to/your/.venv<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
+</span></span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-meta z-mapping z-value z-json">  <span class="z-punctuation z-section z-mapping z-end z-json">}</span></span><span class="z-punctuation z-separator z-mapping z-pair z-json">,</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json">  </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>rust-analyzer.cargo.features<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>all<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></code></pre>
+<p>This debugging approach can dramatically reduce unnecessary rebuilds when different tools use inconsistent environments.</p>
+<p>Credit: This technique was mentioned in <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/twitu/twitu/blob/54a8915eac80562a15824988bac629583e6befd1/fixing-frequent-full-rust-builds-with-cargo-fingerprints.md">this write-up</a> by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/twitu">Ishan Bhanuka</a>.</p>
+<h3 id="cache-dependencies-with-sccache"><a class="zola-anchor" href="#cache-dependencies-with-sccache" aria-label="Anchor link for: cache-dependencies-with-sccache">Cache Dependencies With sccache</a></h3>
+<p>Another neat project is <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/mozilla/sccache">sccache</a> by
+Mozilla, which caches compiled crates to avoid repeated compilation.</p>
+<p>I had this running on my laptop for a while, but the benefit was rather
+negligible, to be honest. It works best if you work on a lot of independent
+projects that share dependencies (in the same version). A common use-case is
+shared build servers.</p>
+<h3 id="cranelift-the-alternative-rust-compiler"><a class="zola-anchor" href="#cranelift-the-alternative-rust-compiler" aria-label="Anchor link for: cranelift-the-alternative-rust-compiler">Cranelift: The Alternative Rust Compiler</a></h3>
+<p>Did you know that the Rust project is using an alternative
+compiler that runs in parallel with <code>rustc</code> for every CI build?</p>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rustc_codegen_cranelift/">rustc_codegen_cranelift</a>,
+also called <code>CG_CLIF</code>, is an experimental backend for the Rust compiler that
+is based on the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://cranelift.dev/">Cranelift</a> compiler framework.</p>
+<p>Here is a comparison between <code>rustc</code> and Cranelift for some popular crates (blue
+means better):</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/cranelift.png" alt="LLVM compile time comparison between rustc and cranelift in favor of cranelift" /></p>
+<p>The compiler creates fully working executable binaries. They won’t be optimized
+as much, but they are great for local development.</p>
+<p>A more detailed write-up is on <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://jason-williams.co.uk/a-possible-new-backend-for-rust">Jason Williams’
+page</a>, and the
+project code is <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/bjorn3/rustc_codegen_cranelift">on Github</a>.</p>
+<h3 id="switch-to-a-faster-linker"><a class="zola-anchor" href="#switch-to-a-faster-linker" aria-label="Anchor link for: switch-to-a-faster-linker">Switch To A Faster Linker</a></h3>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>What is a linker?</p>
+</h4>
+  </div>
+  
+  <p>A <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://en.wikipedia.org/wiki/Linker_(computing)">linker</a> is a tool that
+combines multiple object files into a single executable.<br />
+It’s the last step in the compilation process.</p>
+
+</div>
+<p>You can check if your linker is a bottleneck by running:</p>
+<pre class="z-code"><code><span class="z-text z-plain">cargo clean
+</span><span class="z-text z-plain">cargo +nightly rustc --bin &lt;your_binary_name&gt; -- -Z time-passes
+</span></code></pre>
+<p>It will output the timings of each step, including link time:</p>
+<pre class="z-code"><code><span class="z-text z-plain">...
+</span><span class="z-text z-plain">time:   0.000   llvm_dump_timing_file
+</span><span class="z-text z-plain">time:   0.001   serialize_work_products
+</span><span class="z-text z-plain">time:   0.002   incr_comp_finalize_session_directory
+</span><span class="z-text z-plain">time:   0.004   link_binary_check_files_are_writeable
+</span><span class="z-text z-plain">time:   0.614   run_linker
+</span><span class="z-text z-plain">time:   0.000   link_binary_remove_temps
+</span><span class="z-text z-plain">time:   0.620   link_binary
+</span><span class="z-text z-plain">time:   0.622   link_crate
+</span><span class="z-text z-plain">time:   0.757   link
+</span><span class="z-text z-plain">time:   3.836   total
+</span><span class="z-text z-plain">    Finished dev [unoptimized + debuginfo] target(s) in 42.75s
+</span></code></pre>
+<p>If the <code>link</code> step is slow, you can try to switch to a faster alternative:</p>
+<table><thead><tr><th style="text-align: left">Linker</th><th style="text-align: left">Platform</th><th style="text-align: left">Production Ready</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://lld.llvm.org/"><code>lld</code></a></td><td style="text-align: left">Linux/macOS</td><td style="text-align: left">Yes</td><td style="text-align: left">Drop-in replacement for system linkers</td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rui314/mold"><code>mold</code></a></td><td style="text-align: left">Linux</td><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://news.ycombinator.com/item?id=29568454">Yes</a></td><td style="text-align: left">Optimized for Linux</td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/michaeleisel/zld"><code>zld</code></a></td><td style="text-align: left">macOS</td><td style="text-align: left">No (deprecated)</td><td style="text-align: left">Drop-in replacement for Apple’s <code>ld</code> linker</td></tr>
+</tbody></table>
+<h3 id="macos-only-faster-incremental-debug-builds"><a class="zola-anchor" href="#macos-only-faster-incremental-debug-builds" aria-label="Anchor link for: macos-only-faster-incremental-debug-builds">macOS Only: Faster Incremental Debug Builds</a></h3>
+<p>Rust 1.51 added a flag for faster incremental debug builds on
+macOS. It can make debug builds multiple seconds faster (depending on your use-case).
+Some engineers <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://jakedeichert.com/blog/reducing-rust-incremental-compilation-times-on-macos-by-70-percent/">report</a> that this flag alone reduces compilation times on macOS by <strong>70%</strong>.</p>
+<p>Add this to your <code>Cargo.toml</code>:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">profile</span><span class="z-punctuation z-separator z-table z-toml">.</span><span class="z-entity z-name z-table z-toml">dev</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">split-debuginfo</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>unpacked<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span></code></pre>
+<p>The flag might become the standard for macOS soon. It is already the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/cargo/pull/9298">default
+on nightly</a>.</p>
+<h3 id="macos-only-exclude-rust-compilations-from-gatekeeper"><a class="zola-anchor" href="#macos-only-exclude-rust-compilations-from-gatekeeper" aria-label="Anchor link for: macos-only-exclude-rust-compilations-from-gatekeeper">macOS Only: Exclude Rust Compilations From Gatekeeper</a></h3>
+<p><strong>Gatekeeper</strong> is a system on macOS, which runs security checks on binaries.
+This can cause Rust builds to be slower by a few seconds for each iteration.
+The solution is to add your terminal to the Developer Tools, which will cause processes run by it to be excluded from Gatekeeper.</p>
+<ol>
+<li>Run <code>sudo spctl developer-mode enable-terminal</code> in your terminal.</li>
+<li>Go to System Preferences, and then to Security &amp; Privacy.</li>
+<li>Under the Privacy tab, go to <code>Developer Tools</code>.</li>
+<li>Make sure your terminal is listed and enabled. If you’re using any third-party terminals like iTerm or Ghostty, add them to the list as well.</li>
+<li>Restart your terminal.</li>
+</ol>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/developer-tools.png" alt="Excluding the terminal from Gatekeeper inspectin in macOS Developer Tools" /></p>
+<p>Thanks to the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nexte.st/docs/installation/macos/">nextest</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://zed.dev/docs/development/macos#tips--tricks">Zed</a> developers for the tip.</p>
+<h3 id="windows-only-set-up-dev-drive-for-rust"><a class="zola-anchor" href="#windows-only-set-up-dev-drive-for-rust" aria-label="Anchor link for: windows-only-set-up-dev-drive-for-rust">Windows Only: Set Up Dev Drive For Rust</a></h3>
+<p>Windows 11 includes <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://learn.microsoft.com/en-us/windows/dev-drive/">Dev Drive</a>, a file system optimized for development.
+According to Microsoft, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://devblogs.microsoft.com/visualstudio/devdrive/">you can expect a speed boost of around 20-30%</a> by using Dev Drive:</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/DevDrivePerfChart.png" alt="Dev Drive Performance Chart" /></p>
+<p>To improve Rust compilation speed, move these to a Dev Drive:</p>
+<ul>
+<li>Rust toolchain folder (<code>CARGO_HOME</code>)</li>
+<li>Your project code</li>
+<li>Cargo’s <code>target</code> directory</li>
+</ul>
+<p>You can go one step further and <strong>add the above folders to your antivirus exclusions as well</strong>
+for another potential speedup.
+You can find exclusion settings in Windows Security under Virus &amp; threat protection settings.</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/windows-antivirus-exclusions.png" alt="Antivirus Exclusion Settings on Windows" /></p>
+<p>Thanks to the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nexte.st/docs/installation/windows/">nextest team</a> for the tip.</p>
+<h3 id="tweak-codegen-options-and-compiler-flags"><a class="zola-anchor" href="#tweak-codegen-options-and-compiler-flags" aria-label="Anchor link for: tweak-codegen-options-and-compiler-flags">Tweak Codegen Options And Compiler Flags</a></h3>
+<p>Rust comes with a huge set of <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/rustc/codegen-options">settings for code
+generation</a>. It can help to
+look through the list and tweak the parameters for your project.</p>
+<p>There are <strong>many</strong> gems in the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/rustc/codegen-options">full list of codegen
+options</a>. For inspiration,
+here’s <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/bevyengine/bevy/blob/3a2a68852c0a1298c0678a47adc59adebe259a6f/.cargo/config_fast_builds">bevy’s config for faster
+compilation</a>.</p>
+<h3 id="avoid-procedural-macro-crates"><a class="zola-anchor" href="#avoid-procedural-macro-crates" aria-label="Anchor link for: avoid-procedural-macro-crates">Avoid Procedural Macro Crates</a></h3>
+<p>If you heavily use procedural macros in your project (e.g., if you use serde),
+it might be worth it to play around with opt-levels in your <code>Cargo.toml</code>.</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">profile</span><span class="z-punctuation z-separator z-table z-toml">.</span><span class="z-entity z-name z-table z-toml">dev</span><span class="z-punctuation z-separator z-table z-toml">.</span><span class="z-entity z-name z-table z-toml">build-override</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">opt-level</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-numeric z-integer z-toml">3</span>
+</span></code></pre>
+<p>As reader <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/jfmontanaro">jfmontanaro</a> mentioned on
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/mre/endler.dev/issues/53">Github</a>:</p>
+<blockquote>
+<p>I think the reason it helps with build times is because it only applies to
+build scripts and proc-macros. Build scripts and proc-macros are unique because
+during a normal build, they are not only compiled but also executed (and in the
+case of proc-macros, they can be executed repeatedly). When your project uses a
+lot of proc-macros, optimizing the macros themselves can in theory save a lot of
+time.</p>
+</blockquote>
+<p>Another approach is to try and sidestep the macro impact on compile times with
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/dtolnay/watt">watt</a>, a tool that offloads macro compilation
+to Webassembly.</p>
+<p>From the docs:</p>
+<blockquote>
+<p>By compiling macros ahead-of-time to Wasm, we save all downstream users of the
+macro from having to compile the macro logic or its dependencies themselves.</p>
+<p>Instead, what they compile is a small self-contained Wasm runtime (~3 seconds,
+shared by all macros) and a tiny proc macro shim for each macro crate to hand
+off Wasm bytecode into the Watt runtime (~0.3 seconds per proc-macro crate you
+depend on). This is much less than the 20+ seconds it can take to compile
+complex procedural macros and their dependencies.</p>
+</blockquote>
+<p>Note that this crate is still experimental.</p>
+<h3 id="find-expensive-proc-macros"><a class="zola-anchor" href="#find-expensive-proc-macros" aria-label="Anchor link for: find-expensive-proc-macros">Find Expensive Proc Macros</a></h3>
+<pre data-lang="bash" class="language-bash z-code"><code class="language-bash" data-lang="bash"><span class="z-source z-shell z-bash"><span class="z-variable z-other z-readwrite z-assignment z-shell">RUSTFLAGS</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>-Zmacro-stats<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> +nightly build</span>
+</span></code></pre>
+<p>Some macros have a big compile-time cost; but exactly how big?
+It can help to quantify the costs to see if a macro is worth optimizing (or removing).
+One way is to understand exactly how much code they generate.</p>
+<p>One way is to use <code>cargo expand</code> to see the generated code, but that doesn’t scale to large codebases and the output is hard to quantify.</p>
+<p>The alternative is to use the <code>-Zmacro-stats</code> flag to identify proc macros that generate a lot of code.
+This tool has already led to successful optimizations in projects like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/bevyengine/bevy/issues/19873">Bevy</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/2025/08/16/speed-wins-when-fuzzing-rust-code-with-derive-arbitrary.html">Arbitrary</a>.</p>
+<p>For more information, read <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/2025/06/26/how-much-code-does-that-proc-macro-generate.html">Nicholas Nethercote’s blog post</a> on the topic.</p>
+<h3 id="conditional-compilation-for-procedural-macros"><a class="zola-anchor" href="#conditional-compilation-for-procedural-macros" aria-label="Anchor link for: conditional-compilation-for-procedural-macros">Conditional Compilation for Procedural Macros</a></h3>
+<p>Procedural macros need to parse Rust code, and that is a relatively complex
+task. Crates that depend on procedural macros will have to wait for the
+procedural macro to compile before they can compile. For example, <code>serde</code> can be
+a bottleneck in compilation times and can limit CPU utilization.</p>
+<p>To improve Rust compile times, consider a strategic approach to handling
+serialization with Serde, especially in projects with a shared crate structure.
+Instead of placing Serde directly in a shared crate used across different parts
+of the project, you can make Serde an optional dependency through Cargo
+features.</p>
+<p>Use the <code>cfg</code> or <code>cfg_attr</code> attributes to make Serde usage and <code>derive</code> in the
+shared crate feature-gated. This way, it becomes an optional dependency that is
+only enabled in leaf crates which actually perform
+serialization/deserialization.</p>
+<p>This approach prevents the entire project from waiting on the compilation of
+Serde dependencies, which would be the case if Serde were a non-optional, direct
+dependency of the shared crate.</p>
+<p>Let’s illustrate this with a simplified example. Imagine you have a Rust project
+with a shared library crate and a few other crates that depend on it. You don’t
+want to compile Serde unnecessarily when building parts of the project that
+don’t need it.</p>
+<p>Here’s how you can structure your project to use optional features in Cargo:</p>
+<p>In your <code>Cargo.toml</code> for the shared crate, declare serde as an optional dependency:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">package</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">name</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>shared<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">version</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>0.1.0<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">edition</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>2021<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span><span class="z-source z-toml">
+</span><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">dependencies</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">serde</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">version</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>1.0<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">optional</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-language z-toml">true</span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span>
+</span></code></pre>
+<p>In this crate, use conditional compilation to include serde only when the feature is enabled:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">cfg</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">feature <span class="z-keyword z-operator z-rust">=</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>serde<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-keyword z-other z-rust">use</span> <span class="z-meta z-path z-rust">serde<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>Serialize<span class="z-punctuation z-separator z-rust">,</span> Deserialize</span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">cfg_attr</span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust">feature <span class="z-keyword z-operator z-rust">=</span> <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>serde<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-meta z-function-call z-rust"><span class="z-variable z-function z-rust">derive</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span></span><span class="z-meta z-function-call z-rust">Serialize<span class="z-punctuation z-separator z-rust">,</span> Deserialize</span><span class="z-meta z-function-call z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span></span></span><span class="z-meta z-annotation z-parameters z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-struct z-rust">struct</span> </span><span class="z-meta z-struct z-rust"><span class="z-entity z-name z-struct z-rust">MySharedStruct</span> </span><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust">    <span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> Your struct fields
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-struct z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>In the other crates, enable the <code>serde</code> feature for the shared crate if needed:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">package</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">name</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>other<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">version</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>0.1.0<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">edition</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>2021<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span><span class="z-source z-toml">
+</span><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">dependencies</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">shared</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">path</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>../shared<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">features</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>serde<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span>
+</span></code></pre>
+<p>You can now use <code>MySharedStruct</code> with Serde’s functionality enabled
+without bloating the compilation of crates that don’t need it.</p>
+<h3 id="generics-use-an-inner-non-generic-function"><a class="zola-anchor" href="#generics-use-an-inner-non-generic-function" aria-label="Anchor link for: generics-use-an-inner-non-generic-function">Generics: Use an Inner Non-Generic Function</a></h3>
+<p>If you have a generic function, it will be compiled for every type you use it
+with. This can be a problem if you have a lot of different types.</p>
+<p>A common solution is to use an inner non-generic function. This way, the
+compiler will only compile the inner function once.</p>
+<p>This is a trick often used in the standard library. For example, here is the
+implementation of <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust/blob/ae612bedcbfc7098d1711eb35bc7ca994eb17a4c/library/std/src/fs.rs#L295-L304"><code>read_to_string</code></a>:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-modifier z-rust">pub</span> <span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">read_to_string</span></span><span class="z-meta z-generic z-rust"><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>P<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">AsRef</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span>Path<span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">path</span><span class="z-punctuation z-separator z-rust">:</span> P</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-path z-rust">io<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-support z-type z-rust">String</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">inner</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">path</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span>Path</span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-meta z-path z-rust">io<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Result</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-support z-type z-rust">String</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> file <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-meta z-path z-rust">File<span class="z-punctuation z-accessor z-rust">::</span></span>open<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>path</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> size <span class="z-keyword z-operator z-assignment z-rust">=</span> file<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">metadata</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">map</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">m</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust">m<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">len</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-rust">as</span> <span class="z-storage z-type z-rust">usize</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">ok</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-storage z-type z-rust">let</span> <span class="z-storage z-modifier z-rust">mut</span> string <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-type z-rust">String</span><span class="z-meta z-path z-rust"><span class="z-punctuation z-accessor z-rust">::</span></span>with_capacity<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>size<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">unwrap_or</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-constant z-numeric z-integer z-decimal z-rust">0</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-meta z-path z-rust">io<span class="z-punctuation z-accessor z-rust">::</span></span>default_read_to_string<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> file<span class="z-punctuation z-separator z-rust">,</span> <span class="z-keyword z-operator z-bitwise z-rust">&amp;</span><span class="z-storage z-modifier z-rust">mut</span> string<span class="z-punctuation z-separator z-rust">,</span> size</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-keyword z-operator z-rust">?</span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-support z-type z-rust">Ok</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>string</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    <span class="z-support z-function z-rust">inner</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>path<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">as_ref</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>You can do the same in your code: the outer function is generic, while
+it calls the inner non-generic function, which does the actual work.</p>
+<h3 id="improve-workspace-build-times-with-cargo-hakari"><a class="zola-anchor" href="#improve-workspace-build-times-with-cargo-hakari" aria-label="Anchor link for: improve-workspace-build-times-with-cargo-hakari">Improve Workspace Build Times with cargo-hakari</a></h3>
+<p>Do you have a large Rust workspace with dependencies that:</p>
+<ol>
+<li>Are used in multiple crates</li>
+<li>Have different feature sets across those crates?</li>
+</ol>
+<p>This situation can lead to long build times, as cargo will build each dependency multiple
+times with different features depending on which crate is being built. This is
+where <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html"><code>cargo-hakari</code></a> comes in.
+It’s a tool designed to automatically manage “workspace-hack” crates.</p>
+<p>In some scenarios, this can reduce consecutive build times by up to 50% or more.
+To learn more, check out the usage instructions and benchmarks in the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.rs/cargo-hakari/latest/cargo_hakari/about/index.html">official cargo-hakari documentation</a>.</p>
+<h3 id="speeding-up-incremental-rust-compilation-with-dylibs"><a class="zola-anchor" href="#speeding-up-incremental-rust-compilation-with-dylibs" aria-label="Anchor link for: speeding-up-incremental-rust-compilation-with-dylibs">Speeding up incremental Rust compilation with dylibs</a></h3>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Install the tool</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-add-dynamic</span>
+</span><span class="z-source z-shell z-bash">
+</span><span class="z-source z-shell z-bash"><span class="z-comment z-line z-number-sign z-shell"><span class="z-punctuation z-definition z-comment z-begin z-shell">#</span></span><span class="z-comment z-line z-number-sign z-shell"> Add a dynamic library to your project</span><span class="z-comment z-line z-number-sign z-shell">
+</span></span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> add-dynamic polars<span class="z-variable z-parameter z-option z-shell"><span class="z-punctuation z-definition z-parameter z-shell"> --</span>features</span> csv-file,lazy,list,describe,rows,fmt,strings,temporal</span>
+</span></code></pre>
+<p>This will create a wrapper-crate around <code>polars</code> that is compiled as a dynamic
+library (<code>.so</code> on Linux, <code>.dylib</code> on macOS, <code>.dll</code> on Windows).</p>
+<p>Essentially, it patches the dependency with</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">lib</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">crate-type</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>dylib<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span></code></pre>
+<p>With this trick, you can save yourself the linking time of a dependency
+when you only change your own code. The dependency itself will only be
+recompiled when you change the features or the version.
+Of course, this works for any crate, not just <code>polars</code>.</p>
+<p>Read more about this on <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://robert.kra.hn/posts/2022-09-09-speeding-up-incremental-rust-compilation-with-dylibs/">this blog post by Robert Krahn</a>
+and the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rksm/cargo-add-dynamic">tool’s homepage</a>.</p>
+<h3 id="switch-to-the-new-parallel-compiler-frontend"><a class="zola-anchor" href="#switch-to-the-new-parallel-compiler-frontend" aria-label="Anchor link for: switch-to-the-new-parallel-compiler-frontend">Switch To The New Parallel Compiler Frontend</a></h3>
+<p><strong>In nightly</strong>, you can now enable the new parallel compiler frontend.
+To try it out, run the nightly compiler with the <code>-Z threads=8</code> option:</p>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-variable z-other z-readwrite z-assignment z-shell">RUSTFLAGS</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>-Z threads=8<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span> <span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> +nightly build</span>
+</span></code></pre>
+<p>If you find that it works well for you, you can make it the default by adding
+<code>-Z threads=8</code> to your <code>~/.cargo/config.toml</code> file:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">build</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">rustflags</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>-Z<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-array z-toml">,</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>threads=8<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span></code></pre>
+<p>Alternatively, you can set an alias for <code>cargo</code>
+in your shell’s config file (e.g., <code>~/.bashrc</code> or <code>~/.zshrc</code>):</p>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-support z-function z-alias z-shell">alias</span> <span class="z-entity z-name z-function z-alias z-shell">cargo</span><span class="z-keyword z-operator z-assignment z-shell">=</span><span class="z-string z-unquoted z-shell"><span class="z-string z-quoted z-double z-shell"><span class="z-punctuation z-definition z-string z-begin z-shell">&quot;</span>RUSTFLAGS=&#39;-Z threads=8&#39; cargo +nightly<span class="z-punctuation z-definition z-string z-end z-shell">&quot;</span></span></span></span>
+</span></code></pre>
+<p>When the front-end is executed in a multi-threaded setting using <code>-Z threads=8</code>,
+benchmarks on actual code indicate that compilation times may decrease by as
+much as <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2023/11/09/parallel-rustc.html">50%</a>.
+However, the gains fluctuate depending on the code being compiled. It is
+certainly worth a try, though.</p>
+<p>Here is a visualization of the parallel compiler frontend in action:</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/samply-parallel.png" alt="Result of the parallel compiler" /></p>
+<p>Find out more on the official announcement <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://blog.rust-lang.org/2023/11/09/parallel-rustc.html">on the Rust
+blog</a>.</p>
+<h3 id="use-a-scratch-disk-for-faster-builds"><a class="zola-anchor" href="#use-a-scratch-disk-for-faster-builds" aria-label="Anchor link for: use-a-scratch-disk-for-faster-builds">Use A Scratch Disk For Faster Builds</a></h3>
+<p>Your filesystem might be the bottleneck. Consider using an in-memory filesystem
+like for your build directory.</p>
+<p>Traditional temporary filesystem like <code>tmpfs</code> is limited to your RAM plus swap space and can be problematic for builds creating large intermediate artifacts.</p>
+<p>Instead, on Linux, mount an <code>ext4</code> volume with the following options:</p>
+<pre class="z-code"><code><span class="z-text z-plain">-o noauto_da_alloc,data=writeback,lazytime,journal_async_commit,commit=999,nobarrier
+</span></code></pre>
+<p>This will store files in the page cache if you have enough RAM, with writebacks occurring later. Treat this as if it were a temporary filesystem, as data may be lost or corrupted after a crash or power loss.</p>
+<p>Credits go to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/1ddgatd/compile_rust_faster_some_tricks/l85gzy8/">/u/The_8472 on Reddit</a>.</p>
+<h3 id="invest-in-better-hardware"><a class="zola-anchor" href="#invest-in-better-hardware" aria-label="Anchor link for: invest-in-better-hardware">Invest In Better Hardware</a></h3>
+<p>If you reached this point, the easiest way to improve compile times even more is
+probably to spend money on top-of-the-line hardware.</p>
+<p>As for laptops, the <code>M-series</code> of Apple’s new Macbooks perform really well
+for Rust compilation.</p>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/rikarends/status/1328598935380910082"><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/tweet.png" alt="Rik Arends on Twitter" /></a></p>
+<p>The <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/">benchmarks</a> for a Macbook Pro with M1 Max are absolutely <em>ridiculous</em> — even in comparison to the already fast M1:</p>
+<table><thead><tr><th style="text-align: left">Project</th><th style="text-align: left">M1 Max</th><th style="text-align: left">M1 Air</th></tr></thead><tbody>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/denoland">Deno</a></td><td style="text-align: left">6m11s</td><td style="text-align: left">11m15s</td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/meilisearch/MeiliSearch">MeiliSearch</a></td><td style="text-align: left">1m28s</td><td style="text-align: left">3m36s</td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/sharkdp/bat">bat</a></td><td style="text-align: left">43s</td><td style="text-align: left">1m23s</td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/sharkdp/hyperfine">hyperfine</a></td><td style="text-align: left">23s</td><td style="text-align: left">42s</td></tr>
+<tr><td style="text-align: left"><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/BurntSushi/ripgrep">ripgrep</a></td><td style="text-align: left">16s</td><td style="text-align: left">37s</td></tr>
+</tbody></table>
+<p>That’s a solid 2x performance improvement.</p>
+<p>But if you rather like to stick to Linux, people also had great success with a multicore CPU like an <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/chqu4c/building_a_computer_for_fastest_possible_rust/">AMD Ryzen
+Threadripper and 32 GB of RAM</a>.</p>
+<p>On portable devices, compiling can drain your battery and be slow. To avoid
+that, I’m using my machine at home, a 6-core AMD FX 6300 with 12GB RAM, as a
+build machine. I can use it in combination with <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://code.visualstudio.com/docs/remote/remote-overview">Visual Studio Code Remote
+Development</a>.</p>
+<h3 id="compile-in-the-cloud"><a class="zola-anchor" href="#compile-in-the-cloud" aria-label="Anchor link for: compile-in-the-cloud">Compile in the Cloud</a></h3>
+<p>If you don’t have a dedicated machine yourself, you can offload the compilation
+process to the cloud instead.<br />
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://gitpod.io/">Gitpod.io</a> is superb for testing a cloud build as they
+provide you with a beefy machine (currently 16 core Intel Xeon 2.80GHz, 60GB
+RAM) for free during a limited period. Simply add <code>https://gitpod.io/#</code> in
+front of any Github URL.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://gitpod.io/#https://github.com/hello-rust/show/tree/master/episode/9">Here is an example</a> for one of my <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://corrode.dev/hello-rust/">Hello Rust</a> episodes.</p>
+<p>Gitpod has a neat feature called <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.gitpod.io/docs/prebuilds">prebuilds</a>. From their docs:</p>
+<blockquote>
+<p>Whenever your code changes (e.g. when new commits are pushed to your
+repository), Gitpod can prebuild workspaces.
+Then, when you do create a new workspace on a branch, or Pull/Merge Request,
+for which a prebuild exists, this workspace will load much faster, because <strong>all
+dependencies will have been already downloaded ahead of time, and your code
+will be already compiled</strong>.</p>
+</blockquote>
+<p>Especially when reviewing pull requests, this could give you a nice speedup.
+Prebuilds are quite customizable; take a look at the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/nushell/nushell/blob/d744cf8437614cc6b95a4bb22731269a17fe9c80/.gitpod.yml"><code>.gitpod.yml</code> config of
+nushell</a> to get an
+idea.</p>
+<h3 id="cache-all-crates-locally"><a class="zola-anchor" href="#cache-all-crates-locally" aria-label="Anchor link for: cache-all-crates-locally">Cache All Crates Locally</a></h3>
+<p>If you have a slow internet connection, a big part of the initial build
+process is fetching all those shiny crates from crates.io. To mitigate that,
+you can download <strong>all</strong> crates in advance to have them cached locally.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/the-lean-crate/criner">criner</a> does just that:</p>
+<pre class="z-code"><code><span class="z-text z-plain">git clone https://github.com/the-lean-crate/criner
+</span><span class="z-text z-plain">cd criner
+</span><span class="z-text z-plain">cargo run --release -- mine
+</span></code></pre>
+<p>The archive size is surprisingly reasonable, with roughly <strong>50GB of required disk
+space</strong> (as of today).</p>
+<h2 id="test-execution"><a class="zola-anchor" href="#test-execution" aria-label="Anchor link for: test-execution">Test Execution</a></h2>
+<h3 id="use-cargo-nextest-instead-of-cargo-test"><a class="zola-anchor" href="#use-cargo-nextest-instead-of-cargo-test" aria-label="Anchor link for: use-cargo-nextest-instead-of-cargo-test">Use Cargo Nextest Instead of <code>cargo test</code></a></h3>
+<pre data-lang="sh" class="language-sh z-code"><code class="language-sh" data-lang="sh"><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> install cargo-nextest</span>
+</span><span class="z-source z-shell z-bash"><span class="z-meta z-function-call z-shell"><span class="z-variable z-function z-shell">cargo</span></span><span class="z-meta z-function-call z-arguments z-shell"> nextest run</span>
+</span></code></pre>
+<p>It’s nice that <code>cargo</code> comes with its own little test runner, but especially if
+you have to build multiple test binaries, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nexte.st/"><code>cargo nextest</code></a>
+can be up to 60% faster than <code>cargo test</code> thanks to its parallel execution
+model.
+Here are some quick <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nexte.st/book/benchmarks.html">benchmarks</a>:</p>
+<table><thead><tr><th>Project</th><th>Revision</th><th style="text-align: right">Test count</th><th style="text-align: right">cargo test (s)</th><th style="text-align: right">nextest (s)</th><th style="text-align: right">Improvement</th></tr></thead><tbody>
+<tr><td>crucible</td><td><code>cb228c2b</code></td><td style="text-align: right">483</td><td style="text-align: right">5.14</td><td style="text-align: right">1.52</td><td style="text-align: right">3.38×</td></tr>
+<tr><td>guppy</td><td><code>2cc51b41</code></td><td style="text-align: right">271</td><td style="text-align: right">6.42</td><td style="text-align: right">2.80</td><td style="text-align: right">2.29×</td></tr>
+<tr><td>mdBook</td><td><code>0079184c</code></td><td style="text-align: right">199</td><td style="text-align: right">3.85</td><td style="text-align: right">1.66</td><td style="text-align: right">2.31×</td></tr>
+<tr><td>meilisearch</td><td><code>bfb1f927</code></td><td style="text-align: right">721</td><td style="text-align: right">57.04</td><td style="text-align: right">28.99</td><td style="text-align: right">1.96×</td></tr>
+<tr><td>omicron</td><td><code>e7949cd1</code></td><td style="text-align: right">619</td><td style="text-align: right">444.08</td><td style="text-align: right">202.50</td><td style="text-align: right">2.19×</td></tr>
+<tr><td>penumbra</td><td><code>4ecd94cc</code></td><td style="text-align: right">144</td><td style="text-align: right">125.38</td><td style="text-align: right">90.96</td><td style="text-align: right">1.37×</td></tr>
+<tr><td>reqwest</td><td><code>3459b894</code></td><td style="text-align: right">113</td><td style="text-align: right">5.57</td><td style="text-align: right">2.26</td><td style="text-align: right">2.48×</td></tr>
+<tr><td>ring</td><td><code>450ada28</code></td><td style="text-align: right">179</td><td style="text-align: right">13.12</td><td style="text-align: right">9.40</td><td style="text-align: right">1.39×</td></tr>
+<tr><td>tokio</td><td><code>1f50c571</code></td><td style="text-align: right">1138</td><td style="text-align: right">24.27</td><td style="text-align: right">11.60</td><td style="text-align: right">2.09×</td></tr>
+</tbody></table>
+<h3 id="combine-all-integration-tests-into-a-single-binary"><a class="zola-anchor" href="#combine-all-integration-tests-into-a-single-binary" aria-label="Anchor link for: combine-all-integration-tests-into-a-single-binary">Combine All Integration Tests Into A Single Binary</a></h3>
+<p>Have any <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/rust-by-example/testing/integration_testing.html">integration tests</a>? (These are the ones in your <code>tests</code>
+folder.)
+Did you know that the Rust compiler will create a binary for every single one of them?
+And every binary will have to be linked individually.
+This can take most of your build time because linking is slooow. 🐢
+The reason is that many system linkers (like <code>ld</code>) are <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://stackoverflow.com/questions/5142753/can-gcc-use-multiple-cores-when-linking">single
+threaded</a>.</p>
+<p>To make the linker’s job a little easier, you can put all your tests in one
+crate. (Basically create a <code>main.rs</code> in your test folder and add your
+test files as <code>mod</code> in there.)</p>
+<p>Then the linker will go ahead and build a single binary only. Sounds nice, but
+careful: it’s still a trade-off as you’ll need to expose your internal types and
+functions (i.e. make them <code>pub</code>).</p>
+<p>If you have a lot of integration tests, this can <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://azriel.im/will/2019/10/08/dev-time-optimization-part-1-1.9x-speedup-65-less-disk-usage/">result in a 50% speedup</a>.</p>
+<p><em>This tip was brought to you by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/algo_luca">Luca Palmieri</a>,
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/lucio_d_franco">Lucio Franco</a>, and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://twitter.com/im_azriel">Azriel
+Hoh</a>. Thanks!</em></p>
+<h3 id="put-slow-tests-behind-an-environment-variable"><a class="zola-anchor" href="#put-slow-tests-behind-an-environment-variable" aria-label="Anchor link for: put-slow-tests-behind-an-environment-variable">Put slow tests behind an environment variable</a></h3>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-annotation z-rust"><span class="z-punctuation z-definition z-annotation z-rust">#</span><span class="z-punctuation z-section z-group z-begin z-rust">[</span><span class="z-variable z-annotation z-rust">test</span><span class="z-punctuation z-section z-group z-end z-rust">]</span></span>
+</span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">completion_works_with_real_standard_library</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">  <span class="z-keyword z-control z-rust">if</span> <span class="z-meta z-path z-rust">std<span class="z-punctuation z-accessor z-rust">::</span></span><span class="z-meta z-path z-rust">env<span class="z-punctuation z-accessor z-rust">::</span></span>var<span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>RUN_SLOW_TESTS<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">is_err</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">    <span class="z-keyword z-control z-rust">return</span><span class="z-punctuation z-terminator z-rust">;</span>
+</span></span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-meta z-block z-rust">  </span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">  <span class="z-keyword z-operator z-range z-rust">...</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>If you have slow tests, you can put them behind an environment variable to
+disable them by default. This way, you can skip them locally and only run them
+on CI.</p>
+<p>(A nice trick I learned from <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://matklad.github.io/2021/05/31/how-to-test.html">matklad’s (Alex Kladov) post</a>.)</p>
+<h2 id="ci-builds"><a class="zola-anchor" href="#ci-builds" aria-label="Anchor link for: ci-builds">CI Builds</a></h2>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>Tips for CI Builds</p>
+</h4>
+  </div>
+  
+  <p>Many of the techniques in this article also apply to CI builds. For CI-specific optimizations and best practices, check out my dedicated guide on <a href="/blog/tips-for-faster-ci-builds/">Tips for Faster CI Builds</a>, which covers caching strategies, workflow optimization, and GitHub Actions-specific improvements.</p>
+
+</div>
+<h3 id="use-a-cache-for-your-dependencies"><a class="zola-anchor" href="#use-a-cache-for-your-dependencies" aria-label="Anchor link for: use-a-cache-for-your-dependencies">Use A Cache For Your Dependencies</a></h3>
+<p>For GitHub actions in particular you can also use <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/Swatinem/rust-cache">Swatinem/rust-cache</a>.</p>
+<p>It is as simple as adding a single step to your workflow:</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">jobs</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">test</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">runs-on</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">ubuntu-latest</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">steps</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">actions/checkout@v4</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">dtolnay/rust-toolchain@stable</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Swatinem/rust-cache@v2</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo test --all</span>
+</span></code></pre>
+<p>With that, your dependencies will be cached between builds, and you can expect
+a significant speedup.</p>
+<h3 id="split-up-compile-and-test-steps"><a class="zola-anchor" href="#split-up-compile-and-test-steps" aria-label="Anchor link for: split-up-compile-and-test-steps">Split Up Compile And Test Steps</a></h3>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Compile</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo test --no-run --locked</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml"><span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Test</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo test -- --nocapture --quiet</span>
+</span></code></pre>
+<p>This makes it easier to find out how much time is spent on compilation and how
+much on running the tests.</p>
+<h3 id="disable-incremental-compilation-in-ci"><a class="zola-anchor" href="#disable-incremental-compilation-in-ci" aria-label="Anchor link for: disable-incremental-compilation-in-ci">Disable Incremental Compilation In CI</a></h3>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">env</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">CARGO_INCREMENTAL</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-constant z-numeric z-integer z-decimal z-yaml">0</span>
+</span></code></pre>
+<p>Since CI builds are more akin to from-scratch builds, incremental compilation adds unnecessary dependency-tracking and IO overhead, reducing caching effectiveness.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-analyzer/rust-analyzer/blob/25368d24308d6a94ffe8b99f0122bcf5a2175322/.github/workflows/ci.yaml#L11">Here’s how to disable it.</a></p>
+<h3 id="turn-off-debuginfo"><a class="zola-anchor" href="#turn-off-debuginfo" aria-label="Anchor link for: turn-off-debuginfo">Turn Off Debuginfo</a></h3>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">profile</span><span class="z-punctuation z-separator z-table z-toml">.</span><span class="z-entity z-name z-table z-toml">dev</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">debug</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-numeric z-integer z-toml">0</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">strip</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>debuginfo<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span>
+</span></code></pre>
+<p>Avoid linking debug info to speed up your build process, especially if you rarely use an actual debugger. There are two ways to avoid linking debug information: set <code>debug=0</code> to skip compiling it, or set <code>strip="debuginfo"</code> to skip linking it. Unfortunately, changing these options can trigger a full rebuild with Cargo.</p>
+<ul>
+<li>On Linux, set both for improved build times.</li>
+<li>On Mac, use <code>debug=0</code> since rustc uses an external strip command.</li>
+<li>On Windows, test both settings to see which is faster.</li>
+</ul>
+<p>Note that without debug info, backtraces will only show function names, not line numbers. If needed, use <code>split-debuginfo="unpacked"</code> for a compromise.</p>
+<p>As a nice side-effect, this will also help shrink the size of <code>./target</code>, improving caching efficiency.</p>
+<p>Here is a
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-analyzer/rust-analyzer/blob/48f84a7b60bcbd7ec5fa6434d92d9e7a8eb9731b/Cargo.toml#L6-L10">sample config</a> for how to apply the settings.</p>
+<h3 id="deny-warnings-through-an-environment-variable"><a class="zola-anchor" href="#deny-warnings-through-an-environment-variable" aria-label="Anchor link for: deny-warnings-through-an-environment-variable">Deny Warnings Through An Environment Variable</a></h3>
+<p>Avoid using <code>#![deny(warnings)]</code> in your code to prevent repetitive declarations.
+Furthermore, it is fine to get warnings during local development.</p>
+<p>Instead, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-analyzer/rust-analyzer/blob/3dae94bf2b3e496adb049da589c7efef272a39b8/.github/workflows/ci.yaml#L15">add <code>-D warnings</code> to <code>RUSTFLAGS</code></a> to globally deny warnings in all crates on CI.</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">env</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">RUSTFLAGS</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">-D warnings</span>
+</span></code></pre>
+<h3 id="switch-to-a-faster-github-actions-runner"><a class="zola-anchor" href="#switch-to-a-faster-github-actions-runner" aria-label="Anchor link for: switch-to-a-faster-github-actions-runner">Switch To A Faster Github Actions Runner</a></h3>
+<pre data-lang="diff" class="language-diff z-code"><code class="language-diff" data-lang="diff"><span class="z-source z-diff"><span class="z-markup z-deleted z-diff"><span class="z-punctuation z-definition z-deleted z-diff">-</span> runs-on: ubuntu-latest
+</span></span><span class="z-source z-diff"><span class="z-markup z-inserted z-diff"><span class="z-punctuation z-definition z-inserted z-diff">+</span> runs-on: ubicloud
+</span></span></code></pre>
+<p>Services like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.ubicloud.com/use-cases/github-actions">Ubicloud</a>,
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://buildjet.com">BuildJet</a>, or
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/runs-on/runs-on">RunsOn</a> provide you with faster workers for
+your Github Actions builds. Especially for Rust pipelines, the number of cores
+can have a significant big impact on compile times, so it might be worth a try.</p>
+<p>Here is an example from the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/facebook/folly">Facebook Folly</a>
+project using Ubicloud. Granted, this is a C++ project, but it shows the
+potential of faster runners:</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-rust-compile-times/ubicloud-facebook-folly.svg" alt="facebook/folly build times" /></p>
+<p>After signing up with the service, you only need to change the runner
+in your Github Actions workflow file.</p>
+<h2 id="faster-docker-builds"><a class="zola-anchor" href="#faster-docker-builds" aria-label="Anchor link for: faster-docker-builds">Faster Docker Builds</a></h2>
+<h3 id="use-cargo-chef-to-speed-up-docker-builds"><a class="zola-anchor" href="#use-cargo-chef-to-speed-up-docker-builds" aria-label="Anchor link for: use-cargo-chef-to-speed-up-docker-builds">Use <code>cargo-chef</code> To Speed Up Docker Builds</a></h3>
+<p>Building Docker images from your Rust code?
+These can be notoriously slow, because cargo doesn’t support building only a
+project’s dependencies yet, invalidating the Docker cache with every build if you
+don’t pay attention.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.lpalmieri.com/posts/fast-rust-docker-builds/"><code>cargo-chef</code></a> to the
+rescue! ⚡</p>
+<blockquote>
+<p><code>cargo-chef</code> can be used to fully leverage Docker layer caching, therefore
+massively speeding up Docker builds for Rust projects. On our commercial
+codebase (~14k lines of code, ~500 dependencies) we measured a <strong>5x speed-up</strong>: we
+cut Docker build times from <strong>~10 minutes to ~2 minutes.</strong></p>
+</blockquote>
+<p>Here is an example <code>Dockerfile</code> if you’re interested:</p>
+<pre data-lang="Dockerfile" class="language-Dockerfile z-code"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Step 1: Compute a recipe file
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> rust <span class="z-keyword z-control z-dockerfile">as</span> <span class="z-variable z-stage-name">planner</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>app
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo install cargo-chef
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> . .
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo chef prepare --recipe-path recipe.json
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Step 2: Cache project dependencies
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> rust <span class="z-keyword z-control z-dockerfile">as</span> <span class="z-variable z-stage-name">cacher</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>app
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo install cargo-chef
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">planner</span> /app/recipe.json recipe.json
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo chef cook --release --recipe-path recipe.json
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Step 3: Build the binary
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> rust <span class="z-keyword z-control z-dockerfile">as</span> <span class="z-variable z-stage-name">builder</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>app
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> . .
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Copy over the cached dependencies from above
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">cacher</span> /app/target target
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">cacher</span> /usr/local/cargo /usr/local/cargo
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo build --release --bin app
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Step 4:
+</span></span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Create a tiny output image.
+</span></span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> It only contains our final binary.
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> rust <span class="z-keyword z-control z-dockerfile">as</span> <span class="z-variable z-stage-name">runtime</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>app
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">builder</span> /app/target/release/app /usr/local/bin
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-operator z-dockerfile">ENTRYPOINT </span>[<span class="z-string z-quoted z-double z-dockerfile"><span class="z-punctuation z-definition z-string z-begin z-dockerfile">&quot;</span>/usr/local/bin/app<span class="z-punctuation z-definition z-string z-end z-dockerfile">&quot;</span></span>]
+</span></code></pre>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/LukeMathWalker/cargo-chef"><code>cargo-chef</code></a> can help speed up
+your continuous integration with Github Actions or your deployment process to Google
+Cloud.</p>
+<h3 id="consider-earthly-for-better-build-caching"><a class="zola-anchor" href="#consider-earthly-for-better-build-caching" aria-label="Anchor link for: consider-earthly-for-better-build-caching">Consider Earthly For Better Build Caching</a></h3>
+<p>Earthly is a relatively new build tool that is designed to be a replacement for
+Makefiles, Dockerfiles, and other build tools. It provides fast, incremental
+Rust builds for CI.</p>
+<blockquote>
+<p>Earthly speeds up Rust builds in CI by effectively implementing Cargo’s
+caching and Rust’s incremental compilation. This approach significantly
+reduces unnecessary rebuilds in CI, mirroring the efficiency of local Rust
+builds.</p>
+<p>Source: <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://earthly.dev/rust">Earthly for Rust</a></p>
+</blockquote>
+<p>They use a system called Satellites, which are persistent remote build
+runners that retain cache data locally. This can drastically speed up CI build
+times by eliminating cache uploads and downloads. Instead of bringing the cache
+data to the compute, they colocate the cache data and compute, eliminating cache
+transfers altogether. Less I/O means faster builds.</p>
+<p>Earthly also provides a <code>lib/rust</code> library, which abstracts away cache
+configuration entirely. It ensures that Rust is caching correctly and building
+incrementally in CI. It can be used in your
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.earthly.dev/docs/earthfile"><code>Earthfile</code></a> like this:</p>
+<pre data-lang="Dockerfile" class="language-Dockerfile z-code"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="z-source z-dockerfile">IMPORT github.com/earthly/lib/rust
+</span></code></pre>
+<p>If you’re curious, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://earthly.dev/rust">Earthly’s Guide for Rust</a> details
+a simple Rust example with optimized caching and compilation steps.</p>
+<h2 id="ide-specific-optimizations"><a class="zola-anchor" href="#ide-specific-optimizations" aria-label="Anchor link for: ide-specific-optimizations">IDE-Specific Optimizations</a></h2>
+<p>If you find that build times in your development environment are slow, here are
+a few additional tips you can try.</p>
+<h3 id="slow-debug-sessions-in-visual-studio-code"><a class="zola-anchor" href="#slow-debug-sessions-in-visual-studio-code" aria-label="Anchor link for: slow-debug-sessions-in-visual-studio-code">Slow Debug Sessions In Visual Studio Code</a></h3>
+<p>If you’re using Visual Studio Code and find that <strong>debug sessions</strong> are slow,
+make sure you don’t have too many breakpoints set. <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/1ddktag/looking_for_some_help_where_it_takes_a_minute_to/">Each breakpoint can slow down the debug session</a>.</p>
+<h3 id="close-unrelated-projects"><a class="zola-anchor" href="#close-unrelated-projects" aria-label="Anchor link for: close-unrelated-projects">Close Unrelated Projects</a></h3>
+<p>In case you have multiple projects open in Visual Studio Code, <strong>each instance runs its
+own copy of rust-analyzer</strong>. This can slow down your machine. Close unrelated
+projects if they aren’t needed.</p>
+<h3 id="fix-rust-analyzer-cache-invalidation"><a class="zola-anchor" href="#fix-rust-analyzer-cache-invalidation" aria-label="Anchor link for: fix-rust-analyzer-cache-invalidation">Fix Rust Analyzer Cache Invalidation</a></h3>
+<p>If you’re using rust-analyzer in VS Code and find that you run into slow build times when saving your changes, it could be that the cache gets invalidated. This also results in dependencies like <code>serde</code> being rebuilt frequently.</p>
+<p>You can fix this by configuring a separate target directory for rust-analyzer. Add this to your VS Code settings (preferably user settings):</p>
+<pre data-lang="json" class="language-json z-code"><code class="language-json" data-lang="json"><span class="z-source z-json"><span class="z-meta z-mapping z-json"><span class="z-punctuation z-section z-mapping z-begin z-json">{</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-json">    </span><span class="z-meta z-mapping z-key z-json"><span class="z-string z-quoted z-double z-json"><span class="z-punctuation z-definition z-string z-begin z-json">&quot;</span>rust-analyzer.cargo.targetDir<span class="z-punctuation z-definition z-string z-end z-json">&quot;</span></span></span><span class="z-meta z-mapping z-json"><span class="z-punctuation z-separator z-mapping z-key-value z-json">:</span> </span><span class="z-meta z-mapping z-value z-json"><span class="z-constant z-language z-json">true</span>
+</span></span><span class="z-source z-json"><span class="z-meta z-mapping z-value z-json"><span class="z-punctuation z-section z-mapping z-end z-json">}</span></span>
+</span></code></pre>
+<p>This will make rust-analyzer build inside <code>target/rust-analyzer</code> instead of the default <code>target/</code> directory, preventing interference with your regular <code>cargo run</code> builds.</p>
+<p>Some users reported <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust-analyzer/issues/6007#issuecomment-2563288106">significant speedups</a> thanks to that:</p>
+<pre class="z-code"><code><span class="z-text z-plain">before: 34.98s user 2.02s system 122% cpu 30.176 total
+</span><span class="z-text z-plain">after:   2.62s user 0.60s system 84% cpu 3.803 total
+</span></code></pre>
+<p>This could also help with <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/rust-lang/rust-analyzer/issues/4616">rust analyzer blocking debug builds</a>.</p>
+<p>Credit: This tip was shared by <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/rust/comments/1if5wpm/high_hopes_for_rust_where_are_we/majhmhe/">asparck on Reddit</a>.</p>
+<h1 id="summary"><a class="zola-anchor" href="#summary" aria-label="Anchor link for: summary">Summary</a></h1>
+<p>In this article, we’ve covered a lot of ground. We’ve looked at how to speed up
+your Rust builds by using better hardware, optimizing your code, and using
+better tools.</p>
+<p>For CI-specific optimizations, don’t forget to check out <a href="/blog/tips-for-faster-ci-builds/">Tips for Faster CI Builds</a>, which complements the techniques discussed here.</p>
+<p>I hope that you were able to use some of these tips to speed up your Rust builds.
+In case you found other ways to speed up your Rust builds, or if you have any
+questions or feedback, I’d love to hear from you.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Get Professional Support</p>
+</h4>
+  </div>
+  
+  <p>If you need support for commercial Rust projects,
+I can also help you with performance problems and reducing your build times.
+<a href="/services">Get in touch.</a></p>
+
+</div>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a href="/blog/tips-for-faster-ci-builds/">Tips for faster CI builds</a> - My collection of tips to speed up your CI builds.</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://nnethercote.github.io/perf-book/compile-times.html">The Rust Perf Book</a> has a section on compile times.</p>
+</li>
+        
+        <li><p>List of <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://readrust.net/performance">articles on performance on Read Rust</a>.</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://medium.com/@jondot/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e">8 Solutions for Troubleshooting Your Rust Build Times</a> is a great article by Dotan Nahum that I fully agree with.</p>
+</li>
+        
+        <li><p>Improving the build times of a bigger Rust project (lemmy) <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://lemmy.ml/post/50089">by 30%</a>.</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="http://web.archive.org/web/20210510182416/https://arewefastyet.rs/">arewefastyet</a> (offline) measures how long the Rust compiler takes to compile common Rust programs.</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://davidlattimore.github.io/posts/2024/02/04/speeding-up-the-rust-edit-build-run-cycle.html">Speeding up the Rust edit-build-run cycle </a>: A benchmark-driven approach to improving Rust compile times.</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;&title=Tips For Faster Rust Compile Times"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;&t=Tips For Faster Rust Compile Times"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2024-01-12">
+            Published: 2024-01-12
+        </time>
+    </div><div class="updated">
+        <time datetime="2025-09-11">
+            Last updated: 2025-09-11
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;tips-for-faster-rust-compile-times&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+        
+                <a href="https:&#x2F;&#x2F;nnethercote.github.io&#x2F;" target="_blank" rel="noopener noreferrer">Nicholas Nethercote</a>
+                    and
+                <a href="https:&#x2F;&#x2F;github.com&#x2F;twitu" target="_blank" rel="noopener noreferrer">Ishan Bhanuka</a>
+    </div>
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

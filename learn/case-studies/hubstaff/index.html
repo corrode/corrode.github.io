@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Hubstaff - From Rails to Rust | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="It’s 2019, and Hubstaff’s engineering team is sketching out plans for their new webhook system.
+The new system needs to handle millions of events a…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Hubstaff - From Rails to Rust | corrode Rust Consulting">
+    <meta property="og:description" content="It’s 2019, and Hubstaff’s engineering team is sketching out plans for their new webhook system.
+The new system needs to handle millions of events a…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2025-01-27">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hubstaff - From Rails to Rust | corrode Rust Consulting">
+    <meta name="twitter:description" content="It’s 2019, and Hubstaff’s engineering team is sketching out plans for their new webhook system.
+The new system needs to handle millions of events a…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/learn/case-studies/hubstaff/"
+      },
+      "headline": "Hubstaff - From Rails to Rust",
+      "description": "It’s 2019, and Hubstaff’s engineering team is sketching out plans for their new webhook system.
+The new system needs to handle millions of events a…",
+      
+      "image": "https://corrode.dev/hubstaff.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2025-01-27",
+      
+      "dateModified": "2025-01-27"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/learn">Company Case Studies</a>
+    </h2>
+    <h1>Hubstaff - From Rails to Rust</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Published: 2025-01-27
+        
+      </span>
+    </div>
+    
+    <div class="article-hero">
+      <img
+        
+        src="hubstaff.png" alt="Hubstaff - From Rails to Rust" />
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>It’s 2019, and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://hubstaff.com/">Hubstaff</a>’s engineering team is sketching out plans for their new webhook system.
+The new system needs to handle millions of events and work reliably at scale.
+The safe choice would be to stick with their trusty Ruby on Rails stack – after all, it had served them well so far.
+But that’s not the path they chose.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>About Hubstaff</p>
+</h4>
+  </div>
+  
+  <p>Hubstaff helps distributed teams track time and manage their workforce. With 500,000+ active users across 112,000+ businesses, they needed their systems to scale reliably. As a remote-first company with 120 team members, they understand the importance of robust, efficient software.</p>
+
+</div>
+<h2 id="why-hubstaff-chose-rust-when-rails-was-working-fine"><a class="zola-anchor" href="#why-hubstaff-chose-rust-when-rails-was-working-fine" aria-label="Anchor link for: why-hubstaff-chose-rust-when-rails-was-working-fine">Why Hubstaff Chose Rust When Rails Was Working Fine</a></h2>
+<p>When I sat down with Alex, Hubstaff’s CTO, he painted a vivid picture of that moment. “Our entire application stack was powered by Ruby and JavaScript,” he told me. “It worked, but we knew we needed something different for this new challenge.”</p>
+<p>The team stood at a crossroads. Go, with its simplicity and familiar patterns, felt like as a safe harbor.
+But there was another path – one less traveled at the time:</p>
+<blockquote>
+<p>“We chose to proceed with Rust,” Alex recalled. “Not just because it was efficient, but because it would push us to <strong>think in fundamentally different ways</strong>.”</p>
+</blockquote>
+<figure>
+  <img src="alex.jpg" alt="Alex Yarotsky, CTO at Hubstaff">
+  <figcaption>Alex Yarotsky, CTO at Hubstaff</figcaption>
+</figure>
+<h2 id="a-webhook-system-that-scaled-10x"><a class="zola-anchor" href="#a-webhook-system-that-scaled-10x" aria-label="Anchor link for: a-webhook-system-that-scaled-10x">A Webhook System That Scaled 10x</a></h2>
+<p>Fast-forward to today.</p>
+<p>The webhook system is processing ten times the initial load without breaking a sweat.
+Of course, the team had to make adjustments along the way, not to their Rust code, but to their SQL queries.</p>
+<blockquote>
+<p>“Since its launch, we’ve had to optimize SQL queries multiple times to keep up with demand,” Alex shared, “but we’ve never faced any issues with the app’s memory or CPU consumption. Not once.”</p>
+</blockquote>
+<p>Over time, more and more microservices got ported to Rust.</p>
+<figure>
+  <img src="screenshot.png" alt="Hubstaff's Webhook System">
+  <figcaption>A screenshot of Hubstaff's Webhook System</figcaption>
+</figure>
+<h2 id="when-to-use-rust-and-when-to-stick-with-rails"><a class="zola-anchor" href="#when-to-use-rust-and-when-to-stick-with-rails" aria-label="Anchor link for: when-to-use-rust-and-when-to-stick-with-rails">When to Use Rust And When to Stick With Rails</a></h2>
+<p>Instead of going all-in on Rust, Hubstaff found wisdom in balance.</p>
+<p>Here’s their reasoning:</p>
+<ol>
+<li>High-Load Operations → Rust</li>
+<li>Lightweight APIs and Dashboard Backend → Rails</li>
+<li>Communication through standardized APIs and message queues</li>
+</ol>
+<p>But what about Rust’s infamous learning curve?</p>
+<p>“Once developers are up to speed,” Alex noted, “there’s no noticeable slowdown in development. The Rust ecosystem has matured to the point where we’re not constantly reinventing the wheel.”</p>
+<h2 id="from-server-to-desktop"><a class="zola-anchor" href="#from-server-to-desktop" aria-label="Anchor link for: from-server-to-desktop">From Server to Desktop</a></h2>
+<p>Once the team gained enough confidence in Rust, they started rewriting their desktop application. This was an area of the business, that was traditionally governed by C++, but the team was already sold on the idea:</p>
+<blockquote>
+<p>The transition to Rust was surprisingly smooth. I think a big reason for that was the collective frustration with our existing C++ codebase. Rust felt like a breath of fresh air, and the idea naturally resonated with the team.</p>
+</blockquote>
+<p>This quote is from Artur Jakubiec, Technical Lead at Hubstaff, who was leading the desktop app migration.</p>
+<figure>
+  <img src="artur.jpeg" alt="Artur Jakubiec, Technical Lead at Hubstaff">
+  <figcaption>Artur Jakubiec, Technical Lead at Hubstaff</figcaption>
+</figure>
+<p>But Rust wasn’t an obvious choice for their desktop app. The easy path would have been Electron – the tried-and-true choice for companies looking to provide a desktop client from their web app.
+However, Hubstaff had learned to trust that Rust would get the job done.</p>
+<blockquote>
+<p>“<strong>Electron simply wasn’t an option,</strong>” Artur stated firmly. “We needed something lightweight, something that could bridge our future with our past. That’s why we chose <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://tauri.app/">Tauri</a>.”</p>
+</blockquote>
+<blockquote>
+<p>“It’s still early days for this approach, as we’re currently in the process of migrating our desktop app. However, we’re already envisioning some compelling synergies emerging from this setup. For example, many of the APIs used by our desktop and mobile apps are high-load systems, and following our strategy, they’re slated to be migrated to Rust soon. <strong>With the desktop team already familiarizing themselves with Rust during this transition, they’ll be better equipped to make contributions or changes to these APIs, which will reduce reliance on the server team.</strong>” added Alex.</p>
+</blockquote>
+<h2 id="the-current-architecture"><a class="zola-anchor" href="#the-current-architecture" aria-label="Anchor link for: the-current-architecture">The Current Architecture</a></h2>
+<p>Today, Hubstaff’s architecture is a mix of Ruby on Rails, Rust, and JavaScript.
+Their webhooks system, backend services, and desktop app are all powered by Rust
+and they keep expanding their Rust footprint across the stack for heavy-load operations.</p>
+<figure>
+  <figure>
+    <img class="centered" src="architecture.svg" alt="Hubstaff's Architecture">
+    <figcaption>Simplified Overview of Hubstaff's Current Architecture</figcaption>
+  </figure>
+</figure>
+<h2 id="was-it-all-flowers-and-sunshine"><a class="zola-anchor" href="#was-it-all-flowers-and-sunshine" aria-label="Anchor link for: was-it-all-flowers-and-sunshine">Was It All Flowers And Sunshine?</a></h2>
+<p>Of course, there were moments of doubt.
+Adding a new language to an already complex tech stack isn’t a decision teams make lightly.</p>
+<p>“There was skepticism,” Artur Jakubiec, their Desktop Tech Lead, admitted. “Not about Rust itself, but about balancing our ecosystem.”</p>
+<p>But instead of letting doubt win, Artur took action. He spent weeks building <a href="/blog/prototyping">prototypes</a>, gathering data, and crafting a vision of what could be. It wasn’t just about convincing management – it was about showing his team a glimpse of the future they could build together.</p>
+<p>Especially the build system caused some headaches:</p>
+<blockquote>
+<p>One thing I really wish existed when we started was better C++-Rust integration, not just at the language level but especially in the <strong>build systems</strong>. Oddly enough, integrating Rust into CMake/C++ workflows (using tools like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/corrosion-rs/corrosion">Corrosion</a>) was relatively straightforward, but going the other way — <strong>embedding C++ into Rust—proved much more challenging</strong>. A more seamless and standardized approach for bidirectional integration would have saved us a lot of time and effort.</p>
+</blockquote>
+<p>Artur adds:</p>
+<blockquote>
+<p>Of course, challenges remain, particularly in ensuring <strong>seamless knowledge transfer and establishing best practices across teams</strong>. But the potential for closer collaboration and a unified stack makes this an exciting step forward.</p>
+</blockquote>
+<h2 id="was-it-all-worth-it"><a class="zola-anchor" href="#was-it-all-worth-it" aria-label="Anchor link for: was-it-all-worth-it">Was It All Worth It?</a></h2>
+<p>For developers coming from interpreted languages like Ruby, two main insights stood out from our conversation:</p>
+<blockquote>
+<p>Initially, switching to a compiled language felt like a hustle, but the “aha” moments made it worthwhile. The first came when we realized just <strong>how many edge cases the Rust compiler catches for you</strong> — it’s like having an additional safety net during development.
+The second came after deploying Rust applications to production. <strong>Seeing how much more resource-efficient the Rust app was compared to its Ruby counterpart was a real eye-opener</strong>. It demonstrated the tangible benefits of Rust’s focus on performance, reinforcing why it was worth tackling the learning curve.</p>
+</blockquote>
+<p>But what about the C++ developers, which worked on the desktop app?
+What helped was that the team had prior experience with lower-level concepts from C++.</p>
+<blockquote>
+<p>I believe the team’s strong C++ background made the transition to Rust almost seamless. Many of Rust’s more challenging low-level concepts have parallels in C++, such as the memory model, RAII, move semantics, pointers, references, and even aspects of ADTs (achievable in C++ with tools like <code>std::optional</code> and <code>std::variant</code>). Similarly, Rust’s ownership system and concepts like lifetimes echo patterns familiar to anyone experienced in managing resources in C++.</p>
+</blockquote>
+<p>Let’s look at the facts:</p>
+<ul>
+<li>Desktop developers now contribute to backend services, breaking down old silos.</li>
+<li>Five years without a single memory-related issue in production.</li>
+<li>Their C++ developers are on-board with Rust’s safety guarantees as well.</li>
+<li>Infrastructure costs stayed flat despite 10x growth.</li>
+</ul>
+<p>But perhaps the biggest change is <strong>confidence in the codebase</strong>:</p>
+<blockquote>
+<p>“With C++, there’s a constant sense of paranoia about every line you write,” Artur revealed. “<strong>Rust transformed that fear into confidence</strong>. It changed not just how we code, but how we feel about coding.” […] “it’s like stepping into a world where you can trust your tools”</p>
+</blockquote>
+<p>On top of that, Alex added that using Rust across the stack has also opened up new collaboration opportunities across the teams.</p>
+<p>Artur adds that the onboarding experience has also been smoother than expected:</p>
+<blockquote>
+<p>So far, onboarding hasn’t been an issue at all. Honestly, there’s no secret sauce — it’s all about getting new team members working on the code as soon as possible.</p>
+</blockquote>
+<figure>
+  <img src="team.jpg" alt="Hubstaff Team">
+  <figcaption>Parts of the Hubstaff Team at their 2022 team offsite in Punta Cana</figcaption>
+</figure>
+<h2 id="where-they-are-today"><a class="zola-anchor" href="#where-they-are-today" aria-label="Anchor link for: where-they-are-today">Where They Are Today</a></h2>
+<p>Today, Hubstaff’s journey continues.
+Their Rust footprint grows steadily: 4,200 lines of mission-critical server code, 2,000 lines in their desktop app, and a team of passionate Rustaceans that’s still growing.</p>
+<p>But when I asked Alex and Artur what they’re most proud of, it wasn’t the technical achievements that topped their list. It was how they got there: thoughtfully, methodically, and together as a team.</p>
+<ul>
+<li><strong>2019</strong>: First steps into Rust - Webhook system prototype. 🌱</li>
+<li><strong>2020</strong>: Webhook system processes first million events. 🌿</li>
+<li><strong>2024</strong>: Started desktop app migration to Rust/Tauri. 🪴</li>
+<li><strong>2025</strong>: Expanding Rust across their entire stack. Public release of new Rust-powered desktop app. 🌳</li>
+</ul>
+<h2 id="key-lessons-for-teams-considering-rust"><a class="zola-anchor" href="#key-lessons-for-teams-considering-rust" aria-label="Anchor link for: key-lessons-for-teams-considering-rust">Key Lessons for Teams Considering Rust</a></h2>
+<p>What would Alex and Artur recommend to teams standing at their own crossroads?<br />
+Here’s what they shared:</p>
+<ol>
+<li>Start with a clear mission, not just a technical preference</li>
+<li>Invest in your team’s journey through learning and support</li>
+<li>Make data-driven decisions</li>
+<li>Build bridges between the old and the new</li>
+<li>Look for opportunities for collaboration and knowledge sharing</li>
+</ol>
+<h2 id="thanks"><a class="zola-anchor" href="#thanks" aria-label="Anchor link for: thanks">Thanks</a></h2>
+<p>Special thanks to <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/ayarotsky/">Alex Yarotsky</a>, CTO
+and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/artur-jakubiec/">Artur Jakubiec</a>, Technical Lead at Hubstaff for sharing their journey with Rust.</p>
+<p>Want to learn more about Hubstaff? <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://hubstaff.com/">Check out their website</a>.</p>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;&title=Hubstaff - From Rails to Rust"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;&t=Hubstaff - From Rails to Rust"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2025-01-27">
+            Published: 2025-01-27
+        </time>
+    </div>
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;learn&#x2F;case-studies&#x2F;hubstaff&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Migrating from Python to Rust | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="A Practical Guide for Decision Makers
+
+  
+  
+  This guide is written for technical leaders and developers considering …">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Migrating from Python to Rust | corrode Rust Consulting">
+    <meta property="og:description" content="A Practical Guide for Decision Makers
+
+  
+  
+  This guide is written for technical leaders and developers considering …">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2024-12-13">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Migrating from Python to Rust | corrode Rust Consulting">
+    <meta name="twitter:description" content="A Practical Guide for Decision Makers
+
+  
+  
+  This guide is written for technical leaders and developers considering …">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/learn/migration-guides/python-to-rust/"
+      },
+      "headline": "Migrating from Python to Rust",
+      "description": "
+  
+  
+    
+      
+    
+    A Practical Guide for Decision Makers
+
+  
+  
+  This guide is written for technical leaders and developers considering …",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2024-12-13",
+      
+      "dateModified": "2026-01-02"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/learn">Migration Guides</a>
+    </h2>
+    <h1>Migrating from Python to Rust</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2026-01-02
+        
+      </span>
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>A Practical Guide for Decision Makers</p>
+</h4>
+  </div>
+  
+  <p>This guide is written for technical leaders and developers considering moving their teams from Python to Rust.
+I used to be a Python developer myself, and I know how daunting it can be to switch to a new language.
+Base on years of experience helping teams make this transition, I’ll share practical insights on what works, what doesn’t, and how to ensure a successful migration.</p>
+
+</div>
+<p>Python is an incredibly versatile language that powers everything from web applications to data science pipelines. However, as organizations scale, they often encounter limitations around performance, type safety, and robustness. While Rust isn’t a direct replacement for Python, it has some answers to these challenges.</p>
+<p>But is Rust the right choice for your team?</p>
+<p>In this article, you’ll learn:</p>
+<ul>
+<li>How to evaluate whether Rust is the right choice for your Python codebase</li>
+<li>Practical strategies for Python-to-Rust migration</li>
+<li>Common pitfalls and how to avoid them</li>
+<li>Ways to maintain productivity during the transition</li>
+<li>How to leverage Python’s strengths alongside Rust</li>
+</ul>
+<h2 id="get-your-customized-migration-plan"><a class="zola-anchor" href="#get-your-customized-migration-plan" aria-label="Anchor link for: get-your-customized-migration-plan">Get Your Customized Migration Plan</a></h2>
+<p>I help teams migrate from Python to Rust, providing tailored guidance and training.
+If you’re considering a migration, answer a few questions about your project, and I’ll reach out with a customized plan.</p>
+<div class="quiz-container">
+  <div class="quiz-progress-container">
+    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+  </div>
+  <div id="quiz-question-container"></div>
+
+  <div id="quiz-navigation-container">
+    <button
+      class="quiz-navbutton"
+      id="quiz-prev-question"
+      style="display: none"
+    >
+      ← Previous
+    </button>
+    <button class="quiz-navbutton" id="quiz-next-question">Next →</button>
+  </div>
+
+  <div id="quiz-results" style="display: none">
+    <h2>Thank you for your interest!</h2>
+    <p>
+      I'll send you a customized migration strategy based on your responses.
+    </p>
+    <p>
+      In the meantime, feel free to check out my
+      <a href="/blog">other articles about Rust</a>.
+    </p>
+  </div>
+</div>
+
+<script>
+  const languageOptions = [
+    "Python",
+    "Java",
+    "C++",
+    "Go",
+    "TypeScript",
+    "JavaScript",
+    "C#",
+    "Ruby",
+    "PHP",
+    "Swift",
+    "Kotlin",
+    "Other",
+  ];
+
+  const questions = [
+  {
+    type: "multipleChoice",
+    question: "Which languages are currently used in your codebase?",
+    id: "currentLanguages",
+    options: languageOptions,
+  },
+  {
+    type: "multipleChoice",
+    question: "Which types of applications are you looking to migrate?",
+    id: "applicationType",
+    direction: "column",
+    options: [
+      "Web services / APIs",
+      "CLI tools",
+      "Embedded systems",
+      "Desktop applications",
+      "WebAssembly modules",
+      "Data processing pipelines",
+      "Machine learning systems",
+      "Other",
+    ],
+  },
+  {
+    type: "radio",
+    question: "What's the size of your codebase?",
+    id: "codebaseSize",
+    options: ["< 10k lines", "< 100k lines", "> 100k lines"],
+  },
+  {
+    type: "radio",
+    question: "What's your team's experience with Rust?",
+    id: "rustExperience",
+    direction: "column",
+    options: [
+      "No experience yet",
+      "Some team members have experimented with it",
+      "We have one or more small projects in production",
+      "We have significant production experience",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What are your main motivations for migrating to Rust?",
+    direction: "column",
+    id: "motivations",
+    options: [
+      "Performance improvements",
+      "Better type safety",
+      "Memory efficiency",
+      "Production reliability",
+      "Cross-platform deployment",
+      "WebAssembly support",
+      "Embedded systems development",
+      "Microservices migration",
+      "Other",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What are your main concerns about migrating to Rust?",
+    id: "concerns",
+    direction: "column",
+    options: [
+      "Learning curve for the team",
+      "Migration complexity",
+      "Maintaining productivity during transition",
+      "Finding Rust developers",
+      "Integration with existing Python code",
+      "Third-party library availability",
+      "Build times",
+      "Testing and deployment changes",
+      "None/Other",
+    ],
+  },
+  {
+    type: "radio",
+    question: "What's your timeline for the migration?",
+    id: "timeline",
+    options: [
+      "Immediate (next 3 months)",
+      "Medium-term (3-12 months)",
+      "Long-term (12+ months)",
+    ],
+  },
+  {
+    type: "multipleChoice",
+    question: "What kind of support is most important for your team?",
+    id: "supportNeeded",
+    direction: "column",
+    options: [
+      "Planning and strategy",
+      "Project audit",
+      "Training and workshops",
+      "Code reviews and mentoring",
+      "PyO3 integration support",
+      "Performance optimization",
+      "Architecture design",
+      "Best practices guidance",
+      "Team hiring support",
+    ],
+  },
+  {
+    type: "radio",
+    question: "How many developers would be involved in the migration?",
+    options: ["1", "2-3", "4-9", "10+"],
+    id: "teamSize",
+  },
+  {
+    type: "input",
+    question: "Anything else you'd like to share about your migration plans?",
+    id: "additionalComments",
+    placeholder: "Share your thoughts...",
+    optional: true,
+  },
+  {
+    type: "email",
+    question:
+      "What's your email? I'll send you a customized migration strategy based on your responses.",
+    id: "email",
+    placeholder: "Your email address",
+  },
+];
+
+const formURL = "https://submit-form.com/YkAFE1mIq";
+
+  // Quiz state
+  let answers = {};
+  let currentQuestionIndex = 0;
+  let totalQuestions;
+
+  // DOM elements
+  const progressBar = document.getElementById("progress-bar");
+  const questionContainer = document.getElementById("quiz-question-container");
+  const prevButton = document.getElementById("quiz-prev-question");
+  const nextButton = document.getElementById("quiz-next-question");
+
+  function initQuiz() {
+    totalQuestions = questions.length;
+    nextButton.addEventListener("click", nextQuestion);
+    prevButton.addEventListener("click", previousQuestion);
+
+    // Handle browser back/forward buttons
+    window.addEventListener("popstate", (event) => {
+      if (event.state) {
+        currentQuestionIndex = event.state.index;
+        answers = event.state.answers || {};
+        displayQuestion(currentQuestionIndex);
+      } else {
+        resetQuiz();
+      }
+    });
+
+    displayQuestion(0);
+  }
+
+  function resetQuiz() {
+    answers = {};
+    currentQuestionIndex = 0;
+    displayQuestion(0);
+  }
+
+  function updateProgressBar() {
+    const progressPercentage =
+      ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    progressBar.style.width = `${progressPercentage}%`;
+  }
+
+  function createQuestionElement(question) {
+    const element = document.createElement("div");
+    element.className = "question";
+    element.innerHTML = `<h3>${question.question}${
+      question.optional ? " (Optional)" : ""
+    }</h3>`;
+
+    let inputContainer;
+
+    switch (question.type) {
+      case "multipleChoice":
+        inputContainer = document.createElement("div");
+        if (question.direction) {
+          inputContainer.style.display = "flex";
+          inputContainer.style.flexDirection = question.direction;
+        } else {
+          inputContainer.className = "checkbox-grid";
+        }
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.className = "checkbox-label";
+
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.name = question.id;
+          input.value = option;
+
+          label.appendChild(input);
+          label.append(` ${option}`);
+          inputContainer.appendChild(label);
+        });
+        break;
+
+      case "radio":
+        inputContainer = document.createElement("div");
+        inputContainer.className = "quiz-flex-container";
+        if (question.direction) {
+          inputContainer.style.flexDirection = question.direction;
+        }
+
+        question.options.forEach((option) => {
+          const label = document.createElement("label");
+          label.className = "quiz-button";
+          label.textContent = option;
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = question.id;
+          input.value = option;
+
+          input.addEventListener("change", () => {
+            saveCurrentAnswers();
+            nextButton.disabled = false;
+            // Auto-advance
+            if (currentQuestionIndex < totalQuestions - 1) {
+              nextQuestion();
+            }
+          });
+
+          label.appendChild(input);
+          inputContainer.appendChild(label);
+        });
+        break;
+
+      case "input":
+      case "email":
+        inputContainer = document.createElement("input");
+        inputContainer.type = question.type;
+        inputContainer.id = question.id;
+        inputContainer.name = question.id;
+        inputContainer.placeholder = question.placeholder || "";
+        if (question.type === "email") {
+          inputContainer.required = true;
+        }
+        if (!question.optional) {
+          inputContainer.required = true;
+        }
+        break;
+    }
+
+    element.appendChild(inputContainer);
+    return { element, inputContainer };
+  }
+
+  function saveCurrentAnswers() {
+    const inputs = questionContainer.querySelectorAll("input");
+    const questionId = questions[currentQuestionIndex].id;
+
+    delete answers[questionId];
+
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        if (input.checked) {
+          answers[questionId] = answers[questionId] || [];
+          answers[questionId].push(input.value);
+        }
+      } else if (
+        (input.type === "radio" && input.checked) ||
+        input.type === "text" ||
+        input.type === "email"
+      ) {
+        if (input.value.trim()) {
+          answers[questionId] = input.value;
+        }
+      }
+    });
+  }
+
+  function restorePreviousAnswers(question, container) {
+    const previousAnswer = answers[question.id];
+    if (!previousAnswer) return;
+
+    const inputs = container.querySelectorAll("input");
+    inputs.forEach((input) => {
+      if (input.type === "checkbox") {
+        input.checked = previousAnswer.includes(input.value);
+      } else if (input.type === "radio") {
+        input.checked = input.value === previousAnswer;
+      } else {
+        input.value = previousAnswer;
+      }
+    });
+  }
+
+  function updateNavigationState() {
+    prevButton.style.display = currentQuestionIndex > 0 ? "" : "none";
+    const question = questions[currentQuestionIndex];
+    nextButton.disabled = !isQuestionAnswered(question);
+  }
+
+  function isQuestionAnswered(question) {
+    if (question.optional) return true;
+    const answer = answers[question.id];
+    if (!answer) return false;
+    if (Array.isArray(answer)) return answer.length > 0;
+    
+    if (question.type === "email") {
+      const input = document.getElementById(question.id);
+      return input && input.checkValidity() && answer.trim().length > 0;
+    }
+    
+    return answer.trim().length > 0;
+  }
+
+  function nextQuestion() {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      saveCurrentAnswers();
+      currentQuestionIndex++;
+      displayQuestion(currentQuestionIndex);
+    } else {
+      submitQuiz();
+    }
+  }
+
+  function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      saveCurrentAnswers();
+      currentQuestionIndex--;
+      displayQuestion(currentQuestionIndex);
+    }
+  }
+
+  function displayQuestion(index) {
+    const question = questions[index];
+    if (!question) return;
+
+    history.pushState(
+      { index, answers: { ...answers } },
+      `Question ${index + 1}`,
+      `?question=${index + 1}`
+    );
+
+    questionContainer.innerHTML = "";
+    const { element, inputContainer } = createQuestionElement(question);
+    questionContainer.appendChild(element);
+
+    restorePreviousAnswers(question, inputContainer);
+    updateProgressBar();
+    updateNavigationState();
+
+    if (question.type === "input" || question.type === "email") {
+      const input = inputContainer;
+      input.addEventListener("input", () => {
+        if (question.type === "email") {
+          nextButton.disabled = !input.checkValidity() && !question.optional;
+        } else {
+          nextButton.disabled = !input.value.trim() && !question.optional;
+        }
+      });
+    } else if (question.type === "multipleChoice") {
+      const inputs = inputContainer.querySelectorAll("input");
+      inputs.forEach((input) => {
+        input.addEventListener("change", () => {
+          const anyChecked = Array.from(inputs).some((i) => i.checked);
+          nextButton.disabled = !anyChecked && !question.optional;
+        });
+      });
+    }
+
+    if (question.type === "radio") {
+      nextButton.disabled = !answers[question.id] && !question.optional;
+    }
+  }
+
+  async function submitQuiz() {
+    saveCurrentAnswers();
+
+    // Hide the quiz
+    questionContainer.innerHTML = "";
+    document.getElementById("quiz-navigation-container").style.display = "none";
+
+    // Show the thank you message
+    const resultsContainer = document.getElementById("quiz-results");
+    resultsContainer.style.display = "block";
+
+    try {
+      // Using Formspark as an example
+      const response = await fetch(formUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
+    } catch (error) {
+      console.error("Failed to submit form:", error);
+      // Optionally show an error message to the user
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", initQuiz);
+</script>
+
+<style>
+  .quiz-container {
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .quiz-progress-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 5px;
+    margin-bottom: 20px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background-color: #ee3856;
+    transition: width 0.5s ease-in-out;
+  }
+
+  #quiz-navigation-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .quiz-navbutton {
+    padding: 10px 20px;
+    background-color: #111;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+
+  .quiz-flex-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .quiz-button {
+    padding: 14px;
+    border-radius: 4px;
+    background-color: #111;
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: large;
+  }
+
+  .quiz-button:hover {
+    background-color: #ee3856;
+  }
+
+  input,
+  .checkbox-label,
+  .quiz-button:hover {
+    cursor: pointer;
+  }
+
+  #quiz-next-question:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .quiz-button input[type="radio"] {
+    display: none;
+  }
+
+  .quiz-container input[type="input"],
+  .quiz-container input[type="text"],
+  .quiz-container input[type="email"] {
+    font-size: larger;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .quiz-container input::placeholder {
+    color: #ccc;
+  }
+
+  .question h2 {
+    margin: 0;
+  }
+
+  .question .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .question input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #111;
+    border-radius: 4px;
+    margin: 0; /* Remove margin, we're using gap instead */
+  }
+
+  .question input[type="checkbox"]:checked {
+    border: 2px solid #111;
+    background-color: #ee3856;
+  }
+
+  @media (max-width: 600px) {
+    .quiz-container input[type="text"],
+    .quiz-container input[type="email"] {
+      width: calc(100% - 30px);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .quiz-button {
+      background-color: #fab71c;
+      color: #111;
+    }
+
+    .question input[type="checkbox"] {
+      border-color: #fff;
+    }
+
+    .question input[type="checkbox"]:checked {
+      border: 2px solid #fff;
+      background-color: #ee3856;
+    }
+  }
+</style>
+<h2 id="key-differences-between-python-and-rust"><a class="zola-anchor" href="#key-differences-between-python-and-rust" aria-label="Anchor link for: key-differences-between-python-and-rust">Key Differences Between Python and Rust</a></h2>
+<table><thead><tr><th>Aspect</th><th>Python 🐍</th><th>Rust 🦀</th></tr></thead><tbody>
+<tr><td>Type System</td><td>Dynamic, optional type hints</td><td>Static, strong type system</td></tr>
+<tr><td>Memory Management</td><td>Garbage collected</td><td>No GC, ownership and borrowing</td></tr>
+<tr><td>Performance</td><td>Moderate</td><td>High performance, low-level control</td></tr>
+<tr><td>Deployment</td><td>Runtime required</td><td>Single binary, minimal runtime</td></tr>
+<tr><td>Package Manager</td><td>Multiple (pip, conda, uv)</td><td>cargo (built-in, consistent)</td></tr>
+<tr><td>Error Handling</td><td>Exceptions</td><td>Result type</td></tr>
+<tr><td>Concurrency</td><td>Limited by GIL</td><td>zero-cost abstractions, no GIL</td></tr>
+<tr><td>Learning Curve</td><td>Gentle</td><td>Steep</td></tr>
+<tr><td>Ecosystem Size</td><td>Large (500,000+ packages)</td><td>Medium (160,000+ crates)</td></tr>
+</tbody></table>
+<h2 id="why-python-teams-consider-rust"><a class="zola-anchor" href="#why-python-teams-consider-rust" aria-label="Anchor link for: why-python-teams-consider-rust">Why Python Teams Consider Rust</a></h2>
+<p>Python developers often want to transition to Rust for several reasons:</p>
+<ol>
+<li>
+<p>Developers interested in Rust are likely willing to understand systems programming concepts.
+They grew out of Python’s limitations and are looking for more control over performance and memory management.</p>
+</li>
+<li>
+<p>Python developers often long for stronger type guarantees.
+They appreciate Rust’s static type system and the safety it provides.</p>
+</li>
+<li>
+<p>Developers with a Python background often work on data processing or web applications.
+These are areas where Rust’s performance benefits are most pronounced.</p>
+</li>
+</ol>
+<p>While Python excels at readability and rapid development, teams often hit scaling challenges as their applications grow. Below, I’ve listed a few common pain points that get mentioned in consultations with teams considering a migration.</p>
+<h3 id="performance-bottlenecks"><a class="zola-anchor" href="#performance-bottlenecks" aria-label="Anchor link for: performance-bottlenecks">Performance Bottlenecks</a></h3>
+<p>Python’s Global Interpreter Lock (GIL) limits true parallelism, making it challenging to fully utilize modern multi-core processors.
+There is a version of Python without the GIL, but it <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://news.ycombinator.com/item?id=41677131">doesn’t solve the performance issues</a>.</p>
+<p>While tools like asyncio help with I/O-bound tasks, CPU-intensive operations remain constrained. Teams often resort to complex workarounds involving multiple processes or C extensions.</p>
+<h3 id="type-safety-concerns"><a class="zola-anchor" href="#type-safety-concerns" aria-label="Anchor link for: type-safety-concerns">Type Safety Concerns</a></h3>
+<p>Despite Python’s type hints, runtime type errors still occur.
+Types are optional in Python.
+Developers need the discipline to add and maintain type hints consistently, which can be challenging in large codebases.
+Furthermore, adoption is inconsistent across the Python ecosyste (e.g., third-party libraries).
+Large Python applications can become difficult to maintain and refactor confidently.</p>
+<p>From experience, there is a breaking point around the 10-100k lines of code mark where the lack of type safety becomes a significant liability.<sup class="footnote-reference" id="fr-1-1"><a href="#fn-1">1</a></sup></p>
+<h3 id="deployment-complexity"><a class="zola-anchor" href="#deployment-complexity" aria-label="Anchor link for: deployment-complexity">Deployment Complexity</a></h3>
+<p>Python applications require managing runtime environments, dependencies, and potential version conflicts.
+A lot of the issues can be mitigated with containerization.
+However, bundling Python applications for deployment is not an easy task, especially when targeting platforms with different architectures.</p>
+<h3 id="resource-usage"><a class="zola-anchor" href="#resource-usage" aria-label="Anchor link for: resource-usage">Resource Usage</a></h3>
+<p>Python has a relatively manageable memory profile, but it can be inefficient for certain workloads.
+For example, Python’s memory overhead can be significant for large-scale data processing or long-running services.
+CPU-bound tasks often get offloaded to C extensions or to worker processes, adding complexity and overhead.</p>
+<h2 id="key-challenges-in-transitioning-to-rust"><a class="zola-anchor" href="#key-challenges-in-transitioning-to-rust" aria-label="Anchor link for: key-challenges-in-transitioning-to-rust">Key Challenges in Transitioning to Rust</a></h2>
+<p>The transition from Python to Rust presents unique challenges:</p>
+<h3 id="syntax"><a class="zola-anchor" href="#syntax" aria-label="Anchor link for: syntax">Syntax</a></h3>
+<p>Python is very syntax-light, which makes it easy to read and write.
+By comparison, Rust is full of “symbols” and keywords that can be intimidating at first.</p>
+<p>Developers need to see through the syntax and understand the underlying semantics to become productive.
+This is a critical step in the transition process.</p>
+<p>Here is an example of a simple list comprehension in Python:</p>
+<pre data-lang="python" class="language-python z-code"><code class="language-python" data-lang="python"><span class="z-source z-python"><span class="z-comment z-line z-number-sign z-python"><span class="z-punctuation z-definition z-comment z-python">#</span> A list of bands
+</span></span><span class="z-source z-python"><span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">bands</span></span> <span class="z-keyword z-operator z-assignment z-python">=</span> <span class="z-meta z-sequence z-list z-python"><span class="z-punctuation z-section z-sequence z-begin z-python">[</span>
+</span></span><span class="z-source z-python"><span class="z-meta z-sequence z-list z-python">    <span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python"><span class="z-punctuation z-definition z-string z-begin z-python">&quot;</span></span></span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python">Metallica<span class="z-punctuation z-definition z-string z-end z-python">&quot;</span></span></span><span class="z-punctuation z-separator z-sequence z-python">,</span>
+</span></span><span class="z-source z-python"><span class="z-meta z-sequence z-list z-python">    <span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python"><span class="z-punctuation z-definition z-string z-begin z-python">&quot;</span></span></span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python">Iron Maiden<span class="z-punctuation z-definition z-string z-end z-python">&quot;</span></span></span><span class="z-punctuation z-separator z-sequence z-python">,</span>
+</span></span><span class="z-source z-python"><span class="z-meta z-sequence z-list z-python">    <span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python"><span class="z-punctuation z-definition z-string z-begin z-python">&quot;</span></span></span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python">AC/DC<span class="z-punctuation z-definition z-string z-end z-python">&quot;</span></span></span><span class="z-punctuation z-separator z-sequence z-python">,</span>
+</span></span><span class="z-source z-python"><span class="z-meta z-sequence z-list z-python">    <span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python"><span class="z-punctuation z-definition z-string z-begin z-python">&quot;</span></span></span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python">Judas Priest<span class="z-punctuation z-definition z-string z-end z-python">&quot;</span></span></span><span class="z-punctuation z-separator z-sequence z-python">,</span>
+</span></span><span class="z-source z-python"><span class="z-meta z-sequence z-list z-python">    <span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python"><span class="z-punctuation z-definition z-string z-begin z-python">&quot;</span></span></span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python">Megadeth<span class="z-punctuation z-definition z-string z-end z-python">&quot;</span></span></span>
+</span></span><span class="z-source z-python"><span class="z-meta z-sequence z-list z-python"><span class="z-punctuation z-section z-sequence z-end z-python">]</span></span>
+</span><span class="z-source z-python">
+</span><span class="z-source z-python"><span class="z-comment z-line z-number-sign z-python"><span class="z-punctuation z-definition z-comment z-python">#</span> A list comprehension to filter for bands that start with &quot;M&quot;
+</span></span><span class="z-source z-python"><span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">m_bands</span></span> <span class="z-keyword z-operator z-assignment z-python">=</span> <span class="z-meta z-sequence z-list z-python"><span class="z-punctuation z-section z-sequence z-begin z-python">[</span><span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">band</span></span> <span class="z-meta z-expression z-generator z-python"><span class="z-keyword z-control z-loop z-for z-generator z-python">for</span> <span class="z-meta z-generic-name z-python">band</span> <span class="z-keyword z-control z-loop z-for z-in z-python">in</span></span> <span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">bands</span></span> <span class="z-keyword z-control z-conditional z-if z-python">if</span> <span class="z-meta z-function-call z-python"><span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">band</span></span><span class="z-meta z-qualified-name z-python"><span class="z-punctuation z-accessor z-dot z-python">.</span></span><span class="z-meta z-qualified-name z-python"><span class="z-variable z-function z-python"><span class="z-meta z-generic-name z-python">startswith</span></span></span></span><span class="z-meta z-function-call z-arguments z-python"><span class="z-punctuation z-section z-arguments z-begin z-python">(</span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python"><span class="z-punctuation z-definition z-string z-begin z-python">&quot;</span></span></span><span class="z-meta z-string z-python"><span class="z-string z-quoted z-double z-python">M<span class="z-punctuation z-definition z-string z-end z-python">&quot;</span></span></span><span class="z-punctuation z-section z-arguments z-end z-python">)</span></span><span class="z-punctuation z-section z-sequence z-end z-python">]</span></span>
+</span><span class="z-source z-python">
+</span><span class="z-source z-python"><span class="z-comment z-line z-number-sign z-python"><span class="z-punctuation z-definition z-comment z-python">#</span> A list comprehension to uppercase the bands
+</span></span><span class="z-source z-python"><span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">uppercased</span></span> <span class="z-keyword z-operator z-assignment z-python">=</span> <span class="z-meta z-sequence z-list z-python"><span class="z-punctuation z-section z-sequence z-begin z-python">[</span><span class="z-meta z-function-call z-python"><span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">band</span></span><span class="z-meta z-qualified-name z-python"><span class="z-punctuation z-accessor z-dot z-python">.</span></span><span class="z-meta z-qualified-name z-python"><span class="z-variable z-function z-python"><span class="z-meta z-generic-name z-python">upper</span></span></span></span><span class="z-meta z-function-call z-arguments z-python"><span class="z-punctuation z-section z-arguments z-begin z-python">(</span><span class="z-punctuation z-section z-arguments z-end z-python">)</span></span> <span class="z-meta z-expression z-generator z-python"><span class="z-keyword z-control z-loop z-for z-generator z-python">for</span> <span class="z-meta z-generic-name z-python">band</span> <span class="z-keyword z-control z-loop z-for z-in z-python">in</span></span> <span class="z-meta z-qualified-name z-python"><span class="z-meta z-generic-name z-python">m_bands</span></span><span class="z-punctuation z-section z-sequence z-end z-python">]</span></span>
+</span><span class="z-source z-python">
+</span><span class="z-source z-python"><span class="z-comment z-line z-number-sign z-python"><span class="z-punctuation z-definition z-comment z-python">#</span> We get [&quot;METALLICA&quot;, &quot;MEGADETH&quot;] 
+</span></span></code></pre>
+<p>Rust does not have a direct equivalent to list comprehensions.
+Instead, <a href="/blog/iterators">iterator patterns</a> are used to achieve the same result:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> bands <span class="z-keyword z-operator z-assignment z-rust">=</span> <span class="z-support z-macro z-rust">vec!</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">[</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Metallica<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Iron Maiden<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>AC/DC<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Judas Priest<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust">    <span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>Megadeth<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span><span class="z-punctuation z-separator z-rust">,</span>
+</span></span><span class="z-source z-rust"><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">]</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-storage z-type z-rust">let</span> uppercased<span class="z-punctuation z-separator z-rust">:</span> <span class="z-meta z-generic z-rust"><span class="z-support z-type z-rust">Vec</span><span class="z-punctuation z-definition z-generic z-begin z-rust">&lt;</span><span class="z-keyword z-operator z-rust">_</span><span class="z-punctuation z-definition z-generic z-end z-rust">&gt;</span></span> <span class="z-keyword z-operator z-assignment z-rust">=</span> bands<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">iter</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span><span class="z-source z-rust">                    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">filter</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">band</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust">band<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">starts_with</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-string z-quoted z-double z-rust"><span class="z-punctuation z-definition z-string z-begin z-rust">&quot;</span>M<span class="z-punctuation z-definition z-string z-end z-rust">&quot;</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span><span class="z-source z-rust">                    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">map</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-variable z-parameter z-rust">band</span><span class="z-punctuation z-section z-parameters z-end z-rust">|</span></span> </span><span class="z-meta z-function z-closure z-rust">band<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">to_uppercase</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span><span class="z-source z-rust">                    <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">collect</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span><span class="z-punctuation z-terminator z-rust">;</span>
+</span><span class="z-source z-rust">
+</span><span class="z-source z-rust"><span class="z-comment z-line z-double-slash z-rust"><span class="z-punctuation z-definition z-comment z-rust">//</span> uppercased = vec![&quot;METALLICA&quot;, &quot;MEGADETH&quot;]
+</span></span></code></pre>
+<h3 id="ownership-and-borrowing"><a class="zola-anchor" href="#ownership-and-borrowing" aria-label="Anchor link for: ownership-and-borrowing">Ownership and Borrowing</a></h3>
+<p>Python developers need to adjust to start “thinking in Rust” to avoid common pitfalls.
+Plan for a 3-4 month learning period where developers will need to understand concepts like:</p>
+<ul>
+<li>Stack vs heap</li>
+<li>Borrowing and move semantics</li>
+<li>Trait-based composition (instead of Python’s OOP model)</li>
+</ul>
+<p>These are fundamental concepts in Rust that Python developers are not used to, and it’s important to get them right to become really effective.</p>
+<p>Lifetimes are another concept that can be challenging to grasp initially, but you can get a long way without fully understanding them. <a href="/blog/lifetimes">Don’t worry about lifetimes</a> when you’re just starting out. <a href="/blog/simple">Keep it simple</a>.</p>
+<p>Pointer handling and boxing is another area where Python developers need to adjust. However, beginners can often get by without understanding this in detail.</p>
+<h3 id="type-system-adaptation"><a class="zola-anchor" href="#type-system-adaptation" aria-label="Anchor link for: type-system-adaptation">Type System Adaptation</a></h3>
+<p>Moving from Python’s dynamic typing to Rust’s static typing requires another mindset shift.
+Developers suddenly need to:</p>
+<ul>
+<li>Think about types upfront</li>
+<li>Understand generics and traits</li>
+<li>Lean into <code>Option&lt;T&gt;</code> and <code>Result&lt;T, E&gt;</code> for error handling</li>
+<li>Use enums for modeling complex states</li>
+</ul>
+<p>This can feel intimidating at first, but it’s actually a lot of fun once you get the hang of it.
+The compiler is helpfully guiding you along the way, and you can start without a deep understanding of all the concepts.</p>
+<p>The pattern matching syntax in Rust can be a game-changer for developers coming from Python
+and is often cited as one of the most enjoyable features of Rust.</p>
+<h2 id="integration-strategies"><a class="zola-anchor" href="#integration-strategies" aria-label="Anchor link for: integration-strategies">Integration Strategies</a></h2>
+<p>There are several ways to integrate Rust into your Python codebase:</p>
+<h3 id="1-pyo3-python-rust-bindings"><a class="zola-anchor" href="#1-pyo3-python-rust-bindings" aria-label="Anchor link for: 1-pyo3-python-rust-bindings">1. PyO3 (Python-Rust Bindings)</a></h3>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://pyo3.rs/">PyO3</a> lets you write Python extensions in Rust or call Rust functions from Python.</p>
+<p>This is ideal for:</p>
+<ul>
+<li>Optimizing performance-critical components</li>
+<li>Gradually introducing Rust while maintaining Python interfaces</li>
+<li>Creating Python packages with Rust internals</li>
+</ul>
+<h3 id="2-microservices"><a class="zola-anchor" href="#2-microservices" aria-label="Anchor link for: 2-microservices">2. Microservices</a></h3>
+<p>For distributed systems, you can:</p>
+<ul>
+<li>Build new services in Rust</li>
+<li>Migrate existing services one at a time</li>
+<li>Use REST or gRPC for inter-service communication</li>
+</ul>
+<p>If you already have a microservices architecture, this can be a great way to start.
+You can build new services in Rust and gradually replace old Python services as needed.
+The new services can be deployed alongside the old ones, and you can ensure that the APIs are compatible.</p>
+<h3 id="3-cli-tools-and-utilities"><a class="zola-anchor" href="#3-cli-tools-and-utilities" aria-label="Anchor link for: 3-cli-tools-and-utilities">3. CLI Tools and Utilities</a></h3>
+<p>If you’re just starting out, I recommend to write a command-line tool, which is an excellent candidate for
+getting your feet wet.</p>
+<p>CLI tools have all the positive indicators for a successful first project:</p>
+<ul>
+<li>They are self-contained, so you don’t have to worry about integrating with the rest of the codebase</li>
+<li>The deployment is simple, as you can just ship a single binary</li>
+<li>Rust shines in this area, as it’s very convenient to write command-line tools in Rust</li>
+<li>There is no “startup cost” when a CLI tool runs with Rust (as opposed to Python where the interpreter needs to start up)</li>
+</ul>
+<h3 id="4-worker-processes"><a class="zola-anchor" href="#4-worker-processes" aria-label="Anchor link for: 4-worker-processes">4. Worker Processes</a></h3>
+<p>Let’s say you have a web application that needs to do some heavy lifting.
+One common way is to offload the work to a worker queue.
+That’s a great place to test out Rust, as you can directly compare the performance and developer experience with Python.</p>
+<p>You can use a message queue like RabbitMQ or Kafka to communicate between the Python web application and the Rust worker.</p>
+<h3 id="data-processing-pipelines"><a class="zola-anchor" href="#data-processing-pipelines" aria-label="Anchor link for: data-processing-pipelines">Data Processing Pipelines</a></h3>
+<p>Are you using Python for data science or ETL tasks?
+For example, you might be using Pandas or Dask for data processing.</p>
+<p>Rust has some excellent libraries for data processing, like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://pola.rs/">Polars</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://arrow.apache.org/">Apache Arrow</a>.
+A lot of teams start by moving the data preprocessing and ETL tasks to Rust, and they like it so much that they move more and more of the business logic over.</p>
+<p>That worked extremely well for a few clients I worked with, as they could leverage Rust’s performance and reliability for the most critical parts of their data processing pipeline.
+After a short learning period, the team was as productive in Rust as they were in Python.</p>
+<h2 id="planning-your-migration"><a class="zola-anchor" href="#planning-your-migration" aria-label="Anchor link for: planning-your-migration">Planning Your Migration</a></h2>
+<p>A successful migration requires careful planning:</p>
+<ol>
+<li>
+<p><strong>Start Small</strong></p>
+<ul>
+<li>Choose non-critical components first</li>
+<li>Focus on areas where Rust’s benefits are most valuable</li>
+<li>Build team confidence through early wins</li>
+</ul>
+</li>
+<li>
+<p><strong>Invest in Training</strong></p>
+<ul>
+<li>Allocate time for learning Rust fundamentals</li>
+<li>Consider bringing in <a href="/services">external expertise</a> for guidance</li>
+<li>Set realistic expectations for the learning curve</li>
+</ul>
+</li>
+<li>
+<p><strong>Measure Success</strong></p>
+<ul>
+<li>Define clear metrics (performance, resource usage, development velocity)</li>
+<li>Document improvements and challenges</li>
+<li>Adjust strategy based on results</li>
+</ul>
+</li>
+</ol>
+<h2 id="practical-migration-tips"><a class="zola-anchor" href="#practical-migration-tips" aria-label="Anchor link for: practical-migration-tips">Practical Migration Tips</a></h2>
+<p>Based on real-world experience from helping teams migrate from
+Python to Rust, here are some tips for a successful transition:</p>
+<h3 id="identify-bounded-contexts"><a class="zola-anchor" href="#identify-bounded-contexts" aria-label="Anchor link for: identify-bounded-contexts">Identify Bounded Contexts</a></h3>
+<p>Focus on modules with clear interfaces to the rest of your system. No tangled spaghetti code!
+(That also means that you should refactor your Python codebase in case it’s a mess.)</p>
+<ul>
+<li>Look for self-contained parts of your codebase that share common functionality</li>
+<li>Document the data flow and dependencies between these contexts. This will help you understand the impact of migration
+and can serve as a blueprint for the migration process and a reference for future developers.</li>
+<li>Map out how these components communicate with each other: which functions are called, which data is passed around, and which interfaces are used.</li>
+</ul>
+<h3 id="prioritize-cpu-bound-tasks-first"><a class="zola-anchor" href="#prioritize-cpu-bound-tasks-first" aria-label="Anchor link for: prioritize-cpu-bound-tasks-first">Prioritize CPU-Bound Tasks First</a></h3>
+<p>Start with computationally intensive operations that don’t require heavy I/O.
+That’s where Rust shines the most, as it can provide significant performance improvements over Python.</p>
+<ul>
+<li>Look for tasks that are currently bottlenecked by Python’s performance (measure first!).</li>
+<li>Avoid beginning with components that make heavy use of async/IO operations.
+Async Python is quite efficient and Rust might not provide a significant improvement.
+Be cautious with async operations between languages, as they can introduce significant overhead.</li>
+</ul>
+<h3 id="minimize-calls-between-language-boundaries"><a class="zola-anchor" href="#minimize-calls-between-language-boundaries" aria-label="Anchor link for: minimize-calls-between-language-boundaries">Minimize Calls Between Language Boundaries</a></h3>
+<p>Evaluate how frequently your Rust code needs to call back into Python
+and try to minimize the number of cross-language calls.</p>
+<p>If you have a large number of small calls, the overhead of crossing the language boundary can add up.
+Instead, consider batching operations to reduce the number of transitions</p>
+<h3 id="baby-steps"><a class="zola-anchor" href="#baby-steps" aria-label="Anchor link for: baby-steps">Baby Steps</a></h3>
+<p>Break down the migration into small, measurable pieces. You want quick wins to keep the team motivated.</p>
+<ul>
+<li>Start with a single component and validate its performance.</li>
+<li>Add functionality piece by piece rather than attempting a complete rewrite.</li>
+<li>Maintain comprehensive tests throughout the migration process.</li>
+</ul>
+<h3 id="continuously-monitor-performance"><a class="zola-anchor" href="#continuously-monitor-performance" aria-label="Anchor link for: continuously-monitor-performance">Continuously Monitor Performance</a></h3>
+<p>Do you have a performance baseline for your Python code?
+If not, set one up before you start the migration.
+It’s very easy to get lost in the weeds and lose track of the performance improvements.
+If that happens, you have no clear way to measure the success of the migration.</p>
+<ul>
+<li>Set up benchmarks before starting the migration.</li>
+<li>Track performance metrics for each migrated component.</li>
+<li>Use tools like <code>cspeed</code> to monitor improvements.</li>
+<li>Document performance gains and any unexpected bottlenecks.</li>
+<li>Make performance monitoring part of your PR review process.</li>
+<li>Choose components where you can easily compare performance.</li>
+<li>Look for opportunities to run old and new implementations in parallel.</li>
+</ul>
+<h2 id="common-pitfalls-to-avoid"><a class="zola-anchor" href="#common-pitfalls-to-avoid" aria-label="Anchor link for: common-pitfalls-to-avoid">Common Pitfalls to Avoid</a></h2>
+<p>Rust’s ecosystem is smaller than Python’s.</p>
+<p>On top of that, Rust has a much smaller standard library compared to Python.
+This means you’ll commonly rely on third-party crates for functionality that’s built into Python.</p>
+<p>Depending on your use case, here are some comparisons between Python packages and their Rust equivalents:</p>
+<h3 id="data-science"><a class="zola-anchor" href="#data-science" aria-label="Anchor link for: data-science">Data Science</a></h3>
+<p>Python dominates data science with libraries like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://numpy.org/">NumPy</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://pandas.pydata.org/">Pandas</a>.
+However, Rust is making inroads with libraries like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://pola.rs/">Polars</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://arrow.apache.org/">Apache’s Arrow</a>.</p>
+<p>You don’t have to migrate your entire data science stack to Rust.
+Chances are, you have experts on your team who are comfortable with doing data analysis in Python.
+You can start by using the Rust libraries for data preprocessing and ETL tasks.
+They have Python bindings, so you get a lot of the benefits of Rust without having to do a full migration.</p>
+<h3 id="backend-services"><a class="zola-anchor" href="#backend-services" aria-label="Anchor link for: backend-services">Backend Services</a></h3>
+<p>Rust wasn’t initially planned to be a strong contender in the web development space.
+This has changed in recent years with the rise of frameworks like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://axum.rs/">Axum</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://loco.rs/">Loco</a>.
+Now, Rust is a viable option for building high-performance APIs and web applications.
+It is one key area the Rust team is investing in, and the ecosystem is maturing rapidly.</p>
+<p>In combination with <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/launchbadge/sqlx">sqlx</a> for database access and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://serde.rs/">serde</a> for serialization, Rust is a very effective choice for web backends.
+What surprises many Python developers is how similar it is to working with other web frameworks like Flask or FastAPI.
+Another surprise is how robust the final product is, as it catches many bugs at compile time and scales extremely well.
+Production Rust web applications are extremely robust.
+This lifts a lot of the burden from the operations team.
+I expect more backend services to be written in Rust in the future – especially for high-performance applications.</p>
+<h2 id="keeping-python-s-strengths"><a class="zola-anchor" href="#keeping-python-s-strengths" aria-label="Anchor link for: keeping-python-s-strengths">Keeping Python’s Strengths</a></h2>
+<p>Not everything needs to be migrated! Python excels at:</p>
+<ul>
+<li><a href="/blog/protoyping">I personally prototype in Rust</a>, but Python is still a fine choice for prototyping.</li>
+<li>Data analysis and visualization are great in Python (e.g., Pandas, Matplotlib)</li>
+<li>Machine learning workflows (e.g., TensorFlow, PyTorch)</li>
+<li>Admin interfaces and tools (e.g., Django admin)</li>
+</ul>
+<p>Consider a hybrid approach where each language handles what it does best.</p>
+<p>One winning strategy is to explore a space in Python and moving production-workloads to Rust once the requirements are clear
+and the project can benefit from performance and scale.
+Speaking of which…</p>
+<h2 id="expected-big-performance-improvements"><a class="zola-anchor" href="#expected-big-performance-improvements" aria-label="Anchor link for: expected-big-performance-improvements">Expected Big Performance Improvements</a></h2>
+<p>Actual performance numbers vary significantly based on workload and implementation,
+so take these numbers with a grain of salt.</p>
+<p>Based on my experience helping teams migrate, here are typical improvements:</p>
+<ul>
+<li><strong>CPU Usage</strong>: 2-10x reduction in CPU utilization</li>
+<li><strong>Memory Usage</strong>: 30-70% reduction in memory footprint</li>
+<li><strong>Latency</strong>: 50-90% improvement in response times</li>
+<li><strong>Throughput</strong>: 2-5x increase in requests/second</li>
+</ul>
+<p>Especially the P90 latency improvements are often surprising to teams.
+<strong>There are very few outliers and things tend to run smoothly, no matter the load.</strong>
+In Python, this is a common source of frustration, where a single request can take significantly longer than the rest.
+Production payloads are extremely boring in Rust. The DevOps team will thank you.</p>
+<h2 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">Conclusion</a></h2>
+<p>Migrating to a different programming language is a significant undertaking that requires careful planning and execution.
+The step from Python to Rust is no exception.</p>
+<p>While the learning curve is steep, the benefits in terms of performance, reliability, and maintainability can be substantial.</p>
+<p>Success depends on:</p>
+<ul>
+<li>Realistic timeline expectations</li>
+<li>Strong team support and training</li>
+<li>Clear understanding of migration goals</li>
+<li>A pragmatic approach to choosing what to migrate</li>
+</ul>
+<p>Remember that this isn’t an all-or-nothing decision!
+Many organizations successfully use Python and Rust together, leveraging each language’s strengths.
+Write down your reasoning for the migration.
+Many issues can be solved in Python, and the migration might not be necessary.
+However, if you’re hitting the limits of Python, Rust is a strong replacement.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Ready to Make the Move to Rust?</p>
+</h4>
+  </div>
+  
+  <p>I help teams make successful transitions from Python to Rust.
+My clients moved critical workloads to Rust and saw significant improvements in performance and reliability.
+Whether you need training, architecture guidance, or migration planning, <a href="/services">let’s talk about your needs</a>.</p>
+
+</div>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-1">
+<p>See discussions on large-scale Python applications on <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.reddit.com/r/Python/comments/a7zrjn/why_do_people_say_that_python_is_not_good_for/">Reddit</a> and <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://news.ycombinator.com/item?id=25073308">HN</a>. <a href="#fr-1-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.youtube.com/watch?v=fpxHT1Uvv2w">Rewrite everything in Rust? What we learned from introducing Rust in Strawberry-GraphQL - Erik Wrede</a> - A thoughtful talk on a practical migration from Python to Rust</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;&title=Migrating from Python to Rust"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;&t=Migrating from Python to Rust"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2024-12-13">
+            Published: 2024-12-13
+        </time>
+    </div><div class="updated">
+        <time datetime="2026-01-02">
+            Last updated: 2026-01-02
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;learn&#x2F;migration-guides&#x2F;python-to-rust&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

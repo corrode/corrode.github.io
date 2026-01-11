@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Stripo.email
+BEGIN:VEVENT
+UID:66d877aacccec
+DTSTAMP:20240904T150722Z
+SUMMARY:Rust in Production Office Hours
+DESCRIPTION:Welcome to the office hours!\nBring your questions about Rust i
+ n Production. Everyone is invited.
+LOCATION:https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e
+ 604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338
+CLASS:PUBLIC
+RRULE:FREQ=WEEKLY;UNTIL=20241010T000000;INTERVAL=1;BYDAY=TH
+DTSTART:20240905T160000Z
+DTEND:20240905T170000Z
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Tips for Faster Rust CI Builds | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="I’ve been working with many clients lately who host their Rust projects on GitHub.
+CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
+However, there are several effective ways to speed up y…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Tips for Faster Rust CI Builds | corrode Rust Consulting">
+    <meta property="og:description" content="I’ve been working with many clients lately who host their Rust projects on GitHub.
+CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
+However, there are several effective ways to speed up y…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2025-01-28">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tips for Faster Rust CI Builds | corrode Rust Consulting">
+    <meta name="twitter:description" content="I’ve been working with many clients lately who host their Rust projects on GitHub.
+CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
+However, there are several effective ways to speed up y…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitraffic-corrode-dev.mo8it.com/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/tips-for-faster-ci-builds/"
+      },
+      "headline": "Tips for Faster Rust CI Builds",
+      "description": "I’ve been working with many clients lately who host their Rust projects on GitHub.
+CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
+However, there are several effective ways to speed up y…",
+      
+      "image": "https://corrode.dev/hero.svg",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2025-01-28",
+      
+      "dateModified": "2025-08-16"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </h2>
+    <h1>Tips for Faster Rust CI Builds</h1>
+    <div class="article-date">
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Last updated: 2025-08-16
+        
+      </span>
+    </div>
+    
+    <div class="article-hero">
+      <img
+        
+        src="hero.svg" alt="Tips for Faster Rust CI Builds" />
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>I’ve been working with many clients lately who host their Rust projects on GitHub.
+CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
+However, there are several effective ways to speed up your GitHub Actions workflows!</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Want a Real-World Example?</p>
+</h4>
+  </div>
+  
+  <p>Check out this production-ready GitHub Actions workflow that implements all the tips from this article:
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/lycheeverse/lychee/blob/master/.github/workflows/ci.yml">click here</a>.</p>
+<p>Also see Arpad Borsos’ <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/Swatinem/rust-gha-workflows">workflow templates</a> for Rust projects.</p>
+
+</div>
+<h2 id="use-swatinem-s-cache-action"><a class="zola-anchor" href="#use-swatinem-s-cache-action" aria-label="Anchor link for: use-swatinem-s-cache-action">Use Swatinem’s cache action</a></h2>
+<p>This is easily my most important recommendation on this list.</p>
+<p>My friend <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/swatinem">Arpad Borsos</a>, also known as Swatinem, has created a cache action specifically tailored for Rust projects.
+It’s an excellent way to speed up any Rust CI build and requires no code changes to your project.</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">CI</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml"><span class="z-constant z-language z-boolean z-yaml">on</span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> 
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">push</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">branches</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">main</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">pull_request</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">jobs</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">build</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">runs-on</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">ubuntu-latest-arm64</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">env</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">CARGO_TERM_COLOR</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">always</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">steps</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">actions/checkout@v4</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">dtolnay/rust-toolchain@stable</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml">      <span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> The secret sauce!
+</span></span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Swatinem/rust-cache@v2</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-keyword z-control z-flow z-block-scalar z-literal z-yaml">|</span>
+</span><span class="z-source z-yaml"><span class="z-string z-unquoted z-block z-yaml">          cargo check
+</span></span><span class="z-source z-yaml"><span class="z-string z-unquoted z-block z-yaml">          cargo test
+</span></span><span class="z-source z-yaml"><span class="z-string z-unquoted z-block z-yaml">          cargo build --release
+</span></span></code></pre>
+<p>The action requires no additional configuration and works out of the box.
+There’s no need for a separate step to store the cache — this happens automatically through a post-action.
+This approach ensures that broken builds aren’t cached, and for subsequent builds, you can save several minutes of build time.</p>
+<p>Here’s the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/Swatinem/rust-cache">documentation</a> where you can learn more.</p>
+<h2 id="use-the-locked-flag"><a class="zola-anchor" href="#use-the-locked-flag" aria-label="Anchor link for: use-the-locked-flag">Use the <code>--locked</code> flag</a></h2>
+<p>When running <code>cargo build</code>, <code>cargo test</code>, or <code>cargo check</code>, you can pass the <code>--locked</code> flag to prevent Cargo from updating the <code>Cargo.lock</code> file.</p>
+<p>This is particularly useful for CI operations since you save the time to update dependencies.
+Typically you want to test the exact dependency versions specified in your lock file anyway.</p>
+<p>On top of that, it ensures reproducible builds, which is crucial for CI.
+From the <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://doc.rust-lang.org/cargo/commands/cargo-install.html">Cargo documentation</a>:</p>
+<blockquote>
+<p>The <code>--locked</code> flag can be used to force Cargo to use the packaged <code>Cargo.lock</code> file if it is available. This may be useful for ensuring reproducible builds, to use the exact same set of dependencies that were available when the package was published.</p>
+</blockquote>
+<p>Here’s how you can use it in your GitHub Actions workflow:</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo check --locked</span>
+</span><span class="z-source z-yaml"><span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo test --locked</span>
+</span></code></pre>
+<h2 id="use-cargo-chef-for-docker-builds"><a class="zola-anchor" href="#use-cargo-chef-for-docker-builds" aria-label="Anchor link for: use-cargo-chef-for-docker-builds">Use <code>cargo-chef</code> For Docker Builds</a></h2>
+<p>For Rust Docker images, <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/LukeMathWalker/cargo-chef"><code>cargo-chef</code></a> can significantly speed up the build process by leveraging Docker’s layer caching:</p>
+<pre data-lang="Dockerfile" class="language-Dockerfile z-code"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> lukemathwalker/cargo-chef:<span class="z-entity z-name z-enum z-tag-digest">latest-rust-1</span> <span class="z-keyword z-control z-dockerfile">AS</span> <span class="z-variable z-stage-name">chef</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>/app
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> chef <span class="z-keyword z-control z-dockerfile">AS</span> <span class="z-variable z-stage-name">planner</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> . .
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo chef prepare --recipe-path recipe.json
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> chef <span class="z-keyword z-control z-dockerfile">AS</span> <span class="z-variable z-stage-name">builder</span> 
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">planner</span> /app/recipe.json recipe.json
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Build dependencies - this is the caching Docker layer!
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo chef cook --release --recipe-path recipe.json
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Build application
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> . .
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>cargo build --release --bin app
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> We do not need the Rust toolchain to run the binary!
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> debian:<span class="z-entity z-name z-enum z-tag-digest">bookworm-slim</span> <span class="z-keyword z-control z-dockerfile">AS</span> <span class="z-variable z-stage-name">runtime</span>
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>/app
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">builder</span> /app/target/release/app /usr/local/bin
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-operator z-dockerfile">ENTRYPOINT </span>[<span class="z-string z-quoted z-double z-dockerfile"><span class="z-punctuation z-definition z-string z-begin z-dockerfile">&quot;</span>/usr/local/bin/app<span class="z-punctuation z-definition z-string z-end z-dockerfile">&quot;</span></span>]
+</span></code></pre>
+<p>Alternatively, if you don’t mind a little extra typing, you can write your own Dockerfile without <code>cargo-chef</code>:</p>
+<details>
+<summary>Click to expand</summary>
+<pre data-lang="Dockerfile" class="language-Dockerfile z-code"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> rust:<span class="z-entity z-name z-enum z-tag-digest">1.81-slim-bookworm</span> <span class="z-keyword z-control z-dockerfile">AS</span> <span class="z-variable z-stage-name">builder</span>
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">WORKDIR </span>/usr/src/app
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Copy the Cargo files to cache dependencies
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> Cargo.toml Cargo.lock ./
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Create a dummy main.rs to build dependencies
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>mkdir src &amp;&amp; \
+</span><span class="z-source z-dockerfile">    echo <span class="z-string z-quoted z-single z-dockerfile"><span class="z-punctuation z-definition z-string z-begin z-dockerfile">&#39;</span>fn main() { println!(&quot;Dummy&quot;) }<span class="z-punctuation z-definition z-string z-end z-dockerfile">&#39;</span></span> &gt; src/main.rs &amp;&amp; \
+</span><span class="z-source z-dockerfile">    cargo build --release &amp;&amp; \
+</span><span class="z-source z-dockerfile">    rm src/main.rs
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Now copy the actual source code
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> src ./src
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Build for release
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>touch src/main.rs &amp;&amp; cargo build --release
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Runtime stage
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">FROM</span> debian:<span class="z-entity z-name z-enum z-tag-digest">bookworm-slim</span>
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Install minimal runtime dependencies
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">RUN </span>apt-get update &amp;&amp; apt-get install -y --no-install-recommends ca-certificates &amp;&amp; rm -rf /var/lib/apt/lists/*
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Copy the build artifact from the build stage
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-control z-dockerfile">COPY</span> --from=<span class="z-variable z-stage-name">builder</span> /usr/src/app/target/release/your-app /usr/local/bin/
+</span><span class="z-source z-dockerfile">
+</span><span class="z-source z-dockerfile"><span class="z-comment z-dockerfile"><span class="z-punctuation z-definition z-comment z-dockerfile">#</span> Set the startup command to run our binary
+</span></span><span class="z-source z-dockerfile"><span class="z-keyword z-operator z-dockerfile">CMD </span>[<span class="z-string z-quoted z-double z-dockerfile"><span class="z-punctuation z-definition z-string z-begin z-dockerfile">&quot;</span>your-app<span class="z-punctuation z-definition z-string z-end z-dockerfile">&quot;</span></span>]
+</span></code></pre>
+</details>
+<h2 id="environment-flags-to-disable-incremental-compilation"><a class="zola-anchor" href="#environment-flags-to-disable-incremental-compilation" aria-label="Anchor link for: environment-flags-to-disable-incremental-compilation">Environment Flags To Disable Incremental Compilation</a></h2>
+<p>Rust provides environment flags to disable incremental compilation.
+While incremental compilation speeds up local development builds, in CI it can actually slow down the process due to dependency tracking overhead and negatively impact caching.
+So it’s better to switch it off:</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Build</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml"><span class="z-constant z-language z-boolean z-yaml">on</span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">pull_request</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">push</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">branches</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml">main</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">env</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-comment z-line z-number-sign z-yaml"><span class="z-punctuation z-definition z-comment z-line z-number-sign z-yaml">#</span> Disable incremental compilation for faster from-scratch builds
+</span></span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">CARGO_INCREMENTAL</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-constant z-numeric z-integer z-decimal z-yaml">0</span>
+</span><span class="z-source z-yaml">
+</span><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">jobs</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">build</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">runs-on</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-constant z-numeric z-float z-decimal z-yaml"><span class="z-punctuation z-separator z-decimal z-yaml">.</span>..</span> 
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">steps</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-constant z-numeric z-float z-decimal z-yaml"><span class="z-punctuation z-separator z-decimal z-yaml">.</span>..</span>
+</span></code></pre>
+<h2 id="disable-debug-info"><a class="zola-anchor" href="#disable-debug-info" aria-label="Anchor link for: disable-debug-info">Disable Debug Info</a></h2>
+<p>While debug info is valuable for debugging, it significantly increases the size of the <code>./target</code> directory, which can harm caching efficiency.
+It’s easy to switch off:</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">env</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">CARGO_PROFILE_TEST_DEBUG</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-constant z-numeric z-integer z-decimal z-yaml">0</span>
+</span></code></pre>
+<h2 id="use-cargo-nextest"><a class="zola-anchor" href="#use-cargo-nextest" aria-label="Anchor link for: use-cargo-nextest">Use <code>cargo nextest</code></a></h2>
+<p><code>cargo nextest</code> enables parallel test execution, which can substantially speed up your CI process.
+While they claim a 3x speedup over <code>cargo test</code>, in CI environments I typically observe around 40%
+because the runners don’t have as many cores as a developer machine.
+It’s still a nice speedup.</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">jobs</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">test</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">runs-on</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">ubuntu-latest</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">steps</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">actions/checkout@v4</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">dtolnay/rust-toolchain@stable</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">taiki-e/install-action@nextest</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Swatinem/rust-cache@v2</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Compile</span>
+</span><span class="z-source z-yaml">        <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo check --locked</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Test</span>
+</span><span class="z-source z-yaml">        <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo nextest</span> 
+</span></code></pre>
+<h2 id="cargo-toml-settings"><a class="zola-anchor" href="#cargo-toml-settings" aria-label="Anchor link for: cargo-toml-settings"><code>Cargo.toml</code> Settings</a></h2>
+<p>These release profile settings can significantly improve build times and binary size:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-punctuation z-definition z-table z-begin z-toml">[</span><span class="z-meta z-tag z-table z-toml"><span class="z-entity z-name z-table z-toml">profile</span><span class="z-punctuation z-separator z-table z-toml">.</span><span class="z-entity z-name z-table z-toml">release</span></span><span class="z-punctuation z-definition z-table z-end z-toml">]</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">lto</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-language z-toml">true</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">codegen-units</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-numeric z-integer z-toml">1</span>
+</span></code></pre>
+<ul>
+<li>LTO (Link Time Optimization) performs optimizations across module boundaries, which can reduce binary size and improve runtime performance.</li>
+<li>Setting <code>codegen-units = 1</code> trades parallel compilation for better optimization opportunities. While this might make local builds slower, it often speeds up CI builds by reducing memory pressure on resource-constrained runners.</li>
+</ul>
+<p>If you only want to apply these settings in CI, you can use the <code>CARGO_PROFILE_RELEASE_LTO</code> and <code>CARGO_PROFILE_RELEASE_CODEGEN_UNITS</code> environment variables:</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">jobs</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">build</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">runs-on</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">ubuntu-latest</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">env</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">CARGO_PROFILE_RELEASE_LTO</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-constant z-language z-boolean z-yaml">true</span>
+</span><span class="z-source z-yaml">      <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">CARGO_PROFILE_RELEASE_CODEGEN_UNITS</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-constant z-numeric z-integer z-decimal z-yaml">1</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">steps</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">uses</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">actions/checkout@v4</span>
+</span><span class="z-source z-yaml">      <span class="z-punctuation z-definition z-block z-sequence z-item z-yaml">-</span> <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">name</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">Build</span>
+</span><span class="z-source z-yaml">        <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">run</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">cargo build --release --locked</span>
+</span></code></pre>
+<h2 id="use-beefier-runners"><a class="zola-anchor" href="#use-beefier-runners" aria-label="Anchor link for: use-beefier-runners">Use Beefier Runners</a></h2>
+<p>GitHub Actions has recently announced that
+Linux ARM64 hosted runners are now available for free in public repositories.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.blog/changelog/2025-01-16-linux-arm64-hosted-runners-now-available-for-free-in-public-repositories-public-preview/">Here’s</a> the announcement.</p>
+<p>Switching to ARM64 provides up to 40% performance improvement and is straightforward. Simply replace <code>ubuntu-latest</code> with <code>ubuntu-latest-arm64</code> in your workflow file:</p>
+<pre data-lang="yaml" class="language-yaml z-code"><code class="language-yaml" data-lang="yaml"><span class="z-source z-yaml"><span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">jobs</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">  <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">test</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span>
+</span><span class="z-source z-yaml">    <span class="z-string z-unquoted z-plain z-out z-yaml"><span class="z-entity z-name z-tag z-yaml">runs-on</span></span><span class="z-punctuation z-separator z-key-value z-mapping z-yaml">:</span> <span class="z-string z-unquoted z-plain z-out z-yaml">ubuntu-latest-arm64</span>
+</span></code></pre>
+<p>However, in my <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/lycheeverse/lychee/pull/1614">tests</a>, the downside was that it took a long time until a runner was allocated to the job. The waiting time dwarfed the actual build time. I assume GitHub will add more runners in the future to mitigate this issue.</p>
+<p>If you are using Rust for production workloads, it’s worth looking into dedicated VMs.
+These are not free, but in comparison to the small GitHub runners, you can get a significant uplift on build times.</p>
+<p>Any provider will do, as long as you get a VM with a decent amount of CPU cores (16+ is recommended)
+and a good amount of RAM (32GB+).
+Hetzner Cloud is a popular choice for this purpose because of its competitive pricing.
+<a class="external-link" rel="noopener noreferrer" target="_blank" href="https://cloud.google.com/solutions/spot-vms">Spot instances</a> or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.hetzner.com/sb/">server auctions</a> can be a good way to save money.
+Here are some setup resources to get you started:</p>
+<ul>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/jonico/awesome-runners">Awesome Runners</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://altinity.com/blog/slash-ci-cd-bills-part-2-using-hetzner-cloud-github-runners-for-your-repository">Using Hetzner Cloud GitHub Runners for Your Repository</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://runs-on.com/">Runs-on, a Github Actions hoster</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://www.blacksmith.sh/">Blacksmith</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/hetznercloud/awesome-hcloud">Awesome HCloud Repo</a></li>
+<li><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://github.com/Cyclenerd/hcloud-github-runner">HCloud Runner</a></li>
+</ul>
+<p>There are services like <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://depot.dev/">Depot</a>, which host runners for you.
+They promise large speedups for Rust builds, but I haven’t tested them myself.</p>
+<h2 id="automate-dependency-updates"><a class="zola-anchor" href="#automate-dependency-updates" aria-label="Anchor link for: automate-dependency-updates">Automate Dependency Updates</a></h2>
+<p>Implement <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide">dependabot</a> or <a class="external-link" rel="noopener noreferrer" target="_blank" href="https://docs.renovatebot.com/">Renovate</a>
+to automate dependency updates.
+Instead of manually creating PRs for updates and waiting for CI, these bots handle this automatically, creating PRs that you can merge when ready.</p>
+<p>Renovate has a bit of an edge over dependabot in terms of configurability and features.</p>
+<h2 id="streamline-release-creation"><a class="zola-anchor" href="#streamline-release-creation" aria-label="Anchor link for: streamline-release-creation">Streamline Release Creation</a></h2>
+<p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://release-plz.ieni.dev/"><code>release-plz</code></a> automates release creation when PRs are merged.
+This GitHub action eliminates the manual work of creating releases and is highly recommended for maintaining a smooth workflow.</p>
+<p><img src="https://corrode.dev/blog/tips-for-faster-ci-builds/release-plz.jpg" alt="release-plz website screenshot" /></p>
+<h2 id="optimize-your-rust-code"><a class="zola-anchor" href="#optimize-your-rust-code" aria-label="Anchor link for: optimize-your-rust-code">Optimize Your Rust Code</a></h2>
+<p>If you’ve implemented all these optimizations and your builds are still slow, it’s time to optimize the Rust code itself. I’ve compiled many tips in my other blog post <a href="/blog/tips-for-faster-rust-compile-times/">here</a>.</p>
+<h2 id="conclusion"><a class="zola-anchor" href="#conclusion" aria-label="Anchor link for: conclusion">Conclusion</a></h2>
+<p>Remember that each project is unique.
+Start with the easier wins like Swatinem’s cache action and <code>--locked</code> flag, then progressively implement more advanced optimizations as needed. Monitor your CI metrics to ensure the changes are having the desired effect.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Need Professional Support?</p>
+</h4>
+  </div>
+  
+  <p>Is your Rust CI still too slow despite implementing these optimizations?
+I can help you identify and fix performance bottlenecks in your build pipeline.
+<a href="/services">Book a free consultation</a> to discuss your specific needs.</p>
+
+</div>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a href="/blog/tips-for-faster-rust-compile-times/">Tips for faster compile times</a> - A general article on speeding up Rust compile times</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer" target="_blank" href="https://matklad.github.io/2021/09/04/fast-rust-builds.html#CI-Workflow">Fast Rust Builds by Matklad</a></p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;&title=Tips for Faster Rust CI Builds"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;&t=Tips for Faster Rust CI Builds"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2025-01-28">
+            Published: 2025-01-28
+        </time>
+    </div><div class="updated">
+        <time datetime="2025-08-16">
+            Last updated: 2025-08-16
+        </time>
+    </div>
+    
+    
+    <div>
+        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/&#x2F;blog&#x2F;tips-for-faster-ci-builds&#x2F;">Full git revision history</a>
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+  <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+  <p>
+    I regularly write new articles on idiomatic Rust. If you want to be notified
+    when I publish them, you should sign up to my newsletter here. No spam.
+    Unsubscribe at any time.
+  </p>
+  <div id="subscription-section">
+    <form
+      id="newsletter-form"
+      action="https://corrode-newsletter.fly.dev/subscribe"
+      method="post"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="mail@example.com"
+        required
+        id="tlemail"
+      />
+      <div style="display: none">
+        <input type="text" name="hpfield" value="" />
+      </div>
+      <button type="submit" id="submit-btn">
+        <span id="button-text">Subscribe</span>
+        <div id="spinner" style="display: none">
+          <div
+            style="
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              border: 2px solid rgba(255, 255, 255, 0.3);
+              border-top: 2px solid white;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin-right: 8px;
+            "
+          ></div>
+          Subscribing...
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  document
+    .getElementById("newsletter-form")
+    .addEventListener("submit", function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show spinner and hide button text
+      document.getElementById("button-text").style.display = "none";
+      document.getElementById("spinner").style.display = "inline-block";
+      document.getElementById("submit-btn").disabled = true;
+
+      const formData = new FormData(this);
+      fetch("https://corrode-newsletter.fly.dev/subscribe", {
+        method: "POST",
+        body: new URLSearchParams(formData),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            document.getElementById("subscription-section").innerHTML =
+              "<p><b>Thank you for subscribing!</b></p>";
+          } else {
+            throw new Error("Server responded with an error"); // Forces catch block execution
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("subscription-section").innerHTML =
+            "<p><b>There was a problem with your subscription. Please try again later.</b></p>";
+        });
+    });
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
