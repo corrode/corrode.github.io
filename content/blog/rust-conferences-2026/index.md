@@ -18,7 +18,7 @@ Oh, and in case the call for proposals (CFP) is still open, why not submit a
 talk or workshop proposal?
 
 <!-- Interactive Map -->
-<div id="conference-map" style="height: 500px; width: 100%; margin: 2rem 0; border-radius: 8px; overflow: hidden;"></div>
+<div id="conference-map"></div>
 
 <div class="conference-filters">
   <button class="button filter-btn active" data-filter="all">All Conferences</button>
@@ -326,6 +326,11 @@ See you at the next conference! 🦀
   /* Map styles */
   #conference-map {
     position: relative;
+    height: 500px;
+    width: 110%;
+    margin-left: -5%;
+    overflow: hidden;
+    border-radius: 8px;
   }
 
   .marker-container {
@@ -522,6 +527,7 @@ function initConferenceMap() {
 
   // Create the map
   const map = L.map('conference-map', {
+    attributionControl:false,
     center: [30, 10],
     zoom: 2,
     minZoom: 2,
