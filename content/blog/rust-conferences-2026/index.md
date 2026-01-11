@@ -535,8 +535,10 @@ function initConferenceMap() {
   });
 
   // Light and dark tile layers - using Stamen Toner from Stadia Maps
+  const stadiaApiKey = '07e2d930-9008-40cb-aa03-2cdf13cf5e2f';
+
   const lightLayer = L.tileLayer(
-    'https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png',
+    `https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png?api_key=${stadiaApiKey}`,
     {
       minZoom: 0,
       maxZoom: 20,
@@ -545,7 +547,7 @@ function initConferenceMap() {
   );
 
   const darkLayer = L.tileLayer(
-    'https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png',
+    `https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png?api_key=${stadiaApiKey}`,
     {
       minZoom: 0,
       maxZoom: 20,
