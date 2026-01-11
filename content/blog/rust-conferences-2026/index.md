@@ -117,6 +117,23 @@ A conference for Rust developers in Asia.
 
 ## Q2 2026
 
+### TokioConf (Portland, USA)
+
+<a href="https://www.tokioconf.com/" target="_blank">
+  <img src="tokioconf.jpg" alt="TokioConf" />
+</a>
+
+The first-ever dedicated conference for developers building high-performance network applications with Tokio and async Rust. A single-track event bringing together ~300 developers from across the Rust ecosystem.
+
+- **When**: April 20-22, 2026
+- **Where**: [Hyatt Regency Portland, 375 NE Holladay St, Portland, OR 97232](https://maps.app.goo.gl/DKsYV8rPZp1q5dZs9)
+- **Format**: 3 days (1 day optional workshops + 2 days single-track conference)
+- **Focus**: Async Rust, Tokio, high-performance network applications
+- **Pricing**: [Early Bird $650, General Admission $750](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
+- **CFP**: [Closed](https://sessionize.com/tokioconf-2026)
+- **Links**: [Website](https://www.tokioconf.com/) | [Tickets](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
+- **Social**: [Tokio Blog](https://tokio.rs/blog)
+
 ### RustWeek (Utrecht, Netherlands) 
 
 <a href="https://2026.rustweek.org/" target="_blank">
@@ -482,6 +499,14 @@ function initConferenceMap() {
       lat: 52.2297,
       lng: 21.0122,
       dates: 'March 19-20, 2026'
+    },
+    {
+      name: 'TokioConf',
+      city: 'Portland',
+      country: 'USA',
+      lat: 45.5272,
+      lng: -122.6645,
+      dates: 'April 20-22, 2026'
     },
     {
       name: 'RustWeek',
