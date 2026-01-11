@@ -246,14 +246,12 @@ See you at the next conference! 🦀
 
 *Note: This list will be updated regularly as more conferences announce their 2026 dates. Most conferences are yet to announce their exact dates, venues, ticket prices, and CFP timelines. Check back often for updates!*
 
-<!-- Leaflet JS -->
 <script
   src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""
 ></script>
 
-<!-- Leaflet CSS -->
 <link
   rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -330,13 +328,11 @@ See you at the next conference! 🦀
     position: relative;
   }
 
-  /* Marker container (no animation here to avoid conflicts with Leaflet positioning) */
   .marker-container {
     width: 20px;
     height: 20px;
   }
 
-  /* Pulsating pink marker - applied to inner element */
   .pulse-marker {
     width: 20px;
     height: 20px;
@@ -372,7 +368,6 @@ See you at the next conference! 🦀
     }
   }
 
-  /* Custom tooltip styling */
   .leaflet-tooltip {
     background: white;
     border: 2px solid #ff1493;
@@ -456,9 +451,8 @@ See you at the next conference! 🦀
 
 
 <script>
-// Initialize conference map
+// Only show confirmed conferences on the map
 function initConferenceMap() {
-  // Conference data with coordinates - only confirmed conferences
   const conferences = [
     {
       name: 'Rust Nation',
@@ -534,22 +528,22 @@ function initConferenceMap() {
     maxZoom: 10
   });
 
-  // Light and dark tile layers - using CartoDB Positron/DarkMatter for cleaner look
+  // Light and dark tile layers - using Stamen Toner from Stadia Maps
   const lightLayer = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    'https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png',
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 20
+      minZoom: 0,
+      maxZoom: 20,
+      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }
   );
 
   const darkLayer = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    'https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}{r}.png',
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attribution">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 20
+      minZoom: 0,
+      maxZoom: 20,
+      attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }
   );
 
