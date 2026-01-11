@@ -19,6 +19,13 @@ talk or workshop proposal?
 
 <!-- Interactive Map -->
 <div id="conference-map"></div>
+<div class="map-attribution">
+  Map powered by <a href="https://leafletjs.com/" target="_blank">Leaflet</a> |
+  © <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>
+  © <a href="https://stamen.com/" target="_blank">Stamen Design</a>
+  © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a>
+  © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors
+</div>
 
 <div class="conference-filters">
   <button class="button filter-btn active" data-filter="all">All Conferences</button>
@@ -350,6 +357,25 @@ See you at the next conference! 🦀
     border-radius: 8px;
   }
 
+  .map-attribution {
+    font-size: 0.75rem;
+    color: #888;
+    margin: 0.5rem 0 2rem 0;
+    text-align: center;
+    width: 110%;
+    margin-left: -5%;
+  }
+
+  .map-attribution a {
+    color: #888;
+    text-decoration: none;
+  }
+
+  .map-attribution a:hover {
+    color: #555;
+    text-decoration: underline;
+  }
+
   .marker-container {
     width: 20px;
     height: 20px;
@@ -468,6 +494,19 @@ See you at the next conference! 🦀
     .tooltip-location {
       color: #6b7280;
     }
+
+    /* Map attribution dark mode */
+    .map-attribution {
+      color: #aaa;
+    }
+
+    .map-attribution a {
+      color: #aaa;
+    }
+
+    .map-attribution a:hover {
+      color: #ddd;
+    }
   }
 </style>
 
@@ -552,7 +591,7 @@ function initConferenceMap() {
 
   // Create the map
   const map = L.map('conference-map', {
-    attributionControl: true,
+    attributionControl: false,
     center: [30, 10],
     zoom: 2,
     minZoom: 2,
