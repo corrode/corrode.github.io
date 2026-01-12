@@ -112,7 +112,7 @@ fn factorial(n: u64) -> u64 {
 }
 ```
 
-## Panic Hooks: Your Last Line of Defense
+## Panic Hooks Are Your Last Line of Defense
 
 Now that you understand how panics work, let's talk about observability.
 
