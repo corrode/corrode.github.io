@@ -7,7 +7,7 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-We talked about Patterns for Defensive Programming in Rust before, in which implicit invariants that aren't enforced by the compiler lead to demise and misery.
+We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to demise and misery.
 But even being careful to prevent these mistakes is not enough to make your code truly robust.
 What's missing is that even valid code can fail at runtime in ways that are hard to predict and control.
 That's the topic of this article.
@@ -22,6 +22,8 @@ This article is for you if you:
 Here's a question: what happens when a Rust program panics?
 
 There is no single correct answer because `panic!` is not a single behavior.
+
+### Unwind vs. Abort
 
 For starters, there's a difference between unwind and abort.
 
@@ -57,6 +59,8 @@ These failures are fundamentally different from ordinary panics in that they can
 In order to handle them gracefully, you need to know how exactly your program will run and where, and design accordingly.
 For example, in the case of `malloc`, avoid unbounded user input that could lead to excessive allocations.
 
+### Thread-Level vs. Process-Level Failures
+
 Another difference is between thread-level failures and process-level crashes.
 
 A common misunderstanding is that `panic` terminates the entire program, but in a multi-threaded application, that is not necessarily the case.
@@ -75,6 +79,8 @@ You should be explicit about whether a failure is allowed to take down a single 
 **Never panic in an uncontrolled manner.**
 
 ## Stack Overflow as a Failure Mode
+
+Panic behavior isn't the only runtime failure mode you need to worry about.
 
 Okay, you handle errors gracefully and you know how your system behaves on panic.
 But did you account for stack overflows as well? 
@@ -107,6 +113,8 @@ fn factorial(n: u64) -> u64 {
 ```
 
 ## Panic Hooks: Your Last Line of Defense
+
+Now that you understand how panics work, let's talk about observability.
 
 When things go wrong, you want to know about it.
 But by default, Rust panics just print to stderr and disappear into the void.
@@ -147,6 +155,8 @@ panic::set_hook(Box::new(|panic_info| {
 }));
 ```
 
+### Preserving Existing Hooks
+
 And here's [Sentry's panic hook handler](https://github.com/getsentry/sentry-rust/blob/625617015f2b64fabdf8264186911ca43873bb80/sentry-panic/src/lib.rs#L69-L77), which is even more sophisticated:
 
 ```rust
@@ -167,6 +177,8 @@ This:
 - Preserves the previous panic hook behavior by calling `next(info)`
 - Ensures the hook is only set once using `INIT.call_once`
 
+### Sanitizing Sensitive Data
+
 But there's more to it than just logging. Panic hooks are your opportunity to prevent information leaks.
 Remember that panic messages can contain sensitive data like file paths, internal state, or user information.
 A well-designed panic hook sanitizes these messages before they reach logs or crash reports.
@@ -178,10 +190,14 @@ panic::set_hook(Box::new(|panic_info| {
 }));
 ```
 
+### Cleanup Operations
+
 Also, setting a hook is a great way to perform cleanup operations.
 Before the process potentially terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down. 
 
 But be careful—these hooks run in an already-compromised environment, so avoid operations that could themselves panic.
+
+### Limitations
 
 Also remember that panic hooks only run for unwinding panics.
 If your program is configured to abort on panic, or if the panic is caused by a stack overflow or out-of-memory condition, your hook won't execute.
@@ -257,14 +273,17 @@ cargo test --release
 Remember: if your code relies on behavior that only exists in debug builds, it's not actually tested.
 The optimizer can and will eliminate code it deems unnecessary.
 
-
 ## Supply-Chain Security
+
+Beyond runtime behavior differences, there's another vector for failures you can't ignore: your dependencies.
 
 Your code is only as safe as your dependencies.
 You should regularly audit your dependencies for known vulnerabilities.
 Two helpful tools for that are [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
 
 ## Runtime Hardening Tooling
+
+Finally, let's talk about the tools that help you catch problems before they hit production.
 
 Here are some useful tools to harden your Rust code against runtime failures:
 
