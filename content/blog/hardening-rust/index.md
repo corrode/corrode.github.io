@@ -54,13 +54,13 @@ And **even if** you did not explicitly configure this, catastrophic panics like 
 - And if a `malloc` fails, [it aborts the process](https://news.ycombinator.com/item?id=11369457). If that's a problem, you need to proactively check for allocation sizes before allocating or avoid heap allocations altogether.
 
 These failures are fundamentally different from ordinary panics in that they cannot be caught or recovered from.
-In order to handle them gracefully, you need to know how exactly your program will run and where and design accordingly.
+In order to handle them gracefully, you need to know how exactly your program will run and where, and design accordingly.
 For example, in the case of `malloc`, avoid unbounded user input that could lead to excessive allocations.
 
 Another difference is between thread-level failures and process-level crashes.
 
 A common misunderstanding is that `panic` terminates the entire program, but in a multi-threaded application, that is not necessarily the case.
-For exmaple, a background worker thread can panic while the main thread continues running.
+For example, a background worker thread can panic while the main thread continues running.
 What sounds like a benefit can leave the system in a partially degraded state. 
 
 This distinction becomes especially important in long-running systems (servers, workers, async runtimes,...).
@@ -74,7 +74,7 @@ You should be explicit about whether a failure is allowed to take down a single 
 
 **Never panic in an uncontrolled manner.**
 
-## Stack Overflow As A Failure Mode
+## Stack Overflow as a Failure Mode
 
 Okay, you handle errors gracefully and you know how your system behaves on panic.
 But did you account for stack overflows as well? 
@@ -112,7 +112,7 @@ When things go wrong, you want to know about it.
 But by default, Rust panics just print to stderr and disappear into the void.
 In production systems, that's not so great. 
 
-What you need is structured logging, crash reporting, and/or centralized failure handling and that's where panic hooks come in.
+What you need is structured logging, crash reporting, and/or centralized failure handling, and that's where panic hooks come in.
 
 A panic hook is a function that gets called whenever a panic occurs, giving you a chance to handle it before the program terminates or unwinds.
 
@@ -165,7 +165,7 @@ This:
 
 - Logs the panic information 
 - Preserves the previous panic hook behavior by calling `next(info)`
-- Ensures the hook is only set once using `INIT.call_once`.
+- Ensures the hook is only set once using `INIT.call_once`
 
 But there's more to it than just logging. Panic hooks are your opportunity to prevent information leaks.
 Remember that panic messages can contain sensitive data like file paths, internal state, or user information.
@@ -181,7 +181,7 @@ panic::set_hook(Box::new(|panic_info| {
 Also, setting a hook is a great way to perform cleanup operations.
 Before the process potentially terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down. 
 
-But be careful these hooks run in an already-compromised environment, so avoid operations that could themselves panic.
+But be careful—these hooks run in an already-compromised environment, so avoid operations that could themselves panic.
 
 Also remember that panic hooks only run for unwinding panics.
 If your program is configured to abort on panic, or if the panic is caused by a stack overflow or out-of-memory condition, your hook won't execute.
@@ -189,7 +189,7 @@ If your program is configured to abort on panic, or if the panic is caused by a 
 My final rule is: **never rely on panic hooks for correctness.** 
 They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to know the program's state at this point.
 
-## Release And Debug Builds Are Two Different Programs
+## Release and Debug Builds Are Two Different Programs
 
 One of the most dangerous assumptions in Rust development is that debug and release builds are functionally equivalent.
 They're not.
@@ -262,7 +262,7 @@ The optimizer can and will eliminate code it deems unnecessary.
 
 Your code is only as safe as your dependencies.
 You should regularly audit your dependencies for known vulnerabilities.
-Two helpful tools for that are, [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
+Two helpful tools for that are [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
 
 ## Runtime Hardening Tooling
 
@@ -270,12 +270,10 @@ Here are some useful tools to harden your Rust code against runtime failures:
 
 - [`miri`](https://github.com/rust-lang/miri)
 - [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz)
-- [`hongg-fuzz`](https://github.com/google/honggfuzz)
+- [`honggfuzz`](https://github.com/google/honggfuzz)
 - [`cargo-geiger`](https://github.com/geiger-rs/cargo-geiger)
 - [`cargo-valgrind`](https://github.com/jfrimmel/cargo-valgrind)
 - [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin)
 
 The tools above help catch undefined behavior, memory safety issues, code coverage gaps, and performance bottlenecks.
 They are dynamic analysis tools that complement Rust's static guarantees.
-
-
