@@ -8,26 +8,26 @@ series = "Idiomatic Rust"
 +++
 
 We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to demise and misery.
-But even being careful to prevent these mistakes is not enough to make your code truly robust.
-What's missing is that even valid code can fail at runtime in ways that are hard to predict and control.
-That's the topic of this article.
+But being careful isn't enough.
+Even valid code can fail at runtime in ways that are hard to predict and control.
+That's what we're covering here.
 
-This article is for you if you:
-- need to harden your Rust code for production 
-- want to know how Rust code can fail in unexpected ways and how to recover from that
-- want to make your code resilient at runtime
+This article is for you if you want to
+- make your code resilient at runtime
+- harden your Rust code for production 
+- know how Rust code can fail in unexpected ways and how to recover from that
 
 ## Panic Semantics Are Part of Your API
 
 Here's a question: what happens when a Rust program panics?
 
-There is no single correct answer because `panic!` is not a single behavior.
+There is no single correct answer because `panic!` is not a "single behavior."
 
 ### Unwind vs. Abort
 
 For starters, there's a difference between unwind and abort.
 
-[`catch_unwind`](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html) invokes a closure, capturing the cause of an unwinding panic if one occurs.
+[`catch_unwind`](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html) invokes a closure, which captures the cause of an unwinding panic.
 
 ```rust
 let result = panic::catch_unwind(|| {
@@ -56,7 +56,7 @@ And **even if** you did not explicitly configure this, catastrophic panics like 
 - And if a `malloc` fails, [it aborts the process](https://news.ycombinator.com/item?id=11369457). If that's a problem, you need to proactively check for allocation sizes before allocating or avoid heap allocations altogether.
 
 These failures are fundamentally different from ordinary panics in that they cannot be caught or recovered from.
-In order to handle them gracefully, you need to know how exactly your program will run and where, and design accordingly.
+To handle them gracefully, you need to know exactly how and where your program will run, and design accordingly.
 For example, in the case of `malloc`, avoid unbounded user input that could lead to excessive allocations.
 
 ### Thread-Level vs. Process-Level Failures
@@ -69,8 +69,9 @@ What sounds like a benefit can leave the system in a partially degraded state.
 
 This distinction becomes especially important in long-running systems (servers, workers, async runtimes,...).
 A panic in a request-handling thread might only abort that one request, while the rest of the service remains available.
-Whether this is acceptable depends on the invariants of the system. If a panic indicates a violated assumption confined to 
-a small scope, such as a request, letting the process continue may be reasonable, but if it indicates a global invariant violation, it can be outright dangerous to continue execution.
+Whether this is acceptable depends on the system's invariants.
+If a panic indicates a violated assumption confined to a small scope, like a single request, letting the process continue may be reasonable.
+But if it signals a global invariant violation, continuing execution can be outright dangerous.
 
 The key insight is that panic behavior is **part of your system's failure model**.
 Treating all panics as equivalent hides important distinctions and leads to fragile assumptions.
@@ -79,8 +80,6 @@ You should be explicit about whether a failure is allowed to take down a single 
 **Never panic in an uncontrolled manner.**
 
 ## Stack Overflow as a Failure Mode
-
-Panic behavior isn't the only runtime failure mode you need to worry about.
 
 Okay, you handle errors gracefully and you know how your system behaves on panic.
 But did you account for stack overflows as well? 
@@ -98,7 +97,7 @@ fn factorial(n: u64) -> u64 {
 ```
 
 If you allow users to call this function with large inputs, it might crash your program.
-Rust does not guarantee tail-call optimization, which is the compiler's ability to optimize certain recursive calls into loops that don't grow the stack, so deep recursion can lead to stack overflows, which is an unrecoverable crash.
+Rust doesn't guarantee tail-call optimization—the compiler's ability to turn certain recursive calls into loops that don't grow the stack. This means deep recursion can lead to stack overflows, which cause unrecoverable crashes.
 
 It requires some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
 
@@ -112,17 +111,23 @@ fn factorial(n: u64) -> u64 {
 }
 ```
 
+**Panic behavior isn't the only runtime failure mode you need to worry about.**
+
 ## Panic Hooks Are Your Last Line of Defense
 
 Now that you understand how panics work, let's talk about observability.
 
 When things go wrong, you want to know about it.
-But by default, Rust panics just print to stderr and disappear into the void.
+But by default, Rust panics just print to `stderr` and disappear into the void.
 In production systems, that's not so great. 
 
-What you need is structured logging, crash reporting, and/or centralized failure handling, and that's where panic hooks come in.
-
+You might prefer crash reporting, and/or centralized failure handling, and that's where panic hooks come in.
 A panic hook is a function that gets called whenever a panic occurs, giving you a chance to handle it before the program terminates or unwinds.
+It's your last line of defense to log, report, or clean up before the inevitable.
+
+### Example Panic Hooks
+
+Here's a simple example of setting a panic hook:
 
 ```rust
 use std::panic;
@@ -139,7 +144,7 @@ fn main() {
 }
 ```
 
-For example, here's a panic hook that sends structured JSON data to a crash reporting service:
+And here's a panic hook that sends structured JSON data to a crash reporting service:
 
 ```rust
 panic::set_hook(Box::new(|panic_info| {
@@ -155,9 +160,7 @@ panic::set_hook(Box::new(|panic_info| {
 }));
 ```
 
-### Preserving Existing Hooks
-
-And here's [Sentry's panic hook handler](https://github.com/getsentry/sentry-rust/blob/625617015f2b64fabdf8264186911ca43873bb80/sentry-panic/src/lib.rs#L69-L77), which is even more sophisticated:
+And finally, here's [Sentry's panic hook handler](https://github.com/getsentry/sentry-rust/blob/625617015f2b64fabdf8264186911ca43873bb80/sentry-panic/src/lib.rs#L69-L77), which is even more sophisticated:
 
 ```rust
 fn setup(&self, _cfg: &mut ClientOptions) {
@@ -171,16 +174,17 @@ fn setup(&self, _cfg: &mut ClientOptions) {
 }
 ```
 
-This:
-
+Sentry's panic hook:
 - Logs the panic information 
 - Preserves the previous panic hook behavior by calling `next(info)`
 - Ensures the hook is only set once using `INIT.call_once`
 
+There's a lot to learn from these few lines of code!
+
 ### Sanitizing Sensitive Data
 
-But there's more to it than just logging. Panic hooks are your opportunity to prevent information leaks.
-Remember that panic messages can contain sensitive data like file paths, internal state, or user information.
+Panic hooks are also your final opportunity to prevent information leaks.
+Remember that panic messages can contain sensitive data like file paths, internal state, or user information (PII).
 A well-designed panic hook sanitizes these messages before they reach logs or crash reports.
 
 ```rust
@@ -192,18 +196,18 @@ panic::set_hook(Box::new(|panic_info| {
 
 ### Cleanup Operations
 
-Also, setting a hook is a great way to perform cleanup operations.
-Before the process potentially terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down. 
-
-But be careful—these hooks run in an already-compromised environment, so avoid operations that could themselves panic.
+Before the process terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down. 
+Setting a hook is a great way to perform such cleanup operations.
+But be careful: these hooks run in an already-compromised environment, so avoid operations that could panic themselves.
 
 ### Limitations
 
-Also remember that panic hooks only run for unwinding panics.
-If your program is configured to abort on panic, or if the panic is caused by a stack overflow or out-of-memory condition, your hook won't execute.
+Remember that panic hooks only run for unwinding panics.
+If your program aborts on panic, or if the panic is caused by a stack overflow or out-of-memory condition, **your hook won't execute**.
 
-My final rule is: **never rely on panic hooks for correctness.** 
-They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to know the program's state at this point.
+Therefore **never rely on panic hooks for correctness.** 
+
+They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to rely on a system's fragile underpinnings at this stage. 
 
 ## Release and Debug Builds Are Two Different Programs
 
@@ -214,9 +218,7 @@ In many ways, you're shipping a different program than the one you tested.
 The most obvious difference is integer overflow behavior. Debug builds panic on overflow, while release builds silently wrap around.
 We covered that in [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/).
 
-But the differences run much deeper than arithmetic.
-The optimizer makes assumptions about your code that can fundamentally change its behavior.
-
+But the differences run deeper than arithmetic.
 For example, the optimizer can reorder operations in ways that break timing-sensitive code:
 
 ```rust
@@ -236,8 +238,8 @@ fn rate_limited_operation() -> bool {
 }
 ```
 
-The optimizer might move the timing calculation or inline `expensive_computation()` in ways that fundamentally change the timing behavior, which could break your rate-limit logic.
-One way around this is to use `black_box` from `std::hint` to prevent the optimizer from making assumptions about certain values:
+The optimizer might move the timing calculation or inline `expensive_computation()` in ways that change the timing behavior and break your rate-limit logic.
+One way around this is `black_box` from `std::hint`, which prevents the optimizer from making assumptions about certain values:
 
 ```rust
 use std::hint::black_box;
@@ -260,7 +262,7 @@ fn rate_limited_operation() -> bool {
 
 It's telling the compiler: "Don't touch this; assume it could have side effects you don't know about."
 
-### Making Release Behavior Explicit
+### Testing Release Behavior 
 
 The fact that tests pass in debug mode tells you almost nothing about production behavior.
 **Run your tests against release builds**. 
@@ -270,29 +272,23 @@ The fact that tests pass in debug mode tells you almost nothing about production
 cargo test --release
 ```
 
-Remember: if your code relies on behavior that only exists in debug builds, it's not actually tested.
-The optimizer can and will eliminate code it deems unnecessary.
-
 ## Supply-Chain Security
-
-Beyond runtime behavior differences, there's another vector for failures you can't ignore: your dependencies.
 
 Your code is only as safe as your dependencies.
 You should regularly audit your dependencies for known vulnerabilities.
 Two helpful tools for that are [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
+It's recommended to run those as part of CI.
 
 ## Runtime Hardening Tooling
 
 Finally, let's talk about the tools that help you catch problems before they hit production.
 
-Here are some useful tools to harden your Rust code against runtime failures:
-
-- [`miri`](https://github.com/rust-lang/miri)
-- [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz)
-- [`honggfuzz`](https://github.com/google/honggfuzz)
-- [`cargo-geiger`](https://github.com/geiger-rs/cargo-geiger)
-- [`cargo-valgrind`](https://github.com/jfrimmel/cargo-valgrind)
-- [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin)
+- [`miri`](https://github.com/rust-lang/miri) -- detects undefined behavior at runtime
+- [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz) -- fuzz testing for Rust code
+- [`honggfuzz`](https://github.com/google/honggfuzz) -- another fuzzer with Rust support
+- [`cargo-geiger`](https://github.com/geiger-rs/cargo-geiger) -- detects usage of unsafe code
+- [`cargo-valgrind`](https://github.com/jfrimmel/cargo-valgrind) -- runs Valgrind on Rust code to find memory errors
+- [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) -- code coverage analysis for Rust projects
 
 The tools above help catch undefined behavior, memory safety issues, code coverage gaps, and performance bottlenecks.
 They are dynamic analysis tools that complement Rust's static guarantees.
