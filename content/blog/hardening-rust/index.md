@@ -5,6 +5,10 @@ draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+resources = [
+   "[Patterns for Defensive Programming in Rust](/blog/defensive-programming) -- making your Rust code more robust by enforcing invariants",
+   "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust) -- common mistakes even safe Rust programmers make",
+]
 +++
 
 We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to demise and misery.
