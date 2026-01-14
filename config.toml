@@ -11,16 +11,16 @@ feed_filenames = ["atom.xml", "rss.xml"]
 
 [markdown]
 smart_punctuation = true
-highlight_code = true
-highlight_theme = "css"
-highlight_themes_css = [
-    { theme = "dracula", filename = "syntax-theme-dark-custom.css" },
-    { theme = "kronuz", filename = "syntax-theme-light-custom.css" },
-]
 bottom_footnotes = true
 external_links_class = "external-link"
 external_links_target_blank = true
 external_links_no_referrer = true
+
+[markdown.highlighting]
+code = true
+theme = "dracula"
+# light_theme = "dracula"
+# dark_theme = "dracula"
 
 [extra]
 author = "Corrode Rust Consulting"
