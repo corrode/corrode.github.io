@@ -222,7 +222,7 @@ In many ways, you're shipping a different program than the one you tested.
 The most obvious difference is integer overflow behavior. Debug builds panic on overflow, while release builds silently wrap around.
 We covered that in [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/).
 
-But the differences run deeper than arithmetic.
+But the differences run deeper than arithmetics.
 For example, the optimizer can reorder operations in ways that break timing-sensitive code:
 
 ```rust
