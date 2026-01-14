@@ -101,7 +101,7 @@ fn factorial(n: u64) -> u64 {
 ```
 
 If you allow users to call this function with large inputs, it might crash your program.
-Rust doesn't guarantee tail-call optimization—the compiler's ability to turn certain recursive calls into loops that don't grow the stack. This means deep recursion can lead to stack overflows, which cause unrecoverable crashes.
+Rust doesn't guarantee tail-call optimization—the compiler rewriting certain recursive calls into loops which don't grow the stack. This means deep recursion can lead to stack overflows, which cause unrecoverable crashes.
 
 It requires some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
 
