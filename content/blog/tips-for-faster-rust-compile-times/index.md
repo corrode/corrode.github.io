@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2025-09-11
+updated = 2026-01-14
 draft = false
 template = "article.html"
 [extra]
@@ -43,6 +43,7 @@ Click here to expand the table of contents.
   - [Update Dependencies](#update-dependencies)
   - [Find the slow crate in your codebase](#find-the-slow-crate-in-your-codebase)
   - [Profile Compile Times](#profile-compile-times)
+  - [Troubleshoot Slow Incremental Builds](#troubleshoot-slow-incremental-builds)
   - [Replace Heavy Dependencies](#replace-heavy-dependencies)
   - [Split Big Crates Into Smaller Ones Using Workspaces](#split-big-crates-into-smaller-ones-using-workspaces)
   - [Disable Unused Features Of Crate Dependencies](#disable-unused-features-of-crate-dependencies)
@@ -244,6 +245,28 @@ $ cargo llvm-lines | head -20
     286 (0.9%)      1 (0.1%)  cargo_llvm_lines::run_cargo_rustc
     284 (0.9%)      4 (0.4%)  core::option::Option<T>::ok_or_else
 ```
+
+### Troubleshoot Slow Incremental Builds
+
+If your incremental builds are slower than expected, you might be bottlenecked on a particular crate in the rustc backend.
+
+To diagnose this, you can use [`samply`](https://github.com/mstange/samply) combined with the `-Zhuman_readable_cgu_names=yes` flag to profile the compiler and identify which codegen units are taking the longest to compile:
+
+```bash
+samply record cargo build
+```
+
+This will help you identify if a particular crate is the long pole in your build. Once you've identified the bottleneck, you may be able to improve compile times by refactoring or splitting the problematic crate.
+
+For more details on back-end parallelism in the Rust compiler, see [Nicholas Nethercote's blog post](https://nnethercote.github.io/2023/07/11/back-end-parallelism-in-the-rust-compiler.html).
+
+Another useful flag is `-Zprint-mono-items=yes`, which prints all [monomorphized items](https://rustc-dev-guide.rust-lang.org/backend/monomorph.html) during compilation. This can help you understand what's being generated in each CGU.
+
+```sh
+RUSTFLAGS="-Zprint-mono-items=yes" cargo +nightly build                                               ⏎
+```
+
+_Thanks to [Caspar](https://slowrush.dev) (asparck on [Reddit](https://www.reddit.com/r/rust/comments/1q8x25s/debugging_a_slowcompiling_codegen_unit/)) for this tip!_
 
 ### Replace Heavy Dependencies
 
