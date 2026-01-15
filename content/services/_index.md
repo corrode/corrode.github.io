@@ -6,7 +6,7 @@ description = "Friendly, professional Rust consulting services to help companies
 aliases = ["about"]
 +++
 
-<video controls style="width: 100%; max-width: 800px; height: auto; margin: 0 auto; display: block;">
+<video controls poster="/video-preview.jpg" style="width: 100%; max-width: 800px; height: auto; margin: 0 auto; display: block;">
   <source src="https://github.com/corrode/corrode.github.io/releases/download/assets/corrode.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
