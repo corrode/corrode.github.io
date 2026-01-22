@@ -12,7 +12,7 @@ episode = "09"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-XXXXXXXX" src="https://letscast.fm/podcasts/rust-in-production-XXXXXXXX/episodes/XXXXXXXX/player.js?size=s"></script></div>
+<div><script id="letscast-player-0efbeff6" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/gama-space-with-sebastian-scholz/player.js?size=s"></script></div>
 
 Space exploration demands software that is reliable, efficient, and able to operate in the harshest environments imaginable. When a spacecraft deploys a solar sail millions of kilometers from Earth, there's no room for memory bugs, race conditions, or software failures. This is where Rust's robustness guarantees become mission-critical.
 
