@@ -62,7 +62,8 @@ article li pre {
     margin: 0;
 }
 
-.article-date {
+.article-meta {
+    margin-top: 1em;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -71,8 +72,22 @@ article li pre {
     font-family: JetBrainsMono;
 }
 
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 0;
+    background-color: $brightBgrdLight;
+}
+
 @media (prefers-color-scheme: dark) {
-    .article-date {
+    .author-avatar {
+        background-color: $brightBgrd;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .article-meta {
         color: rgba(255, 255, 255, 0.7);
     }
 
@@ -82,7 +97,7 @@ article li pre {
 }
 
 @media (max-width: 800px) {
-    .article-date {
+    .article-meta {
         margin-top: 0.8em;
     }
 }
