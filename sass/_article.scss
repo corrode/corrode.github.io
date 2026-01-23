@@ -129,13 +129,13 @@ article li pre {
     vertical-align: center;
     padding: 0.3em 0.2em 0.1em 0.2em;
     line-height: 1.1;
-    border-bottom: 1px solid $heroDark;
+    border-bottom: 1px solid rgba($heroDark, 0.5);
 }
 
 .article-content h2 code {
     font-size: 1rem;
     margin: 0 5px;
-    border: 1px solid white;
+    border: 1px solid $heroDark;
     padding: 10px;
 }
 
@@ -434,6 +434,10 @@ article a code:not(pre > code) {
 
     .article-content h2 {
         border-bottom-color: rgba($darkPrim, 0.5);
+    }
+
+    .article-content h2 code {
+        border: 1px solid rgba($darkPrim, 0.5);
     }
 
     .info {
