@@ -126,7 +126,21 @@ article li pre {
 }
 
 .article-content h2 {
-    margin: 1.5em 0 0.5em 0;
+    vertical-align: center;
+    padding: 0.3em 0.2em 0.1em 0.2em;
+    line-height: 1.1;
+    border-bottom: 1px solid $heroDark;
+}
+
+.article-content h2 code {
+    font-size: 1rem;
+    margin: 0 5px;
+    border: 1px solid white;
+    padding: 10px;
+}
+
+.zola-anchor:hover {
+    text-decoration: none;
 }
 
 article .subheading {
@@ -418,6 +432,10 @@ article a code:not(pre > code) {
         background-color: $darkBgrd;
     }
 
+    .article-content h2 {
+        border-bottom-color: rgba($darkPrim, 0.5);
+    }
+
     .info {
         border-color: rgba(255, 255, 255, 0.5);
     }
@@ -567,4 +585,5 @@ article :is(h1, h2, h3, h4, h5, h6) code:not(pre > code) {
     padding: 0;
     letter-spacing: -0.01em;
     background-color: transparent;
+    vertical-align: middle;
 }
