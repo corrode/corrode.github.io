@@ -323,3 +323,22 @@
         color: $brightBgrd;
     }
 }
+
+.skew-top {
+    position: relative;
+    z-index: 5;
+    padding-top: 120px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        background-color: inherit;
+        transform: skewY(-2deg);
+        transform-origin: 0;
+        z-index: -1;
+    }
+}
