@@ -76,4 +76,4 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 - [Radar](https://radar.com/)
 - [Radar Blog](https://radar.com/blog)
 - [Radar Documentation](https://radar.com/documentation)
-- [Jeff Kao on LinkedIn](https://www.linkedin.com/in/jeff-kao/)
+- [Jeff Kao on LinkedIn](https://www.linkedin.com/in/jeffreykao/)
