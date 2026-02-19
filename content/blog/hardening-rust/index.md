@@ -353,7 +353,7 @@ If you need libc (e.g. for SQLite or other C dependencies), use `gcr.io/distrole
 
 {% info(title="A Note On Alpine Base Images", icon="info") %}
 
-Alpine base images are a well-known alternative, but I found that they can cause subtle runtime issues with Tokio and async runtimes due to musl's thread-local storage implementation.
+Alpine base images are a well-known alternative, but they can cause subtle runtime issues with Tokio and async runtimes due to musl's thread-local storage implementation.
 ([1](https://www.reddit.com/r/rust/comments/sq53vx/alpine_fails_to_run_my_app_what_steps_should_i/hwjloqz/)
 [2](https://martinheinz.dev/blog/92)
 [3](https://github.com/astral-sh/uv/issues/2732))
@@ -366,7 +366,9 @@ Distroless sidesteps this entirely.
 
 Even inside a minimal container, your process *still* has access to any file the container mounts.
 [Landlock](https://docs.kernel.org/userspace-api/landlock.html) is a Linux security module that lets a process restrict its own filesystem access.
-If your service is ever exploited, the attacker can only reach the files you explicitly allowed.
+If your service is ever exploited, the attacker can only reach the files you explicitly allowed. [^below]
+
+[^below]: This approach would have prevented a [vulnerability in Meta's `below` crate](https://security.opensuse.org/2025/03/12/below-world-writable-log-dir.html), a tool for recording and displaying system data like hardware utilization and cgroup information on Linux.
 
 ```rust
 use landlock::{
@@ -395,8 +397,9 @@ fn sandbox() -> Result<(), Box<dyn std::error::Error>> {
 fn main() {
     sandbox().expect("failed to apply landlock sandbox");
 
-    // Your service starts here — now restricted to /etc (read) and /var/data (read/write)
-    // Any attempt to open /tmp, /home, /proc etc. will be denied
+    // Your service starts here.
+    // The service is now restricted to /etc (read) and /var/data (read/write)
+    // Any attempt to open /tmp, /home, /proc etc. will be denied!
 }
 ```
 
@@ -408,12 +411,11 @@ The two approaches really go hand in hand:
 - Landlock limits what the process can *touch* at runtime.
 
 The big picture is that security hardening is about reducing the surface of things that can go wrong.
-Every capability your process holds unnecessarily is a liability.
-So everything your code manages that could be delegated to the OS, init system, or container runtime should be. 
+Every capability your process holds unnecessarily is a liability and everything your code manages that could be delegated to the OS, init system, or container runtime probably should be. 
 
 ## Runtime Hardening Tooling
 
-Finally, let's talk about the tools that help you catch problems before they hit production.
+Finally, here are some tools that help you catch problems before they hit production.
 
 - [`miri`](https://github.com/rust-lang/miri) -- detects undefined behavior at runtime
 - [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz) -- fuzz testing for Rust code
