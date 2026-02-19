@@ -190,7 +190,7 @@ There's a lot to learn from these few lines of code!
 ### Sanitizing Sensitive Data
 
 Panic hooks are also your final opportunity to prevent information leaks.
-Remember that panic messages can contain sensitive data like file paths, internal state, or user information (PII).
+Remember that panic messages can contain sensitive data like file paths, internal state, or user information (PII) such as email addresses, IP addresses, credit card numbers, etc. 
 A well-designed panic hook sanitizes these messages before they reach logs or crash reports.
 
 ```rust
@@ -199,6 +199,33 @@ panic::set_hook(Box::new(|panic_info| {
     log::error!("Application panic: {sanitized_message}");
 }));
 ```
+
+You can look into crates like [expunge](https://crates.io/crates/expunge) or [veil](https://github.com/primait/veil) to automatically redact sensitive information from structs:
+
+```rust
+use veil::Redact;
+
+#[derive(Redact)]
+pub struct Customer {
+    id: u64,
+
+    #[redact(partial)]
+    first_name: String,
+
+    #[redact(partial)]
+    last_name: String,
+
+    #[redact]
+    email: Option<String>,
+
+    #[redact(fixed = 2)]
+    age: u32,
+
+    #[redact(with = "[REDACTED]")]
+    address: String,
+}
+```
+
 
 ### Cleanup Operations
 
