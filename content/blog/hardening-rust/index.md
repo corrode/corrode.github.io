@@ -450,6 +450,8 @@ The docs also describe [how to add miri to CI](https://github.com/rust-lang/miri
 
 (Make sure to check the latest instructions in the Miri repo, as the setup process may change over time.)
 
+If you'd like to learn more about Miri, there is a research paper from 2026 that goes into the design and implementation details: [Miri: Practical Undefined Behavior Detection for Rust](https://research.ralfj.de/papers/2026-popl-miri.pdf).
+
 ## Runtime Hardening Tooling
 
 Finally, here are some more tools that help you catch problems before they hit production:
