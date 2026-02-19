@@ -489,7 +489,7 @@ Finally, here are some more tools that help you catch problems before they hit p
 - [`honggfuzz`](https://github.com/google/honggfuzz) -- another fuzzer with Rust support
 - [`cargo-geiger`](https://github.com/geiger-rs/cargo-geiger) -- detects usage of unsafe code
 - [`cargo-valgrind`](https://github.com/jfrimmel/cargo-valgrind) -- runs Valgrind on Rust code to find memory errors
-- [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) -- code coverage analysis for Rust projects
+- [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) -- code coverage analysis for Rust projects to identify untested code paths, which can help you find edge cases that might lead to runtime failures
 
 The tools above help catch undefined behavior, memory safety issues, code coverage gaps, and performance bottlenecks.
 They are dynamic analysis tools that complement Rust's static guarantees.
