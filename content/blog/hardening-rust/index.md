@@ -413,11 +413,47 @@ The two approaches really go hand in hand:
 The big picture is that security hardening is about reducing the surface of things that can go wrong.
 Every capability your process holds unnecessarily is a liability and everything your code manages that could be delegated to the OS, init system, or container runtime probably should be. 
 
+## Miri: Detecting Undefined Behavior at Runtime
+
+[`miri`](https://github.com/rust-lang/miri) is an interpreter for Rust's mid-level intermediate representation (MIR) that can detect undefined behavior at runtime.
+
+It works by executing your Rust code in a special environment that tracks memory accesses, pointer validity, and other low-level details to catch issues that the compiler can't statically guarantee against.
+
+More people should know about Miri, because it is really helpful for tricky to detect race conditions in multi-threaded or async code; but it can do way more than that, of course.
+It detected a lot of [real-world bugs](https://github.com/rust-lang/miri?tab=readme-ov-file#bugs-found-by-miri) already, even in the standard library.
+
+Using it is as simple as running:
+
+```bash
+rustup +nightly component add miri
+cargo +nightly miri test
+```
+
+This will run your tests under Miri's interpreter.
+
+The docs also describe [how to add miri to CI](https://github.com/rust-lang/miri?tab=readme-ov-file#running-miri-on-ci):
+
+```yaml
+  miri:
+    name: "Miri"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Miri
+        run: |
+          rustup toolchain install nightly --component miri
+          rustup override set nightly
+          cargo miri setup
+      - name: Test with Miri
+        run: cargo miri test
+```
+
+(Make sure to check the latest instructions in the Miri repo, as the setup process may change over time.)
+
 ## Runtime Hardening Tooling
 
-Finally, here are some tools that help you catch problems before they hit production.
+Finally, here are some more tools that help you catch problems before they hit production:
 
-- [`miri`](https://github.com/rust-lang/miri) -- detects undefined behavior at runtime
 - [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz) -- fuzz testing for Rust code
 - [`honggfuzz`](https://github.com/google/honggfuzz) -- another fuzzer with Rust support
 - [`cargo-geiger`](https://github.com/geiger-rs/cargo-geiger) -- detects usage of unsafe code
