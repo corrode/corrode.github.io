@@ -283,6 +283,97 @@ You should regularly audit your dependencies for known vulnerabilities.
 Two helpful tools for that are [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
 It's recommended to run those as part of CI.
 
+## Limit Your Runtime Attack Surface
+
+Even well-written Rust code can be compromised through its dependencies, environment, or C FFI boundaries.
+The idea is to reduce your blast radius.
+Now, how you do that depends on your deployment environment, but generally people use Docker and Linux, so I thought I'd share some techniques for those; specifically, how to build minimal container images and filesystem sandboxing.
+
+### FROM scratch Docker images
+
+A `FROM scratch` image contains exactly what you put in it.
+By default there is no shell, no package manager, or other utilities an attacker could abuse for lateral movement.
+Combined with a statically linked musl binary, the final image is just your executable plus a handful of config files.
+So even if your image was compromised, the attacker would have very limited tools at their disposal to do further damage.
+
+The basic pattern is as follows:
+
+```dockerfile
+# Build stage
+# In this stage, we compile our Rust code into a statically linked binary (using musl)
+FROM rust:alpine AS build
+
+RUN apk add --no-cache musl-dev lld
+
+WORKDIR /app
+COPY . .
+RUN cargo build --release
+
+# Final image
+# In this stage, we start from scratch and only copy the compiled binary and necessary config files
+FROM scratch
+
+# Needed for TLS and DNS resolution
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /etc/passwd /etc/passwd
+
+# Copy the binary
+COPY --from=build /app/target/release/myapp /bin/myapp
+
+USER nobody
+ENTRYPOINT ["/bin/myapp"]
+```
+
+The result is an image that's often under 10 MB with no attack surface beyond the binary itself.
+A fair warning, though: alpine images sometimes can lead to strange runtime issues, especially in combination with Tokio.
+If you decide to go this route, make sure to test your final image thoroughly.
+Alternatively, you can use a Debian base and strip it down.
+
+### Filesystem sandboxing with Landlock
+
+Even inside a minimal container, your process *still* has access to any file the container mounts.
+[Landlock](https://docs.kernel.org/userspace-api/landlock.html) is a Linux security module that lets a process restrict its own filesystem access.
+If your service is ever exploited, the attacker can only reach the files you explicitly allowed.
+
+```rust
+use landlock::{
+    Access, AccessFs, PathBeneath, PathFd, Ruleset, RulesetAttr,
+    RulesetCreatedAttr, ABI,
+};
+
+fn sandbox() -> Result<(), Box<dyn std::error::Error>> {
+    let abi = ABI::V3;
+
+    Ruleset::default()
+        .handle_access(AccessFs::from_read(abi))?
+        .create()?
+        // Allow read-only access to /etc for config files
+        .add_rule(PathBeneath::new(PathFd::new("/etc")?, AccessFs::from_read(abi)))?
+        // Allow read+write access to /var/data for your app's data
+        .add_rule(PathBeneath::new(
+            PathFd::new("/var/data")?,
+            AccessFs::from_all(abi),
+        ))?
+        .restrict_self()?;
+
+    Ok(())
+}
+
+fn main() {
+    sandbox().expect("failed to apply landlock sandbox");
+
+    // Your service starts here — now restricted to /etc (read) and /var/data (read/write)
+    // Any attempt to open /tmp, /home, /proc etc. will be denied
+}
+```
+
+Call `sandbox()` as early as possible in `main`, before spawning threads or accepting connections.
+The restrictions apply to the entire process from that point forward.
+
+The two approaches really go hand in hand: 
+- `FROM scratch` limits what's *in* the container
+- Landlock limits what the process can *touch* at runtime.
+
 ## Runtime Hardening Tooling
 
 Finally, let's talk about the tools that help you catch problems before they hit production.
