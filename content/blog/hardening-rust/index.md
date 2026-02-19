@@ -187,6 +187,12 @@ Sentry's panic hook:
 
 There's a lot to learn from these few lines of code!
 
+{% info(title="What's Inside `PanicInfo`?" icon="info") %}
+
+The [`PanicInfo`](https://doc.rust-lang.org/core/panic/struct.PanicInfo.html) struct contains the panic message (via `.payload()`) and the source location where the panic occurred (via `.location()`). Be aware that both can leak sensitive information: file paths may reveal internal directory structure, and panic messages might contain interpolated user data.
+
+{% end %}
+
 ### Sanitizing Sensitive Data
 
 Panic hooks are also your final opportunity to prevent information leaks.
@@ -231,7 +237,12 @@ pub struct Customer {
 
 Before the process terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down. 
 Setting a hook is a great way to perform such cleanup operations.
-But be careful: these hooks run in an already-compromised environment, so avoid operations that could panic themselves.
+
+{% info(title="Panic Hooks Run in a Compromised Environment" icon="warning") %}
+
+Be careful: one of the subsystems you want to interact with might be the *cause* of the panic you're handling! For example, if your database connection pool panicked, trying to flush pending writes to that same pool will likely fail or hang. Keep cleanup operations minimal and avoid anything that could panic itself.
+
+{% end %}
 
 ### Limitations
 
@@ -480,6 +491,255 @@ The docs also describe [how to add miri to CI](https://github.com/rust-lang/miri
 (Make sure to check the latest instructions in the Miri repo, as the setup process may change over time.)
 
 If you'd like to learn more about Miri, there is a research paper from 2026 that goes into the design and implementation details: [Miri: Practical Undefined Behavior Detection for Rust](https://research.ralfj.de/papers/2026-popl-miri.pdf).
+
+## Graceful Shutdown Handling
+
+A hardened service doesn't just crash—it shuts down gracefully when asked.
+This means finishing in-flight requests, flushing buffers, and releasing resources cleanly before exiting.
+
+The key is handling signals like `SIGTERM` (sent by Kubernetes, systemd, or `docker stop`) and `SIGINT` (Ctrl+C):
+
+```rust
+use tokio::signal;
+use tokio::sync::broadcast;
+
+async fn shutdown_signal() {
+    let ctrl_c = async {
+        signal::ctrl_c()
+            .await
+            .expect("failed to install Ctrl+C handler");
+    };
+
+    #[cfg(unix)]
+    let terminate = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("failed to install signal handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+
+    tokio::select! {
+        _ = ctrl_c => {},
+        _ = terminate => {},
+    }
+}
+
+async fn run_server(mut shutdown_rx: broadcast::Receiver<()>) {
+    loop {
+        tokio::select! {
+            // Handle requests...
+            _ = accept_connection() => { /* ... */ }
+            // ...until shutdown signal received
+            _ = shutdown_rx.recv() => {
+                println!("Shutting down gracefully...");
+                break;
+            }
+        }
+    }
+    // Finish in-flight work, flush buffers, close connections
+}
+```
+
+The pattern is: listen for shutdown signals, stop accepting new work, drain existing work, then exit.
+Many frameworks like Axum and Actix have built-in graceful shutdown support—use it!
+
+## Circuit Breakers for External Dependencies
+
+When an external service (database, API, cache) starts failing, you don't want to keep hammering it with requests.
+A circuit breaker tracks failures and "trips" when a threshold is reached, failing fast for a cooldown period before trying again.
+
+```rust
+use std::sync::atomic::{AtomicU32, AtomicU64, Ordering};
+use std::time::{Duration, Instant};
+
+pub struct CircuitBreaker {
+    failure_count: AtomicU32,
+    failure_threshold: u32,
+    last_failure: AtomicU64,  // Unix timestamp in millis
+    cooldown: Duration,
+}
+
+impl CircuitBreaker {
+    pub fn new(failure_threshold: u32, cooldown: Duration) -> Self {
+        Self {
+            failure_count: AtomicU32::new(0),
+            failure_threshold,
+            last_failure: AtomicU64::new(0),
+            cooldown,
+        }
+    }
+
+    pub fn is_open(&self) -> bool {
+        let failures = self.failure_count.load(Ordering::Relaxed);
+        if failures < self.failure_threshold {
+            return false;
+        }
+
+        // Check if cooldown has passed
+        let last = self.last_failure.load(Ordering::Relaxed);
+        let now = Instant::now().elapsed().as_millis() as u64;
+        now - last < self.cooldown.as_millis() as u64
+    }
+
+    pub fn record_success(&self) {
+        self.failure_count.store(0, Ordering::Relaxed);
+    }
+
+    pub fn record_failure(&self) {
+        self.failure_count.fetch_add(1, Ordering::Relaxed);
+        let now = Instant::now().elapsed().as_millis() as u64;
+        self.last_failure.store(now, Ordering::Relaxed);
+    }
+}
+
+// Usage
+async fn call_external_service(cb: &CircuitBreaker) -> Result<Response, Error> {
+    if cb.is_open() {
+        return Err(Error::CircuitOpen);
+    }
+
+    match do_request().await {
+        Ok(resp) => {
+            cb.record_success();
+            Ok(resp)
+        }
+        Err(e) => {
+            cb.record_failure();
+            Err(e)
+        }
+    }
+}
+```
+
+For production use, consider crates like [`recloser`](https://crates.io/crates/recloser) or [`failsafe`](https://crates.io/crates/failsafe) which handle the state machine properly.
+
+## Resource Limits
+
+Unbounded resources are a common source of runtime failures.
+Set explicit limits on everything:
+
+```rust
+// Limit concurrent connections
+let semaphore = Arc::new(Semaphore::new(100)); // max 100 concurrent
+
+async fn handle_connection(sem: Arc<Semaphore>) {
+    let _permit = sem.acquire().await.expect("semaphore closed");
+    // Connection is now counted against the limit
+    // Permit is released when dropped
+}
+
+// Limit request body size (Axum example)
+use axum::extract::DefaultBodyLimit;
+
+let app = Router::new()
+    .route("/upload", post(upload_handler))
+    .layer(DefaultBodyLimit::max(1024 * 1024 * 10)); // 10 MB max
+
+// Limit queue depth
+use tokio::sync::mpsc;
+
+let (tx, rx) = mpsc::channel::<Job>(1000); // bounded channel, max 1000 pending
+
+// Set timeouts on everything external
+let client = reqwest::Client::builder()
+    .connect_timeout(Duration::from_secs(5))
+    .timeout(Duration::from_secs(30))
+    .build()?;
+```
+
+At the OS level, you can also set limits via `setrlimit` or container resource constraints:
+
+```rust
+use rlimit::{setrlimit, Resource};
+
+// Limit open file descriptors
+setrlimit(Resource::NOFILE, 1024, 1024)?;
+
+// Limit memory (in bytes)
+setrlimit(Resource::AS, 1_000_000_000, 1_000_000_000)?; // 1 GB
+```
+
+The key insight: **every unbounded resource is a potential DoS vector**.
+Explicit limits turn catastrophic failures into graceful rejections.
+
+## Health Checks and Self-Healing
+
+Production services need to answer the question: "Are you healthy?"
+Health checks let load balancers, orchestrators, and monitoring systems know when something is wrong.
+
+A typical setup has two endpoints:
+
+```rust
+use axum::{routing::get, Router, Json};
+use serde::Serialize;
+
+#[derive(Serialize)]
+struct HealthStatus {
+    status: &'static str,
+    database: bool,
+    cache: bool,
+    version: &'static str,
+}
+
+// Liveness: "Is the process alive?"
+// Should always return 200 if the server can respond at all
+async fn liveness() -> &'static str {
+    "OK"
+}
+
+// Readiness: "Can you handle traffic?"
+// Check dependencies before saying yes
+async fn readiness(
+    db: Extension<DbPool>,
+    cache: Extension<CachePool>,
+) -> Json<HealthStatus> {
+    let db_ok = db.ping().await.is_ok();
+    let cache_ok = cache.ping().await.is_ok();
+
+    Json(HealthStatus {
+        status: if db_ok && cache_ok { "healthy" } else { "degraded" },
+        database: db_ok,
+        cache: cache_ok,
+        version: env!("CARGO_PKG_VERSION"),
+    })
+}
+
+let app = Router::new()
+    .route("/health/live", get(liveness))
+    .route("/health/ready", get(readiness));
+```
+
+For Kubernetes, these map to `livenessProbe` and `readinessProbe`:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /health/live
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 5
+```
+
+The distinction matters:
+- **Liveness failure** → Kubernetes restarts your pod (self-healing!)
+- **Readiness failure** → Kubernetes stops sending traffic (graceful degradation)
+
+For self-healing beyond restarts, consider:
+- Automatic reconnection to databases with exponential backoff
+- Periodic cache warming
+- Background tasks that repair inconsistent state
+
+The goal is a system that recovers from transient failures without human intervention.
 
 ## Runtime Hardening Tooling
 
