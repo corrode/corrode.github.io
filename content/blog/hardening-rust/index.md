@@ -1,6 +1,6 @@
 +++
 title = "Hardening Rust Code Against Runtime Failures"
-date = 2026-01-13
+date = 2026-02-19
 draft = false
 template = "article.html"
 [extra]
@@ -283,51 +283,84 @@ You should regularly audit your dependencies for known vulnerabilities.
 Two helpful tools for that are [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
 It's recommended to run those as part of CI.
 
+## Secure Allocations With mimalloc 
+
+[mimalloc] is a drop-in global allocator built by Microsoft.
+What's special about it is that it also has a **secure mode**, which "adds guard pages, randomized allocation, encrypted free lists, etc." to prevent heap-based vulnerabilities.
+The performance penalty is usually around 10% according to mimalloc's own benchmarks, which is typically acceptable because Rust is never the bottleneck. [^mimalloc_safe]
+
+To enable secure mode, put in Cargo.toml:
+
+```toml
+[dependencies]
+mimalloc = { version = "*", features = ["secure"] }
+```
+
+Then use it as your global allocator:
+
+```rust
+use mimalloc::MiMalloc;
+
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
+```
+
+Now, all heap allocations in your Rust program will use mimalloc's secure allocator, which will automatically catch common heap vulnerabilities like buffer overflows and use-after-free bugs at runtime.
+So even if your code has a memory safety issue, it will be much harder for an attacker to exploit it.
+
+[mimalloc]: https://github.com/microsoft/mimalloc
+[^mimalloc_safe]: https://docs.rs/mimalloc-safe/latest/mimalloc_safe/
+
 ## Limit Your Runtime Attack Surface
 
 Even well-written Rust code can be compromised through its dependencies, environment, or C FFI boundaries.
 The idea is to reduce your blast radius.
 Now, how you do that depends on your deployment environment, but generally people use Docker and Linux, so I thought I'd share some techniques for those; specifically, how to build minimal container images and filesystem sandboxing.
 
-### FROM scratch Docker images
+### Minimal Docker images
 
-A `FROM scratch` image contains exactly what you put in it.
-By default there is no shell, no package manager, or other utilities an attacker could abuse for lateral movement.
-Combined with a statically linked musl binary, the final image is just your executable plus a handful of config files.
-So even if your image was compromised, the attacker would have very limited tools at their disposal to do further damage.
+A minimal production image contains exactly what you put in it.
+No shell, no package manager, no utilities an attacker could abuse for lateral movement.
+Even if your service is compromised, the attacker has very limited tools at their disposal to do further damage.
 
-The basic pattern is as follows:
+My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless).
+They are minimal Debian-based images stripped of everything unnecessary, while still including libc, TLS certificates, timezone data, and a non-root user.
+Everything a typical service needs and nothing more.
 
 ```dockerfile
 # Build stage
-# In this stage, we compile our Rust code into a statically linked binary (using musl)
-FROM rust:alpine AS build
+# Compile our Rust code into a statically linked binary
+FROM rust:slim-bookworm AS build
 
-RUN apk add --no-cache musl-dev lld
+RUN apt-get update && apt-get install -y musl-tools lld
 
 WORKDIR /app
 COPY . .
 RUN cargo build --release
 
 # Final image
-# In this stage, we start from scratch and only copy the compiled binary and necessary config files
-FROM scratch
+FROM gcr.io/distroless/static-debian12
 
-# Needed for TLS and DNS resolution
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=build /etc/passwd /etc/passwd
-
-# Copy the binary
 COPY --from=build /app/target/release/myapp /bin/myapp
 
-USER nobody
+USER nonroot
 ENTRYPOINT ["/bin/myapp"]
 ```
 
-The result is an image that's often under 10 MB with no attack surface beyond the binary itself.
-A fair warning, though: alpine images sometimes can lead to strange runtime issues, especially in combination with Tokio.
-If you decide to go this route, make sure to test your final image thoroughly.
-Alternatively, you can use a Debian base and strip it down.
+Make sure to look up the latest `static-debian` variant [here](https://github.com/GoogleContainerTools/distroless).
+It is essentially `FROM scratch` but with CA certificates and a `nonroot` user already included.
+If you need libc (e.g. for SQLite or other C dependencies), use `gcr.io/distroless/cc-debian` instead.
+
+{% info(title="A Note On Alpine Base Images", icon="info") %}
+
+Alpine base images are a well-known alternative, but I found that they can cause subtle runtime issues with Tokio and async runtimes due to musl's thread-local storage implementation.
+([1](https://www.reddit.com/r/rust/comments/sq53vx/alpine_fails_to_run_my_app_what_steps_should_i/hwjloqz/)
+[2](https://martinheinz.dev/blog/92)
+[3](https://github.com/astral-sh/uv/issues/2732))
+
+Distroless sidesteps this entirely.
+
+{% end %}
 
 ### Filesystem sandboxing with Landlock
 
@@ -373,6 +406,10 @@ The restrictions apply to the entire process from that point forward.
 The two approaches really go hand in hand: 
 - `FROM scratch` limits what's *in* the container
 - Landlock limits what the process can *touch* at runtime.
+
+The big picture is that security hardening is about reducing the surface of things that can go wrong.
+Every capability your process holds unnecessarily is a liability.
+So everything your code manages that could be delegated to the OS, init system, or container runtime should be. 
 
 ## Runtime Hardening Tooling
 
