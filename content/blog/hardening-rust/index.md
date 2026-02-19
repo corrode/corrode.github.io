@@ -115,6 +115,8 @@ fn factorial(n: u64) -> u64 {
 }
 ```
 
+This is exactly the transformation that compilers for languages like Scheme or Haskell perform automatically through tail-call optimization.
+
 **Panic behavior isn't the only runtime failure mode you need to worry about.**
 
 ## Panic Hooks Are Your Last Line of Defense
