@@ -11,7 +11,7 @@ resources = [
 ]
 +++
 
-We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to demise and misery.
+We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to utter misery.
 But being careful isn't enough.
 Even valid code can fail at runtime in ways that are hard to predict and control.
 That's what we're covering here.
