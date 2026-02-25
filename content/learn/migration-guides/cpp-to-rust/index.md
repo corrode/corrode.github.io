@@ -11,6 +11,7 @@ icon = "cpp.svg"
 resources = [
     "[Rust Vs C++ Beyond Safety - Joseph Cordell - ACCU Cambridge](https://www.youtube.com/watch?v=IvPP5U2wzlE)",
     "[C++ vs Rust Cheat Sheet by MaulingMonkey](https://maulingmonkey.com/guide/cpp-vs-rust/)",
+    "[C++ to Rust Phrasebook](https://cel.cs.brown.edu/crp/) - A reference for translating common C++ patterns to Rust",
 ]
 +++
 
