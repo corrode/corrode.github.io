@@ -122,7 +122,7 @@ This means that there isn't one company pulling all the strings. In addition, ma
 
 #### Memory-safety
 
-Rust is the only langauge that combines memory safety with C-like performance and the capabilities of a systems language. And we are seeing that the *need* for memory safety is becoming much more prevalent (dare we say, mainstream) in the software that we use and rely on on a daily basis. Consider the White House's call to action:
+Rust is the only language that combines memory safety with C-like performance and the capabilities of a systems language. And we are seeing that the *need* for memory safety is becoming much more prevalent (dare we say, mainstream) in the software that we use and rely on on a daily basis. Consider the White House's call to action:
 
 > "We, as a nation, have the ability – and the responsibility – to reduce the attack surface in cyberspace and prevent entire classes of security bugs from entering the digital ecosystem but that means we need to tackle the hard problem of moving to memory safe programming languages." - *[Harry Coker, US National Cyber Director](https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)*
 

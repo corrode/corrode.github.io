@@ -222,7 +222,7 @@ explicit annotations double as useful documentation.
 
 ## Avoiding Lifetimes With Smart Pointers
 
-You might think thay you have to introduce a lifetime if you want to avoid
+You might think that you have to introduce a lifetime if you want to avoid
 unnecessary copies; for example, when handling a big chunk of data.
 
 However, you can also use smart pointers like [`Rc`](https://doc.rust-lang.org/std/rc/struct.Rc.html) (reference-counted) or [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) (atomic reference-counted) to share ownership of the data. This way, you don't need to worry about explicit lifetimes while keeping the cost of cloning the data close to zero. It's a good trade-off in many situations.
