@@ -525,7 +525,7 @@ The solution is to add your terminal to the Developer Tools, which will cause pr
 4. Make sure your terminal is listed and enabled. If you're using any third-party terminals like iTerm or Ghostty, add them to the list as well.
 5. Restart your terminal.
 
-![Excluding the terminal from Gatekeeper inspectin in macOS Developer Tools](developer-tools.png)
+![Excluding the terminal from Gatekeeper inspection in macOS Developer Tools](developer-tools.png)
 
 Thanks to the [nextest](https://nexte.st/docs/installation/macos/) and [Zed](https://zed.dev/docs/development/macos#tips--tricks) developers for the tip.
 

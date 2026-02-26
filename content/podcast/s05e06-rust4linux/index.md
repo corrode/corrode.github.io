@@ -36,7 +36,7 @@ Danilo Krummrich is a software engineer at Red Hat and a core contributor to the
 - [Kernel Mailing Lists](https://lore.kernel.org/) - Where the Linux development happens
 - [Miguel Ojeda](https://ojeda.dev/) - Rust4Linux maintainer
 - [Wedson Almeida Filho](https://github.com/wedsonaf) - Retired Rust4Linux maintainer
-- [noveau driver](https://docs.kernel.org/gpu/nouveau.html) - The old driver for NVIDIA GPUs
+- [nouveau driver](https://docs.kernel.org/gpu/nouveau.html) - The old driver for NVIDIA GPUs
 - [Vulkan](https://en.wikipedia.org/wiki/Vulkan) - A low level graphics API
 - [Mesa](https://www.mesa3d.org/) - Vulkan and OpenGL implementation for Linux
 - [vtable](https://en.wikipedia.org/wiki/Virtual_method_table) - Indirect function call, a source of headaches in nouveau

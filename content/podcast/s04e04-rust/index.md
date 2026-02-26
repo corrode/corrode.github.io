@@ -76,7 +76,7 @@ and it was an honor to be part of it.
 - [Linear Type Systems](https://en.wikipedia.org/wiki/Substructural_type_system#Linear_type_systems) - Foundational research topic for borrowing in Rust
 - [regex](https://github.com/rust-lang/regex) - "Real stuff" built in Rust
 - [rayon](https://github.com/rayon-rs/rayon) - Turning iterators into parallel processing
-- [Tokio Async Runtime](https://tokio.rs/) - An entire async ecosystem as a perfomant library
+- [Tokio Async Runtime](https://tokio.rs/) - An entire async ecosystem as a performant library
 - [Comment on RFC 2394](https://github.com/rust-lang/rfcs/pull/2394#discussion_r179909812) - The beginning of the `await x` / `x.await` discussion?
 - [Alex Crichton](https://github.com/alexcrichton) - Rust compiler, wasm, and lang-advisors team member
 - [cramertj](https://github.com/cramertj) - Rust lang-advisors and libs-contributors team member

@@ -126,7 +126,7 @@ Rust is the only language that combines memory safety with C-like performance an
 
 > "We, as a nation, have the ability – and the responsibility – to reduce the attack surface in cyberspace and prevent entire classes of security bugs from entering the digital ecosystem but that means we need to tackle the hard problem of moving to memory safe programming languages." - *[Harry Coker, US National Cyber Director](https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)*
 
-Cleary, memory safety is considered a national priority by the White House. (Of course, we'd like to argue that 'The Internet' and our digital infrastructure is never a mere national matter; the scope of this issue is far greater than that, but we understand that for the sake of politics, it sometimes must be reduced to a national issue.) It goes to show that awareness of the issue is no longer niche. It is a matter of time before the implications of it (actually writing memory safe software) will also become 'mainstream'. 
+Clearly, memory safety is considered a national priority by the White House. (Of course, we'd like to argue that 'The Internet' and our digital infrastructure is never a mere national matter; the scope of this issue is far greater than that, but we understand that for the sake of politics, it sometimes must be reduced to a national issue.) It goes to show that awareness of the issue is no longer niche. It is a matter of time before the implications of it (actually writing memory safe software) will also become 'mainstream'. 
 
 We're not the only ones who expect that Rust will continue to grow because of this:
 

@@ -34,7 +34,7 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 ### Links From The Episode
 
 - [Radar Blog: High-Performance Geocoding in Rust](https://radar.com/blog/high-performance-geocoding-in-rust) - The blog post, which describes Radar's migration from Elasticsearch and MongoDB to Rust and RocksDB
-- [FourSquare](https://foursquare.com/) - The compay Jeff worked at before
+- [FourSquare](https://foursquare.com/) - The company Jeff worked at before
 - [Ruby](https://www.ruby-lang.org/) - The basis for Rails
 - [PagerDuty)](https://www.pagerduty.com/) - Another company Jeff worked at. Hes' been around!
 - [CoffeeScript](https://coffeescript.org/) - The first big JavaScript alternative before TypeScript

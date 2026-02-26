@@ -53,7 +53,7 @@ Jessie Frazelle is the CEO of Zoo and a former software engineer at Microsoft, D
 - [Dioxus](https://dioxuslabs.com/) - Rust GUI toolkit for web, desktop, mobile, and more
 - [Vulkan](https://en.wikipedia.org/wiki/Vulkan) - low-level standardised graphics programming interface
 - [CUDA](https://en.wikipedia.org/wiki/CUDA) - Nvidia's parallel computing interface
-- [nTop](https://www.ntop.com/) - formerly nTopology, implicity modelling application
+- [nTop](https://www.ntop.com/) - formerly nTopology, implicitly modelling application
 - [Nomad](https://www.nomadproject.io/) - container orchestration software from HashiCorp
 - [KCL examples](https://github.com/kittyCAD/kcl-samples) - Some examples of the KittyCAD Language
 - [CXX](https://cxx.rs/) - C++/Rust interop
@@ -63,7 +63,7 @@ Jessie Frazelle is the CEO of Zoo and a former software engineer at Microsoft, D
 - [schemars](https://graham.cool/schemars/) - Generate JSON schemas from Rust types
 - [cargo-expand](https://github.com/dtolnay/cargo-expand?tab=readme-ov-file#cargo-expand) - expand Rust macros
 - [dropshot](https://github.com/oxidecomputer/dropshot?tab=readme-ov-file#why-is-there-no-way-to-add-an-api-handler-function-that-runs-on-every-request) - Oxide's OpenAPI server framework
-- [zoo.dev: "Boring Infrasctructure"](https://zoo.dev/blog/boring-infrastructure) - Simplifying backend infrastructure with Rust
+- [zoo.dev: "Boring Infrastructure"](https://zoo.dev/blog/boring-infrastructure) - Simplifying backend infrastructure with Rust
 - [Rust in Production: Zed](https://corrode.dev/podcast/s03e01-zed) - Podcast episode with Conrad Irwin from Zed
 - [tokio](https://tokio.rs/) - Rust's most used async runtime
 - [http crate](https://docs.rs/http/latest/http/) - A general purpose library of common HTTP types
