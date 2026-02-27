@@ -302,3 +302,42 @@ Let's make sure your organization is ahead of the curve, not behind it.
 **[Get in touch →](/#contact)**
 
 {% end %}
+
+## Frequently Asked Questions
+
+{% faq() %}
+[
+  {
+    "q": "Is Rust required by law in 2026?",
+    "a": "No single regulation mandates Rust by name. However, in 2026 the regulatory environment has shifted decisively toward memory-safe languages. CISA lists the use of memory-unsafe languages for new critical-infrastructure software as a \"bad practice.\" The EU Cyber Resilience Act holds manufacturers liable for exploitable vulnerabilities. Germany's BSI explicitly names Rust in its NIS-2 guidance. While you are free to choose any memory-safe language, Rust is the only production-ready option for systems programming where performance and zero-cost abstractions matter."
+  },
+  {
+    "q": "What is a memory safety roadmap, and do I need one in 2026?",
+    "a": "A memory safety roadmap is a documented plan showing how your organization will reduce memory safety vulnerabilities over time. CISA recommended that software manufacturers publish one by the end of 2025. In 2026, not having a roadmap is increasingly seen as a compliance gap, especially if you sell software to government agencies or operate in critical infrastructure sectors. A credible roadmap includes an inventory of memory-unsafe code, a plan for new development in a memory-safe language, a migration strategy for high-risk components, and a timeline with milestones."
+  },
+  {
+    "q": "Why Rust instead of Go, Java, or another memory-safe language?",
+    "a": "Go, Java, C#, and Python are all memory-safe, but they require a garbage collector and a runtime. When you need bare-metal performance, direct hardware access, kernel-level code, or tight integration with existing C/C++ codebases, those languages are not viable replacements. Rust is the only memory-safe language in 2026 that operates at the same level as C and C++ without a garbage collector, which is why it has been adopted by Google, Microsoft, Amazon, the Linux kernel, and the Windows kernel for their most performance-sensitive components."
+  },
+  {
+    "q": "How long does it take to adopt Rust in an existing organization?",
+    "a": "It depends on team size, codebase complexity, and the scope of migration. Typically, getting a small team productive in Rust takes 2 to 4 months with proper training and mentorship. A first production component can ship within 3 to 6 months. Building out a full memory safety roadmap and executing on it is a multi-year effort for most organizations, which is exactly why starting in 2026 rather than waiting matters. The organizations that begin now will have institutional Rust expertise when compliance deadlines tighten further."
+  },
+  {
+    "q": "Can I migrate from C or C++ to Rust incrementally?",
+    "a": "Yes. Rust's Foreign Function Interface (FFI) allows you to call Rust from C/C++ and vice versa. This means you can migrate one module or component at a time without rewriting your entire codebase. Most successful Rust adoptions start with a high-risk, network-facing component and expand from there. DARPA's TRACTOR program is even funding research into automated C-to-Rust translation, which signals the strategic importance of this migration path."
+  },
+  {
+    "q": "What does a Rust consultant actually do?",
+    "a": "A Rust consultant helps you skip the expensive trial-and-error phase of adoption. This includes assessing which parts of your codebase to migrate first, training your existing developers, establishing Rust coding standards and CI/CD practices, designing FFI interoperability layers, reviewing architecture decisions, and helping you build a memory safety roadmap that satisfies regulatory requirements. The goal is to make your team self-sufficient in Rust, not to create a permanent dependency on outside help."
+  },
+  {
+    "q": "How do I evaluate whether a Rust consultancy can actually deliver?",
+    "a": "Look for a public track record. Can you read their technical writing and judge the depth yourself? Have they worked with companies you recognize? Do they publish code you can inspect? A consultancy that operates in the open, through blog posts, open-source contributions, conference talks, or a podcast, gives you far more signal than a sales deck ever could. You should also ask how many Rust projects they have shipped to production and whether their past clients became self-sufficient afterward."
+  },
+  {
+    "q": "What is the advantage of working with a solo Rust expert over a large consultancy?",
+    "a": "With a large consultancy, you rarely know who will show up. The person in the sales meeting is not the person writing your code. A solo expert means the person who assessed your architecture is the same one reviewing pull requests, mentoring your developers, and answering questions on Slack. There is no handoff, no knowledge lost in translation, and no junior developer learning on your budget. The tradeoff is capacity: a solo expert can only work with a limited number of clients at a time, which tends to mean higher commitment to each engagement."
+  }
+]
+{% end %}
