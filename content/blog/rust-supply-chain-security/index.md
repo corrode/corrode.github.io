@@ -55,7 +55,10 @@ What was once a niche concern for security researchers has become a mainstream p
 
 ### United States: White House Office of the National Cyber Director (2024)
 
+
 In February 2024, the White House ONCD released a landmark report titled [_"Back to the Building Blocks: A Path Toward Secure and Measurable Software."_](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)
+
+![White House Office of the National Cyber Director](white-house.jpg)
 
 The report makes the case that software manufacturers can **prevent entire classes of vulnerabilities** by adopting memory-safe programming languages. It explicitly frames memory safety as a matter of national security:
 
@@ -109,6 +112,8 @@ When the U.S. Department of Defense is funding automated migration from C to Rus
 
 ### European Union: Cyber Resilience Act (2024)
 
+![EU Cyber Resilience Act](eu-cyber-resiliance-act.jpg)
+
 The EU's [**Cyber Resilience Act (CRA)**](https://digital-strategy.ec.europa.eu/en/library/cyber-resilience-act) establishes mandatory cybersecurity requirements for all products with digital elements sold in the European market.
 
 Under the CRA, manufacturers must:
@@ -147,7 +152,7 @@ Let's take a step back and look at the pattern:
 
 | Source                       | Action                                                                | Year         |
 | ---------------------------- | --------------------------------------------------------------------- | ------------ |
-| **Google, Microsoft, Apple** | Independently confirmed ~70% of CVEs are memory safety issues         | 2019–present |
+| **Google/Microsoft** | Independently confirmed ~70% of CVEs are memory safety issues         | 2019–present |
 | **NSA**                      | Published guidance recommending memory-safe languages                 | 2022         |
 | **Germany**                  | Funded Rust ecosystem through the Sovereign Tech Fund                 | 2023–present |
 | **White House / ONCD**       | Called on industry to adopt memory-safe languages                     | 2024         |
@@ -161,6 +166,10 @@ This is a **global, bipartisan, cross-sector consensus** that memory-unsafe code
 The direction is clear. The question is not _whether_ your organization will need to address this, it's _when_, and whether you'll do so on your own terms or under external pressure.
 
 ## Why Rust, Specifically?
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/AkBnXrKmcvw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 If you're a decision-maker, you might reasonably ask: "Why Rust? There are other memory-safe languages."
 
