@@ -8,11 +8,6 @@
     margin-bottom: 1rem;
     box-shadow: 0 2px 5px rgba($darkBgrd, 0.1);
     overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-    box-shadow: 0 5px 15px rgba($darkBgrd, 0.2);
 }
 
 .faq-item summary {
