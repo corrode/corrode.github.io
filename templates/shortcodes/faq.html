@@ -1,0 +1,84 @@
+{# FAQ shortcode: renders a styled FAQ section with Google-compliant FAQPage JSON-LD.
+
+Usage in markdown:
+
+{% faq() %}
+[
+  {
+    "q": "Your question here?",
+    "a": "Your answer here."
+  },
+  {
+    "q": "Another question?",
+    "a": "Another answer with <a href='/link'>HTML</a> supported."
+  }
+]
+{% end %}
+
+The body must be a valid JSON array of objects with "q" and "a" keys.
+HTML is allowed in answers for links and formatting.
+#}
+
+<div class="faq-section" id="faq-root">
+  <noscript>
+    <p>Please enable JavaScript to view the FAQ section.</p>
+  </noscript>
+</div>
+
+<script>
+(function() {
+  var items = {{ body | safe }};
+  var root = document.currentScript.previousElementSibling;
+  while (root && !root.classList.contains('faq-section')) {
+    root = root.previousElementSibling;
+  }
+  if (!root) return;
+
+  // Clear noscript fallback
+  root.innerHTML = '';
+
+  // Build visible FAQ items
+  items.forEach(function(item) {
+    var details = document.createElement('details');
+    details.className = 'faq-item';
+
+    var summary = document.createElement('summary');
+    summary.textContent = item.q;
+    details.appendChild(summary);
+
+    var answer = document.createElement('div');
+    answer.className = 'faq-answer';
+    // Split on double newlines to create paragraphs, single content gets one <p>
+    var paragraphs = item.a.split('\n\n');
+    paragraphs.forEach(function(text) {
+      var p = document.createElement('p');
+      p.innerHTML = text.trim();
+      answer.appendChild(p);
+    });
+    details.appendChild(answer);
+
+    root.appendChild(details);
+  });
+
+  // Build FAQPage JSON-LD structured data
+  var ld = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": items.map(function(item) {
+      return {
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      };
+    })
+  };
+
+  var script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.textContent = JSON.stringify(ld);
+  document.head.appendChild(script);
+})();
+</script>
