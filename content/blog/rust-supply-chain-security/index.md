@@ -31,7 +31,7 @@ This article lays out the evidence; from the regulatory landscape, the mounting 
 
 Before we talk about regulation, let's talk about the problem.
 
-[**70% of all security vulnerabilities**]((https://www.chromium.org/Home/chromium-security/memory-safety/)) in large C and C++ codebases are memory safety issues: buffer overflows, use-after-free, null pointer dereferences, and similar bugs.
+[**70% of all security vulnerabilities**](<(https://www.chromium.org/Home/chromium-security/memory-safety/)>) in large C and C++ codebases are memory safety issues: buffer overflows, use-after-free, null pointer dereferences, and similar bugs.
 
 They are the root cause of some of the most consequential cyberattacks in history. The White House ONCD report puts it plainly:
 
@@ -55,7 +55,7 @@ What was once a niche concern for security researchers has become a mainstream p
 
 ### United States: White House Office of the National Cyber Director (2024)
 
-In February 2024, the White House ONCD released a landmark report titled [*"Back to the Building Blocks: A Path Toward Secure and Measurable Software."*](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)
+In February 2024, the White House ONCD released a landmark report titled [_"Back to the Building Blocks: A Path Toward Secure and Measurable Software."_](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)
 
 The report makes the case that software manufacturers can **prevent entire classes of vulnerabilities** by adopting memory-safe programming languages. It explicitly frames memory safety as a matter of national security:
 
@@ -67,7 +67,7 @@ This is language is in no way aspirational but a policy directive that signals t
 
 ### United States: NSA Guidance on Memory Safety (2022)
 
-Even before the White House report, the **National Security Agency** published a Cybersecurity Information Sheet titled [*"Software Memory Safety"*](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF) in November 2022.
+Even before the White House report, the **National Security Agency** published a Cybersecurity Information Sheet titled [_"Software Memory Safety"_](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF) in November 2022.
 
 The NSA recommends that organizations:
 
@@ -83,9 +83,9 @@ The document states:
 
 ### United States: CISA Product Security Bad Practices (2024/2025)
 
-The **Cybersecurity and Infrastructure Security Agency (CISA)** and FBI jointly published the [*Product Security Bad Practices*](https://www.cisa.gov/resources-tools/resources/product-security-bad-practices) guidance, updated in January 2025.
+The **Cybersecurity and Infrastructure Security Agency (CISA)** and FBI jointly published the [_Product Security Bad Practices_](https://www.cisa.gov/resources-tools/resources/product-security-bad-practices) guidance, updated in January 2025.
 
-The very first "bad practice" listed under *Product Properties* is unambiguous (emphasis mine):
+The very first "bad practice" listed under _Product Properties_ is unambiguous (emphasis mine):
 
 > "The development of new product lines for use in service of critical infrastructure or NCFs **in a memory-unsafe language (e.g., C or C++) where readily available alternative memory-safe languages could be used** is dangerous and significantly elevates risk to national security, national economic security, and national public health and safety."
 
@@ -122,36 +122,43 @@ While the CRA does not mandate specific programming languages, its requirements 
 
 The CRA applies to any product with digital elements placed on the EU market, regardless of where it was developed. If you sell software or connected hardware in Europe, this is already your reality.
 
-### Germany: Sovereign Tech Fund and BSI
+### Germany: BSI NIS-2 Security Measures and the Sovereign Tech Fund
 
-Germany has been one of the most proactive governments in supporting memory-safe software. The [**Sovereign Tech Fund**](https://www.sovereigntechfund.de/), backed by the German Federal Ministry for Economic Affairs and Climate Action, has invested directly in Rust ecosystem development.
+Germany has been one of the most proactive governments in supporting memory-safe software.
 
-The German Federal Office for Information Security (**BSI**) has published guidelines recommending memory-safe languages for critical infrastructure, and the agency actively participates in EU-level coordination on software security standards.
+The German Federal Office for Information Security (**BSI**) published [security measures for NIS-2 regulated companies](https://www.bsi.bund.de/DE/Themen/Regulierte-Wirtschaft/NIS-2-regulierte-Unternehmen/NIS-2-Infopakete/NIS-2-Sicherheitsmassnahmen/NIS-2-Sicherheitsmassnahmen.html) that explicitly recommend **Rust by name** as an example of a memory-safe programming language. Under the "Development" section, the BSI recommends:
+
+> "Verwendung speichersicherer Programmiersprachen, beispielsweise Rust."
+> (Use of memory-safe programming languages, for example Rust.)
+
+This is part of a broader set of security-by-design requirements that the BSI considers essential for NIS-2 compliance, including input validation, encryption, minimizing attack surfaces, and secure coding practices. The fact that a national cybersecurity authority names Rust in its regulatory guidance is significant.
+
+On top of that, the [**Sovereign Tech Fund**](https://www.sovereigntechfund.de/), backed by the German Federal Ministry for Economic Affairs and Climate Action, has invested directly in [Rust ecosystem development](https://www.sovereigntechfund.de/news/on-rust-memory-safety-open-source-infrastructure).
 
 ### NIST: Secure Software Development Framework
 
 The U.S. **National Institute of Standards and Technology (NIST)** maintains the [Secure Software Development Framework (SSDF)](https://csrc.nist.gov/projects/ssdf), which is referenced throughout U.S. government procurement. The SSDF recommends practices that naturally favor memory-safe languages: reducing vulnerability classes at the source, maintaining software bills of materials (SBOMs), and conducting rigorous code review and testing.
 
-NIST's guidelines are not theoretical. They are the basis for [Executive Order 14028](https://www.nist.gov/itl/executive-order-14028-improving-nations-cybersecurity), which mandates that software sold to the U.S. federal government must comply with SSDF practices. Government contractors and vendors who produce software in memory-unsafe languages face an increasing burden to demonstrate that their software meets these requirements.
+NIST's guidelines are the basis for [Executive Order 14028](https://www.nist.gov/itl/executive-order-14028-improving-nations-cybersecurity), which mandates that software sold to the U.S. federal government must comply with SSDF practices. Government contractors and vendors who produce software in memory-unsafe languages face an increasing burden to demonstrate that their software meets these requirements.
 
-## The Big Picture: Converging Pressure From All Sides
+## The Regulatory Landscape at a Glance
 
-Step back and look at the pattern:
+Let's take a step back and look at the pattern:
 
-| Source | Action | Year |
-|---|---|---|
-| **NSA** | Published guidance recommending memory-safe languages | 2022 |
-| **White House / ONCD** | Called on industry to adopt memory-safe languages | 2024 |
-| **CISA / FBI** | Listed memory-unsafe languages as a product security bad practice | 2024–2025 |
-| **DARPA** | Funded automated C-to-Rust translation (TRACTOR) | 2024 |
-| **EU** | Enacted the Cyber Resilience Act with mandatory security requirements | 2024 |
-| **Germany** | Funded Rust ecosystem through the Sovereign Tech Fund | 2023–present |
-| **NIST** | Published SSDF; basis for federal procurement requirements | Ongoing |
-| **Google, Microsoft, Apple** | Independently confirmed ~70% of CVEs are memory safety issues | 2019–present |
+| Source                       | Action                                                                | Year         |
+| ---------------------------- | --------------------------------------------------------------------- | ------------ |
+| **Google, Microsoft, Apple** | Independently confirmed ~70% of CVEs are memory safety issues         | 2019–present |
+| **NSA**                      | Published guidance recommending memory-safe languages                 | 2022         |
+| **Germany**                  | Funded Rust ecosystem through the Sovereign Tech Fund                 | 2023–present |
+| **White House / ONCD**       | Called on industry to adopt memory-safe languages                     | 2024         |
+| **DARPA**                    | Funded automated C-to-Rust translation (TRACTOR)                      | 2024         |
+| **EU**                       | Enacted the Cyber Resilience Act with mandatory security requirements | 2024         |
+| **CISA / FBI**               | Listed memory-unsafe languages as a product security bad practice     | 2024–2025    |
+| **NIST**                     | Published SSDF; basis for federal procurement requirements            | Ongoing      |
 
-This is not one country, one agency, or one political party. It is a **global, bipartisan, cross-sector consensus** that memory-unsafe code is an unacceptable risk in critical systems.
+This is a **global, bipartisan, cross-sector consensus** that memory-unsafe code is an **unacceptable risk** in critical systems.
 
-The direction is clear. The question is not *whether* your organization will need to address this, it's *when*, and whether you'll do so on your own terms or under external pressure.
+The direction is clear. The question is not _whether_ your organization will need to address this, it's _when_, and whether you'll do so on your own terms or under external pressure.
 
 ## Why Rust, Specifically?
 
@@ -165,9 +172,9 @@ As I wrote in a recent post on [choosing Rust](https://endler.dev/2025/choosing-
 
 - The GNU coreutils have had multiple security vulnerabilities over the decades, including buffer overflows and path traversal issues. These are some of the most widely deployed, most reviewed C programs in existence.
 - Even `ls` is five thousand lines of C, a significant attack surface for something that "just prints file names."
-- Rust enables aggressive optimization without fear of introducing memory safety bugs. Developers are *more willing* to improve and parallelize their code when the compiler catches their mistakes.
+- Rust enables aggressive optimization without fear of introducing memory safety bugs. Developers are _more willing_ to improve and parallelize their code when the compiler catches their mistakes.
 
-Google, Microsoft, Amazon, Meta, Cloudflare, and Discord have all independently arrived at the same conclusion and are investing heavily in Rust for their critical infrastructure. [Microsoft's CTO of Azure stated](https://x.com/markrussinovich/status/1571995117233504257) that new projects should be written in Rust rather than C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) and the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) now contain Rust code.
+Google, Microsoft, Amazon, Meta, Cloudflare, and Discord have all independently arrived at the same conclusion and are investing heavily in Rust for their critical infrastructure. [Microsoft's CTO of Azure stated](https://news.ycombinator.com/item?id=32905885) that new projects should be written in Rust rather than C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) and the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) now contain Rust code.
 
 ## The Cost of Waiting
 
@@ -187,7 +194,7 @@ Similarly, **migrating to a memory-safe language is not something you flip a swi
 
 Organizations that start now will be ready when the regulatory hammer falls. Those that wait will be scrambling, paying premium rates for scarce Rust expertise, and missing compliance deadlines.
 
-As we discuss in [*"Why Rust in Production?"*](/why-rust/), Rust doesn't just prevent bugs. It reduces on-call burden, improves developer confidence, and lowers long-term maintenance costs. In [a Google survey](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html), **85% of developers reported higher confidence in their team's Rust code** compared to code in other languages. That's not just security. It's velocity.
+As we discuss in [_"Why Rust in Production?"_](/why-rust/), Rust doesn't just prevent bugs. It reduces on-call burden, improves developer confidence, and lowers long-term maintenance costs. In [a Google survey](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html), **85% of developers reported higher confidence in their team's Rust code** compared to code in other languages. That means on top of all the security benefits, your company gains in velocity, which results in faster time to market and lower development costs.
 
 ## What a Memory Safety Roadmap Looks Like
 
@@ -201,13 +208,15 @@ At a minimum:
 4. **Interim mitigations** for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
 5. **Timeline and milestones** showing a credible, prioritized reduction of memory safety vulnerabilities.
 
-This is exactly the kind of work I do with my clients at [corrode](/services/). We've helped organizations across industries, from [satellite operations](/podcast/s04e07-ksat/) to [automotive](/podcast/s02e05-oxidos/) to [cloud infrastructure](/podcast/s05e01-prime-video/), develop practical Rust adoption strategies. 
+This is exactly the kind of work I do with my clients at [corrode](/services/). We've helped organizations across industries, from 
+cloud infrastructure to embedded devices to backend services, develop practical Rust adoption strategies.
 
-(For a comprehensive guide on the organizational side, see our [Rust Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/).)
+(For a complete guide on the organizational side, see our [Rust Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/).)
 
 ## You Don't Have to Do This Alone
 
-Here's the good news: you don't need to figure this out from scratch.
+It is hard to navigate this transition on your own on top of your already overwhelming workload.
+But here's the good news: **you don't need to figure this out from scratch**.
 
 The Rust ecosystem is mature, the tooling is excellent, and there is a growing body of industry experience to draw from. What most organizations lack is not motivation. It's **guidance**.
 
@@ -228,24 +237,25 @@ I write about the practicalities of long-term Rust adoption on this blog, from [
 
 All of this exists so that you can make an informed decision, with confidence, backed by real evidence.
 
-## This Is Insurance, Not a Gamble
+## The Cost of Inaction Far Exceeds the Cost of Action
 
 Let me put it in business terms.
 
-Engaging a Rust consultant is not an expense. It's **insurance**. The cost of a consulting engagement is a rounding error compared to:
+Engaging a Rust consultant is an **insurance** policy for your organization.
+The cost of a consulting engagement is a rounding error compared to:
 
 - A single critical CVE in production ($150,000+ per Microsoft's estimate).
 - A regulatory non-compliance penalty under the EU Cyber Resilience Act.
 - An emergency scramble to produce a memory safety roadmap when your government customer asks for one.
 - The reputational damage of a headline-grabbing breach traced to a buffer overflow in 2026.
 
-Starting now means you control the timeline, the budget, and the scope. You choose which components to migrate first. You train your team at a sustainable pace. You build institutional knowledge before you *need* it.
+**Starting now means you control the timeline, the budget, and the scope.** You choose which components to migrate first. You train your team at a sustainable pace. You build institutional knowledge before you _need_ it.
 
 Waiting means someone else, a regulator, a customer, a competitor, dictates the terms.
 
 ## Next Steps
 
-The pressure to make software safer is not a trend. It's a structural shift in how governments, industries, and standards bodies think about software liability. Memory safety is the lowest-hanging fruit, and Rust is the only production-ready language that delivers it without sacrificing performance.
+The pressure to make software safer is a structural shift in how governments, industries, and standards bodies think about software liability. Memory safety is the lowest-hanging fruit, and Rust is the only production-ready language that delivers it without sacrificing performance.
 
 Here's what I recommend:
 
