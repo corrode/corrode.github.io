@@ -23,7 +23,7 @@ Governments around the world are converging on a single message: **memory-unsafe
 
 Rust eliminates the most common class of security vulnerabilities at compile time. That's not a marketing claim but a technical property of the language, [confirmed by Google](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html), [Microsoft](https://msrc.microsoft.com/blog/2019/07/we-need-a-safer-systems-programming-language/), and [the White House](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/).
 
-This article lays out the evidence; from the regulatory landscape, the mounting pressure from every direction, and why acting now, with expert guidance, is the smartest insurance policy your organization can buy.
+This article lays out the evidence: the regulatory landscape, the mounting pressure from every direction, and why acting now, with expert guidance, is the smartest insurance policy your organization can buy.
 
 <!-- more -->
 
@@ -31,7 +31,7 @@ This article lays out the evidence; from the regulatory landscape, the mounting 
 
 Before we talk about regulation, let's talk about the problem.
 
-[**70% of all security vulnerabilities**](<(https://www.chromium.org/Home/chromium-security/memory-safety/)>) in large C and C++ codebases are memory safety issues: buffer overflows, use-after-free, null pointer dereferences, and similar bugs.
+[**70% of all security vulnerabilities**](https://www.chromium.org/Home/chromium-security/memory-safety/) in large C and C++ codebases are memory safety issues: buffer overflows, use-after-free, null pointer dereferences, and similar bugs.
 
 They are the root cause of some of the most consequential cyberattacks in history. The White House ONCD report puts it plainly:
 
@@ -63,7 +63,7 @@ The report makes the case that software manufacturers can **prevent entire class
 >
 > Harry Coker, U.S. National Cyber Director
 
-This is language is in no way aspirational but a policy directive that signals the direction of future government procurement, compliance requirements, and liability standards.
+This language is in no way aspirational but a policy directive that signals the direction of future government procurement, compliance requirements, and liability standards.
 
 ### United States: NSA Guidance on Memory Safety (2022)
 
@@ -174,7 +174,7 @@ As I wrote in a recent post on [choosing Rust](https://endler.dev/2025/choosing-
 - Even `ls` is five thousand lines of C, a significant attack surface for something that "just prints file names."
 - Rust enables aggressive optimization without fear of introducing memory safety bugs. Developers are _more willing_ to improve and parallelize their code when the compiler catches their mistakes.
 
-Google, Microsoft, Amazon, Meta, Cloudflare, and Discord have all independently arrived at the same conclusion and are investing heavily in Rust for their critical infrastructure. [Microsoft's CTO of Azure stated](https://news.ycombinator.com/item?id=32905885) that new projects should be written in Rust rather than C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) and the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) now contain Rust code.
+Google, Microsoft, Amazon, Meta, Cloudflare, and Discord have all independently arrived at the same conclusion and are investing heavily in Rust for their critical infrastructure. [Microsoft's CTO of Azure stated](https://x.com/markrussinovich/status/1571995117233504257) that new projects should be written in Rust rather than C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) and the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) now contain Rust code.
 
 ## The Cost of Waiting
 
