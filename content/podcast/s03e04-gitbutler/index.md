@@ -48,7 +48,7 @@ He is a YC alum and has a Master's degree in Computer Science.
 
 ### Links From The Episode (In Chronological Order)
 
-- [sturdy](https://getsturdy.com/) - Kiril's earlier excursion into version control
+- [sturdy](https://archive.ph/LWnkz) - Kiril's earlier excursion into version control
 - [Why GitHub Actually Won](https://blog.gitbutler.com/why-github-actually-won/) - Comparing git to other version control software
 - [git2-rs](https://github.com/rust-lang/git2-rs) - Rust bindings for libgit2
 - [gitoxide](https://github.com/Byron/gitoxide) - Pure Rust implementation of git
