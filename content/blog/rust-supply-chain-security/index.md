@@ -165,6 +165,14 @@ This is a **global, bipartisan, cross-sector consensus** that memory-unsafe code
 
 The direction is clear. The question is not _whether_ your organization will need to address this, it's _when_, and whether you'll do so on your own terms or under external pressure.
 
+{% info(title="Where Does Your Organization Stand?", icon="warning") %}
+
+If your software touches critical infrastructure, handles sensitive data, or ships into regulated markets, the regulatory direction above applies to you. Most organizations I work with underestimate how long it takes to build internal Rust expertise and draft a credible memory safety roadmap.
+
+I help companies close that gap, typically saving months of trial and error. **[Book a free assessment call](/#contact)** and let's figure out your exposure before deadlines set the pace.
+
+{% end %}
+
 ## Why Rust, Specifically?
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
@@ -204,6 +212,14 @@ Similarly, **migrating to a memory-safe language is not something you flip a swi
 Organizations that start now will be ready when the regulatory hammer falls. Those that wait will be scrambling, paying premium rates for scarce Rust expertise, and missing compliance deadlines.
 
 As we discuss in [_"Why Rust in Production?"_](/why-rust/), Rust doesn't just prevent bugs. It reduces on-call burden, improves developer confidence, and lowers long-term maintenance costs. In [a Google survey](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html), **85% of developers reported higher confidence in their team's Rust code** compared to code in other languages. That means on top of all the security benefits, your company gains in velocity, which results in faster time to market and lower development costs.
+
+{% info(title="Don't Start From Zero", icon="crab") %}
+
+I've spent 10 years working with Rust and have helped teams across industries, from cloud infrastructure to embedded systems, bring it to production. The difference between a smooth adoption and a painful one almost always comes down to having someone who's done it before.
+
+If you're weighing a migration, building a roadmap, or training your first Rust team, **[let's talk](/#contact)**. A single conversation can save you months of wrong turns.
+
+{% end %}
 
 ## What a Memory Safety Roadmap Looks Like
 
