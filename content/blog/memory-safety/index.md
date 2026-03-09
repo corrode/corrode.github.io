@@ -1,6 +1,7 @@
 +++
-title = "Supply-Chain Security Starts with Memory Safety"
+title = "Memory-Unsafe Code Is a Liability"
 date = 2026-02-27
+aliases = ["/blog/rust-supply-chain-security/"]
 template = "article.html"
 draft = false
 [extra]
