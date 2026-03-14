@@ -259,11 +259,13 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
+    width: 100%;
 }
 
 .brands {
     text-align: center;
     margin: 0;
+    width: 100%;
 }
 
 .brands h2 {
@@ -277,23 +279,88 @@
     opacity: 0.8;
 }
 
-.brand-logos {
-    flex-wrap: wrap;
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    align-items: center;
+// Carousel container. Clips the scrolling track and adds fade edges
+.brand-logos-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1rem 0;
+
+    // Fade out left and right edges
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 8%,
+        black 92%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 8%,
+        black 92%,
+        transparent 100%
+    );
+
+    // Pause on hover
+    &:hover .brand-logos-inner {
+        animation-play-state: paused;
+    }
 }
 
-@media (max-width: 750px) {
-    .brand-logos {
-        gap: 30px;
+// Inner wrapper that holds both duplicate tracks side-by-side and animates
+// as a single unit. Translating by -50% moves exactly one track width,
+// snapping back to the start for a seamless infinite loop.
+.brand-logos-inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: max-content;
+    animation: brand-marquee 32s linear infinite;
+}
 
-        img {
-            // scale proportionally
-            width: 150px;
-            height: auto;
+// Each track is one copy of all logos
+.brand-logos-track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 4rem;
+    padding: 0 2rem;
+
+    // Give each link a stable hit target and subtle hover effect
+    a {
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
+        opacity: 0.75;
+        transition: opacity 0.25s ease;
+
+        &:hover {
+            opacity: 1;
         }
+    }
+
+    img {
+        display: block;
+        max-width: none; // prevent img { max-width: 100% } from squashing them
+    }
+}
+
+@keyframes brand-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        // Slide left by exactly half the inner width = one full track
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brand-logos-track {
+        animation-play-state: paused;
     }
 }
 
@@ -302,7 +369,7 @@
         color: white;
     }
 
-    .brand-logos img {
+    .brand-logos-track img {
         filter: invert(1);
     }
 
