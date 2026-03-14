@@ -1,0 +1,54 @@
+# Lychee link checker configuration
+# https://lychee.cli.rs/
+
+# Accept these status codes as valid (in addition to 200)
+# 403: Sites that block automated scrapers (LinkedIn, HackerNews, Medium, etc.)
+# 405: POST-only endpoints (e.g. newsletter subscribe forms) return 405 to GET requests
+# 999: LinkedIn's custom "bot detected" status
+# 429: Rate limiting (site exists but we're being throttled)
+accept = [403, 405, 429, 999]
+
+# Exclude known false-positive domains that block link checkers
+exclude = [
+    # Social/professional networks that block bots
+    "linkedin.com",
+    "archive.ph",
+    "pod.link",
+
+    # Sites that return 403 to crawlers but are actually live
+    "news.ycombinator.com",
+    "medium.com",
+    "freepik.com",
+    "www.freepik.com",
+    "shnatsel.medium.com",
+    "mdwdotla.medium.com",
+    "shahbhargav.medium.com",
+
+    # Newsletter subscribe endpoint (POST-only, returns 405 to GET requests from lychee)
+    "corrode-newsletter.fly.dev",
+
+    # Sites that occasionally rate-limit or block crawlers
+    "rustjobs.dev",
+    "mend.io",
+    "npmjs.com",
+    "premiumbeat.com",
+    "cacm.acm.org",
+    "nixos.wiki",
+    "raspberrypi.com",
+    "cvedetails.com",
+    "volvocars.com",
+    "crunchbase.com",
+    "kraken.com",
+    "blueorigin.com",
+    "uppbeat.io",
+    "gnu.org",
+]
+
+# Maximum number of concurrent link checks
+max_concurrency = 16
+
+# Timeout for each request (in seconds)
+timeout = 20
+
+# Number of retries for failed requests
+max_retries = 1
