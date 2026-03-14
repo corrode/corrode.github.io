@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2026-01-11
+updated = 2026-03-14
 template = "article.html"
 draft = false
 [extra]
@@ -67,25 +67,8 @@ As per tradition, they kick off the year of Rust conferences.
 - **Format**: 1 day conference
 - **Focus**: Crafting safe & efficient futures
 - **Pricing**: [€120](https://ti.to/xperhub/rust-in-paris-2026)
-- **CFP**: [Open until 15th of January](https://docs.google.com/forms/d/e/1FAIpQLSfuNFQNFcLorqGE4VnjFcE7OmsEQWkWnkr-SCpoIOeFb6HVWw/viewform) 
+- **CFP**: Closed
 - **Links**: [Website](https://rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
-
-### RUSTMEET (Gliwice, Poland) <span class="conference-badge tentative">Dates TBA</span>
-
-<a href="https://rustmeet.eu/" target="_blank">
-  <img src="rustmeet.jpg" alt="RUSTMEET" />
-</a>
-
-An event in Poland, actively co-created by Rust enthusiasts.
-
-- **When**: TBA (typically March)
-- **Where**: Gliwice, Poland
-- **Format**: 2 days (talks + workshops)
-- **Focus**: Rust programming language
-- **Pricing**: TBA
-- **CFP**: TBA
-- **Links**: [Website](https://rustmeet.eu/)
-- **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
 ### Rustikon (Warsaw, Poland)
 
@@ -124,6 +107,23 @@ A conference for Rust developers in Asia.
 
 ## Q2 2026
 
+### Rust India (Bengaluru, India)
+
+<a href="https://rustindia.org/" target="_blank">
+  <img src="rustindia.jpg" alt="Rust India" />
+</a>
+
+A single-day community conference where maintainers, compiler tinkerers, infra teams, and curious builders
+come together for practical Rust talks, hallway conversations, and real production stories.
+
+- **When**: April 18, 2026
+- **Where**: Bengaluru, India
+- **Format**: 1 day (5 full talks + 8 lightning talks)
+- **Focus**: Systems programming, reliability, performance tuning, production Rust
+- **Pricing**: Tickets opening soon
+- **CFP**: [Open](https://rustindia.org/) (25 and 45 min formats)
+- **Links**: [Website](https://rustindia.org/)
+
 ### TokioConf (Portland, USA)
 
 <a href="https://www.tokioconf.com/" target="_blank">
@@ -157,28 +157,28 @@ All Rustaceans are welcome to attend and submit talks.
 - **Format**: Full week (2 days talks + 1 day workshops + social events)
 - **Focus**: Broad, open to everyone
 - **Pricing**: [Tickets available](https://event.onliveevent.nl/rustweek-2026)
-- **CFP**: [Extended until 18th of January](https://2026.rustweek.org/cfp)
+- **CFP**: Closed
 - **Links**: [Website](https://2026.rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL)
 
-## Q3 2026
+### RUSTMEET (Kraków, Poland)
 
-### RustForge (Wellington, New Zealand) <span class="conference-badge tentative">Dates TBA</span>
-
-<a href="https://rustforgeconf.com/" target="_blank">
-  <img src="rustforge.jpg" alt="RustForge" />
+<a href="https://rustmeet.eu/" target="_blank">
+  <img src="rustmeet.jpg" alt="RUSTMEET" />
 </a>
 
-RustForge is a conference in the Asia/Pacific region that focuses on Rust.
+An event in Poland, actively co-created by Rust enthusiasts.
 
-- **When**: TBA (typically August)
-- **Where**: Wellington, New Zealand
-- **Format**: 4 days (2 days workshops + 2 days conference)
-- **Focus**: Community-focused conference with emphasis on hallway track
-- **Pricing**: TBA
-- **CFP**: TBA
-- **Links**: [Website](https://rustforgeconf.com/)
-- **Social**: [Twitter](https://x.com/rustforgeconf) | [LinkedIn](https://www.linkedin.com/company/rustforgeconf/) | [Instagram](https://www.instagram.com/rustforgeconf/)
+- **When**: June 12-14, 2026
+- **Where**: [Hotel Kolna, Kraków, Poland](https://rustmeet.eu/) (also online)
+- **Format**: 3 days (talks + workshops + lightning talks + social event)
+- **Focus**: Rust programming language
+- **Pricing**: Available via [Confreg](https://rustmeet.eu/)
+- **CFP**: [Open until March 22, 2026](https://rustmeet.eu/)
+- **Links**: [Website](https://rustmeet.eu/)
+- **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
+
+## Q3 2026
 
 ### RustConf (Montreal, Canada) 
 
@@ -195,7 +195,7 @@ After Seattle in 2025, RustConf returns to beautiful Montreal, Canada.
 - **Format**: 4 days (1 day workshops + 3 days talks)
 - **Focus**: Official Rust conference
 - **Pricing**: TBA
-- **CFP**: [Open until 16 Feb 2026](https://sessionize.com/rustconf-2026)
+- **CFP**: Closed
 - **Links**: [Website](https://rustconf.com/) | [Newsletter](https://mailchi.mp/e0f01ceec688/rustconf-newsletter-registration) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf) | [BlueSky](https://bsky.app/profile/rustconf.com)
 
@@ -213,7 +213,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
 - **Pricing**: TBA
-- **CFP**: TBA
+- **CFP**: [Open until March 23, 2026](https://oxidizeconf.com/)
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
 
@@ -238,7 +238,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Format**: 2 day event
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Private Ticket €275, Freelancer Ticket €332, Company Ticket: €600](https://ti.to/events-matter/eurorust-2026)
-- **CFP**: TBA
+- **CFP**: [Open until April 27, 2026](https://sessionize.com/eurorust-2026)
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
@@ -255,8 +255,8 @@ It's lovingly organized featuring delicious Italian food and a great community.
 - **Where**: [Savoia Regency Hotel, Bologna](https://maps.app.goo.gl/PFdKnc3hivvwjj6X7)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
-- **Pricing**: TBA
-- **CFP**: TBA
+- **Pricing**: [€240 Early Bird Lite / €370 Early Bird Premium](https://rustlab.it/)
+- **CFP**: [Open until April 13, 2026](https://sessionize.com/rustlab-2026)
 - **Links**: [Website](https://rustlab.it/) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
 
@@ -554,6 +554,22 @@ function initConferenceMap() {
       lat: 52.0907,
       lng: 5.1214,
       dates: 'May 18-23, 2026'
+    },
+    {
+      name: 'Rust India',
+      city: 'Bengaluru',
+      country: 'India',
+      lat: 12.9716,
+      lng: 77.5946,
+      dates: 'April 18, 2026'
+    },
+    {
+      name: 'RUSTMEET',
+      city: 'Kraków',
+      country: 'Poland',
+      lat: 50.0647,
+      lng: 19.9450,
+      dates: 'June 12-14, 2026'
     },
     {
       name: 'RustConf',
