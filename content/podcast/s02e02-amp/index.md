@@ -70,5 +70,5 @@ teaching and learning.
 ### Official Links
 
  - [AMP](https://ampsortation.com)
- - [Carter's personal homepage](https://www.carterschultz.com/)
+ - [Carter's LinkedIn](https://www.linkedin.com/in/carter-builds-robots/)
 

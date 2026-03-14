@@ -35,7 +35,7 @@ there were definitely some surprises and unexpected turns along the way!
 - [Rust blog post: "Announcing Rust 1.0", May 15, 2015](https://blog.rust-lang.org/2015/05/15/Rust-1.0.html)
 - [Rust blog post: "The `?` operator", Nov. 10, 2016](https://blog.rust-lang.org/2016/11/10/Rust-1.13.html#the--operator)
 - [Rust blog post: "Async-await on stable Rust!", Nov. 7, 2019](https://blog.rust-lang.org/2019/11/07/Async-await-stable.html)
-- ['Hello, Rust!' YouTube channel](https://www.youtube.com/@HelloRust)
+- ['Hello, Rust!' YouTube channel](https://corrode.dev/hello-rust/)
 - [Clip 1: Paul Dix talking about Rust adoption at InfluxData](https://corrode.dev/podcast/s01e01-influxdata/?t=55%3A40)
 - [Clip 2: Folkert de Vries on safe multiprocessing in Rust](https://corrode.dev/podcast/s01e05-tweede-golf?t=16%3A29)
 - [Clip 3: Stephen Blum about fearless concurrency](https://corrode.dev/podcast/s01e02-pubnub?t=16%3A24)
@@ -72,7 +72,7 @@ there were definitely some surprises and unexpected turns along the way!
 
 ### Additional Links
 
-- [Rust 2023 Survey](https://blog.rust-lang.org/2023/12/20/Rust-2023-Survey-Results.html)
+- [Rust 2023 Survey](https://blog.rust-lang.org/2024/02/19/2023-Rust-Annual-Survey-2023-results/)
 - ['Rust in Production' title music (while you wait for season 2)](https://www.premiumbeat.com/royalty-free-tracks/cassiopeia)
 
 ### All Episodes of Season 1

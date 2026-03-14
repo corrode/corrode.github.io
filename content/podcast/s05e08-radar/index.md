@@ -68,7 +68,7 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 - [Wikipedia: Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25) - The ranking algorithm used in tantivy
 - [Wikipedia: tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) - A classic and simple ranking algorithm
 - [Roaring Bitmaps](https://github.com/RoaringBitmap/roaring-rs) - A very fast bitset library used in many places
-- [corrode.dev: Be Simple](https://corrode.dev/blog/be-simple/) - A sentiment right down Matthias' alley
+- [corrode.dev: Be Simple](https://corrode.dev/blog/simple/) - A sentiment right down Matthias' alley
 - [loco-rs](https://loco.rs/) - Rust on Rails
 
 ### Official Links

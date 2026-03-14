@@ -85,5 +85,5 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 
 - [Oxide Computer Company](https://oxide.computer/) - Building servers as they should be
 - [On The Metal Podcast](https://oxide.computer/podcasts/on-the-metal) - Stories from the hardware/software boundary
-- [Steve Klabnik's Blog](https://words.steveklabnik.com/) - Thoughts on programming, Rust, and more
+- [Steve Klabnik's Blog](https://steveklabnik.com/) - Thoughts on programming, Rust, and more
 - [Steve Klabnik on Bluesky](https://bsky.app/profile/steveklabnik.com) - Follow Steve for Rust updates and more

@@ -8,7 +8,7 @@ template = "article.html"
 series = "Idiomatic Rust"
 reviews = [
     { name = "Brett Witty", url = "https://www.brettwitty.net" },
-    { name = "Ludwig Weinzierl", url = "https://weinzierlweb.com/ludwig" },
+    { name = "Ludwig Weinzierl", url="https://www.linkedin.com/in/ludwig-weinzierl" },
 ]
 +++
 

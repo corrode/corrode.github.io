@@ -12,9 +12,12 @@
         </time>
     </div>
     {% endif %}
-    
+
     <div>
-        <a href="https://github.com/corrode/corrode.github.io/commits/master/content/{{ page.path }}">Full git revision history</a>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/{{ page.path | trim_start_matches(pat='/') }}"
+            >Full git revision history</a
+        >
     </div>
 
     <div class="authors">
@@ -36,16 +39,13 @@
     {% if page.extra.reviews %}
     <div class="reviewers">
         <span>Reviewers:</span>
-        {% for review in page.extra.reviews %}
-                <a href="{{ review.url }}" target="_blank" rel="noopener noreferrer">{{ review.name }}</a>
-            {%- if not loop.last -%}
-                {%- if loop.index == page.extra.reviews | length - 1 %}
-                    and
-                {%- else -%}
-                    ,
-                {% endif -%}
-            {%- endif -%}
-        {%- endfor %}
+        {% for review in page.extra.reviews %} {% if review.url %}
+        <a href="{{ review.url }}" target="_blank" rel="noopener noreferrer"
+            >{{ review.name }}</a
+        >
+        {%- else -%} {{ review.name }} {%- endif -%} {%- if not loop.last -%}
+        {%- if loop.index == page.extra.reviews | length - 1 %} and {%- else
+        -%}, {% endif -%} {%- endif -%} {%- endfor %}
     </div>
     {% endif %} {% if page.extra.credits %}
     <div class="credits">

@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2026-01-14
+updated = 2026-03-14
 draft = false
 template = "article.html"
 [extra]
@@ -840,26 +840,25 @@ Development](https://code.visualstudio.com/docs/remote/remote-overview).
 ### Compile in the Cloud
 
 If you don't have a dedicated machine yourself, you can offload the compilation
-process to the cloud instead.  
-[Gitpod.io](https://gitpod.io/) is superb for testing a cloud build as they
-provide you with a beefy machine (currently 16 core Intel Xeon 2.80GHz, 60GB
-RAM) for free during a limited period. Simply add `https://gitpod.io/#` in
-front of any Github URL.
-[Here is an example](https://gitpod.io/#https://github.com/hello-rust/show/tree/master/episode/9) for one of my [Hello Rust](https://corrode.dev/hello-rust/) episodes.
+process to the cloud instead.
+[GitHub Codespaces](https://github.com/features/codespaces) gives you a
+fully configured cloud development environment right inside GitHub. You can
+spin up a codespace from any repository by clicking the **Code** button and
+selecting **Open with Codespaces**. Machine sizes range from 2 cores all the
+way up to 32 cores, and every GitHub account includes a free monthly quota
+(currently 60 hours on a 2-core machine).
 
-Gitpod has a neat feature called [prebuilds](https://www.gitpod.io/docs/prebuilds). From their docs:
+Codespaces supports [dev container configuration](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration) via a `.devcontainer/devcontainer.json`
+file, which lets you pre-install the Rust toolchain and any other dependencies
+so the environment is ready the moment it starts. This is particularly useful
+when reviewing pull requests — open the PR directly in a codespace and
+everything is already set up for you.
 
-> Whenever your code changes (e.g. when new commits are pushed to your
-> repository), Gitpod can prebuild workspaces.
-> Then, when you do create a new workspace on a branch, or Pull/Merge Request,
-> for which a prebuild exists, this workspace will load much faster, because **all
-> dependencies will have been already downloaded ahead of time, and your code
-> will be already compiled**.
-
-Especially when reviewing pull requests, this could give you a nice speedup.
-Prebuilds are quite customizable; take a look at the [`.gitpod.yml` config of
-nushell](https://github.com/nushell/nushell/blob/d744cf8437614cc6b95a4bb22731269a17fe9c80/.gitpod.yml) to get an
-idea.
+If you want more control over the build environment, [Northflank](https://northflank.com/pricing)
+is another option. It lets you run arbitrary build jobs on dedicated cloud
+infrastructure, with plans ranging from shared 0.1 vCPU containers up to 32
+dedicated vCPUs. There's a free sandbox tier, and paid plans are billed
+per-second so you only pay for actual build time.
 
 ### Cache All Crates Locally
 

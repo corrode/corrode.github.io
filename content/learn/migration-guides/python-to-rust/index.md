@@ -483,7 +483,7 @@ I expect more backend services to be written in Rust in the future -- especially
 
 Not everything needs to be migrated! Python excels at:
 
-- [I personally prototype in Rust](/blog/protoyping), but Python is still a fine choice for prototyping. 
+- [I personally prototype in Rust](/blog/prototyping), but Python is still a fine choice for prototyping. 
 - Data analysis and visualization are great in Python (e.g., Pandas, Matplotlib)
 - Machine learning workflows (e.g., TensorFlow, PyTorch)
 - Admin interfaces and tools (e.g., Django admin)

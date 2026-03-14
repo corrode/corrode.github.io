@@ -114,7 +114,7 @@ and you should carefully evaluate if the benefits outweigh the risks.
 
 > If you are writing code that should live for a while, or a library that is
 > aimed to be widely used, avoiding nightly features is likely your best bet.
-> &mdash; Andre Bogus in [The nightly elephant in the room](https://www.getsynth.com/docs/blog/2021/10/11/nightly)
+> &mdash; Andre Bogus in [The nightly elephant in the room](https://web.archive.org/web/2022*/https://www.getsynth.com/docs/blog/2021/10/11/nightly)
 
 ### Regularly Update Your Compiler
 

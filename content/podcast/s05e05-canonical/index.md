@@ -38,9 +38,9 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 - [sudo-rs](https://github.com/trifectatechfoundation/sudo-rs) -  For your Rust based sandwiches needs
 - [LTS](https://en.wikipedia.org/wiki/Long-term_support) - Long Term Support, a release model popularized by Ubuntu
 - [coreutils-from-uutils](https://git.launchpad.net/~juliank/+git/coreutils-from/tree/debian/coreutils-from-uutils.links?h=main) - List of symbolic links used for coreutils on Ubuntu, some still point to the GNU implementation
-- [man: sudo -E](https://manpages.ubuntu.com/manpages/questing/en/man8/sudo.8.html#:~:text=%2DE%2C%20%2D%2Dpreserve%2Denv) - Example of a feature that sudo-rs does not support
+- [man: sudo -E](https://manpages.ubuntu.com/manpages/noble/en/man8/sudo.8.html#:~:text=%2DE%2C%20%2D%2Dpreserve%2Denv) - Example of a feature that sudo-rs does not support
 - [SIMD](https://en.wikipedia.org/wiki/Single_instruction%2C_multiple_data) - Single instruction, multiple data
-- [rust-coreutils](https://packages.ubuntu.com/questing/rust-coreutils) - The Ubuntu package with all it's supported CPU platforms listed
+- [rust-coreutils](https://packages.ubuntu.com/noble/rust-coreutils) - The Ubuntu package with all it's supported CPU platforms listed
 - [fastcat](https://endler.dev/2018/fastcat/) - Matthias' blogpost about his faster version of `cat`
 - [systemd-run0](https://www.freedesktop.org/software/systemd/man/devel/run0.html) - Alternative approach to sudo from the systemd project
 - [AppArmor](https://apparmor.net/) - The Linux Security Module used in Ubuntu

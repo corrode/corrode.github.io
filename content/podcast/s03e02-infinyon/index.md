@@ -43,7 +43,7 @@ For fifteen years, Deb has been a behavioral detective, piecing together human d
 - [Arroyo](https://www.arroyo.dev/) - SQL-based data streaming platform in Rust
 - [Arroyo Podcast Episode with Micah Wylde](/podcast/s01e04-arroyo/)
 - [NATS](https://nats.io/) - High-performance messaging system written in Go
-- [Memphis](https://memphis.dev) - Go-based streaming stack built with NATS as its core
+
 - [Four Horsemen Of Bad Rust Code (FOSDEM 2024)](https://archive.fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/) - Matthias' talk on writing bad Rust code
 
 ### Official Links

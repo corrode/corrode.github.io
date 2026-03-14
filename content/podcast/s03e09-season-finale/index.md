@@ -48,7 +48,7 @@ In the meantime, check out our dedicated [learn](/learn) page for additional con
 - [TinyGlade](https://pouncelight.games/tiny-glade/) - Game fully written in Rust, available on Steam
 - [One Of The Rust Linux Kernel Maintainers Steps Down - Cites "Nontechnical Nonsense"](https://www.reddit.com/r/rust/comments/1f3scn1/one_of_the_rust_linux_kernel_maintainers_steps/) - Discussion about Rust adoption in the Linux kernel
 - [curl removing hyper support](https://www.reddit.com/r/rust/comments/1etqn47/curl_removing_hyper_support_in_feb_2025_due_to/) - Discussion about curl removing hyper support
-- [Daniel Stenberg on the 'Rust in Production' Podcast](/podcast/s02e01-daniel-stenberg) - The curl maintainer talks about Rust adoption 
+- [Daniel Stenberg on the 'Rust in Production' Podcast](/podcast/s02e01-curl) - The curl maintainer talks about Rust adoption
 - [Hyper](https://github.com/hyperium/hyper) - HTTP implementation in Rust, previously used in curl
 - [RusTLS](https://github.com/rustls/rustls) - TLS implementation still used in curl
 - [Rust Foundation Members](https://rustfoundation.org/members/) - List of Rust Foundation members

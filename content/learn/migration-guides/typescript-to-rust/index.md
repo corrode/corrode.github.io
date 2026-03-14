@@ -167,7 +167,7 @@ This makes deployment easy and reliable.
 
 Teams are often shocks that Rust is so fast.
 They go in expecting Rust to be fast, but the reality still surprises them.
-You can expect an [order of magnitude](https://forgen.tech/en/blog/post/why-i-switched-from-typescript-to-rust) better CPU and memory usage if you're coming from JS/TS.
+You can expect an order of magnitude better CPU and memory usage if you're coming from JS/TS.
 The effects of that are very real: reduced cloud costs, less hardware, and faster response times.
 
 Most importantly, **your runtime behavior becomes predictable**.
