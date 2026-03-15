@@ -5,6 +5,7 @@ author = "Matthias Endler"
 
 compile_sass = true
 build_search_index = false
+ignored_content = ["**/code/**/*.md"]
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 

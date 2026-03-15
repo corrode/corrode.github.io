@@ -604,6 +604,7 @@ Here are my personal rules of thumb:
   smaller scopes like functions and closures, functional methods such as
   mapping, filtering, or reducing can make your code both concise and clear.
   Use functional programming when you can phrase your problem as a series of transformations over some data.
+
 * **Use imperative style for granular control.** In scenarios where you're
   working close to the hardware, or when you need explicit step-by-step
   execution, the imperative style is often a necessity. It allows for precise
@@ -623,4 +624,6 @@ Here are my personal rules of thumb:
 
 Lastly, avoid bias towards any particular paradigm. You can write better code if
 you test your assumptions every now and then.
+
+
 

@@ -86,6 +86,8 @@ Recognizing that a complete switch from C++ to Rust is not always feasible or de
 
 Tyler wrote a series of blog posts on [Rust and C++ interop](https://tylerjw.dev/posts/rust-cpp-interop/) that go into great detail about integrating Rust into C++ projects, which covers FFI bindings, CMake (a build system generator for C++ projects), Cxx (a code generation tool), Conan (a C++ package manager), and more.
 
+For an up-to-date, step-by-step guide on the tooling and strategies involved in this process, see [How to Introduce Rust into a C++ Codebase](/blog/rust-ffi-incremental-migration/).
+
 It is recommended to start with the most safety-critical or unreliable parts of your codebase:
 
 > What you have to do is think about how important security is at each level of the stack and how to address it in small incremental ways. - [Jeremy Soller in the Rust in Production podcast](https://corrode.dev/podcast/s02e07-system76/?t=47%3A52)

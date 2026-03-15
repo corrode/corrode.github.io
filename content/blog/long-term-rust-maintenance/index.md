@@ -524,17 +524,18 @@ consistent code style and catch common errors:
 
 Run your CI pipeline on a regular basis to ensure that your codebase is always
 in a deployable state. The worst time to find out that something is broken is when
-you're trying to deploy a fix. 
+you're trying to deploy a fix.
 
 Look into [release-plz](https://github.com/MarcoIeni/release-plz) for release
 automation. It can create pull requests for new releases, which you can review
 and merge when you're ready.
 
+
 ![release-plz](release-plz.png)
 
 If you are afraid of triggering a release, it's a sign that your release process
-is too complex. Simplify it until you are confident that you can release at any
-time.
+is too complex or too slow. Simplify it until you are confident that you can release at any
+time and [speed up your Rust CI builds](/blog/tips-for-faster-ci-builds/).
 
 ## Invest in the Rust Ecosystem
 

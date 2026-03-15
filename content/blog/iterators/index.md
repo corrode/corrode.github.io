@@ -348,4 +348,4 @@ are and they are a powerful stand-in for those list comprehensions you might
 know and love from Python.
 
 I encourage you to explore the iterator API in Rust and see how you can use it
-to make your code more expressive and concise. 
+to make your code more expressive and concise.

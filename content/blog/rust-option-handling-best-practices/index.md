@@ -18,7 +18,7 @@ More specifically, the problem arises when you want to return early from a funct
 
 It has been discussed a million times already, but, surprisingly, not even the Rust book mentions my favorite approach to handling that, and many forum posts are outdated.
 
-With a bit of practice, robust handling of `None` can become as easy as `unwrap()`, but safer. 
+With a bit of practice, robust handling of `None` can become as easy as `unwrap()`, but safer.
 
 Jump to the end if you're in a hurry and just need a quick recommendation.
 
@@ -259,7 +259,7 @@ The one issue I had when teaching this was that it looked a bit more verbose for
 
 ## Solution 4: `let-else`
 
-With Rust 1.65, [the `let-else` expression was stabilized](https://blog.rust-lang.org/2022/11/03/Rust-1.65.0.html#let-else-statements), so now you can write this: 
+With Rust 1.65, [the `let-else` expression was stabilized](https://blog.rust-lang.org/2022/11/03/Rust-1.65.0.html#let-else-statements), so now you can write this:
 
 ```rust
 let Some(user) = get_user() else {

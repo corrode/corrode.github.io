@@ -9,6 +9,10 @@ reviews = [
     { name = "Tyler Stevens", url = "https://www.linkedin.com/in/tpstevens/" },
     { name = "kat", url = "https://www.sakurakat.systems/" },
 ]
+resources = [
+    "[Making illegal states unrepresentable](/blog/illegal-state/)",
+    "[Compile-time invariants in Rust](/blog/compile-time-invariants/)",
+]
 +++
 
 I have a hobby.

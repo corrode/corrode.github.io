@@ -381,7 +381,10 @@ What I appreciate about Rust is how it balances high-level and low-level program
 We should leverage that more often. 
 Most of the time, I write Rust code in a straightforward manner, and when that extra bit of performance becomes critical, Rust always lets me go back and optimize. 
 
-## Keep Your Users in Mind 
+For example, in hot code paths, avoiding allocations might make sense, at which point you might have to deal with [lifetimes](/blog/lifetimes/).
+But that's a late-stage optimization. Don't reach for it while the design is still in flux.
+
+## Keep Your Users in Mind
 
 Most of the code you'll write for companies will be application code, not library code.
 That's because most companies don't make money writing libraries, but business logic.
@@ -528,6 +531,7 @@ Use all the features you need and none you don't.
 Crucially, writing simple software does not mean implementing "good-enough-for-now" software.
 That approach surely will lead to technical debt and maintenance nightmares further down the line as workarounds get stacked on top of each other.
 No, simple software can still be well-designed software, but it keeps the current requirements in mind.
+For example, [compile-time invariants](/blog/compile-time-invariants/) and [making illegal states unrepresentable](/blog/illegal-state/) are techniques that add real safety without adding accidental complexity. The type system does the work so your code doesn't have to.
 The goal is not to take shortcuts. Quite the contrary: the goal is to avoid unnecessary complexity, which often is the root cause for having
 to take shortcuts later on when bad systems design prevents a cleaner solution. 
 In [code reviews](https://endler.dev/2025/how-to-review-code/), I pay extra attention to ensuring we don't cut corners to avoid doing the necessary design work.

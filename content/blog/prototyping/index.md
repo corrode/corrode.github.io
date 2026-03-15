@@ -675,9 +675,7 @@ help: consider using the `'static` lifetime, but this is uncommon unless you're 
 
 ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=7274f20a06226316c93d9984f1d66b5f))
 
-A simple way around that is to [avoid lifetimes altogether](/blog/lifetimes).
-They are not necessary in the beginning.
-Use owned types like `String` and `Vec`.
+A simple way around that is to use owned types like `String` and `Vec` and avoid lifetime annotations altogether. [They're needed less often than you'd think](/blog/lifetimes/).
 Just `.clone()` wherever you need to pass data around. 
 
 ```rust

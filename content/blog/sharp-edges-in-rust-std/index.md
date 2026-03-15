@@ -279,7 +279,9 @@ There are a few options:
 
 As you can see, my list of warts in the Rust standard library is quite short.
 Given that Rust 1.0 was released more than a decade ago, the standard library has held up *really* well.
-That said, I reserve the right to update this article in case I become aware of additional sharp edges in the future. 
+That said, I reserve the right to update this article in case I become aware of additional sharp edges in the future.
+
+If you're looking to go further, [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/) covers a broader set of bugs that the compiler won't catch: integer overflows, unsafe type casts, TOCTOU races, and more.
 
 In general, I like that Rust has a relatively small standard library because once a feature is in there it stays there forever. [^forever]
 

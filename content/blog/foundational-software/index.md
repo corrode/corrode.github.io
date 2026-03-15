@@ -8,7 +8,7 @@ template = "article.html"
 series = "Rust Insights"
 +++
 
-Ten years of stable Rust; writing this feels surreal. 
+Ten years of stable Rust; writing this feels surreal.
 
 It's only been *yesterday* that we all celebrated the 1.0 release of this incredible language.
 
@@ -49,7 +49,7 @@ The Linux kernel wasn't built in a day.
 **People need time to learn.**
 
 The whole idea of Rust is to enable **everyone** to build reliable and efficient software.
-To me, it's about breaking down the barriers to entry and making larger parts of the software stack accessible to more people. 
+To me, it's about breaking down the barriers to entry and making larger parts of the software stack accessible to more people.
 You can sit with us.
 
 > We are committed to providing a friendly, safe and welcoming environment for all
@@ -165,7 +165,9 @@ Rust is useful in situations where the ["worse is better" philosophy falls apart
 > With the right thing, designers are equally concerned with simplicity, correctness, consistency, and completeness.
 
 I think many companies will choose Rust to build their future platforms on.
-As such, it competes with C++ as much as it does with Kotlin or Python.
+As such, it competes with C++ as much as it does with Kotlin or Python [^sustainability].
+
+[^sustainability]: This also raises the question: ["Will Rust be alive in 10 years?"](/blog/rust-in-ten-years/) And to me the answer is clear: many large organizations have already bet on it and are building their future on top of it. Rust is here to stay.
 
 I believe that we should shift the focus away from memory safety (which many other languages also offer) and instead focus on the explicitness, expressiveness, and ecosystem of Rust that is highly competitive with these languages.
 It is a language for teams which want to build things *right* and are at odds with the "move fast and break things" philosophy of the past.
@@ -202,6 +204,8 @@ There is more to be said about supply-chain security and sustainability in a fut
 ## Rust Is A Language For Decades
 
 Building foundational systems is rooted in the profound belief that the efforts will pay off in the long run because organizations and society will benefit from them for decades.
+([Long-term Rust Project Maintenance](/blog/long-term-rust-maintenance/) covers the day-to-day work of keeping a Rust codebase healthy over years: dependency management, API design, release automation, and more.)
+
 We are building systems that will be used by people who may not even know they are using them, but who will depend on them every day; that's critical infrastructure.
 
 And Rust allows us to do so with great ergonomics.

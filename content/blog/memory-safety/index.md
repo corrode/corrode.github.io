@@ -194,6 +194,8 @@ As I wrote in a recent post on [choosing Rust](https://endler.dev/2025/choosing-
 
 Google, Microsoft, Amazon, Meta, Cloudflare, and Discord have all independently arrived at the same conclusion and are investing heavily in Rust for their critical infrastructure. [Microsoft's CTO of Azure stated](https://x.com/markrussinovich/status/1571995117233504257) that new projects should be written in Rust rather than C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) and the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) now contain Rust code.
 
+If you're sceptical about Rust's long-term viability before committing to it, I wrote an [article on the ecosystem maturity, corporate investment, and funding structures that make Rust a sound long-term bet](/blog/rust-in-ten-years/).
+
 ## The Cost of Waiting
 
 Some organizations look at this landscape and think: "We'll wait for the regulations to be finalized. We'll act when we have to."
@@ -230,7 +232,7 @@ At a minimum:
 
 1. **An inventory of memory-unsafe code** in your products, prioritized by risk (network-facing code, cryptographic operations, data parsing).
 2. **A plan for new development** in a memory-safe language.
-3. **A migration strategy** for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface).
+3. **A migration strategy** for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface). See [How to Introduce Rust into a C++ Codebase](/blog/rust-ffi-incremental-migration/) for a deep guide on tooling, build system integration, and migration patterns if you're coming from C++.
 4. **Interim mitigations** for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
 5. **Timeline and milestones** showing a credible, prioritized reduction of memory safety vulnerabilities.
 
