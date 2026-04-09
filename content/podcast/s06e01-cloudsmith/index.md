@@ -12,7 +12,7 @@ episode = "01"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-0efbeff6" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/gama-space-with-sebastian-scholz/player.js?size=s"></script></div>
+<div><script id="letscast-player-1901e78b" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/cloudsmith-with-cian-butler/player.js?size=s"></script></div>
 
 Rust adoption can be loud, like when companies such as Microsoft, Meta, and Google announce their use of Rust in high-profile projects. But there are countless smaller teams quietly using Rust to solve real-world problems, sometimes even without noticing. This episode tells one such story. Cian and his team at Cloudsmith have been adopting Rust in their Python monolith not because they wanted to rewrite everything in Rust, but because Rust extensions were simply best-in-class for the specific performance problems they were trying to solve in their Django application. As they had these initial successes, they gained more confidence in Rust and started using it in more and more areas of their codebase.
 
@@ -30,7 +30,7 @@ Cian is a Service Reliability Engineer located in Dublin, Ireland. He has been w
 
 ### Links From The Episode
 
-- [(Not) the Tao of Cloudsmith](https://www.skillen.io/not-the-tao-of-cloudsmith/) - A blog post from Lee Skillen, Cloudsmith's co-founder explaining why they chose Python for their monolith
+- [Lee Skillen's blog](https://www.skillen.io/) - The blog of Lee Skillen, Cloudsmith's co-founder and CTO
 - [Django](https://www.djangoproject.com/) - Python on Rails
 - [Django Mixins](https://docs.djangoproject.com/en/6.0/topics/class-based-views/mixins/) - Great for scaling up, not great for long-term maintenance
 - [SBOM](https://en.wikipedia.org/wiki/Software_bill_of_materials) - Software Bill of Materials
@@ -57,4 +57,10 @@ Cian is a Service Reliability Engineer located in Dublin, Ireland. He has been w
 - [Rust in Production: curl with Daniel Stenberg](https://corrode.dev/podcast/s02e01-curl/) - Talking about hyper's strictness being at odds with curl's permissive design
 - [axum](https://docs.rs/axum/latest/axum/) - Ergonomic and modular web framework for Rust
 - [rocket](https://rocket.rs/) - Web framework for Rust
+
+### Official Links
+
+- [Cloudsmith Website](https://cloudsmith.com/)
+- [Cian Butler's Website](https://cianbutler.ie/)
+- [Cian's E-Mail](mailto:butlerx@notthe.cloud)
 
