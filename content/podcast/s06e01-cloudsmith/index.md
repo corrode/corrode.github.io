@@ -14,7 +14,7 @@ series = "Podcast"
 
 <div><script id="letscast-player-0efbeff6" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/gama-space-with-sebastian-scholz/player.js?size=s"></script></div>
 
-Rust adoption can be loud, like when companies such as Microsoft, Meta, and Google announce their use of Rust in high-profile projects. But there are countless smaller teams quietly using Rust to solve real-world problems, sometimes even without them noticing. This episode tells one such story. Cian and his team at Cloudsmith have been adopting Rust in their Python monolith not because they wanted to rewrite everything in Rust, but because the Rust extensions were simply best-in-class for the specific performance problems they were trying to solve in their Django application. As they had these initial successes, they gained more confidence in Rust and started using it in more and more areas of their codebase.
+Rust adoption can be loud, like when companies such as Microsoft, Meta, and Google announce their use of Rust in high-profile projects. But there are countless smaller teams quietly using Rust to solve real-world problems, sometimes even without noticing. This episode tells one such story. Cian and his team at Cloudsmith have been adopting Rust in their Python monolith not because they wanted to rewrite everything in Rust, but because Rust extensions were simply best-in-class for the specific performance problems they were trying to solve in their Django application. As they had these initial successes, they gained more confidence in Rust and started using it in more and more areas of their codebase.
 
 {{ codecrafters() }}
 
@@ -22,7 +22,7 @@ Rust adoption can be loud, like when companies such as Microsoft, Meta, and Goog
 
 ### About Cloudsmith
 
-Made with love in Belfast and trusted around the world. Cloudsmith is the fully-managed solution for controlling, securing, and distributing software artifacts. They analyze every package, container, and ML model in an organizations supply chain, allow blocking bad packages before they reach developers, and build an ironclad chain of custody.
+Made with love in Belfast and trusted around the world. Cloudsmith is the fully-managed solution for controlling, securing, and distributing software artifacts. They analyze every package, container, and ML model in an organization's supply chain, allow blocking bad packages before they reach developers, and build an ironclad chain of custody.
 
 ### About Cian Butler 
 
