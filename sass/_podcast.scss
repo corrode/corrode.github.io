@@ -122,6 +122,14 @@
 // The h1 deliberately inherits Bebas Neue — the bold all-caps display style
 // is intentional for episode titles.
 
+.episode-byline {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0rem 0 1rem;
+    letter-spacing: 0.03em;
+}
+
 .episode-subscribe-icons {
     list-style: none;
     padding: 0;
@@ -232,6 +240,10 @@
 }
 
 @media (prefers-color-scheme: dark) {
+    .episode-byline {
+        color: white;
+    }
+
     .podcast-item-meta code {
         background-color: rgba(white, 0.1);
     }
