@@ -5,7 +5,8 @@
         <h1>{{ page.title }}</h1>
         {% if page.extra.guest %}
         <p class="episode-byline">
-            {{ page.extra.guest }}, {{ page.extra.role }}
+            <span class="episode-byline-guest">{{ page.extra.guest }}</span
+            ><span class="episode-byline-role">, {{ page.extra.role }}</span>
         </p>
         {% endif %}
         <div class="article-meta-top">
