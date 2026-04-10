@@ -8,7 +8,7 @@ draft = false
 series = "Migration Guides"
 icon = "typescript.svg"
 resources = [
-    "[Syntax comparison between TypeScript to Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
+    "[Syntax comparison between TypeScript and Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
     "[My experience migrating TypeScript libraries to Rust - Patrick Desjardins](https://patrickdesjardins.com/blog/migrating-typescript-library-to-rust)",
     "[Node.js to Rust in 2024 - Pascal Poredda](https://pascal-poredda.de/blog/migrating-from-node-to-rust)"
 ]
@@ -256,7 +256,7 @@ fn area(shape: &Shape) -> f64 {
 ```
 
 If you add a new variant to the enum, the compiler will tell you every place that needs updating.
-That's on example why refactoring Rust code is amazing.
+That's one example of why refactoring Rust code is amazing.
 
 ### Async: `Promise<T>` vs `async fn`
 
@@ -391,7 +391,7 @@ You'll see `&str` in most function signatures and `String` in structs and return
 The strict Rust compiler is your strongest ally.
 You can refactor without fear because the compiler has your back. 
 
-It sound like a cliché,  but to truly understand what I mean by that, you have to experience it for yourself.
+It sounds like a cliché, but to truly understand what I mean by that, you have to experience it for yourself.
 You won't deal with `null` or `undefined` errors, but you will end up modeling a lot of your code with strong types and use `Option<T>` and `Result<T, E>` a lot to handle cases that would be runtime errors in TypeScript.
 
 ## Ecosystem Maturity
@@ -401,7 +401,7 @@ NPM gives you more packages, but Rust's ecosystem is of excellent quality and gr
 > In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager)
 
 A small portion of these packages provide type definitions (i.e. TypeScript support).
-Many packages are outdated or are actively maintained.
+Many packages are outdated or are no longer actively maintained.
 According to [SC Media](https://www.scworld.com/news/npm-registry-users-download-2-1b-deprecated-packages-weekly-researchers-say), "NPM registry users download 2.1B deprecated packages weekly".
 
 Compare that to Rust's crate ecosystem.
