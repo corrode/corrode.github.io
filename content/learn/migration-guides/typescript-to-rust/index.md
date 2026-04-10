@@ -1,7 +1,7 @@
 +++
 title = "Migrating from TypeScript to Rust"
 date = 2024-12-13
-updated = 2026-04-10
+updated = 2025-02-06
 template = "article.html"
 draft = false
 [extra]
@@ -35,16 +35,16 @@ In this article, you'll learn:
 
 TypeScript developers are used to assembling a toolchain from multiple tools. Here's how Rust maps to your daily workflow:
 
-| TypeScript tool           | Rust equivalent       | Notes                                                                         |
-| ------------------------- | --------------------- | ----------------------------------------------------------------------------- |
-| `tsconfig.json`           | `Cargo.toml`          | Project config and dependency manifest                                        |
-| `npm` / `yarn`            | `cargo`               | Package manager, build tool, and task runner                                  |
-| `ts-node` / `tsx`         | `cargo run`           | Run your project                                                              |
-| `jest` / `vitest`         | `cargo test`          | Testing built into the toolchain                                              |
-| `eslint`                  | `cargo clippy`        | Linter with actionable suggestions                                            |
-| `prettier`                | `cargo fmt`           | Auto-formatter, zero config                                                   |
-| `nodemon` / `tsx --watch` | `cargo watch`         | Re-run on file changes (install separately with `cargo install cargo-watch`)  |
-| `tsc --noEmit`            | `cargo check`         | Fast type-check without a full build                                          |
+| TypeScript tool           | Rust equivalent       | Notes                                                                        |
+| ------------------------- | --------------------- | ---------------------------------------------------------------------------- |
+| `tsconfig.json`           | `Cargo.toml`          | Project config and dependency manifest                                       |
+| `npm` / `yarn`            | `cargo`               | Package manager, build tool, and task runner                                 |
+| `ts-node` / `tsx`         | `cargo run`           | Run your project                                                             |
+| `jest` / `vitest`         | `cargo test`          | Testing built into the toolchain                                             |
+| `eslint`                  | `cargo clippy`        | Linter with actionable suggestions                                           |
+| `prettier`                | `cargo fmt`           | Auto-formatter, zero config                                                  |
+| `nodemon` / `tsx --watch` | `cargo watch`         | Re-run on file changes (install separately with `cargo install cargo-watch`) |
+| `tsc --noEmit`            | `cargo check`         | Fast type-check without a full build                                         |
 
 As you can see, **everything comes with Rust**. There's no decision fatigue around which test framework, formatter, or linter to use. The ecosystem has converged on `cargo` as the single tool for almost everything. That's pretty neat!
 
@@ -55,10 +55,10 @@ As you can see, **everything comes with Rust**. There's no decision fatigue arou
 | Stable Release     | 2014                                   | 2015                                   |
 | Packages           | 3 million+ (npm)                       | 250,000+ (crates.io)                   |
 | Type System        | Optional                               | Mandatory                              |
-| Memory Management  | Garbage collected                      | Automatic with ownership and borrowing | 
+| Memory Management  | Garbage collected                      | Automatic with ownership and borrowing |
 | Speed              | Moderate                               | Exceptional                            |
-| Concurrency model  | Single-threaded event loop             | Multi-threaded with async support      | 
-| Error Handling     | Exceptions                             | Errors as values, no exceptions        | 
+| Concurrency model  | Single-threaded event loop             | Multi-threaded with async support      |
+| Error Handling     | Exceptions                             | Errors as values, no exceptions        |
 | Learning Curve     | Moderate                               | Steep                                  |
 
 ## Why Teams Consider Rust
@@ -124,7 +124,7 @@ fn read_config(path: &str) -> Result<Config, Box<dyn Error>> {
 ```
 
 If a function can fail, its return type must reflect that.
-Yu can't forget to handle exceptions (because there are none).
+You can't forget to handle exceptions (because there are none).
 Every error must be handled explicitly in Rust, which leads to more robust code.
 
 ### Null Safety: `undefined`/`null` vs `Option<T>`
@@ -137,7 +137,7 @@ function getUser(id: string): User | undefined {
 }
 
 const user = getUser("123");
-console.log(user.name); // Oof, runtime crash if user is undefined. 
+console.log(user.name); // Oof, runtime crash if user is undefined.
 ```
 
 On the other side, Rust uses `Option<T>` and the compiler forces you to handle the missing case:
@@ -152,7 +152,7 @@ let user = get_user("123");
 // You can search for "unwrap" in your
 // entire codebase to find all the places
 // you need to handle!
-println!("{}", user.unwrap().name);  
+println!("{}", user.unwrap().name);
 
 // or, safely:
 if let Some(user) = get_user("123") {
@@ -174,34 +174,15 @@ interface Drawable {
 class Circle implements Drawable {
   constructor(private x: number, private y: number, private radius: number) {}
 
-  draw(): void {
-    console.log(`Drawing circle at (${this.x}, ${this.y})`);
-  }
-
+  draw() { console.log(`Drawing circle at (${this.x}, ${this.y})`); }
   boundingBox() {
-    return { x: this.x - this.radius, y: this.y - this.radius, width: this.radius * 2, height: this.radius * 2 };
+    return { x: this.x - this.radius, y: this.y - this.radius,
+             width: this.radius * 2, height: this.radius * 2 };
   }
-
-  area(): number {
-    return Math.PI * this.radius ** 2;
-  }
+  area() { return Math.PI * this.radius ** 2; }
 }
 
-class Rectangle implements Drawable {
-  constructor(private x: number, private y: number, private width: number, private height: number) {}
-
-  draw(): void {
-    console.log(`Drawing rectangle at (${this.x}, ${this.y})`);
-  }
-
-  boundingBox() {
-    return { x: this.x, y: this.y, width: this.width, height: this.height };
-  }
-
-  area(): number {
-    return this.width * this.height;
-  }
-}
+// Rectangle implements Drawable similarly...
 
 function renderIfVisible(shape: Drawable, viewport: { width: number; height: number }) {
   const bb = shape.boundingBox();
@@ -211,39 +192,18 @@ function renderIfVisible(shape: Drawable, viewport: { width: number; height: num
 }
 ```
 
-In Rust, it’s often better to have small, focused traits.
-Rust traits define shared behavior.
-Draw implies "something that can be rendered," while area and bounding_box are geometric properties.
+In Rust, it's often better to have small, focused traits.
+`Draw` implies "something that can be rendered," while `area` and `bounding_box` are geometric properties.
 So you would split this into multiple traits:
 
 ```rust
-trait Shape {
-    fn bounding_box(&self) -> BoundingBox;
-    fn area(&self) -> f64;
-}
-
-trait Draw: Shape {
-    fn draw(&self);
-}
-```
-
-This allows you to pass objects to a physics engine (which needs Shape) without requiring them to know how to draw themselves.
-
-```rust
-pub struct BoundingBox { 
-    pub x: f64, 
-    pub y: f64, 
-    pub width: f64, 
-    pub height: f64 
-}
-
 // Separate geometry from rendering
 pub trait Shape {
-    fn bounding_box(&self) -> BoundingBox;
+    fn bounding_box(&self) -> (f64, f64, f64, f64); // (x, y, width, height)
     fn area(&self) -> f64;
 }
 
-// `Draw: Shape` means "anything that implements Draw must also implement Shape" 
+// `Draw: Shape` means "anything that implements Draw must also implement Shape"
 pub trait Draw: Shape {
     fn draw(&self);
 }
@@ -251,43 +211,32 @@ pub trait Draw: Shape {
 pub struct Circle { pub x: f64, pub y: f64, pub radius: f64 }
 
 impl Shape for Circle {
-    fn bounding_box(&self) -> BoundingBox {
-        BoundingBox {
-            x: self.x - self.radius,
-            y: self.y - self.radius,
-            width: self.radius * 2.0,
-            height: self.radius * 2.0,
-        }
+    fn bounding_box(&self) -> (f64, f64, f64, f64) {
+        (self.x - self.radius, self.y - self.radius,
+         self.radius * 2.0, self.radius * 2.0)
     }
-
-    fn area(&self) -> f64 {
-        std::f64::consts::PI * self.radius.powi(2)
-    }
+    fn area(&self) -> f64 { std::f64::consts::PI * self.radius.powi(2) }
 }
 
-// Note how we can implement Draw separately from Shape.
-//
-// This allows us to use Circle in contexts that only care about its geometry,
+// Note: we can implement Draw separately from Shape.
+// This lets us use Circle in a physics engine (which only needs Shape)
 // without forcing it to know how to draw itself.
 impl Draw for Circle {
-    fn draw(&self) {
-        println!("Drawing circle at ({}, {})", self.x, self.y);
-    }
+    fn draw(&self) { println!("Drawing circle at ({}, {})", self.x, self.y); }
 }
 
 fn render_if_visible(shape: &impl Draw, viewport_limit: f64) {
-    let bb = shape.bounding_box();
-    if bb.x >= 0.0 && bb.x <= viewport_limit {
-        shape.draw();
-    }
+    let (x, _, _, _) = shape.bounding_box();
+    if x >= 0.0 && x <= viewport_limit { shape.draw(); }
 }
 ```
 
-Rust's `&impl Draw` lets you accept any type that implements the trait without needing inheritance or wrapper types, keeping the code clean and the compiler happy.
+This allows you to pass objects to a physics engine (which needs `Shape`) without requiring them to know how to draw themselves.
+Rust's `&impl Draw` lets you accept any type that implements the trait without needing inheritance or wrapper types.
 
 ### Union Types vs Enums
 
-TypeScript loves union types:
+TypeScript union types:
 
 ```typescript
 type Shape = { kind: "circle"; radius: number } | { kind: "rect"; width: number; height: number };
@@ -327,24 +276,6 @@ Concurrent programming is super central to TypeScript.
 A lot of people want to know the equivalent in Rust very early in their learning journey.
 Here's a quick comparison of how async works in both languages.
 
-{% info(title="TypeScript vs Rust - Async Programming" ) %}
-
-**What's the same?**
-
-- `async/await` works in both languages 
-- You can run tasks concurrently with `tokio::join!` (similar to `Promise.all`)
-- Error propagation with `?` works inside async functions.
-
-**What's different?**
-
-- In Rust, you have to bring your own async runtime (like Tokio), while in TypeScript it's built-in.
-- In Rust, you put the `.await` keyword *after* any async function call in contrast to TypeScript where you put it before. 
-- Futures in Rust are lazy – they don't start until you `.await` them or spawn them
-- Spawning a background task requires `tokio::spawn`, not a fire-and-forget `async` call
-- You'll occasionally see `Send + Sync` bounds on async code related to Rust's thread safety guarantees
-
-{% end %}
-
 TypeScript async is built on the JavaScript event loop:
 
 ```typescript
@@ -381,20 +312,35 @@ async fn main() {
 }
 ```
 
-The `#[tokio::main]` attribute sets up the Tokio runtime for you.
-In practice it doesn't add much boilerplate, but understanding that it exists helps explain why Rust async code looks slightly more explicit.
+The `#[tokio::main]` attribute sets up the Tokio runtime for you, so in practice it doesn't add much boilerplate.
 
-{% info(title="Why does Rust require setting a runtime?" ) %}
+{% info(title="TypeScript vs Rust: async at a glance" ) %}
 
-- Rust targets embedded systems and environments where a large event loop runtime would be unacceptable
-- Different applications have different concurrency needs (single-threaded, multi-threaded, work-stealing)
-- You only pay for what you use. :)
+**What's the same:**
 
+- `async`/`await` works in both languages
+- You can run tasks concurrently with `tokio::join!` (similar to `Promise.all`)
+- Error propagation with `?` works inside async functions
+
+**What's different:**
+
+- Rust has no built-in runtime; you bring your own (Tokio is the standard choice for web services)
+- In Rust, `.await` goes *after* the expression, not before it
+- Futures in Rust are lazy: they don't start until you `.await` them or spawn them
+- Background tasks require `tokio::spawn` rather than a fire-and-forget async call
+- You'll occasionally see `Send + Sync` bounds on async code, related to Rust's thread safety guarantees
 
 {% end %}
 
-For backend web services, Tokio is the standard choice. It's multi-threaded, battle-tested, and what frameworks like [axum](https://github.com/tokio-rs/axum) and [actix-web](https://actix.rs) are built on.
+{% info(title="Why does Rust require an explicit runtime?" ) %}
 
+Rust targets embedded systems and environments where a large built-in runtime would be unacceptable.
+Different applications also have different concurrency needs: single-threaded, multi-threaded, work-stealing schedulers, and so on.
+By leaving the runtime as a library choice, you only pay for what you use.
+
+{% end %}
+
+For backend web services, Tokio is the standard choice. It's multi-threaded, battle-tested, and what frameworks like [axum](https://github.com/tokio-rs/axum) have first-class support for it.
 
 ## Understanding Rust's Learning Curve
 
@@ -466,7 +412,7 @@ You won't deal with `null` or `undefined` errors, but you will end up modeling a
 
 ## Ecosystem Maturity
 
-NPM gives you more packages, but Rust's ecosystem is of excellent quality and growing rapidly. 
+NPM gives you more packages, but Rust's ecosystem is of excellent quality and growing rapidly.
 
 > In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager)
 
@@ -503,17 +449,18 @@ One of the first questions TypeScript developers ask: "What do I use instead of 
 
 Here's a practical mapping of common npm packages to their Rust crate equivalents:
 
-| npm package            | Rust crate(s)                   | Notes                                                       |
-| ---------------------- | ------------------------------- | ----------------------------------------------------------- |
-| `zod`                  | `serde` + `validator`           | `serde` handles serialization, add validators for rules     |
-| `axios` / `fetch`      | `reqwest`                       | Async HTTP client, supports JSON natively                   |
-| `express` / `fastify`  | `axum` / `actix-web`            | `axum` is the most actively developed                       |
-| `winston` / `pino`     | `tracing`                       | Structured, async-aware logging                             |
-| `dotenv`               | `dotenvy`                       | Drop-in equivalent                                          |
-| `jest`                 | built-in `#[test]`              | Testing is built into the language and `cargo`              |
-| `date-fns` / `luxon`   | `chrono` / `time`               | Date and time handling                                      |
-| `uuid`                 | `uuid`                          | Same name, same purpose                                     |
-| `lodash`               | built-in iterators              | Rust's iterator API covers most of lodash                   |
+
+| npm package            | Rust crate(s)                   | Notes                                                   |
+| ---------------------- | ------------------------------- | ------------------------------------------------------- |
+| `zod`                  | `serde` + `validator`           | `serde` handles serialization; add validators for rules |
+| `axios` / `fetch`      | `reqwest`                       | Async HTTP client, supports JSON natively               |
+| `express` / `fastify`  | `axum` / `actix-web`            | `axum` is the most actively developed                   |
+| `winston` / `pino`     | `tracing`                       | Structured, async-aware logging                         |
+| `dotenv`               | `dotenvy`                       | Drop-in equivalent                                      |
+| `jest`                 | built-in `#[test]`              | Testing is built into the language and `cargo`          |
+| `date-fns` / `luxon`   | `chrono` / `time`               | Date and time handling                                  |
+| `uuid`                 | `uuid`                          | Same name, same purpose                                 |
+| `lodash`               | built-in iterators              | Rust's iterator API covers most of lodash               |
 
 **A key difference:** You won't find a Rust equivalent for every small utility package.
 Where npm culture encourages installing tiny single-function packages, Rust culture favors using the standard library or writing the utility yourself. The standard library's iterator, collections, and string APIs are rich enough that you rarely need external packages for basic operations.
@@ -576,9 +523,8 @@ WebAssembly is the smoothest migration path for TypeScript teams that want to ke
 
 The core toolchain:
 
-- **[wasm-bindgen](https://github.com/rustwasm/wasm-bindgen)** – Generates the JavaScript/TypeScript bindings for your Rust code automatically
-- **[wasm-pack](https://rustwasm.github.io/wasm-pack/)** – Builds and packages your Rust code as an npm-compatible WASM module
-- **[tsify](https://github.com/nickel-lang/tsify)** – Derives TypeScript type definitions directly from your Rust types, keeping both sides in sync
+- **[wasm-bindgen](https://github.com/wasm-bindgen/wasm-bindgen)** – Generates the JavaScript/TypeScript bindings for your Rust code automatically
+- **[wasm-pack](https://github.com/wasm-bindgen/wasm-pack)** – Builds and packages your Rust code as an npm-compatible WASM module
 
 A typical setup looks like this:
 
@@ -612,7 +558,7 @@ const result = process_data("hello");
 - For long-running background work
 - When latency of the WASM call boundary matters less than operational simplicity
 
-### Standalone Web-Service
+### Standalone Web Service
 
 Alternatively, you can deploy Rust as separate services.
 This fits well with microservice architectures.
@@ -635,21 +581,6 @@ Those are Rust's strengths, and no JavaScript runtime will close that gap.
 
 Most teams that choose Rust do so not because Node.js alternatives don't exist, but because they've hit limits that moving to a different JS runtime won't solve
 or they learn that their problems are fundamentally about the language and ecosystem, not the runtime.
-
-## Find A Rust Champion
-
-You need a Rust champion in your team.
-This person should have some prior Rust experience and be excited about the language.
-
-Outside help can get you started, but keep the knowledge in-house.
-You know your codebase and business domain best.
-A consultant helps with the tricky Rust parts, team augmentation, and training,
-but your team maintains and extends the codebase in the long run.
-
-**They need to believe in the mission.**
-
-In order to succeed, your Rust champion needs to be able to motivate the team, answer questions, and guide the team through the learning curve.
-They work hand-in-hand with the consultant to ensure the team's success.
 
 ## Starting Your Journey
 
