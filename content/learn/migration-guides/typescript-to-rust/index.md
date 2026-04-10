@@ -1,7 +1,7 @@
 +++
 title = "Migrating from TypeScript to Rust"
 date = 2024-12-13
-updated = 2025-02-06
+updated = 2026-04-10
 template = "article.html"
 draft = false
 [extra]
