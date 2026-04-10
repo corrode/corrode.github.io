@@ -1,5 +1,3 @@
-// ─── Podcast list page ────────────────────────────────────────────────────────
-
 // The podcast page has a hero image above the heading, so we reduce the
 // default 8em top margin that article-heading normally uses.
 .podcast-page .article-heading {
@@ -43,40 +41,25 @@
     }
 }
 
-// ─── Episode list items (blog-style rows) ────────────────────────────────────
-
 .podcast-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1rem;
+    @extend .list-row;
+    margin-bottom: 1rem;
 }
 
 .podcast-item {
-    border-bottom: 1px solid rgba($brightPrim, 0.08);
-    padding: 0 12px;
+    @extend .list-row-item;
 
-    &:last-child {
-        border-bottom: none;
-    }
-
-    &:hover {
-        background-color: rgba($brightBgrd, 0.15);
-
-        .podcast-item-chevron {
-            opacity: 1;
-            transform: translateX(0) rotate(270deg);
-        }
+    &:hover .podcast-item-chevron {
+        opacity: 1;
+        transform: translateX(0) rotate(270deg);
     }
 }
 
 .podcast-link {
-    padding: 1.5rem 0;
-    display: grid;
+    @extend .list-row-link;
+    // Three columns: logo | content | chevron
     grid-template-columns: 48px 1fr auto;
     gap: 1.25rem;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
 }
 
 .podcast-logo-wrapper {
@@ -96,19 +79,11 @@
 }
 
 .podcast-item-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    min-width: 0;
+    @extend .list-row-content;
 }
 
 .podcast-item-title {
-    font-family: "Inter", Arial, sans-serif;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: $brightPrim;
-    margin: 0;
-    line-height: 1.3;
+    @extend .list-row-title;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
@@ -122,35 +97,27 @@
 }
 
 .podcast-item-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    @extend .list-row-meta;
     font-family: JetBrainsMono;
     font-size: 0.8rem;
+    gap: 0.75rem;
+
+    code {
+        padding: 2px 6px;
+        border-radius: 3px;
+        background-color: rgba(0, 0, 0, 0.07);
+        font-size: 0.8rem;
+    }
 }
 
 .podcast-item-date {
-    color: rgba($brightPrim, 0.6);
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.podcast-item-meta code {
-    padding: 2px 6px;
-    border-radius: 3px;
-    background-color: rgba(0, 0, 0, 0.07);
-    font-size: 0.8rem;
+    @extend .list-row-date;
 }
 
 .podcast-item-chevron {
-    @extend .chevron;
-    transform: translateX(-20px) rotate(270deg);
-    opacity: 0;
-    transition: all 0.3s ease;
+    @extend .list-row-chevron;
     margin-right: 0.5rem;
 }
-
-// ─── Episode page heading ─────────────────────────────────────────────────────
 
 // The h1 deliberately inherits Bebas Neue — the bold all-caps display style
 // is intentional for episode titles.
@@ -179,7 +146,20 @@
     }
 }
 
-// ─── Episode content hierarchy ────────────────────────────────────────────────
+.article-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.article-meta-left {
+    font-family: JetBrainsMono;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
 // The podcast player sits at the very top of the content — give it breathing
 // room and a visible border so it doesn't get lost on the light background.
@@ -194,35 +174,17 @@
     line-height: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-    .episode-content > div:first-child {
-        border-color: rgba(white, 0.15);
-    }
-}
-
 // Intro paragraphs before the first h2 — slightly larger for readability.
 .episode-content > p {
     font-size: 1.05rem;
     line-height: 1.7;
 }
 
-@media (max-width: 640px) {
-    .article-meta-top {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-    }
-}
-
-// ─── Podcast footer ───────────────────────────────────────────────────────────
-
 .podcast-footer {
     margin-top: 2rem;
     font-size: 0.8em;
     opacity: 0.75;
 }
-
-// ─── Episode page ─────────────────────────────────────────────────────────────
 
 .podcast-about {
     margin-top: 3rem;
@@ -234,17 +196,10 @@
     }
 }
 
-// ─── Responsive ───────────────────────────────────────────────────────────────
-
 @media (max-width: 640px) {
     .podcast-link {
         grid-template-columns: 40px 1fr;
         gap: 1rem;
-        padding: 1.25rem 0;
-    }
-
-    .podcast-item-chevron {
-        display: none;
     }
 
     .podcast-item-title {
@@ -261,27 +216,15 @@
         justify-content: flex-start;
         flex-wrap: wrap;
     }
+
+    .article-meta-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
 }
 
-// ─── Dark mode ────────────────────────────────────────────────────────────────
-
 @media (prefers-color-scheme: dark) {
-    .podcast-item {
-        border-bottom-color: rgba(white, 0.1);
-
-        &:hover {
-            background-color: rgba($brightBgrd, 0.1);
-        }
-    }
-
-    .podcast-item-title {
-        color: white;
-    }
-
-    .podcast-item-date {
-        color: rgba(white, 0.6);
-    }
-
     .podcast-item-meta code {
         background-color: rgba(white, 0.1);
     }
@@ -293,36 +236,8 @@
     .podcast-about {
         border-top-color: rgba(white, 0.15);
     }
-}
 
-// ─── Legacy: article-meta-top (used on episode page subscribe row) ────────────
-
-.article-meta-top {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 10px;
-    justify-content: space-between;
-}
-
-.article-meta-left {
-    font-family: JetBrainsMono;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.article-meta-top ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.article-meta-top li {
-    display: flex;
-    align-items: center;
-    margin: 0;
+    .episode-content > div:first-child {
+        border-color: rgba(white, 0.15);
+    }
 }

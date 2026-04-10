@@ -1,0 +1,122 @@
+// Shared list-row styles used by both _blog.scss and _podcast.scss.
+// Each consumer composes these base classes and only adds what's unique to it.
+
+.list-row {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-row-item {
+    border-bottom: 1px solid rgba($brightPrim, 0.08);
+    padding: 0 12px;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background-color: rgba($brightBgrd, 0.15);
+
+        .list-row-chevron {
+            opacity: 1;
+            transform: translateX(0) rotate(270deg);
+        }
+    }
+}
+
+.list-row-link {
+    padding: 1.5rem 0;
+    display: grid;
+    // Default: content + chevron. Consumers override grid-template-columns
+    // to insert extra columns (e.g. a logo).
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.list-row-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.list-row-title {
+    font-family: "Inter", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: $brightPrim;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.list-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.list-row-date {
+    font-family: JetBrainsMono;
+    font-size: 0.85rem;
+    color: rgba($brightPrim, 0.6);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.list-row-label {
+    font-size: 0.8rem;
+    color: rgba($brightPrim, 0.5);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.list-row-chevron {
+    @extend .chevron;
+    transform: translateX(-20px) rotate(270deg);
+    opacity: 0;
+    transition: all 0.3s ease;
+    margin-right: 0.75rem;
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 768px) {
+    .list-row-link {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 1.25rem 0.75rem;
+    }
+
+    .list-row-chevron {
+        display: none;
+    }
+}
+
+// ─── Dark mode ────────────────────────────────────────────────────────────────
+
+@media (prefers-color-scheme: dark) {
+    .list-row-item {
+        border-bottom-color: rgba(white, 0.1);
+
+        &:hover {
+            background-color: rgba($brightBgrd, 0.1);
+        }
+    }
+
+    .list-row-title {
+        color: white;
+    }
+
+    .list-row-date {
+        color: rgba(white, 0.6);
+    }
+
+    .list-row-label {
+        color: rgba(white, 0.5);
+    }
+}
