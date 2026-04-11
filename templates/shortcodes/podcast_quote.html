@@ -9,14 +9,6 @@
 {% set season_num = ep | split(pat="e") | nth(n=0) | replace(from="s", to="") %}
 {% set ep_num = ep | split(pat="-") | nth(n=0) | split(pat="e") | nth(n=1) %}
 
-{% if t %}
-    {% set t_parts = t | split(pat=":") | reverse %}
-    {% set s = t_parts | nth(n=0) | default(value="0") | int %}
-    {% set m = t_parts | nth(n=1) | default(value="0") | int %}
-    {% set h = t_parts | nth(n=2) | default(value="0") | int %}
-    {% set t_millis = (h * 3600 + m * 60 + s) * 1000 %}
-{% endif %}
-
 <blockquote>
     {{ body | markdown() | safe }}
     <p>
@@ -27,35 +19,33 @@
     {% if t %}
     <script>
         window.podloveOverrides = window.podloveOverrides || {};
-        window.podloveOverrides['#player-{{ id }}'] = {{ t_millis }};
-        
+        window.podloveOverrides['#player-{{ id }}'] = "{{ t }}".split(':').reverse().reduce((a, v, i) => a + (parseInt(v) || 0) * Math.pow(60, i), 0) * 1000;
+
         if (!window.podloveHooked) {
             window.podloveHooked = true;
-            const hook = (orig) => {
-                if (orig.__hooked) return orig;
+            const makeHook = (orig) => {
+                if (orig && orig.__hooked) return orig;
                 const hooked = function(selector, episode, config) {
                     let override = window.podloveOverrides[selector];
                     if (override) {
                         config.sharePlaytime = false;
                         config.playtime = override;
                     }
-                    let promise = orig(selector, episode, config);
-                    if (override) {
-                        promise.then(store => store.dispatch({ type: 'REQUEST_PLAYTIME', payload: override }));
-                    }
-                    return promise;
+                    let p = orig(selector, episode, config);
+                    if (override) p.then(st => st.dispatch({ type: 'REQUEST_PLAYTIME', payload: override }));
+                    return p;
                 };
                 hooked.__hooked = true;
                 return hooked;
             };
 
             if (typeof window.podlovePlayer === 'function') {
-                window.podlovePlayer = hook(window.podlovePlayer);
+                window.podlovePlayer = makeHook(window.podlovePlayer);
             } else {
-                let _co = undefined;
+                let _player;
                 Object.defineProperty(window, 'podlovePlayer', {
-                    get: () => _co,
-                    set: (val) => { _co = hook(val); },
+                    get: () => _player,
+                    set: (val) => { _player = makeHook(val); },
                     configurable: true
                 });
             }
