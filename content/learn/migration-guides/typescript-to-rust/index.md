@@ -66,11 +66,11 @@ Your background with TypeScript's type system is a real advantage. You already t
 The main tradeoff you'll notice immediately is that Rust has stronger compile-time guarantees but [slower compile times](/blog/tips-for-faster-rust-compile-times/).
 Most developers find this worthwhile because the borrow checker catches so many issues that would otherwise surface in production.
 
-{% podcast_quote(id="080f1fca", slug="roc-with-richard-feldman", player="s05e04-roc?t=44:57", attribution="Richard Feldman, Creator of Roc") %}
+{% podcast_quote(id="080f1fca", slug="roc-with-richard-feldman", player="s05e04-roc?t=45:10", attribution="Richard Feldman, Creator of Roc") %}
 "I certainly think that the degree to which compile times bother you would depend, sort of obviously, on what you're used to and what you think of as sort of possible or normal. Like if I'm used to Elm and sub-second recompiles and stuff like that, then yeah, I mean, it's going to bother me when I'm waiting 10 seconds to be able to build my thing or to run my tests."
 {% end %}
 
-{% podcast_quote(id="34099980", slug="zoo-with-jessie-frazelle", player="s03e05-zoo?t=39:11", attribution="Jessie Frazelle, CEO of Zoo") %}
+{% podcast_quote(id="34099980", slug="zoo-with-jessie-frazelle", player="s03e05-zoo?t=40:33", attribution="Jessie Frazelle, CEO of Zoo") %}
 "Writing Rust is so much more natural to me that even TypeScript is hard for me to write. I\'m just looking for a match statement, or things where I want to abort a Promise. In Tokio you can abort an async operation; you can\'t do that in TypeScript. That drives me nuts."
 {% end %}
 
@@ -560,13 +560,13 @@ This gives you a clean separation and lets you migrate gradually.
 
 A common pattern is a Rust backend with a TypeScript frontend connected through a typed API layer. The [`ts-rs`](https://github.com/Aleph-Alpha/ts-rs) crate can automatically generate TypeScript types from your Rust types, giving you closed-loop type safety across both sides with almost no extra work:
 
-{% podcast_quote(id="8087b1dc", slug="rust-in-production-ep-9-amp-s-carter-schultz", player="s02e02-amp?t=47:02", attribution="Carter Schultz, Robotics Architect at AMP") %}
+{% podcast_quote(id="8087b1dc", slug="rust-in-production-ep-9-amp-s-carter-schultz", player="s02e02-amp?t=48:58", attribution="Carter Schultz, Robotics Architect at AMP") %}
 "We have a Rust backend and TypeScript frontend. There\'s an amazing crate, `ts-rs`, that for any Rust types you define will generate TypeScript types for them, so you have closed-loop type safety between them. We end up using `serde_json` to serialize a Rust type, send it to the frontend, and the frontend uses `ts-rs` to get TypeScript types for it. We have closed-loop type safety across both applications for practically free. It was so easy to set up."
 {% end %}
 
 Oxide Computer takes this further with a fully generated API layer: their server framework [Dropshot](https://github.com/oxidecomputer/dropshot) generates an OpenAPI spec directly from Rust endpoint definitions, which then drives a TypeScript client generator. No need to write or maintain API definitions by hand:
 
-{% podcast_quote(id="97aa1056", slug="oxide-s-steve-klabnik", player="s03e03-oxide?t=1:22:49", attribution="Steve Klabnik, Author and Software Engineer at Oxide Computer") %}
+{% podcast_quote(id="97aa1056", slug="oxide-s-steve-klabnik", player="s03e03-oxide?t=1:23:42", attribution="Steve Klabnik, Author and Software Engineer at Oxide Computer") %}
 "I write my server-side definition, say \'please generate stuff and regenerate the client in TypeScript,\' and when I switch back to my TypeScript file it gives me a type error if I\'m not passing something correctly. I get full type safety the whole way up through the stack. We\'ve been very happy with TypeScript. It\'s a pragmatic decision to engage with that ecosystem deeply, and it\'s been very, very nice."
 {% end %}
 
