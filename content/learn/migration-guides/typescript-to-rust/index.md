@@ -66,6 +66,10 @@ Your background with TypeScript's type system is a real advantage. You already t
 The main tradeoff you'll notice immediately is that Rust has stronger compile-time guarantees but [slower compile times](/blog/tips-for-faster-rust-compile-times/).
 Most developers find this worthwhile because the borrow checker catches so many issues that would otherwise surface in production.
 
+> "Writing Rust is so much more natural to me that even TypeScript is hard for me to write. I'm just looking for a match statement, or things where I want to abort a Promise. In Tokio you can abort an async operation; you can't do that in TypeScript. That drives me nuts."
+>
+> [Jessie Frazelle](https://corrode.dev/podcast/s03e05-zoo?t=39%3A11), CEO of Zoo ([Rust in Production, S03E05](https://corrode.dev/podcast/s03e05-zoo?t=39%3A11))
+
 ## Syntax at a Glance
 
 The best way to understand Rust from a TypeScript background is to see the patterns you already know, side by side.
@@ -334,7 +338,11 @@ As mentioned, for backend web services, Tokio is the standard choice. It's multi
 
 ## Rust's Infamous Learning Curve
 
-Rust enforces stronger guarantees than TypeScript through its ownership system and borrow checker. Most developers need a few months to get comfortable with the ownership model and will go through a phase of ["fighting the borrow checker"](https://www.youtube.com/watch?v=ZNFdkTIzdXM) — this is normal and temporary. Once it clicks, it becomes one of the things you'll miss most when you go back to other languages. (This and the amazing compiler error messages.) There are ways to [flatten Rust's learning curve](/blog/flattening-rusts-learning-curve/) that can help you get there faster.
+Rust enforces stronger guarantees than TypeScript through its ownership system and borrow checker. Most developers need a few months to get comfortable with the ownership model and will go through a phase of ["fighting the borrow checker"](https://www.youtube.com/watch?v=ZNFdkTIzdXM). This is normal and temporary. Once it clicks, it becomes one of the things you'll miss most when you go back to other languages. (This and the amazing compiler error messages.) There are ways to [flatten Rust's learning curve](/blog/flattening-rusts-learning-curve/) that can help you get there faster.
+
+> "I had never touched memory coming from TypeScript. I could not get through the Rust code at first, but luckily they hired me anyway. Everything I know about Rust I've learned in the last three years. It's definitely something you can pick up. The hardest thing to get from zero to productive isn't the syntax: good Rust requires a bit of engineering knowledge the book doesn't always cover."
+>
+> [Andrew Burkhart](https://corrode.dev/podcast/s04e06-1password?t=53%3A08), Senior Rust Engineer at 1Password ([Rust in Production, S04E06](https://corrode.dev/podcast/s04e06-1password?t=53%3A08))
 
 ## Rust Has Its Roots In Systems Programming
 
@@ -398,6 +406,10 @@ You won't deal with `null` or `undefined` errors, but you will end up modeling a
 ## Ecosystem Maturity
 
 NPM gives you more packages, but Rust's ecosystem is of excellent quality and growing rapidly.
+
+> "Rust really feels modern. There's a rich cargo crate ecosystem, a formatter, flame graphs, and the paradigms are very functional, but you're not forced to use them. Having a rich data structure ecosystem in the standard library, being able to process vectors with all the functions that many developers are used to these days, really felt refreshing. Especially for a team with largely a background in TypeScript."
+>
+> [Jeff Kao](https://corrode.dev/podcast/s05e08-radar/?t=08%3A55), Staff Engineer at Radar ([Rust in Production, S05E08](https://corrode.dev/podcast/s05e08-radar/?t=08%3A55))
 
 > In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager)
 
@@ -541,6 +553,18 @@ Alternatively, you can deploy Rust as separate services.
 This fits well with microservice architectures.
 Your TypeScript and Rust components communicate over the network.
 This gives you a clean separation and lets you migrate gradually.
+
+A common pattern is a Rust backend with a TypeScript frontend connected through a typed API layer. The [`ts-rs`](https://github.com/Aleph-Alpha/ts-rs) crate can automatically generate TypeScript types from your Rust types, giving you closed-loop type safety across both sides with almost no extra work:
+
+> "We have a Rust backend and TypeScript frontend. There's an amazing crate, `ts-rs`, that for any Rust types you define will generate TypeScript types for them, so you have closed-loop type safety between them. We end up using `serde_json` to serialize a Rust type, send it to the frontend, and the frontend uses `ts-rs` to get TypeScript types for it. We have closed-loop type safety across both applications for practically free. It was so easy to set up."
+>
+> [Carter Schultz](https://corrode.dev/podcast/s02e02-amp/?t=47%3A02), Robotics Architect at AMP ([Rust in Production, S02E02](https://corrode.dev/podcast/s02e02-amp/?t=47%3A02))
+
+Oxide Computer takes this further with a fully generated API layer: their server framework [Dropshot](https://github.com/oxidecomputer/dropshot) generates an OpenAPI spec directly from Rust endpoint definitions, which then drives a TypeScript client generator. No need to write or maintain API definitions by hand:
+
+> "I write my server-side definition, say 'please generate stuff and regenerate the client in TypeScript,' and when I switch back to my TypeScript file it gives me a type error if I'm not passing something correctly. I get full type safety the whole way up through the stack. We've been very happy with TypeScript. It's a pragmatic decision to engage with that ecosystem deeply, and it's been very, very nice."
+>
+> [Steve Klabnik](https://corrode.dev/podcast/s03e03-oxide/?t=1%3A22%3A49), Author and Software Engineer at Oxide Computer ([Rust in Production, S03E03](https://corrode.dev/podcast/s03e03-oxide/?t=1%3A22%3A49))
 
 ## What About Deno and Bun?
 
