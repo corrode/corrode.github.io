@@ -1,39 +1,19 @@
 {% set parts = player | split(pat="?t=") %}
 {% set episode = parts[0] %}
-{% if parts | length > 1 %}
-    {% set t_clean = parts[1] | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
-{% else %}
-    {% set t_clean = "" %}
-{% endif %}
+{% set t_clean = parts | slice(start=1) | first | default(value="") | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
 
-{% if attribution %}
-    {% set attr_parts = attribution | split(pat=", ", limit=2) %}
-    {% set author = attr_parts[0] %}
-    {% if attr_parts | length > 1 %}
-        {% set role = attr_parts[1] %}
-    {% else %}
-        {% set role = "" %}
-    {% endif %}
-{% endif %}
+{% set attr_parts = attribution | default(value="") | split(pat=", ", limit=2) %}
+{% set author = attr_parts[0] | default(value="") %}
+{% set role = attr_parts | slice(start=1) | first | default(value="") %}
 
 {% set season_num = episode | split(pat="e") | first | replace(from="s", to="") %}
 {% set ep_num = episode | split(pat="-") | first | split(pat="e") | last %}
 
 {% if t_clean %}
-    {% set time_parts = t_clean | split(pat=":") %}
-    {% if time_parts | length == 3 %}
-        {% set h = time_parts[0] | int %}
-        {% set m = time_parts[1] | int %}
-        {% set s = time_parts[2] | int %}
-    {% elif time_parts | length == 2 %}
-        {% set h = 0 %}
-        {% set m = time_parts[0] | int %}
-        {% set s = time_parts[1] | int %}
-    {% else %}
-        {% set h = 0 %}
-        {% set m = 0 %}
-        {% set s = time_parts[0] | int %}
-    {% endif %}
+    {% set time_parts = t_clean | split(pat=":") | reverse %}
+    {% set s = time_parts | first | default(value="0") | int %}
+    {% set m = time_parts | slice(start=1) | first | default(value="0") | int %}
+    {% set h = time_parts | slice(start=2) | first | default(value="0") | int %}
     {% set t_millis = (h * 3600 + m * 60 + s) * 1000 %}
 {% endif %}
 
