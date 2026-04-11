@@ -488,7 +488,7 @@ Before you start, write down what you're trying to solve:
 - [Why will Rust solve these problems?](/blog/why-rust/)
 - Could you fix them in TypeScript instead?
 
-This clarity matters when things get hard. Start with something real but low-risk such as a CLI tool, a background worker, a performance-critical library. Avoid big-bang rewrites. Incremental migrations give you feedback loops and let you build confidence before betting the whole system on Rust. Think about [long-term Rust project maintenance](/blog/long-term-rust-maintenance/) from the start, not as an afterthought.
+This clarity matters when things get hard. Start with something real but low-risk such as a CLI tool, a background worker, a performance-critical library. Avoid big-bang rewrites. Incremental migrations give you feedback loops and let you build confidence before betting the whole system on Rust. Think about [long-term Rust project maintenance](/blog/long-term-rust-maintenance/) from the start, not as an afterthought. There's also a checklist for [making your first real-world Rust project a success](/blog/successful-rust-business-adoption-checklist/) that's worth going through before you commit.
 
 ## Integration Strategies
 
@@ -552,7 +552,7 @@ If you're evaluating alternatives to Node.js + TypeScript, you'll likely come ac
 
 **The honest answer:** If your goal is to fix tooling friction or [slow CI pipelines](/blog/tips-for-faster-ci-builds/), Deno or Bun might be all you need. They're lower-risk changes.
 
-If your goal is to do a rewrite or a port of a larger portion of your codebase, Rust could be a solid long-term investment.
+If your goal is to do a rewrite or a port of a larger portion of your codebase, Rust could be a [solid long-term investment](/blog/rust-in-ten-years/).
 It offers predictable memory usage, maximum throughput, fearless concurrency, and eliminating many runtime errors at the compiler level.
 Those are Rust's strengths, and no JavaScript runtime will close that gap.
 
@@ -567,6 +567,10 @@ Maybe pick a monitoring service or CLI tool – something important but not crit
 Perhaps you'll give it a shot during a hackathon or a sprint.
 Build confidence through early wins.
 
-{% info(title="Where to go next", icon="crab") %}
-The best way to get comfortable is to build something real. Pick a small, self-contained project — a CLI tool, a parser, a web service — and write it in Rust from scratch. The official [Rust Book](https://doc.rust-lang.org/book/) is the best starting point, and [Rustlings](https://github.com/rust-lang/rustlings) is great for getting hands-on quickly.
+{% info(title="Need Help With Your TypeScript to Rust Migration?", icon="crab") %}
+
+Migrating a production codebase is a big step, and the learning curve is real.
+I help engineering teams make successful transitions to Rust, from training and architecture reviews to hands-on migration planning.
+If you want to move faster and avoid the common pitfalls, [let's talk about your project](/services).
+
 {% end %}
