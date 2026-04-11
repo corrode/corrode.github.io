@@ -63,7 +63,7 @@ As you can see, **everything comes with Rust**. There's no decision fatigue arou
 
 Your background with TypeScript's type system is a real advantage. You already think in terms of types, you've felt the pain of `any`, and you understand why explicit error handling matters. Rust takes these ideas further and makes them non-optional.
 
-The main tradeoff you'll notice immediately is that Rust has stronger compile-time guarantees but slower compile times.
+The main tradeoff you'll notice immediately is that Rust has stronger compile-time guarantees but [slower compile times](/blog/tips-for-faster-rust-compile-times/).
 Most developers find this worthwhile because the borrow checker catches so many issues that would otherwise surface in production.
 
 ## Syntax at a Glance
@@ -334,11 +334,11 @@ As mentioned, for backend web services, Tokio is the standard choice. It's multi
 
 ## Rust's Infamous Learning Curve
 
-Rust enforces stronger guarantees than TypeScript through its ownership system and borrow checker. Most developers need a few months to get comfortable with the ownership model and will go through a phase of ["fighting the borrow checker"](https://www.youtube.com/watch?v=ZNFdkTIzdXM) — this is normal and temporary. Once it clicks, it becomes one of the things you'll miss most when you go back to other languages. (This and the amazing compiler error messages.)
+Rust enforces stronger guarantees than TypeScript through its ownership system and borrow checker. Most developers need a few months to get comfortable with the ownership model and will go through a phase of ["fighting the borrow checker"](https://www.youtube.com/watch?v=ZNFdkTIzdXM) — this is normal and temporary. Once it clicks, it becomes one of the things you'll miss most when you go back to other languages. (This and the amazing compiler error messages.) There are ways to [flatten Rust's learning curve](/blog/flattening-rusts-learning-curve/) that can help you get there faster.
 
 ## Rust Has Its Roots In Systems Programming
 
-Rust requires you to understand systems concepts that TypeScript never surfaced.
+Rust requires you to understand [systems concepts](/blog/foundational-software/) that TypeScript never surfaced.
 You need to know the difference between stack and heap allocation.
 You'll work with different string types like `String` and `&str`.
 And you'll need a working understanding of what a pointer or a mutex is.
@@ -389,10 +389,11 @@ You'll see `&str` in most function signatures and `String` in structs and return
 ## Safety and Reliability
 
 The strict Rust compiler is your strongest ally.
-You can refactor without fear because the compiler has your back. 
+You can refactor without fear because the compiler has your back.
 
 It sounds like a cliché, but to truly understand what I mean by that, you have to experience it for yourself.
 You won't deal with `null` or `undefined` errors, but you will end up modeling a lot of your code with strong types and use `Option<T>` and `Result<T, E>` a lot to handle cases that would be runtime errors in TypeScript.
+[Aim for immutability](/blog/immutability/) wherever you can: it makes Rust code easier to reason about and plays well with the borrow checker.
 
 ## Ecosystem Maturity
 
@@ -447,7 +448,7 @@ Here's a practical mapping of common npm packages to their Rust crate equivalent
 | `lodash`               | built-in iterators              | Rust's iterator API covers most of lodash               |
 
 **A key difference:** You won't find a Rust equivalent for every small utility package.
-Where npm culture encourages installing tiny single-function packages, Rust culture favors using the standard library or writing the utility yourself. The standard library's iterator, collections, and string APIs are rich enough that you rarely need external packages for basic operations.
+Where npm culture encourages installing tiny single-function packages, Rust culture favors using the standard library or writing the utility yourself. The standard library's [iterator](/blog/iterators/), collections, and string APIs are rich enough that you rarely need external packages for basic operations.
 
 ## Rust vs TypeScript For Backend Services
 
@@ -484,10 +485,10 @@ Your operations team will thank you for the reduced overhead.
 Before you start, write down what you're trying to solve:
 
 - What problems do you face today?
-- Why will Rust solve these problems?
+- [Why will Rust solve these problems?](/blog/why-rust/)
 - Could you fix them in TypeScript instead?
 
-This clarity matters when things get hard. Start with something real but low-risk — a CLI tool, a background worker, a performance-critical library. Avoid big-bang rewrites. Incremental migrations give you feedback loops and let you build confidence before betting the whole system on Rust.
+This clarity matters when things get hard. Start with something real but low-risk such as a CLI tool, a background worker, a performance-critical library. Avoid big-bang rewrites. Incremental migrations give you feedback loops and let you build confidence before betting the whole system on Rust. Think about [long-term Rust project maintenance](/blog/long-term-rust-maintenance/) from the start, not as an afterthought.
 
 ## Integration Strategies
 
@@ -549,7 +550,7 @@ If you're evaluating alternatives to Node.js + TypeScript, you'll likely come ac
 
 **Bun** is a fast JavaScript runtime and toolkit that dramatically improves startup time and throughput compared to Node.js. For many workloads it's an easy drop-in replacement and genuinely fast. (Bun is written in Zig.)
 
-**The honest answer:** If your goal is to fix tooling friction or slow CI pipelines, Deno or Bun might be all you need. They're lower-risk changes.
+**The honest answer:** If your goal is to fix tooling friction or [slow CI pipelines](/blog/tips-for-faster-ci-builds/), Deno or Bun might be all you need. They're lower-risk changes.
 
 If your goal is to do a rewrite or a port of a larger portion of your codebase, Rust could be a solid long-term investment.
 It offers predictable memory usage, maximum throughput, fearless concurrency, and eliminating many runtime errors at the compiler level.
