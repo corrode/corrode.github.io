@@ -1,82 +1,66 @@
-{% set parts = player | split(pat="?t=") %}
-{% set episode = parts[0] %}
-{% set t_clean = parts | slice(start=1) | first | default(value="") | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
+{% set ep_parts = player | split(pat="?t=") %}
+{% set ep = ep_parts | nth(n=0) %}
+{% set t = ep_parts | nth(n=1) | default(value="") | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
 
-{% set attr_parts = attribution | default(value="") | split(pat=", ", limit=2) %}
-{% set author = attr_parts[0] | default(value="") %}
-{% set role = attr_parts | slice(start=1) | first | default(value="") %}
+{% set attr_parts = attribution | split(pat=", ", limit=2) %}
+{% set author = attr_parts | nth(n=0) %}
+{% set role = attr_parts | nth(n=1) | default(value="") %}
 
-{% set season_num = episode | split(pat="e") | first | replace(from="s", to="") %}
-{% set ep_num = episode | split(pat="-") | first | split(pat="e") | last %}
+{% set season_num = ep | split(pat="e") | nth(n=0) | replace(from="s", to="") %}
+{% set ep_num = ep | split(pat="-") | nth(n=0) | split(pat="e") | nth(n=1) %}
 
-{% if t_clean %}
-    {% set time_parts = t_clean | split(pat=":") | reverse %}
-    {% set s = time_parts | first | default(value="0") | int %}
-    {% set m = time_parts | slice(start=1) | first | default(value="0") | int %}
-    {% set h = time_parts | slice(start=2) | first | default(value="0") | int %}
+{% if t %}
+    {% set t_parts = t | split(pat=":") | reverse %}
+    {% set s = t_parts | nth(n=0) | default(value="0") | int %}
+    {% set m = t_parts | nth(n=1) | default(value="0") | int %}
+    {% set h = t_parts | nth(n=2) | default(value="0") | int %}
     {% set t_millis = (h * 3600 + m * 60 + s) * 1000 %}
 {% endif %}
 
 <blockquote>
     {{ body | markdown() | safe }}
     <p>
-        &mdash; <a href="/podcast/{{ episode }}{% if t_clean %}?t={{ t_clean | urlencode }}{% endif %}">{{ author }}</a>{% if role %}, {{ role }}{% endif %} (<a href="/podcast/{{ episode }}{% if t_clean %}?t={{ t_clean | urlencode }}{% endif %}">Rust in Production, S{{ season_num }}E{{ ep_num }}</a>)
+        &mdash; <a href="/podcast/{{ ep }}{% if t %}?t={{ t | urlencode }}{% endif %}">{{ author }}</a>{% if role %}, {{ role }}{% endif %} (<a href="/podcast/{{ ep }}{% if t %}?t={{ t | urlencode }}{% endif %}">Rust in Production, S{{ season_num }}E{{ ep_num }}</a>)
     </p>
 </blockquote>
 <div>
-    {% if t_clean %}
+    {% if t %}
     <script>
         window.podloveOverrides = window.podloveOverrides || {};
         window.podloveOverrides['#player-{{ id }}'] = {{ t_millis }};
         
-        if (typeof window.podlovePlayer === 'function') {
-            if (!window.podlovePlayer.__hooked) {
-                let orig = window.podlovePlayer;
-                window.podlovePlayer = function(selector, episode, config) {
-                    if (window.podloveOverrides[selector]) {
+        if (!window.podloveHooked) {
+            window.podloveHooked = true;
+            const hook = (orig) => {
+                if (orig.__hooked) return orig;
+                const hooked = function(selector, episode, config) {
+                    let override = window.podloveOverrides[selector];
+                    if (override) {
                         config.sharePlaytime = false;
-                        config.playtime = window.podloveOverrides[selector];
+                        config.playtime = override;
                     }
                     let promise = orig(selector, episode, config);
-                    if (window.podloveOverrides[selector]) {
-                        promise.then(function(store) {
-                            store.dispatch({ type: 'REQUEST_PLAYTIME', payload: window.podloveOverrides[selector] });
-                        });
+                    if (override) {
+                        promise.then(store => store.dispatch({ type: 'REQUEST_PLAYTIME', payload: override }));
                     }
                     return promise;
                 };
-                window.podlovePlayer.__hooked = true;
+                hooked.__hooked = true;
+                return hooked;
+            };
+
+            if (typeof window.podlovePlayer === 'function') {
+                window.podlovePlayer = hook(window.podlovePlayer);
+            } else {
+                let _co = undefined;
+                Object.defineProperty(window, 'podlovePlayer', {
+                    get: () => _co,
+                    set: (val) => { _co = hook(val); },
+                    configurable: true
+                });
             }
-        } else if (!window.podloveHooked) {
-            window.podloveHooked = true;
-            let _co = undefined;
-            Object.defineProperty(window, 'podlovePlayer', {
-                get: function() { return _co; },
-                set: function(val) {
-                    if (_co && _co.__hooked) return;
-                    let orig = val;
-                    _co = function(selector, episode, config) {
-                        if (window.podloveOverrides[selector]) {
-                            config.sharePlaytime = false;
-                            config.playtime = window.podloveOverrides[selector];
-                        }
-                        let promise = orig(selector, episode, config);
-                        if (window.podloveOverrides[selector]) {
-                            promise.then(function(store) {
-                                store.dispatch({ type: 'REQUEST_PLAYTIME', payload: window.podloveOverrides[selector] });
-                            });
-                        }
-                        return promise;
-                    };
-                    _co.__hooked = true;
-                },
-                configurable: true
-            });
         }
     </script>
     {% endif %}
-    <script
-        id="letscast-player-{{ id }}"
-        src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.js?size=s{% if t_clean %}&t={{ t_clean | urlencode }}{% endif %}"
-    ></script>
+    <script id="letscast-player-{{ id }}" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.js?size=s"></script>
 </div>
