@@ -1,69 +1,49 @@
-{% set ep_parts = player | split(pat="?t=") %} {% set ep = ep_parts | nth(n=0)
-%} {% set t = ep_parts | nth(n=1) | default(value="") | replace(from="%3A",
-to=":") | replace(from="%3a", to=":") %} {% set attr_parts = attribution |
-split(pat=", ", limit=2) %} {% set author = attr_parts | nth(n=0) %} {% set role
-= attr_parts | nth(n=1) | default(value="") %} {% set season_num = ep |
-split(pat="e") | nth(n=0) | replace(from="s", to="") %} {% set ep_num = ep |
-split(pat="-") | nth(n=0) | split(pat="e") | nth(n=1) %} {% set link_url =
-"/podcast/" ~ ep %} {% if t %}{% set link_url = link_url ~ "?t=" ~ t | urlencode
-%}{% endif %}
+{% set ep_parts = player | split(pat="?t=") %}
+{% set ep = ep_parts | nth(n=0) %}
+{% set t = ep_parts | nth(n=1) | default(value="") | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
+
+{% set attr_parts = attribution | split(pat=", ", limit=2) %}
+{% set author = attr_parts | nth(n=0) %}
+{% set role = attr_parts | nth(n=1) | default(value="") %}
+
+{% set season_num = ep | split(pat="e") | nth(n=0) | replace(from="s", to="") %}
+{% set ep_num = ep | split(pat="-") | nth(n=0) | split(pat="e") | nth(n=1) %}
+
+{% set link_url = "/podcast/" ~ ep %}
+{% if t %}{% set link_url = link_url ~ "?t=" ~ t | urlencode %}{% endif %}
+
+{% set ep_content = load_data(path="content/podcast/" ~ ep ~ "/index.md", format="plain") %}
+{% set id = ep_content | split(pat="letscast-player-") | nth(n=1) | split(pat='"') | nth(n=0) %}
+{% set slug = ep_content | split(pat="/episodes/") | nth(n=1) | split(pat="/") | nth(n=0) %}
 
 <blockquote>
     {{ body | markdown() | safe }}
     <p>
-        &mdash; <a href="{{ link_url }}">{{ author }}</a>{% if role %}, {{ role
-        }}{% endif %} (<a href="{{ link_url }}"
-            >Rust in Production, S{{ season_num }}E{{ ep_num }}</a
-        >)
+        &mdash; <a href="{{ link_url }}">{{ author }}</a>{% if role %}, {{ role }}{% endif %} (<a href="{{ link_url }}">Rust in Production, S{{ season_num }}E{{ ep_num }}</a>)
     </p>
 </blockquote>
 <div>
     {% if t %}
     <script>
         window.pO = window.pO || {};
-        window.pO["#player-{{ id }}"] =
-            "{{ t }}"
-                .split(":")
-                .reverse()
-                .reduce((a, v, i) => a + (parseInt(v) || 0) * 60 ** i, 0) *
-            1000;
-        if (!window.pH) {
-            window.pH = 1;
-            let o;
-            const h = (f) => {
-                if (f && f._h) return f;
-                let r = (s, e, c) => {
+        window.pO['#player-{{ id }}'] = "{{ t }}".split(':').reverse().reduce((a,v,i)=>a+(parseInt(v)||0)*60**i,0)*1000;
+        if(!window.pH){
+            window.pH=1; let o;
+            const h = f => {
+                if(f&&f._h) return f;
+                let r = (s,e,c) => {
                     let t = window.pO[s];
-                    if (t) {
-                        c.sharePlaytime = false;
-                        c.playtime = t;
-                    }
-                    let p = f(s, e, c);
-                    if (t)
-                        p.then((x) =>
-                            x.dispatch({
-                                type: "REQUEST_PLAYTIME",
-                                payload: t,
-                            }),
-                        );
+                    if(t) { c.sharePlaytime=false; c.playtime=t; }
+                    let p = f(s,e,c);
+                    if(t) p.then(x => x.dispatch({type:'REQUEST_PLAYTIME', payload:t}));
                     return p;
                 };
-                r._h = 1;
-                return r;
+                r._h=1; return r;
             };
-            if (typeof podlovePlayer == "function")
-                window.podlovePlayer = h(podlovePlayer);
-            else
-                Object.defineProperty(window, "podlovePlayer", {
-                    get: () => o,
-                    set: (v) => (o = h(v)),
-                    configurable: true,
-                });
+            if(typeof podlovePlayer=='function') window.podlovePlayer=h(podlovePlayer);
+            else Object.defineProperty(window,'podlovePlayer',{get:()=>o, set:v=>o=h(v), configurable:true});
         }
     </script>
     {% endif %}
-    <script
-        id="letscast-player-{{ id }}"
-        src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.js?size=s"
-    ></script>
+    <script id="letscast-player-{{ id }}" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.js?size=s"></script>
 </div>
