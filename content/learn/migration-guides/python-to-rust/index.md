@@ -201,7 +201,7 @@ While Python excels at readability and rapid development, teams often hit scalin
 Python's Global Interpreter Lock (GIL) limits true parallelism, making it challenging to fully utilize modern multi-core processors.
 There is a version of Python without the GIL, but it [doesn't solve the performance issues](https://news.ycombinator.com/item?id=41677131). 
 
-While tools like asyncio help with I/O-bound tasks, CPU-intensive operations remain constrained. Teams often resort to complex workarounds involving multiple processes or C extensions.
+While tools like [asyncio](https://docs.python.org/3/library/asyncio.html) help with I/O-bound tasks, CPU-intensive operations remain constrained. Teams often resort to complex workarounds involving multiple processes or C extensions.
 
 ### Type Safety Concerns
 
@@ -376,7 +376,7 @@ A successful migration requires careful planning:
 
    - Choose non-critical components first
    - Focus on areas where Rust's benefits are most valuable
-   - Build team confidence through early wins
+   - Build team confidence through [early wins](/blog/successful-rust-business-adoption-checklist/)
 
 2. **Invest in Training**
 
@@ -469,7 +469,7 @@ They have Python bindings, so you get a lot of the benefits of Rust without havi
 
 Rust wasn't initially planned to be a strong contender in the web development space.
 This has changed in recent years with the rise of frameworks like [Axum](https://axum.rs/) and [Loco](https://loco.rs/).
-Now, Rust is a viable option for building high-performance APIs and web applications.
+Now, Rust is a viable option for building [high-performance APIs](/blog/why-rust/) and web applications.
 It is one key area the Rust team is investing in, and the ecosystem is maturing rapidly.
 
 In combination with [sqlx](https://github.com/launchbadge/sqlx) for database access and [serde](https://serde.rs/) for serialization, Rust is a very effective choice for web backends. 
