@@ -88,7 +88,7 @@ As you can see, **everything comes with Rust**. There's no decision fatigue arou
 Many Python developers don't have a *single* reason to migrate to Rust; it's rather a combination of factors:
 
 1. Developers interested in Rust are likely willing to understand systems programming concepts.
-   They outgrew Python's limitations and are looking for more control over performance and memory management.
+   They outgrow Python's limitations and are looking for more control over performance and memory management.
 
 2. Python developers often long for stronger type guarantees.
    They appreciate Rust's static type system and the "reliability" that comes with it. 
@@ -102,13 +102,13 @@ While Python is very readable and great for prototyping, you often hit scaling c
 
 Python's Global Interpreter Lock (GIL) limits true parallelism.
 Past a certain point, this makes it challenging to fully utilize multi-core systems.
-There is a version of Python without the GIL, but it [doesn't solve the performance issues yet](https://news.ycombinator.com/item?id=41677131). 
+There is an upcoming version of Python without the GIL, but it [doesn't solve the performance issues yet](https://news.ycombinator.com/item?id=41677131). 
 
-If your workloads are I/O bound, [asyncio](https://docs.python.org/3/library/asyncio.html) is great and can get you very far.
+If your workloads are I/O-bound, [asyncio](https://docs.python.org/3/library/asyncio.html) is great and can get you very far.
 In this case, you might not need to switch for performance reasons alone. 
 
-However, if your workload is CPU-intensive that's a different story.
-That's where teams often have to resort to complex workarounds involving multiple sub-processes or fall back to C extensions, which are a security risk and hard to maintain on multiple platforms (except if you use containers).
+However, if your workload is CPU-intensive, that's a different story.
+That's where teams often have to resort to complex workarounds involving multiple sub-processes or fall back to C extensions, which can be a security risk and are hard to maintain on multiple platforms (except if you use containers).
 I've hit that glass ceiling many times in Python, and it has never been fun. 
 Typically, you run into bottlenecks at the exact worst possible time: when your application is under heavy load and in production.
 Those are the days you wish for more headroom, but you spend your time firefighting and monkey-patching your architecture to squeeze out every last bit of performance. 
@@ -126,7 +126,7 @@ Or you add the famous `Any` type or a `# type: ignore` comment just to make the 
 I don't blame you.
 
 As developers it requires discipline to add and maintain type hints consistently, which can be challenging in large codebases.
-And even if you do, your colleagues might not, which can lead to discussions about typesafety and code quality that can be frustrating and unproductive.
+And even if you do, your colleagues might not, which can lead to discussions about type safety and code quality that can be frustrating and unproductive.
 Furthermore, adoption is inconsistent across the Python ecosystem (I'm looking at you, third-party libraries).
 As a consequence, large Python applications can become difficult to maintain and refactor confidently.
 
@@ -134,7 +134,7 @@ From my experience, there is a breaking point around the 10-100k lines of code m
 
 [^1]: See discussions on large-scale Python applications on [Reddit](https://www.reddit.com/r/Python/comments/a7zrjn/why_do_people_say_that_python_is_not_good_for/) and [HN](https://news.ycombinator.com/item?id=25073308).
 
-Overall, we see more and more Python code that's written with type-safety in mind, but it's a slow and tedious battle, that consumes a lot of time and energy.
+Overall, we see more and more Python code that's written with type-safety in mind, but it's a slow and tedious battle that consumes a lot of time and energy.
 In Rust, types are front and center, and the compiler enforces them. You simply can't forget to handle any edge cases.
 Initially, that is super annoying, but the payoff when you're knee-deep in a large refactor is priceless.
 I have done many large refactors in both languages, and I will take the Rust developer experience any day of the week.
@@ -163,7 +163,7 @@ I've seen people double-check that the monitoring is working because it looked t
 
 ### In Summary
 
-None of the above problems are dealbreakers for Python and you can get a lot of mileage out it, but when you hit problem after problem, you start looking for alternatives. 
+None of the above problems are dealbreakers for Python and you can get a lot of mileage out of it, but when you hit problem after problem, you start looking for alternatives. 
 A lot of Rust developers started out as Python developers, and I think you can now see why.
 Rust just resolves some of the most common pain points of Python at the cost of a steeper learning curve and a smaller ecosystem.
 If that tradeoff is worth it for you is something only you can decide.
