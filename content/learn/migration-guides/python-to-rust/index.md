@@ -1,7 +1,7 @@
 +++
 title = "Migrating from Python to Rust"
 date = 2024-12-13
-updated = 2026-01-02
+updated = 2026-04-14
 template = "article.html"
 draft = false
 [extra]
@@ -16,27 +16,28 @@ resources = [
 Python is an incredibly versatile language that powers everything from web applications to data science pipelines.
 Before Rust, my main language was Python, and I loved it for its elegance and conciseness.
 However, eventually I hit its limits, particularly around performance, type safety, and robustness.
+I was reaching for more.
 
-While Rust isn't a direct replacement for Python, it has some answers to these challenges and that's what made it attractive to me in the first place.
+While Rust isn't a direct replacement for Python, it has some answers to its challenges and that's what made it attractive to me in the first place.
 That's why I wrote this guide to help more Python developers understand the tradeoffs and benefits of Rust, and to perhaps make the transition themselves.
-I am obviously a little biased but my heart beats for both languages, so I will try to be as fair and objective as possible.
+I am obviously a little biased but my heart beats for both languages, so I will try to be as fair and objective as I can.
 
-## Is Rust the right choice for you and your codebase? 
+## Is Rust the right choice for you?
 
 Ultimately, that's a question for you to answer, but at least I can give you as much guidance as possible to set you up for success.
 
-In this article, we'll cover: 
+In this article, you'll learn: 
 
 - How to evaluate whether Rust is the right choice for your Python codebase
 - How a Python-to-Rust migration looks in practice
 - Common pitfalls and how to avoid them
-- Ways to maintain productivity while switching the language 
+- Ways to maintain productivity while switching the stack 
 - How to retain Python's strengths while adopting Rust 
 
 ## A First Look At The Most Important Commands
 
 Python developers are used to assembling a toolchain from multiple tools. 
-It has gotten a lot better with [`uv`](https://docs.astral.sh/uv/) lately, but many real-world codebases still use a plethora of different tools for dependency management, testing, formatting, and so on.
+It has gotten a lot better with [`uv`](/podcast/s04e03-astral/) lately, but many real-world codebases still use a plethora of different tools for dependency management, testing, formatting, and so on.
 
 Here's how Rust maps to your daily workflow:
 
@@ -50,7 +51,7 @@ Here's how Rust maps to your daily workflow:
 | `black` / `ruff format` | `cargo fmt` | Auto-formatter, zero config |
 | `mypy` / `pyright` | `cargo check` | Fast type-check without a full build |
 
-or, if you are using uv:
+or, if you made the switch to uv (which is written in Rust, by the way):
 
 | Python tool | Rust equivalent | Notes |
 | --- | --- | --- |
@@ -80,10 +81,14 @@ As you can see, **everything comes with Rust**. There's no decision fatigue arou
 
 ## Why Python Developers Consider Rust
 
-Many Python developers don't have a *single* reason to migrate to Rust, but a combination of factors:
+{% podcast_quote(player="s06e01-cloudsmith?t=05:42", attribution="Cian Butler, Staff Software Engineer at Cloudsmith") %}
+"I know that we wouldn't have scaled as fast as we did without Django and Python because we wouldn't be able to roll features out as quickly as we did. ... [But] what made it really good for scaling on day one has kind of like caught up and made it really difficult to understand and handle now."
+{% end %}
+
+Many Python developers don't have a *single* reason to migrate to Rust; it's rather a combination of factors:
 
 1. Developers interested in Rust are likely willing to understand systems programming concepts.
-   They grew out of Python's limitations and are looking for more control over performance and memory management.
+   They outgrew Python's limitations and are looking for more control over performance and memory management.
 
 2. Python developers often long for stronger type guarantees.
    They appreciate Rust's static type system and the "reliability" that comes with it. 
@@ -91,8 +96,7 @@ Many Python developers don't have a *single* reason to migrate to Rust, but a co
 3. Developers with a Python background often work on data processing or web applications.
    These are areas where Rust's performance benefits shine, especially at scale. 
 
-While Python is very readable and great for prototyping, you often hit scaling challenges as your applications grow.
-Below are a few common pain points that drive Python developers to look at Rust. 
+While Python is very readable and great for prototyping, you often hit scaling challenges as your applications grow...
 
 ### Performance Bottlenecks
 
@@ -101,21 +105,25 @@ Past a certain point, this makes it challenging to fully utilize multi-core syst
 There is a version of Python without the GIL, but it [doesn't solve the performance issues yet](https://news.ycombinator.com/item?id=41677131). 
 
 If your workloads are I/O bound, [asyncio](https://docs.python.org/3/library/asyncio.html) is great and can get you very far.
-You might not need to switch for performance reasons in that case.
+In this case, you might not need to switch for performance reasons alone. 
 
 However, if your workload is CPU-intensive that's a different story.
 That's where teams often have to resort to complex workarounds involving multiple sub-processes or fall back to C extensions, which are a security risk and hard to maintain on multiple platforms (except if you use containers).
-I've hit that glass ceiling many times in Python, and it was never fun.
-Typically, you run into bottlenecks at the exact worst possible time: when your application is under heavy load; in production.
-Those are the days you wish for more headroom, but you spend your time firefighting and monkey-patching your architecture to squeeze out more performance.
+I've hit that glass ceiling many times in Python, and it has never been fun. 
+Typically, you run into bottlenecks at the exact worst possible time: when your application is under heavy load and in production.
+Those are the days you wish for more headroom, but you spend your time firefighting and monkey-patching your architecture to squeeze out every last bit of performance. 
 
 ### Type Safety Concerns
+
+{% podcast_quote(player="s04e02-svix?t=14:54", attribution="Tom Hacohen, Founder of Svix") %}
+"...we were doing what we could to make sure that Python has a very rich type system. So I think we were already doing a fairly good job in terms of catching a lot of issues... But the problem with Python is that all the hacks that I mentioned were not real, right? It's not really a type. It's an annotation that we added. So we still had issues where we got the annotation wrong."
+{% end %}
 
 Despite Python's type hints, runtime type errors still occur.
 Types are optional in Python. 
 It's all too easy to say: "I'll add those type hints later" and then never get around to it.
 Or you add the famous `Any` type or a `# type: ignore` comment just to make the type checker stop complaining.
-I don't blame you. We've all been there.
+I don't blame you.
 
 As developers it requires discipline to add and maintain type hints consistently, which can be challenging in large codebases.
 And even if you do, your colleagues might not, which can lead to discussions about typesafety and code quality that can be frustrating and unproductive.
@@ -137,6 +145,7 @@ Python applications require managing runtime environments, dependencies, and pot
 A lot of the issues can be mitigated with containerization.
 However, bundling Python applications for deployment is never fun, especially when targeting platforms with different architectures.
 The dynamic nature of the language, paired with C extensions means that you will spend a lot of time testing and debugging release builds on different platforms.
+
 A lot of the issues only surface once you execute the application and trigger a specific code path, which can be a nightmare to debug.
 In Rust, most of the time you can just `cargo build --release` and ship the resulting binary.
 Rust binaries are self-contained, statically linked binaries, which can be copied to any target system and just run forever.
@@ -149,14 +158,17 @@ For example, Python's memory overhead can be significant for large-scale data pr
 If you ever had to deserialize a bunch of large JSON objects in Python, you know how memory usage can balloon out of control.
 Fortunately, CPU-bound tasks can often get offloaded to C extensions, which are fast and memory efficient,
 but they come with their own set of challenges, adding complexity and FFI overhead.
+People are shocked when they migrate to Rust and their memory chart shows a flat line around the 30% mark of whatever Python was using before.
+I've seen people double-check that the monitoring is working because it looked too good to be true. 
 
 ### In Summary
 
-None of the above problems are dealbreakers for Python, but when you hit problem after problem, you start looking for alternatives. 
-A lot of Rust developers started out as Python developers, and I think you can see why.
+None of the above problems are dealbreakers for Python and you can get a lot of mileage out it, but when you hit problem after problem, you start looking for alternatives. 
+A lot of Rust developers started out as Python developers, and I think you can now see why.
 Rust just resolves some of the most common pain points of Python at the cost of a steeper learning curve and a smaller ecosystem.
+If that tradeoff is worth it for you is something only you can decide.
 
-## Syntax at a Glance
+## Comparing Both Languages Side by Side 
 
 The best way to understand Rust is to map its features to concepts you already know. 
 
@@ -338,6 +350,10 @@ print_length(&owned_greeting); // Passing String as &str via borrowing
 
 ## Popular Packages And Their Rust Counterparts
 
+{% podcast_quote(player="s04e05-tembo?t=46:19", attribution="Adam Hendel, Founding Engineer at Tembo") %}
+"I'm going to grab SQLx... 10 years ago it would have been Flask or FastAPI... I have the equivalent of everything that I, you know, five years ago would have gone to something in Python. For me, I'd just pick Rust. It's just easier. It's a better experience."
+{% end %}
+
 Python's rich ecosystem is a major draw. Rust's ecosystem is smaller but highly capable, especially for backend and data tasks.
 
 | Python Package | Rust Equivalent | Notes |
@@ -350,8 +366,6 @@ Python's rich ecosystem is a major draw. Rust's ecosystem is smaller but highly 
 | `pandas` | `polars` | Polars is actually written in Rust! |
 | `pytest` | `cargo test` | Built directly into the Rust toolchain |
 | `celery` | `faktory` / `river` | Background job processing |
-
-
 
 ## Key Challenges in Transitioning to Rust
 
@@ -372,10 +386,17 @@ Lifetimes are another concept that can be challenging to grasp initially, but yo
 
 Pointer handling and boxing is another area where Python developers need to adjust. However, beginners can often get by without understanding this in detail.
 
+While these concepts are often cited as major hurdles for newcomers, the payoff is immense: once you understand the core mechanics, it becomes much easier to write code that safely handles parallelism without extra effort: 
+
+{% podcast_quote(player="s05e09-gama-space?t=50:21", attribution="Sebastian, Software Engineer at Gama") %}
+"I, myself, after learning Rust this way, have come back to various Python projects and found out that code that I thought was perfectly fine, that I wrote many years ago... in Python, there's very little help for you to avoid [concurrency issues]."
+{% end %}
+
 ### Type System Adaptation
 
-Moving from Python's dynamic typing to Rust's static typing requires another mindset shift.
-Developers suddenly need to:
+Moving from Python's dynamic typing to Rust's static typing is another shift in mindset.
+
+All of a sudden, you need to:
 
 - Think about types upfront
 - Understand generics and traits
@@ -383,24 +404,47 @@ Developers suddenly need to:
 - Use enums for modeling complex states
 
 This can feel intimidating at first, but it's actually a lot of fun once you get the hang of it.
-The compiler is helpfully guiding you along the way, and you can start without a deep understanding of all the concepts.
+The compiler is truly helpful and will guide you along the way, and you can start without a deep understanding of all the concepts.
+(Just make sure you always read the full error message!)
 
-The pattern matching syntax in Rust can be a game-changer for developers coming from Python
-and is often cited as one of the most enjoyable features of Rust.
+Many Pythonistas like one Rust feature in particular: pattern matching.
+It's is often cited as one of the most enjoyable features of Rust.
+
+```rust
+match agent {
+    Some(spy) if spy.is_double_o_seven() && spy.face() == Actor::Lazenby => println!("This never happened to the other fella."),
+    Some(_) => println!("Just another blunt instrument."),
+    None => println!("Must be an operative of SPECTRE."),
+}
+```
 
 ## Integration Strategies
 
+{% podcast_quote(player="s03e08-volvo?t=35:56", attribution="Julius Gustavsson, Senior Software Engineer at Volvo") %}
+"But we also have a Python binding package around probe-rs so that we can use that in our system tests which are Python-based. And then you can essentially use it as any other Python library within our system tests."
+{% end %}
+
 There are several ways to integrate Rust into your Python codebase:
 
-### 1. PyO3 (Python-Rust Bindings) 
+### 1. PyO3 (Python-Rust Bindings)
+
+{% podcast_quote(player="s01e06-sentry?t=1:12:48", attribution="Arpad Borsos, Software Engineer at Sentry") %}
+"And Rust, by the way, as we talked about, we use it from Python. And from Python, I can really recommend PyO3. It's a game changer from the ways we did it before. So it's actually very easy to use Rust from within other languages."
+{% end %}
 
 [PyO3](https://pyo3.rs/) lets you write Python extensions in Rust or call Rust functions from Python. 
 
-This is ideal for:
+PyO3 is ideal for:
 
 - Optimizing performance-critical components
 - Gradually introducing Rust while maintaining Python interfaces
 - Creating Python packages with Rust internals
+
+If you'd like to speed up a single Python code path which contains custom logic, using the foreign function interface (FFI) and PyO3 is the way to go.
+
+{% podcast_quote(player="s06e01-cloudsmith?t=22:15", attribution="Cian Butler, Staff Software Engineer at Cloudsmith") %}
+"If you didn't know it was written in Rust, you might not even have cared about it because it was yet another Python package that you just integrate into your workflow. And it was a drop-in replacement."
+{% end %}
 
 ### 2. Microservices
 
@@ -522,7 +566,7 @@ If that happens, you have no clear way to measure the success of the migration.
 - Choose components where you can easily compare performance.
 - Look for opportunities to run old and new implementations in parallel.
 
-## Common Pitfalls to Avoid 
+## Navigating the Rust Ecosystem
 
 Rust's ecosystem is smaller than Python's.
 
@@ -724,6 +768,10 @@ const formURL = "https://submit-form.com/YkAFE1mIq";
 
 ## Conclusion
 
+{% podcast_quote(player="s06e01-cloudsmith?t=1:08:44", attribution="Cian Butler, Staff Software Engineer at Cloudsmith") %}
+"I didn't think 10 years ago I'd be still writing Python or JavaScript, but I'm still writing Python and JavaScript. But you look at them, and they're a lot different... I think Rust is here to stay. It's in low-level libraries for Python. It's in UV... It's becoming a core part of our industry."
+{% end %}
+
 Migrating to a different programming language is a significant undertaking that requires careful planning and execution.
 The step from Python to Rust is no exception.
 
@@ -737,15 +785,16 @@ Success depends on:
 - A pragmatic approach to choosing what to migrate
 
 Remember that this isn't an all-or-nothing decision!
-Many organizations successfully use Python and Rust together, leveraging each language's strengths.
-Write down your reasoning for the migration.
-Many issues can be solved in Python, and the migration might not be necessary.
-However, if you're hitting the limits of Python, Rust is a strong replacement.
+Many organizations successfully use Python and Rust together.
+Before you start the migration, write down your reasoning for the migration.
+Many issues can be solved in Python, and changing the entire stack might not be necessary.
+However, if you do hit the limits of Python, Rust is a strong contender and I've seen many success stories of teams that made the switch and never looked back. 
 
 {% info(title="Ready to Make the Move to Rust?", icon="crab") %}
 
 I help teams make successful transitions from Python to Rust.
 My clients moved critical workloads to Rust and saw significant improvements in performance and reliability.
+If you liked my guide, chances are you will like the way I work as well. 
 Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/services).
 
 {% end %}
