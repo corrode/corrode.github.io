@@ -5,6 +5,8 @@
 .learn-list {
     list-style-type: none;
     padding: 0;
+    margin-top: 30px;
+    margin-bottom: 60px;
     border: 1px solid $heroDark;
     border-radius: 8px;
 }
@@ -30,14 +32,14 @@
     display: block;
     text-decoration: none;
     color: inherit;
-    padding: 20px;
+    padding: 30px;
 }
 
 .learn-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 40px;
 }
 
 .learn-item img {
@@ -59,6 +61,7 @@
     font-size: 0.9em;
     opacity: 0.8;
     line-height: 1.4;
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 
@@ -76,7 +79,7 @@
 .card-item {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
     padding: 12px 0;
 }
 
@@ -132,7 +135,7 @@
     }
 
     .learn-link {
-        padding: 15px;
+        padding: 20px;
     }
 }
 
