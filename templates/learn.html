@@ -1,149 +1,120 @@
 {% extends "base.html" %} {% block content %}
-<article>
-    <div class="article-heading">
-        <h1>{{section.title}}</h1>
-        {{ section.description | safe }}
-        <div>{{ section.content | safe }}</div>
-    </div>
-    <div class="article-content-wrapper">
-        <div class="article-content">
-            <h2>Learning Resources</h2>
-            <p class="learn-description">
-                Whether you are just starting out with Rust or looking to master
-                advanced concepts, these curated resources will help you level
-                up your skills.
-            </p>
-            <ul class="learn-list">
-                <li>
-                    <a
-                        href="/blog/rust-learning-resources-2026/"
-                        class="learn-link"
-                    >
-                        <div class="learn-item">
-                            <img src="/learn/ferris-learn.png" />
-                            <div class="learn-content">
-                                <div class="learn-title">
-                                    Rust Learning Resources
-                                </div>
-                                <div class="learn-description">
-                                    Want to learn Rust? The resources you choose
-                                    will have a big impact on your learning
-                                    progress. I've curated a list of workshops
-                                    and tutorials that I would recommend to
-                                    professional developers who need to get up
-                                    to speed with Rust quickly.
-                                </div>
-                            </div>
-                            <div class="learn-details">
-                                <div class="chevron"></div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="/blog/idiomatic-rust-resources/"
-                        class="learn-link"
-                    >
-                        <div class="learn-item">
-                            <img src="/learn/ferris-master.png" />
-                            <div class="learn-content">
-                                <div class="learn-title">Idiomatic Rust</div>
-                                <div class="learn-description">
-                                    Already know Rust? Want to get better at
-                                    writing ergonomic, idiomatic Rust code? A
-                                    while ago, I started a GitHub repository to
-                                    collect learning material for experienced
-                                    Rust developers. Over time, it has grown
-                                    into a popular project with many awesome
-                                    contributions. I've decided to turn it into
-                                    a searchable table.
-                                </div>
-                            </div>
-                            <div class="learn-details">
-                                <div class="chevron"></div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
+<article class="section-wrapper">
+  <h1>{{section.title}}</h1>
+  {{ section.description | safe }}
+  <div>{{ section.content | safe }}</div>
 
-            {% set sorted_pages = section.pages | filter(attribute="draft", value=false) | sort(attribute="date") %}
-            {% set case_studies = sorted_pages | filter(attribute="extra.series", value="Company Case Studies") %}
-            {% if case_studies %}
-            <h2>Company Case Studies</h2>
-            <p class="learn-description">
-                What are the challenges and opportunities that companies face
-                when adopting Rust? What advice do they have for others
-                considering Rust? Read on to find out!
-            </p>
-
-            <ul class="learn-list">
-                {% for page in case_studies %}
-                <li>
-                    <a href="{{ page.permalink }}" class="learn-link">
-                        <div class="learn-item">
-                            <img
-                                src="{{ page.permalink }}/{{ page.extra.card }}"
-                            />
-                            <div class="learn-content">
-                                <div class="learn-title">{{ page.title }}</div>
-                                <div class="learn-description">
-                                    {{ page.description }}
-                                </div>
-                            </div>
-                            <div class="learn-details">
-                                <div class="chevron"></div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% set guides = sorted_pages | filter(attribute="extra.series", value="Migration Guides") %}
-            {% if guides %}
-            <h2>Migration Guides</h2>
-            <p class="learn-description">
-                Are you considering migrating your codebase to Rust? These
-                guides will help you understand the process and make the
-                transition as smooth as possible. Pick your current language
-                below:
-            </p>
-            <ul class="learn-list">
-                {% for page in guides %}
-                <li>
-                    <a href="{{ page.permalink }}" class="learn-link">
-                        <div class="card-item">
-                            <div class="card-logo-wrapper">
-                                <img
-                                    class="card-img invert"
-                                    src="{{ page.permalink }}/{{ page.extra.icon }}"
-                                    alt="{{ page.title }}"
-                                />
-                            </div>
-                            <div class="card-content">
-                                <div class="card-title">{{ page.title }}</div>
-                                <div class="card-meta">
-                                    {% if page.updated %}
-                                    <time datetime="{{ page.updated }}"
-                                        >{{ page.updated }}</time
-                                    >
-                                    {% else %}
-                                    <time datetime="{{ page.date }}"
-                                        >{{ page.date }}</time
-                                    >
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="chevron"></div>
-                        </div>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %} {% include "snippets/newsletter.html" %}
+  <h2>Learning Resources</h2>
+  <ul class="learn-list">
+    <li>
+      <a href="/blog/rust-learning-resources-2026/" class="learn-link">
+        <div class="learn-item">
+          <img src="/learn/ferris-learn.png" />
+          <div class="learn-content">
+            <div class="learn-title">Rust Learning Resources</div>
+            <div class="learn-description">
+              Want to learn Rust? The resources you choose will have a big
+              impact on your learning progress. I've curated a list of workshops
+              and tutorials that I would recommend to professional developers
+              who need to get up to speed with Rust quickly.
+            </div>
+          </div>
+          <div class="learn-details">
+            <div class="chevron"></div>
+          </div>
         </div>
-    </div>
+      </a>
+    </li>
+    <li>
+      <a href="/blog/idiomatic-rust-resources/" class="learn-link">
+        <div class="learn-item">
+          <img src="/learn/ferris-master.png" />
+          <div class="learn-content">
+            <div class="learn-title">Idiomatic Rust</div>
+            <div class="learn-description">
+              Already know Rust? Want to get better at writing ergonomic,
+              idiomatic Rust code? A while ago, I started a GitHub repository to
+              collect learning material for experienced Rust developers. Over
+              time, it has grown into a popular project with many awesome
+              contributions. I've decided to turn it into a searchable table.
+            </div>
+          </div>
+          <div class="learn-details">
+            <div class="chevron"></div>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  {% set sorted_pages = section.pages | filter(attribute="draft", value=false) |
+  sort(attribute="date") %} {% set case_studies = sorted_pages |
+  filter(attribute="extra.series", value="Company Case Studies") %} {% if
+  case_studies %}
+  <h2>Company Case Studies</h2>
+  <p class="learn-description">
+    What are the challenges and opportunities that companies face when adopting
+    Rust? What advice do they have for others considering Rust? Read on to find
+    out!
+  </p>
+
+  <ul class="learn-list">
+    {% for page in case_studies %}
+    <li>
+      <a href="{{ page.permalink }}" class="learn-link">
+        <div class="learn-item">
+          <img src="{{ page.permalink }}/{{ page.extra.card }}" />
+          <div class="learn-content">
+            <div class="learn-title">{{ page.title }}</div>
+            <div class="learn-description">{{ page.description }}</div>
+          </div>
+          <div class="learn-details">
+            <div class="chevron"></div>
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+
+  {% set guides = sorted_pages | filter(attribute="extra.series",
+  value="Migration Guides") %} {% if guides %}
+  <h2>Migration Guides</h2>
+  <p class="learn-description">
+    Are you considering migrating your codebase to Rust? These guides will help
+    you understand the process and make the transition as smooth as possible.
+    Pick your current language below:
+  </p>
+  <ul class="learn-list">
+    {% for page in guides %}
+    <li>
+      <a href="{{ page.permalink }}" class="learn-link">
+        <div class="card-item">
+          <div class="card-logo-wrapper">
+            <img
+              class="card-img invert"
+              src="{{ page.permalink }}/{{ page.extra.icon }}"
+              alt="{{ page.title }}"
+            />
+          </div>
+          <div class="card-content">
+            <div class="card-title">{{ page.title }}</div>
+            <div class="card-meta">
+              {% if page.updated %}
+              <time datetime="{{ page.updated }}">{{ page.updated }}</time>
+              {% else %}
+              <time datetime="{{ page.date }}">{{ page.date }}</time>
+              {% endif %}
+            </div>
+          </div>
+          <div class="chevron"></div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% include "snippets/newsletter.html" %}
 </article>
 {% endblock content %}

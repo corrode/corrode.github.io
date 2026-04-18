@@ -514,12 +514,3 @@ __int128, intptr_t/ptrdiff_t</code></pre>
     </tr>
   </tbody>
 </table>
-
-{% info(title="Need Help Migrating from C++ to Rust?", icon="crab") %}
-
-Migrating a C++ codebase is one of the more involved transitions.
-The languages share many low-level concepts, but Rust's ownership model requires a shift in how you structure code (no mutable aliases, no self-referential structs, etc.). 
-I help engineering teams navigate that shift, from training and architecture reviews to hands-on migration support.
-[Get in touch to talk about your project](/services).
-
-{% end %}

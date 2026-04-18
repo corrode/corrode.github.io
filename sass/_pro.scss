@@ -1,0 +1,743 @@
+// PRO Page Styles
+// Using site-wide design system with dark theme for pro page
+
+.pro-page {
+    background-color: $brightPrim !important;
+    color: $darkPrim;
+    margin: 0;
+    padding: 0;
+}
+
+.pro-app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: $brightPrim !important;
+}
+
+// Navigation - use standard nav with dark theme
+.pro-page nav {
+    .logo {
+        fill: white;
+    }
+
+    .menu-button,
+    .menu-button::before,
+    .menu-button::after {
+        background-color: white;
+    }
+
+    a {
+        color: white;
+
+        &:hover {
+            color: $brightBgrd;
+        }
+    }
+}
+
+// Main Content
+.pro-main {
+    flex: 1;
+    width: 100%;
+}
+
+// Utility Classes
+.pro-text-center {
+    text-align: center;
+}
+
+.pro-highlight {
+    color: $brightBgrd;
+}
+
+.highlight {
+    background-color: $brightBgrd;
+    color: black;
+    padding: 0.2em 0.4em;
+    display: inline-block;
+    margin: 0 0.1em;
+    clip-path: polygon(2% 5%, 98% 2%, 97% 95%, 3% 98%);
+    transform: rotate(-0.5deg);
+}
+.highlight-red {
+    color: $brightScnd;
+}
+
+// Create varied styles by targeting elements in different sections
+.pro-value-item:nth-child(1) .highlight {
+    clip-path: polygon(0% 8%, 97% 5%, 98% 85%, 4% 95%);
+    transform: rotate(0.8deg);
+}
+
+// Hero Section
+.pro-hero {
+    padding: 4rem 2rem 6rem;
+    background: $brightPrim;
+    text-align: center;
+}
+
+.pro-hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 3rem;
+}
+
+.pro-hero-video {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 4rem auto 0;
+    padding: 0 1rem;
+    box-sizing: border-box;
+
+    video,
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.6),
+            0 8px 16px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+}
+
+.pro-hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba($brightBgrd, 0.1);
+    border: 1px solid $brightBgrd;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    color: $brightBgrd;
+}
+
+.pro-hero-title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: white;
+    letter-spacing: -0.02em;
+}
+
+.pro-hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.pro-hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+// Buttons
+.pro-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.pro-btn-primary {
+    background: $brightBgrd;
+    color: $heroDark;
+    font-size: 1.25rem;
+    box-shadow: 0 0 0 0 rgba($brightBgrd, 0.4);
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: lighten($brightBgrd, 10%);
+        box-shadow: 0 0 10px 5px rgba($brightBgrd, 0.6);
+    }
+}
+
+.pro-btn-secondary {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+
+    &:hover {
+        color: white;
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.pro-btn-full {
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+// Content Sections
+.pro-section {
+    display: block;
+    padding: 4rem 2rem;
+    background-color: $brightPrim;
+    position: relative;
+
+    // Centered separator line with 3D inset effect
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 600px;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.6);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+}
+
+// Remove separator from first section after hero
+.pro-hero + .pro-section::before,
+.pro-section:first-child::before {
+    display: none;
+}
+
+.pro-container {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.pro-container-narrow {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pro-section-title {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+    text-align: center;
+}
+
+.pro-section-subtitle {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.pro-subtitle-wide {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.pro-feature-list {
+    text-align: left;
+
+    ul {
+        list-style-type: square;
+        padding-left: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    li {
+        margin-bottom: 0.5rem;
+    }
+}
+
+// Testimonials (integrated into mentor section)
+.pro-testimonials {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    position: relative;
+
+    // Centered separator line
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 400px;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.6);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+}
+
+.pro-testimonial {
+    text-align: center;
+}
+
+.pro-testimonial-quote {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.pro-testimonial-author {
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-style: normal;
+    background-color: $brightBgrd;
+    color: black;
+    padding: 0.2em 0.5em;
+    display: inline-block;
+    clip-path: polygon(2% 5%, 98% 2%, 97% 95%, 3% 98%);
+}
+
+// Pricing Cards
+.pro-pricing {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.pro-price-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 4rem 3.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    flex: 1;
+    min-width: 360px;
+    max-width: 480px;
+    text-align: left;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.2);
+
+    &.featured {
+        background: linear-gradient(
+            135deg,
+            rgba($brightBgrd, 0.1),
+            rgba($brightScnd, 0.1)
+        );
+        border-color: rgba($brightBgrd, 0.3);
+        transform: scale(1.05);
+        box-shadow:
+            0 8px 16px rgba(0, 0, 0, 0.4),
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            0 0 30px rgba($brightBgrd, 0.15);
+
+        .pro-price-badge {
+            display: block;
+        }
+    }
+}
+
+.pro-price-badge {
+    display: none;
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $brightBgrd;
+    color: $heroDark;
+    padding: 0.25rem 1rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.pro-price-note {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+.pro-price-name {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.pro-price-amount {
+    font-size: 3rem;
+    font-weight: 700;
+    color: $brightBgrd;
+    margin-bottom: 0.5rem;
+
+    span {
+        font-size: 1.25rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+.pro-price-description {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.pro-price-context {
+    color: $brightBgrd;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.pro-price-features {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+
+    li {
+        padding: 0.75rem 0;
+        color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        &::before {
+            content: "✓";
+            color: $brightBgrd;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .pro-hero {
+        min-height: auto;
+        padding: 4rem 0;
+    }
+
+    .pro-hero-content {
+        padding: 2rem 1rem;
+    }
+
+    .pro-hero-cta {
+        flex-direction: column;
+
+        .pro-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .pro-section {
+        padding: 3rem 1rem;
+    }
+
+    .pro-pricing {
+        flex-direction: column;
+        align-items: stretch;
+
+        .pro-price-card.featured {
+            transform: scale(1);
+        }
+    }
+
+    .pro-price-card {
+        min-width: 0;
+        max-width: 100%;
+        padding: 2.5rem 1.5rem;
+        margin: 0;
+    }
+}
+
+// Value Proposition Section - Typography focused
+.pro-value-prop {
+    padding: 4rem 2rem;
+}
+
+.pro-value-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.pro-value-item {
+    text-align: center;
+
+    .pro-value-image {
+        display: block;
+        margin: 3rem auto;
+        width: 300px;
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    }
+
+    h2 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+        color: white;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    p {
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+// Community Features
+.pro-community-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.pro-community-feature {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    text-align: left;
+
+    .pro-check {
+        color: $brightBgrd;
+        font-size: 1.5rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    strong {
+        display: block;
+        color: white;
+        font-size: 1.125rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+.pro-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 4rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pro-faq-item {
+    h3 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.75rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.8);
+    }
+}
+
+.pro-cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+// Link styling for pro sections
+.pro-section {
+    a:not(.pro-btn) {
+        color: $brightBgrd;
+        text-decoration: none;
+        border-bottom: 1px solid rgba($brightBgrd, 0.3);
+        transition: border-color 0.2s ease;
+
+        &:hover {
+            border-bottom-color: $brightBgrd;
+        }
+    }
+}
+
+// Hero intro call note
+.pro-hero-note {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+
+    a {
+        color: $brightBgrd;
+    }
+}
+
+// Mentor profile image
+.pro-mentor-image {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 1.5rem;
+    display: block;
+    border-radius: 50%;
+    background-color: $brightBgrd;
+}
+
+// Subsection title (h3 within sections)
+.pro-subsection-title {
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+// Comparison table
+.pro-comparison-wrapper {
+    overflow-x: visible;
+}
+
+.pro-comparison-table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 1rem;
+    }
+
+    thead tr {
+        border-bottom: 2px solid rgba($brightBgrd, 0.3);
+    }
+
+    th {
+        text-align: center;
+        color: $brightBgrd;
+        font-size: 1rem;
+        font-weight: 600;
+
+        &:first-child {
+            text-align: left;
+        }
+
+        &.muted {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+
+    tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    td {
+        color: rgba(255, 255, 255, 0.9);
+
+        &:first-child {
+            font-weight: 600;
+        }
+
+        &:not(:first-child) {
+            text-align: center;
+        }
+
+        &.highlight {
+            display: table-cell;
+            color: $brightBgrd;
+            background: transparent;
+            padding: 1rem;
+            clip-path: none;
+            transform: none;
+            margin: 0;
+        }
+
+        &.muted {
+            color: rgba(255, 255, 255, 0.3);
+        }
+    }
+}
+
+// Pricing section note
+.pro-pricing-footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem;
+}
+
+// Footer - apply dark styling on pro page
+.pro-page .footer {
+    background-color: $brightPrim;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 600px;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.6);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+}
+
+// Force dark mode always
+body.pro-page {
+    background-color: $brightPrim !important;
+    color: $darkPrim !important;
+}
+
+// Mentor chart
+.pro-mentor-chart {
+    display: block;
+    max-width: 100%;
+    margin: 6rem auto;
+    height: auto;
+    width: 800px;
+    padding: 0 1rem;
+}
+
+.pro-inline-code {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 1px;
+    font-family: monospace;
+}

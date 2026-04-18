@@ -16,7 +16,7 @@
         </select>
         
         <select id="sort-filter">
-          <option value="date">Newest</option>
+          <option value="date">First Published</option>
           <option value="updated">Last Updated</option>
         </select>
       </div>
@@ -32,7 +32,7 @@
             <div class="blog-content">
               <h3 class="blog-title">{{ post.title }}</h3>
               <div class="blog-meta">
-                <time class="blog-date" datetime="{{ post.date }}">Published: {{ post.date }}</time>
+                <time class="blog-date" datetime="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}</time>
                 <span class="blog-category">{{ post.extra.series }}</span>
               </div>
             </div>
@@ -72,28 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
       return dateB - dateA; // Most recent first
     });
     
-    // Reorder DOM elements and update date labels
+    // Reorder DOM elements
     visibleItems.forEach(item => {
       blogList.appendChild(item);
-      
-      const timeEl = item.querySelector('.blog-date');
-      if (timeEl) {
-        if (selectedSort === 'updated' && item.dataset.date !== item.dataset.updated) {
-          timeEl.textContent = 'Last updated: ' + item.dataset.updated;
-          timeEl.setAttribute('datetime', item.dataset.updated);
-        } else {
-          timeEl.textContent = 'Published: ' + item.dataset.date;
-          timeEl.setAttribute('datetime', item.dataset.date);
-        }
-      }
     });
   }
   
   categoryFilter.addEventListener('change', filterAndSortPosts);
   sortFilter.addEventListener('change', filterAndSortPosts);
-  
-  // Trigger on load
-  filterAndSortPosts();
 });
 </script>
 {% endblock content %}

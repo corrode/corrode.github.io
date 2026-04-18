@@ -180,9 +180,3 @@ and [Artur Jakubiec](https://www.linkedin.com/in/artur-jakubiec/), Technical Lea
 
 Want to learn more about Hubstaff? [Check out their website](https://hubstaff.com/).
 
-{% info(title="Thinking About a Similar Migration?", icon="crab") %}
-
-Hubstaff's story is not unique. Many teams hit the same scaling and reliability limits and find Rust to be the right answer.
-If you're evaluating a migration or want to understand whether Rust is the right fit for your stack, [let's talk](/services).
-
-{% end %}

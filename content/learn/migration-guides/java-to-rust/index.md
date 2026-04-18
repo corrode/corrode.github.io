@@ -208,7 +208,7 @@ Java makes everything mutable by default, which is arguably its single biggest i
 
 Rust does the opposite - everything stays immutable unless marked with `mut`. This simple change has profound effects on code quality. You think more carefully about what really needs to change, leading to fewer bugs and easier concurrent programming. **This also enables better compiler optimizations** since the compiler can make stronger assumptions about your data.
 
-Many developers find they write better code in all languages after working with Rust's [immutability model](/blog/immutability/).
+Many developers find they write better code in all languages after working with Rust's immutability model.
 
 ### Rethinking Null
 
@@ -256,7 +256,7 @@ Your team will not only learn Rust but also feel more confident working with it 
 Migrating to Rust comes with some risks, but careful planning will minimize them. Here's how to ensure success:
 
 1. **Start Small**  
-Pick a small, non-critical part of your application for the [first Rust implementation](/blog/successful-rust-business-adoption-checklist/). This lets your team experiment and build confidence without affecting core systems. Expand gradually as you see results.
+Pick a small, non-critical part of your application for the first Rust implementation. This lets your team experiment and build confidence without affecting core systems. Expand gradually as you see results.
 
 2. **Prepare Your Team**  
 Don't just decide this for your developers—decide together. Get the team ready with training or external expertise, and focus on integration with your existing Java system. Rust will likely need new dependencies, so research the ecosystem and be ready to roll up your sleeves to contribute if necessary.
@@ -426,7 +426,7 @@ What are your hopes for Rust? What are the alternatives considered? What are you
 What is the skill level of your team, and how can you support them in learning Rust?
 It helps to put your thoughts into writing and share them with the team.
 
-On that note, [hiring Rust developers](/blog/hiring-rust-engineers/) can be challenging. It's a relatively new language, and most Rust developers 
+On that note, hiring Rust developers can be challenging. It's a relatively new language, and most Rust developers 
 don't have any production experience yet. Instead, consider upskilling your existing Java developers.
 They already know your systems and can learn Rust with the right training and support.
 

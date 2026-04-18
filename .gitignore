@@ -4,4 +4,5 @@ TODO.md
 BLOG.md
 drafts/
 .vscode
-content/blog/*/code/
+content/blog/**/code/
+
