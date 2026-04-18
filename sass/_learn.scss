@@ -1,107 +1,151 @@
 .learn-sections {
-  margin: 40px 0;
+    margin: 40px 0;
 }
 
 .learn-list {
-  list-style-type: none;
-  padding: 0;
-  border: 1px solid $heroDark;
-  border-radius: 8px;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    border: 1px solid $heroDark;
+    border-radius: 8px;
 }
 
 .learn-list li {
-  margin-bottom: 0;
-  border-bottom: 1px solid $heroDark;
+    margin-bottom: 0;
+    border-bottom: 1px solid $heroDark;
 
-  &:hover {
-    background-color: $brightScndLight;
+    &:hover {
+        background-color: $brightScndLight;
 
-    .chevron {
-      transform: translateX(4px) rotate(270deg);
+        .chevron {
+            transform: translateX(4px) rotate(270deg);
+        }
     }
-  }
 
-  &:last-child {
-    border-bottom: none;
-  }
+    &:last-child {
+        border-bottom: none;
+    }
 }
 
 .learn-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  padding: 20px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 30px;
 }
 
 .learn-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
 }
 
 .learn-item img {
-  width: 200px;
-  border-radius: 8px;
-  object-fit: contain;
-  flex-shrink: 0;
+    width: 200px;
+    border-radius: 8px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .learn-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1; // Let the content take available space
-  padding: 20px 0; // Consistent vertical padding
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1; // Let the content take available space
+    padding: 20px 0; // Consistent vertical padding
 }
 
 .learn-description {
-  font-size: 0.9em;
-  opacity: 0.8;
-  line-height: 1.4;
-  margin-bottom: 15px;
+    font-size: 0.9em;
+    opacity: 0.8;
+    line-height: 1.4;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .learn-title {
-  font-weight: bold;
-  font-size: 1.3em;
-  margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-bottom: 8px;
 }
 
 .learn-subtitle {
-  opacity: 0.7;
-  margin-left: 8px;
+    opacity: 0.7;
+    margin-left: 8px;
+}
+
+.card-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px 0;
+}
+
+.card-logo-wrapper {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.card-meta {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    font-family: JetBrainsMono;
 }
 
 @media (max-width: 768px) {
-  .learn-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+    .learn-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-  .learn-item img {
-    width: 100%;
-    height: auto; // Let height adjust proportionally
-    max-height: 200px; // Cap the height
-    margin-bottom: 15px;
-  }
+    .learn-item img {
+        width: 100%;
+        height: auto; // Let height adjust proportionally
+        max-height: 200px; // Cap the height
+        margin-bottom: 15px;
+    }
 
-  .learn-content {
-    padding: 0;
-  }
+    .learn-content {
+        padding: 0;
+    }
 
-  .learn-link {
-    padding: 15px;
-  }
+    .learn-link {
+        padding: 20px;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
-  .learn-list {
-    color: white;
-    border: 1px solid rgba(white, 0.5);
-  }
+    .learn-list {
+        color: white;
+        border: 1px solid rgba(white, 0.5);
+    }
 
-  .learn-list li {
-    border-bottom: 1px solid rgba(white, 0.5);
-  }
+    .learn-list li {
+        border-bottom: 1px solid rgba(white, 0.5);
+    }
 }

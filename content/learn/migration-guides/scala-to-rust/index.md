@@ -62,7 +62,7 @@ Rust's predictable resource usage and lack of garbage collection pauses make it 
 The business case for Rust extends beyond technical merits.
 
 - **Infrastructure costs often decrease** due to better performance and resource utilization.
-- **Maintenance becomes more predictable** thanks to superior tooling and compile-time guarantees.
+- **[Maintenance becomes more predictable](/blog/long-term-rust-maintenance/)** thanks to superior tooling and compile-time guarantees.
 - **The risk of production issues decreases** due to Rust's strong type system and ownership model catching many common bugs at compile time.
 
 Scala and Clojure developers typically transition well to Rust because the languages share many fundamental concepts. The emphasis on strong type systems, functional programming patterns, and correctness creates a natural bridge. While Rust's ownership system presents a learning curve, developers coming from functional programming backgrounds often find they already think in ways that align well with Rust's model.
@@ -77,8 +77,7 @@ The key to successful migration is maintaining optionality. Rust's excellent int
 
 The transition to Rust does present challenges. The ownership and borrowing concepts take time to master, though the compiler's excellent error messages help guide developers through the learning process. The ecosystem, while growing rapidly, may not yet have direct equivalents for all specialized JVM libraries. Some internal tooling may need to be rebuilt or adapted.
 
-However, these challenges should be viewed in context. The learning curve, while steep, is finite — developers
-with a strong functional programming background typically become productive in Rust within a few months. The ecosystem limitations often push teams toward simpler, more maintainable solutions. And the need to rebuild tools can be an opportunity to improve and modernize development workflows.
+However, these challenges should be viewed in context. The [learning curve](/blog/flattening-rusts-learning-curve/), while steep, is finite. Developers with a strong functional programming background typically become productive in Rust within a few months. The ecosystem limitations often push teams toward simpler, more maintainable solutions. And the need to rebuild tools can be an opportunity to improve and modernize development workflows.
 
 ## Conclusion
 
@@ -88,7 +87,7 @@ The decision to migrate from Scala/Clojure to Rust should be driven by specific 
 
 The transition requires investment, but Rust's growing ecosystem, excellent tooling, and strong industry adoption make it an increasingly attractive option for organizations looking to move beyond the JVM while maintaining the benefits of strong typing and functional programming paradigms.
 
-{% info(title="Is Your Team Considering a Migration to Rust?") %}
+{% info(title="Is Your Team Considering a Migration to Rust?", icon="crab") %}
 
 I can help you evaluate your current systems, design a migration strategy, and
 help you make an informed decision about moving to Rust. I offer consulting

@@ -20,9 +20,6 @@
     font-weight: bold;
     cursor: pointer;
     outline: none;
-    list-style: none;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .faq-item summary::-webkit-details-marker {
@@ -62,34 +59,5 @@
     .faq-item p {
         color: $darkPrim;
         background: $darkBgrdLight;
-    }
-}
-
-// Pro page overrides
-.pro-page {
-    .faq-item {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-
-        &:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-    }
-
-    .faq-item summary {
-        background: transparent;
-        color: white;
-        font-size: 1.25rem;
-        padding: 1.5rem;
-
-        &::after {
-            color: $brightBgrd;
-        }
-    }
-
-    .faq-item p {
-        background: transparent;
-        color: rgba(255, 255, 255, 0.8);
-        padding: 0 1.5rem 1.5rem 1.5rem;
-        font-size: 1.125rem;
     }
 }
