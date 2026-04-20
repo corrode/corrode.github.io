@@ -128,9 +128,9 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 </div>
 </section>
 
-<section class="pro-section pro-value-prop" id="how-it-works">
+<section class="pro-section pro-value-prop">
 <div class="pro-container-narrow">
-<h2 class="pro-section-title">Work on your projects, at your pace.</h2>
+<h2 id="how-it-works" class="pro-section-title">Work on your projects, at your pace.</h2>
 <p class="pro-section-subtitle">We'll focus on what sparks your curiosity.</p>
 <div class="pro-value-content">
 <div class="pro-value-item">
@@ -220,9 +220,9 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 </div>
 </section>
 
-<section class="pro-section pro-pricing-section" id="pricing">
+<section class="pro-section pro-pricing-section">
 <div class="pro-container">
-<h2 class="pro-section-title">1-on-1 Sessions</h2>
+<h2 id="pricing" class="pro-section-title">1-on-1 Sessions</h2>
 <p class="pro-section-subtitle">Buy a block of sessions and use them at your own pace. No subscription or lock-in.</p>
 
 <div class="pro-pricing">
