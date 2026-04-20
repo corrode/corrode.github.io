@@ -36,18 +36,19 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 <p class="pro-section-subtitle pro-subtitle-wide">
     Learning Rust can feel overwhelming.
     With all the resources and distractions of the internet, it can be hard to know what to work on first... or even work up the motivation to start.
-    While LLMS are great for automating the busywork, building true intuition and writing robust systems requires deep understanding.
+    While LLMs are great for automating the busywork, building true intuition and writing robust systems requires deep understanding.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Programming exists not just as source code, but as mental models in our brains.
     When we lean too heavily on AI and work on autopilot, our skills atrophy. We're not in control; just along for the ride.  
+    The engineers who get the most out of LLMs are the ones who deeply understand what good code looks like: they can steer the output, spot the mistakes, and refactor with confidence.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    Knowledge matters now more than ever.
-    But acquiring knowledge by yourself is hard. You might have weak spots in your Rust knowledge that you never get around to filling. You might be writing code that works, but does it follow the best practices? Will it be maintainable in the long run? 
+    Deep knowledge matters now more than ever.
+    But acquiring it by yourself is hard. You might have weak spots in your Rust knowledge that you never get around to filling. You might be writing code that works, but does it follow best practices? Will it be maintainable in the long run? 
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    As highlighted in recent <a href="https://nikomatsakis.github.io/rust-project-perspectives-on-ai/feb27-summary.html" target="_blank" rel="noopener">Rust Project discussions on AI</a>, it becomes <strong>really difficult to retain mental models of the codebase for code that you didn't write yourself.</strong> While LLMs can be great tools for experts, using them too much too early can prevent you from truly mastering the language.
+    As highlighted in recent <a href="https://nikomatsakis.github.io/rust-project-perspectives-on-ai/feb27-summary.html" target="_blank" rel="noopener">Rust Project discussions on AI</a>, it becomes <strong>really difficult to retain mental models of a codebase for code you didn't write yourself.</strong> The engineers who use LLMs most effectively are the ones who already mastered the language: they know what idiomatic Rust looks like and can give valuable feedback.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Just like a good workout, your brain needs to wrestle with hard problems to grow. <a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">A program is a shared understanding between developers.</a> Don't outsource your thinking—regain the satisfaction of knowing exactly how and why your code works.
@@ -65,14 +66,14 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
     </ul>
 </div>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    With all the demands of work, it can be hard to find the time and space to truly understand your tools. Here, there are no OKRs or sprints—just the freedom to ask "why", explore trade-offs, and write code you'll understand six months from now.
+    With all the demands of work, it can be hard to find the time and space to truly understand your tools. Here, there are no OKRs or sprints. Just the freedom to ask "why", explore trade-offs, and write code you'll understand six months from now.
 </p>
 <h3 class="pro-section-title pro-subsection-title">Break through learning plateaus together</h3>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Learning a new language is hard, especially when your past experience in other languages works against you. Research shows that <a href="https://cacm.acm.org/research/here-we-go-again/"target="_blank" rel="noopener">61% of experienced programmers make incorrect assumptions</a>. It's completely normal to get stuck.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    A mentor helps you regain focus and momentum. Let's tackle the hard parts together in a friendly, low-stress environment. According to AWS, <a href="https://youtu.be/VthhIdqwdHc?si=sdykuMYs0VZ_ijM9&t=132" target="_blank" rel="noopener">teams without experts are 40% more likely to abandon Rust</a>—you don't have to do it alone.
+    A mentor helps you regain focus and momentum. Let's tackle the hard parts together in a friendly, low-stress environment. According to AWS, <a href="https://youtu.be/VthhIdqwdHc?si=sdykuMYs0VZ_ijM9&t=132" target="_blank" rel="noopener">teams without experts are 40% more likely to abandon Rust</a>. You don't have to do it alone.
 </p>
 <div class="pro-section-cta" style="margin-top: 2rem;">
 <a href="#pricing" class="pro-btn pro-btn-primary">I'm Ready. Let's Go</a>
@@ -262,7 +263,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <li>Personalized curriculum tailored to your goals</li>
 <li>Code review & feedback between sessions</li>
 <li>Interview preparation & CV review</li>
-<li>Pre-allocated for the full journey — you know what you're getting into</li>
+<li>Pre-allocated for the full journey. You know what you're getting into.</li>
 </ul>
 <a href="https://cal.com/corrode/intro-call" class="pro-btn pro-btn-secondary pro-btn-full">Commit to the Full Journey</a>
 <p class="pro-price-note">Best value. For engineers who are serious about mastering Rust and want the space to do it properly.</p>
@@ -282,7 +283,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 [
   {
     "q": "Is This For Me?",
-    "a": "You should have solid programming fundamentals and be motivated to learn more. It will require effort and commitment, so you should be ready to put in the work."
+    "a": "To get the most value out of our sessions, I recommend having solid programming fundamentals in at least one language. That said, if you're earlier in your journey, that's fine too! Fundamentals can be taught, and we'll figure out the right pace together on the intro call. What matters most is that you're motivated and willing to put in the work between sessions."
   },
   {
     "q": "What happens on the intro call?",
@@ -306,11 +307,11 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "Which package should I start with?",
-    "a": "If you're not sure yet, start with <code>Once::new()</code> — it's a low-commitment way to see if the style works for you. Most people move to <code>Box&lt;T&gt;</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end journey and are ready to commit."
+    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>Box&lt;T&gt;</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end journey and are ready to commit."
   },
   {
     "q": "What if I can't make a scheduled session?",
-    "a": "Life happens. Just let me know and we'll move your session to another slot. Sessions in the Pack are valid for 3 months, and Deep Dive sessions for 6 months — so there's plenty of flexibility."
+    "a": "Life happens. Just let me know and we'll move your session to another slot. Sessions in the Pack are valid for 3 months, and Deep Dive sessions for 6 months, so there's plenty of flexibility."
   },
   {
     "q": "How do I know you're the right mentor?",
@@ -326,7 +327,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "How does payment work?",
-    "a": "You pay upfront for your session package via Stripe. You'll receive an invoice you may be able to deduct as a professional development expense — check with your employer or accountant. Unused sessions are refunded if things don't work out."
+    "a": "You pay upfront for your session package via Stripe. You'll receive an invoice you may be able to deduct as a professional development expense, so check with your employer or accountant. Unused sessions are refunded if things don't work out."
   }
 ]
 {% end %}
