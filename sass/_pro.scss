@@ -218,6 +218,11 @@
     display: none;
 }
 
+// Scroll offset for anchor links (accounts for nav height)
+.pro-section[id] {
+    scroll-margin-top: 120px;
+}
+
 .pro-container {
     max-width: 1500px;
     margin: 0 auto;
