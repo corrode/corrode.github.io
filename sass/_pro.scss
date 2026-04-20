@@ -433,17 +433,28 @@
 
 // Responsive
 @media (max-width: 768px) {
+    // Hero
     .pro-hero {
         min-height: auto;
-        padding: 4rem 0;
+        padding: 2rem 0 3rem;
     }
 
     .pro-hero-content {
-        padding: 2rem 1rem;
+        padding: 1.5rem 1.25rem;
+    }
+
+    .pro-hero-title {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .pro-hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
     }
 
     .pro-hero-cta {
         flex-direction: column;
+        gap: 0.75rem;
 
         .pro-btn {
             width: 100%;
@@ -451,13 +462,96 @@
         }
     }
 
-    .pro-section {
-        padding: 3rem 1rem;
+    .pro-hero-video {
+        margin-top: 2rem;
+        padding: 0 1rem;
     }
 
+    // Sections
+    .pro-section {
+        padding: 2.5rem 1.25rem;
+    }
+
+    .pro-section-title {
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+    }
+
+    .pro-section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .pro-subtitle-wide {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    // Mentor chart
+    .pro-mentor-chart {
+        margin: 3rem auto;
+        padding: 0;
+        width: 100%;
+    }
+
+    // Mentor image
+    .pro-mentor-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    // Value items
+    .pro-value-content {
+        gap: 3rem;
+    }
+
+    .pro-value-item {
+        h2 {
+            font-size: clamp(1.5rem, 6vw, 2rem);
+        }
+
+        p {
+            font-size: 1rem;
+        }
+
+        .pro-value-image {
+            width: 200px;
+            margin: 2rem auto;
+        }
+    }
+
+    // Testimonials
+    .pro-testimonials {
+        gap: 1.5rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+    }
+
+    .pro-testimonial-quote {
+        font-size: 1rem;
+    }
+
+    // Comparison table
+    .pro-comparison-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -1.25rem;
+        padding: 0 1.25rem;
+    }
+
+    .pro-comparison-table {
+        th,
+        td {
+            padding: 0.75rem 0.5rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    // Pricing
     .pro-pricing {
         flex-direction: column;
         align-items: stretch;
+        margin-top: 3rem;
+        gap: 1.25rem;
 
         .pro-price-card.featured {
             transform: scale(1);
@@ -467,8 +561,47 @@
     .pro-price-card {
         min-width: 0;
         max-width: 100%;
-        padding: 2.5rem 1.5rem;
+        padding: 2rem 1.5rem;
         margin: 0;
+    }
+
+    .pro-price-amount {
+        font-size: 2.25rem;
+
+        span {
+            font-size: 1rem;
+        }
+    }
+
+    .pro-price-name {
+        font-size: 1.4rem;
+    }
+
+    .pro-pricing-footer {
+        font-size: 0.95rem;
+        margin-top: 2rem;
+        text-align: left;
+    }
+
+    // CTA section
+    .pro-cta-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .pro-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    // Buttons general
+    .pro-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .pro-btn-primary {
+        font-size: 1.1rem;
     }
 }
 
