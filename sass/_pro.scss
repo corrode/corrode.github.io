@@ -88,21 +88,15 @@
     width: 100%;
     max-width: 1000px;
     margin: 4rem auto 0;
-    padding: 0 1rem;
     box-sizing: border-box;
-
-    video,
-    img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 8px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.6),
-            0 8px 16px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    }
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 8px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .pro-hero-badge {
@@ -471,7 +465,6 @@
 
     .pro-hero-video {
         margin-top: 2rem;
-        padding: 0 1rem;
     }
 
     // Sections
@@ -541,15 +534,20 @@
     .pro-comparison-wrapper {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin: 0 -1.25rem;
-        padding: 0 1.25rem;
     }
 
     .pro-comparison-table {
         th,
         td {
-            padding: 0.75rem 0.5rem;
-            font-size: 0.9rem;
+            padding: 0.5rem 0.4rem;
+            font-size: 0.75rem;
+            white-space: normal;
+            word-break: normal;
+            overflow-wrap: break-word;
+        }
+
+        td:first-child {
+            width: 45%;
         }
     }
 

@@ -19,12 +19,10 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 <p class="pro-hero-note">Not sure yet? <a href="https://cal.com/corrode/intro-call">Book a free 30-min intro call</a></p>
 </div>
 
-<div class="pro-hero-video">
-<picture>
-     <source srcset="/pro-pairing-session.avif" type="image/avif" />
-     <img src="/pro-pairing-session.avif" />
-</picture>
-</div>
+<video autoplay muted loop playsinline poster="/pro-pairing-session-poster.jpg" class="pro-hero-video">
+    <source src="/pro-pairing-session.avif" type="video/mp4; codecs=av01" />
+    <source src="/pro-pairing-session.mp4" type="video/mp4" />
+</video>
 </div>
 
 <section class="pro-section pro-why-mentor-section">
@@ -168,7 +166,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <h2 class="pro-section-title">Why not just learn on your own?</h2>
 <p class="pro-section-subtitle">Self-directed learning is free and flexible, but it has real costs.</p>
 
-<div class="pro-comparison-wrapper" style="max-width: 560px; margin: 0 auto;">
+<div class="pro-comparison-wrapper">
 <table class="pro-comparison-table">
 <thead>
 <tr>
