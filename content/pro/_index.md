@@ -241,7 +241,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 
 <div class="pro-price-card featured">
 <div class="pro-price-badge">Most Popular</div>
-<h3 class="pro-price-name"><code>[T; 5]</code></h3>
+<h3 class="pro-price-name"><code>[Session; 5]</code></h3>
 <div class="pro-price-amount">€900<span> / 5 sessions</span></div>
 <p class="pro-price-context">€180/session · save €100 · valid 3 months</p>
 <ul class="pro-price-features">
@@ -255,7 +255,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 </div>
 
 <div class="pro-price-card">
-<h3 class="pro-price-name"><code>Vec::with_capacity(10)</code></h3>
+<h3 class="pro-price-name"><code>[Session; 10]</code></h3>
 <div class="pro-price-amount">€1700<span> / 10 sessions</span></div>
 <p class="pro-price-context">€170/session · save €300 · valid 6 months</p>
 <ul class="pro-price-features">
@@ -263,7 +263,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <li>Personalized curriculum tailored to your goals</li>
 <li>Code review & feedback between sessions</li>
 <li>Interview preparation & CV review</li>
-<li>Pre-allocated for the full journey. You know what you're getting into.</li>
+<li>A fixed commitment to the full journey. Exactly 10 sessions, no surprises.</li>
 </ul>
 <a href="https://cal.com/corrode/intro-call" class="pro-btn pro-btn-secondary pro-btn-full">Commit to the Full Journey</a>
 <p class="pro-price-note">Best value. For engineers who are serious about mastering Rust and want the space to do it properly.</p>
@@ -307,7 +307,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "Which package should I start with?",
-    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>[T; 5]</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end journey and are ready to commit."
+    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>[Session; 5]</code> once they know they want to make real progress. <code>[Session; 10]</code> is for those who want a thorough, end-to-end journey and are ready to commit."
   },
   {
     "q": "What if I can't make a scheduled session?",
