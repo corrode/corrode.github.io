@@ -383,6 +383,13 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
     color: white;
+
+    code {
+        font-family: monospace;
+        word-break: break-all;
+        overflow-wrap: break-word;
+        font-size: 1.5rem;
+    }
 }
 
 .pro-price-amount {
@@ -575,6 +582,12 @@
 
     .pro-price-name {
         font-size: 1.4rem;
+
+        code {
+            font-size: 1.1rem;
+            word-break: normal;
+            overflow-wrap: normal;
+        }
     }
 
     .pro-pricing-footer {
