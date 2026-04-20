@@ -21,8 +21,8 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 
 <div class="pro-hero-video">
 <picture>
-     <source srcest="/pro-pairing-session.avif" type="image/avif" />
-     <img src="/pro-pairing-session.avif"  loading="eager" />
+     <source srcset="/pro-pairing-session.avif" type="image/avif" />
+     <img src="/pro-pairing-session.avif" />
 </picture>
 </div>
 </div>
@@ -31,7 +31,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 <div class="pro-container-narrow pro-text-center">
 <h2 class="pro-section-title">Change your learning trajectory</h2>
 
-<img src="/pro/mentor.svg" alt="Mentorship vs Self-learning chart" class="pro-mentor-chart" loading="lazy" />
+<img src="/pro/mentor.svg" alt="Mentorship vs Self-learning chart" class="pro-mentor-chart" />
 
 <p class="pro-section-subtitle pro-subtitle-wide">
     Learning Rust can feel overwhelming.
@@ -136,20 +136,20 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <div class="pro-value-item">
 <h2>Discover the joy of <span class="highlight">Rust</span></h2>
 <p>We'll explore ownership, lifetimes, and design patterns from the ground up. Learn what separates the good from the best, and write robust, production-ready Rust code you can maintain for years.</p>
-<img src="/pro/ferris-master.png" alt="Ferris the Crab as a Wizard" class="pro-value-image" loading="lazy" />
+<img src="/pro/ferris-master.png" alt="Ferris the Crab as a Wizard" class="pro-value-image" />
 <p>You'll gain the confidence to "open the hood" and see how things really work, moving past surface-level abstractions. We'll dive into the standard library source code and learn how to navigate the ecosystem effectively.</p>
 </div>
 
 <div class="pro-value-item">
 <h2>Systems Design & <span class="highlight">Project Structure</span></h2>
 <p>Bring your own projects or work on mine. We'll explore how to structure applications and make design trade-offs in a way that feels natural, logical, and scales beautifully.</p>
-<img src="/pro/ferris-learn.png" alt="Ferris the Crab reading a book" class="pro-value-image" loading="lazy" />
+<img src="/pro/ferris-learn.png" alt="Ferris the Crab reading a book" class="pro-value-image" />
 </div>
 
 <div class="pro-value-item">
 <h2>Learn Generously with Code Review</h2>
 <p>Learning how to give and receive kind, constructive feedback is an essential skill. I'll help you spot areas for improvement, communicate them effectively, and foster a collaborative engineering culture in your team.</p>
-<img src="/pro/ferris-builder.png" alt="Ferris the Crab surfing" class="pro-value-image" loading="lazy" />
+<img src="/pro/ferris-builder.png" alt="Ferris the Crab surfing" class="pro-value-image" />
 </div>
 
 <div class="pro-value-item">
