@@ -241,7 +241,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 
 <div class="pro-price-card featured">
 <div class="pro-price-badge">Most Popular</div>
-<h3 class="pro-price-name"><code>Box&lt;T&gt;</code></h3>
+<h3 class="pro-price-name"><code>[T; 5]</code></h3>
 <div class="pro-price-amount">€900<span> / 5 sessions</span></div>
 <p class="pro-price-context">€180/session · save €100 · valid 3 months</p>
 <ul class="pro-price-features">
@@ -307,7 +307,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "Which package should I start with?",
-    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>Box&lt;T&gt;</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end journey and are ready to commit."
+    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>[T; 5]</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end journey and are ready to commit."
   },
   {
     "q": "What if I can't make a scheduled session?",
