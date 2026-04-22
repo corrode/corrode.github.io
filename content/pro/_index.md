@@ -1,5 +1,5 @@
 +++
-title = "corrode Pro | Get Rust to Production"
+title = "Personal Rust Mentorship"
 template = "pro.html"
 description = "Master Rust from first principles with personalized mentorship. Work 1-on-1 with an expert to build deep intuition for systems programming."
 +++
@@ -7,16 +7,16 @@ description = "Master Rust from first principles with personalized mentorship. W
 <div class="pro-hero">
 <div class="pro-hero-content">
 <div class="pro-hero-badge">Personal Rust Mentorship</div>
-<h1 class="pro-hero-title"><span class="highlight">Write Rust you're proud of.</span></h1>
+<h1 class="pro-hero-title"><span class="highlight">Learn Rust from First Principles</span></h1>
 <p class="pro-hero-subtitle">
 Spend time programming at the edge of your abilities with expert 1-on-1 coaching. Build deep intuition for Rust without the pressure of arbitrary deadlines.
 </p>
 
 <div class="pro-hero-cta">
-<a href="#how-it-works" class="pro-btn pro-btn-primary">See How It Works</a>
+<a href="#how-it-works" class="pro-btn pro-btn-primary">How It Works</a>
 <a href="#pricing" class="pro-btn pro-btn-secondary">View Pricing</a>
 </div>
-<p class="pro-hero-note">Not sure yet? <a href="https://cal.com/corrode/intro-call">Book a free 30-min intro call</a></p>
+<p class="pro-hero-note">Questions? <a href="https://cal.com/corrode/intro-call">Book a free 30-min intro call</a></p>
 </div>
 
 <video autoplay muted loop playsinline poster="/pro-pairing-session-poster.jpg" class="pro-hero-video">
