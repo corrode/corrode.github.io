@@ -75,6 +75,7 @@ generate_podcast_social_image() {
     local season=$5
     local episode_num=$6
     local date=$7
+    local logo_file=${8:-}
 
     local episode_label="S${season} E${episode_num}"
     local byline="${guest}"
@@ -100,6 +101,36 @@ generate_podcast_social_image() {
     magick -background "$PODCAST_BG" -density 200 \
         static/social/podcast-episode.svg \
         -resize 1200x630 "$bg"
+
+    # ---- Company logo (top-right) ---------------------------------------
+    # Render the per-episode logo as a flat dark silhouette so logos look
+    # consistent across episodes regardless of their original colors.
+    # Mirrors `filter: grayscale(1)` used on .podcast-logo-img on the site.
+    local logo_img=""
+    if [[ -n "$logo_file" && -f "$logo_file" ]]; then
+        logo_img="$tmp_dir/logo.png"
+        # Render the SVG at high density on the yellow background, then
+        # extract a dark-on-transparent silhouette via -colorspace gray +
+        # threshold/level. Hardcoded fills and gradients all collapse to
+        # the same flat shape.
+        #
+        # Logos vary wildly in aspect ratio (square icons, wide wordmarks,
+        # tall glyphs). To keep them visually consistent on the canvas we
+        # fit each silhouette inside a fixed 200x200 square box, preserving
+        # aspect ratio (`-resize 200x200` without `!`) and then padding
+        # transparent pixels around it with `-extent`.
+        local logo_box=200
+        magick -background "$PODCAST_BG" -density 300 "$logo_file" \
+            -resize "${logo_box}x${logo_box}" \
+            -colorspace gray -level 0%,80% \
+            -alpha off \
+            \( +clone -threshold 60% -negate \) \
+            -alpha off -compose copy_opacity -composite \
+            -fill "$PODCAST_TEXT" -colorize 100 \
+            -background none -gravity center \
+            -extent "${logo_box}x${logo_box}" \
+            "$logo_img"
+    fi
 
     # ---- "RUST IN PRODUCTION" kicker -------------------------------------
     # Dark Bebas Neue on yellow, with a thick red underline bar beneath to
@@ -233,14 +264,28 @@ generate_podcast_social_image() {
     badge_w=$(magick identify -format "%w" "$badge")
     local meta_x=$((80 + badge_w + 24))
 
-    magick "$bg" \
-        "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
-        "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
-        "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
-        "$byline_img" -gravity NorthWest -geometry "+80+${byline_y}"       -composite \
-        "$badge"      -gravity NorthWest -geometry "+80+${meta_y}"         -composite \
-        "$meta"       -gravity NorthWest -geometry "+${meta_x}+$((meta_y + 10))" -composite \
-        "$output_file"
+    # Compose the final image. The logo (if any) is placed in the
+    # top-right, sitting comfortably over the dot-grid texture.
+    if [[ -n "$logo_img" ]]; then
+        magick "$bg" \
+            "$logo_img"   -gravity NorthEast -geometry +60+60                  -composite \
+            "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
+            "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
+            "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
+            "$byline_img" -gravity NorthWest -geometry "+80+${byline_y}"       -composite \
+            "$badge"      -gravity NorthWest -geometry "+80+${meta_y}"         -composite \
+            "$meta"       -gravity NorthWest -geometry "+${meta_x}+$((meta_y + 10))" -composite \
+            "$output_file"
+    else
+        magick "$bg" \
+            "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
+            "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
+            "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
+            "$byline_img" -gravity NorthWest -geometry "+80+${byline_y}"       -composite \
+            "$badge"      -gravity NorthWest -geometry "+80+${meta_y}"         -composite \
+            "$meta"       -gravity NorthWest -geometry "+${meta_x}+$((meta_y + 10))" -composite \
+            "$output_file"
+    fi
 
     rm -rf "$tmp_dir"
 }
@@ -287,6 +332,8 @@ process_post() {
             # — just use the generic podcast image.
             generate_social_image "$template_file" "$output_path"
         else
+            local logo_path="${parent_dir}/logo.svg"
+            [[ -f "$logo_path" ]] || logo_path=""
             generate_podcast_social_image \
                 "$output_path" \
                 "$title" \
@@ -294,7 +341,8 @@ process_post() {
                 "$role" \
                 "$season" \
                 "$episode_num" \
-                "$date"
+                "$date" \
+                "$logo_path"
         fi
         return
     fi
