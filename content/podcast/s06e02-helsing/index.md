@@ -22,7 +22,11 @@ Jon Gjengset is one of the most recognizable names in the Rust community, the au
 
 ### About Helsing
 
+Founded in 2021, Helsing is a European defence company building AI-enabled software for some of the most demanding environments imaginable. Helsing's software runs where correctness is non-negotiable. That philosophy led them to Rust early on and they've leaned into it fully. From coordinate transforms to CRDT document stores to Protobuf package management, almost everything they build ends up being written in Rust. 
+
 ### About Jon Gjengset
+
+Jon holds a PhD from MIT's PDOS group, where he built Noria, a high-performance streaming dataflow database, and later co-founded ReadySet to continue that work commercially. He then spent time building infrastructure at AWS, before joining Helsing as a Principal Engineer. Outside of his day job, he's been teaching Rust to the world through his livestreams and writing for years, which makes him a rare combination: someone who thinks deeply about both how to use Rust and how to explain it.
 
 ### Links From The Episode
 
