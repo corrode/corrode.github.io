@@ -30,31 +30,31 @@ Jon holds a PhD from MIT's PDOS group, where he built Noria, a high-performance 
 
 ### Links From The Episode
 
-- [Helsing's Eurofighter Project](https://helsing.ai/newsroom/helsing-ai-selected-for-eurofighter-upgrade)
+- [Helsing AI selected for Eurofighter upgrade](https://helsing.ai/newsroom/helsing-ai-selected-for-eurofighter-upgrade) - Helsing's Eurofighter Project
 - [CA-1 Europa](https://helsing.ai/europa) - Helsing's Autonomous Uncrewed Combat Aerial Vehicle
-- [Rust in Python cryptography](https://cryptography.io/en/latest/faq/#why-does-cryptography-require-rust) - Why the PyCA cryptography library rewrote its core in Rust for safety and performance
-- [Clippy Documentation: Adding Lints](https://doc.rust-lang.org/stable/clippy/development/adding_lints.html) - How to write and add custom lints to Clippy, Rust's official linter
-- [anyhow's .context()](https://docs.rs/anyhow/latest/anyhow/trait.Context.html) - Add human-readable context to any Rust error with a single method call
+- [Rust in Python cryptography](https://cryptography.io/en/latest/faq/#why-does-cryptography-require-rust) - Rust being used in a Python library
+- [Clippy Documentation: Adding Lints](https://doc.rust-lang.org/stable/clippy/development/adding_lints.html) - How to add custom lints to (your own fork of) clippy
+- [anyhow's .context()](https://docs.rs/anyhow/latest/anyhow/trait.Context.html) - Use it everywhere, it's very very helpful
 - [eyre](https://docs.rs/eyre/latest/eyre/) - A fork of `anyhow` with support for customizable, pluggable error report handlers
 - [miette](https://docs.rs/miette/latest/miette/) - Fancy, diagnostic-rich error reporting for Rust with source snippets and labels
 - [buffrs](https://github.com/helsing-ai/buffrs) - Helsing's Cargo-inspired package manager for Protocol Buffers, written in Rust
 - [sguaba](https://github.com/helsing-ai/sguaba) - Helsing's Rust crate for type-safe coordinate system math, preventing unit and frame mix-ups at compile time
-- [Sguaba: Type-safe spatial math in Rust](https://www.youtube.com/watch?v=kESBAiTYMoQ) - Jon's talk at Rust Amsterdam introducing the sguaba crate and the type-system techniques behind it
+- [Sguaba: Type-safe spatial math in Rust](https://www.youtube.com/watch?v=kESBAiTYMoQ) - Jon's talk at Rust Amsterdam introducing sguaba and the type-system techniques behind it
 - [Apache Avro](https://avro.apache.org/) - A compact binary serialization format for streaming data, with a Rust implementation available via the `apache-avro` crate
 - [pubgrub](https://docs.rs/pubgrub/latest/pubgrub/) - A Rust implementation of the PubGrub version-solving algorithm, as used in Cargo and uv
 - [CRDTs](https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type) - Conflict-free Replicated Data Types: data structures that can be merged across distributed nodes without conflicts
 - [ADR (Architecture Decision Record)](https://adr.github.io/) - A lightweight way to document important architectural decisions and their context
 - [DSON: JSON CRDT using delta-mutations for document stores](https://dl.acm.org/doi/10.14778/3510397.3510403) - The 2022 paper that was the basis for Helsing's CRDT implementation
-- [dson](https://docs.rs/dson/latest/dson/) - Helsing's Rust implementation of the DSON JSON CRDT
+- [dson](https://docs.rs/dson/latest/dson/) - Helsing's Rust implementation of DSON
 - [Jon's Livestreams on YouTube](https://www.youtube.com/@jonhoo) - Deep-dive Rust coding sessions where Jon implements real-world libraries and systems from scratch
-- [WebAssembly with Rust](https://rustwasm.github.io/docs/book/) - The official Rust and WebAssembly book, covering how to compile Rust to Wasm for use in browsers and beyond
+- [WebAssembly with Rust](https://rustwasm.github.io/docs/book/) - The official Rust and WebAssembly book, covering a cool technology and useful skills to have as a Rust developer
 - [Rust for Rustaceans](https://nostarch.com/rust-rustaceans) - Jon's book for intermediate Rust developers covering ownership, traits, async, and the finer points of the language
 - [CVE-2024-24576: Cargo/tar supply chain vulnerability](https://blog.rust-lang.org/2023/08/03/cve-2022-46176.html) - A security issue in the `tar` crate that affected Cargo's package extraction
-- [Wikipedia: Defence in Depth](https://en.wikipedia.org/wiki/Defence_in_depth_(non-military)#Information_security) - The security principle of using multiple independent layers of protection; Rust is one layer, not a silver bullet
+- [Wikipedia: Defence in Depth](https://en.wikipedia.org/wiki/Defence_in_depth_(non-military)#Information_security) - The security principle of using multiple independent layers of protection; Even with Rust you need multiple layers, there is no silver bullet
 - [SBOMs (Software Bill of Materials)](https://www.cisa.gov/sbom) - A machine-readable inventory of all components in a software artifact; Cargo's lock files make this tractable for Rust projects
 - [Helsing: AI-assisted vetting of software packages](https://blog.helsing.ai/posts/ai-assisted-vetting-of-software-packages/) - Make it more efficient to review dependencies you take in
-- [Bevy](https://bevy.org/) - A data-driven game engine built entirely in Rust, and a notable example of a large, complex Rust dependency
-- [Tauri](https://tauri.app/) - A Rust-powered framework for building lightweight desktop and mobile apps with a web frontend, an alternative to Electron
+- [Bevy](https://bevy.org/) - A game engine built entirely in Rust, and a notable example of a large, complex Rust dependency
+- [Tauri](https://tauri.app/) - A Rust-powered framework for building lightweight desktop and mobile apps from a web frontend, an alternative to Electron
 
 ### Official Links
 
