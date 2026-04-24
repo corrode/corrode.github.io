@@ -34,7 +34,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 <p class="pro-section-subtitle pro-subtitle-wide">
     Learning Rust can feel overwhelming.
     With all the resources and distractions of the internet, it can be hard to know what to work on first... or even work up the motivation to start.
-    While LLMs are great for automating the busywork, building true intuition and writing robust systems requires deep understanding.
+    LLMs are great for automating the busywork, but building true intuition and writing robust systems requires deep understanding.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Programming exists not just as source code, but as mental models in our brains.
@@ -64,7 +64,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
     </ul>
 </div>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    With all the demands of work, it can be hard to find the time and space to truly understand your tools. Here, there are no OKRs or sprints. Just the freedom to ask "why", explore trade-offs, and write code you'll understand six months from now.
+    With all the demands of work, it can be hard to find the time and space to truly understand your tools. Here, there are no OKRs, sprints, or AI mandates. Just the freedom to ask "why", explore trade-offs, and write code you'll still understand six months from now.
 </p>
 <h3 class="pro-section-title pro-subsection-title">Break through learning plateaus together</h3>
 <p class="pro-section-subtitle pro-subtitle-wide">
@@ -293,7 +293,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "Can't I just use AI?",
-    "a": "AI is a powerful tool, but it's not a replacement for expertise. It often generates code that looks correct but fails in edge cases or creates maintenance nightmares down the line. A mentor helps you build the mental models to validate AI output, spot architectural flaws, and ensure you remain the pilot, not the passenger."
+    "a": "AI is a powerful tool, but it's not a replacement for expertise. LLMs happily produce Rust that compiles but overuses trait objects, clones everywhere, escapes the borrow checker, and generally reads like Java with interfaces. The engineers who get real leverage out of these tools are the ones who can tell good Rust from slop, design the types and architecture themselves, and steer the AI inside a tight box. That's exactly the skill set we'll build together: domain modeling, type-driven design, idiomatic patterns, and the judgment to know when the AI's suggestion is wrong. The goal is for you to remain the pilot, not the passenger."
   },
   {
     "q": "How long does it take to become proficient?",
