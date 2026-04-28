@@ -1,11 +1,18 @@
 +++
-title="What Rust Doesn't Protect You From"
+title="Bugs Rust Does Not Prevent"
 date=2026-04-28
 draft=false
 template = "article.html"
 [extra]
 series = "Rust Insights"
 subtitle="Lessons from the rust-coreutils Audit"
+resources = [
+    "[An update on rust-coreutils](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773): Canonical's announcement of the audit results",
+    "[Patterns for Defensive Programming in Rust](/blog/defensive-programming/): companion post on writing more robust Rust code",
+    "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/): common mistakes even safe Rust code can make",
+    "[Sharp Edges In The Rust Standard Library](/blog/sharp-edges-in-rust-std/): surprising behaviors in `std`",
+    "[uutils/coreutils on GitHub](https://github.com/uutils/coreutils): the Rust reimplementation of GNU coreutils",
+]
 +++
 
 In April 2026, Canonical [disclosed 44 CVEs](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773) in uutils, the Rust reimplementation of GNU coreutils that ships by default since 25.10. Most of them came out of an external audit commissioned ahead of the 26.04 LTS.
@@ -31,7 +38,7 @@ That's fine for a normal program, but if you're writing a privileged tool that n
 
 ### Case Study: CVE-2026-35355
 
-Here's the bug, simplified from <a href="https://github.com/uutils/coreutils/pull/10067/files" target="_blank" rel="noopener noreferrer"><code>src/uu/install/src/install.rs</code></a>.
+Here's the bug, simplified from [`src/uu/install/src/install.rs`](https://github.com/uutils/coreutils/pull/10067/files).
 
 ```rust
 // 1. Clear the destination
@@ -160,7 +167,7 @@ The audit found bugs in both of the first two categories. Here's an example.
 
 ### Case Study: `comm` (CVE-2026-35346)
 
-This is the original code, <a href="https://github.com/uutils/coreutils/pull/10206/files" target="_blank" rel="noopener noreferrer">from <code>src/uu/comm/src/comm.rs</code></a>.
+This is the original code, from [`src/uu/comm/src/comm.rs`](https://github.com/uutils/coreutils/pull/10206/files).
 
 ```rust
 // ra, rb are &[u8], raw bytes from the input files.
@@ -351,6 +358,14 @@ That's the new security boundary of modern systems code.[^c-handles]
 If you write systems code in Rust, treat this CVE list as a checklist. Grep your own codebase for `from_utf8_lossy`, stray `unwrap()` calls, discarded `Result`s, `File::create`, and string comparisons against `"/"`.
 
 I also wrote a companion post, titled [Patterns for Defensive Programming in Rust](/blog/defensive-programming/).
+
+{% info(title="Need Help Hardening Your Rust Codebase?", icon="crab") %}
+
+Is your team shipping Rust into production and want to make sure you're not falling into the same traps?
+I offer Rust consulting services, from code reviews and security-focused audits to training your team on the patterns that the compiler won't enforce for you.
+[Get in touch](/#contact) to learn more.
+
+{% end %}
 
 
 
