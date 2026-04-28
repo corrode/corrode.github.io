@@ -17,15 +17,15 @@ resources = [
 
 In April 2026, Canonical [disclosed 44 CVEs](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773) in uutils, the Rust reimplementation of GNU coreutils that ships by default since 25.10. Most of them came out of an external audit commissioned ahead of the 26.04 LTS.
 
-I read through the list and thought that there's a lot to learn from it.
+I read through the list and thought there's a lot to learn from it.
 
-What's notable is that all bugs landed in a production Rust codebase, written by people who knew what they were doing and none of them were caught by the borrow checker, [clippy lints](https://doc.rust-lang.org/stable/clippy/lints.html), or [cargo audit](https://rustsec.org/).
+What's notable is that all of these bugs landed in a production Rust codebase, written by people who knew what they were doing, and none of them were caught by the borrow checker, [clippy lints](https://doc.rust-lang.org/stable/clippy/lints.html), or [cargo audit](https://rustsec.org/).
 
 I'm not writing this to criticize the uutils team. Quite the contrary; I actually want to thank them for sharing the audit results in such detail so that we can all learn from them.
 
 We also had [Jon Seager, VP Engineering for Ubuntu, on our 'Rust in Production' podcast recently](/podcast/s05e05-canonical/) and a lot of listeners appreciated his honesty about the state of Rust at Canonical.
 
-If you write systems code in Rust, this is the most concentrated look at where Rust's safety ends that you'll likely find anywhere right now, so let's take a look.
+If you write systems code in Rust, this is the most concentrated look at where Rust's safety ends that you'll likely find anywhere right now.
 
 ## Don't Trust a Path Across Two Syscalls
 
@@ -33,7 +33,7 @@ This is the largest cluster of bugs in the audit. It's also the reason `cp`, `mv
 
 The pattern is always the same. You do one syscall to *check* something about a path, then another syscall to *act* on the same path. Between those two calls, an attacker with write access to a parent directory can swap the path component for a symbolic link. The kernel re-resolves the path from scratch on the second call, and the privileged action lands on the attacker's chosen target.
 
-Rust's standard library makes this easy to get wrong. The ergonomic APIs you reach for first ([`fs::metadata`](https://doc.rust-lang.org/std/fs/fn.metadata.html), [`File::create`](https://doc.rust-lang.org/std/fs/struct.File.html#method.create), [`fs::remove_file`](https://doc.rust-lang.org/std/fs/fn.remove_file.html), [`fs::set_permissions`](https://doc.rust-lang.org/std/fs/fn.set_permissions.html)) all take a path and re-resolve it every time. (In contrast to taking a file descriptor and operating relative to that.)
+Rust's standard library makes this easy to get wrong. The ergonomic APIs you reach for first ([`fs::metadata`](https://doc.rust-lang.org/std/fs/fn.metadata.html), [`File::create`](https://doc.rust-lang.org/std/fs/struct.File.html#method.create), [`fs::remove_file`](https://doc.rust-lang.org/std/fs/fn.remove_file.html), [`fs::set_permissions`](https://doc.rust-lang.org/std/fs/fn.set_permissions.html)) all take a path and re-resolve it every time, rather than taking a file descriptor and operating relative to that.
 That's fine for a normal program, but if you're writing a privileged tool that needs to be secure against local attackers, you have to be careful.
 
 ### Case Study: CVE-2026-35355
@@ -89,7 +89,7 @@ fs::create_dir(&path)?;
 fs::set_permissions(&path, Permissions::from_mode(0o700))?;
 ```
 
-For a teeny moment, `path` exists with the default permissions. Any other user on the system can `open()` it during that window. Once they have a file descriptor, the later `chmod` doesn't take it away from them.
+For a brief moment, `path` exists with the default permissions. Any other user on the system can `open()` it during that window. Once they have a file descriptor, the later `chmod` doesn't take it away from them.
 
 **Rule: set permissions at the moment of creation. Never afterwards.**
 
@@ -191,14 +191,14 @@ It writes the raw bytes directly to `stdout`.
 
 ### Rule: Pick the Right Type for the Situation
 
-For Unix-flavored systems code, use [`Path`](https://doc.rust-lang.org/std/path/struct.Path.html) and [`PathBuf`](https://doc.rust-lang.org/std/path/struct.PathBuf.html) for filesystem paths, [`OsString`](https://doc.rust-lang.org/std/ffi/struct.OsString.html) for environment variables, and `Vec<u8>` or `&[u8]` for stream contents. It's tempting to round-trip them through `String` for easier formatting, but that's the way the cookie crumbles.
+For Unix-flavored systems code, use [`Path`](https://doc.rust-lang.org/std/path/struct.Path.html) and [`PathBuf`](https://doc.rust-lang.org/std/path/struct.PathBuf.html) for filesystem paths, [`OsString`](https://doc.rust-lang.org/std/ffi/struct.OsString.html) for environment variables, and `Vec<u8>` or `&[u8]` for stream contents. It's tempting to round-trip them through `String` for easier formatting, but that's where the corruption creeps in.
 
-UTF-8 is a great default for application strings but it's absolutely, positively the wrong default for the raw byte stuff Unix tools work with.
+UTF-8 is a great default for application strings, but it's absolutely, positively the wrong default for the raw byte stuff Unix tools work with.
 
 ## Treat Every `panic!` as a Denial of Service
 
-In a CLI, every `unwrap`, every `expect`, every slice index, every unchecked arithmetic, every [`from_utf8`](https://doc.rust-lang.org/std/str/fn.from_utf8.html) is a potential denial of service if an attacker can shape the input.
-That's because a `panic!` unwinds the stack and aborts the process. If your tool is running in a cron job, a CI pipeline, or a shell script, that means the whole thing just stops working. Even worse, you could find yourself in a crash loop that can paralyze the entire system.
+In a CLI, every `unwrap`, every `expect`, every slice index, every unchecked arithmetic operation, every [`from_utf8`](https://doc.rust-lang.org/std/str/fn.from_utf8.html) is a potential denial of service if an attacker can shape the input.
+That's because a `panic!` unwinds the stack and aborts the process. If your tool is running in a cron job, a CI pipeline, or a shell script, that means the whole thing just stops working. Even worse, you could find yourself in a crash loop that paralyzes the entire system.
 
 A canonical case from the audit was `sort --files0-from` ([CVE-2026-35348](https://ubuntu.com/security/CVE-2026-35348)). The flag reads a NUL-separated list of filenames from a file, but the parser called `expect()` on a UTF-8 conversion of each name:
 
@@ -243,7 +243,7 @@ These are noisy in test code where panicking on bad data is exactly what you wan
 
 Closely related to the previous point, a few CVEs come from ignoring or losing error information.
 
-`chmod -R` and `chown -R` returned the exit code of the *last* file processed instead of the worst one. So `chmod -R 600 /etc/secrets/*` could fail on half the files and still exit `0`. Your script thinks everything's fine.
+`chmod -R` and `chown -R` returned the exit code of the *last* file processed instead of the worst one. So `chmod -R 600 /etc/secrets/*` could fail on half the files and still exit `0`. Your script thinks everything is fine.
 
 `dd` called [`Result::ok()`](https://doc.rust-lang.org/std/result/enum.Result.html#method.ok) on its [`set_len()`](https://doc.rust-lang.org/std/fs/struct.File.html#method.set_len) call to mimic GNU's behavior on `/dev/null`. The intent was reasonable, but that same code ran for regular files too, so a full disk silently produced a half-written destination.
 
@@ -348,9 +348,9 @@ GNU coreutils has shipped CVEs in every single one of those categories. Take a p
 
 ...the list goes on and on. The Rust rewrite has shipped zero of these, over a comparable window of activity.[^rewrite-caveat] That's *most* of what historically goes wrong in a C codebase.
 
-[^rewrite-caveat]: To be fair to GNU: GNU coreutils is 40 years old and has had a very long time to surface and fix this class of bug. And we don't *know* there are no memory-safety bugs in the Rust rewrite, only that the audit didn't find any. Still, the difference is noticable when comparing the same duration of development activity.
+[^rewrite-caveat]: To be fair to GNU: GNU coreutils is 40 years old and has had a very long time to surface and fix this class of bug. And we don't *know* there are no memory-safety bugs in the Rust rewrite, only that the audit didn't find any. Still, the difference is noticeable when comparing the same duration of development activity.
 
-What's left is, frankly, a more interesting class of bug. It lives at the boundary between our controlled Rust environment and the "messy, chaotic outside world" where paths, bytes, strings, and syscalls are all tangled up in this eternal ball of sadness.
+What's left is, frankly, a more interesting class of bug. It lives at the boundary between our controlled Rust environment and the messy, chaotic outside world, where paths, bytes, strings, and syscalls are all tangled up in one eternal ball of sadness.
 That's the new security boundary of modern systems code.[^c-handles]
 
 [^c-handles]: It's worth noting that the `Path`/`PathBuf` TOCTOU class of bug is in some ways *easier* to avoid in C than in Rust. C code naturally reaches for an open file descriptor and the `*at` family of syscalls (`openat`, `fstatat`, `unlinkat`, `mkdirat`), and most creation syscalls take a `mode` argument directly. Rust's high-level `std::fs` APIs abstract over the file descriptor and operate on `&Path` values, which makes the path-based, re-resolving call the path of least resistance. The handle-based APIs exist on every Unix platform; Rust just doesn't put them front and center.
@@ -363,12 +363,12 @@ I also wrote a companion post, titled [Patterns for Defensive Programming in Rus
 
 When I think of "[idiomatic Rust](/blog/idiomatic-rust-resources/)", correctness is not the first thing that comes to mind.
 After all, isn't that the compiler's job?
-Instead, I think of elegant [iterator patterns](/blog/iterators/), ergonomic method signatures, [immutability](/blog/immutability/), or clever usage of [expressions](/blog/expressions/). 
-But none of that matters if the code doesn't do the right thing and the compiler is far from perfect at enforcing correctness.
+Instead, I think of elegant [iterator patterns](/blog/iterators/), ergonomic method signatures, [immutability](/blog/immutability/), or clever use of [expressions](/blog/expressions/). 
+But none of that matters if the code doesn't do the right thing, and the compiler is far from perfect at enforcing correctness.
 That's why we don't only have idioms for writing more elegant code; we also have idioms for writing correct code.
 They are the distilled experience of a community that has learned, often painfully, which shapes of code survive contact with reality and which ones do not.
 
-Reality is rarely as tidy as the abstractions we would like to impose on it. The mark of robust systems, in any language, is the willingness to reflect that untidiness rather than paper over it. Rust gives us extraordinary tools to do so. The compiler will hold a great deal for us. But the part it cannot hold, the boundary between our program and everything else, is still ours to get right.
+Reality is rarely as tidy as the abstractions we would like to impose on it. The mark of robust systems, in any language, is the willingness to reflect that untidiness rather than paper over it. Rust gives us extraordinary tools to do so, and the compiler will hold a great deal for us. But the part it cannot hold, the boundary between our program and everything else, is still ours to get right.
 The type system can encode many things, but it cannot encode conditions outside of its control, such as the passage of time between two syscalls.
 
 Idiomatic Rust, then, is not just code that the borrow checker accepts or that `clippy` leaves alone. It is code whose types, names, and control flow tell the *truth* about the system they run in. And that truth is sometimes ugly. It could mean using file descriptors instead of paths, `OsStr` instead of `String`, [`?` instead of `unwrap`](/blog/pitfalls-of-safe-rust/), and bug-for-bug compatibility over clean semantics. None of it is as pretty as the version you would write on a whiteboard. But it is more honest.
