@@ -91,7 +91,9 @@ fs::set_permissions(&path, Permissions::from_mode(0o700))?;
 
 For a brief moment, `path` exists with the default permissions. Any other user on the system can `open()` it during that window. Once they have a file descriptor, the later `chmod` doesn't take it away from them.
 
-**Rule: set permissions at the moment of creation. Never afterwards.**
+### Rule: Set Permissions at Creation, Never After
+
+Reach for `OpenOptions::mode()` and [`DirBuilderExt::mode()`](https://doc.rust-lang.org/std/os/unix/fs/trait.DirBuilderExt.html#tymethod.mode) so the file or directory is born with the permissions you want. The kernel will apply your `umask` on top, so set that explicitly too if you really care.
 
 ## String Equality on Paths Is Not the Same as Filesystem Identity
 
@@ -274,7 +276,7 @@ The clearest example is `kill -1` (CVE-2026-35369). GNU reads `-1` as "signal 1"
 
 A typo becomes a system-wide kill switch.
 
-### Rule: Match the Original Tool's Behavior, Even If Weird
+### Rule: Bug-for-Bug Compatibility Is A Safety Feature 
 
 If you reimplement a battle-tested tool, bug-for-bug compatibility on exit codes, error messages, edge cases, and option semantics is a security feature. (Hello, [Hyrum's Law](https://www.hyrumslaw.com/) -- and obligatory [XKCD 1172](https://xkcd.com/1172/)!)
 
@@ -312,7 +314,7 @@ setuid(user.uid())?;
 exec(cmd)?;
 ```
 
-### Rule: Resolve Everything You Need Before Crossing Into A Less Trusted Environment
+### Rule: Resolve Before You Cross
 
 Once you're across, every library call might run the attacker's code. And no, static compilation doesn't help here, because `get_user_by_name` goes through NSS, which `dlopen`s `libnss_*` modules at runtime regardless of whether your binary is statically linked.
  
