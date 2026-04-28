@@ -19,7 +19,7 @@ In April 2026, Canonical [disclosed 44 CVEs](https://discourse.ubuntu.com/t/an-u
 
 I read through the list and thought that there's a lot to learn from it.
 
-All bugs landed in a production Rust codebase, written by people who knew what they were doing and none of them were caught by the borrow checker, [clippy lints](https://doc.rust-lang.org/stable/clippy/lints.html), or [cargo audit](https://rustsec.org/). That's notable. 
+What's notable is that all bugs landed in a production Rust codebase, written by people who knew what they were doing and none of them were caught by the borrow checker, [clippy lints](https://doc.rust-lang.org/stable/clippy/lints.html), or [cargo audit](https://rustsec.org/).
 
 I'm not writing this to criticize the uutils team. Quite the contrary; I actually want to thank them for sharing the audit results in such detail so that we can all learn from them.
 
