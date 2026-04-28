@@ -1,10 +1,11 @@
 +++
-title="Where Rust's Safety Ends"
+title="Bugs Rust Won't Catch"
 date=2026-04-28
 draft=false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
+chapter_title = "Where Rust's Safety Ends"
 resources = [
     "[An update on rust-coreutils](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773): Canonical's announcement of the audit results",
     "[Patterns for Defensive Programming in Rust](/blog/defensive-programming/): companion post on writing more robust Rust code",
@@ -24,7 +25,7 @@ I'm not writing this to criticize the uutils team. Quite the contrary; I actuall
 
 We also had [Jon Seager, VP Engineering for Ubuntu, on our 'Rust in Production' podcast recently](/podcast/s05e05-canonical/) and a lot of listeners appreciated his honesty about the state of Rust at Canonical.
 
-If you write systems code in Rust, this is the most concentrated set of bugs Rust won't catch that you'll likely find anywhere right now, so let's take a look.
+If you write systems code in Rust, this is the most concentrated look at where Rust's safety ends that you'll likely find anywhere right now, so let's take a look.
 
 ## Don't Trust a Path Across Two Syscalls
 
