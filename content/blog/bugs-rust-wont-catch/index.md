@@ -1,6 +1,6 @@
 +++
 title="Bugs Rust Won't Catch"
-date=2026-04-28
+date=2026-04-29
 draft=false
 template = "article.html"
 [extra]
