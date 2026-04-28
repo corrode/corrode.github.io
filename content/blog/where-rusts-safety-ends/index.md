@@ -1,11 +1,10 @@
 +++
-title="Bugs Rust Does Not Prevent"
+title="Where Rust's Safety Ends"
 date=2026-04-28
 draft=false
 template = "article.html"
 [extra]
-series = "Rust Insights"
-subtitle="Lessons from the rust-coreutils Audit"
+series = "Idiomatic Rust"
 resources = [
     "[An update on rust-coreutils](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773): Canonical's announcement of the audit results",
     "[Patterns for Defensive Programming in Rust](/blog/defensive-programming/): companion post on writing more robust Rust code",
@@ -17,7 +16,7 @@ resources = [
 
 In April 2026, Canonical [disclosed 44 CVEs](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773) in uutils, the Rust reimplementation of GNU coreutils that ships by default since 25.10. Most of them came out of an external audit commissioned ahead of the 26.04 LTS.
 
-I read through the list and thought: "what a great learning opportunity!"
+I read through the list and thought that there's a lot to learn from it.
 
 All bugs landed in a production Rust codebase, written by people who knew what they were doing and none of them were caught by the borrow checker, [clippy lints](https://doc.rust-lang.org/stable/clippy/lints.html), or [cargo audit](https://rustsec.org/). That's notable. 
 
@@ -25,7 +24,7 @@ I'm not writing this to criticize the uutils team. Quite the contrary; I actuall
 
 We also had [Jon Seager, VP Engineering for Ubuntu, on our 'Rust in Production' podcast recently](/podcast/s05e05-canonical/) and a lot of listeners appreciated his honesty about the state of Rust at Canonical.
 
-If you write systems code in Rust, this is the most concentrated set of "things the compiler won't save you from" you'll likely find anywhere right now, so let's take a look.
+If you write systems code in Rust, this is the most concentrated set of bugs Rust won't catch that you'll likely find anywhere right now, so let's take a look.
 
 ## Don't Trust a Path Across Two Syscalls
 
@@ -358,6 +357,20 @@ That's the new security boundary of modern systems code.[^c-handles]
 If you write systems code in Rust, treat this CVE list as a checklist. Grep your own codebase for `from_utf8_lossy`, stray `unwrap()` calls, discarded `Result`s, `File::create`, and string comparisons against `"/"`.
 
 I also wrote a companion post, titled [Patterns for Defensive Programming in Rust](/blog/defensive-programming/).
+
+## Correct Rust Is Idiomatic Rust 
+
+When I think of "[idiomatic Rust](/blog/idiomatic-rust-resources/)", correctness is not the first thing that comes to mind.
+After all, isn't that the compiler's job?
+Instead, I think of elegant [iterator patterns](/blog/iterators/), ergonomic method signatures, [immutability](/blog/immutability/), or clever usage of [expressions](/blog/expressions/). 
+But none of that matters if the code doesn't do the right thing and the compiler is far from perfect at enforcing correctness.
+That's why we don't only have idioms for writing more elegant code; we also have idioms for writing correct code.
+They are the distilled experience of a community that has learned, often painfully, which shapes of code survive contact with reality and which ones do not.
+
+Reality is rarely as tidy as the abstractions we would like to impose on it. The mark of robust systems, in any language, is the willingness to reflect that untidiness rather than paper over it. Rust gives us extraordinary tools to do so. The compiler will hold a great deal for us. But the part it cannot hold, the boundary between our program and everything else, is still ours to get right.
+The type system can encode many things, but it cannot encode conditions outside of its control, such as the passage of time between two syscalls.
+
+Idiomatic Rust, then, is not just code that the borrow checker accepts or that `clippy` leaves alone. It is code whose types, names, and control flow tell the *truth* about the system they run in. And that truth is sometimes ugly. It could mean using file descriptors instead of paths, `OsStr` instead of `String`, [`?` instead of `unwrap`](/blog/pitfalls-of-safe-rust/), and bug-for-bug compatibility over clean semantics. None of it is as pretty as the version you would write on a whiteboard. But it is more honest.
 
 {% info(title="Need Help Hardening Your Rust Codebase?", icon="crab") %}
 
