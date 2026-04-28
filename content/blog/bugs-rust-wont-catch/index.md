@@ -382,6 +382,3 @@ I offer Rust consulting services, from code reviews and security-focused audits 
 [Get in touch](/#contact) to learn more.
 
 {% end %}
-
-
-
