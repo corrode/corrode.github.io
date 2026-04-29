@@ -27,7 +27,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 
 <section class="pro-section pro-why-mentor-section">
 <div class="pro-container-narrow pro-text-center">
-<h2 class="pro-section-title">Change your learning trajectory</h2>
+<h2 class="pro-section-title">Focused on your success</h2>
 
 <img src="/pro/mentor.svg" alt="Mentorship vs Self-learning chart" class="pro-mentor-chart" />
 

@@ -244,6 +244,12 @@
     margin: 0 auto 3rem;
 }
 
+.pro-why-mentor-section {
+    .pro-section-subtitle {
+        text-align: left;
+    }
+}
+
 .pro-feature-list {
     text-align: left;
 
@@ -773,7 +779,8 @@
 
 .pro-comparison-table {
     width: 100%;
-    margin-top: 2rem;
+    max-width: 700px;
+    margin: 2rem auto 0;
     border-collapse: collapse;
 
     th,
