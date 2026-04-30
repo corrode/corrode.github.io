@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Bugs Rust Won&#x27;t Catch | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="In April 2026, Canonical disclosed 44 CVEs in uutils, the Rust reimplementation of GNU coreutil…">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Bugs Rust Won&#x27;t Catch | corrode Rust Consulting">
+    <meta property="og:description" content="In April 2026, Canonical disclosed 44 CVEs in uutils, the Rust reimplementation of GNU coreutil…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;bugs-rust-wont-catch&#x2F;social.png">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;bugs-rust-wont-catch&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="website">
+    <meta name="publish_date" property="og:publish_date" content="2026-04-29">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bugs Rust Won&#x27;t Catch | corrode Rust Consulting">
+    <meta name="twitter:description" content="In April 2026, Canonical disclosed 44 CVEs in uutils, the Rust reimplementation of GNU coreutil…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;bugs-rust-wont-catch&#x2F;social.png">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/bugs-rust-wont-catch/"
+      },
+      "headline": "Bugs Rust Won't Catch",
+      "description": "In April 2026, Canonical disclosed 44 CVEs in uutils, the Rust reimplementation of GNU coreutil…",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        }
+      },
+      "datePublished": "2026-04-29",
+      
+      "dateModified": "2026-04-29"
+      
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav>
+            <!-- Logo and Home Link -->
+            <div>
+                <a  class="nav-item" 
+                    href="https://corrode.dev/">
+                    <span class="logo">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+                    </span>
+                </a>
+            </div>
+
+            <input id="menu-toggle" type="checkbox" />
+            <label class="menu-button-container" for="menu-toggle">
+                <div class="menu-button"></div>
+            </label>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li>
+                    <!-- Theme Toggle -->
+                    <a href="javascript:toggleColorScheme();">
+                        <span id="icon-moon">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                        </span>
+                        <span id="icon-sun">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/"><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/learn">
+                        <span>Learn</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item active" 
+                        href="https://corrode.dev/blog">
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a  class="nav-item" 
+                        href="https://corrode.dev/podcast">
+                        <span>Podcast</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://corrode.dev/services" class="cta-button">
+                        <span>Consulting</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="container">
+            
+<article>
+  <div class="article-heading">
+    <h2 class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </h2>
+    <h1>Bugs Rust Won&#x27;t Catch</h1>
+    <div class="article-meta">
+      <a href="/services"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by Matthias Endler</span>
+      <span class="icon-calendar"></span>
+      <span>
+        
+          Published: 2026-04-29
+        
+      </span>
+    </div>
+    
+  </div>
+  <div class="article-content-wrapper">
+    
+    <div class="article-content">
+    
+
+      <p>In April 2026, Canonical <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773">disclosed 44 CVEs</a> in uutils, the Rust reimplementation of GNU coreutils that ships by default since 25.10. Most of them came out of an external audit commissioned ahead of the 26.04 LTS.</p>
+<p>I read through the list and thought there’s a lot to learn from it.</p>
+<p>What’s notable is that all of these bugs landed in a production Rust codebase, written by people who knew what they were doing, and none of them were caught by the borrow checker, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/stable/clippy/lints.html">clippy lints</a>, or <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rustsec.org/">cargo audit</a>.</p>
+<p>I’m not writing this to criticize the uutils team. Quite the contrary; I actually want to thank them for sharing the audit results in such detail so that we can all learn from them.</p>
+<p>We also had <a href="/podcast/s05e05-canonical/">Jon Seager, VP Engineering for Ubuntu, on our ‘Rust in Production’ podcast recently</a> and a lot of listeners appreciated his honesty about the state of Rust at Canonical.</p>
+<p>If you write systems code in Rust, this is the most concentrated look at where Rust’s safety ends that you’ll likely find anywhere right now.</p>
+<h2 id="don-t-trust-a-path-across-two-syscalls"><a class="zola-anchor" href="#don-t-trust-a-path-across-two-syscalls" aria-label="Anchor link for: don-t-trust-a-path-across-two-syscalls">Don’t Trust a Path Across Two Syscalls</a></h2>
+<p>This is the largest cluster of bugs in the audit. It’s also the reason <code>cp</code>, <code>mv</code>, and <code>rm</code> are <em>still</em> GNU in Ubuntu 26.04 LTS. :(</p>
+<p>The pattern is always the same. You do one syscall to <em>check</em> something about a path, then another syscall to <em>act</em> on the same path. Between those two calls, an attacker with write access to a parent directory can swap the path component for a symbolic link. The kernel re-resolves the path from scratch on the second call, and the privileged action lands on the attacker’s chosen target.</p>
+<p>Rust’s standard library makes this easy to get wrong. The ergonomic APIs you reach for first (<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/fn.metadata.html"><code>fs::metadata</code></a>, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/struct.File.html#method.create"><code>File::create</code></a>, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/fn.remove_file.html"><code>fs::remove_file</code></a>, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/fn.set_permissions.html"><code>fs::set_permissions</code></a>) all take a path and re-resolve it every time, rather than taking a file descriptor and operating relative to that.
+That’s fine for a normal program, but if you’re writing a privileged tool that needs to be secure against local attackers, you have to be careful.</p>
+<h3 id="case-study-cve-2026-35355"><a class="zola-anchor" href="#case-study-cve-2026-35355" aria-label="Anchor link for: case-study-cve-2026-35355">Case Study: CVE-2026-35355</a></h3>
+<p>Here’s the bug, simplified from <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/uutils/coreutils/pull/10067/files"><code>src/uu/install/src/install.rs</code></a>.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// 1. Clear the destination</span></span>
+<span class="giallo-l"><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">remove_file</span><span>(to)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// ...</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// 2. Create the destination. The path is re-resolved here!</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> dest</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> File</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">create</span><span>(to)</span><span style="color: #FF79C6;">?</span><span>;</span><span style="color: #6272A4;"> // follows symlinks, truncates</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">copy</span><span>(from,</span><span style="color: #FF79C6;"> &amp;mut</span><span> dest)</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre>
+<p>Between step 1 and step 2, anyone with write access to the parent directory can plant <code>to</code> as a symlink to, say, <code>/etc/shadow</code>. Then <code>File::create</code> follows the symlink and the privileged process happily overwrites <code>/etc/shadow</code> with whatever <code>from</code> happened to contain.</p>
+<p>The fix uses <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/struct.OpenOptions.html#method.create_new"><code>OpenOptions::create_new(true)</code></a>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">remove_file</span><span>(to)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> dest</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> OpenOptions</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">write</span><span>(</span><span style="color: #BD93F9;">true</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">create_new</span><span>(</span><span style="color: #BD93F9;">true</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">open</span><span>(to)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">copy</span><span>(from,</span><span style="color: #FF79C6;"> &amp;mut</span><span> dest)</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre>
+<p>The docs for <code>create_new</code> say (emphasis mine):</p>
+<blockquote>
+<p>No file is allowed to exist at the target location, <strong>also no (dangling) symlink</strong>. In this way, if the call succeeds, the file returned is guaranteed to be new.</p>
+</blockquote>
+<h3 id="rule-anchor-on-a-file-descriptor-instead"><a class="zola-anchor" href="#rule-anchor-on-a-file-descriptor-instead" aria-label="Anchor link for: rule-anchor-on-a-file-descriptor-instead">Rule: Anchor on a File Descriptor Instead</a></h3>
+<p>A <code>&amp;Path</code> in Rust <em>looks</em> like a value, but remember that to the kernel it’s just a name. That name can point to different things from one syscall to the next.
+Anchor your operations on a file descriptor instead.</p>
+<p><code>create_new()</code> only helps with that when you’re creating a new file. For everything else, open the parent directory once and work <strong>relative to that handle</strong>.</p>
+<p>If you act on the same path twice, assume it’s a TOCTOU (Time Of Check To Time Of Use) bug until you’ve proven otherwise.</p>
+<h2 id="set-permissions-at-creation-time-not-after"><a class="zola-anchor" href="#set-permissions-at-creation-time-not-after" aria-label="Anchor link for: set-permissions-at-creation-time-not-after">Set Permissions at Creation Time, Not After</a></h2>
+<p>This is a close relative of TOCTOU. You want a directory with restrictive permissions, so you write something like this.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// Create with default permissions</span></span>
+<span class="giallo-l"><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">create_dir</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>path)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Fix up permissions</span></span>
+<span class="giallo-l"><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">set_permissions</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>path, Permissions</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_mode</span><span>(</span><span style="color: #BD93F9;">0o700</span><span>))</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre>
+<p>For a brief moment, <code>path</code> exists with the default permissions. Any other user on the system can <code>open()</code> it during that window. Once they have a file descriptor, the later <code>chmod</code> doesn’t take it away from them.</p>
+<h3 id="rule-set-permissions-at-creation-never-after"><a class="zola-anchor" href="#rule-set-permissions-at-creation-never-after" aria-label="Anchor link for: rule-set-permissions-at-creation-never-after">Rule: Set Permissions at Creation, Never After</a></h3>
+<p>Reach for <code>OpenOptions::mode()</code> and <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/os/unix/fs/trait.DirBuilderExt.html#tymethod.mode"><code>DirBuilderExt::mode()</code></a> so the file or directory is born with the permissions you want. The kernel will apply your <code>umask</code> on top, so set that explicitly too if you really care.</p>
+<h2 id="string-equality-on-paths-is-not-the-same-as-filesystem-identity"><a class="zola-anchor" href="#string-equality-on-paths-is-not-the-same-as-filesystem-identity" aria-label="Anchor link for: string-equality-on-paths-is-not-the-same-as-filesystem-identity">String Equality on Paths Is Not the Same as Filesystem Identity</a></h2>
+<p>The original <code>--preserve-root</code> check in <code>chmod</code> was literally this:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">if</span><span> recursive</span><span style="color: #FF79C6;"> &amp;&amp;</span><span> preserve_root</span><span style="color: #FF79C6;"> &amp;&amp;</span><span> file</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Path</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;/&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">PreserveRoot</span><span>);</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>That comparison is bypassed by anything that <em>resolves</em> to <code>/</code> but isn’t spelled <code>/</code>. So <code>/../</code>, <code>/./</code>, <code>/usr/..</code>, or a symlink that points to <code>/</code>. Run <code>chmod -R 000 /../</code> and see it rip right past your check and lock down the whole system.</p>
+<p>Here’s <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/uutils/coreutils/pull/10033">the fix</a>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> is_root</span><span>(file</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    matches!</span><span>(fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">canonicalize</span><span>(file),</span><span style="color: #8BE9FD;font-style: italic;"> Ok</span><span>(p)</span><span style="color: #FF79C6;"> if</span><span> p</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Path</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;/&quot;</span><span>))</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">if</span><span> recursive</span><span style="color: #FF79C6;"> &amp;&amp;</span><span> preserve_root</span><span style="color: #FF79C6;"> &amp;&amp;</span><span style="color: #50FA7B;"> is_root</span><span>(file) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">PreserveRoot</span><span>);</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><h3 id="rule-resolve-paths-before-comparing-them"><a class="zola-anchor" href="#rule-resolve-paths-before-comparing-them" aria-label="Anchor link for: rule-resolve-paths-before-comparing-them">Rule: Resolve Paths Before Comparing Them</a></h3>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/fn.canonicalize.html"><code>canonicalize</code></a> resolves <code>..</code>, <code>.</code>, and symlinks into a real absolute path. That’s a lot better than string comparison.</p>
+<p>Oh and if you were wondering about this line:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #50FA7B;">matches!</span><span>(fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">canonicalize</span><span>(file),</span><span style="color: #8BE9FD;font-style: italic;"> Ok</span><span>(p)</span><span style="color: #FF79C6;"> if</span><span> p</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Path</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;/&quot;</span><span>))</span></span></code></pre>
+<p>I think that’s just a fancy way of saying</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// First, resolve the path to its canonical form</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">if let</span><span style="color: #8BE9FD;font-style: italic;"> Ok</span><span>(p)</span><span style="color: #FF79C6;"> =</span><span> fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">canonicalize</span><span>(file) {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // If that succeeded, check if the canonical path is &quot;/&quot;</span></span>
+<span class="giallo-l"><span>    p</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Path</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;/&quot;</span><span>)</span></span>
+<span class="giallo-l"><span>}</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;">    false</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>In the specific case of <code>--preserve-root</code>, this works because <code>/</code> has no parent directory, so there’s nothing for an attacker to swap from underneath you. In the more general case of comparing two arbitrary paths for filesystem identity, however, you’d want to open both and compare their <code>(dev, inode)</code> pairs, the way GNU coreutils does. (Think identity, not string equality.)</p>
+<p>By the way, my favorite bug in this group is CVE-2026-35363:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="shellscript"><span class="giallo-l"><span style="color: #50FA7B;">rm</span><span style="color: #F1FA8C;"> .</span><span style="color: #6272A4;">    # ❌</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">rm</span><span style="color: #F1FA8C;"> ..</span><span style="color: #6272A4;">   # ❌</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">rm</span><span style="color: #F1FA8C;"> ./</span><span style="color: #6272A4;">   # ✅ </span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">rm</span><span style="color: #F1FA8C;"> .///</span><span style="color: #6272A4;"> # ✅ </span></span></code></pre>
+<p>It refused <code>.</code> and <code>..</code> but happily accepted <code>./</code> and <code>.///</code>, then deleted the current directory while printing <code>Invalid input</code>. 😅</p>
+<h2 id="stay-in-bytes-at-unix-boundaries"><a class="zola-anchor" href="#stay-in-bytes-at-unix-boundaries" aria-label="Anchor link for: stay-in-bytes-at-unix-boundaries">Stay in Bytes at Unix Boundaries</a></h2>
+<p>Rust’s <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/string/struct.String.html"><code>String</code></a> and <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/primitive.str.html"><code>&amp;str</code></a> are always UTF-8.
+That’s a great choice in 99% of all cases, but Unix paths, environment variables, arguments, and the inputs flowing through tools like <code>cut</code>, <code>comm</code>, and <code>tr</code> live in the messy world of bytes.</p>
+<p>Every time a Rust program bridges that gap, it has three options.</p>
+<ol>
+<li>🫩 <strong>Lossy conversion</strong> with <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/string/struct.String.html#method.from_utf8_lossy"><code>from_utf8_lossy</code></a> silently rewrites invalid bytes to U+FFFD. That’s just fancy data corruption.</li>
+<li>🫤 <strong>Strict conversion</strong> with <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap"><code>unwrap</code></a> or <code>?</code> crashes or refuses to operate.</li>
+<li>😚 <strong>Staying in bytes</strong> with <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/ffi/struct.OsStr.html"><code>OsStr</code></a> or <code>&amp;[u8]</code> is what you should usually do.</li>
+</ol>
+<p>The audit found bugs in both of the first two categories. Here’s an example.</p>
+<h3 id="case-study-comm-cve-2026-35346"><a class="zola-anchor" href="#case-study-comm-cve-2026-35346" aria-label="Anchor link for: case-study-comm-cve-2026-35346">Case Study: <code>comm</code> (CVE-2026-35346)</a></h3>
+<p>This is the original code, from <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/uutils/coreutils/pull/10206/files"><code>src/uu/comm/src/comm.rs</code></a>.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// ra, rb are &amp;[u8], raw bytes from the input files.</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">print!</span><span>(</span><span style="color: #F1FA8C;">&quot;{}&quot;</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_utf8_lossy</span><span>(ra));</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">print!</span><span>(</span><span style="color: #F1FA8C;">&quot;{delim}{}&quot;</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_utf8_lossy</span><span>(rb));</span></span></code></pre>
+<p>GNU <code>comm</code> works on binary files because it just shuffles bytes around. The uutils version replaced anything that wasn’t valid UTF-8 with <code>U+FFFD</code>, which silently corrupted the output.</p>
+<p>Here’s the fix: stay in bytes.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> out</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> BufWriter</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(io</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">stdout</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lock</span><span>());</span></span>
+<span class="giallo-l"><span>out</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">write_all</span><span>(ra)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span>out</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">write_all</span><span>(delim)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span>out</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">write_all</span><span>(rb)</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/macro.print.html"><code>print!</code></a> forces a UTF-8 round-trip through <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fmt/trait.Display.html"><code>Display</code></a>. <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/io/trait.Write.html#method.write_all"><code>Write::write_all</code></a> does not.
+It writes the raw bytes directly to <code>stdout</code>.</p>
+<h3 id="rule-pick-the-right-type-for-the-situation"><a class="zola-anchor" href="#rule-pick-the-right-type-for-the-situation" aria-label="Anchor link for: rule-pick-the-right-type-for-the-situation">Rule: Pick the Right Type for the Situation</a></h3>
+<p>For Unix-flavored systems code, use <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/path/struct.Path.html"><code>Path</code></a> and <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/path/struct.PathBuf.html"><code>PathBuf</code></a> for filesystem paths, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/ffi/struct.OsString.html"><code>OsString</code></a> for environment variables, and <code>Vec&lt;u8&gt;</code> or <code>&amp;[u8]</code> for stream contents. It’s tempting to round-trip them through <code>String</code> for easier formatting, but that’s where the corruption creeps in.</p>
+<p>UTF-8 is a great default for application strings, but it’s absolutely, positively the wrong default for the raw byte stuff Unix tools work with.</p>
+<h2 id="treat-every-panic-as-a-denial-of-service"><a class="zola-anchor" href="#treat-every-panic-as-a-denial-of-service" aria-label="Anchor link for: treat-every-panic-as-a-denial-of-service">Treat Every <code>panic!</code> as a Denial of Service</a></h2>
+<p>In a CLI, every <code>unwrap</code>, every <code>expect</code>, every slice index, every unchecked arithmetic operation, every <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/str/fn.from_utf8.html"><code>from_utf8</code></a> is a potential denial of service if an attacker can shape the input.
+That’s because a <code>panic!</code> unwinds the stack and aborts the process. If your tool is running in a cron job, a CI pipeline, or a shell script, that means the whole thing just stops working. Even worse, you could find yourself in a crash loop that paralyzes the entire system.</p>
+<p>A canonical case from the audit was <code>sort --files0-from</code> (<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://ubuntu.com/security/CVE-2026-35348">CVE-2026-35348</a>). The flag reads a NUL-separated list of filenames from a file, but the parser called <code>expect()</code> on a UTF-8 conversion of each name:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// Inside sort.rs, simplified</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> path</span><span style="color: #FF79C6;"> =</span><span> std</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_utf8</span><span>(bytes)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">expect</span><span>(</span><span style="color: #F1FA8C;">&quot;Could not parse string from zero terminated input.&quot;</span><span>);</span></span></code></pre>
+<p>GNU <code>sort</code> treats filenames as raw bytes, the way the kernel does. The uutils version required UTF-8 and aborted the whole process on the first non-UTF-8 path:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="plain"><span class="giallo-l"><span>$ python3 -c &quot;open(&#39;list0&#39;,&#39;wb&#39;).write(b&#39;weird\xffname\0&#39;)&quot;</span></span>
+<span class="giallo-l"><span>$ coreutils sort --files0-from=list0</span></span>
+<span class="giallo-l"><span>thread &#39;main&#39; panicked at uu_sort-0.2.2/src/sort.rs:1076:18:</span></span>
+<span class="giallo-l"><span>Could not parse string from zero terminated input.: Utf8Error { valid_up_to: 5, error_len: Some(1) }</span></span>
+<span class="giallo-l"><span>note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</span></span></code></pre>
+<p>(I reproduced this against <code>coreutils 0.2.2</code> on macOS. The Python one-liner is there because most modern shells refuse to create a non-UTF-8 filename for you.)</p>
+<p>Your nightly cron job is dead and there goes your weekend.</p>
+<h3 id="rule-turn-bad-input-into-errors-not-panics"><a class="zola-anchor" href="#rule-turn-bad-input-into-errors-not-panics" aria-label="Anchor link for: rule-turn-bad-input-into-errors-not-panics">Rule: Turn Bad Input Into Errors, Not Panics</a></h3>
+<p>In code that processes untrusted input, treat every <code>unwrap</code>, <code>expect</code>, indexing, or <code>as</code> cast as a CVE waiting to be filed. Use <code>?</code>, <code>get</code>, <code>checked_*</code>, <code>try_from</code>, and surface a real error. Push back on the boundary of your application and let the caller deal with the fallout.</p>
+<p>A good lint baseline to catch this in CI:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="toml"><span class="giallo-l"><span style="color: #FF79C6;">[</span><span style="color: #8BE9FD;">lints</span><span style="color: #FF79C6;">.</span><span style="color: #8BE9FD;">clippy</span><span style="color: #FF79C6;">]</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;">unwrap_used</span><span style="color: #FF79C6;">      =</span><span style="color: #E9F284;"> &quot;</span><span style="color: #F1FA8C;">warn</span><span style="color: #E9F284;">&quot;</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;">expect_used</span><span style="color: #FF79C6;">      =</span><span style="color: #E9F284;"> &quot;</span><span style="color: #F1FA8C;">warn</span><span style="color: #E9F284;">&quot;</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;">panic</span><span style="color: #FF79C6;">            =</span><span style="color: #E9F284;"> &quot;</span><span style="color: #F1FA8C;">warn</span><span style="color: #E9F284;">&quot;</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;">indexing_slicing</span><span style="color: #FF79C6;"> =</span><span style="color: #E9F284;"> &quot;</span><span style="color: #F1FA8C;">warn</span><span style="color: #E9F284;">&quot;</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;">arithmetic_side_effects</span><span style="color: #FF79C6;"> =</span><span style="color: #E9F284;"> &quot;</span><span style="color: #F1FA8C;">warn</span><span style="color: #E9F284;">&quot;</span></span></code></pre>
+<p>These are noisy in test code where panicking on bad data is exactly what you want. The cleanest way to scope them to non-test code is to put <code>#![cfg_attr(test, allow(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::indexing_slicing, clippy::arithmetic_side_effects))]</code> at the top of each crate root, or to gate <code>#[allow(...)]</code> on the individual <code>#[cfg(test)]</code> modules.</p>
+<h2 id="propagate-errors-don-t-discard-them"><a class="zola-anchor" href="#propagate-errors-don-t-discard-them" aria-label="Anchor link for: propagate-errors-don-t-discard-them">Propagate Errors, Don’t Discard Them</a></h2>
+<p>Closely related to the previous point, a few CVEs come from ignoring or losing error information.</p>
+<p><code>chmod -R</code> and <code>chown -R</code> returned the exit code of the <em>last</em> file processed instead of the worst one. So <code>chmod -R 600 /etc/secrets/*</code> could fail on half the files and still exit <code>0</code>. Your script thinks everything is fine.</p>
+<p><code>dd</code> called <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/result/enum.Result.html#method.ok"><code>Result::ok()</code></a> on its <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/struct.File.html#method.set_len"><code>set_len()</code></a> call to mimic GNU’s behavior on <code>/dev/null</code>. The intent was reasonable, but that same code ran for regular files too, so a full disk silently produced a half-written destination.</p>
+<p>The reason was that someone wanted to throw away a <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/result/enum.Result.html"><code>Result</code></a> and reached for <code>.ok()</code>, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap_or_default"><code>.unwrap_or_default()</code></a>, or <code>let _ =</code>.</p>
+<h3 id="rule-don-t-throw-away-meaningful-error-information"><a class="zola-anchor" href="#rule-don-t-throw-away-meaningful-error-information" aria-label="Anchor link for: rule-don-t-throw-away-meaningful-error-information">Rule: Don’t Throw Away Meaningful Error Information</a></h3>
+<p>Here’s a very simple pattern to avoid that:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// Don&#39;t bail on the first error, but remember the worst one.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> worst</span><span style="color: #FF79C6;"> =</span><span style="color: #BD93F9;"> 0</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">for</span><span> file</span><span style="color: #FF79C6;"> in</span><span> files {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if let</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(e)</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> chmod_one</span><span>(file) {</span></span>
+<span class="giallo-l"><span>        worst</span><span style="color: #FF79C6;"> =</span><span> worst</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">max</span><span>(e</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">exit_code</span><span>());</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"><span>process</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">exit</span><span>(worst);</span></span></code></pre>
+<p>Also, if you write <code>.ok()</code> to discard a <code>Result</code>, leave a comment that explains <em>why</em> this specific failure is safe to ignore.</p>
+<h2 id="match-the-original-tool-s-behavior-exactly"><a class="zola-anchor" href="#match-the-original-tool-s-behavior-exactly" aria-label="Anchor link for: match-the-original-tool-s-behavior-exactly">Match the Original Tool’s Behavior Exactly</a></h2>
+<p>A surprising number of these CVEs aren’t “the code does something unsafe” but “the code does something <em>different</em> from GNU, and a shell script somewhere relied on the GNU behavior.”</p>
+<p>The clearest example is <code>kill -1</code> (CVE-2026-35369). GNU reads <code>-1</code> as “signal 1” and asks for a PID. uutils read it as “send the default signal to PID -1”, which on Linux means <em>every process you can see</em>. Yikes!</p>
+<p>A typo becomes a system-wide kill switch.</p>
+<h3 id="rule-bug-for-bug-compatibility-is-a-safety-feature"><a class="zola-anchor" href="#rule-bug-for-bug-compatibility-is-a-safety-feature" aria-label="Anchor link for: rule-bug-for-bug-compatibility-is-a-safety-feature">Rule: Bug-for-Bug Compatibility Is A Safety Feature</a></h3>
+<p>If you reimplement a battle-tested tool, bug-for-bug compatibility on exit codes, error messages, edge cases, and option semantics is a security feature. (Hello, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.hyrumslaw.com/">Hyrum’s Law</a> – and obligatory <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://xkcd.com/1172/">XKCD 1172</a>!)</p>
+<p>Anywhere your behavior diverges from the original, somebody’s shell script is making a wrong decision.</p>
+<p>uutils now runs the upstream GNU coreutils test suite against itself in CI. That’s the right scale of defense for this class of bug.</p>
+<h2 id="resolve-inputs-before-crossing-a-trust-boundary"><a class="zola-anchor" href="#resolve-inputs-before-crossing-a-trust-boundary" aria-label="Anchor link for: resolve-inputs-before-crossing-a-trust-boundary">Resolve Inputs Before Crossing a Trust Boundary</a></h2>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://ubuntu.com/security/CVE-2026-35368">CVE-2026-35368</a> is the worst single bug in the audit. It’s local root code execution in <code>chroot</code>. The bug is visible if you know what to look for (a <code>chroot</code> followed by a function call that loads a dynamic library), but it’s the kind of thing that doesn’t jump out on a first read.</p>
+<p>Here’s the pattern, simplified from the <code>chroot</code> utility.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #50FA7B;">chroot</span><span>(new_root)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Still uid 0, but now inside the attacker-controlled filesystem.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> user</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> get_user_by_name</span><span>(name)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">setgid</span><span>(user</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">gid</span><span>())</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">setuid</span><span>(user</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">uid</span><span>())</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">exec</span><span>(cmd)</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre>
+<p>Huh. Looks innocent.</p>
+<p>The trap is that <code>get_user_by_name</code> ends up loading shared libraries from the <em>new</em> root filesystem to resolve the username. An attacker who can plant a file in the chroot gets to run code as uid 0.</p>
+<p>GNU <code>chroot</code> resolves the user <em>before</em> calling <code>chroot</code>. Same fix here.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> user</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> get_user_by_name</span><span>(name)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #50FA7B;">chroot</span><span>(new_root)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">setgid</span><span>(user</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">gid</span><span>())</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">setuid</span><span>(user</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">uid</span><span>())</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">exec</span><span>(cmd)</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre><h3 id="rule-resolve-before-you-cross"><a class="zola-anchor" href="#rule-resolve-before-you-cross" aria-label="Anchor link for: rule-resolve-before-you-cross">Rule: Resolve Before You Cross</a></h3>
+<p>Once you’re across, every library call might run the attacker’s code. And no, static compilation doesn’t help here, because <code>get_user_by_name</code> goes through NSS, which <code>dlopen</code>s <code>libnss_*</code> modules at runtime regardless of whether your binary is statically linked.</p>
+<h2 id="what-rust-did-prevent"><a class="zola-anchor" href="#what-rust-did-prevent" aria-label="Anchor link for: what-rust-did-prevent">What Rust <em>Did</em> Prevent</a></h2>
+<p>You might have made it this far and thought “Wow, that’s a lot of bugs! Maybe Rust isn’t as safe as I thought?”</p>
+<p>That would be the wrong conclusion.</p>
+<p>Keep in mind that none of the following bad things happened:</p>
+<ul>
+<li>No buffer overflows.</li>
+<li>No use-after-free.</li>
+<li>No double-free.</li>
+<li>No data races on shared mutable state.</li>
+<li>No null-pointer dereferences.</li>
+<li>No uninitialized memory reads.</li>
+</ul>
+<p>That means, even if the tools were (and probably still are) buggy, they never had a bug that could be exploited to read arbitrary memory.</p>
+<p>GNU coreutils has shipped CVEs in every single one of those categories. Take a peek at the last few years of the GNU <code>NEWS</code> file:</p>
+<ul>
+<li><code>pwd</code> buffer overflow on deep paths longer than <code>2 * PATH_MAX</code> (9.11, 2026)</li>
+<li><code>numfmt</code> out-of-bounds read on trailing blanks (9.9, 2025)</li>
+<li><code>unexpand --tabs</code> heap buffer overflow (9.9, 2025)</li>
+<li><code>od --strings -N</code> writes a NUL byte past a heap buffer (9.8, 2025)</li>
+<li><code>sort</code> 1-byte read before a heap buffer with a <code>SIZE_MAX</code> key offset (9.8, 2025)</li>
+<li><code>ls -Z</code> and <code>ls -l</code> crashes with SELinux but no xattr support (9.7, 2025)</li>
+<li><code>split --line-bytes</code> heap overwrite (<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://nvd.nist.gov/vuln/detail/CVE-2024-0684">CVE-2024-0684</a>, 9.5, 2024)</li>
+<li><code>b2sum --check</code> reads unallocated memory on malformed input (9.4, 2023)</li>
+<li><code>tail -f</code> stack buffer overrun with many files and a high <code>ulimit -n</code> (9.0, 2021)</li>
+</ul>
+<p>…the list goes on and on. The Rust rewrite has shipped zero of these, over a comparable window of activity.<sup class="footnote-reference" id="fr-rewrite-caveat-1"><a href="#fn-rewrite-caveat">1</a></sup> That’s <em>most</em> of what historically goes wrong in a C codebase.</p>
+<p>What’s left is, frankly, a more interesting class of bug. It lives at the boundary between our controlled Rust environment and the messy, chaotic outside world, where paths, bytes, strings, and syscalls are all tangled up in one eternal ball of sadness.
+That’s the new security boundary of modern systems code.<sup class="footnote-reference" id="fr-c-handles-1"><a href="#fn-c-handles">2</a></sup></p>
+<p>If you write systems code in Rust, treat this CVE list as a checklist. Grep your own codebase for <code>from_utf8_lossy</code>, stray <code>unwrap()</code> calls, discarded <code>Result</code>s, <code>File::create</code>, and string comparisons against <code>"/"</code>.</p>
+<p>I also wrote a companion post, titled <a href="/blog/defensive-programming/">Patterns for Defensive Programming in Rust</a>.</p>
+<h2 id="correct-rust-is-idiomatic-rust"><a class="zola-anchor" href="#correct-rust-is-idiomatic-rust" aria-label="Anchor link for: correct-rust-is-idiomatic-rust">Correct Rust Is Idiomatic Rust</a></h2>
+<p>When I think of “<a href="/blog/idiomatic-rust-resources/">idiomatic Rust</a>”, correctness is not the first thing that comes to mind.
+After all, isn’t that the compiler’s job?
+Instead, I think of elegant <a href="/blog/iterators/">iterator patterns</a>, ergonomic method signatures, <a href="/blog/immutability/">immutability</a>, or clever use of <a href="/blog/expressions/">expressions</a>.
+But none of that matters if the code doesn’t do the right thing, and the compiler is far from perfect at enforcing correctness.
+That’s why we don’t only have idioms for writing more elegant code; we also have idioms for writing correct code.
+They are the distilled experience of a community that has learned, often painfully, which shapes of code survive contact with reality and which ones do not.</p>
+<p>Reality is rarely as tidy as the abstractions we would like to impose on it. The mark of robust systems, in any language, is the willingness to reflect that untidiness rather than paper over it. Rust gives us extraordinary tools to do so, and the compiler will hold a great deal for us. But the part it cannot hold, the boundary between our program and everything else, is still ours to get right.
+The type system can encode many things, but it cannot encode conditions outside of its control, such as the passage of time between two syscalls.</p>
+<p>Idiomatic Rust, then, is not just code that the borrow checker accepts or that <code>clippy</code> leaves alone. It is code whose types, names, and control flow tell the <em>truth</em> about the system they run in. And that truth is sometimes ugly. It could mean using file descriptors instead of paths, <code>OsStr</code> instead of <code>String</code>, <a href="/blog/pitfalls-of-safe-rust/"><code>?</code> instead of <code>unwrap</code></a>, and bug-for-bug compatibility over clean semantics. None of it is as pretty as the version you would write on a whiteboard. But it is more honest.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Need Help Hardening Your Rust Codebase?</p>
+</h4>
+  </div>
+  
+  <p>Is your team shipping Rust into production and want to make sure you’re not falling into the same traps?
+I offer Rust consulting services, from code reviews and security-focused audits to training your team on the patterns that the compiler won’t enforce for you.
+<a href="/#contact">Get in touch</a> to learn more.</p>
+
+</div>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-rewrite-caveat">
+<p>To be fair to GNU: GNU coreutils is 40 years old and has had a very long time to surface and fix this class of bug. And we don’t <em>know</em> there are no memory-safety bugs in the Rust rewrite, only that the audit didn’t find any. Still, the difference is noticeable when comparing the same duration of development activity. <a href="#fr-rewrite-caveat-1">↩</a></p>
+</li>
+<li id="fn-c-handles">
+<p>It’s worth noting that the <code>Path</code>/<code>PathBuf</code> TOCTOU class of bug is in some ways <em>easier</em> to avoid in C than in Rust. C code naturally reaches for an open file descriptor and the <code>*at</code> family of syscalls (<code>openat</code>, <code>fstatat</code>, <code>unlinkat</code>, <code>mkdirat</code>), and most creation syscalls take a <code>mode</code> argument directly. Rust’s high-level <code>std::fs</code> APIs abstract over the file descriptor and operate on <code>&amp;Path</code> values, which makes the path-based, re-resolving call the path of least resistance. The handle-based APIs exist on every Unix platform; Rust just doesn’t put them front and center. <a href="#fr-c-handles-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+  </div>
+
+  <div class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773">An update on rust-coreutils</a>: Canonical’s announcement of the audit results</p>
+</li>
+        
+        <li><p><a href="/blog/defensive-programming/">Patterns for Defensive Programming in Rust</a>: companion post on writing more robust Rust code</p>
+</li>
+        
+        <li><p><a href="/blog/pitfalls-of-safe-rust/">Pitfalls of Safe Rust</a>: common mistakes even safe Rust code can make</p>
+</li>
+        
+        <li><p><a href="/blog/sharp-edges-in-rust-std/">Sharp Edges In The Rust Standard Library</a>: surprising behaviors in <code>std</code></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/uutils/coreutils">uutils/coreutils on GitHub</a>: the Rust reimplementation of GNU coreutils</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;bugs-rust-wont-catch&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;bugs-rust-wont-catch&#x2F;&title=Bugs Rust Won&#x27;t Catch"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;bugs-rust-wont-catch&#x2F;&t=Bugs Rust Won&#x27;t Catch"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2026-04-29">
+            Published: 2026-04-29
+        </time>
+    </div>
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog&#x2F;bugs-rust-wont-catch&#x2F;"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout">
+    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit">
+                <span id="newsletter-button-text">Subscribe</span>
+                <span
+                    id="newsletter-spinner"
+                    class="newsletter-spinner"
+                    style="display: none"
+                    aria-hidden="true"
+                ></span>
+                <span id="newsletter-button-loading" style="display: none">
+                    Subscribing…
+                </span>
+            </button>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
+
+<style>
+    @keyframes newsletter-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+    .newsletter-spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-right: 8px;
+        vertical-align: -2px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: newsletter-spin 0.8s linear infinite;
+    }
+</style>
+
+<script>
+    (function () {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const status = document.getElementById("newsletter-status");
+        const submitBtn = document.getElementById("newsletter-submit");
+        const buttonText = document.getElementById("newsletter-button-text");
+        const buttonLoading = document.getElementById(
+            "newsletter-button-loading",
+        );
+        const spinner = document.getElementById("newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "🎉 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </div>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/services/">Consulting</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/quote/">Business Inquiries</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li><a href="/blog/idiomatic-rust-resources/">Learning Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Migration Guides</h3>
+                <ul class="footer-links">
+                    <li><a href="/learn/migration-guides/python-to-rust/">Python</a></li>
+                    <li><a href="/learn/migration-guides/typescript-to-rust/">TypeScript</a></li>
+                    <li><a href="/learn/migration-guides/java-to-rust/">Java</a></li>
+                    <li><a href="/learn/migration-guides/scala-to-rust/">Scala</a></li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li><a href="https://www.linkedin.com/company/corrode/">LinkedIn</a></li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
