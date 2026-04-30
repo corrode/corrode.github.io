@@ -25,7 +25,7 @@ exclude = [
     "shahbhargav.medium.com",
 
     # Newsletter subscribe endpoint (POST-only, returns 405 to GET requests from lychee)
-    "corrode-newsletter.fly.dev",
+    "newsletter.corrode.dev",
 
     # Sites that occasionally rate-limit or block crawlers
     "rustjobs.dev",

@@ -271,11 +271,17 @@ article .subheading a {
     color: $brightBgrd;
     margin-top: 0;
 }
-#subscription-section p {
+#newsletter-subscription p,
+#newsletter-subscription p b {
     color: white;
 }
-#subscription-section p b {
-    color: white;
+
+.newsletter-success {
+    margin: 0;
+    font-size: 1.05em;
+    font-weight: 600;
+    line-height: 1.5;
+    color: $brightBgrd;
 }
 
 .newsletter-callout ul {
