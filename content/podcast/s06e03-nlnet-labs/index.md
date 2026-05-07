@@ -11,7 +11,7 @@ episode = "03"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-d2dce55d" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/nlnet-labs-with-arya-khanna-and-martin-hoffmann/player.js?size=l"></script></div>
+<div><script id="letscast-player-d2dce55d" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/nlnet-labs-with-arya-khanna-and-martin-hoffmann/player.js?size=s"></script></div>
 
 Every time you load a website, send an email, or update an app, you're quietly relying on a handful of unglamorous services that route your packets to the right place: DNS to translate names into addresses, and BGP to figure out how to actually get there. When these systems break, or get attacked, the Internet doesn't just slow down but stops working.
 
