@@ -13,11 +13,11 @@ series = "Podcast"
 
 <div><script id="letscast-player-s06e03" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/nlnet-labs/player.js?size=s"></script></div>
 
-Every time you load a website, send an email, or update an app, you're quietly relying on a handful of unglamorous services that route your packets to the right place: DNS to translate names into addresses, and BGP to figure out how to actually get there. When these systems break, or get attacked, the Internet doesn't just slow down. It stops working.
+Every time you load a website, send an email, or update an app, you're quietly relying on a handful of unglamorous services that route your packets to the right place: DNS to translate names into addresses, and BGP to figure out how to actually get there. When these systems break, or get attacked, the Internet doesn't just slow down but stops working.
 
-For more than 25 years, NLnet Labs has been one of the small, non-profit teams keeping that core infrastructure running. Their software, including the DNS servers NSD and Unbound, the RPKI tools Krill and Routinator, and the new DNSSEC signer Cascade, is deployed everywhere from hobbyist Pi-Hole setups to Let's Encrypt and major Internet operators. And increasingly, it's written in Rust.
+For more than 25 years, NLnet Labs has been one of the small, non-profit teams keeping that core infrastructure running. Their software, including the DNS servers NSD and Unbound, the RPKI tools Krill and Routinator, and the new DNSSEC signer Cascade, is deployed everywhere from hobbyist Pi-Hole setups to Let's Encrypt and major Internet operators. And increasingly, it's written in Rust!
 
-In this episode, I talk to Arya Khanna and Martin Hoffmann from NLnet Labs about what it takes to maintain critical Internet infrastructure as a small team, why they bet on Rust for new projects like the `domain` crate and Cascade, how they think about long-term maintenance and supply chain security in a non-profit context, and what the rest of us can learn from a codebase whose users include the people who keep your routes flowing.
+In this episode, I talk to Arya Khanna and Martin Hoffmann from NLnet Labs about what it takes to maintain critical Internet infrastructure as a small team, why they bet on Rust for new projects like the `domain` crate and Cascade and what the rest of us can learn from a codebase whose users include the people who keep your routes flowing.
 
 {{ codecrafters() }}
 
