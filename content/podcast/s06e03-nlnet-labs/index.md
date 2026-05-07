@@ -30,8 +30,8 @@ NLnet Labs is a non-profit foundation based in Amsterdam that develops open sour
 
 ### Links From The Episode
 
-- [NSD](https://nlnetlabs.nl/projects/nsd/about/) - NLNet Labs first project
-- [Lychee](https://github.com/lycheeverse/lychee) - A link-checker that receives funding from NLNet, not NLNet labs
+- [NSD](https://nlnetlabs.nl/projects/nsd/about/) - NLNet Labs' first project
+- [lychee](https://github.com/lycheeverse/lychee) - A link-checker that receives funding from NLNet (not NLNet labs!)
 - [unbound](https://nlnetlabs.nl/projects/unbound/about/) - A DNS server like BIND, but only for recursive queries
 - [Cascade](https://nlnetlabs.nl/news/2025/Oct/07/cascade-0.1.0-released/) - The new DNSSEC signing solution from NLNet Labs
 - [Pi-Hole](https://pi-hole.net/) - A small usecase for unbound
@@ -42,9 +42,9 @@ NLnet Labs is a non-profit foundation based in Amsterdam that develops open sour
 - [domain](https://nlnetlabs.nl/projects/domain/about/) - The new collection of DNS functions, written in Rust
 - [tokio](https://tokio.rs/) - The biggest shared dependency across the Rust ecosystem, first announced in 2017
 - [Rust in Production: Helsing with Jon Gjengset](https://corrode.dev/podcast/s06e02-helsing/) - You _can_ take generics too far
-- [bytes](https://github.com/tokio-rs/bytes) - Tokio's ARC of bytes
+- [bytes](https://github.com/tokio-rs/bytes) - Tokio's `Arc` of bytes
 - [Arc Welding](https://en.wikipedia.org/wiki/Arc_welding) - The other type of "fixing"
-- [Alejandra GonzÃ¡lez' crate dependency analysis](https://tech.lgbt/@blyxyas/116252699616176134) - 46% of published crates depend directly on tokio
+- [Alejandra González' crate dependency analysis](https://tech.lgbt/@blyxyas/116252699616176134) - 46% of published crates depend directly on tokio
 - [RPKI](https://en.wikipedia.org/wiki/Resource_Public_Key_Infrastructure) - Signing and validating IPs and routing information
 - [Routinator](https://nlnetlabs.nl/projects/routing/routinator/) - A RPKI validator, one of the first Rust applications in production
 - [hyper](https://hyper.rs/) - The ubiquitous HTTP crate
