@@ -1,7 +1,7 @@
 +++
 title = "The State of Async Rust: Runtimes"
 date = 2024-02-21
-updated = 2025-03-28
+updated = 2026-05-09
 draft = false
 template = "article.html"
 [extra]
@@ -404,10 +404,8 @@ channel:
 ```rust
 use std::error::Error;
 use std::fs;
-use std::io::Read;
-use std::path::Path;
-use std::{thread, time};
 use std::sync::mpsc;
+use std::thread;
 
 fn main() {
     let (tx, rx) = mpsc::channel::<String>();
@@ -416,12 +414,17 @@ fn main() {
 
     thread::scope(|scope| {
         for file in files {
-            scope.spawn(move || {
-                let contents = fs::read_to_string(file);
-                // ...
+            let tx = tx.clone();
+            scope.spawn(move || -> Result<(), Box<dyn Error + Send + Sync>> {
+                let contents = fs::read_to_string(file)?;
+                tx.send(contents)?;
+                Ok(())
             });
         }
     });
+
+    // Drop the original sender so the `rx` loop knows when to stop
+    drop(tx);
 
     // Receive messages from the channel
     for received in rx {
@@ -430,7 +433,7 @@ fn main() {
 }
 ```
 
-([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=5b7fa587cf1796089ce7bb374539229e))
+([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=6f134711236a897f8d5b53cd5798fe37))
 
 
 ## Common Prejudice Against Threads
