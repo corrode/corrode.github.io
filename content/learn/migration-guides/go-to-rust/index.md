@@ -20,20 +20,35 @@ That's also where most teams considering Rust are coming from when they reach ou
 If you're writing CLI tools, embedded firmware, or game engines, some of this still applies, but the framing assumes you're shipping HTTP or gRPC services in production.
 
 I've written about Go and Rust before: ["Go vs Rust? Choose Go."](https://endler.dev/2017/go-vs-rust/) back in 2017, and later the ["Rust vs Go: A Hands-On Comparison"](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison) with the Shuttle team, which walks through a small backend service in both languages.
-The [Lobste.rs discussion](https://lobste.rs/s/g44oeq/rust_vs_go_hands_on_comparison) under the Shuttle article is also worth reading; several points there made it into this guide.
 
-Out of all the migrations I help teams with, **Go to Rust is the most interesting** one.
+Out of all the migrations I help teams with, Go to Rust is an interesting one.
 It's not a question of "is Rust faster?" or "does Rust have types?", Go already gets you most of the way there.
-The interesting questions are about *correctness guarantees*, *runtime tradeoffs*, and *what kind of bugs you want the compiler to catch for you*.
+The interesting questions are about **correctness guarantees**, **runtime tradeoffs**, and **developer ergonomics**.
 
-I'll be upfront: I'm not a fan of Go. I think it's a *bad* language, even if a very successful one. It confuses [*easiness* with *simplicity*](https://www.youtube.com/watch?v=SxdOUGdseq4), and several of its core design tradeoffs (`nil` everywhere, error handling as a discipline rule rather than a type, the long absence of generics) point in a direction I disagree with.
-That said, success matters. Go has captured a real and persistent share of working developers, hovering around 17–19% in the JetBrains Developer Ecosystem Survey for years now. Rust is growing steadily but is still a smaller slice:
+{% info(title="Is Rust the right choice for you?") %}
+
+In this article, you'll learn:
+
+- Where Go and Rust overlap, and where they diverge
+- How Go patterns map to Rust
+- What you gain from the borrow checker
+- Where I tell people to keep Go and where Rust is worth the migration cost 
+- How to migrate Go services incrementally
+
+{% end %}
+
+## Where I'm Coming From 
+
+I'll be upfront: I'm not a fan of Go. I think it's a *badly designed* language, even if a very successful one. It confuses [*easiness* with *simplicity*](https://www.youtube.com/watch?v=SxdOUGdseq4), and several of its core design tradeoffs (`nil` everywhere, error handling as a discipline rule rather than a type, the long absence of generics) point in a direction I disagree with.
+That said, success matters! Go has captured a real and persistent share of working developers, hovering around 17–19% in the JetBrains Developer Ecosystem Survey. Rust is growing steadily but is still a smaller slice:
 
 ![Go and Rust usage among developers, 2017–2024. Go holds steady around 17–19%; Rust has grown from 2% to 11%.](go-usage.svg)
 
-Go is clearly working for a lot of people, and a guide that pretends otherwise isn't useful. So I'll do my best to be objective in this guide rather than relitigate old arguments. But you should know my priors so you can calibrate.
+Go is clearly working for a lot of people, and a guide that pretends otherwise isn't helpful.
+So I'll do my best to be objective in this guide rather than relitigate old arguments. But you should know my priors so you can calibrate.
 
-The other prior worth disclosing: I run a Rust consultancy. Of course I'm biased. But I've also worked in both languages professionally and shipped Go services to production, so this isn't a comparison written from the outside looking in. The criticisms below come from places where Go bit me or my clients in real systems, not from blog posts.
+The other prior worth disclosing: I run a Rust consultancy; of course I'm biased.
+But I've also worked in both languages professionally and shipped Go services to production.
 
 The cracks I keep seeing in production Go code are: `nil` panics, half-broken `context.Context` plumbing, races that `-race` didn't catch in CI, error-handling boilerplate that hides the actual logic, and the long tail of "we need generics here but the patterns are still settling."
 Rust addresses many of these head-on, at the cost of a steeper learning curve and a more demanding compiler.
@@ -42,19 +57,8 @@ This guide is for Go developers who want an honest, side-by-side look at what ch
 
 If you prefer to watch rather than read, here's a side-by-side video where I write a small concurrent program (finding duplicate words in text files) in both Go and Rust:
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 1.5em 0;">
-  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/dSoP7EF2YJ4" title="Finding duplicate words: Go vs Rust" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+{{ yt(id="dSoP7EF2YJ4", title="Finding duplicate words: Go vs Rust") }}
 
-## Is Rust the right choice for you?
-
-In this article, you'll learn:
-
-- Where Go and Rust overlap, and where they genuinely diverge
-- How everyday Go patterns map to Rust (errors, interfaces, goroutines, `context`)
-- What you gain from the borrow checker that `-race` doesn't give you
-- Where to keep Go and where Rust pays off
-- Practical strategies for migrating a Go service incrementally
 
 ## A First Look At The Most Important Commands
 
