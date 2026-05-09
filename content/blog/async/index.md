@@ -324,33 +324,30 @@ We can call this function inside the new [scoped
 threads](https://doc.rust-lang.org/std/thread/fn.scope.html):
 
 ```rust
-use std::error::Error;
 use std::fs;
-use std::io::Read;
-use std::path::Path;
-use std::{thread, time};
+use std::thread;
 
 fn main() {
     thread::scope(|scope| {
         // worker thread 1
         scope.spawn(|| {
-            let contents = fs::read_to_string("foo.txt");
+            let _contents = fs::read_to_string("foo.txt");
             // do something with contents
         });
 
         // worker thread 2
         scope.spawn(|| {
-            let contents = fs::read_to_string("bar.txt");
+            let _contents = fs::read_to_string("bar.txt");
             // ...
         });
 
         // worker thread 3
         scope.spawn(|| {
-            let contents = fs::read_to_string("baz.txt");
+            let _contents = fs::read_to_string("baz.txt");
             // ...
         });
     });
-    
+
     // No join; threads get joined
     // automatically once the scope ends
 }
@@ -361,12 +358,15 @@ fn main() {
 Or, perhaps more aptly,
 
 ```rust
+use std::fs;
+use std::thread;
+
 fn main() {
     let files = ["foo.txt", "bar.txt", "baz.txt"];
     thread::scope(|scope| {
         for file in files {
             scope.spawn(move || {
-                let contents = fs::read_to_string(file);
+                let _contents = fs::read_to_string(file);
                 // ...
             });
         }
