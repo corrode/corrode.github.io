@@ -32,6 +32,9 @@ That said, success matters. Go has captured a real and persistent share of worki
 ![Go and Rust usage among developers, 2017–2024. Go holds steady around 17–19%; Rust has grown from 2% to 11%.](go-usage.svg)
 
 Go is clearly working for a lot of people, and a guide that pretends otherwise isn't useful. So I'll do my best to be objective in this guide rather than relitigate old arguments. But you should know my priors so you can calibrate.
+
+The other prior worth disclosing: I run a Rust consultancy. Of course I'm biased. But I've also worked in both languages professionally and shipped Go services to production, so this isn't a comparison written from the outside looking in. The criticisms below come from places where Go bit me or my clients in real systems, not from blog posts.
+
 The cracks I keep seeing in production Go code are: `nil` panics, half-broken `context.Context` plumbing, races that `-race` didn't catch in CI, error-handling boilerplate that hides the actual logic, and the long tail of "we need generics here but the patterns are still settling."
 Rust addresses many of these head-on, at the cost of a steeper learning curve and a more demanding compiler.
 
