@@ -55,6 +55,8 @@ Rust addresses many of these head-on, at the cost of a steeper learning curve an
 
 This guide is for Go developers who want an honest, side-by-side look at what changes when you move to Rust.
 
+For a deliberately opposite take, I recommend reading ["Just Fucking Use Go"](https://blainsmith.com/articles/just-fucking-use-go/) by Blain Smith. Holding both views in your head at once is more useful than either one alone.
+
 If you prefer to watch rather than read, here's a side-by-side video where I write a small concurrent program (finding duplicate words in text files) in both Go and Rust:
 
 {{ yt(id="dSoP7EF2YJ4", title="Finding duplicate words: Go vs Rust") }}
@@ -461,6 +463,76 @@ fn greet(name: &str) -> String {
 ```
 
 This is mostly painless once you internalize it. The `&str` vs `String` split is a microcosm of Rust's broader "borrow vs own" model.
+
+## Go Generics Are Too Little, Too Late
+
+Go got generics in 1.18 (March 2022), thirteen years after the language shipped.
+They are useful, but they feel tacked on, and in practice they have most of the *downsides* of a generic type system without delivering the *upsides* you'd expect coming from Rust, Haskell, or even modern C++.
+
+This is a strong claim, so let me back it up.
+
+### The Standard Library Barely Uses Them
+
+The most telling signal: three years after generics landed, Go's own standard library still mostly avoids them.
+`sort.Slice` still takes a `func(i, j int) bool` closure instead of a `cmp.Ordered` constraint.
+`sync.Map` is still typed as `any`/`any`.
+The generic helpers that *do* exist live in a small handful of packages: `slices`, `maps`, `cmp`, and a few entries under `sync`.
+
+Compare that to Rust, where generics permeate the standard library from day one: `Option<T>`, `Result<T, E>`, `Vec<T>`, `HashMap<K, V>`, `Iterator`, `From`/`Into`, `AsRef`, `Borrow`, every collection, every smart pointer.
+You cannot write idiomatic Rust without using generics, because the standard library *is* generic.
+
+In Go, generics are an opt-in feature for library authors who really need them. In Rust, they're the substrate everything else is built on.
+
+### No Trait System, Just Structural Constraints
+
+Rust's generics are tied to traits, which double as the language's mechanism for ad-hoc polymorphism, supertraits, associated types, blanket impls, and coherence.
+
+Go's constraints are just interfaces with an extra `~` operator for type-set membership. There are no:
+
+- **Supertraits / constraint hierarchies.** In Rust you write `trait Ord: Eq + PartialOrd`, and any `T: Ord` automatically satisfies `Eq` and `PartialOrd`. Go has no equivalent; you stack interface embeddings, but the constraint solver doesn't reason about hierarchies the way Rust's trait system does.
+- **Associated types.** Rust's `Iterator` has `type Item;`, so `T::Item` is a first-class thing you can name in bounds. Go's closest equivalent is a second type parameter, which leaks into every signature.
+- **Blanket impls.** In Rust, `impl<T: Display> ToString for T` automatically gives every `Display` type a `to_string()` method. Go has no way to add methods to a type from outside its defining package, generic or not.
+- **Methods with their own type parameters.** This is an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`. In Rust, generic methods on generic types are routine.
+
+The practical consequence: the moment your abstraction needs more than "a function that works for any `T` with these few operations," Go pushes you back to `any` plus type assertions, code generation, or runtime reflection.
+
+### Type Inference Stops at the Function Boundary
+
+Rust uses a Hindley-Milner-style inference engine that propagates type information through entire expressions, including across closures, iterator chains, and `?` operators. You routinely write:
+
+```rust
+let evens: Vec<_> = (0..100).filter(|n| n % 2 == 0).collect();
+```
+
+and the compiler figures out `_` is `i32` from the range, and `Vec<_>` is `Vec<i32>` from the `collect` target.
+
+Go's inference is much shallower. It can usually infer type parameters from function arguments, but it [cannot infer from return-position context](https://go.dev/blog/type-inference), cannot chain inference through generic builders the way Rust does, and frequently forces explicit type arguments at call sites:
+
+```go
+result := slices.Collect[int](iter)  // often required
+```
+
+In Rust this is the exception; in Go it's still common.
+
+### Monomorphization vs GC Shape Stenciling
+
+Rust monomorphizes: every `Vec<i32>` and `Vec<String>` produces specialized machine code with zero runtime dispatch. Go uses [GCShape stenciling with dictionaries](https://go.googlesource.com/proposal/+/refs/heads/master/design/generics-implementation-gcshape.md), where types that share a "GC shape" share the same compiled function and dispatch through a dictionary at runtime.
+
+The result is a compile-time/runtime tradeoff that often surprises people: generic Go code can be measurably *slower* than the equivalent hand-written non-generic version, because every method call on a type parameter goes through an indirection. There's a [well-known PlanetScale post](https://planetscale.com/blog/generics-can-make-your-go-code-slower) showing exactly this.
+
+In Rust, generic code is the *fast* path. Reaching for `dyn Trait` (the equivalent of Go's interface dispatch) is a deliberate choice you make when you want runtime polymorphism.
+
+### They Don't Plaster Over Holes In The Type System
+
+This is the part that bothers me most.
+
+A good generics system *removes* reasons to fall back to escape hatches. In Rust, generics + traits eliminate most of what you'd otherwise need `Box<dyn Any>` or runtime reflection for. The type system gets stronger.
+
+In Go, generics did not remove `any`, did not remove `reflect`, did not remove code generation as the dominant pattern for things like ORMs, decoders, and mocks. `encoding/json` still uses reflection. `database/sql` still uses `any`. `mockgen` still generates code. The places where a real generics system would shine are the same places Go reaches for runtime mechanisms it had before 1.18.
+
+Generics in Go feel additive: a new tool in the box, useful in narrow cases. Generics in Rust feel foundational: remove them and the language collapses.
+
+That's the difference, and it's why generic Go code, in my experience, doesn't read better than the `interface{}`-based code it replaced; it just reads differently, with more punctuation.
 
 ## Popular Go Packages and Their Rust Counterparts
 
