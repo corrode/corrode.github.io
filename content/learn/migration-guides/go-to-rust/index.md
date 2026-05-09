@@ -65,7 +65,7 @@ If you prefer to watch rather than read, here's a side-by-side video where I wri
 ## A First Look At The Most Important Commands
 
 Go developers already have one of the cleanest toolchains in the industry.
-Good news: `cargo` is the same idea, just with even more built-in.
+Good news is that `cargo` is the same idea, just with even more built-in.
 
 | Go tool                      | Rust equivalent             | Notes                                                                  |
 | ---------------------------- | --------------------------- | ---------------------------------------------------------------------- |
@@ -82,7 +82,7 @@ Good news: `cargo` is the same idea, just with even more built-in.
 | `pprof`                      | `cargo flamegraph` / `samply` | CPU profiling                                                        |
 | `govulncheck`                | `cargo audit`               | Vulnerability scanning against an advisory database                    |
 
-The big difference: in Go you typically reach for third-party tools (`golangci-lint`, `mockgen`, `air`, `goreleaser`) to fill gaps.
+The big difference is that in Go you typically reach for third-party tools (`golangci-lint`, `mockgen`, `air`, `goreleaser`) to fill gaps.
 In Rust, the first-party ecosystem covers more out of the box.
 Things that *do* require external crates (e.g. `cargo watch`, `cargo nextest`) install with one command and feel native.
 
@@ -112,7 +112,7 @@ The same is true of `rustfmt`: not everyone likes every detail, but the absence 
 | Learning Curve        | Gentle                                         | Steep                                                  |
 | Ecosystem Size        | ~750k+ modules                                 | 250,000+ crates                                        |
 
-The headline: Go and Rust are both compiled, statically typed, single-binary-deploy languages with strong concurrency stories.
+The headline is that Go and Rust are both compiled, statically typed, single-binary-deploy languages with strong concurrency stories.
 The differences are about **what guarantees you get from the compiler** and **how much control you have over runtime behaviour**.
 
 ## Why Go Developers Consider Rust
@@ -454,7 +454,7 @@ Rust splits this into two types:
 - `String`, owned, heap-allocated, growable. Equivalent to `[]byte` you intend to mutate.
 - `&str`, a borrowed view into someone else's string data. Equivalent to a Go `string` *parameter* most of the time.
 
-Rule of thumb: take `&str` in arguments, return `String` when you produce new data.
+As a rule of thumb, take `&str` in arguments, return `String` when you produce new data.
 
 ```rust
 fn greet(name: &str) -> String {
@@ -473,7 +473,7 @@ This is a strong claim, so let me back it up.
 
 ### The Standard Library Barely Uses Them
 
-The most telling signal: three years after generics landed, Go's own standard library still mostly avoids them.
+The most telling signal is that three years after generics landed, Go's own standard library still mostly avoids them.
 `sort.Slice` still takes a `func(i, j int) bool` closure instead of a `cmp.Ordered` constraint.
 `sync.Map` is still typed as `any`/`any`.
 The generic helpers that *do* exist live in a small handful of packages: `slices`, `maps`, `cmp`, and a few entries under `sync`.
@@ -494,7 +494,7 @@ Go's constraints are just interfaces with an extra `~` operator for type-set mem
 - **Blanket impls.** In Rust, `impl<T: Display> ToString for T` automatically gives every `Display` type a `to_string()` method. Go has no way to add methods to a type from outside its defining package, generic or not.
 - **Methods with their own type parameters.** This is an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`. In Rust, generic methods on generic types are routine.
 
-The practical consequence: the moment your abstraction needs more than "a function that works for any `T` with these few operations," Go pushes you back to `any` plus type assertions, code generation, or runtime reflection.
+The practical consequence is that the moment your abstraction needs more than "a function that works for any `T` with these few operations," Go pushes you back to `any` plus type assertions, code generation, or runtime reflection.
 
 ### Type Inference Stops at the Function Boundary
 
@@ -530,7 +530,7 @@ A good generics system *removes* reasons to fall back to escape hatches. In Rust
 
 In Go, generics did not remove `any`, did not remove `reflect`, did not remove code generation as the dominant pattern for things like ORMs, decoders, and mocks. `encoding/json` still uses reflection. `database/sql` still uses `any`. `mockgen` still generates code. The places where a real generics system would shine are the same places Go reaches for runtime mechanisms it had before 1.18.
 
-Generics in Go feel additive: a new tool in the box, useful in narrow cases. Generics in Rust feel foundational: remove them and the language collapses.
+Generics in Go feel additive, a new tool in the box that's useful in narrow cases. Generics in Rust feel foundational; remove them and the language collapses.
 
 That's the difference, and it's why generic Go code, in my experience, doesn't read better than the `interface{}`-based code it replaced; it just reads differently, with more punctuation.
 
@@ -576,17 +576,17 @@ The patterns that bite Go developers most often:
 3. **Sharing mutable state across goroutines.** What you'd write as `mu sync.Mutex; data map[K]V` becomes `Arc<Mutex<HashMap<K, V>>>`. Slightly more verbose, much more checked.
 4. **Returning references from functions.** [Lifetime annotations](/blog/lifetimes/) show up. They're not as bad as their reputation, but they're new.
 
-The good news: once you internalize borrowing, it stops fighting you.
+The good news is that once you internalize borrowing, it stops fighting you.
 Most experienced Rust developers will tell you the borrow checker became an ally somewhere between weeks 4 and 12.
 The first month is the hardest.
 
 ### Compile Times
 
-Be honest with your team: Rust compile times are a real downgrade from Go's.
+Be honest with your team — Rust compile times are a real downgrade from Go's.
 A clean release build of a medium service can take minutes.
 Incremental builds and `cargo check` are reasonable and compile times have gotten much better over the years, but you'll feel the difference.
 
-Mitigations: use `cargo check` in your edit loop, split into a workspace once it pays off, use `mold` as the linker, and keep proc-macro-heavy crates in their own crate so they only recompile when they change.
+To mitigate, use `cargo check` in your edit loop, split into a workspace once it pays off, use `mold` as the linker, and keep proc-macro-heavy crates in their own crate so they only recompile when they change.
 See [tips for faster Rust compile times](/blog/tips-for-faster-rust-compile-times/) for a deeper dive.
 
 ### Async Coloring
@@ -661,7 +661,7 @@ Based on Go-to-Rust migrations I've helped with:
 - **P99 latency**: significantly more consistent. Rust services tend to flatline where Go services have visible GC-induced jitter.
 - **Production incidents**: this is the one teams report most enthusiastically. The classes of bugs that survive `go test -race` and reach production (data races, nil dereferences, missed error paths) just don't compile in Rust.
 
-The honest summary: you're unlikely to get a 10x throughput improvement going from Go to Rust the way you might from Python.
+Honestly, you're unlikely to get a 10x throughput improvement going from Go to Rust the way you might from Python.
 What you get is **fewer 3 a.m. pages** and **flatter latency tails**, plus the ability to expand into other domains like embedded development or systems programming while still using the same language.
 That's often the most surprising side-effect of a migration: there's a lot of opportunity for code-sharing across teams that previously had to use different stacks. You can use Rust for everything.
 
