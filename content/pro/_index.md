@@ -7,7 +7,7 @@ description = "Master Rust from first principles with personalized mentorship. W
 <div class="pro-hero">
 <div class="pro-hero-content">
 <div class="pro-hero-badge">Personal Rust Mentorship</div>
-<h1 class="pro-hero-title"><span class="highlight">Learn Rust from First Principles</span></h1>
+<h1 class="pro-hero-title"><span class="highlight">Better Rust from First Principles</span></h1>
 <p class="pro-hero-subtitle">
 Spend time programming at the edge of your abilities with expert 1-on-1 coaching. Build deep intuition for Rust without the pressure of arbitrary deadlines.
 </p>
