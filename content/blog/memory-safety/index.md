@@ -176,9 +176,7 @@ I help companies close that gap, typically saving months of trial and error. **[
 
 ## Why Rust, Specifically?
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/AkBnXrKmcvw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+{{ yt(id="AkBnXrKmcvw") }}
 
 If you're a decision-maker, you might reasonably ask: "Why Rust? There are other memory-safe languages."
 
