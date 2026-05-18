@@ -6,11 +6,8 @@ template = "article.html"
 series = "Migration Guides"
 icon = "go.svg"
 resources = [
-  "[Rust vs Go: A Hands-On Comparison (Shuttle)](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison): a longer, code-heavy comparison I wrote with the Shuttle team",
-  "[Go vs Rust? Choose Go. (2017)](https://endler.dev/2017/go-vs-rust/): an earlier post of mine on the same topic",
-  "[Discussion on Lobste.rs](https://lobste.rs/s/g44oeq/rust_vs_go_hands_on_comparison): the comment thread on the Shuttle article, with several points that informed this guide",
-  "[Finding duplicate words: Go vs Rust (YouTube)](https://www.youtube.com/watch?v=dSoP7EF2YJ4): a side-by-side concurrent program in both languages",
   "[JetBrains State of Developer Ecosystem 2024](https://www.jetbrains.com/lp/devecosystem-2024/): source for the Go usage figures cited in this guide",
+  "[Rust vs Go: A Hands-On Comparison (Shuttle)](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison): a longer, code-heavy comparison I wrote with the Shuttle team",
 ]
 +++
 
@@ -22,7 +19,7 @@ A quick disclaimer before we start: this guide is **heavily backend-focused**.
 Backend services are where Go is strongest, small static binaries, a standard library focused on networking, and an ecosystem of libraries for HTTP servers, gRPC, databases, etc.
 
 That's also where most teams considering Rust are coming from (at least the ones who reach out to me), so I think that's the comparison that's actually useful in practice. 
-If you're writing CLI tools, embedded firmware, or game engines, some of this still applies, but to be honest, I I'm afraid this is not the best resource for you. 
+If you're writing CLI tools, embedded firmware, or game engines, some of this still applies, but to be honest, I'm afraid this is not the best resource for you. 
 
 For context, I've written about Go and Rust before: ["Go vs Rust? Choose Go."](https://endler.dev/2017/go-vs-rust/) back in 2017, and later the ["Rust vs Go: A Hands-On Comparison"](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison) with the Shuttle team, which walks through a small backend service in both languages.
 
@@ -31,7 +28,7 @@ For context, I've written about Go and Rust before: ["Go vs Rust? Choose Go."](h
 - Where Go and Rust overlap, and where they diverge.
 - How Go patterns map to Rust.
 - What you gain from the borrow checker.
-- Where I tell people to keep Go and where Rust is worth the migration cost .
+- Where I tell people to keep Go and where Rust is worth the migration cost.
 - How to migrate Go services incrementally.
 
 {% end %}
@@ -117,7 +114,7 @@ The differences are about **what guarantees you get from the compiler** and **ho
 
 Go developers don't usually come to Rust because Go is "too slow."
 For most backend workloads, Go is plenty fast.
-People are generally a bit frustrated with Go's verbose error handling, the danger of segmentation faults from `nil` pointers, and the lack of generics (for a long time) or any sophisticated type system features, such as enums or traits. Interfaces are not a worthy replacement for traits, and the Go standard has some weird gaps, such as the lack of a `Set` type.
+People are generally a bit frustrated with Go's verbose error handling, the danger of segmentation faults from `nil` pointers, and the lack of generics (for a long time) or any sophisticated type system features, such as enums or traits. Interfaces are not a worthy replacement for traits, and the Go standard library has some weird gaps, such as the lack of a `Set` type.
 
 ### `nil` Panics in Production
 
@@ -156,7 +153,11 @@ Mutating a map from two goroutines without a lock compiles fine in Go and only b
 In Rust, sharing mutable state across threads requires types that implement `Send` and `Sync`.
 Try to share a plain `HashMap` between threads and **the program does not compile**.
 You're forced to wrap it in an `Arc<Mutex<...>>`, an `Arc<RwLock<...>>`, or use a channel.
-The race condition becomes a type error, not a Tuesday-at-3-a.m. error.
+That race condition becomes a type error. [^races]
+
+[^races]: Rust's type system doesn't catch all data races, but types that truly can't be shared between threads without synchronization won't compile. You can still have logic bugs in your synchronization, but you won't have the kind of "oh no, I forgot to lock this" that often leads to silent data corruption. 
+
+
 
 ### Composable Error Handling
 
