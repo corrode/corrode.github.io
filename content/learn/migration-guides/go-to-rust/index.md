@@ -1,6 +1,6 @@
 +++
 title = "Migrating from Go to Rust"
-date = 2026-05-19
+date = 2026-05-21
 template = "article.html"
 [extra]
 series = "Migration Guides"
@@ -110,6 +110,10 @@ The same is true of `rustfmt`: not everyone likes every detail, but the absence 
 The headline is that Go and Rust are both compiled, statically typed, single-binary-deploy languages with strong concurrency stories.
 The differences are about **what guarantees you get from the compiler** and **how much control you have over runtime behaviour**.
 
+One framing that helps before we go further: **most of what changes when you move from Go to Rust is that checks get pulled into the type system**. Nil-handling, error propagation, data races, resource lifetimes, cancellation, generics, these are all things Go relies on convention, tooling (`go vet`, `errcheck`, `golangci-lint`, `-race`), or runtime detection to keep honest. Rust encodes them as types the compiler enforces directly.
+
+The common pushback is that this means "more cognitive overhead." I'd challenge that. It's *more* upfront, yes, but it's also *harder to hold wrong*. A `Mutex<T>` in Rust doesn't just document that the data needs a lock, it makes the lock the *only* way to reach the data: you call `.lock()`, you get a guard, and the guard is what gives you access to the inner value. Drop the guard and the lock releases automatically. There is no "I forgot to lock" path because the unlocked path doesn't exist in the type. Once you internalize that pattern, and you find it repeated everywhere (`Option`, `Result`, `&mut T`, `Send`/`Sync`, RAII guards), Rust stops feeling heavy and starts feeling like the compiler is doing work you used to do in your head.
+
 ## Why Go Developers Consider Rust
 
 Go developers don't usually come to Rust because Go is "too slow."
@@ -125,14 +129,21 @@ People are generally a bit frustrated with Go's verbose error handling, the dang
 This is the one I hear most often.
 You ship a Go service, it runs fine for months, and then one Tuesday at 3 a.m. a code path runs where someone forgot to check whether a pointer was `nil`, and the goroutine panics.
 
+A common case is a lookup that returns the zero value, or a struct whose pointer fields survived deserialization without being populated:
+
 ```go
 func (s *Service) Handle(req *Request) error {
-    user := s.repo.Find(req.UserID) // returns *User, may be nil
-    return user.Notify()             // boom if nil
+    // Find returns (*User, error). The error is nil for "not found";
+    // the caller is expected to check user != nil, but this is very easy to forget.
+    user, err := s.repo.Find(req.UserID)
+    if err != nil {
+        return err
+    }
+    return user.Account.Notify() // crashes if user is nil, or if Account is nil
 }
 ```
 
-Go's compiler does not force you to consider the absence case.
+Linters and IDE checks catch *some* of these (`nilaway`, `staticcheck`), but they're opt-in, probabilistic, and don't cross package boundaries reliably. Go's compiler itself does not force you to consider the absence case.
 Rust's `Option<T>` does:
 
 ```rust
@@ -342,7 +353,9 @@ Goroutines are cheap, the runtime schedules them across OS threads, and channels
 >
 > — Rob Pike, [Go Proverbs](https://go-proverbs.github.io/)
 
-This is the area where Go genuinely shines, several commenters in the [Lobste.rs discussion](https://lobste.rs/s/g44oeq/rust_vs_go_hands_on_comparison) made the point that goroutines "just disappear" into normal-looking blocking code, and that's worth giving Go credit for. Rust async is more powerful, but it's also more visible in your code.
+This is the area where Go genuinely shines, and it's worth being precise about *why*: **in Go there is no syntactic distinction between sequential and parallel code**. Any function can be called normally, dropped into a `go` statement, or invoked from inside a goroutine, without changing its signature, its callers, or anything about how it's written. There is no `async fn`, no `.await`, no executor to pick, no `Send`/`Sync` bound to satisfy. As long as you don't share mutable state without synchronization, sequential and concurrent code look identical.
+
+That property, the absence of *function colouring*, is the single biggest day-to-day productivity win Go has over Rust, and it's the thing Go developers miss most after switching. Several commenters in the [Lobste.rs discussion](https://lobste.rs/s/g44oeq/rust_vs_go_hands_on_comparison) of my Shuttle article made exactly this point, and they're right. Rust async is more powerful and more checked, but it is also more explicit in your code, and that visibility has a real ergonomic cost.
 
 Rust uses `async`/`await` on top of an executor (almost always `tokio` for backend services):
 
@@ -515,11 +528,11 @@ In Rust this is the exception; in Go it's still common.
 
 ### Monomorphization vs GC Shape Stenciling
 
-Rust monomorphizes: every `Vec<i32>` and `Vec<String>` produces specialized machine code with zero runtime dispatch. Go uses [GCShape stenciling with dictionaries](https://go.googlesource.com/proposal/+/refs/heads/master/design/generics-implementation-gcshape.md), where types that share a "GC shape" share the same compiled function and dispatch through a dictionary at runtime.
+There's no free lunch with generics: you either pay at compile time, at runtime, or you give up specialization (more on that in a bit). C++ and Rust pay at compile time through monomorphization. Java pays at runtime through type erasure plus the JIT. Go picked a middle path with [GCShape stenciling and dictionaries](https://go.googlesource.com/proposal/+/refs/heads/master/design/generics-implementation-gcshape.md): types that share a "GC shape" share the same compiled function and dispatch through a runtime dictionary.
 
-The result is a compile-time/runtime tradeoff that often surprises people: generic Go code can be measurably *slower* than the equivalent hand-written non-generic version, because every method call on a type parameter goes through an indirection. There's a [well-known PlanetScale post](https://planetscale.com/blog/generics-can-make-your-go-code-slower) showing exactly this.
+The Go choice keeps compile times fast, which is a real and valuable property. The cost is that generic Go code can be measurably *slower* than the equivalent hand-written non-generic version, because every method call on a type parameter goes through an indirection. There's a [well-known PlanetScale post](https://web.archive.org/web/20220331073738/https://planetscale.com/blog/generics-can-make-your-go-code-slower) showing exactly this.
 
-In Rust, generic code is the *fast* path. Reaching for `dyn Trait` (the equivalent of Go's interface dispatch) is a deliberate choice you make when you want runtime polymorphism.
+Rust monomorphizes: every `Vec<i32>` and `Vec<String>` produces specialized machine code with zero runtime dispatch. Generic code is the *fast* path, and reaching for `dyn Trait` (the equivalent of Go's interface dispatch) is a deliberate choice you make when you want runtime polymorphism. You pay for monomorphization with compile times, which is the same bill C++ has been paying for decades. Neither tradeoff is obviously right; they just optimize for different things.
 
 ### They Don't Plaster Over Holes In The Type System
 
