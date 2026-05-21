@@ -118,7 +118,7 @@ The common pushback is that this means "more cognitive overhead." I'd challenge 
 
 Go developers don't usually come to Rust because Go is "too slow."
 For most backend workloads, Go is plenty fast.
-People are generally a bit frustrated with Go's verbose error handling, the danger of segmentation faults from `nil` pointers, and the lack of generics (for a long time) or any sophisticated type system features, such as enums or traits. Interfaces are not a worthy replacement for traits, and the Go standard library has some weird gaps, such as the lack of a `Set` type.
+People are generally a bit frustrated with Go's verbose error handling, the danger of segmentation faults from `nil` pointers, and the lack of generics (for a long time) or any sophisticated type system features, such as enums or traits. Interfaces are not a worthy replacement for traits, and the Go standard library has some weird gaps, such as the lack of a `Set` type. (The idiomatic workaround is `map[T]struct{}`, which works fine in practice but is a tell that the type system isn't quite carrying its weight.)
 
 ### `nil` Panics in Production
 
@@ -460,11 +460,13 @@ Rust's `&self` is the equivalent of a Go value receiver; `&mut self` is a pointe
 
 ### Strings: `string` vs `String` and `&str`
 
-Go's `string` is a UTF-8 byte slice with copy-on-assign semantics (the header is copied, the underlying bytes are shared and immutable).
+Go's `string` is a UTF-8 byte slice with copy-on-assign semantics (the header is copied, the underlying bytes are shared and immutable).[^go-strings]
 Rust splits this into two types:
 
 - `String`, owned, heap-allocated, growable. Equivalent to `[]byte` you intend to mutate.
 - `&str`, a borrowed view into someone else's string data. Equivalent to a Go `string` *parameter* most of the time.
+
+[^go-strings]: Worth disambiguating, since it trips people up: a Go `string` is an immutable sequence of *bytes* that is conventionally (but not guaranteed to be) valid UTF-8. A `rune` is a Unicode code point (an alias for `int32`), what you get when you range over a `string`. `[]byte` is the mutable byte buffer. The closest one-to-one mapping is `string` (Go) ↔ `&str` (Rust) for read-only views, and `[]byte` (Go) ↔ `Vec<u8>` (Rust) for mutable buffers. `String` in Rust is the owned, growable version of `&str`, with the additional guarantee that its contents are valid UTF-8 (which Go's `string` does *not* enforce at the type level). For more information, see [Strings, bytes, runes and characters in Go](https://go.dev/blog/strings).
 
 As a rule of thumb, take `&str` in arguments, return `String` when you produce new data.
 
@@ -490,6 +492,8 @@ The most telling signal is that three years after generics landed, Go's own stan
 `sync.Map` is still typed as `any`/`any`.
 The generic helpers that *do* exist live in a small handful of packages: `slices`, `maps`, `cmp`, and a few entries under `sync`.
 
+It's fair to point out that backwards compatibility is part of the story here: the Go 1 compatibility promise means the existing non-generic APIs can't be retrofitted, so any generic version has to live alongside them (or in a new package). But that's only part of the explanation. Three years is plenty of time to introduce generic alternatives, and the fact that very few have appeared suggests the language designers don't lean on generics as a primary tool the way Rust does.
+
 Compare that to Rust, where generics permeate the standard library from day one: `Option<T>`, `Result<T, E>`, `Vec<T>`, `HashMap<K, V>`, `Iterator`, `From`/`Into`, `AsRef`, `Borrow`, every collection, every smart pointer.
 You cannot write idiomatic Rust without using generics, because the standard library *is* generic.
 
@@ -504,7 +508,9 @@ Go's constraints are just interfaces with an extra `~` operator for type-set mem
 - **Supertraits / constraint hierarchies.** In Rust you write `trait Ord: Eq + PartialOrd`, and any `T: Ord` automatically satisfies `Eq` and `PartialOrd`. Go has no equivalent; you stack interface embeddings, but the constraint solver doesn't reason about hierarchies the way Rust's trait system does.
 - **Associated types.** Rust's `Iterator` has `type Item;`, so `T::Item` is a first-class thing you can name in bounds. Go's closest equivalent is a second type parameter, which leaks into every signature.
 - **Blanket impls.** In Rust, `impl<T: Display> ToString for T` automatically gives every `Display` type a `to_string()` method. Go has no way to add methods to a type from outside its defining package, generic or not.
-- **Methods with their own type parameters.** This is an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`. In Rust, generic methods on generic types are routine.
+- **Methods with their own type parameters.** This is an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`[^generic-methods]. In Rust, generic methods on generic types are routine.
+
+[^generic-methods]: To be precise, this is about methods that introduce *their own* type parameters in addition to the receiver's. Go has had generic *functions* and generic types since 1.18, so `func Map[T, U any](s []T, f func(T) U) []U` is fine. What you can't do is attach that `Map` to a method on a generic `Set[T]` and let the caller pick `U` per call. The Go proposal explicitly punts on this and it has not been added since.
 
 The practical consequence is that the moment your abstraction needs more than "a function that works for any `T` with these few operations," Go pushes you back to `any` plus type assertions, code generation, or runtime reflection.
 
@@ -516,7 +522,9 @@ Rust uses a Hindley-Milner-style inference engine that propagates type informati
 let evens: Vec<_> = (0..100).filter(|n| n % 2 == 0).collect();
 ```
 
-and the compiler figures out `_` is `i32` from the range, and `Vec<_>` is `Vec<i32>` from the `collect` target.
+and the compiler figures out `_` is `i32` from the range, and `Vec<_>` is `Vec<i32>` from the `collect` target.[^iterator-readability]
+
+[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go is not a particularly functional language, and this iterator-chain style is genuinely an acquired taste, idiomatic Rust leans on it heavily, and the first few weeks it can be a little unfamiliar. You can, of course, still write `for` loop in Rust, and for one-off code that's often the right call, but you'll find that iterator patterns will feel quite natural after a while, and the ability to chain transformations without intermediate variables is a real readability win once you internalize it. (That was at least my experience.)
 
 Go's inference is much shallower. It can usually infer type parameters from function arguments, but it [cannot infer from return-position context](https://go.dev/blog/type-inference), cannot chain inference through generic builders the way Rust does, and frequently forces explicit type arguments at call sites:
 
