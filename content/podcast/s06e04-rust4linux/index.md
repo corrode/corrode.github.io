@@ -12,7 +12,7 @@ episode = "04"
 series = "Podcast"
 +++
 
-<div><script id="letscast-player-rust4linux-live" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust4linux-live-with-greg-kroah-hartman-and-alice-ryhl/player.js?size=s"></script></div>
+<div><script id="letscast-player-4e317de8" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-for-linux-with-alice-ryhl-and-greg-kroah-hartman/player.js?size=s"></script></div>
 
 ![Rust for Linux Live](./interview.jpg)
 
