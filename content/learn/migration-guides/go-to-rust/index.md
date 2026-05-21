@@ -633,9 +633,7 @@ See [tips for faster Rust compile times](/blog/tips-for-faster-rust-compile-time
 
 ### Async Coloring
 
-Go's "one type of function, sync everywhere, the runtime handles concurrency" is genuinely simpler than Rust's split between `fn` and `async fn`.
-You'll need to think about which of your functions are async, where you `.await`, and how that interacts with traits.
-Async traits (stable since Rust 1.75) help a lot, but there are still rough edges (especially around `dyn Trait` with async methods).
+As covered in [Goroutines vs Async Tasks](#goroutines-vs-async-tasks), Rust's `async fn` / `fn` split is one of the biggest ergonomic regressions coming from Go. Async traits have been stable since Rust 1.75, but there are still rough edges around mixing them with dynamic dispatch, occasionally you'll reach for the `async-trait` crate to paper over them.
 
 ### Smaller Ecosystem in Some Niches
 
