@@ -50,7 +50,7 @@ The interop space has grown a lot, and it's easy to default to whatever tool a p
 
 A few honest opinions on top of that table.
 
-**Reach for `cxx` first.** It is, by a wide margin, the most battle-tested option. Mozilla uses it in Firefox, Google uses it in parts of Android, Brave embeds it deep in their browser ([they talked about it on the podcast](/podcast/s03e07-brave/)), and Slint, CXX-Qt, and a long tail of smaller projects all build on it. The KDAB team summarized the trade-off well in their [Zngur comparison](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): `cxx` is *opinionated* about which C++ shapes it will let through, and that opinionatedness is exactly why it's safe.
+**Reach for `cxx` first.** It is, by a wide margin, the most battle-tested option. Mozilla uses it in Firefox, Google uses it in parts of Android, Brave embeds it deep in their browser ([they talked about it on the podcast](/podcast/s03e07-brave/)), and Slint, CXX-Qt, and a long tail of smaller projects all build on it.[^cxx-users] The KDAB team summarized the trade-off well in their [Zngur comparison](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): `cxx` is *opinionated* about which C++ shapes it will let through, and that opinionatedness is exactly why it's safe.
 
 **Be careful with `bindgen` for C++.** `bindgen` is wonderful for C. For C++ it silently skips anything it can't represent (templates, overloads, non-trivial constructors), and what you get back is `unsafe` *everything*. Manish's [Firefox post](https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/) is still the best honest writeup of what that costs you in practice.
 
@@ -76,15 +76,114 @@ For anything that crosses the boundary, you need one of:
 #[repr(u8)] / #[repr(i32)] / ...  // for enums with a fixed discriminant
 ```
 
+A useful mental picture for what's safe to put on the wire:
+
+```mermaid
+graph LR
+    subgraph Safe["Safe to cross the boundary"]
+        A["#[repr(C)] structs"]:::accent0
+        B["#[repr(transparent)] newtypes"]:::accent0
+        C["Fixed-width integers (u32, i64, ...)"]:::accent0
+        D["Raw pointers (*const T, *mut T)"]:::accent0
+        E["#[repr(u8)] / #[repr(i32)] C-like enums"]:::accent0
+    end
+    subgraph Unsafe["Leave on the Rust side"]
+        F["String, &str"]:::accent3
+        G["Vec<T>, &[T]"]:::accent3
+        H["Result<T,E>, Option<T> (with data)"]:::accent3
+        I["Box<dyn Trait>, &dyn Trait"]:::accent3
+        J["Tuples, closures"]:::accent3
+    end
+    Unsafe -->|"convert at the edge"| Safe
+```
+
 A few field-level rules that fall out of this.
 
 **Don't pass Rust enums with data across FFI.** A `Result<T, E>` or `Option<NonZeroU32>` has a defined layout *in your version of rustc, today*, but it isn't part of the language contract. Either lower it to a `#[repr(C)]` enum with explicit discriminants ([RFC 2195](https://github.com/rust-lang/rfcs/blob/master/text/2195-really-tagged-unions.md) calls these "really tagged unions"), or split it into a status code plus an out-parameter.
 
+```rust
+// ❌ Wrong: layout of Result is not part of the language contract.
+#[no_mangle]
+pub extern "C" fn parse(input: *const u8, len: usize) -> Result<u64, ParseError> {
+    /* ... */
+}
+
+// ✅ Right: explicit status code + out-parameter.
+#[repr(C)]
+pub enum ParseStatus { Ok = 0, Empty = 1, Overflow = 2, BadDigit = 3 }
+
+#[no_mangle]
+pub unsafe extern "C" fn parse(
+    input: *const u8,
+    len: usize,
+    out: *mut u64,
+) -> ParseStatus {
+    /* ... write *out only on ParseStatus::Ok ... */
+    ParseStatus::Ok
+}
+```
+
 **Don't pass `&str` or `String`.** A Rust `String` carries a capacity field and uses Rust's allocator. A C++ `std::string` doesn't, and uses C++'s. They are not the same type at the bytes level. Use `&[u8]` / `*const u8 + len`, or let `cxx` give you a `CxxString` and a `&str` on either side.
+
+```text
+   Rust String (3 words, Rust allocator)         C++ std::string (impl-defined, may SSO)
+   ┌──────────┬──────────┬──────────┐            ┌────────────────────────────────────┐
+   │   ptr    │   len    │ capacity │            │  SSO buffer | ptr | len | capacity │
+   └──────────┴──────────┴──────────┘            └────────────────────────────────────┘
+               ↓ wire format ↓
+              just (ptr, len) of bytes
+```
+
+```rust
+// ❌ Wrong: layout of String is not stable, allocator mismatch.
+extern "C" { fn cpp_log(msg: String); }
+
+// ✅ Right: pass the bytes; let the receiver copy if it wants ownership.
+extern "C" { fn cpp_log(msg: *const u8, len: usize); }
+
+fn log(msg: &str) {
+    unsafe { cpp_log(msg.as_ptr(), msg.len()) }
+}
+```
+
+With `cxx`, this becomes:
+
+```rust
+#[cxx::bridge]
+mod ffi {
+    extern "Rust" {
+        fn log(msg: &str);            // safe: cxx generates the marshalling
+    }
+    unsafe extern "C++" {
+        fn cpp_log(msg: &CxxString);  // borrow a real std::string from C++
+    }
+}
+```
 
 **Pointers and slices have edge cases.** David Benjamin's [*Passing nothing is surprisingly difficult*](https://davidben.net/2024/01/15/empty-slices.html) explains why an empty `&[T]` may have a non-null but unaligned `data` pointer, while C and C++ APIs frequently expect either null or a real allocation. If your callee dereferences `data` even when `len == 0`, you have undefined behavior. Wrap with `if slice.is_empty() { ptr::null() } else { slice.as_ptr() }` at the boundary.
 
 **Bitfields don't work.** Rust does not have C-compatible bitfields. `bindgen` emits getter/setter shims, but if you're hand-writing the struct, you need to pack and unpack the bits yourself. The Immunant team has [a good writeup](https://immunant.com/blog/2020/01/bitfields/) of how much pain this still is in 2026.
+
+```c
+// C header:
+struct Flags { uint8_t a : 3; uint8_t b : 5; };
+```
+
+```rust
+// Rust equivalent: one byte, pack and unpack by hand.
+#[repr(transparent)]
+pub struct Flags(u8);
+
+impl Flags {
+    pub fn a(self) -> u8 { self.0 & 0b0000_0111 }
+    pub fn b(self) -> u8 { (self.0 >> 3) & 0b0001_1111 }
+    pub fn new(a: u8, b: u8) -> Self {
+        Self((a & 0b111) | ((b & 0b1_1111) << 3))
+    }
+}
+```
+
+> Watch out: C bitfield ordering is implementation-defined. Always check what `clang -fdump-record-layouts` says before assuming little-endian-first.
 
 ### Rule: Treat every struct that crosses the boundary as part of your public ABI
 
@@ -170,7 +269,7 @@ Manish's Firefox post puts numbers on this:
 
 > Lots and lots of back-and-forth FFI, thread-safety concerns, Rust code regularly dealing with nontrivial C++ abstractions, a need for nontrivial abstractions to be passed over FFI. All of this conspires to make for some really complicated FFI code.
 
-The cleanest production architectures look more like a service boundary than a function call. Brave's ad-blocker, Mozilla's `encoding_rs`, Microsoft's DWriteCore Rust components, Shopify's [Ruby ↔ Rust shim](https://shopify.engineering/shopify-rust-systems-programming) — all of these expose a handful of "do this whole job for me" entry points, not a leaky abstraction of internal types.
+The cleanest production architectures look more like a service boundary than a function call. Brave's ad-blocker, Mozilla's `encoding_rs`, Microsoft's DWriteCore Rust components, Shopify's [Ruby ↔ Rust shim](https://shopify.engineering/shopify-rust-systems-programming) — all of these expose a handful of "do this whole job for me" entry points, not a leaky abstraction of internal types.[^prod-arch]
 
 ### Rule: Design the boundary in terms of *work*, not *types*
 
@@ -178,7 +277,7 @@ A good interop API has verbs at the boundary (`compile_shader`, `parse_html`, `p
 
 ## Use The Sanitizers. All Of Them.
 
-If you take one thing from this post: **always run your interop test suite under AddressSanitizer and UndefinedBehaviorSanitizer.** Tyler Weaver's [2025 update](https://tylerjw.dev/posts/20251003-rust-cpp-interop-2025-update/) makes this point well, and the audit experience from `uutils` and the Pixel baseband Rust work both confirm it: ASan and UBSan catch the class of bugs your code reviewer won't.
+If you take one thing from this post: **always run your interop test suite under AddressSanitizer and UndefinedBehaviorSanitizer.** Tyler Weaver's [2025 update](https://tylerjw.dev/posts/20251003-rust-cpp-interop-2025-update/) makes this point well, and the audit experience from `uutils` and the Pixel baseband Rust work both confirm it: ASan and UBSan catch the class of bugs your code reviewer won't.[^pixel-baseband]
 
 What this looks like in practice:
 
@@ -193,7 +292,7 @@ CXXFLAGS="-fsanitize=address -fsanitize=undefined" \
 cargo +nightly miri test
 ```
 
-Miri won't see into your C++, but it will catch undefined behavior in the Rust glue, which is where most real interop bugs live. For a fuller story, see [`cargo-careful`](https://github.com/RalfJung/cargo-careful), [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz), and the [ABI Café](https://github.com/Gankra/abi-cafe) project, which tests whether two compilers agree on the layout of a given type. The last one has caught real rustc/clang disagreements.
+Miri won't see into your C++, but it will catch undefined behavior in the Rust glue, which is where most real interop bugs live. For a fuller story, see [`cargo-careful`](https://github.com/RalfJung/cargo-careful), [`cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz), and the [ABI Café](https://github.com/Gankra/abi-cafe) project, which tests whether two compilers agree on the layout of a given type. The last one has caught real rustc/clang disagreements.[^abi-cafe]
 
 ### Rule: Sanitizers are a hard gate, not a "nice to have"
 
@@ -205,7 +304,7 @@ The build story used to be a horror show. It's better now, but you still need to
 
 - **[Corrosion](https://github.com/corrosion-rs/corrosion)** is the practical answer if your build is already CMake-based. It teaches CMake how to invoke Cargo, and CMake handles the linking. Slint, ROS, KDE projects, and most of the `tylerjw.dev` interop examples use it.
 - **`cxx-build`** plus a plain `build.rs` is the answer if your build is already Cargo-based and the C++ is in your own repo.
-- **[Meson](https://mesonbuild.com/Rust.html)** has first-class Rust support and is a reasonable choice if you're starting fresh and want something less ceremonious than CMake. GNOME components like `librsvg` use this path.
+- **[Meson](https://mesonbuild.com/Rust.html)** has first-class Rust support and is a reasonable choice if you're starting fresh and want something less ceremonious than CMake. GNOME components like `librsvg` use this path.[^librsvg]
 - **Bazel** plus `rules_rust` plus Crubit is what Google uses internally. It is fantastic if you're already in that ecosystem and miserable if you're not.
 
 A few practical tips that come up over and over.
@@ -273,7 +372,7 @@ Even with all of these sharp edges, the parts of your codebase you actually writ
 - A type system that can express *most* of the boundary's invariants, even when it can't enforce them across it.
 - A test and tooling story (Miri, `cargo-fuzz`, sanitizers, Clippy) that is honestly better than the C++ side, even for shared code.
 
-Google's [Android security team reported](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) that the proportion of memory-safety vulnerabilities in Android dropped from 76% in 2019 to 24% in 2024, driven primarily by new code being written in Rust rather than rewriting old code. The interop boundary is where the *remaining* bugs live, but the absolute count is way down.
+Google's [Android security team reported](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) that the proportion of memory-safety vulnerabilities in Android dropped from 76% in 2019 to 24% in 2024, driven primarily by new code being written in Rust rather than rewriting old code.[^android-stats] The interop boundary is where the *remaining* bugs live, but the absolute count is way down.
 
 The point of being careful at the boundary isn't that interop is dangerous in some special way Rust can't help with. It's that the boundary is *exactly* the place where Rust's guarantees stop, and you have to do the work the compiler usually does for you. Treat it that way, and the math still works out enormously in your favor.
 
@@ -286,6 +385,18 @@ A small, coarse boundary. A single chosen tool (`cxx`, or hand-rolled `extern "C
 None of it is exciting. All of it is what separates "we shipped Rust into our C++ product" from "we shipped a CVE."
 
 If you're starting out, my honest recommendation: read Tyler Weaver's [five-part series](https://tylerjw.dev/posts/20251003-rust-cpp-interop-2025-update/), copy his Cargo+CMake+Corrosion+`cxx` skeleton, and resist the temptation to invent your own bindings layer until you've hit a wall the existing tools genuinely can't solve. Most teams never hit that wall. The ones that do tend to end up at Google, contributing to Crubit.
+
+[^cxx-users]: Mozilla's use of `cxx` in Firefox is documented in Manish Goregaokar's [*Integrating Rust and C++ in Firefox*](https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/). Google's use in AOSP is covered in the [*Rust/C++ Interop in the Android Platform*](https://security.googleblog.com/2021/06/rustc-interop-in-android-platform.html) post on the Google Security Blog. Brave's use is discussed by Anton Lazarev on our [Brave episode](/podcast/s03e07-brave/), where CXX is explicitly listed in the show notes.
+
+[^prod-arch]: Sources for each: Brave's adblocker on the [podcast](/podcast/s03e07-brave/); Mozilla's [`encoding_rs`](https://hsivonen.fi/modern-cpp-in-rust/) writeup by Henri Sivonen; Microsoft's DWriteCore, which [*The Register* reported](https://www.theregister.com/2023/04/27/microsoft_windows_rust/) reached about 152,000 lines of Rust in 2023, with the Rust effort starting in 2020; Shopify's [systems-programming post](https://shopify.engineering/shopify-rust-systems-programming).
+
+[^pixel-baseband]: Google's [*Bringing Rust to the Pixel Baseband*](https://security.googleblog.com/2026/04/bringing-rust-to-pixel-baseband.html) post describes the sanitizer and `no_std` work needed to land Rust in modem firmware on Pixel 10, including allocator and panic-handler integration with the existing C/C++ codebase.
+
+[^abi-cafe]: ABI Café is described in Aria Desires' [*Pair Your Compilers At The ABI Café*](https://faultlore.com/blah/abi-puns/), which walks through several concrete cases where rustc and clang disagreed on the ABI of types that *look* identical, including subtle differences for option-of-pointer and small structs.
+
+[^librsvg]: librsvg's port to Rust began with the [2.41.0 release in 2017](https://mail.gnome.org/archives/desktop-devel-list/2017-January/msg00001.html), which announced *"the big news is that parts of librsvg are now implemented in the Rust programming language."* It is one of the longest-running Rust-in-C library projects and a useful case study for incremental adoption.
+
+[^android-stats]: The 76% → 24% figure is for the share of *Android's annual vulnerability budget* that is memory-safety-related, not an absolute count. Google's [*Eliminating Memory Safety Vulnerabilities at the Source*](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) post argues this shift is driven primarily by *new* code being written in Rust rather than C/C++, while pre-existing C/C++ ages out of the active codebase. The pattern is consistent with academic research on vulnerability density vs. code age.
 
 {% info(title="Need Help With Rust and C++ Interop?", icon="crab") %}
 
