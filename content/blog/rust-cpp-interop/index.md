@@ -6,7 +6,7 @@ template = "article.html"
 series = "Idiomatic Rust"
 chapter_title = "Living With Two Languages In One Process"
 resources = [
-    "[A tour of the Rust and C++ interoperability ecosystem](https://blog.tetrane.com/2022/Rust-Cxx-interop.html): eShard's hands-on comparison of `cxx`, `bindgen`, `cbindgen`, and `autocxx`",
+    "[A tour of the Rust and C++ interoperability ecosystem](https://www.eshard.com/blog/rust-cxx-interop): eShard's hands-on comparison of `cxx`, `bindgen`, `cbindgen`, and `autocxx`",
     "[Integrating Rust and C++ in Firefox](https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/): Manish Goregaokar's long-form post on the bindings Mozilla actually ships",
     "[Rust/C++ Interop in the Android Platform](https://security.googleblog.com/2021/06/rustc-interop-in-android-platform.html): Google's writeup on how AOSP wires Rust and C++ together",
     "[Weighing up Zngur and CXX for Rust/C++ Interop](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): KDAB's 2026 comparison of the two main approaches",
@@ -29,7 +29,7 @@ The sharpest framing of it I've heard recently came from Alice Ryhl on our most 
 
 You can't rewrite 35 million lines of C, and you wouldn't want to. The work that matters is the work that lets a new Rust driver call into existing kernel subsystems without giving up the guarantees that made you reach for Rust in the first place. The same logic applies one level up: you're not going to rewrite Chromium, Office, Photoshop, or your in-house trading engine either. **Interop is the new rewrite.**
 
-I don't think this is going to change soon. C++ is somewhere between [100 and 200 million lines](https://www.lwn.net/Articles/1036912/) of code inside Google alone, and roughly that order of magnitude across the rest of the industry. Most of the interesting Rust work over the next decade will happen *next to* a C++ codebase, not instead of one.
+I don't think this is going to change soon. C++ is somewhere between [100 and 200 million lines](https://lwn.net/Articles/1036912/) of code inside Google alone, and roughly that order of magnitude across the rest of the industry. Most of the interesting Rust work over the next decade will happen *next to* a C++ codebase, not instead of one.
 
 So let's talk about what actually goes wrong at that boundary, what the ecosystem looks like in 2026, and which patterns survive contact with production. Most of this post applies to C interop too, but C++ is where the sharp edges live, so that's where I'll focus.
 
@@ -64,7 +64,7 @@ If your C++ interface is already C-shaped (`extern "C"` headers, POD structs, op
 
 This is the single most common antipattern I see in code reviews: a struct gets defined on the Rust side, passed to C++, and "it works on my machine." Then a compiler upgrade reshuffles the fields and you get silent data corruption.
 
-Rust's default `#[repr(Rust)]` layout is [intentionally unspecified](https://github.com/rust-lang/rfcs/blob/master/text/0079-undefined-struct-layout.md). The compiler reorders fields, packs niches into enum discriminants, and may change those decisions between versions. Aria Desires' [*Notes on type layouts and ABIs in Rust*](https://gankra.github.io/blah/rust-layouts-and-abis/) is the canonical deep dive; her [ABI Café](https://faultlore.com/blah/abi-puns/) post is the canonical horror story.
+Rust's default `#[repr(Rust)]` layout is [intentionally unspecified](https://github.com/rust-lang/rfcs/blob/master/text/0079-undefined-struct-layout.md). The compiler reorders fields, packs niches into enum discriminants, and may change those decisions between versions. Aria Desires' [*Notes on type layouts and ABIs in Rust*](https://faultlore.com/blah/rust-layouts-and-abis/) is the canonical deep dive; her [ABI Café](https://faultlore.com/blah/abi-puns/) post is the canonical horror story.
 
 For anything that crosses the boundary, you need one of:
 
@@ -220,7 +220,7 @@ Here's a grab-bag of mistakes I've actually found in code reviews and audits ove
 
 **1. Returning `Result<T, E>` from an `extern "C"` function.** The layout of `Result` is not stable. Always lower to `(success_code, out_value)` at the boundary. (See [`#[repr(Rust)]` Is Not An ABI](#repr-rust-is-not-an-abi) above.)
 
-**2. Hanging onto a `&str` derived from a C string.** `CStr::to_str` borrows from the C buffer. If the C side frees that buffer (or even calls a function that might), your `&str` dangles. Either copy to a `String` immediately, or scope the borrow tightly. Greyblake's [old but accurate post](http://greyblake.com/blog/2017/08/10/exposing-rust-library-to-c/) walks through the full pattern.
+**2. Hanging onto a `&str` derived from a C string.** `CStr::to_str` borrows from the C buffer. If the C side frees that buffer (or even calls a function that might), your `&str` dangles. Either copy to a `String` immediately, or scope the borrow tightly. Greyblake's [old but accurate post](https://www.greyblake.com/blog/2017/08/10/exposing-rust-library-to-c/) walks through the full pattern.
 
 **3. `Box::from_raw` on a pointer you didn't `Box::into_raw` yourself.** This is the FFI equivalent of `free(p)` where `p` came from `malloc` in a different allocator. Always document who owns the allocation, in code:
 
