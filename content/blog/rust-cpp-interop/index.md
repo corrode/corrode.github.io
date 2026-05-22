@@ -56,6 +56,8 @@ A few honest opinions on top of that table.
 
 **Don't deploy `Crubit` into a project that isn't Google-shaped.** Crubit is genuinely impressive (Taylor Cramer's [RustConf 2025 interview](https://www.youtube.com/watch?v=eUTsOWbOHeY) is worth the 45 minutes), and Google funded it alongside a [$1M grant to the Rust Foundation](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) specifically to push this story forward. But it lives inside a Bazel monorepo and depends on bleeding-edge compiler features. For now it's a research lead-indicator, not a tool you drop into your repo on Monday.
 
+{{ yt(id="eUTsOWbOHeY", title="Taylor Cramer Interview, Crubit Development Lead at Google (RustConf 2025)") }}
+
 ### Rule: Match the tool to the API shape, not the language
 
 If your C++ interface is already C-shaped (`extern "C"` headers, POD structs, opaque handles), don't reach for a code generator. Hand-written `extern "C"` plus a thin Rust wrapper is shorter, easier to debug, and easier to audit. Save `cxx` for the moment you actually need `std::unique_ptr`, `std::string`, or shared enums.
@@ -97,6 +99,8 @@ If you try to translate a `std::string`, `std::list`, or any class with a user-d
 The Crubit team has [the clearest writeup](https://ssbr.xyz/blog/rust-has-three-reference-types/) of why this is fundamental: in a codebase doing serious C++ interop, `Pin<&mut T>` is as common as `&mut T`, and the ergonomic gap shows. `cxx` solves this pragmatically by only ever letting you touch a C++ value through a `&CxxString`, `Pin<&mut CxxString>`, or `UniquePtr<CxxString>`. That sounds restrictive until you've debugged a use-after-move once.
 
 Miguel Young de la Sota's [*Move Constructors: Is it Possible?*](https://www.youtube.com/watch?v=UrDhMWISR3w) RustConf talk and the [`moveit`](https://crates.io/crates/moveit) crate explore what a fuller answer might look like. It's a glimpse of a future where this is solved at the type-system level; in the meantime, the practical rules are:
+
+{{ yt(id="UrDhMWISR3w", title="RustConf 2021 — Move Constructors: Is it Possible? by Miguel Young de la Sota") }}
 
 1. **Never put a C++ object with a non-trivial move constructor on the Rust stack by value.** Always go through `Box`, `UniquePtr`, or a reference.
 2. **Treat anything coming out of a C++ container as pinned.** No `mem::replace`, no `mem::swap`, no destructuring.
