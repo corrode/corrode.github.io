@@ -122,13 +122,7 @@ People are generally a bit frustrated with Go's verbose error handling, the dang
 
 ### `nil` Panics in Production
 
-> I call it my billion-dollar mistake. It was the invention of the null reference in 1965 … This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.
->
-> — Tony Hoare, inventor of `null`, [QCon London 2009](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/)
-
-This is the one I hear most often.
-You ship a Go service, it runs fine for months, and then one Tuesday at 3 a.m. a code path runs where someone forgot to check whether a pointer was `nil`, and the goroutine panics.
-
+You ship a Go service, it runs fine for months, and then a code path runs where someone forgot to check whether a pointer was `nil`, and the goroutine panics.
 A common case is a lookup that returns the zero value, or a struct whose pointer fields survived deserialization without being populated:
 
 ```go
@@ -166,9 +160,13 @@ Try to share a plain `HashMap` between threads and **the program does not compil
 You're forced to wrap it in an `Arc<Mutex<...>>`, an `Arc<RwLock<...>>`, or use a channel.
 That race condition becomes a type error. [^races]
 
+Paul Dix has been very candid about what motivated the InfluxDB 3.0 rewrite, and the data-race story is right at the top:
+
+> [The main benefit is] fearless concurrency &mdash; eliminating data races essentially, which we had before. Really gnarly bugs in version 1 of Influx due to that.
+>
+> &mdash; Paul Dix, Founder & CTO, InfluxData, on [Rust in Production](/podcast/s01e01-influxdata?t=55%3A40)
+
 [^races]: Rust's type system doesn't catch all data races, but types that truly can't be shared between threads without synchronization won't compile. You can still have logic bugs in your synchronization, but you won't have the kind of "oh no, I forgot to lock this" that often leads to silent data corruption. 
-
-
 
 ### Composable Error Handling
 
@@ -226,7 +224,11 @@ But "low-pause" is not "no-pause."
 Under heavy allocation, P99 latency tails are noticeably worse than a Rust equivalent that simply doesn't allocate on the hot path.
 
 I won't oversell this, for the vast majority of services, Go's GC is a non-issue.
-But for latency-sensitive systems (trading, real-time bidding, network proxies, high-throughput ingestion), the lack of GC pauses is a genuine selling point.
+But for latency-sensitive systems (trading, real-time bidding, network proxies, high-throughput ingestion), the lack of GC pauses is a genuine selling point. Stephen Blum from PubNub put it directly on the show:
+
+> Go is great at our scale, but we really need something that is going to give us the price-per-dollar performance capacity that we need, and Rust is going to get us there. That's why basically everything is heading towards Rust these days.
+>
+> &mdash; Stephen Blum, CTO, PubNub, on [Rust in Production](/podcast/s01e02-pubnub?t=17%3A25)
 
 ### In Summary
 
@@ -620,7 +622,17 @@ I got memory management wrong plenty of times in my early days, but I approached
 
 The good news is that once you internalize borrowing, it stops fighting you.
 Most experienced Rust developers will tell you the borrow checker became an ally somewhere between weeks 4 and 12.
-The first month is the hardest.
+The first month is the hardest. Stephen Blum from PubNub described that first month well on a recent podcast:
+
+> When you started to get into it: frustration. It reminded me of what it was like to learn programming for the first time, because it's so different. With the borrow checker and lifetimes, I didn't want to have to deal with those things &mdash; but I was forced to.
+>
+> &mdash; Stephen Blum, CTO, PubNub, on [Rustacean Station](https://rustacean-station.org/)
+
+And here's Ed Page (maintainer of `clap`) on the other side of that curve, which is what you should be optimizing for:
+
+> The borrow checker has saved me from having to think about these problems, and instead I'm able to focus on higher-level problems. It's helped catch things when I've done my own analysis and failed at it.
+>
+> &mdash; Ed Page, on [Rustacean Station: clap with Ed Page](https://rustacean-station.org/)
 
 ### Compile Times
 
@@ -643,12 +655,22 @@ Teams I help often have to hand-roll at least one or two core libraries themselv
 
 ## Integration Strategies
 
-You don't have to rewrite everything in one go. The strategies that work best, in order of how I usually recommend them:
+You don't have to rewrite everything in one go. Every successful Go-to-Rust story I've heard on the podcast is tactical, not big-bang. Victor Ciura from Microsoft put it well:
+
+> We're not madly going across the board and just, for the fun of it, rewriting everything in Rust. We're doing these tactical choices where we say: okay, this new component, it's better if we [do it in Rust].
+>
+> &mdash; Victor Ciura, Principal Engineer, Microsoft, on [Rust in Production](/podcast/s04e01-microsoft)
+
+The strategies that work best, in order of how I usually recommend them:
 
 ### 1. Carve Off a Hot Path as a Service
 
 If one specific service in your fleet is the perpetual problem child (high CPU, latency-sensitive, or constantly hit with reliability issues), rewrite *just that one* in Rust, behind the same API contract.
-This is the lowest-risk migration. Other Go services keep talking to it via HTTP/gRPC, oblivious to the underlying language.
+This is the lowest-risk migration. Other Go services keep talking to it via HTTP/gRPC, oblivious to the underlying language. Jeff Kao at Radar described how Discord's famous post is often the spark that gives teams permission to even try:
+
+> If you go on Hacker News and look up "migrating to Rust," the first result is always this one about [Discord moving from Go to Rust](https://discord.com/blog/why-discord-is-switching-from-go-to-rust). It almost motivated us to see [if we could do the same].
+>
+> &mdash; Jeff Kao, CTO, Radar, on [Rust in Production](/podcast/s05e08-radar)
 
 ### 2. Replace a Sidecar / Worker Process
 
@@ -694,6 +716,12 @@ Go is excellent for:
 - **Glue services**: thin API layers, proxies, format converters. The boilerplate ratio in Rust isn't worth it here.
 - **Anywhere your team velocity matters more than absolute correctness guarantees**.
 
+This is not a niche position. It lands harder coming from a company that ships both languages at scale:
+
+> Go is a very fine choice for networking services. We have a lot of Go at Canonical &mdash; Juju is a huge Go codebase.
+>
+> &mdash; Jon Seager, VP of Engineering, Canonical, on [Rust in Production](/podcast/s05e05-canonical)
+
 A hybrid strategy is fine and common.
 Many of the teams I work with end up with a polyglot backend: Go for the "boring" services, Rust for the ones where reliability and performance pay back the extra effort.
 
@@ -705,7 +733,11 @@ But here are some ballpark numbers, based on Go-to-Rust migrations I've helped w
 - CPU usage: 20–60% reduction. Less dramatic than Python-to-Rust, because Go is already efficient. The wins come from no GC and tighter loops.
 - Memory: 30–50% reduction, mostly from the absence of GC overhead and a smaller runtime.
 - P99 latency: significantly more consistent. Rust services tend to flatline where Go services have visible GC-induced jitter. (This has gotten much better on the Go-side ever since they introduced their low-latency GC, but the difference is still there under heavy load.)
-- Production incidents: this is the one teams report most enthusiastically. The classes of bugs that survive `go test -race` and reach production (data races, nil dereferences, missed error paths) just don't compile in Rust. Oncall rotations are typically very boring after a Rust migration.
+- Production incidents: this is the one teams report most enthusiastically. The classes of bugs that survive `go test -race` and reach production (data races, nil dereferences, missed error paths) just don't compile in Rust. Oncall rotations are typically very boring after a Rust migration. Andrew Lamb described exactly this effect after the InfluxDB rewrite:
+
+  > I hadn't had to chase down a crash, or some weird multi-threaded race condition, or some of these other things which actually consumed a huge amount of my time before.
+  >
+  > &mdash; Andrew Lamb, Staff Engineer, InfluxData, on [Rustacean Station: Rebuilding InfluxDB with Rust](https://rustacean-station.org/)
 
 Honestly, you're unlikely to get a 10x throughput improvement going from Go to Rust the way you might from Python.
 What you get is fewer "silly errors" and flatter latency tails, plus the ability to expand into other domains like embedded development or systems programming while still using the same language.
