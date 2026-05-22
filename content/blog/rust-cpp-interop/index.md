@@ -78,37 +78,37 @@ For anything that crosses the boundary, you need one of:
 
 A useful mental picture for what's safe to put on the wire:
 
-```mermaid
+{% mermaid() %}
 graph LR
     subgraph Safe["Safe to cross the boundary"]
-        A["#[repr(C)] structs"]:::accent0
-        B["#[repr(transparent)] newtypes"]:::accent0
-        C["Fixed-width integers (u32, i64, ...)"]:::accent0
-        D["Raw pointers (*const T, *mut T)"]:::accent0
-        E["#[repr(u8)] / #[repr(i32)] C-like enums"]:::accent0
+        A["#[repr(C)] structs"]
+        B["#[repr(transparent)] newtypes"]
+        C["Fixed-width integers (u32, i64, ...)"]
+        D["Raw pointers (*const T, *mut T)"]
+        E["#[repr(u8)] / #[repr(i32)] C-like enums"]
     end
     subgraph Unsafe["Leave on the Rust side"]
-        F["String, &str"]:::accent3
-        G["Vec<T>, &[T]"]:::accent3
-        H["Result<T,E>, Option<T> (with data)"]:::accent3
-        I["Box<dyn Trait>, &dyn Trait"]:::accent3
-        J["Tuples, closures"]:::accent3
+        F["String, &str"]
+        G["Vec<T>, &[T]"]
+        H["Result<T,E>, Option<T> (with data)"]
+        I["Box<dyn Trait>, &dyn Trait"]
+        J["Tuples, closures"]
     end
     Unsafe -->|"convert at the edge"| Safe
-```
+{% end %}
 
 A few field-level rules that fall out of this.
 
 **Don't pass Rust enums with data across FFI.** A `Result<T, E>` or `Option<NonZeroU32>` has a defined layout *in your version of rustc, today*, but it isn't part of the language contract. Either lower it to a `#[repr(C)]` enum with explicit discriminants ([RFC 2195](https://github.com/rust-lang/rfcs/blob/master/text/2195-really-tagged-unions.md) calls these "really tagged unions"), or split it into a status code plus an out-parameter.
 
 ```rust
-// ❌ Wrong: layout of Result is not part of the language contract.
+// Wrong: layout of Result is not part of the language contract.
 #[no_mangle]
 pub extern "C" fn parse(input: *const u8, len: usize) -> Result<u64, ParseError> {
     /* ... */
 }
 
-// ✅ Right: explicit status code + out-parameter.
+// Right: explicit status code + out-parameter.
 #[repr(C)]
 pub enum ParseStatus { Ok = 0, Empty = 1, Overflow = 2, BadDigit = 3 }
 
@@ -135,10 +135,10 @@ pub unsafe extern "C" fn parse(
 ```
 
 ```rust
-// ❌ Wrong: layout of String is not stable, allocator mismatch.
+// Wrong: layout of String is not stable, allocator mismatch.
 extern "C" { fn cpp_log(msg: String); }
 
-// ✅ Right: pass the bytes; let the receiver copy if it wants ownership.
+// Right: pass the bytes; let the receiver copy if it wants ownership.
 extern "C" { fn cpp_log(msg: *const u8, len: usize); }
 
 fn log(msg: &str) {
