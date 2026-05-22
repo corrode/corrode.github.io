@@ -1,14 +1,18 @@
-<pre class="mermaid">
-{{ body }}
-</pre>
+<div class="mermaid">{{ body }}</div>
 {% if nth == 1 %}
 <script type="module">
-  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: "neutral",
-    securityLevel: "strict",
-    flowchart: { htmlLabels: true, useMaxWidth: true },
-  });
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: "neutral",
+        securityLevel: "strict",
+        fontSize: 16,
+        flowchart: {
+            htmlLabels: true,
+            useMaxWidth: true,
+            nodeSpacing: 30,
+            rankSpacing: 40,
+        },
+    });
 </script>
 {% endif %}

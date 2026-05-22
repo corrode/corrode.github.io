@@ -79,19 +79,21 @@ For anything that crosses the boundary, you need one of:
 A useful mental picture for what's safe to put on the wire:
 
 {% mermaid() %}
-graph LR
+graph TB
     subgraph Safe["Safe to cross the boundary"]
+        direction TB
         A["#[repr(C)] structs"]
         B["#[repr(transparent)] newtypes"]
-        C["Fixed-width integers (u32, i64, ...)"]
-        D["Raw pointers (*const T, *mut T)"]
-        E["#[repr(u8)] / #[repr(i32)] C-like enums"]
+        C["Fixed-width ints<br/>(u32, i64, ...)"]
+        D["Raw pointers<br/>(*const T, *mut T)"]
+        E["C-like enums<br/>#[repr(u8)] / #[repr(i32)]"]
     end
     subgraph Unsafe["Leave on the Rust side"]
+        direction TB
         F["String, &str"]
-        G["Vec<T>, &[T]"]
-        H["Result<T,E>, Option<T> (with data)"]
-        I["Box<dyn Trait>, &dyn Trait"]
+        G["Vec&lt;T&gt;, &[T]"]
+        H["Result, Option<br/>(with data)"]
+        I["Box&lt;dyn Trait&gt;<br/>&dyn Trait"]
         J["Tuples, closures"]
     end
     Unsafe -->|"convert at the edge"| Safe
