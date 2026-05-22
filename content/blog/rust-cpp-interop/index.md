@@ -119,15 +119,15 @@ pub unsafe extern "C" fn parse(
 {% mermaid() %}
 flowchart TB
     subgraph rust ["Rust String (3 words, Rust allocator)"]
-        direction LR
+        direction TB
         r1["ptr"] --- r2["len"] --- r3["capacity"]
     end
     subgraph cpp ["C++ std::string (impl-defined, may use SSO)"]
-        direction LR
+        direction TB
         c1["SSO buffer"] --- c2["ptr"] --- c3["len"] --- c4["capacity"]
     end
     subgraph wire ["Wire format across FFI"]
-        direction LR
+        direction TB
         w1["ptr"] --- w2["len"]
     end
     rust -. "copy bytes" .-> wire
