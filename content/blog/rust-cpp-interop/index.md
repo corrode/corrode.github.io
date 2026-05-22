@@ -1,7 +1,6 @@
 +++
 title="Rust and C++ Interop"
 date=2026-05-22
-draft=true
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -12,6 +11,7 @@ resources = [
     "[Rust/C++ Interop in the Android Platform](https://security.googleblog.com/2021/06/rustc-interop-in-android-platform.html): Google's writeup on how AOSP wires Rust and C++ together",
     "[Weighing up Zngur and CXX for Rust/C++ Interop](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): KDAB's 2026 comparison of the two main approaches",
     "[Rust/C++ Interop Part 5 — Interop in 2025](https://tylerjw.dev/posts/20251003-rust-cpp-interop-2025-update/): Tyler Weaver's complete, working example with CMake, `cxx`, and Corrosion",
+    "[Rust in Production: Rust for Linux Live with Alice Ryhl and Greg Kroah-Hartman](/podcast/s06e04-rust4linux/): the episode where Alice makes the case that interop, not rewrites, is how Rust wins",
     "[Rust in Production: Microsoft with Victor Ciura](/podcast/s04e01-microsoft/): our episode on what large-scale Rust/C++ interop looks like inside Microsoft",
     "[Rust has three reference types!](https://ssbr.xyz/blog/rust-has-three-reference-types/): the Crubit team on why `&T`, `&mut T`, and `Pin<&mut T>` aren't enough at the boundary",
 ]
@@ -20,6 +20,14 @@ resources = [
 Every conversation I have with a team that ships Rust into an existing C++ codebase reaches the same point: "the language is great, the interop is the hard part."
 
 That tracks with the [Microsoft episode of *Rust in Production*](/podcast/s04e01-microsoft/) we recorded with Victor Ciura. His one-line summary, paraphrased: *"The biggest challenge for gradual Rust adoption inside Microsoft is interop, and specifically interop with C++."* Google, Mozilla, KDAB, Canonical, Shopify, Brave, the Android team... everyone says some version of the same thing.
+
+The sharpest framing of it I've heard recently came from Alice Ryhl on our most recent [*Rust for Linux* live episode](/podcast/s06e04-rust4linux/), recorded at Rust Week 2026 in Utrecht. Her argument, in essence:
+
+> Interop, not rewrites, is how Rust wins inside Linux.
+>
+> &mdash; Alice Ryhl, *Rust in Production* S06E04
+
+You can't rewrite 35 million lines of C, and you wouldn't want to. The work that matters is the work that lets a new Rust driver call into existing kernel subsystems without giving up the guarantees that made you reach for Rust in the first place. The same logic applies one level up: you're not going to rewrite Chromium, Office, Photoshop, or your in-house trading engine either. **Interop is the new rewrite.**
 
 I don't think this is going to change soon. C++ is somewhere between [100 and 200 million lines](https://www.lwn.net/Articles/1036912/) of code inside Google alone, and roughly that order of magnitude across the rest of the industry. Most of the interesting Rust work over the next decade will happen *next to* a C++ codebase, not instead of one.
 
