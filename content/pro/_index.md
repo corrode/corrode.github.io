@@ -46,7 +46,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
     But acquiring it by yourself is hard. You might have weak spots in your Rust knowledge that you never get around to filling. You might be writing code that works, but does it follow best practices? Will it be maintainable in the long run? 
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    As highlighted in recent <a href="https://nikomatsakis.github.io/rust-project-perspectives-on-ai/feb27-summary.html" target="_blank" rel="noopener">Rust Project discussions on AI</a>, it becomes <strong>really difficult to retain mental models of a codebase for code you didn't write yourself.</strong> The engineers who use LLMs most effectively are the ones who already mastered the language: they know what idiomatic Rust looks like and can give valuable feedback.
+    As highlighted in recent <a href="https://rust-lang.github.io/perspectives-on-llms/index.html" target="_blank" rel="noopener">Rust Project discussions on AI</a>, it becomes <strong>really difficult to retain mental models of a codebase for code you didn't write yourself.</strong> The engineers who use LLMs most effectively are the ones who already mastered the language: they know what idiomatic Rust looks like and can give valuable feedback.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Just like a good workout, your brain needs to wrestle with hard problems to grow. <a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">A program is a shared understanding between developers.</a> Don't outsource your thinking—regain the satisfaction of knowing exactly how and why your code works.
