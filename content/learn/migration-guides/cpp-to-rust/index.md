@@ -515,6 +515,28 @@ __int128, intptr_t/ptrdiff_t</code></pre>
   </tbody>
 </table>
 
+## From the Field
+
+The cheat-sheet above is for getting unstuck on syntax. The harder question is whether the migration is worth it. Two short clips from [Victor Ciura](/podcast/s04e01-microsoft), a 20-year C++ veteran now leading parts of the Rust adoption at Microsoft, are worth listening to:
+
+First, on what porting a real C++ codebase actually looks like:
+
+{% podcast_quote(player="s04e01-microsoft?t=34:00", attribution="Victor Ciura, Principal Engineer at Microsoft") %}
+"For this component, the ported code was about 150,000 lines. And it was pretty much a natural translation, from C and C++ to Rust. It didn't require a major re-architecting or rethinking of the component. It was fairly straightforward."
+{% end %}
+
+Second, on whether the rewrites actually pay off &mdash; which is the part skeptics tend to push back on hardest:
+
+{% podcast_quote(player="s04e01-microsoft?t=14:05", attribution="Victor Ciura, Principal Engineer at Microsoft") %}
+"We have hard data that shows that components that have been rewritten are much more solid. And we can actually even formally prove some of them to be memory safe, both in terms of spatial and temporal safety."
+{% end %}
+
+If you want a counterpoint on the cost side, Victor is also blunt about Rust compile times &mdash; though, fittingly for the audience of this guide, he frames it as a non-issue for C++ developers:
+
+{% podcast_quote(player="s04e01-microsoft?t=51:30", attribution="Victor Ciura, Principal Engineer at Microsoft") %}
+"People coming from C++ don't complain about compile times. Only people coming from C# and .NET complain about compile times. C++ people are used to getting their coffee or reading the Reddits while they compile."
+{% end %}
+
 {% info(title="Need Help Migrating from C++ to Rust?", icon="crab") %}
 
 Migrating a C++ codebase is one of the more involved transitions.

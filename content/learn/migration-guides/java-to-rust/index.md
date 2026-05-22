@@ -226,6 +226,12 @@ This is actually the better approach. [Even James Gosling, Java's creator, has s
 
 It takes a while to get used to that approach. The key is to think in terms of capabilities (traits). For example, instead of a `Dog` class extending an `Animal` class, you might have a `Bark` trait that both `Dog` and `Wolf` implement. This leads to more reusable and modular code.
 
+This isn't just a stylistic preference; engineers coming from Java consistently say the trait-based model leads to cleaner architectures in practice:
+
+{% podcast_quote(player="s05e02-scythe?t=23:22", attribution="Andrew Tinka, Software Engineer at Scythe Robotics") %}
+"The Java capability of classes inheriting from each other leads to a lot of elaboration and customization of a class. 'Oh, I want this, but I want it to act a little bit differently, so I'm going to inherit from it and make a few changes.' [...] Rust encourages you not to build deep, deep hierarchies of classes inheriting from each other."
+{% end %}
+
 ### Compiler as Collaborator
 
 The Rust compiler catches far more issues than Java's. It identifies race conditions, memory leaks, and thread safety problems before they reach production. While its strictness can feel frustrating initially, the detailed error messages actually help you learn. Most teams find that working with the compiler rather than against it leads to faster development in the long run.
@@ -365,6 +371,12 @@ When you migrate to Rust, also consider the secondary effects of improved perfor
 - **Lower Resource Usage**: After migrating to Rust, you'll likely need fewer CPUs or instances to handle the same load. This means less infrastructure to manage and lower costs in production.
 - **Fast Scalability**: Rust's low overhead means you can scale up or down quickly. Whether you're running on Kubernetes or a traditional VM, Rust's efficiency makes it easier to manage your infrastructure. In contrast, this is a common pain point for Java applications in the cloud. It can take 30 seconds or more until a new JVM instance [JIT-compiles](https://www.ibm.com/docs/en/sdk-java-technology/8?topic=reference-jit-compiler) your code, which can lead to cold start issues.
 
+These secondary effects are often what teams talk about most after a migration. GC pauses and JVM warm-up are concrete pain points that simply disappear:
+
+{% podcast_quote(player="s05e08-radar?t=19:08", attribution="Jeff Kao, Staff Engineer at Radar") %}
+"Working at other companies where we used Scala and the JVM, there were consistently issues with the JVM and the garbage collector. [...] We knew that for a lot of what we were doing &mdash; text processing and indexing, storing large data structures in memory &mdash; we really did want to have something where we had a lot more control over the memory."
+{% end %}
+
 Based on my experience helping teams migrate to Rust, here are some ballpark improvements you might see:
 
 - **Memory Usage**: For data-heavy applications, expect to see 30-50% reduction in heap size for most services.
@@ -402,6 +414,12 @@ Rust's memory management ensures that concurrency is safe, so you won't need to 
 One of Rust's underrated strengths is developer ergonomics.
 
 With Rust's strict compiler checks, a lot of potential bugs are caught during development, meaning fewer bugs in production. This leads to fewer code reviews and a smoother development process overall. You can move faster with more confidence.
+
+This matters even more when you're maintaining multiple platform-specific implementations (a common pattern in Java/Kotlin shops with Android, server, and desktop). Andrew Burkhart described exactly that consolidation story at 1Password:
+
+{% podcast_quote(player="s04e06-1password?t=07:50", attribution="Andrew Burkhart, Senior Rust Engineer at 1Password") %}
+"At the scale we're at now, it's just not feasible to have that much code and have that many different implementations. When you're building a security app, multiple implementations is a problem &mdash; any time you have to do that, there's now the risk that one of these implementations is vulnerable in some way that the other isn't. [...] Those languages may have different underlying models for async or memory management or whatever it is. And so it just wasn't feasible to continue on like that."
+{% end %}
 
 Over time, this leads to **more reliable code in production**. Rust's emphasis on memory safety and strict typing means that, once your system is built, you're less likely to face random crashes or bugs.
 This saves on-call costs and reduces the risk of downtime.
