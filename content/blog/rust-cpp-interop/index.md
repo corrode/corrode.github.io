@@ -116,14 +116,25 @@ pub unsafe extern "C" fn parse(
 
 **Don't pass `&str` or `String`.** A Rust `String` carries a capacity field and uses Rust's allocator. A C++ `std::string` doesn't, and uses C++'s. They are not the same type at the bytes level. Use `&[u8]` / `*const u8 + len`, or let `cxx` give you a `CxxString` and a `&str` on either side.
 
-```text
-   Rust String (3 words, Rust allocator)         C++ std::string (impl-defined, may SSO)
-   ┌──────────┬──────────┬──────────┐            ┌────────────────────────────────────┐
-   │   ptr    │   len    │ capacity │            │  SSO buffer | ptr | len | capacity │
-   └──────────┴──────────┴──────────┘            └────────────────────────────────────┘
-               ↓ wire format ↓
-              just (ptr, len) of bytes
-```
+{% mermaid() %}
+flowchart TB
+    subgraph rust ["Rust String (3 words, Rust allocator)"]
+        direction LR
+        r1["ptr"] --- r2["len"] --- r3["capacity"]
+    end
+    subgraph cpp ["C++ std::string (impl-defined, may use SSO)"]
+        direction LR
+        c1["SSO buffer"] --- c2["ptr"] --- c3["len"] --- c4["capacity"]
+    end
+    subgraph wire ["Wire format across FFI"]
+        direction LR
+        w1["ptr"] --- w2["len"]
+    end
+    rust -. "copy bytes" .-> wire
+    cpp -. "copy bytes" .-> wire
+{% end %}
+
+Neither layout is part of a stable ABI. The only thing both sides agree on is a pointer and a length, so that's what you put on the wire — with the receiving side copying into its own native type if it wants ownership.
 
 ```rust
 // Wrong: layout of String is not stable, allocator mismatch.
