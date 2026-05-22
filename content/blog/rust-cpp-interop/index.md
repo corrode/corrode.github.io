@@ -78,26 +78,15 @@ For anything that crosses the boundary, you need one of:
 
 A useful mental picture for what's safe to put on the wire:
 
-{% mermaid() %}
-graph TB
-    subgraph Safe["Safe to cross the boundary"]
-        direction TB
-        A["#[repr(C)] structs"]
-        B["#[repr(transparent)] newtypes"]
-        C["Fixed-width ints<br/>(u32, i64, ...)"]
-        D["Raw pointers<br/>(*const T, *mut T)"]
-        E["C-like enums<br/>#[repr(u8)] / #[repr(i32)]"]
-    end
-    subgraph Unsafe["Leave on the Rust side"]
-        direction TB
-        F["String, &str"]
-        G["Vec&lt;T&gt;, &[T]"]
-        H["Result, Option<br/>(with data)"]
-        I["Box&lt;dyn Trait&gt;<br/>&dyn Trait"]
-        J["Tuples, closures"]
-    end
-    Unsafe -->|"convert at the edge"| Safe
-{% end %}
+| Leave on the Rust side | Convert at the edge to | Safe to cross the boundary |
+|---|:---:|---|
+| `String`, `&str` | &rarr; | `#[repr(C)]` structs |
+| `Vec<T>`, `&[T]` | &rarr; | `#[repr(transparent)]` newtypes |
+| `Result<T, E>`, `Option<T>` (with data) | &rarr; | Fixed-width integers (`u32`, `i64`, ...) |
+| `Box<dyn Trait>`, `&dyn Trait` | &rarr; | Raw pointers (`*const T`, `*mut T`) |
+| Tuples, closures | &rarr; | C-like enums (`#[repr(u8)]` / `#[repr(i32)]`) |
+
+The left column is what you write inside your Rust code. The right column is what you let cross an `extern` function signature. The job of your FFI wrapper is the conversion in the middle.
 
 A few field-level rules that fall out of this.
 
