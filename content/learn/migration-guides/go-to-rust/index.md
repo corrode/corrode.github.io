@@ -467,7 +467,7 @@ s[1] // compile error:
      // by `{integer}`
 ```     
 
-Note how the character `é` is two bytes in UTF-8, so `s[1]` is not the second character, but the second byte of the first character.
+Note how the character `é` is two bytes in UTF-8, so `s[1]` is not the second character, but the first byte of the second character.
 Our human intuition for what a "character" is often doesn't match the underlying byte representation. We see the `é` as one character, but it's actually two bytes (`0xC3 0xA9` in UTF-8). [^go-strings]
 
 [^go-strings]: Worth disambiguating, since it trips people up: a Go `string` is an immutable sequence of *bytes* that is conventionally (but not guaranteed to be) valid UTF-8. A `rune` is a Unicode code point (an alias for `int32`), what you get when you range over a `string`. `[]byte` is the mutable byte buffer. The closest one-to-one mapping is `string` (Go) ↔ `&str` (Rust) for read-only views, and `[]byte` (Go) ↔ `Vec<u8>` (Rust) for mutable buffers. `String` in Rust is the owned, growable version of `&str`, with the additional guarantee that its contents are valid UTF-8 (which Go's `string` does *not* enforce at the type level). For more information, see [Strings, bytes, runes and characters in Go](https://go.dev/blog/strings).
