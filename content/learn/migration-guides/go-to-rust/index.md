@@ -80,7 +80,7 @@ The big difference is that in Go you typically reach for third-party tools (`gol
 In Rust, the first-party ecosystem covers more out of the box.
 Things that *do* require external crates (e.g. `cargo watch`/[`bacon`](https://github.com/canop/bacon), [`cargo nextest`](https://nexte.st/)) install with one command and feel native, e.g. `cargo install cargo-nextest` gives you `cargo nextest` right away.
 
-Both communities have converged on the same insight that a single canonical formatting style (even if imperfect!), is worth more than the bikeshedding it eliminates.
+Both communities have converged on the same insight: that a single canonical formatting style (even if imperfect!) is worth more than the bikeshedding it eliminates.
 
 > Gofmt's style is no one's favorite, yet gofmt is everyone's favorite.
 >
@@ -333,7 +333,7 @@ impl Reader for MyType {
 ```
 
 The Go style is great for ad-hoc "duck typing."
-The Rust allows for grepping every implementer of a trait (which I do a lot in practice).
+Rust, on the other hand, allows for grepping every implementer of a trait (which I do a lot in practice).
 
 The closest equivalent of `interface{}` / `any` in Rust is `Box<dyn Any>`, but you almost never want it.
 The Go community knows the cost of reaching for `interface{}` too:
@@ -451,7 +451,7 @@ Go only has a single string type.
 While you can store any sequence of bytes, they *commonly* represent UTF-8 encoded text. 
 
 From this description, you can already see the problem: data validation is left as an exercise for the programmer. You can have a `string` that contains totally invalid UTF-8, and the compiler won't stop you.
-This leads to a lot of surprising edges cases:
+This leads to a lot of surprising edge cases:
 
 First Go, then Rust:
 
@@ -500,14 +500,14 @@ After using Rust for many years, I can't imagine going back to a world where str
 
 Feel free to skip this section if you don't care about generics much. 😅
 In hindsight, I don't think it's all too important for the working engineer,
-but it part of the story of what makes Go and Rust be different and the philosophical mindset behind both
+but it's part of the story of what makes Go and Rust different, and of the philosophical mindset behind both.
 
 {% end %}
 
 Go got generics in 1.18 (March 2022), thirteen years after the language shipped.
 They are useful, but they feel tacked on, and in practice they have most of the *downsides* of a generic type system without delivering the *upsides* you'd expect coming from Rust, Haskell, or even modern C++.
 
-This is very a strong claim, so let me back it up.
+This is a very strong claim, so let me back it up.
 
 ### The Standard Library Barely Uses Them
 
@@ -548,7 +548,7 @@ let evens: Vec<_> = (0..100).filter(|n| n % 2 == 0).collect();
 
 and the compiler figures out `_` is `i32` from the range, and `Vec<_>` is `Vec<i32>` from the `collect` target.[^iterator-readability]
 
-[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go is not a particularly functional language, and this iterator-chain style is genuinely an acquired taste, idiomatic Rust leans on it heavily, and the first few weeks it can be a little unfamiliar. You can, of course, still write `for` loop in Rust, and for one-off code that's often the right call, but you'll find that iterator patterns will feel quite natural after a while, and the ability to chain transformations without intermediate variables is a real readability win once you internalize it. (That was at least my experience.)
+[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go is not a particularly functional language, and this iterator-chain style is genuinely an acquired taste, idiomatic Rust leans on it heavily, and the first few weeks it can be a little unfamiliar. You can, of course, still write a `for` loop in Rust, and for one-off code that's often the right call, but you'll find that iterator patterns will feel quite natural after a while, and the ability to chain transformations without intermediate variables is a real readability win once you internalize it. (That was at least my experience.)
 
 Go's inference is much shallower. It can usually infer type parameters from function arguments, but it [cannot infer from return-position context](https://go.dev/blog/type-inference), cannot chain inference through generic builders the way Rust does, and frequently forces explicit type arguments at call sites:
 
@@ -578,9 +578,9 @@ Generics in Go feel additive, a new tool in the box that's useful in narrow case
 
 That's the difference, and it's why generic Go code, in my experience, doesn't read better than the `interface{}`-based code it replaced; it just reads differently, with more punctuation.
 
-But I would like to also acknoweldge that all of this doesn't matter for 95% of code out there.
+But I would also like to acknowledge that all of this doesn't matter for 95% of code out there.
 The different perspective on generics is a philosophical one:
-In Rust, they are an incremental part of the languages design and it is normal to use them to model behavior. 
+In Rust, they are an integral part of the language's design, and it's normal to use them to model behavior. 
 In Go, it's tacked on and meant for the 5% edge-cases in library code which are otherwise just painful to write.
 
 ## Popular Go Packages and Their Rust Counterparts
@@ -622,9 +622,9 @@ Go's runtime handles memory and aliasing for you. Rust pushes that decision into
 The first few weeks you'll write code that "should obviously work" and the compiler will refuse it.
 There's this old joke:
 
-> "What's the difference between a Rust beinner and an expert?  
-> A beginner asks: "Why does the compiler stop me from doing things this is horrible?"  
-> An expert asks: "Why doesn't the compiler stop me from doing things this is horrible?"  
+> What's the difference between a Rust beginner and an expert?  
+> A beginner asks: "Why does the compiler stop me from doing things? This is horrible!"  
+> An expert asks: "Why doesn't the compiler stop me from doing things? This is horrible!"  
 
 Here are the most typical ways the borrow checker gets in your way initially:
 
@@ -659,7 +659,7 @@ There *are* cases where the borrow checker is genuinely too strict, but they are
 I got memory management wrong plenty of times in my early days, but I approached it with a *learner's mindset*, which helped me ask "what's wrong with my code?" instead of "what's wrong with the compiler?", a reaction I see a lot in trainings.
 
 The good news is that once you internalize borrowing, it stops fighting you.
-Most experienced Rust developers will tell you that the borrow checker is like having a very attentive programming companion, which really cares about memory saftey. 
+Most experienced Rust developers will tell you that the borrow checker is like having a very attentive programming companion that really cares about memory safety. 
 
 The first month is the hardest.
 
