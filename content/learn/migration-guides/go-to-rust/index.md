@@ -785,8 +785,7 @@ But here are some ballpark numbers, based on Go-to-Rust migrations I've helped w
 - Production incidents: this is the one teams are most surprised by. The classes
   of bugs that survive `go test -race` and reach production (data races, nil
   dereferences, missed error paths) just don't compile in Rust. Oncall rotations
-  are typically very boring after a Rust migration. Andrew Lamb described
-  exactly this effect after the InfluxDB rewrite:
+  are typically very boring after a Rust migration.
 - CPU usage: 20-40% improvement. Less dramatic than Python-to-Rust, because Go
   is already efficient. The wins come from no GC and tighter loops.
 - Memory: 30–50% reduction, mostly from the absence of GC overhead and a smaller
