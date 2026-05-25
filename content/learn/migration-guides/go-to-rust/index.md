@@ -1,7 +1,7 @@
 +++
 title = "Migrating from Go to Rust"
 date = 2026-05-21
-updated = 2026-05-25
+updated = 2026-05-26
 template = "article.html"
 [extra]
 series = "Migration Guides"
@@ -80,7 +80,7 @@ The big difference is that in Go you typically reach for third-party tools (`gol
 In Rust, the first-party ecosystem covers more out of the box.
 Things that *do* require external crates (e.g. `cargo watch`/[`bacon`](https://github.com/canop/bacon), [`cargo nextest`](https://nexte.st/)) install with one command and feel native, e.g. `cargo install cargo-nextest` gives you `cargo nextest` right away.
 
-Both communities have converged on the same insight: that a single canonical formatting style (even if imperfect!) is worth more than the bikeshedding it eliminates.
+Both communities have converged on the same insight: a single canonical formatting style (even if imperfect!) is worth more than the bikeshedding it eliminates.
 
 > Gofmt's style is no one's favorite, yet gofmt is everyone's favorite.
 >
@@ -270,7 +270,7 @@ fn read_config(path: &Path) -> Result<Config, ConfigError> {
 }
 ```
 
-The `?`  operator collapses the error handling flow.
+The `?` operator collapses the error handling flow.
 Under the hood, it does the `if err != nil { return err }` dance for you, including type conversion if necessary. 
 
 ### Null: `nil` vs `Option<T>`
@@ -381,8 +381,8 @@ You might walk away from this section, thinking that Go's concurrency model is o
 
 - WaitGroups and `sync.Once` are easy to misuse, leading to goroutine leaks or deadlocks.
 - Go's scheduler is cooperative, so a long-running goroutine can starve the system.
-- Go's `context.Context` is a great convention for cancellation, but it's easy to forget to pass it through every call site, and the compiler won't tell you when you forgot.
-- Managing shared mutable state with `sync.Mutex` and `sync.RWMutex` is error-prone, and the compiler won't tell you when you forgot to lock something.
+- Go's `context.Context` is a great convention for cancellation, but it's easy to forget to pass it through every call site, and the compiler won't tell you when you forget.
+- Managing shared mutable state with `sync.Mutex` and `sync.RWMutex` is error-prone, and the compiler won't tell you when you forget to lock something.
 
 > Go doesn't have a way to tell a goroutine to exit. There is no stop or kill function, for good reason. If we cannot command a goroutine to stop, we must instead ask it, politely.
 >
@@ -581,35 +581,37 @@ That's the difference, and it's why generic Go code, in my experience, doesn't r
 But I would also like to acknowledge that all of this doesn't matter for 95% of code out there.
 The different perspective on generics is a philosophical one:
 In Rust, they are an integral part of the language's design, and it's normal to use them to model behavior. 
-In Go, it's tacked on and meant for the 5% edge-cases in library code which are otherwise just painful to write.
+In Go, they're tacked on and meant for the 5% edge-cases in library code which are otherwise just painful to write.
 
 ## Popular Go Packages and Their Rust Counterparts
 
-The map of libraries is constantly changing, but there are a few packages, which both communities have converged on.
-This is not an exhaustive list, but I think it's helpful to get a quick overview using the vocabulary you already know.
-For a typical backend service: `axum` + `sqlx` + `tokio` + `tracing` + `serde` + `clap` covers 90% of what you need.
+A lot of what you'd pull a crate for in Rust ships out of the box in Go, such as `net/http`, `encoding/json`, `database/sql`, `log/slog`, `testing` + `httptest`, and plenty more. Rust's stdlib is smaller by design. The language ships the core and lets the ecosystem evolve the rest. (The canonical example is random number generation, which lives in the `rand` crate, not `std`.)
 
-| Concern              | Go                                                | Rust                                              |
-| -------------------- | ------------------------------------------------- | ------------------------------------------------- |
-| HTTP server          | `net/http`, `chi`, `gin`, `echo`, `fiber`         | `axum` (on `hyper`)                               |
-| HTTP client          | `net/http`, `resty`                               | `reqwest`                                         |
-| gRPC                 | `google.golang.org/grpc` + `protoc-gen-go`        | `tonic` + `prost`                                 |
-| OpenAPI (codegen)    | `oapi-codegen`                                    | `utoipa` (code-first) or `openapi-generator`      |
-| SQL                  | `database/sql`, `sqlc`, `sqlx`, `gorm`            | `sqlx`, `sea-orm`, `diesel`                       |
-| Migrations           | `golang-migrate`, `goose`                         | `sqlx migrate`, `refinery`                        |
-| JSON                 | `encoding/json`, `sonic`, `goccy/go-json`         | `serde` + `serde_json`                            |
-| Logging              | `log/slog`, `zerolog`, `zap`                      | `tracing` + `tracing-subscriber`                  |
-| Metrics              | `prometheus/client_golang`                        | `metrics` + `metrics-exporter-prometheus`         |
-| Config               | `viper`, `koanf`                                  | `config` (config-rs), `figment`                   |
-| CLI                  | `cobra`, `urfave/cli`                             | `clap` (derive)                                   |
-| Validation           | `go-playground/validator`                         | `validator`                                       |
-| Errors               | `errors`, `pkg/errors`                            | `thiserror` (libraries), `anyhow` (binaries)      |
-| Testing              | `testing`, `testify`, `gomega`                    | built-in `#[test]`, `rstest`, `assert_matches`    |
-| Mocking              | `mockgen`, `moq`                                  | hand-written fakes (idiomatic), `mockall`         |
-| HTTP mocking         | `httptest`                                        | `httpmock`, `wiremock-rs`                         |
-| Real deps in tests   | `testcontainers-go`                               | `testcontainers`                                  |
-| Retry/backoff        | `cenkalti/backoff`                                | `backon`                                          |
-| Background tasks     | goroutines + `errgroup`                           | `tokio::spawn` + `JoinSet`                        |
+That said, Go's stdlib does carry some legacy. For example, `math/rand` was effectively re-released as [`math/rand/v2` in Go 1.22](https://github.com/golang/go/issues/61716) to fix non-backwards compatible issues with the generator. Previously, simply calling `rand.Seed` would [risk not getting truly random numbers](https://go.dev/blog/randv2).
+
+With that out of the way, here's a rough map. Entries marked (stdlib) are part of Go's standard library:
+
+| Concern              | Go                                                        | Rust                                              |
+| -------------------- | --------------------------------------------------------- | ------------------------------------------------- |
+| HTTP server          | `net/http` (stdlib) (+ `chi`, `gin`, `echo`)              | `axum` (on `hyper`)                               |
+| HTTP client          | `net/http` (stdlib) (+ `resty`)                           | `reqwest`                                         |
+| gRPC                 | `google.golang.org/grpc` + `protoc-gen-go`                | `tonic` + `prost`                                 |
+| SQL                  | `database/sql` (stdlib) (+ `sqlc`, `sqlx`, `gorm`)        | `sqlx`, `sea-orm`, `diesel`                       |
+| Migrations           | `golang-migrate`, `goose`                                 | `sqlx migrate`, `refinery`                        |
+| JSON                 | `encoding/json` (stdlib) (+ `sonic`, `goccy/go-json`)     | `serde` + `serde_json`                            |
+| Logging              | `log/slog` (stdlib) (+ `zerolog`, `zap`)                  | `tracing` + `tracing-subscriber`                  |
+| Metrics              | `prometheus/client_golang`                                | `metrics` + `metrics-exporter-prometheus`         |
+| Config               | `viper`, `koanf`                                          | `figment`, `config` (config-rs)                   |
+| CLI                  | `flag` (stdlib) (+ `cobra`, `urfave/cli`)                 | `clap` (derive)                                   |
+| Errors               | `errors` (stdlib) + `fmt.Errorf("...%w", err)`            | `thiserror` (libraries), `anyhow` (binaries)      |
+| Testing              | `testing` + `httptest` (stdlib) (+ `testify`)             | built-in `#[test]`, `rstest`                      |
+| Mocking              | `uber-go/mock` (maintained fork of `mockgen`), `moq`      | hand-written fakes (idiomatic), `mockall`         |
+| HTTP test fakes      | `httptest` (stdlib)                                       | `wiremock`, `httpmock`                            |
+| Test containers      | `testcontainers-go`                                       | `testcontainers`                                  |
+| Random numbers       | `math/rand/v2` (stdlib)                                   | `rand` (crate, not in `std`)                      |
+| Background tasks     | goroutines + `errgroup`                                   | `tokio::spawn` + `JoinSet`                        |
+
+For a typical backend service in Rust, `axum` + `sqlx` + `tokio` + `tracing` + `serde` + `clap` covers about 90% of what you need. The dependency count is higher than the Go equivalent, and that's a real cost (more `Cargo.lock` churn, more supply-chain surface). For services where the stdlib is enough, staying on Go is a perfectly defensible call.
 
 
 ## Key Challenges in Transitioning to Rust
@@ -635,7 +637,7 @@ Here are the most typical ways the borrow checker gets in your way initially:
 
 With all of these rules, the borrow checker truly sounds like a "gatekeeper" of sorts, which keeps getting in the way and is just overall frustrating to deal with.
 That is not the mental mindset you should have when learning Rust! 
-**The borrow checker truly uncovers real and very existing bugs in your code**, and if you don't address them, your program will have safety issues.
+**The borrow checker uncovers real bugs that already exist in your code**, and if you don't address them, your program will have safety issues.
 It's a common misconception that the borrow checker makes things harder, whereas in actuality all the problems have existed before, but the borrow checker is the first and only thing that points them out.
 
 So whenever you get a compiler error from `rustc`, take a step back and think how your code could break.
@@ -675,7 +677,7 @@ And here's Ed Page (maintainer of `clap`) on the other side of that curve, which
 
 ### Compile Times
 
-Be honest with your team, **Rust compile times are a real downgrade from Go's.**
+Be honest with your team: **Rust compile times are a real downgrade from Go's.**
 
 A clean release build of a medium service can take minutes in comparison to Go's near-instantaneous compiles.
 Incremental builds and `cargo check` are reasonable and compile times have gotten much better over the years, but you'll feel the difference.
@@ -690,7 +692,7 @@ Modern laptops are plenty fast and the toolchain has improved a lot in the last 
 
 ### Async Coloring
 
-As covered in [Goroutines vs Async Tasks](#goroutines-vs-async-tasks), Rust's `async fn` / `fn` split is one of the biggest ergonomic regressions coming from Go. Async traits have been stable since Rust 1.75, but there are still rough edges around mixing them with dynamic dispatch, occasionally you'll reach for the `async-trait` crate to paper over them.
+As covered in [Goroutines vs Async Tasks](#goroutines-vs-async-tasks), Rust's `async fn` / `fn` split is one of the biggest ergonomic regressions coming from Go. Async traits have been stable since Rust 1.75, but there are still rough edges around mixing them with dynamic dispatch; occasionally you'll reach for the `async-trait` crate to paper over them.
 
 ### Smaller Ecosystem in Some Niches
 
