@@ -548,7 +548,7 @@ let evens: Vec<_> = (0..100).filter(|n| n % 2 == 0).collect();
 
 and the compiler figures out `_` is `i32` from the range, and `Vec<_>` is `Vec<i32>` from the `collect` target.[^iterator-readability]
 
-[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go is not a particularly functional language, and this iterator-chain style is genuinely an acquired taste, idiomatic Rust leans on it heavily, and the first few weeks it can be a little unfamiliar. You can, of course, still write a `for` loop in Rust, and for one-off code that's often the right call, but you'll find that iterator patterns will feel quite natural after a while, and the ability to chain transformations without intermediate variables is a real readability win once you internalize it. (That was at least my experience.)
+[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go is not a particularly functional language, and this iterator-chain style is very much an acquired taste, idiomatic Rust leans on it heavily, and the first few weeks it can be a little unfamiliar. You can, of course, still write a `for` loop in Rust, and for one-off code that's often the right call, but you'll find that iterator patterns will feel quite natural after a while, and the ability to chain transformations without intermediate variables is a real readability win once you internalize it. (That was at least my experience.)
 
 Go's inference is much shallower. It can usually infer type parameters from function arguments, but it [cannot infer from return-position context](https://go.dev/blog/type-inference), cannot chain inference through generic builders the way Rust does, and frequently forces explicit type arguments at call sites:
 
@@ -648,7 +648,7 @@ A few questions you can ask yourself:
 
 That is the mindset you need to understand the borrow checker.
 
-Humans are genuinely bad at reasoning about memory.
+Humans are bad at reasoning about memory.
 We forget that pointers can be null, that old references can outlive the data they point to, and that multiple threads can touch the same data at the same time.
 We tend to have a "linear" mental model of how data flows through a program, but in reality it's closer to a complex graph with many paths and interactions.
 Every `if` condition forces you to consider what happens in *both* branches.
