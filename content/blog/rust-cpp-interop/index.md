@@ -14,6 +14,14 @@ resources = [
     "[Rust in Production: Rust for Linux Live with Alice Ryhl and Greg Kroah-Hartman](/podcast/s06e04-rust4linux/): the episode where Alice makes the case that interop, not rewrites, is how Rust wins",
     "[Rust in Production: Microsoft with Victor Ciura](/podcast/s04e01-microsoft/): our episode on what large-scale Rust/C++ interop looks like inside Microsoft",
     "[Rust has three reference types!](https://ssbr.xyz/blog/rust-has-three-reference-types/): the Crubit team on why `&T`, `&mut T`, and `Pin<&mut T>` aren't enough at the boundary",
+    "[How we interfaced single-threaded C++ with multi-threaded Rust](https://antithesis.com/blog/2026/rust_cpp/): Antithesis's deep dive on `MainThreadToken`, `SendWrapper`, and the C++ `ref_ptr` segfault that started it all",
+    "[FFI optimizations and benchmarking](https://godot-rust.github.io/dev/ffi-optimizations-benchmarking/): the godot-rust team measures FFI overhead at single-digit nanoseconds and dispels the \"FFI is slow\" myth",
+    "[Rust on Android \u2014 Lessons from the Edge](https://greptime.com/blogs/2025-04-14-rust-in-android-edge-based-practice): GreptimeDB on stripped binaries, split debug info, and reconstructing readable panic backtraces in production",
+    "[Actors and Factories in Rust (RustConf 2024)](https://2024.rustconf.com/schedule#actors-and-factories-in-rust-distributed-processing-overload-protection): a real-world account of bridging Folly's C++ executors and futures with Tokio",
+    "[`cxx-async`](https://github.com/pcwalton/cxx-async): Patrick Walton's companion crate that maps Rust `Future`s to C++20 awaitables \u2014 the closest thing to a turnkey async-FFI solution today",
+    "[Rust async is colored, and that's not a big deal](https://morestina.net/blog/1686/rust-async-is-colored): the clearest explanation of why bridging two async runtimes is fundamentally harder than bridging two type systems",
+    "[Cancelling async Rust](https://sunshowers.io/posts/cancelling-async-rust/) and [Mutex without lock, Queue without push](https://cliffle.com/blog/lilos-cancel-safety/): the two essential reads on cancel safety before you design any async boundary",
+    "[C++ Migration Strategies (Oxidize 2024)](https://www.youtube.com/watch?v=Je2wIns8x80): Til Adam (KDAB) and Florian Gilcher (Ferrous Systems) on what actually works when you ship Rust into a C++ codebase \u2014 the best single overview talk on this topic",
 ]
 +++
 
@@ -27,15 +35,15 @@ The sharpest framing of it I've heard recently came from Alice Ryhl on our most 
 >
 > &mdash; Alice Ryhl, *Rust in Production* S06E04
 
-You can't rewrite 35 million lines of C, and you wouldn't want to. The work that matters is the work that lets a new Rust driver call into existing kernel subsystems without giving up the guarantees that made you reach for Rust in the first place. The same logic applies one level up: you're not going to rewrite Chromium, Office, Photoshop, or your in-house trading engine either. **Interop is the new rewrite.**
+You can't rewrite 35 million lines of C, neither would you want to. The work that matters is the work that lets a new Rust driver call into existing kernel subsystems without giving up the guarantees that made you reach for Rust in the first place. The same logic applies one level up: you're not going to rewrite Chromium, Office, Photoshop, or your in-house engine either. **Interop is the new rewrite.**
 
-I don't think this is going to change soon. C++ is somewhere between [100 and 200 million lines](https://lwn.net/Articles/1036912/) of code inside Google alone, and roughly that order of magnitude across the rest of the industry. Most of the interesting Rust work over the next decade will happen *next to* a C++ codebase, not instead of one.
+I don't think this is going to change anytime soon. C++ is somewhere between [100 and 200 million lines](https://lwn.net/Articles/1036912/) of code inside Google *alone*. Most of the interesting Rust work over the next decade will happen *next to* a C++ codebase, not instead of one.
 
-So let's talk about what actually goes wrong at that boundary, what the ecosystem looks like in 2026, and which patterns survive contact with production. Most of this post applies to C interop too, but C++ is where the sharp edges live, so that's where I'll focus.
+So let's talk about what actually goes wrong at that boundary and the state of the ecosystem in 2026.
 
 ## Pick The Right Tool, Not The Most Powerful One
 
-The interop space has grown a lot, and it's easy to default to whatever tool a popular blog post happens to use. Here's the rough map as of 2026.
+The interop space has grown a lot, and it's hard to keep track of all the options. As of today, here's a rough map of the landscape: 
 
 | Tool | Direction | What it's good at | When to avoid |
 |---|---|---|---|
@@ -44,13 +52,17 @@ The interop space has grown a lot, and it's easy to default to whatever tool a p
 | [`cbindgen`](https://github.com/mozilla/cbindgen) | Rust → C/C++ | generating C/C++ headers from Rust | round-tripping C++ types |
 | [`cxx`](https://github.com/dtolnay/cxx) | bidirectional | the 80% case; a curated subset of C++ that maps cleanly to Rust | exotic C++ (templates, virtual inheritance, exceptions in your hot path) |
 | [`autocxx`](https://github.com/google/autocxx) | C++ → Rust (mostly) | larger existing C++ APIs you don't want to wrap by hand | when you need rock-solid stability today |
-| [`Crubit`](https://github.com/google/crubit) | bidirectional | deep, mostly-automatic C++ ↔ Rust integration | anywhere outside a Bazel monorepo, today |
+| [`Crubit`](https://github.com/google/crubit) | bidirectional | deep, mostly-automatic C++ ↔ Rust integration | anywhere outside a Bazel monorepo (today) |
 | [`Zngur`](https://github.com/HKalbasi/zngur) | bidirectional | owned C++ values, templates, generics across the boundary | early days; smaller community |
 | [`CXX-Qt`](https://github.com/KDAB/cxx-qt) | bidirectional | Qt/QML applications with Rust business logic | non-Qt projects |
 
-A few honest opinions on top of that table.
+In their Oxidize talk [*C++ Migration Strategies*](https://www.youtube.com/watch?v=Je2wIns8x80), Til Adam (KDAB) and Florian Gilcher (Ferrous Systems) give a great overview of the current state of affairs. They each ship Rust/C++ interop for paying customers (KDAB on the Qt and KDE side, Ferrous Systems on safety-critical and embedded).
 
-**Reach for `cxx` first.** It is, by a wide margin, the most battle-tested option. Mozilla uses it in Firefox, Google uses it in parts of Android, Brave embeds it deep in their browser ([they talked about it on the podcast](/podcast/s03e07-brave/)), and Slint, CXX-Qt, and a long tail of smaller projects all build on it.[^cxx-users] The KDAB team summarized the trade-off well in their [Zngur comparison](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): `cxx` is *opinionated* about which C++ shapes it will let through, and that opinionatedness is exactly why it's safe.
+{{ yt(id="Je2wIns8x80", title="C++ Migration Strategies — Til Adam (KDAB) & Florian Gilcher (Ferrous Systems), Oxidize 2024") }}
+
+## My Current Recommendations For Most Teams
+
+**Reach for `cxx` first.** It is, by a wide margin, the most battle-tested option. Mozilla uses it in Firefox, Google uses it in parts of Android, Brave embeds it deep in their browser ([they talked about it on the podcast](/podcast/s03e07-brave/)), and Slint, CXX-Qt, and a long tail of smaller projects all build on it.[^cxx-users] The KDAB team summarized the trade-off well in their [Zngur comparison](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): `cxx` is *opinionated* about which C++ types it will let through, and that opinionatedness is exactly why it's safe.
 
 **Be careful with `bindgen` for C++.** `bindgen` is wonderful for C. For C++ it silently skips anything it can't represent (templates, overloads, non-trivial constructors), and what you get back is `unsafe` *everything*. Manish's [Firefox post](https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/) is still the best honest writeup of what that costs you in practice.
 
@@ -91,6 +103,10 @@ The left column is what you write inside your Rust code. The right column is wha
 A few field-level rules that fall out of this.
 
 **Don't pass Rust enums with data across FFI.** A `Result<T, E>` or `Option<NonZeroU32>` has a defined layout *in your version of rustc, today*, but it isn't part of the language contract. Either lower it to a `#[repr(C)]` enum with explicit discriminants ([RFC 2195](https://github.com/rust-lang/rfcs/blob/master/text/2195-really-tagged-unions.md) calls these "really tagged unions"), or split it into a status code plus an out-parameter.
+
+If you're using `cxx`, you get a slightly nicer story: a Rust function declared as `-> Result<T>` in the bridge marshals as a C++ function that may throw a single exception type, and a C++ function that throws is reflected back into Rust as a `Result<T, cxx::Exception>`. The eShard team's [tour of the interop ecosystem](https://blog.tetrane.com/2022/Rust-Cxx-interop.html) shows a clean version of this pattern: their `OpenDatabase` struct carries a `UniquePtr<ResourceDatabase>`, an explicit `OpenDatabaseStatus` enum, and a `String error_message`, all `#[repr(C)]` via `cxx`. The status code is the wire contract; the rich error data rides as plain bytes alongside it. That is the production-grade version of "status code plus out-parameter," and it's how you propagate `anyhow`-style context without exporting `anyhow::Error` itself.
+
+If you need true rich error chains, encode them on the Rust side and pass them across as a serialized blob (`Vec<u8>` with a stable format — protobuf, postcard, JSON), then reconstruct on the other side. Trying to share a `dyn std::error::Error` across the boundary is not a thing that works.
 
 ```rust
 // Wrong: layout of Result is not part of the language contract.
@@ -211,6 +227,145 @@ Miguel Young de la Sota's [*Move Constructors: Is it Possible?*](https://www.you
 
 Own a handle to it (`UniquePtr<T>`, `SharedPtr<T>`, `Box<T>` from C++'s `new`) and let the C++ destructor do the cleanup. The moment you try to teach Rust about C++ move semantics by hand, you're writing your own miniature [`moveit`](https://crates.io/crates/moveit) and you will get it wrong.
 
+## Templates, Generics, And The Container Problem
+
+This is the question that derails more `cxx` adoptions than any other: "how do I pass a `std::vector<MyType>` across the boundary?"
+
+The honest answer is: you mostly don't. `cxx` ships with a curated set of containers it understands — `CxxVector<T>`, `CxxString`, `UniquePtr<T>`, `SharedPtr<T>`, `Vec<T>`, `String`, `Box<T>` — and `T` has to be a type `cxx` knows how to marshal. Nested generics (`std::vector<std::vector<T>>`, `std::map<K, V>`, `std::optional<T>`) and your own templated classes are not supported. The escape hatch is the *opaque newtype*: wrap the offending type in a class with a non-templated name, expose only the operations you need, and treat the inside as a black box.
+
+The KDAB team's [Zngur vs CXX comparison](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/) is the clearest writeup of the trade-off. Zngur lets you cross with `Vec<Vec<i32>>`, `HashMap<K, V>`, and `Box<dyn Trait>` directly, at the cost of having to declare each concrete instantiation in an IDL file:
+
+```text
+// Zngur IDL: every concrete generic instantiation is declared by hand.
+type Vec<i32> {
+    #layout(size = 24, align = 8);
+    fn new() -> Vec<i32>;
+    fn push(&mut self, i32);
+    fn len(&self) -> usize;
+}
+type Vec<Vec<i32>> { /* ... */ }
+```
+
+`cxx` won't let you write that at all, but it will let you wrap it:
+
+```rust
+// cxx: an opaque newtype that hides the generic from the bridge.
+#[cxx::bridge]
+mod ffi {
+    unsafe extern "C++" {
+        include!("matrix.h");
+        type Matrix;                       // opaque, C++-side only
+        fn new_matrix(rows: usize, cols: usize) -> UniquePtr<Matrix>;
+        fn get(&self, r: usize, c: usize) -> i32;
+        fn set(self: Pin<&mut Matrix>, r: usize, c: usize, v: i32);
+    }
+}
+```
+
+My recommendation matches the KDAB writeup: if your codebase has a handful of templated types at the boundary, use `cxx` with opaque newtypes — you'll write a little more glue but you get static `Send`/`Sync` checks and a much larger community. If your boundary is *dominated* by generic containers (numerical code, graph libraries, ECS), Zngur becomes interesting despite the rough edges. If you have C++ templates with non-trivial generic logic that you actually want monomorphized in Rust, you're in Crubit territory — see the tooling section.
+
+## Async/Sync Mismatch Is The Hard Part
+
+If your Rust side runs Tokio and your C++ side runs an event loop, a thread pool, or [Folly](https://github.com/facebook/folly) coroutines, you have an *executor* problem before you have an *interop* problem. The two runtimes don't know about each other, can't cooperatively yield to each other, and have wildly different cancellation semantics. None of the existing bindings generators (as of 2026) fully solve this; they only give you the primitives to solve it yourself. The closest thing to a turnkey answer is [`cxx-async`](https://github.com/pcwalton/cxx-async), Patrick Walton's companion crate to `cxx` that maps Rust `Future`s to C++20 awaitables and vice versa — useful when both sides have already chosen modern coroutine machinery, and noted by the KDAB team as one of [`cxx`'s real advantages over Zngur](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/). For everyone else, you're building the bridge by hand.
+
+It's worth dwelling for a moment on *why* this is hard, because the underlying issue isn't C++-specific. Yoshua Wuyts' essay [*Rust async is colored, and that's not a big deal*](https://morestina.net/blog/1686/rust-async-is-colored) is the clearest explanation I know: every async runtime has its own scheduler, its own notion of "task," and its own rules about what counts as blocking. When you bridge two runtimes, you're not just translating types — you're deciding which runtime's notion of "a thing currently happening" is canonical, and how the other one is allowed to participate. The Encore team's [Rust-runtime-for-TypeScript writeup](https://encore.dev/blog/rust-runtime) describes exactly the same problem in a different domain: a JavaScript Promise has to become a Tokio future via a `.then()` callback that resolves through a channel. Different host, same shape.
+
+The pattern that survives in production is the same one the Antithesis team [arrived at after two rewrites](https://antithesis.com/blog/2026/rust_cpp/):
+
+1. Keep a **thin synchronous Rust shim** that is called directly by C++.
+2. That shim's only job is to push work into an `async` channel and (sometimes) await a reply on another channel.
+3. The actual async Rust lives on a Tokio runtime that the shim owns, on threads C++ never touches directly.
+
+{% mermaid() %}
+flowchart LR
+    cpp["C++ main loop<br/>(synchronous)"]
+    shim["Sync Rust shim<br/>cxx::bridge surface"]
+    chan1(["async channel<br/>(request)"])
+    chan2(["async channel<br/>(reply)"])
+    rt["Tokio runtime<br/>async controller"]
+    cpp -->|call| shim
+    shim -->|send| chan1
+    chan1 --> rt
+    rt -->|send| chan2
+    chan2 --> shim
+    shim -->|return| cpp
+{% end %}
+
+This turns the impedance mismatch into a queue, which is a problem you already know how to reason about: bounded vs. unbounded, backpressure, drop-on-overload. The Antithesis team uses this to drive a single-threaded C++ fuzzer from a multi-threaded async Rust controller; Tomasz Pieczerak's [RustConf 2024 talk](https://www.youtube.com/watch?v=zQ6EyQJRxIs) describes the same pattern at production scale, bridging Folly's C++ executors, futures, and coroutines into a Tokio-based actor framework. It's the best 20-minute video on this topic that I know of.
+
+{{ yt(id="zQ6EyQJRxIs", title="Actors and Factories in Rust — RustConf 2024") }}
+
+For the related problem of exposing Rust futures *out* to a host language (Python, TypeScript, Ruby), Sam Lijin's [Seattle Rust talk](https://www.youtube.com/watch?v=Zs6Uer3VAyQ) is the best survey of what the runtime-bridging menu looks like in 2025. The C++ case is harder than any of those (because C++ also has its own native coroutines), but the failure modes are identical.
+
+A few specific traps to know about:
+
+- **Don't `block_on` inside a `cxx` callback that may itself be called from a Tokio worker.** You'll deadlock the runtime the first time the work the callback waits for happens to land on the same worker thread. The morestina post covers this anti-pattern in detail under the "don't hide the color" rule.
+- **Cancellation is not portable.** A dropped Rust future runs destructors and stops polling; a cancelled C++ coroutine does whatever the host runtime decides. If you need cancellation to cross, encode it as an explicit "cancel" message on the channel, not as a future drop. Rain Paharia's [*Cancelling async Rust*](https://sunshowers.io/posts/cancelling-async-rust/) and Cliff Biffle's [*Mutex without lock, Queue without push*](https://cliffle.com/blog/lilos-cancel-safety/) are the two best treatments of *cancel safety* itself — read them before you design the cancel side of your bridge, not after.
+- **Pin the Tokio runtime's lifetime to something C++ understands.** If C++ tears down the process while a Tokio worker is mid-syscall, you get the kind of shutdown crash that only reproduces in CI. A `tokio::runtime::Runtime` held in a `UniquePtr`-equivalent that C++ explicitly destroys works well.
+- **Be careful what kind of future you put on the channel.** If the future itself holds a C++ resource (e.g., a `Pin<&mut CxxString>`), you've recreated the threading problem from the previous section *inside* the async one. The safe pattern is: channels carry owned values or `SendWrapper`s, the C++-touching work happens on the sync shim side.
+
+### Rule: Treat async/sync as a queue boundary, not a function-call boundary
+
+The moment you try to make one runtime's primitives directly visible to the other, you're building a custom executor bridge. Almost nobody actually needs that. A channel and a sync shim get you 95% of the way there with vastly less risk — and when you do need the remaining 5%, `cxx-async` is the place to start, not a hand-rolled `RawWaker`.
+
+## Threading: `Send`, `Sync`, And Methods That Aren't Either
+
+Rust's thread-safety model is *per-type*: a `T` is either `Send` or it isn't, and either `Sync` or it isn't. C++'s is *per-method*, *per-instance*, and frequently *in the documentation only*. Reconciling these is the second-hardest interop problem after async.
+
+The Antithesis writeup is, I think, the best treatment of this anywhere. Their problem in one sentence: some C++ methods on the same class are safe to call from any thread, some are only safe to call from the main thread, and `cxx` (rightly) gives you a single `Sync` bit to express that with. Their solution has three moving parts worth knowing about even if you don't copy them verbatim:
+
+**1. A `MainThreadToken` zero-sized type that proves you're on the main thread.**
+
+```rust
+#[derive(Clone, Copy)]
+pub struct MainThreadToken(PhantomData<*mut ()>);
+//                                       ^^^^^^^ makes the token !Send + !Sync
+
+impl MainThreadToken {
+    /// # Safety: must be called from the designated main thread.
+    pub unsafe fn new() -> Self {
+        assert_eq!(*MAIN_THREAD_ID, std::thread::current().id());
+        Self(PhantomData)
+    }
+}
+```
+
+Methods that require main-thread access take `_token: MainThreadToken` as an argument. The token is unconstructible elsewhere and uncopyable across threads, so the compiler enforces the rule at every call site.
+
+**2. A `SendWrapper<T>` that promises `Send` without promising `Sync`.**
+
+```rust
+pub struct SendWrapper<T>(ManuallyDrop<T>);
+unsafe impl<T> Send for SendWrapper<T> {}
+impl<T: Sync> Deref for SendWrapper<T> { /* ... */ }  // &T only if T: Sync
+```
+
+This lets you ship a non-`Send` C++ object across threads as cargo (you can hold it, move it, drop it on the right thread later) without exposing any operation that would actually be unsafe on the wrong thread.
+
+**3. `SYNC` / `UNSYNC` marker macros on the C++ side.**
+
+```cpp
+#define SYNC      // no-op; reviewer-facing tag
+#define UNSYNC    // no-op; reviewer-facing tag
+
+int get_immutable_data()         SYNC   const;
+int get_mutable_data_unsync()    UNSYNC const;  // _unsync suffix is the contract
+```
+
+The macros do nothing at compile time. They exist for code review and for a 1:1 mapping into the Rust side: `SYNC const` methods become safe `&self` methods, `UNSYNC const` methods become `unsafe fn` with a `// SAFETY:` comment, and a safe wrapper takes a `MainThreadToken` to call the unsafe version.
+
+The whole scheme is described in [Antithesis's writeup](https://antithesis.com/blog/2026/rust_cpp/) and is worth reading even if you steal nothing from it but the vocabulary.
+
+A few rules of thumb that fall out of all this:
+
+- **`cxx` does not implement `Send` or `Sync` for opaque C++ types by default.** That is the correct default. Overriding it requires `unsafe impl Send for MyCppType {}`, which is exactly the line that caused the war story at the top of this post. Don't write it without a written safety argument.
+- **"const" in C++ is not "`&self`-safe" in Rust.** A `const` C++ method can mutate anything reachable through a non-owned pointer. Treat C++ `const` as evidence, not proof.
+- **Drop order matters.** If your C++ type must be destroyed on a specific thread (Qt's `QObject`, COM objects, anything with thread-affine internals), your Rust `Drop` impl must arrange for that — typically by sending the value to a drop queue rather than freeing in place.
+
+### Rule: Encode the C++ side's threading contract in the Rust type system, not in code comments
+
+If a method is unsafe to call off the main thread, make the Rust signature `unsafe` (or require a token). If a value is unsafe to drop off a specific thread, make the `Drop` impl forward to a queue. If a type is `Sync` only because the C++ side has internal locks, write that down in the `unsafe impl Sync` block. The discipline pays for itself the first time a refactor would have introduced a data race and the compiler refuses to build instead.
+
 ## Unwinding Across The Boundary Is Undefined Behavior (Until You Opt In)
 
 Until [RFC 2945](https://github.com/rust-lang/rfcs/blob/master/text/2945-c-unwind-abi.md) stabilized the `"C-unwind"` ABI, *any* panic or C++ exception crossing an `extern "C"` boundary was undefined behavior. A lot of production Rust still relies on the older `extern "C"` and silently assumes nothing throws. That assumption breaks the first time a downstream C++ library starts using exceptions, or someone introduces an `unwrap()` deep in a callback.
@@ -265,6 +420,20 @@ Each FFI call carries:
 - A reasoning cost (you must check unsafety preconditions at every site).
 - A lifetime cost (Rust's borrow checker can't see across the boundary, so you're back to manual discipline).
 
+The CPU cost is smaller than people think. The godot-rust team [measured their `extern "C"` calls](https://godot-rust.github.io/dev/ffi-optimizations-benchmarking/) at 4–5 nanoseconds round-trip after a one-time function-pointer cache lookup — in the same ballpark as a virtual call through `dyn Trait`. Their takeaway, which I think is correct: *"FFI is fast. We should embrace FFI calls where they make sense, not try to avoid them."* The reason to keep the boundary coarse isn't that crossings are individually expensive; it's that each crossing is a place where the *reasoning* and *lifetime* costs accumulate. A 100ns hot loop with 20 FFI calls in it is fine. A codebase with 2,000 FFI call sites is unauditable.
+
+A rough budget table for sanity-checking your design:
+
+| Operation | Order of magnitude | Notes |
+|---|---|---|
+| Plain `extern "C"` call, scalar args | ~2–5 ns | indistinguishable from a `dyn Trait` call |
+| `cxx` call with `&str` / `&CxxString` | ~5–10 ns | one length+pointer marshal |
+| Call wrapped in `catch_unwind` | +5–10 ns | TLS access for panic state |
+| `UniquePtr<T>` round-trip (alloc + free) | ~50–200 ns | dominated by the allocator |
+| Crossing with a `Vec<u8>` copy | bytes×memcpy | linear in payload size |
+
+These are wall-clock numbers from published benchmarks on commodity x86, not guarantees — measure your own. The point is the *shape*: marshalling is cheap, copies are cheap until they aren't, and allocator round-trips dominate everything once you're doing them per-call.
+
 The teams that ship Rust/C++ interop successfully all converge on the same shape: **a coarse-grained boundary**. They define a small number of operations that take large, owned chunks of work, instead of a large number of operations that shuffle small values back and forth.
 
 Manish's Firefox post puts numbers on this:
@@ -299,6 +468,55 @@ Miri won't see into your C++, but it will catch undefined behavior in the Rust g
 ### Rule: Sanitizers are a hard gate, not a "nice to have"
 
 If you can't run your interop tests under ASan and UBSan in CI, you don't have a test suite, you have a smoke test. This is doubly true for code that handles untrusted input.
+
+## Debugging Across The Boundary
+
+When something does go wrong at the boundary — and it will — you'll spend most of your time fighting your tools before you get anywhere near the bug. A few things worth setting up *before* you need them:
+
+**Keep symbols even when you strip the binary.** This is the single most useful thing you can do. The GreptimeDB team's [Android writeup](https://greptime.com/blogs/2025-04-14-rust-in-android-edge-based-practice) describes the production pattern: build *two* artifacts from each release, one stripped (the one you ship), one with full symbols and debug info (the one you keep). When the stripped binary panics in the field, you correlate the base address of each loaded object back to the symbolized binary off-line and reconstruct a real backtrace. It's the same workflow Android, iOS, and game consoles have used for years; it just isn't part of the standard Rust release story by default.
+
+```toml
+# Cargo.toml: keep debug info in release, strip at install time.
+[profile.release]
+debug = true       # full DWARF in the build artifact
+strip = false      # do not strip at the linker step
+lto = true
+codegen-units = 1
+```
+
+Then strip explicitly when packaging, and archive the unstripped `.so` / `.dylib` / `.pdb` alongside the release.
+
+**Install a panic hook that captures a backtrace and base addresses.** The Rust `backtrace` crate plus the `phdrs` crate (on Linux/Android) will give you everything you need to recover a usable trace from a stripped binary:
+
+```rust
+pub fn set_panic_hook() {
+    std::panic::set_hook(Box::new(|info| {
+        let bt = backtrace::Backtrace::new();
+        log::error!("panic: {info:?}\nbacktrace:\n{bt:#?}");
+        for o in phdrs::objects() {
+            log::error!("object {:?} base {:#x?}", o.name(), o.addr());
+        }
+    }));
+}
+```
+
+Note that `std::backtrace` had [a long-standing bug on Android](https://greptime.com/blogs/2025-04-14-rust-in-android-edge-based-practice) where it returned empty traces until Rust 1.82; the `backtrace` crate works around it on older toolchains.
+
+**Demangle on read, not on write.** Rust symbols look like `_ZN10panic_demo1b17h9ebbf8c80464f859E` raw and like `panic_demo::b::h9ebbf...` after demangling. Install [`rustfilt`](https://github.com/luser/rustfilt) and pipe `addr2line`, `objdump`, or `c++filt` output through it; trying to read raw mangled names while debugging is a waste of an hour.
+
+**Set up your debugger to walk both stacks.** Modern `lldb` and `gdb` can step from C++ into Rust and back without complaint, but they need symbols for both sides loaded *and* sourced. A few tips:
+
+- `rust-lldb` and `rust-gdb` are thin wrappers that load Rust's pretty-printers — use them, not raw `lldb`/`gdb`, when your Rust code is on the stack.
+- Compile both sides with `-g` (`debug = true` in Cargo, `-g` in your C++ flags). Mixed-language traces with one side stripped are useless.
+- Set a breakpoint on `rust_panic` and on `__cxa_throw` to catch the moment either side starts unwinding. That single trick has saved me more time than any other debugger setup.
+- On Linux, `RUST_BACKTRACE=full cargo test --no-fail-fast 2>&1 | rustfilt` is the fastest way to see what's actually happening when an FFI test segfaults.
+
+**Use `cargo-show-asm` or `cargo-asm` when the bug looks like a calling-convention mismatch.** If your Rust side and C++ side disagree about whether the return value goes in a register or in a hidden out-parameter, no amount of source-level debugging will tell you. Reading the actual generated assembly for one offending function for ten minutes is faster than guessing for two days.
+
+### Rule: Decide your symbol strategy before your first release, not after your first crash report
+
+If production traffic ever returns `0x7fff8c2a1480 - <unknown>` in your error log, you have already lost the next hour. Build the two-binary split, archive the symbols, and write the symbolize-from-base-address script *before* you need it.
+
 
 ## Tooling and Build Systems
 
@@ -377,6 +595,49 @@ Even with all of these sharp edges, the parts of your codebase you actually writ
 Google's [Android security team reported](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) that the proportion of memory-safety vulnerabilities in Android dropped from 76% in 2019 to 24% in 2024, driven primarily by new code being written in Rust rather than rewriting old code.[^android-stats] The interop boundary is where the *remaining* bugs live, but the absolute count is way down.
 
 The point of being careful at the boundary isn't that interop is dangerous in some special way Rust can't help with. It's that the boundary is *exactly* the place where Rust's guarantees stop, and you have to do the work the compiler usually does for you. Treat it that way, and the math still works out enormously in your favor.
+
+## The FFI Boundary Checklist
+
+If you read nothing else, read this. Every item is a rule the rest of the post argues for in detail; together they're the difference between "we shipped Rust into our C++ product" and "we shipped a CVE."
+
+**Layout & ABI**
+
+- [ ] Every type that crosses the boundary is `#[repr(C)]`, `#[repr(transparent)]`, or a `#[repr(integer)]` enum.
+- [ ] No `String`, `Vec<T>` by value, `Result<T, E>`, or `Option<T>` (with data) in any `extern` signature.
+- [ ] Pointers crossing the boundary are documented with who allocates, who frees, and which allocator.
+- [ ] Empty slices are normalized at the boundary (`null` pointer if `len == 0`).
+
+**Unwinding**
+
+- [ ] Unwinding policy (`panic = "abort"` *or* `extern "C-unwind"` + `catch_unwind`) is written in the crate README.
+- [ ] Every `extern` function exposed to C++ either is `C-unwind` with a `catch_unwind` wrapper, or runs under `panic = "abort"`.
+- [ ] No mixed policies in the same process.
+
+**Threading**
+
+- [ ] No `unsafe impl Send` or `unsafe impl Sync` for a C++ type without a written safety argument in the source.
+- [ ] Methods that are only safe on a specific thread take a token (`MainThreadToken`, `&UiContext`, etc.) or are marked `unsafe fn`.
+- [ ] Drop is forwarded to the right thread for any type with thread affinity.
+
+**Async**
+
+- [ ] The Rust async runtime is owned and torn down by Rust, with C++ holding only a handle.
+- [ ] No `block_on` inside an FFI callback.
+- [ ] Cancellation crosses the boundary as an explicit message, not as a future drop.
+
+**Safety hygiene**
+
+- [ ] Every `unsafe extern "C"` function has a `// SAFETY:` comment that names the invariants the caller must uphold.
+- [ ] The wrapper crate exposes a safe API; the `extern` surface is `pub(crate)` or hidden behind `unsafe`.
+
+**CI & release**
+
+- [ ] AddressSanitizer and UndefinedBehaviorSanitizer run on the interop test suite in CI, both in debug and release.
+- [ ] Miri runs on the pure-Rust glue.
+- [ ] Release artifacts are built with `debug = true`, then explicitly stripped, with the unstripped binary archived for symbolication.
+- [ ] `bindgen`, `cxx`, and toolchain versions are pinned and upgraded deliberately.
+
+If any of these is unchecked, you have a known unknown. That's fine — know it.
 
 ## Idiomatic Interop Is Boring Interop
 
