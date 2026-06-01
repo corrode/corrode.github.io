@@ -49,9 +49,9 @@ As per tradition, they kick off the year of Rust conferences.
 - **Where**: [1 America Square (Workshops) & The Brewery (Main Conference), London, UK](https://www.rustnationuk.com/)
 - **Format**: 2 days (workshops + conference)
 - **Focus**: Rust ecosystem and community
-- **Pricing**: [£220.00 + £44.00 VAT](https://www.rustnationuk.com/tickets) 
+- **Pricing**: Event concluded
 - **CFP**: Closed
-- **Links**: [Website](https://www.rustnationuk.com/) | [Tickets](https://www.rustnationuk.com/tickets)
+- **Links**: [Website](https://www.rustnationuk.com/) | [Recordings](https://www.youtube.com/playlist?list=PL1AoGvxomykQcqQZ9oKh3MEi9jcvuoqb6) | [Past Talks](https://www.youtube.com/@rustnationuk)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
 
 ### Rust in Paris (France)
@@ -66,7 +66,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Where**: [L'Apollo Théâtre 18, Rue du Faubourg du Temple, 75011 Paris – France](https://www.google.com/maps/place/Apollo+Th%C3%A9%C3%A2tre/@48.8682435,2.3637481,17z/data=!3m2!4b1!5s0x47e66e084be9ac71:0x5452be83db948318!4m6!3m5!1s0x47e66e0852167e43:0xa259bf31ee319054!8m2!3d48.86824!4d2.366323!16s%2Fg%2F120z_cmr?entry=ttu)
 - **Format**: 1 day conference
 - **Focus**: Crafting safe & efficient futures
-- **Pricing**: [€120](https://ti.to/xperhub/rust-in-paris-2026)
+- **Pricing**: Event concluded
 - **CFP**: Closed
 - **Links**: [Website](https://rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
 
@@ -83,27 +83,10 @@ Expect a developer-friendly atmosphere with expert talks in a single-track forma
 - **Where**: [POLIN Conference Centre, Warsaw, Poland](https://maps.app.goo.gl/tPT7GzRc7kUh4d3s5)
 - **Format**: 2 day conference
 - **Focus**: Rust adoption in Poland and beyond
-- **Pricing**: [€300](https://www.rustikon.dev/tickets) 
+- **Pricing**: Event concluded
 - **CFP**: [Closed](https://sessionize.com/rustikon-2026/)
-- **Links**: [Website](https://www.rustikon.dev/)
+- **Links**: [Website](https://www.rustikon.dev/) | [Recordings](https://www.rustikon.dev/talks)
 - **Social**: [Twitter](https://x.com/rustikonconf) | [Mastodon](https://mastodon.social/@Rustikon)
-
-### RUSTAsia (Hong Kong) <span class="conference-badge tentative">Dates TBA</span>
-
-<a target="_blank">
-  <img src="rustasia.jpg" alt="RUSTAsia" />
-</a>
-
-A conference for Rust developers in Asia.
-
-- **When**: TBA (typically March)
-- **Where**: Hong Kong
-- **Format**: Hybrid (in-person + online)
-- **Focus**: Rust in Asia
-- **Pricing**: TBA
-- **CFP**: TBA
-- **Links**: Website offline
-- **Social**: [Twitter](https://x.com/rustasiaconf)
 
 ## Q2 2026
 
@@ -136,9 +119,9 @@ The first-ever dedicated conference for developers building high-performance net
 - **Where**: [Hyatt Regency Portland, 375 NE Holladay St, Portland, OR 97232](https://www.hyatt.com/hyatt-regency/en-US/pdxrp-hyatt-regency-portland-at-the-oregon-convention-center)
 - **Format**: 3 days (1 day optional workshops + 2 days single-track conference)
 - **Focus**: Async Rust, Tokio, high-performance network applications
-- **Pricing**: [Early Bird $650, General Admission $750](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
+- **Pricing**: Event concluded (recordings pending)
 - **CFP**: [Closed](https://sessionize.com/tokioconf-2026)
-- **Links**: [Website](https://www.tokioconf.com/) | [Tickets](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
+- **Links**: [Website](https://www.tokioconf.com/)
 - **Social**: [Tokio Blog](https://tokio.rs/blog)
 
 ### RustWeek (Utrecht, Netherlands) 
