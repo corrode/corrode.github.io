@@ -29,6 +29,7 @@ talk or workshop proposal?
 
 <div class="conference-filters">
   <button class="button filter-btn active" data-filter="all">All Conferences</button>
+  <button class="button filter-btn" data-filter="upcoming">Upcoming</button>
   <button class="button filter-btn" data-filter="cfp-open">CFP Open</button>
   <button class="button filter-btn" data-filter="announced">Dates Announced</button>
 </div>
@@ -53,6 +54,8 @@ As per tradition, they kick off the year of Rust conferences.
 - **CFP**: Closed
 - **Links**: [Website](https://www.rustnationuk.com/) | [Recordings](https://www.youtube.com/playlist?list=PL1AoGvxomykQcqQZ9oKh3MEi9jcvuoqb6) | [Past Talks](https://www.youtube.com/@rustnationuk)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
+
+{{ yt(id="6mZRWFQRvmw", title="Rust Nation UK 2026") }}
 
 ### Rust in Paris (France)
 
@@ -107,6 +110,8 @@ come together for practical Rust talks, hallway conversations, and real producti
 - **CFP**: Closed
 - **Links**: [Website](https://rustindia.org/) | [Schedule](https://rustindia.org/schedule) | [Recordings](https://www.youtube.com/watch?v=qKEm8CSMayM&list=PLbcv9d2YUhnbCxJmjB_4RbjUBgq6exSGs)
 
+{{ yt(id="qKEm8CSMayM", title="Rust India Conference 2026") }}
+
 ### TokioConf (Portland, USA)
 
 <a href="https://www.tokioconf.com/" target="_blank">
@@ -119,9 +124,9 @@ The first-ever dedicated conference for developers building high-performance net
 - **Where**: [Hyatt Regency Portland, 375 NE Holladay St, Portland, OR 97232](https://www.hyatt.com/hyatt-regency/en-US/pdxrp-hyatt-regency-portland-at-the-oregon-convention-center)
 - **Format**: 3 days (1 day optional workshops + 2 days single-track conference)
 - **Focus**: Async Rust, Tokio, high-performance network applications
-- **Pricing**: Event concluded (recordings pending)
+- **Pricing**: Event concluded
 - **CFP**: [Closed](https://sessionize.com/tokioconf-2026)
-- **Links**: [Website](https://www.tokioconf.com/)
+- **Links**: [Website](https://www.tokioconf.com/) | [Recordings](https://www.youtube.com/@TokioConf)
 - **Social**: [Tokio Blog](https://tokio.rs/blog)
 
 ### RustWeek (Utrecht, Netherlands) 
@@ -144,6 +149,8 @@ All Rustaceans are welcome to attend and submit talks.
 - **Links**: [Website](https://2026.rustweek.org/) | [Main Track Recording](https://www.youtube.com/live/0vhGWclF7LU?si=0R46LgDghrSa74Bf) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL)
 
+{{ yt(id="0vhGWclF7LU", title="RustWeek 2026") }}
+
 ### RUSTMEET (Kraków, Poland)
 
 <a href="https://rustmeet.eu/" target="_blank">
@@ -158,7 +165,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Focus**: Rust programming language
 - **Pricing**: Available via [Confreg](https://rustmeet.eu/)
 - **CFP**: Closed
-- **Links**: [Website](https://rustmeet.eu/)
+- **Links**: [Website](https://rustmeet.eu/) | [Past Talks](https://www.youtube.com/@Rustmeet)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
 ## Q3 2026
@@ -330,6 +337,12 @@ See you at the next conference! 🦀
     border-color: #22c55e;
   }
 
+  .conference-badge.past {
+    color: #6b7280;
+    background: transparent;
+    border-color: rgba(17, 17, 17, 0.2);
+  }
+
   /* Map styles */
   #conference-map {
     position: relative;
@@ -457,6 +470,11 @@ See you at the next conference! 🦀
 
     .conference-badge.cfp-open {
       background: #4ade80;
+    }
+
+    .conference-badge.past {
+      color: #9ca3af;
+      border-color: rgba(255, 255, 255, 0.2);
     }
 
     /* Map dark mode */
@@ -717,13 +735,14 @@ function addDaysUntilConference() {
                     if (!text.includes('When:') || text.includes('TBA')) return;
 
                     // Match date pattern: "Month Day(-Day)?, Year"
-                    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-\d{1,2})?,\s+(\d{4})/;
+                    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-(\d{1,2}))?,\s+(\d{4})/;
                     const match = text.match(datePattern);
 
                     if (match) {
                         const monthName = match[1];
-                        const day = parseInt(match[2], 10);
-                        const year = parseInt(match[3], 10);
+                        const startDay = parseInt(match[2], 10);
+                        const endDay = match[3] ? parseInt(match[3], 10) : startDay;
+                        const year = parseInt(match[4], 10);
 
                         // Map month names to numbers (0-indexed)
                         const monthMap = {
@@ -733,7 +752,8 @@ function addDaysUntilConference() {
                         };
 
                         // Create date object using Date constructor with explicit parameters
-                        const confDate = new Date(year, monthMap[monthName], day);
+                        const confDate = new Date(year, monthMap[monthName], startDay);
+                        const endDate = new Date(year, monthMap[monthName], endDay);
                         const today = new Date();
                         today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate day calculation
 
@@ -741,8 +761,18 @@ function addDaysUntilConference() {
                         const diffTime = confDate - today;
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-                        // Add a days badge if conference is in the future
-                        if (diffDays > 0) {
+                        if (endDate < today) {
+                            // The event has already taken place
+                            const existingPastBadge = h3.querySelector('.conference-badge.past');
+                            if (!existingPastBadge) {
+                                const pastBadge = document.createElement('span');
+                                pastBadge.className = 'conference-badge past';
+                                pastBadge.textContent = 'Concluded';
+                                pastBadge.title = 'This event has already taken place';
+                                h3.appendChild(pastBadge);
+                            }
+                        } else if (diffDays > 0) {
+                            // Add a days badge if conference is in the future
                             // Check if badge already exists
                             const existingDaysBadge = h3.querySelector('.conference-badge.days');
                             if (!existingDaysBadge) {
@@ -806,6 +836,23 @@ function addCFPBadges() {
     });
 }
 
+// Parse a conference's end date from its "When:" text (returns Date or null)
+function getConferenceEndDate(text) {
+    if (!text || text.includes('TBA')) return null;
+    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-(\d{1,2}))?,\s+(\d{4})/;
+    const match = text.match(datePattern);
+    if (!match) return null;
+    const monthMap = {
+        'January': 0, 'February': 1, 'March': 2, 'April': 3,
+        'May': 4, 'June': 5, 'July': 6, 'August': 7,
+        'September': 8, 'October': 9, 'November': 10, 'December': 11
+    };
+    const startDay = parseInt(match[2], 10);
+    const endDay = match[3] ? parseInt(match[3], 10) : startDay;
+    const year = parseInt(match[4], 10);
+    return new Date(year, monthMap[match[1]], endDay);
+}
+
 // Filter conferences
 function setupFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -864,6 +911,11 @@ function setupFilters() {
                     shouldShow = hasCFP;
                 } else if (filter === 'announced') {
                     shouldShow = conf.whenText && !conf.whenText.includes('TBA');
+                } else if (filter === 'upcoming') {
+                    const endDate = getConferenceEndDate(conf.whenText);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    shouldShow = endDate !== null && endDate >= today;
                 }
                 // 'all' shows everything
 
