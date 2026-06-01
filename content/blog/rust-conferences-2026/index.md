@@ -343,6 +343,13 @@ See you at the next conference! 🦀
     border-color: rgba(17, 17, 17, 0.2);
   }
 
+  .no-conferences-message {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    font-size: 1.1rem;
+    color: #6b7280;
+  }
+
   /* Map styles */
   #conference-map {
     position: relative;
@@ -475,6 +482,10 @@ See you at the next conference! 🦀
     .conference-badge.past {
       color: #9ca3af;
       border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .no-conferences-message {
+      color: #9ca3af;
     }
 
     /* Map dark mode */
@@ -857,6 +868,17 @@ function getConferenceEndDate(text) {
 function setupFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const headings = document.querySelectorAll('article h3');
+    const sectionHeadings = Array.from(document.querySelectorAll('article h2'));
+
+    // Create the "no results" message (hidden by default)
+    const noResultsMessage = document.createElement('p');
+    noResultsMessage.className = 'no-conferences-message';
+    noResultsMessage.textContent = 'No conferences match this filter.';
+    noResultsMessage.style.display = 'none';
+    const filtersEl = document.querySelector('.conference-filters');
+    if (filtersEl) {
+        filtersEl.parentNode.insertBefore(noResultsMessage, filtersEl.nextSibling);
+    }
 
     // Store conference data for filtering
     const conferences = [];
@@ -883,10 +905,20 @@ function setupFilters() {
             currentElement = currentElement.nextElementSibling;
         }
 
+        // Find the section heading (nearest preceding h2) this conference belongs to
+        let section = null;
+        let prev = h3.previousElementSibling;
+        while (prev) {
+            if (prev.tagName === 'H2') { section = prev; break; }
+            prev = prev.previousElementSibling;
+        }
+
         conferences.push({
             elements: conferenceElements,
             cfpText: cfpText,
-            whenText: whenText
+            whenText: whenText,
+            section: section,
+            shown: true
         });
     });
 
@@ -898,6 +930,7 @@ function setupFilters() {
             btn.classList.add('active');
 
             const filter = btn.dataset.filter;
+            let visibleCount = 0;
 
             // Filter conferences
             conferences.forEach(conf => {
@@ -919,10 +952,22 @@ function setupFilters() {
                 }
                 // 'all' shows everything
 
+                conf.shown = shouldShow;
+                if (shouldShow) visibleCount++;
+
                 conf.elements.forEach(el => {
                     el.style.display = shouldShow ? '' : 'none';
                 });
             });
+
+            // Hide section headings that have no visible conferences
+            sectionHeadings.forEach(section => {
+                const hasVisible = conferences.some(conf => conf.section === section && conf.shown);
+                section.style.display = hasVisible ? '' : 'none';
+            });
+
+            // Show a message when nothing matches the selected filter
+            noResultsMessage.style.display = visibleCount === 0 ? '' : 'none';
         });
     });
 }
