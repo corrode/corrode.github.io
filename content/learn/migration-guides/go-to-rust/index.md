@@ -457,7 +457,7 @@ First Go, then Rust:
 
 ```go
 s := "héllo"
-s[1] // → 195 (a byte)
+s[1] // → 0xC3 (a byte)
 ```
 
 ```rust

@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2026-03-14
+updated = 2026-06-01
 template = "article.html"
 draft = false
 [extra]
@@ -29,6 +29,7 @@ talk or workshop proposal?
 
 <div class="conference-filters">
   <button class="button filter-btn active" data-filter="all">All Conferences</button>
+  <button class="button filter-btn" data-filter="upcoming">Upcoming</button>
   <button class="button filter-btn" data-filter="cfp-open">CFP Open</button>
   <button class="button filter-btn" data-filter="announced">Dates Announced</button>
 </div>
@@ -49,10 +50,12 @@ As per tradition, they kick off the year of Rust conferences.
 - **Where**: [1 America Square (Workshops) & The Brewery (Main Conference), London, UK](https://www.rustnationuk.com/)
 - **Format**: 2 days (workshops + conference)
 - **Focus**: Rust ecosystem and community
-- **Pricing**: [£220.00 + £44.00 VAT](https://www.rustnationuk.com/tickets) 
+- **Pricing**: Event concluded
 - **CFP**: Closed
-- **Links**: [Website](https://www.rustnationuk.com/) | [Tickets](https://www.rustnationuk.com/tickets)
+- **Links**: [Website](https://www.rustnationuk.com/) | [Recordings](https://www.youtube.com/playlist?list=PL1AoGvxomykQcqQZ9oKh3MEi9jcvuoqb6) | [Past Talks](https://www.youtube.com/@rustnationuk)
 - **Social**: [Twitter](https://x.com/rustnationuk) | [Mastodon](https://hachyderm.io/@Rustnationuk)
+
+{{ yt(id="6mZRWFQRvmw", title="Rust Nation UK 2026") }}
 
 ### Rust in Paris (France)
 
@@ -66,7 +69,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Where**: [L'Apollo Théâtre 18, Rue du Faubourg du Temple, 75011 Paris – France](https://www.google.com/maps/place/Apollo+Th%C3%A9%C3%A2tre/@48.8682435,2.3637481,17z/data=!3m2!4b1!5s0x47e66e084be9ac71:0x5452be83db948318!4m6!3m5!1s0x47e66e0852167e43:0xa259bf31ee319054!8m2!3d48.86824!4d2.366323!16s%2Fg%2F120z_cmr?entry=ttu)
 - **Format**: 1 day conference
 - **Focus**: Crafting safe & efficient futures
-- **Pricing**: [€120](https://ti.to/xperhub/rust-in-paris-2026)
+- **Pricing**: Event concluded
 - **CFP**: Closed
 - **Links**: [Website](https://rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
 
@@ -83,27 +86,10 @@ Expect a developer-friendly atmosphere with expert talks in a single-track forma
 - **Where**: [POLIN Conference Centre, Warsaw, Poland](https://maps.app.goo.gl/tPT7GzRc7kUh4d3s5)
 - **Format**: 2 day conference
 - **Focus**: Rust adoption in Poland and beyond
-- **Pricing**: [€300](https://www.rustikon.dev/tickets) 
+- **Pricing**: Event concluded
 - **CFP**: [Closed](https://sessionize.com/rustikon-2026/)
-- **Links**: [Website](https://www.rustikon.dev/)
+- **Links**: [Website](https://www.rustikon.dev/) | [Recordings](https://www.rustikon.dev/talks)
 - **Social**: [Twitter](https://x.com/rustikonconf) | [Mastodon](https://mastodon.social/@Rustikon)
-
-### RUSTAsia (Hong Kong) <span class="conference-badge tentative">Dates TBA</span>
-
-<a target="_blank">
-  <img src="rustasia.jpg" alt="RUSTAsia" />
-</a>
-
-A conference for Rust developers in Asia.
-
-- **When**: TBA (typically March)
-- **Where**: Hong Kong
-- **Format**: Hybrid (in-person + online)
-- **Focus**: Rust in Asia
-- **Pricing**: TBA
-- **CFP**: TBA
-- **Links**: Website offline
-- **Social**: [Twitter](https://x.com/rustasiaconf)
 
 ## Q2 2026
 
@@ -120,9 +106,11 @@ come together for practical Rust talks, hallway conversations, and real producti
 - **Where**: Bengaluru, India
 - **Format**: 1 day (5 full talks + 8 lightning talks)
 - **Focus**: Systems programming, reliability, performance tuning, production Rust
-- **Pricing**: Tickets opening soon
-- **CFP**: [Open](https://rustindia.org/) (25 and 45 min formats)
-- **Links**: [Website](https://rustindia.org/)
+- **Pricing**: Event concluded
+- **CFP**: Closed
+- **Links**: [Website](https://rustindia.org/) | [Schedule](https://rustindia.org/schedule) | [Recordings](https://www.youtube.com/watch?v=qKEm8CSMayM&list=PLbcv9d2YUhnbCxJmjB_4RbjUBgq6exSGs)
+
+{{ yt(id="qKEm8CSMayM", title="Rust India Conference 2026") }}
 
 ### TokioConf (Portland, USA)
 
@@ -136,9 +124,9 @@ The first-ever dedicated conference for developers building high-performance net
 - **Where**: [Hyatt Regency Portland, 375 NE Holladay St, Portland, OR 97232](https://www.hyatt.com/hyatt-regency/en-US/pdxrp-hyatt-regency-portland-at-the-oregon-convention-center)
 - **Format**: 3 days (1 day optional workshops + 2 days single-track conference)
 - **Focus**: Async Rust, Tokio, high-performance network applications
-- **Pricing**: [Early Bird $650, General Admission $750](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
+- **Pricing**: Event concluded
 - **CFP**: [Closed](https://sessionize.com/tokioconf-2026)
-- **Links**: [Website](https://www.tokioconf.com/) | [Tickets](https://www.eventbrite.com/e/tokioconf-2026-tickets-1595919270499)
+- **Links**: [Website](https://www.tokioconf.com/) | [Recordings](https://www.youtube.com/@TokioConf)
 - **Social**: [Tokio Blog](https://tokio.rs/blog)
 
 ### RustWeek (Utrecht, Netherlands) 
@@ -156,10 +144,12 @@ All Rustaceans are welcome to attend and submit talks.
 - **Where**: Utrecht, Netherlands
 - **Format**: Full week (2 days talks + 1 day workshops + social events)
 - **Focus**: Broad, open to everyone
-- **Pricing**: [Tickets available](https://event.onliveevent.nl/rustweek-2026)
+- **Pricing**: Event concluded
 - **CFP**: Closed
-- **Links**: [Website](https://2026.rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
+- **Links**: [Website](https://2026.rustweek.org/) | [Main Track Recording](https://www.youtube.com/live/0vhGWclF7LU?si=0R46LgDghrSa74Bf) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL)
+
+{{ yt(id="0vhGWclF7LU", title="RustWeek 2026") }}
 
 ### RUSTMEET (Kraków, Poland)
 
@@ -174,8 +164,8 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Format**: 3 days (talks + workshops + lightning talks + social event)
 - **Focus**: Rust programming language
 - **Pricing**: Available via [Confreg](https://rustmeet.eu/)
-- **CFP**: [Open until March 22, 2026](https://rustmeet.eu/)
-- **Links**: [Website](https://rustmeet.eu/)
+- **CFP**: Closed
+- **Links**: [Website](https://rustmeet.eu/) | [Past Talks](https://www.youtube.com/@Rustmeet)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
 ## Q3 2026
@@ -193,8 +183,8 @@ After Seattle in 2025, RustConf returns to beautiful Montreal, Canada.
 - **When**: September 8-11, 2026
 - **Where**: [Palais des Congrès de Montréal](https://congresmtl.com/), Montréal, Canada, Québec 
 - **Format**: 4 days (1 day workshops + 3 days talks)
-- **Focus**: Official Rust conference
-- **Pricing**: TBA
+- **Focus**: Official Rust conference (celebrating its 10th anniversary)
+- **Pricing**: [Tickets available](https://rustconf.com/)
 - **CFP**: Closed
 - **Links**: [Website](https://rustconf.com/) | [Newsletter](https://mailchi.mp/e0f01ceec688/rustconf-newsletter-registration) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf) | [BlueSky](https://bsky.app/profile/rustconf.com)
@@ -212,8 +202,8 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 - **Where**: [Tagungswerk, Berlin, Germany](https://maps.app.goo.gl/Q3SzoU7EDJv4kxnHA)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
-- **Pricing**: TBA
-- **CFP**: [Open until March 23, 2026](https://oxidizeconf.com/)
+- **Pricing**: [Tickets available](https://oxidizeconf.com/)
+- **CFP**: Closed
 - **Links**: [Website](https://oxidizeconf.com/) | [Past Talks](https://www.youtube.com/@OxidizeConf)
 - **Social**: [Twitter](https://x.com/OxidizeConf) | [Mastodon](https://social.ferrous-systems.com/@oxidize)
 
@@ -238,7 +228,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Format**: 2 day event
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Private Ticket €275, Freelancer Ticket €332, Company Ticket: €600](https://ti.to/events-matter/eurorust-2026)
-- **CFP**: [Open until April 27, 2026](https://sessionize.com/eurorust-2026)
+- **CFP**: Closed
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
@@ -255,8 +245,8 @@ It's lovingly organized featuring delicious Italian food and a great community.
 - **Where**: [Savoia Regency Hotel, Bologna](https://maps.app.goo.gl/PFdKnc3hivvwjj6X7)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
-- **Pricing**: [€240 Early Bird Lite / €370 Early Bird Premium](https://rustlab.it/)
-- **CFP**: [Open until April 13, 2026](https://sessionize.com/rustlab-2026)
+- **Pricing**: [€310 Regular Lite / €460 Regular Premium](https://rustlab.it/)
+- **CFP**: Closed
 - **Links**: [Website](https://rustlab.it/) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
 
@@ -268,7 +258,7 @@ Missing an event? Spot an error? Feel free to [edit this list directly](https://
 
 See you at the next conference! 🦀
 
-*Note: This list will be updated regularly as more conferences announce their 2026 dates. Most conferences are yet to announce their exact dates, venues, ticket prices, and CFP timelines. Check back often for updates!*
+*Note: This list is updated regularly. With the year well underway, most conferences have confirmed their dates, venues, and ticket prices, and the earlier events have already taken place. Check back often for the latest updates!*
 
 <script
   src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -345,6 +335,19 @@ See you at the next conference! 🦀
     color: #111;
     background: #22c55e;
     border-color: #22c55e;
+  }
+
+  .conference-badge.past {
+    color: #6b7280;
+    background: transparent;
+    border-color: rgba(17, 17, 17, 0.2);
+  }
+
+  .no-conferences-message {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    font-size: 1.1rem;
+    color: #6b7280;
   }
 
   /* Map styles */
@@ -474,6 +477,15 @@ See you at the next conference! 🦀
 
     .conference-badge.cfp-open {
       background: #4ade80;
+    }
+
+    .conference-badge.past {
+      color: #9ca3af;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .no-conferences-message {
+      color: #9ca3af;
     }
 
     /* Map dark mode */
@@ -734,13 +746,14 @@ function addDaysUntilConference() {
                     if (!text.includes('When:') || text.includes('TBA')) return;
 
                     // Match date pattern: "Month Day(-Day)?, Year"
-                    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-\d{1,2})?,\s+(\d{4})/;
+                    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-(\d{1,2}))?,\s+(\d{4})/;
                     const match = text.match(datePattern);
 
                     if (match) {
                         const monthName = match[1];
-                        const day = parseInt(match[2], 10);
-                        const year = parseInt(match[3], 10);
+                        const startDay = parseInt(match[2], 10);
+                        const endDay = match[3] ? parseInt(match[3], 10) : startDay;
+                        const year = parseInt(match[4], 10);
 
                         // Map month names to numbers (0-indexed)
                         const monthMap = {
@@ -750,7 +763,8 @@ function addDaysUntilConference() {
                         };
 
                         // Create date object using Date constructor with explicit parameters
-                        const confDate = new Date(year, monthMap[monthName], day);
+                        const confDate = new Date(year, monthMap[monthName], startDay);
+                        const endDate = new Date(year, monthMap[monthName], endDay);
                         const today = new Date();
                         today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate day calculation
 
@@ -758,8 +772,18 @@ function addDaysUntilConference() {
                         const diffTime = confDate - today;
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-                        // Add a days badge if conference is in the future
-                        if (diffDays > 0) {
+                        if (endDate < today) {
+                            // The event has already taken place
+                            const existingPastBadge = h3.querySelector('.conference-badge.past');
+                            if (!existingPastBadge) {
+                                const pastBadge = document.createElement('span');
+                                pastBadge.className = 'conference-badge past';
+                                pastBadge.textContent = 'Concluded';
+                                pastBadge.title = 'This event has already taken place';
+                                h3.appendChild(pastBadge);
+                            }
+                        } else if (diffDays > 0) {
+                            // Add a days badge if conference is in the future
                             // Check if badge already exists
                             const existingDaysBadge = h3.querySelector('.conference-badge.days');
                             if (!existingDaysBadge) {
@@ -823,10 +847,38 @@ function addCFPBadges() {
     });
 }
 
+// Parse a conference's end date from its "When:" text (returns Date or null)
+function getConferenceEndDate(text) {
+    if (!text || text.includes('TBA')) return null;
+    const datePattern = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:-(\d{1,2}))?,\s+(\d{4})/;
+    const match = text.match(datePattern);
+    if (!match) return null;
+    const monthMap = {
+        'January': 0, 'February': 1, 'March': 2, 'April': 3,
+        'May': 4, 'June': 5, 'July': 6, 'August': 7,
+        'September': 8, 'October': 9, 'November': 10, 'December': 11
+    };
+    const startDay = parseInt(match[2], 10);
+    const endDay = match[3] ? parseInt(match[3], 10) : startDay;
+    const year = parseInt(match[4], 10);
+    return new Date(year, monthMap[match[1]], endDay);
+}
+
 // Filter conferences
 function setupFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const headings = document.querySelectorAll('article h3');
+    const sectionHeadings = Array.from(document.querySelectorAll('article h2'));
+
+    // Create the "no results" message (hidden by default)
+    const noResultsMessage = document.createElement('p');
+    noResultsMessage.className = 'no-conferences-message';
+    noResultsMessage.textContent = 'No conferences match this filter.';
+    noResultsMessage.style.display = 'none';
+    const filtersEl = document.querySelector('.conference-filters');
+    if (filtersEl) {
+        filtersEl.parentNode.insertBefore(noResultsMessage, filtersEl.nextSibling);
+    }
 
     // Store conference data for filtering
     const conferences = [];
@@ -853,10 +905,20 @@ function setupFilters() {
             currentElement = currentElement.nextElementSibling;
         }
 
+        // Find the section heading (nearest preceding h2) this conference belongs to
+        let section = null;
+        let prev = h3.previousElementSibling;
+        while (prev) {
+            if (prev.tagName === 'H2') { section = prev; break; }
+            prev = prev.previousElementSibling;
+        }
+
         conferences.push({
             elements: conferenceElements,
             cfpText: cfpText,
-            whenText: whenText
+            whenText: whenText,
+            section: section,
+            shown: true
         });
     });
 
@@ -868,6 +930,7 @@ function setupFilters() {
             btn.classList.add('active');
 
             const filter = btn.dataset.filter;
+            let visibleCount = 0;
 
             // Filter conferences
             conferences.forEach(conf => {
@@ -881,13 +944,30 @@ function setupFilters() {
                     shouldShow = hasCFP;
                 } else if (filter === 'announced') {
                     shouldShow = conf.whenText && !conf.whenText.includes('TBA');
+                } else if (filter === 'upcoming') {
+                    const endDate = getConferenceEndDate(conf.whenText);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    shouldShow = endDate !== null && endDate >= today;
                 }
                 // 'all' shows everything
+
+                conf.shown = shouldShow;
+                if (shouldShow) visibleCount++;
 
                 conf.elements.forEach(el => {
                     el.style.display = shouldShow ? '' : 'none';
                 });
             });
+
+            // Hide section headings that have no visible conferences
+            sectionHeadings.forEach(section => {
+                const hasVisible = conferences.some(conf => conf.section === section && conf.shown);
+                section.style.display = hasVisible ? '' : 'none';
+            });
+
+            // Show a message when nothing matches the selected filter
+            noResultsMessage.style.display = visibleCount === 0 ? '' : 'none';
         });
     });
 }
