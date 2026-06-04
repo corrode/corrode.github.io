@@ -12,8 +12,7 @@ episode = "05"
 series = "Podcast"
 +++
 
-<!-- TODO: replace with the real letscast embed once the episode is published -->
-<div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/veo/player.js?size=s"></script></div>
+<div><script id="letscast-player-035dc666" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/veo-with-anders-hellerup-madsen-and-gorm-casper/player.js?size=s"></script></div>
 
 I don't know about you, but to me there are few things as interesting as the hardware/software interface: the point where carefully written code meets the messy, physical world of sensors, lenses, and real-time constraints. It's where a clever abstraction either holds up or falls apart the moment a real signal hits it.
 
@@ -52,10 +51,10 @@ Gorm Casper is a Software Engineer at Veo. After many years working on the front
 - [Latest Announcement from Nvidia - CUDA for Rust](https://www.marktechpost.com/2026/05/09/nvidia-ai-just-released-cuda-oxide-an-experimental-rust-to-cuda-compiler-backend-that-compiles-simt-gpu-kernels-directly-to-ptx/) - Nvidia's experimental Rust-to-CUDA compiler, cuda-oxide
 - [Rust GPU](https://rust-gpu.github.io/) - Write and run GPU code in Rust, announced on 2026-05-12
 - [Temporal](https://temporal.io/) - A durable workflow engine
-- [Astral](https://astral.sh/) with Charlie Marsh - The Python company that does uv and ruff, with Rust
+- [Rust in Production: Astral](/podcast/s04e03-astral/) - The Python company that does uv and ruff, with Rust
 - [serde_json::Value](https://docs.rs/serde_json/latest/serde_json/enum.Value.html) - The Rust analogue to Python's dict
 - [ReasonML](https://reasonml.github.io/) - OCaml with a better syntax
-- [bedquilt](https://bedquilt.io/) - A JSON document store built on PostgreSQL
+- [bedquilt](https://bedquilt.io/) - Write 80s Text Adventures with Rust
 - [Rust Book: Transfer Data Between Threads with Message Passing](https://doc.rust-lang.org/book/ch16-02-message-passing.html) - The chapter explaining the Go motto "Do not communicate by sharing memory; instead, share memory by communicating"
 
 ### Official Links
