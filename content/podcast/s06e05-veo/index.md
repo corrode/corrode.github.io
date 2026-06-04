@@ -39,9 +39,24 @@ Gorm Casper is a Software Engineer at Veo. After many years working on the front
 
 ### Links From The Episode
 
-- [Veo](https://www.veo.co/) - AI-powered cameras and analysis for sports
 - [GStreamer](https://gstreamer.freedesktop.org/) - The open-source multimedia framework at the heart of Veo's camera pipeline
 - [gstreamer-rs](https://gitlab.freedesktop.org/gstreamer/gstreamer-rs) - The Rust bindings for GStreamer
+- [OpenCV](https://opencv.org/) - The open-source computer vision library
+- [Nvidia Jetson](https://developer.nvidia.com/embedded-computing) - Like a Raspberry Pi, but with more video processing capabilities
+- [glib](https://docs.gtk.org/glib/) - The foundation of gstreamer, also of GTK, Gnome, and many more
+- [ffmpeg](https://ffmpeg.org/) - An easier video manipulation tool, but without good support for custom pipeline elements
+- [CUDA](https://developer.nvidia.com/cuda-toolkit) - Nvidia's tooling to run C++ code on the GPU
+- [Sebastian Dröge](https://coaxion.net/) - Amazing Rust and GStreamer developer
+- [OCaml](https://ocaml.org/) - A really nice language and an inspiration for Rust
+- [Rustonomicon](https://doc.rust-lang.org/nomicon/) - The dark arts of unsafe Rust
+- [Latest Announcement from Nvidia - CUDA for Rust](https://www.marktechpost.com/2026/05/09/nvidia-ai-just-released-cuda-oxide-an-experimental-rust-to-cuda-compiler-backend-that-compiles-simt-gpu-kernels-directly-to-ptx/) - Nvidia's experimental Rust-to-CUDA compiler, cuda-oxide
+- [Rust GPU](https://rust-gpu.github.io/) - Write and run GPU code in Rust, announced on 2026-05-12
+- [Temporal](https://temporal.io/) - A durable workflow engine
+- [Astral](https://astral.sh/) with Charlie Marsh - The Python company that does uv and ruff, with Rust
+- [serde_json::Value](https://docs.rs/serde_json/latest/serde_json/enum.Value.html) - The Rust analogue to Python's dict
+- [ReasonML](https://reasonml.github.io/) - OCaml with a better syntax
+- [bedquilt](https://bedquilt.io/) - A JSON document store built on PostgreSQL
+- [Rust Book: Transfer Data Between Threads with Message Passing](https://doc.rust-lang.org/book/ch16-02-message-passing.html) - The chapter explaining the Go motto "Do not communicate by sharing memory; instead, share memory by communicating"
 
 ### Official Links
 
