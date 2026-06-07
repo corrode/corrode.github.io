@@ -369,9 +369,18 @@ nav {
             top: 0;
             left: 0;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             width: 100%;
+        }
+
+        // When open, the menu spans the full viewport height and its items
+        // grow to share that space evenly so there is never leftover gap,
+        // regardless of how many items there are. 100dvh accounts for mobile
+        // browser chrome.
+        #menu-toggle:checked ~ .menu {
+            height: 100dvh;
+            background-color: $darkBgrd;
         }
 
         #menu-toggle ~ .menu li {
@@ -382,6 +391,7 @@ nav {
         }
 
         #menu-toggle:checked ~ .menu li {
+            flex: 1 1 0;
             height: auto;
         }
 
@@ -394,19 +404,25 @@ nav {
         }
 
         .menu > li > a {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
+            height: 100%;
             text-align: center;
-            padding: 2.4em;
             cursor: pointer;
             color: white;
             border-bottom: 1px solid rgba(white, 0.3);
         }
 
         .cta-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
             background-color: transparent;
             border: none;
-            padding: 2.4em;
             margin: 0;
             border-radius: 0;
             border-bottom: 1px solid rgba(white, 0.3);
