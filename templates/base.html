@@ -144,9 +144,15 @@
                     </a>
                 </li>
                 <li>
-                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/learn' }}">
-                        <span>Learn</span>
+                    <a {% if current_path and current_path is starting_with("/learn/migration-guides") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/learn/migration-guides' }}">
+                        <span>Migrate</span>
+                    </a>
+                </li>
+                <li>
+                    <a {% if current_path and current_path is starting_with("/workshops") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/workshops' }}">
+                        <span>Workshops</span>
                     </a>
                 </li>
                 <li>

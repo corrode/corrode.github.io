@@ -1,5 +1,6 @@
 +++
 title = "C++ to Rust Cheat-Sheet"
+description = "Memory safety without a garbage collector: a side-by-side map of C++ idioms and type equivalents to their Rust counterparts, from RAII to ownership."
 date = 2025-05-17
 updated = 2026-02-25
 template = "article.html"

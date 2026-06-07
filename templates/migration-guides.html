@@ -1,0 +1,68 @@
+{% extends "base.html" %} {% import "macros/cards.html" as cards %} {% block
+meta %}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Rust Migration Guides",
+        "description": "{{ section.description }}",
+        "url": "https://corrode.dev/learn/migration-guides/",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Corrode Consulting",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://corrode.dev/corrode.svg"
+            },
+            "location": {
+                "@type": "PostalAddress",
+                "addressLocality": "Düsseldorf",
+                "addressCountry": "DE"
+            }
+        },
+        "hasPart": [
+            {% for page in section.pages %}{
+                "@type": "Article",
+                "name": "{{ page.title }}",
+                "url": "{{ page.permalink }}",
+                "description": "{{ page.description }}"
+            }{% if not loop.last %},{% endif %}{% endfor %}
+        ]
+    }
+</script>
+{% endblock %} {% block content %}
+<article>
+    <div class="article-heading">
+        <div class="page-hero">
+            <img
+                src="/hero/migration.svg"
+                alt="Illustration of a rocket launching out of a laptop, with growth charts"
+                width="378"
+                height="360"
+                loading="eager"
+            />
+        </div>
+        <h1>{{ section.title }}</h1>
+        {{ section.content | safe }}
+    </div>
+    <div class="article-content-wrapper">
+        <div class="article-content">
+            <ul class="list-row resource-list">
+                {% for page in section.pages %} {{ cards::row(
+                href=page.permalink, title=page.title, desc=page.description,
+                icon=page.permalink ~ page.extra.icon) }} {% endfor %}
+            </ul>
+
+            <div class="workshops-cta">
+                <h2>Planning a migration?</h2>
+                <p>
+                    A move to Rust is easier with someone who has done it
+                    before. We help teams scope the work, de-risk the rewrite,
+                    and bring their engineers up to speed.
+                </p>
+                <a href="/services/" class="cta-button">Get in touch →</a>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock content %}
