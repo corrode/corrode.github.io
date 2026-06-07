@@ -1,5 +1,6 @@
 +++
 title = "Migrating from Go to Rust"
+description = "An opinionated look at what Rust fixes (nil panics, missed data races, error handling, leaky generics), plus where to keep Go and how to migrate services incrementally."
 date = 2026-05-21
 updated = 2026-05-26
 template = "article.html"

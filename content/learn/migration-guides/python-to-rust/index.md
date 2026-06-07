@@ -1,5 +1,6 @@
 +++
 title = "Migrating from Python to Rust"
+description = "Where Python hits its limits (performance, type safety, deployment, resource usage) and how Rust addresses each without giving up Python's ergonomics."
 date = 2024-12-13
 updated = 2026-04-14
 template = "article.html"

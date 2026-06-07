@@ -1,5 +1,6 @@
 +++
 title = "Migrating from TypeScript to Rust"
+description = "You already think in types. This guide maps TypeScript's interfaces, union types, and Promises straight onto Rust's traits, enums, and async."
 date = 2024-12-13
 updated = 2026-04-10
 template = "article.html"

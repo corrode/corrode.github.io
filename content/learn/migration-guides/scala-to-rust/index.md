@@ -1,5 +1,6 @@
 +++
 title = "Migrating from Scala to Rust"
+description = "The business case for leaving the JVM: adoption momentum, rock-solid backward compatibility, and tooling, compared honestly against Scala and Clojure."
 date = 2024-12-09
 template = "article.html"
 draft = false

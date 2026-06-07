@@ -133,7 +133,7 @@ It's like having a personal trainer for your Rust learning journey.
 My workshops are designed to be hands-on and tailored to the needs of the participants.
 I want people to walk away with a finished project they can extend.
 
-All course material is open source and freely available on GitHub:
+All the material is open source and free. You can browse the [full workshop catalog](/workshops/), or jump straight to a few favorites on GitHub:
 
 - [Write Yourself a CLI](https://github.com/corrode/write-yourself-a-cli) - Create a tool to find files on your system 
 - [Write Yourself a Web App](https://github.com/corrode/write-yourself-a-web-app) - Build a small web app that shows weather data 

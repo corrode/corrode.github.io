@@ -1,5 +1,6 @@
 +++
 title = "Migrating from Java to Rust"
+description = "An enterprise-grade playbook: planning the migration, running mixed Java/Rust codebases, and the mindset shifts from objects and inheritance to ownership."
 date = 2024-12-09
 updated = 2026-01-02
 template = "article.html"

@@ -1,0 +1,77 @@
+# Workshops shown on the Workshops page (/workshops), in listed order.
+# The interactive course leads, then the repo workshops (Beginner first).
+#
+# Each entry is self-contained: `tags` and `meta` render as-is, so the course
+# and the repo workshops can show different details. `meta` is a point-in-time
+# snapshot (last checked 2026-06) — refresh it now and then. `pick` is a
+# one-line "who is this for" nudge. `image` is the card thumbnail.
+
+[[workshop]]
+title = "A Beginner's Guide to Rust"
+url = "https://course.corrode.dev/"
+description = "An interactive course you take in your browser: write real code, get instant compiler feedback, and build fluency one small exercise at a time."
+pick = "Small exercises with instant feedback." 
+level = "Beginner"
+tags = ["Interactive", "In your browser"]
+meta = "★ 12 · 20+ exercises · Free"
+image = "https://opengraph.githubassets.com/main/corrode/course"
+
+[[workshop]]
+title = "Learning Rust by Counting Words"
+url = "https://github.com/corrode/learning-rust-by-counting-words"
+description = "Build <code>wc</code>, a little tool that counts words, lines, and characters. A gentle, practical introduction to Rust."
+pick = "Start here if you've never written Rust and prefer a project-based approach." 
+level = "Beginner"
+tags = ["Fundamentals", "2 hours"]
+meta = "★ 6 · Updated Aug 2024"
+image = "https://opengraph.githubassets.com/main/corrode/learning-rust-by-counting-words"
+
+[[workshop]]
+title = "Write Yourself a CLI"
+url = "https://github.com/corrode/write-yourself-a-cli"
+description = "Build a fast file finder and learn how to structure a real-world Rust CLI, plus a few advanced patterns along the way."
+pick = "Pick this if you want to build a real command-line tool from scratch."
+level = "Beginner"
+tags = ["CLI", "Half day"]
+meta = "★ 33 · Updated Apr 2025"
+image = "https://opengraph.githubassets.com/main/corrode/write-yourself-a-cli"
+
+[[workshop]]
+title = "Write Yourself Some Tests"
+url = "https://github.com/corrode/write-yourself-some-tests"
+description = "Learn to write effective, ergonomic tests in Rust, from unit tests to the patterns that keep a suite maintainable."
+pick = "Pick this if your code works but your tests feel messy or brittle."
+level = "Beginner"
+tags = ["Testing", "2–3 hours"]
+meta = "★ 6 · Updated Mar 2025"
+image = "https://opengraph.githubassets.com/main/corrode/write-yourself-some-tests"
+
+[[workshop]]
+title = "Writing Better Rust"
+url = "https://github.com/corrode/refactoring-rust"
+description = "A refactoring workshop: take working but rough Rust and reshape it into idiomatic, ergonomic, maintainable code, one step at a time."
+pick = "Pick this if you can write Rust but want it to read like an expert wrote it."
+level = "Intermediate"
+tags = ["Refactoring", "Half day"]
+meta = "★ 83 · Updated Jun 2026"
+image = "https://opengraph.githubassets.com/main/corrode/refactoring-rust"
+
+[[workshop]]
+title = "Write Yourself a Shell"
+url = "https://github.com/corrode/write-yourself-a-shell"
+description = "Build a working shell from scratch. A deep dive into intermediate Rust concepts and idiomatic code."
+pick = "Pick this if you want to go deep on systems concepts in Rust."
+level = "Intermediate"
+tags = ["Systems", "6 hours"]
+meta = "★ 44 · Updated Nov 2024"
+image = "https://opengraph.githubassets.com/main/corrode/write-yourself-a-shell"
+
+[[workshop]]
+title = "Write Yourself a Web App"
+url = "https://github.com/corrode/write-yourself-a-web-app"
+description = "Build a small web application with axum and Postgres to learn how the pieces of a Rust backend fit together."
+pick = "Pick this if you're building web backends with axum and Postgres."
+level = "Intermediate"
+tags = ["Web", "Half day"]
+meta = "★ 31 · Updated Mar 2025"
+image = "https://opengraph.githubassets.com/main/corrode/write-yourself-a-web-app"
