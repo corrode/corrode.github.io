@@ -7,6 +7,9 @@ template = "article.html"
 [extra]
 series = "Migration Guides"
 icon = "go.svg"
+reviews = [
+  { name = "John Souvestre" },
+]
 resources = [
   "[JetBrains State of Developer Ecosystem 2024](https://www.jetbrains.com/lp/devecosystem-2024/): source for the Go usage figures cited in this guide",
   "[Rust vs Go: A Hands-On Comparison (Shuttle)](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison): a longer, code-heavy comparison I wrote with the Shuttle team",
