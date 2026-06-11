@@ -1,7 +1,7 @@
 +++
 title = "Migrating from Go to Rust"
 date = 2026-05-21
-updated = 2026-05-26
+updated = 2026-06-11
 template = "article.html"
 [extra]
 series = "Migration Guides"
@@ -379,10 +379,12 @@ tokio::spawn(async move {
 
 You might walk away from this section, thinking that Go's concurrency model is objectively better, but Go's model is not without sin, either:
 
-- WaitGroups and `sync.Once` are easy to misuse, leading to goroutine leaks or deadlocks.
-- Go's scheduler is cooperative, so a long-running goroutine can starve the system.
+- `WaitGroup` and `sync.Once` are easy to misuse, leading to goroutine leaks or deadlocks.
+- Until Go 1.14 the scheduler was cooperative; it now preempts goroutines asynchronously, so a tight CPU-bound loop no longer starves the system the way it used to.[^async-preemption]
 - Go's `context.Context` is a great convention for cancellation, but it's easy to forget to pass it through every call site, and the compiler won't tell you when you forget.
 - Managing shared mutable state with `sync.Mutex` and `sync.RWMutex` is error-prone, and the compiler won't tell you when you forget to lock something.
+
+[^async-preemption]: Before Go 1.14, the scheduler only switched goroutines at function-call safe points, so a tight loop with no calls could hog a thread indefinitely. Go 1.14 introduced signal-based [asynchronous preemption](https://go.dev/doc/go1.14#runtime), which fixes that. 
 
 > Go doesn't have a way to tell a goroutine to exit. There is no stop or kill function, for good reason. If we cannot command a goroutine to stop, we must instead ask it, politely.
 >
@@ -392,6 +394,19 @@ In Go that "asking politely" is a `context.Context` plumbed through every call s
 
 Then again, none of that truly matters in practice.
 For most backend code, the day-to-day feel is similar: spawn a task, communicate via channels, use timeouts liberally.
+
+And to be fair, Go 1.25 added [`WaitGroup.Go`](https://pkg.go.dev/sync#WaitGroup.Go), which turns the `Add(1)`/`go`/`defer Done()` dance into a single call, which removes the most common way to get the counter wrong:
+
+```go
+func main() {
+ wg := new(sync.WaitGroup)
+ wg.Go(foo)
+ wg.Go(bar)
+ wg.Wait()
+}
+```
+
+That's really nice, but not everyone knows about it yet.
 
 ### Channels
 
@@ -532,9 +547,9 @@ Go's constraints are just interfaces with an extra `~` operator for type-set mem
 - **Supertraits / constraint hierarchies.** In Rust you write `trait Ord: Eq + PartialOrd`, and any `T: Ord` automatically satisfies `Eq` and `PartialOrd`. Go has no equivalent; you stack interface embeddings, but the constraint solver doesn't reason about hierarchies the way Rust's trait system does.
 - **Associated types.** Rust's `Iterator` has `type Item;`, so `T::Item` is a first-class thing you can name in bounds. Go's closest equivalent is a second type parameter, which leaks into every signature.
 - **Blanket impls.** In Rust, `impl<T: Display> ToString for T` automatically gives every `Display` type a `to_string()` method. Go has no way to add methods to a type from outside its defining package, generic or not.
-- **Methods with their own type parameters.** This is an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`[^generic-methods]. In Rust, generic methods on generic types are routine.
+- **Methods with their own type parameters.** This has long been an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`[^generic-methods]. In Rust, generic methods on generic types are routine.
 
-[^generic-methods]: To be precise, this is about methods that introduce *their own* type parameters in addition to the receiver's. Go has had generic *functions* and generic types since 1.18, so `func Map[T, U any](s []T, f func(T) U) []U` is fine. What you can't do is attach that `Map` to a method on a generic `Set[T]` and let the caller pick `U` per call. The Go proposal explicitly punts on this and it has not been added since.
+[^generic-methods]: To be precise, this is about methods that introduce *their own* type parameters in addition to the receiver's. Go has had generic *functions* and generic types since 1.18, so `func Map[T, U any](s []T, f func(T) U) []U` is fine. What you can't do *today* is attach that `Map` to a method on a generic `Set[T]` and let the caller pick `U` per call. That restriction is on its way out, though: the [generic methods proposal](https://github.com/golang/go/issues/77273) was accepted in early 2026 and is targeted at Go 1.27, so this particular gap is about to be closed.
 
 The practical consequence is that the moment your abstraction needs more than "a function that works for any `T` with these few operations," Go pushes you back to `any` plus type assertions, code generation, or runtime reflection.
 
