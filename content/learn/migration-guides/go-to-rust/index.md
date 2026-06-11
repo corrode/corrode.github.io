@@ -133,7 +133,7 @@ func (s *Service) Handle(req *Request) error {
 }
 ```
 
-Linters and IDE checks catch *some* of these (`nilaway`, `staticcheck`), but they're opt-in, probabilistic, and don't cross package boundaries reliably. Go's compiler itself does not force you to consider the absence case, but Rust's `Option<T>` does:
+Linters and IDE checks catch *some* of these (`nilaway`, `staticcheck`), but they're opt-in, best-effort (they miss cases rather than proving absence), and don't cross package boundaries reliably. Go's compiler itself does not force you to consider the absence case, but Rust's `Option<T>` does:
 
 ```rust
 fn handle(&self, req: &Request) -> Result<(), ServiceError> {
