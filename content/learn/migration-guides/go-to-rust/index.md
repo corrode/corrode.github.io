@@ -79,7 +79,8 @@ Back in the day, it started off a trend of "batteries included" toolchains that 
 
 The big difference is that in Go you typically reach for third-party tools (`golangci-lint`, `mockgen`, `air`, `goreleaser`) to fill gaps.
 In Rust, the first-party ecosystem covers more out of the box.
-Things that *do* require external crates (e.g. `cargo watch`/[`bacon`](https://github.com/canop/bacon), [`cargo nextest`](https://nexte.st/)) install with one command and feel native, e.g. `cargo install cargo-nextest` gives you `cargo nextest` right away.
+To be precise, `cargo audit` and the profilers (`cargo flamegraph`/`samply`) are community crates, not part of cargo itself.
+But they, along with the other external tools (`cargo watch`/[`bacon`](https://github.com/canop/bacon), [`cargo nextest`](https://nexte.st/)), install with one command and feel native, e.g. `cargo install cargo-nextest` gives you `cargo nextest` right away.
 
 Both communities have converged on the same insight: a single canonical formatting style (even if imperfect!) is worth more than the bikeshedding it eliminates.
 
@@ -142,7 +143,9 @@ fn handle(&self, req: &Request) -> Result<(), ServiceError> {
 ```
 
 You literally **cannot** dereference an `Option` without acknowledging the `None` case.
-Whole categories of pager-duty incidents disappear. 😆
+Whole categories of pager-duty incidents disappear. 😆[^unwrap]
+
+[^unwrap]: You *can* still opt out with `.unwrap()` or `.expect()`, which panic on `None`. The difference is that those are explicit, greppable, and stick out in review, unlike an implicit nil dereference that compiles silently. When one does slip through it tends to make the news: Cloudflare's [November 2025 outage](https://blog.cloudflare.com/18-november-2025-outage/) was traced to a Rust `.unwrap()` that panicked on an unexpectedly large generated file. The point isn't that panics are impossible, it's that ignoring absence has to be a deliberate, visible choice.
 
 ### `-race` Won't Catch All Data Races 
 
@@ -160,7 +163,7 @@ In our interview, Paul Dix has been very candid about what motivated the InfluxD
 >
 > &mdash; Paul Dix, Founder & CTO, InfluxData, on [Rust in Production](/podcast/s01e01-influxdata?t=55%3A40)
 
-[^races]: To be fair, Rust's type system doesn't catch all data races, but types that truly can't be shared between threads without synchronization won't compile. You can still have logic bugs in your synchronization, but you won't have the kind of "oh no, I forgot to lock this" that often leads to silent data corruption. 
+[^races]: To be precise: *safe* Rust eliminates data races by construction, a value that can't be shared across threads without synchronization simply won't compile. It does *not* prevent race conditions in the broader sense (deadlocks, livelocks, or logic bugs in your synchronization); no type system does. What goes away is the "oh no, I forgot to lock this" class of silent data corruption. 
 
 ### Composable Error Handling
 
