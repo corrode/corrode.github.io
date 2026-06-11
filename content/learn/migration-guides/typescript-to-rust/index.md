@@ -8,6 +8,9 @@ draft = false
 [extra]
 series = "Migration Guides"
 icon = "typescript.svg"
+reviews = [
+    { name = "Ramon Garate", url = "https://ramonverse.com" },
+]
 resources = [
     "[Syntax comparison between TypeScript and Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
     "[My experience migrating TypeScript libraries to Rust - Patrick Desjardins](https://patrickdesjardins.com/blog/migrating-typescript-library-to-rust)",
