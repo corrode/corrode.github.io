@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% import "macros/cards.html" as cards %} {% block
+content %}
+<article>
+    <div class="article-heading">
+        <div class="page-hero">
+            <img
+                src="/hero/workshop.svg"
+                alt="Illustration of a laptop showing a workshop exercise, with a notebook and coffee"
+                width="418"
+                height="328"
+                loading="eager"
+            />
+        </div>
+        <h1>{{ section.title }}</h1>
+        {{ section.content | safe }}
+    </div>
+    <div class="article-content-wrapper">
+        <div class="article-content">
+            {% set workshops = load_data(path="data/workshops.toml") %}
+            <ul class="list-row resource-list">
+                {% for w in workshops.workshop %} {{ cards::row(href=w.url,
+                title=w.title, desc=w.description, pick=w.pick, image=w.image,
+                external=true, level=w.level, tags=w.tags, meta=w.meta) }} {%
+                endfor %}
+            </ul>
+
+            <div class="workshops-cta">
+                <h2>Run a workshop with your team</h2>
+                <p>
+                    Nothing beats hands-on learning. Every workshop can be
+                    delivered live for your engineers, on-site or remote, and
+                    tailored to your codebase and goals.
+                </p>
+                <a href="/services/" class="cta-button">Book a workshop →</a>
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock content %}

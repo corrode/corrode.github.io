@@ -1,0 +1,61 @@
+name: Links
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  # Catch link rot on a schedule, not just when something changes.
+  schedule:
+    - cron: "0 6 * * 1" # Mondays, 06:00 UTC
+  workflow_dispatch:
+
+# Don't pile up redundant runs on the same branch.
+concurrency:
+  group: links-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    name: Check links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Zola
+        env:
+          ZOLA_VERSION: "0.22.1"
+        run: |
+          curl -sSfL "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin
+          zola --version
+
+      - name: Build site
+        run: zola build
+
+      # Speed up repeat runs and avoid re-hitting every external host.
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: lychee-${{ github.sha }}
+          restore-keys: lychee-
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Resolve internal links to the freshly built files: --root-dir maps
+          # root-relative paths (/blog/...), --remap maps the absolute
+          # corrode.dev URLs the templates emit. Everything else is checked
+          # over the network.
+          args: >-
+            --config lychee.toml
+            --cache
+            --max-cache-age 1d
+            --root-dir "${{ github.workspace }}/public"
+            --remap "https://corrode.dev file://${{ github.workspace }}/public"
+            "public/**/*.html"
+            "public/llms.txt"
+          fail: true

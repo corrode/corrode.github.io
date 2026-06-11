@@ -34,13 +34,13 @@
     {%- if page.extra.excerpt %}
         {%- set social_description = page.extra.excerpt %}
     {%- elif page.summary %}
-        {%- set social_description = page.summary %}
+        {%- set social_description = page.summary | striptags | trim %}
     {%- elif page and page.content | length > 0 %}
-        {%- set social_description = page.content | truncate(length=250) %}
+        {%- set social_description = page.content | striptags | trim | truncate(length=250) %}
     {%- elif section and section.description %}
         {%- set social_description = section.description %}
     {%- elif section and section.content | length > 0 %}
-        {%- set social_description = section.content | truncate(length=250) %}
+        {%- set social_description = section.content | striptags | trim | truncate(length=250) %}
     {%- else %}
         {%- set social_description = "corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler." %}
     {%- endif %}
@@ -65,6 +65,11 @@
     <meta property="og:title" content="{{ generated_title }}">
     <meta property="og:description" content="{{ social_description | striptags | trim }}">
     <meta property="og:image" content="{{ social_image }}">
+    <meta property="og:image:secure_url" content="{{ social_image }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ generated_title }}">
     <meta property="og:url" content="{{ social_url }}">
     <meta property="og:site_name" content="{{ config.extra.author }}">
     <meta property="og:type" content="website">
@@ -78,6 +83,7 @@
     <meta name="twitter:title" content="{{ generated_title }}">
     <meta name="twitter:description" content="{{ social_description | striptags | safe | trim }}">
     <meta name="twitter:image" content="{{ social_image }}">
+    <meta name="twitter:image:alt" content="{{ generated_title }}">
 
     <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
     <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
@@ -138,9 +144,15 @@
                     </a>
                 </li>
                 <li>
-                    <a {% if current_path and current_path is starting_with("/learn") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                        href="{{ config.base_url ~ '/learn' }}">
-                        <span>Learn</span>
+                    <a {% if current_path and current_path is starting_with("/learn/migration-guides") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/learn/migration-guides' }}">
+                        <span>Migrate</span>
+                    </a>
+                </li>
+                <li>
+                    <a {% if current_path and current_path is starting_with("/workshops") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                        href="{{ config.base_url ~ '/workshops' }}">
+                        <span>Workshops</span>
                     </a>
                 </li>
                 <li>

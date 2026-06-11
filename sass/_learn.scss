@@ -1,151 +1,209 @@
-.learn-sections {
-    margin: 40px 0;
+/* ===== Learn hub: resource directory =====
+   Built on the shared .list-row component (see _list.scss), same as the
+   podcast list. Only the row *content* (thumbnail, tags, level, pick, meta)
+   is specific to Learn — there is no special list container. */
+
+.learn-section {
+    display: block;
+    margin: 0 0 2.5rem;
 }
 
-.learn-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 30px;
-    margin-bottom: 60px;
-    border: 1px solid $heroDark;
+.section-intro {
+    margin: 0.4rem 0 1rem;
+    opacity: 0.85;
+    line-height: 1.5;
+    font-size: 0.95em;
+}
+
+.resource-list {
+    margin-bottom: 1rem;
+}
+
+/* Extra leading column (thumbnail or logo) on top of the base 1fr/auto grid. */
+.resource-row.has-thumb,
+.resource-row.has-logo {
+    grid-template-columns: auto 1fr auto;
+}
+
+/* Thumbnail (repo / product preview). */
+.resource-thumb {
+    width: 170px;
+    aspect-ratio: 2 / 1;
+    flex-shrink: 0;
     border-radius: 8px;
+    overflow: hidden;
+    background-color: rgba($brightPrim, 0.05);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
 }
 
-.learn-list li {
-    margin-bottom: 0;
-    border-bottom: 1px solid $heroDark;
+/* Small language logo (migration guides). */
+.resource-logo {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &:hover {
-        background-color: $brightScndLight;
-
-        .chevron {
-            transform: translateX(4px) rotate(270deg);
-        }
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
     }
+}
 
-    &:last-child {
+.resource-row-desc {
+    margin: 0.15rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: rgba($brightPrim, 0.72);
+}
+
+.resource-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+}
+
+.resource-tag {
+    font-family: JetBrainsMono;
+    font-size: 0.7rem;
+    font-weight: 500;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba($brightPrim, 0.06);
+    color: rgba($brightPrim, 0.7);
+}
+
+/* Difficulty level, highlighted with a colour-coded dot. */
+.resource-level {
+    color: rgba($brightPrim, 0.85);
+    font-weight: 600;
+}
+
+.resource-level::before {
+    content: "●";
+    margin-right: 5px;
+    font-size: 0.85em;
+    color: #999;
+}
+
+.resource-level--beginner::before {
+    color: #2da44e;
+}
+
+.resource-level--intermediate::before {
+    color: #bf8700;
+}
+
+.resource-level--advanced::before {
+    color: $brightScnd;
+}
+
+.resource-pick {
+    margin: 0.4rem 0 0;
+    padding-left: 0.6rem;
+    border-left: 2px solid $brightBgrd;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: rgba($brightPrim, 0.85);
+}
+
+.resource-meta {
+    margin-top: 0.55rem;
+    font-family: JetBrainsMono;
+    font-size: 0.76rem;
+    color: rgba($brightPrim, 0.55);
+}
+
+.view-all {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Page hero — a centered, decorative illustration (transparent background),
+   contained rather than cropped. Used on the Migrate and Workshops pages. */
+.page-hero {
+    margin: 1.5rem auto 0.5rem;
+    max-width: 520px;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+/* Workshops sub-page CTA — a plain bordered box, like other boxed content. */
+.workshops-cta {
+    margin: 3rem 0 1rem;
+    padding: 2.25rem;
+    border: 1px solid rgba($heroDark, 0.15);
+    border-radius: 8px;
+    text-align: center;
+
+    h2 {
+        margin-top: 0;
         border-bottom: none;
     }
-}
 
-.learn-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    padding: 30px;
-}
-
-.learn-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-}
-
-.learn-item img {
-    width: 200px;
-    border-radius: 8px;
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
-.learn-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1; // Let the content take available space
-    padding: 20px 0; // Consistent vertical padding
-}
-
-.learn-description {
-    font-size: 0.9em;
-    opacity: 0.8;
-    line-height: 1.4;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.learn-title {
-    font-weight: bold;
-    font-size: 1.3em;
-    margin-bottom: 8px;
-}
-
-.learn-subtitle {
-    opacity: 0.7;
-    margin-left: 8px;
-}
-
-.card-item {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 12px 0;
-}
-
-.card-logo-wrapper {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.card-img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.card-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-}
-
-.card-title {
-    font-weight: 600;
-    font-size: 1.05rem;
-}
-
-.card-meta {
-    font-size: 0.85rem;
-    opacity: 0.6;
-    font-family: JetBrainsMono;
+    p {
+        max-width: 520px;
+        margin: 0 auto 1.5rem;
+        line-height: 1.6;
+    }
 }
 
 @media (max-width: 768px) {
-    .learn-item {
-        flex-direction: column;
-        align-items: flex-start;
+    .resource-row.has-thumb,
+    .resource-row.has-logo {
+        grid-template-columns: 1fr;
     }
 
-    .learn-item img {
+    .resource-thumb {
         width: 100%;
-        height: auto; // Let height adjust proportionally
-        max-height: 200px; // Cap the height
-        margin-bottom: 15px;
-    }
-
-    .learn-content {
-        padding: 0;
-    }
-
-    .learn-link {
-        padding: 20px;
+        aspect-ratio: 2.2 / 1;
     }
 }
 
 @media (prefers-color-scheme: dark) {
-    .learn-list {
-        color: white;
-        border: 1px solid rgba(white, 0.5);
+    .resource-row-desc {
+        color: rgba(white, 0.72);
     }
 
-    .learn-list li {
-        border-bottom: 1px solid rgba(white, 0.5);
+    .resource-tag {
+        background-color: rgba(white, 0.08);
+        color: rgba(white, 0.72);
+    }
+
+    .resource-level {
+        color: rgba(white, 0.9);
+    }
+
+    .resource-pick {
+        color: rgba(white, 0.85);
+    }
+
+    .resource-meta {
+        color: rgba(white, 0.5);
+    }
+
+    .resource-thumb {
+        background-color: rgba(white, 0.06);
+    }
+
+    .workshops-cta {
+        border-color: rgba(white, 0.15);
     }
 }

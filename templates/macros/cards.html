@@ -1,0 +1,43 @@
+{# Compact list row used across the Learn hub and its sub-pages. #} {% macro
+row(href, title, desc="", icon="", image="", external=false, level="", tags="",
+meta="", pick="") %} {% if external %}{% set rel = "noreferrer" %}{% set target
+= "_blank" %}{% else %}{% set rel = "" %}{% set target = "_self" %}{% endif %}
+<li class="list-row-item">
+    <a
+        class="list-row-link resource-row{% if image %} has-thumb{% endif %}{% if icon %} has-logo{% endif %}"
+        href="{{ href }}"
+        rel="{{ rel }}"
+        target="{{ target }}"
+    >
+        {% if image %}
+        <span class="resource-thumb"
+            ><img src="{{ image }}" alt="" loading="lazy"
+        /></span>
+        {% endif %} {% if icon %}
+        <span class="resource-logo"
+            ><img class="invert" src="{{ icon }}" alt=""
+        /></span>
+        {% endif %}
+        <div class="list-row-content">
+            <h3 class="list-row-title">{{ title }}</h3>
+            {% if desc %}
+            <p class="resource-row-desc">{{ desc | safe }}</p>
+            {% endif %} {% if pick %}
+            <p class="resource-pick">{{ pick }}</p>
+            {% endif %} {% if level or tags %}
+            <div class="resource-tags">
+                {% if level %}<span
+                    class="resource-tag resource-level resource-level--{{ level | lower }}"
+                    >{{ level }}</span
+                >{% endif %} {% for tag in tags %}<span class="resource-tag"
+                    >{{ tag }}</span
+                >{% endfor %}
+            </div>
+            {% endif %} {% if meta %}
+            <div class="resource-meta">{{ meta | safe }}</div>
+            {% endif %}
+        </div>
+        <span class="list-row-chevron" aria-hidden="true"></span>
+    </a>
+</li>
+{% endmacro row %}

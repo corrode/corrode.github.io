@@ -1,0 +1,45 @@
+################################################################################
+# lychee link checker configuration.
+#
+# Used by .github/workflows/links.yml against the built site in ./public.
+# Internal links (corrode.dev and root-relative) are remapped to the local
+# build in CI, so this run validates both internal wiring and external links.
+#
+# Docs: https://github.com/lycheeverse/lychee
+################################################################################
+
+# Be patient with slow or rate-limited hosts before giving up.
+max_retries = 2
+retry_wait_time = 3
+timeout = 20
+max_concurrency = 12
+
+# Plenty of hosts answer automated traffic with 403/429 even when the link is
+# fine. 405 means the URL exists but doesn't allow GET/HEAD (e.g. the
+# newsletter form's POST-only endpoint). Treat all of these as a pass.
+accept = ["200..=299", "403", "405", "429"]
+
+# Look like a normal browser. Cuts down on bogus 403s from bot-averse hosts.
+user_agent = "Mozilla/5.0 (compatible; corrode-link-check; +https://corrode.dev)"
+
+# The site obfuscates mailto: addresses with HTML entities, so skip them.
+include_mail = false
+
+# Don't try to reach localhost or private network addresses.
+exclude_all_private = true
+
+# Hosts that routinely block automated checks, or that we can't do anything
+# about even when they break. Skip them to keep the signal clean.
+exclude = [
+  # Internal links that carry a query string (e.g. podcast "?t=12:34" deep
+  # links). After the CI remap to local files, the "?" becomes part of the
+  # path and can't resolve. The target page is validated on its own.
+  '^file://.*%3F',
+  '^https?://(www\.)?linkedin\.com',
+  '^https?://(www\.)?twitter\.com',
+  '^https?://(www\.)?x\.com',
+  '^https?://t\.co/',
+  '^https?://(www\.)?reddit\.com',
+  '^https?://web\.archive\.org',
+  '^https?://([a-z0-9-]+\.)?amazon\.[a-z.]+',
+]
