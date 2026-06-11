@@ -11,7 +11,7 @@ resources = [
     "[Patterns for Defensive Programming in Rust](/blog/defensive-programming/): companion post on writing more robust Rust code",
     "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/): common mistakes even safe Rust code can make",
     "[Sharp Edges In The Rust Standard Library](/blog/sharp-edges-in-rust-std/): surprising behaviors in `std`",
-    "[Rust Prevents Data Races, Not Race Conditions](/blog/rust-prevents-data-races-not-race-conditions/): where Rust's concurrency safety ends",
+    "[Rust Prevents Data Races, Not Race Conditions](/blog/rust-prevents-data-races-not-all-race-conditions/): where Rust's concurrency safety ends",
     "[uutils/coreutils on GitHub](https://github.com/uutils/coreutils): the Rust reimplementation of GNU coreutils",
 ]
 +++
@@ -331,7 +331,7 @@ Keep in mind that none of the following bad things happened:
 - No buffer overflows.
 - No use-after-free.
 - No double-free.
-- [No data races](/blog/rust-prevents-data-races-not-race-conditions/) on shared mutable state.
+- [No data races](/blog/rust-prevents-data-races-not-all-race-conditions/) on shared mutable state.
 - No null-pointer dereferences.
 - No uninitialized memory reads.
 

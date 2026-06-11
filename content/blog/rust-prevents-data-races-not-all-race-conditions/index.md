@@ -1,5 +1,5 @@
 +++
-title = "Rust Prevents Data Races, Not Race Conditions"
+title = "Rust Prevents Data Races, Not All Race Conditions"
 date = 2026-06-11
 draft = false
 template = "article.html"
@@ -316,13 +316,13 @@ With that one change, the program prints `400000` every time. The lesson is that
 
 {% end %}
 
-## So What Does Rust Actually Promise?
-
-Here's the precise version of what Rust guarantees about concurrency:
+## So What Does Rust Actually Guarantee? 
 
 Safe Rust eliminates data races by design. A program with a data race does not compile. It's a stronger guarantee than what runtime detectors like Go's `-race` or C/C++'s ThreadSanitizer give you, because those only catch races that *actually execute* during a test run.
 
-Safe Rust does not prevent race conditions in general. Deadlocks, livelocks, lost updates, and check-then-act bugs all compile cleanly and can still produce wrong answers or hang.
+Safe Rust does not prevent race conditions in general. Deadlocks, livelocks, lost updates, and check-then-act bugs all compile cleanly and can still produce wrong answers or hang.[^overlap]
+
+[^overlap]: Strictly speaking, "data race" and "race condition" are overlapping concepts, not nested ones: neither is a subset of the other. A data race need not affect the result (so it isn't always a race condition in the timing sense), and plenty of race conditions involve no data race at all (the bank-balance example above locks correctly and still misbehaves). John Regehr's [Race Condition vs. Data Race](https://blog.regehr.org/archives/490) is the canonical treatment. Informally, people often treat a data race as the memory-level kind of race condition, which is why the title says "not *all* race conditions" rather than "not race conditions."
 
 Geo-ant, writing up a [comparison of common C++ bugs against Rust](https://geo-ant.github.io/blog/2022/common-cpp-errors-vs-rust/), sums up the whole distinction in one line:
 
