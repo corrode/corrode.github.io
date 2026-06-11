@@ -366,7 +366,7 @@ Here are some principles for durable software design:
 5. Learn about [design principles such as SOLID](https://rust-unofficial.github.io/patterns/additional_resources/design-principles.html).
 6. Avoid premature optimization and over-engineering.
 7. Consider [Domain-driven design](https://doc.rust-cqrs.org/theory_ddd.html). It is a way to express your business logic in a common business language that everyone on the team understands. 
-8. [Study hexagonal architecture](https://alexis-lozano.com/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters'). This architecture separates the core business logic from the infrastructure, making it easier to test and maintain.
+8. [Study hexagonal architecture](https://alexis-lozano.com/blog/hexagonal-architecture-in-rust-1/) (a.k.a onion Architecture or 'Ports and Adapters'). This architecture separates the core business logic from the infrastructure, making it easier to test and maintain.
 
 The Rust ecosystem continues to develop, with new frameworks frequently being introduced. To avoid chasing a moving target, it's a good idea to keep the core of your application framework-agnostic. This way, you can replace your web framework or UI layer without having to rewrite the entire application.
 The above mentioned design principles can help you with that.

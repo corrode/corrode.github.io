@@ -49,7 +49,7 @@ Jon holds a PhD from MIT's PDOS group, where he built Noria, a high-performance 
 - [Jon's Livestreams on YouTube](https://www.youtube.com/@jonhoo) - Deep-dive Rust coding sessions where Jon implements real-world libraries and systems from scratch
 - [WebAssembly with Rust](https://rustwasm.github.io/docs/book/) - The official Rust and WebAssembly book, covering a cool technology and useful skills to have as a Rust developer
 - [Rust for Rustaceans](https://nostarch.com/rust-rustaceans) - Jon's book for intermediate Rust developers covering ownership, traits, async, and the finer points of the language
-- [CVE-2024-24576: Cargo/tar supply chain vulnerability](https://blog.rust-lang.org/2023/08/03/cve-2022-46176.html) - A security issue in the `tar` crate that affected Cargo's package extraction
+- [CVE-2024-24576: Cargo/tar supply chain vulnerability](https://blog.rust-lang.org/2024/04/09/cve-2024-24576.html) - A security issue in the `tar` crate that affected Cargo's package extraction
 - [Wikipedia: Defence in Depth](https://en.wikipedia.org/wiki/Defence_in_depth_(non-military)#Information_security) - The security principle of using multiple independent layers of protection; Even with Rust you need multiple layers, there is no silver bullet
 - [SBOMs (Software Bill of Materials)](https://www.cisa.gov/sbom) - A machine-readable inventory of all components in a software artifact; Cargo's lock files make this tractable for Rust projects
 - [Helsing: AI-assisted vetting of software packages](https://blog.helsing.ai/posts/ai-assisted-vetting-of-software-packages/) - Make it more efficient to review dependencies you take in

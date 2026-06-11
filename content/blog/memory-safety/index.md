@@ -230,7 +230,7 @@ At a minimum:
 
 1. **An inventory of memory-unsafe code** in your products, prioritized by risk (network-facing code, cryptographic operations, data parsing).
 2. **A plan for new development** in a memory-safe language.
-3. **A migration strategy** for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface). See [How to Introduce Rust into a C++ Codebase](/blog/rust-ffi-incremental-migration/) for a deep guide on tooling, build system integration, and migration patterns if you're coming from C++.
+3. **A migration strategy** for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface).
 4. **Interim mitigations** for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
 5. **Timeline and milestones** showing a credible, prioritized reduction of memory safety vulnerabilities.
 

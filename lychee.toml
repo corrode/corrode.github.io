@@ -42,4 +42,26 @@ exclude = [
   '^https?://(www\.)?reddit\.com',
   '^https?://web\.archive\.org',
   '^https?://([a-z0-9-]+\.)?amazon\.[a-z.]+',
+
+  # Hosts that block automated checkers or answer with non-2xx status codes
+  # even though the page is fine in a browser.
+  '^https://forms\.gle/',                                            # Google Forms -> 401 to bots
+  '^https://rustlab\.it/tickets25',                                  # ticketing endpoint -> intermittent 500
+  '^https://rustasiaconf\.com/',                                     # conf site -> intermittent 503
+  '^https://www\.freedesktop\.org/software/systemd/man/devel/run0\.html', # -> 418
+
+  # Live sites that the CI runner can't reach due to TLS/HTTP2/network
+  # quirks (untrusted cert chain, HTTP/2 errors, transient timeouts).
+  '^https://edgarluque\.com',
+  '^https://web\.eecs\.umich\.edu',
+  '^https://earthly\.dev',
+  '^https://pascal-poredda\.de',
+  '^https://(www\.)?solidworks\.com',
+  '^https://(www\.)?autosar\.org',
+  '^https://blog\.consol\.de',
+  '^https://ocw\.cs\.pub\.ro',
+
+  # Dead pages we can't repoint to a sensible replacement.
+  '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
+  '^https://www\.influxdata\.com/products/influxdb-enterprise/',     # product page retired
 ]
