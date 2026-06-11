@@ -112,6 +112,10 @@ The compiler enforces this through two marker traits, [`Send`](https://doc.rust-
 
 That's the whole idea. Rust pushes the locking checks from runtime into the type system.
 
+That guarantee holds up in production. Vivek Bagaria, whose team writes their entire robotics autonomy stack in Rust at [Matic](https://maticrobots.com/), put it this way in an [interview](https://filtra.io/rust/interviews/matic-apr-25):
+
+> Rust is built for fearless concurrency, and it achieves it! Data races are basically impossible unless you are actively trying to shoot yourself in the foot.
+
 {% info(title="Key takeaways") %}
 
 - Synchronized access is not a data race, so it's allowed.
@@ -315,6 +319,10 @@ Here's the precise version of what Rust guarantees about concurrency:
 Safe Rust eliminates data races by design. A program with a data race does not compile. It's a stronger guarantee than what runtime detectors like Go's `-race` or C/C++'s ThreadSanitizer give you, because those only catch races that *actually execute* during a test run.
 
 Safe Rust does not prevent race conditions in general. Deadlocks, livelocks, lost updates, and check-then-act bugs all compile cleanly and can still produce wrong answers or hang.
+
+Geo-ant, writing up a [comparison of common C++ bugs against Rust](https://geo-ant.github.io/blog/2022/common-cpp-errors-vs-rust/), sums up the whole distinction in one line:
+
+> Rust does prevent data races and on the other hand you can still deadlock all you want.
 
 The reason this distinction matters, and not just pedantically, is that it tells you where to spend your attention. You can stop worrying about torn reads and forgotten locks corrupting memory; the compiler has that. What's left is the hard part of concurrency: making sure your critical sections cover your invariants, that your lock ordering is consistent, and that your logical operations are as atomic as you think they are.
 
