@@ -34,6 +34,14 @@ This matters because a data race is [Undefined Behavior](https://doc.rust-lang.o
 A data race does not mean you might read a "stale" value.
 It means the compiler is allowed to do anything like tear a write in half and reorder it.
 
+And you can't wave this away as a harmless race that happens to work out. As Raph Levien notes in [With undefined behavior, anything is possible](https://raphlinus.github.io/programming/rust/2018/08/17/undefined-behavior.html):
+
+> It used to be thought that data races could be classified into "benign" and dangerous categories, but research strongly suggests that the former category doesn't exist.
+
+In other words, every data race is a real bug!
+And because it's Undefined Behavior, the symptom can show up far away from the cause and much later,
+in the form of a corrupted value, a crash, or a security hole that only appears under heavy load.
+
 For example, here are two threads incrementing the same counter:
 
 ```rust
@@ -111,10 +119,6 @@ The compiler enforces this through two marker traits, [`Send`](https://doc.rust-
 (Here the threads can't outlive `counter`, so they borrow it directly. If they needed to outlive the scope, say with `thread::spawn`, you'd wrap it in an [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) to share ownership: `Arc<Mutex<T>>` is the workhorse for that.)
 
 That's the whole idea. Rust pushes the locking checks from runtime into the type system.
-
-That guarantee holds up in production. Vivek Bagaria, whose team writes their entire robotics autonomy stack in Rust at [Matic](https://maticrobots.com/), put it this way in an [interview](https://filtra.io/rust/interviews/matic-apr-25):
-
-> Rust is built for fearless concurrency, and it achieves it! Data races are basically impossible unless you are actively trying to shoot yourself in the foot.
 
 {% info(title="Key takeaways") %}
 
