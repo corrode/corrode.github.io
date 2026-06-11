@@ -137,7 +137,8 @@ Linters and IDE checks catch *some* of these (`nilaway`, `staticcheck`), but the
 
 ```rust
 fn handle(&self, req: &Request) -> Result<(), ServiceError> {
-    let user = self.repo.find(req.user_id)?;   // returns Option<User>; ? short-circuits None into an error
+    // find returns Option<User>; ok_or turns None into a typed error, then ? propagates it
+    let user = self.repo.find(req.user_id).ok_or(ServiceError::NotFound)?;
     user.notify()
 }
 ```
