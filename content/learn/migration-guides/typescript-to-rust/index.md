@@ -2,7 +2,7 @@
 title = "Migrating from TypeScript to Rust"
 description = "You already think in types. This guide maps TypeScript's interfaces, union types, and Promises straight onto Rust's traits, enums, and async."
 date = 2024-12-13
-updated = 2026-04-10
+updated = 2026-06-11
 template = "article.html"
 draft = false
 [extra]
@@ -110,33 +110,31 @@ Every error must be handled explicitly in Rust, which leads to more robust code.
 
 ### Null Safety: `undefined`/`null` vs `Option<T>`
 
-TypeScript gives you `undefined` and `null`, and it's easy to forget to check:
+TypeScript has `undefined` and `null`, but it doesn't always warn you about them. `strictNullChecks` catches a lot, yet plenty of unsoundness still slips through silently. The classic one is index access, which is *not* checked by default (`noUncheckedIndexedAccess` is off unless you opt in):
 
 ```typescript
-function getUser(id: string): User | undefined {
-  return users.find((u) => u.id === id);
-}
+const users: User[] = [];
 
-const user = getUser("123");
-console.log(user.name); // Oof, runtime crash if user is undefined.
+const user = users[0]; // inferred type is `User`, never `User | undefined`
+console.log(user.name); // Oof, runtime crash if the array is empty... and TS never warned you!
 ```
 
 On the other side, Rust uses `Option<T>` and the compiler always **forces** you to handle the missing case:
 
 ```rust
-fn get_user(id: &str) -> Option<User> {
-    users.iter().find(|u| u.id == id).cloned()
-}
+let users: Vec<User> = vec![];
 
-let user = get_user("123");
-// unwraps will panic if user is None.
+let user = users.get(0); 
+// type is Option<&User>, so you can't ignore "empty"
+// unwrap will panic if user is None.
 // You can search for "unwrap" in your
 // entire codebase to find all the places
 // you need to handle!
 println!("{}", user.unwrap().name);
 
 // or, safely:
-if let Some(user) = get_user("123") {
+if let Some(user) = users.get(0) {
+    // In here, `user` is known to be `&User`.
     println!("{}", user.name);
 }
 ```
