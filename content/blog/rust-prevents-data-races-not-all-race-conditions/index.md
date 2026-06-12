@@ -255,8 +255,10 @@ Real deadlocks are usually subtler than this. The textbook version is two thread
 
 ## Atomics Are Not a Magic Bullet Either
 
-You might think: "atomics sidestep all of this!"
-They're synchronized by definition, so each operation is data-race-free. True! But "each operation is atomic" is not the same as "my *sequence* of operations is atomic."
+You might think the bank-account bug was really about `Mutex`: drop the lock, reach for lock-free atomics, and the problem goes away.
+It doesn't. The check-then-act trap has nothing to do with locks. It's about composing operations, and atomics compose just as badly.
+
+Atomics are synchronized by definition, so each *individual* operation is data-race-free. But "each operation is atomic" is not the same as "my *sequence* of operations is atomic", which is exactly the gap we just saw with the mutex.
 
 Here four threads each do 100,000 increments, but the increment is split into a separate `load` and `store`:
 
@@ -296,11 +298,11 @@ expected: 400000
 got:      168582
 ```
 
-No data race occurred. Every `load` and every `store` was a properly synchronized atomic operation. But two threads can both `load` the same value, both add one, and both `store` it back, and one of the increments vanishes. This is a [lost update](https://en.wikipedia.org/wiki/Concurrency_control), which is, once again, a race condition. [^fun_fact]
+No data race occurred. Every `load` and every `store` was a properly synchronized atomic operation. But two threads can both `load` the same value, both add one, and both `store` it back, and one of the increments vanishes. It's the bank account again: the gap this time sits *between* two atomic operations instead of between two locked sections. This is a [lost update](https://en.wikipedia.org/wiki/Concurrency_control), which is, once again, a race condition. [^fun_fact]
 
 [^fun_fact]: Fun fact: the count indicates how many increments were lost, i.e. how many times two threads read the same value and both wrote back the same incremented value, losing one of the increments. So in the first run, 94,648 increments were lost, and in the second run, 231,418 were lost; that's a percentage of 23.66% and 57.85%, respectively, which is a huge difference just from the timing of how the threads interleaved.
 
-The fix is to use a single atomic read-modify-write operation, [`fetch_add`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU64.html#method.fetch_add), which does the load-add-store as one indivisible step:
+The fix rhymes with the mutex one: collapse the two steps into a single indivisible operation. With a lock, that meant holding the guard across both. With atomics, it means a single read-modify-write operation, [`fetch_add`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU64.html#method.fetch_add), which does the load-add-store in one step:
 
 ```rust
 counter.fetch_add(1, Ordering::SeqCst);
@@ -310,9 +312,9 @@ With that one change, the program prints `400000` every time. The lesson is that
 
 {% info(title="Key takeaways") %}
 
-- Atomic operations are individually data-race-free, but composing several of them is not automatically atomic.
-- `load` then `store` is two operations; another thread can slip in between them. Reach for `fetch_add` and friends.
-- "Synchronized" and "correct" are different properties. Rust guarantees the first, never the second.
+- This is the same check-then-act trap as the bank account, with no lock in sight; the problem was never about `Mutex`.
+- Atomic operations are individually data-race-free, but composing several of them is not automatically atomic. `load` then `store` is two operations, and another thread can slip in between them.
+- The fix mirrors the lock case: make the whole logical operation indivisible. Reach for `fetch_add` and friends instead of a separate load and store.
 
 {% end %}
 
