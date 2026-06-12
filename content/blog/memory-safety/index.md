@@ -7,6 +7,7 @@ template = "article.html"
 draft = false
 [extra]
 series = "Rust Insights"
+excerpt = "Why governments (CISA, NSA, EU CRA, White House) now treat memory-unsafe code as a liability, and why Rust is the production-ready fix for systems software."
 resources = [
   "[White House ONCD Report: Back to the Building Blocks](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)",
   "[CISA Product Security Bad Practices](https://www.cisa.gov/resources-tools/resources/product-security-bad-practices)",
@@ -15,6 +16,8 @@ resources = [
   "[NSA Cybersecurity Information Sheet on Software Memory Safety](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF)",
   "[DARPA TRACTOR Program](https://www.darpa.mil/research/programs/translating-all-c-to-rust)",
   "[EU Cyber Resilience Act](https://digital-strategy.ec.europa.eu/en/library/cyber-resilience-act)",
+  "[C++ to Rust Migration Guide](/learn/migration-guides/cpp-to-rust/)",
+  "[Rust Case Studies](/learn/case-studies/)",
   "[Why Rust in Production?](/why-rust/)",
   "[Rust Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/)",
   "[Listen to the Rust in Production Podcast](/podcast)",
@@ -198,7 +201,7 @@ If you're a decision-maker, you might reasonably ask: "Why Rust? There are other
 
 That's true. Java, Go, C#, Python: all are memory-safe. But they solve a different set of problems.
 
-When you need **systems-level performance without a garbage collector**, when you need to interface with existing C/C++ code, when you need to write code that runs on bare metal, in kernels, in embedded devices, or in latency-sensitive network infrastructure, there is exactly one production-ready memory-safe language: **Rust**.
+When you need **systems-level performance without a garbage collector**, when you need to interface with [existing C/C++ code](/learn/migration-guides/cpp-to-rust/), when you need to write code that runs on bare metal, in kernels, in embedded devices, or in latency-sensitive network infrastructure, there is exactly one production-ready memory-safe language: **Rust**.
 
 As I wrote in a recent post on [choosing Rust](https://endler.dev/2025/choosing-rust/):
 
@@ -246,12 +249,12 @@ At a minimum:
 
 1. An inventory of memory-unsafe code in your products, prioritized by risk (network-facing code, cryptographic operations, data parsing).
 2. A plan for new development in a memory-safe language.
-3. A migration strategy for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface).
+3. A migration strategy for high-risk existing components, potentially through [incremental Rust rewrites](/learn/migration-guides/) using the FFI (Foreign Function Interface).
 4. Interim mitigations for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
 5. A timeline with milestones showing a credible, prioritized reduction of memory safety vulnerabilities.
 
 This is exactly the kind of work I do with my clients at [corrode](/services/). We've helped organizations across industries, from 
-cloud infrastructure to embedded devices to backend services, develop practical Rust adoption strategies.
+cloud infrastructure to embedded devices to backend services, develop practical Rust adoption strategies (see our [case studies](/learn/case-studies/) for real-world examples).
 
 (For a complete guide on the organizational side, see our [Rust Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/).)
 

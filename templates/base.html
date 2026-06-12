@@ -57,9 +57,16 @@
 
     {%- set social_image =  config.base_url ~ social_image %}
 
+    {%- if page and (page.path is starting_with("/blog") or page.path is starting_with("/podcast")) %}
+        {%- set og_type = "article" %}
+    {%- else %}
+        {%- set og_type = "website" %}
+    {%- endif %}
+
     <title>{{ generated_title }}</title>
     <meta name="author" content="{{ config.extra.author }}">
     <meta name="description" content="{{ social_description | striptags | safe | trim }}">
+    <link rel="canonical" href="{{ social_url | safe }}">
 
     <!-- Open Graph tags -->
     <meta property="og:title" content="{{ generated_title }}">
@@ -72,7 +79,14 @@
     <meta property="og:image:alt" content="{{ generated_title }}">
     <meta property="og:url" content="{{ social_url }}">
     <meta property="og:site_name" content="{{ config.extra.author }}">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{{ og_type }}">
+    {%- if og_type == "article" and page %}
+    <meta property="article:published_time" content="{{ page.date }}">
+    {%- if page.updated %}
+    <meta property="article:modified_time" content="{{ page.updated }}">
+    {%- endif %}
+    <meta property="article:author" content="Matthias Endler">
+    {%- endif %}
         
     {%- if page %}
     <meta name="publish_date" property="og:publish_date" content="{{ page.date }}">
