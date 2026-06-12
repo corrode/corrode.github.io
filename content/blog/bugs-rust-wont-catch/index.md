@@ -11,6 +11,7 @@ resources = [
     "[Patterns for Defensive Programming in Rust](/blog/defensive-programming/): companion post on writing more robust Rust code",
     "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/): common mistakes even safe Rust code can make",
     "[Sharp Edges In The Rust Standard Library](/blog/sharp-edges-in-rust-std/): surprising behaviors in `std`",
+    "[Rust Prevents Data Races, Not Race Conditions](/blog/rust-prevents-data-races-not-race-conditions/): where Rust's concurrency safety ends",
     "[uutils/coreutils on GitHub](https://github.com/uutils/coreutils): the Rust reimplementation of GNU coreutils",
 ]
 +++
@@ -330,7 +331,7 @@ Keep in mind that none of the following bad things happened:
 - No buffer overflows.
 - No use-after-free.
 - No double-free.
-- No data races on shared mutable state.
+- [No data races](/blog/rust-prevents-data-races-not-race-conditions/) on shared mutable state.
 - No null-pointer dereferences.
 - No uninitialized memory reads.
 
@@ -353,7 +354,7 @@ GNU coreutils has shipped CVEs in every single one of those categories. Take a p
 [^rewrite-caveat]: To be fair to GNU: GNU coreutils is 40 years old and has had a very long time to surface and fix this class of bug. And we don't *know* there are no memory-safety bugs in the Rust rewrite, only that the audit didn't find any. Still, the difference is noticeable when comparing the same duration of development activity.
 
 What's left is, frankly, a more interesting class of bug. It lives at the boundary between our controlled Rust environment and the messy, chaotic outside world, where paths, bytes, strings, and syscalls are all tangled up in one eternal ball of sadness.
-That's the new security boundary of modern systems code.[^c-handles]
+That's the new security boundary of modern systems code.[^c-handles].
 
 [^c-handles]: It's worth noting that the `Path`/`PathBuf` TOCTOU class of bug is in some ways *easier* to avoid in C than in Rust. C code naturally reaches for an open file descriptor and the `*at` family of syscalls (`openat`, `fstatat`, `unlinkat`, `mkdirat`), and most creation syscalls take a `mode` argument directly. Rust's high-level `std::fs` APIs abstract over the file descriptor and operate on `&Path` values, which makes the path-based, re-resolving call the path of least resistance. The handle-based APIs exist on every Unix platform; Rust just doesn't put them front and center.
 

@@ -110,6 +110,16 @@ article li pre {
     object-fit: cover;
 }
 
+.article-hero img.compact {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 0;
+    display: block;
+    object-fit: contain;
+    object-position: left;
+}
+
 .article-content-wrapper {
     padding: 3em 0;
     background-color: $brightBgrdLight;
