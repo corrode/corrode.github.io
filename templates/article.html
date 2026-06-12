@@ -10,12 +10,14 @@
         "@type": "WebPage",
         "@id": "{{ current_url | safe }}"
       },
-      "headline": "{{ page.title | safe }}",
+      "headline": {{ page.title | json_encode | safe }},
       {%- if social_description and social_description | length > 0 %}
-      "description": "{{ social_description | striptags | escape | safe }}",
+      "description": {{ social_description | striptags | json_encode | safe }},
       {%- endif %}
       {% if page.extra.hero %}
-      "image": "{{ get_url(path=page.extra.hero) }}",
+      "image": "{{ get_url(path=page.extra.hero) | safe }}",
+      {% elif page.colocated_path %}
+      "image": "{{ config.base_url | safe }}/{{ page.colocated_path | safe }}social.png",
       {% endif %}
       "author": {
         "@type": "Person",

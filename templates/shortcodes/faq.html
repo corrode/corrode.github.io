@@ -1,84 +1,36 @@
-{# FAQ shortcode: renders a styled FAQ section with Google-compliant FAQPage JSON-LD.
+{# FAQ shortcode: renders a styled FAQ section with Google-compliant FAQPage
+JSON-LD. Both the visible Q&A and the structured data are rendered server-side
+at build time, so they are present in the static HTML. This matters because
+search crawlers and LLM crawlers (GPTBot, ClaudeBot, PerplexityBot,
+Google-Extended, ...) read the raw HTML and generally do not execute JavaScript.
+Body must be a valid JSON array of objects with "q" and "a" keys. Answers are
+rendered as Markdown, so blank lines create paragraphs and inline HTML/links are
+supported. #} {%- set items = load_data(literal=body, format="json") -%}
 
-Usage in markdown:
-
-{% faq() %}
-[
-  {
-    "q": "Your question here?",
-    "a": "Your answer here."
-  },
-  {
-    "q": "Another question?",
-    "a": "Another answer with <a href='/link'>HTML</a> supported."
-  }
-]
-{% end %}
-
-The body must be a valid JSON array of objects with "q" and "a" keys.
-HTML is allowed in answers for links and formatting.
-#}
-
-<div class="faq-section" id="faq-root">
-  <noscript>
-    <p>Please enable JavaScript to view the FAQ section.</p>
-  </noscript>
+<div class="faq-section">
+    {%- for item in items %}
+    <details class="faq-item">
+        <summary>{{ item.q }}</summary>
+        <div class="faq-answer">{{ item.a | markdown | safe }}</div>
+    </details>
+    {%- endfor %}
 </div>
 
-<script>
-(function() {
-  var items = {{ body | safe }};
-  var root = document.currentScript.previousElementSibling;
-  while (root && !root.classList.contains('faq-section')) {
-    root = root.previousElementSibling;
-  }
-  if (!root) return;
-
-  // Clear noscript fallback
-  root.innerHTML = '';
-
-  // Build visible FAQ items
-  items.forEach(function(item) {
-    var details = document.createElement('details');
-    details.className = 'faq-item';
-
-    var summary = document.createElement('summary');
-    summary.textContent = item.q;
-    details.appendChild(summary);
-
-    var answer = document.createElement('div');
-    answer.className = 'faq-answer';
-    // Split on double newlines to create paragraphs, single content gets one <p>
-    var paragraphs = item.a.split('\n\n');
-    paragraphs.forEach(function(text) {
-      var p = document.createElement('p');
-      p.innerHTML = text.trim();
-      answer.appendChild(p);
-    });
-    details.appendChild(answer);
-
-    root.appendChild(details);
-  });
-
-  // Build FAQPage JSON-LD structured data
-  var ld = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": items.map(function(item) {
-      return {
-        "@type": "Question",
-        "name": item.q,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": item.a
-        }
-      };
-    })
-  };
-
-  var script = document.createElement('script');
-  script.type = 'application/ld+json';
-  script.textContent = JSON.stringify(ld);
-  document.head.appendChild(script);
-})();
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for item in items %}
+        {
+          "@type": "Question",
+          "name": {{ item.q | json_encode | safe }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ item.a | json_encode | safe }}
+          }
+        }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ]
+    }
 </script>

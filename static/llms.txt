@@ -35,6 +35,7 @@ Practical, language-by-language guides for teams moving to Rust.
 ## Writing & Media
 
 - [Blog](https://corrode.dev/blog/): Articles on idiomatic Rust, performance, testing, maintenance, and the ecosystem.
+- [Memory-Unsafe Code Is a Liability](https://corrode.dev/blog/memory-safety/): How government regulation (White House, NSA, CISA, DARPA, EU CRA, Germany's BSI) is pushing toward memory-safe languages, and why Rust is the production-ready choice for systems programming.
 - [Rust in Production (Podcast)](https://corrode.dev/podcast/): Interviews with engineers running Rust in production at companies large and small.
 - [Case Studies](https://corrode.dev/learn/case-studies/): Real-world stories of teams adopting Rust.
 
