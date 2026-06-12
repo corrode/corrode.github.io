@@ -67,7 +67,7 @@ request](https://github.com/rust-lang/async-book/pull/96), though.)
 That leaves us with a situation that is unsatisfactory for everyone involved:
 
 - For new users, it is a big ask to [navigate this space](https://kevinhoffman.medium.com/rust-async-and-the-terrible-horrible-no-good-very-bad-day-348ebc836274) and make future-proof decisions.
-- For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/launchbadge/sqlx/issues/1669). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
+- For experienced users and library maintainers, [supporting multiple runtimes is an additional burden](https://github.com/transact-rs/sqlx/issues/1669). It's no surprise that popular crates like [`reqwest`](https://github.com/seanmonstar/reqwest) [simply insist on Tokio as a runtime](https://github.com/seanmonstar/reqwest/blob/master/Cargo.toml#L109).
 
 This close coupling, [recognized by the async working
 group](https://github.com/rust-lang/wg-async/issues/45), has me worried about
@@ -135,7 +135,7 @@ was [met with noticeable community skepticism](https://www.reddit.com/r/rust/com
 As of this writing, [1754 public crates have a dependency on
 `async-std`](https://lib.rs/crates/async-std/rev) and there
 are companies that [rely on it in
-production](https://github.com/launchbadge/sqlx/issues/1669).
+production](https://github.com/transact-rs/sqlx/issues/1669).
 
 However, looking at the commits over time `async-std` is essentially abandoned
 as there is [no active development
