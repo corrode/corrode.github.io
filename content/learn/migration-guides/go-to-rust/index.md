@@ -13,7 +13,7 @@ reviews = [
 resources = [
   "[JetBrains State of Developer Ecosystem 2024](https://www.jetbrains.com/lp/devecosystem-2024/): source for the Go usage figures cited in this guide",
   "[Rust vs Go: A Hands-On Comparison (Shuttle)](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison): a longer, code-heavy comparison I wrote with the Shuttle team",
-  "[Rust Prevents Data Races, Not Race Conditions](/blog/rust-prevents-data-races-not-all-race-conditions/): what Rust's concurrency guarantee actually covers, and what it doesn't",
+  "[Rust Prevents Data Races, Not Race Conditions](/blog/rust-prevents-data-races-not-race-conditions/): what Rust's concurrency guarantee actually covers, and what it doesn't",
 ]
 +++
 
@@ -160,7 +160,7 @@ Mutating a map from two goroutines without a lock compiles fine in Go and only b
 In Rust, sharing mutable state across threads requires types that implement `Send` and `Sync`.
 Try to share a plain `HashMap` between threads and **the program does not compile**.
 You're forced to wrap it in an `Arc<Mutex<...>>`, an `Arc<RwLock<...>>`, or use a channel.
-That means data races become a compile-time error. [Rust won't save you from every concurrency bug, though](/blog/rust-prevents-data-races-not-all-race-conditions/).[^races]
+That means data races become a compile-time error. [Rust won't save you from every concurrency bug, though](/blog/rust-prevents-data-races-not-race-conditions/).[^races]
 
 In our interview, Paul Dix has been very candid about what motivated the InfluxDB Go to Rust rewrite:
 
@@ -168,7 +168,7 @@ In our interview, Paul Dix has been very candid about what motivated the InfluxD
 >
 > &mdash; Paul Dix, Founder & CTO, InfluxData, on [Rust in Production](/podcast/s01e01-influxdata?t=55%3A40)
 
-[^races]: To be precise: *safe* Rust eliminates data races by construction, a value that can't be shared across threads without synchronization simply won't compile. It does *not* prevent race conditions in the broader sense (deadlocks, livelocks, or logic bugs in your synchronization); no type system does. What goes away is the "oh no, I forgot to lock this" class of silent data corruption. Read more [here](/blog/rust-prevents-data-races-not-all-race-conditions/).
+[^races]: To be precise: *safe* Rust eliminates data races by construction, a value that can't be shared across threads without synchronization simply won't compile. It does *not* prevent race conditions in the broader sense (deadlocks, livelocks, or logic bugs in your synchronization); no type system does. What goes away is the "oh no, I forgot to lock this" class of silent data corruption. Read more [here](/blog/rust-prevents-data-races-not-race-conditions/).
 
 ### Composable Error Handling
 

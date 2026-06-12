@@ -1,10 +1,16 @@
 +++
-title = "Rust Prevents Data Races, Not All Race Conditions"
-date = 2026-06-11
+title = "Rust Prevents Data Races, Not Race Conditions"
+date = 2026-06-12
 draft = false
 template = "article.html"
+aliases = ["/blog/rust-prevents-data-races-not-all-race-conditions/"]
 [extra]
 series = "Rust Insights"
+hero = "hero.svg"
+hero_classes = "compact"
+credits = [
+    "Designed by <a href='https://www.magnific.com'>Magnific</a>"
+]
 resources = [
     "[The Rustonomicon: Data Races and Race Conditions](https://doc.rust-lang.org/nomicon/races.html): the canonical definition this post is built on",
     "[Migrating from Go to Rust](/learn/migration-guides/go-to-rust/): where the footnote that started this post lives",
@@ -83,9 +89,9 @@ This is the point the Nomicon makes:
 
 {% info(title="Key takeaways") %}
 
-- A **data race** is a specific thing: concurrent access, at least one write, no synchronization. All three at once.
+- A data race is a specific thing: concurrent access, at least one write, no synchronization. All three at once.
 - A data race is Undefined Behavior, not just a wrong answer.
-- Safe Rust makes data races **impossible to compile**, because they require aliasing a mutable reference, which the borrow checker forbids.
+- In purely safe Rust, **data races are impossible**, because they require aliasing a mutable reference, which the borrow checker forbids.
 
 {% end %}
 
@@ -112,13 +118,17 @@ fn main() {
 }
 ```
 
-This compiles, and it **always** prints: `2`.
+This compiles, and it **always** prints `2`.
 
-The compiler enforces this through two marker traits, [`Send`](https://doc.rust-lang.org/std/marker/trait.Send.html) and [`Sync`](https://doc.rust-lang.org/std/marker/trait.Sync.html). Roughly: `Send` means a value can be moved to another thread, and `Sync` means it can be shared between threads by reference. A plain `i32` isn't safe to share mutably across threads, but `Mutex<i32>` is `Sync`, so the compiler accepts it. Try to share something that *isn't* `Sync`, like an [`Rc<T>`](https://doc.rust-lang.org/std/rc/struct.Rc.html) or a [`RefCell<T>`](https://doc.rust-lang.org/std/cell/struct.RefCell.html), and you get a compile error.
+The compiler enforces this through two marker traits, [`Send`](https://doc.rust-lang.org/std/marker/trait.Send.html) and [`Sync`](https://doc.rust-lang.org/std/marker/trait.Sync.html). Roughly: `Send` means a value can be moved to another thread, and `Sync` means it can be shared between threads by reference.
+
+A plain `i32` can't be mutated through a shared reference, and a mutable reference can't be copied across threads. To share and mutate it, you need a type that provides interior mutability while remaining thread-safe (`Sync`), which is exactly what `Mutex<i32>` does.
+
+Try to share something that *isn't* `Sync`, like an [`Rc<T>`](https://doc.rust-lang.org/std/rc/struct.Rc.html) or a [`RefCell<T>`](https://doc.rust-lang.org/std/cell/struct.RefCell.html), and you get a compile error.
 
 (Here the threads can't outlive `counter`, so they borrow it directly. If they needed to outlive the scope, say with `thread::spawn`, you'd wrap it in an [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) to share ownership: `Arc<Mutex<T>>` is the workhorse for that.)
 
-That's the whole idea. Rust pushes the locking checks from runtime into the type system.
+That's the whole idea. Rust pushes many concurrency-safety checks from runtime into the type system.
 
 {% info(title="Key takeaways") %}
 
@@ -139,7 +149,6 @@ That sounds quite scary, but we make sure to lock the `Mutex` on every access, s
 ```rust
 use std::sync::Mutex;
 use std::thread;
-use std::time::Duration;
 
 fn main() {
     // A shared account with $100 in it
@@ -164,16 +173,18 @@ fn main() {
 }
 ```
 
-Here's the output:
+One possible output is:
 
 ```
 final balance: -100
 ```
 
+but the output varies per run. 
+
 Both threads locked the mutex and checked the balance before, so how is that final balance negative? 
 
 There's a subtle issue: both threads correctly locked the mutex, but they released the lock before they acted on the result of the check. The threads didn't hold the lock for the entire time. 
-So both threads can check the balance at the same time, see that it's $100, and both decide they can withdraw.
+So both threads can check the balance interleaved, seeing $100 before either thread has actually executed the withdrawal, leading both to decide they are cleared to proceed.
 *Then* both went ahead and withdrew. The account went negative.
 
 Every individual access was synchronized, so the borrow checker is perfectly happy. The bug is that the *check* and the *act* are two separate critical sections. Between them, the world can change. This is a **race condition** (specifically a [TOCTOU](/blog/pitfalls-of-safe-rust/#protect-against-time-of-check-to-time-of-use-toctou), time-of-check-to-time-of-use bug), and no type system can catch it for you, because the correctness depends on what you intended the locking to *mean*.
@@ -286,7 +297,7 @@ fn main() {
 }
 ```
 
-Two runs, two different (wrong) answers:
+Two example runs with two different (wrong) answers:
 
 ```
 expected: 400000
@@ -298,23 +309,33 @@ expected: 400000
 got:      168582
 ```
 
-No data race occurred. Every `load` and every `store` was a properly synchronized atomic operation. But two threads can both `load` the same value, both add one, and both `store` it back, and one of the increments vanishes. It's the bank account again: the gap this time sits *between* two atomic operations instead of between two locked sections. This is a [lost update](https://en.wikipedia.org/wiki/Concurrency_control), which is, once again, a race condition. [^fun_fact]
+Every `load` and every `store` was a properly synchronized atomic operation.
+No data race occurred.
+But two threads can both `load` the same value, both add one, and both `store` it back, and one of the increments vanishes. It's the bank account again: the gap this time sits *between* two atomic operations instead of between two locked sections. This is a [lost update](https://en.wikipedia.org/wiki/Concurrency_control), which is, once again, a race condition. [^fun_fact]
 
-[^fun_fact]: Fun fact: the count indicates how many increments were lost, i.e. how many times two threads read the same value and both wrote back the same incremented value, losing one of the increments. So in the first run, 94,648 increments were lost, and in the second run, 231,418 were lost; that's a percentage of 23.66% and 57.85%, respectively, which is a huge difference just from the timing of how the threads interleaved.
+[^fun_fact]: Fun fact: the count indicates how many increments were lost,i.e., the total number of individual increments that vanished because threads interleaved, read a stale value, and overwrote each other's progress. So in the first run, 94,648 increments were lost, and in the second run, 231,418 were lost; that's a percentage of 23.66% and 57.85%, respectively, which is a huge difference just from the timing of how the threads interleaved.
 
-The fix rhymes with the mutex one: collapse the two steps into a single indivisible operation. With a lock, that meant holding the guard across both. With atomics, it means a single read-modify-write operation, [`fetch_add`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU64.html#method.fetch_add), which does the load-add-store in one step:
+Notice that we're using `SeqCst`, the strongest memory ordering Rust provides. The bug still occurs because the problem isn't memory ordering; it's that the increment is split into two separate operations.
+
+The fix is to collapse the two steps into a single indivisible operation. With a lock, that meant holding the guard across both. With atomics, it means a single read-modify-write operation, [`fetch_add`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU64.html#method.fetch_add), which does the load-add-store in one step:
 
 ```rust
 counter.fetch_add(1, Ordering::SeqCst);
 ```
 
-With that one change, the program prints `400000` every time. The lesson is that atomicity has a *scope*. The hardware guarantees the individual operation is atomic; making your logical operation atomic is still your job.
+With that one change, the program prints `400000` every time.
+
+This is the same check-then-act trap as the bank account, with no lock in sight; the problem was never about `Mutex`.
 
 {% info(title="Key takeaways") %}
 
-- This is the same check-then-act trap as the bank account, with no lock in sight; the problem was never about `Mutex`.
-- Atomic operations are individually data-race-free, but composing several of them is not automatically atomic. `load` then `store` is two operations, and another thread can slip in between them.
-- The fix mirrors the lock case: make the whole logical operation indivisible. Reach for `fetch_add` and friends instead of a separate load and store.
+- Atomicity has a *scope*. The hardware guarantees the individual operation is
+  atomic; making your logical operation atomic is still your job.
+- Atomic operations are individually data-race-free, but composing several of
+  them is not automatically atomic. `load` then `store` is two operations, and
+  another thread can slip in between them.
+- The fix mirrors the lock case: make the whole logical operation indivisible.
+  Reach for `fetch_add` and friends instead of a separate load and store.
 
 {% end %}
 
@@ -324,7 +345,7 @@ Safe Rust eliminates data races by design. A program with a data race does not c
 
 Safe Rust does not prevent race conditions in general. Deadlocks, livelocks, lost updates, and check-then-act bugs all compile cleanly and can still produce wrong answers or hang.[^overlap]
 
-[^overlap]: Strictly speaking, "data race" and "race condition" are overlapping concepts, not nested ones: neither is a subset of the other. A data race need not affect the result (so it isn't always a race condition in the timing sense), and plenty of race conditions involve no data race at all (the bank-balance example above locks correctly and still misbehaves). John Regehr's [Race Condition vs. Data Race](https://blog.regehr.org/archives/490) is the canonical treatment. Informally, people often treat a data race as the memory-level kind of race condition, which is why the title says "not *all* race conditions" rather than "not race conditions."
+[^overlap]: In the context of this article, I treat "data race" and "race condition" as two separate things, which is a useful simplification but not the full picture. The two concepts overlap heavily (many race conditions are caused by data races), yet neither is contained in the other: you can have a race condition with no data race (the bank-balance example above locks every access correctly and still loses money). Under some definitions, you can even construct examples where a data race exists but no observable program behavior depends on it (two threads racing to set an "account was touched" flag that nothing depends on). I recommend reading John Regehr post titled [Race Condition vs. Data Race](https://blog.regehr.org/archives/490).
 
 Geo-ant, writing up a [comparison of common C++ bugs against Rust](https://geo-ant.github.io/blog/2022/common-cpp-errors-vs-rust/), sums up the whole distinction in one line:
 
