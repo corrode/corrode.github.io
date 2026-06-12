@@ -1,6 +1,7 @@
 +++
 title = "Memory-Unsafe Code Is a Liability"
 date = 2026-02-27
+updated = 2026-06-12
 aliases = ["/blog/rust-supply-chain-security/"]
 template = "article.html"
 draft = false
@@ -9,6 +10,8 @@ series = "Rust Insights"
 resources = [
   "[White House ONCD Report: Back to the Building Blocks](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/)",
   "[CISA Product Security Bad Practices](https://www.cisa.gov/resources-tools/resources/product-security-bad-practices)",
+  "[CISA/NSA: Memory Safe Languages: Reducing Vulnerabilities in Modern Software Development](https://www.cisa.gov/resources-tools/resources/memory-safe-languages-reducing-vulnerabilities-modern-software-development)",
+  "[CISA: The Case for Memory Safe Roadmaps](https://www.cisa.gov/resources-tools/resources/case-memory-safe-roadmaps)",
   "[NSA Cybersecurity Information Sheet on Software Memory Safety](https://media.defense.gov/2022/Nov/10/2003112742/-1/-1/0/CSI_SOFTWARE_MEMORY_SAFETY.PDF)",
   "[DARPA TRACTOR Program](https://www.darpa.mil/research/programs/translating-all-c-to-rust)",
   "[EU Cyber Resilience Act](https://digital-strategy.ec.europa.eu/en/library/cyber-resilience-act)",
@@ -18,15 +21,44 @@ resources = [
 ]
 +++
 
-If you are responsible for software that powers critical infrastructure, handles sensitive data, or ships to customers in regulated markets, you have to pay attention to the regulatory landscape around software security.
+If you are responsible for software that powers critical infrastructure, handles sensitive data, or ships to customers in regulated markets, you have to pay attention to the regulations forming around software security.
 
 Governments around the world are converging on a single message: **memory-unsafe code is a liability**. New regulations, executive guidance, and procurement requirements are making it clear that organizations that don't act now will face increasing legal, financial, and reputational risk.
 
 Rust eliminates the most common class of security vulnerabilities at compile time. That's not a marketing claim but a technical property of the language, [confirmed by Google](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html), [Microsoft](https://msrc.microsoft.com/blog/2019/07/we-need-a-safer-systems-programming-language/), and [the White House](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/).
 
-This article lays out the evidence: the regulatory landscape, the mounting pressure from every direction, and why acting now, with expert guidance, is the smartest insurance policy your organization can buy.
+This post lays out the regulations, the mounting pressure, and why acting now, with expert guidance, is the smartest insurance your organization can buy.
 
 <!-- more -->
+
+## The Regulatory Landscape at a Glance
+
+Look at the pattern:
+
+| Source                       | Action                                                                | Year         |
+| ---------------------------- | --------------------------------------------------------------------- | ------------ |
+| **Google/Microsoft** | Independently confirmed ~70% of CVEs are memory safety issues         | 2019–present |
+| **NSA**                      | Published guidance recommending memory-safe languages                 | 2022         |
+| **CISA / NSA**               | Published _The Case for Memory Safe Roadmaps_                          | 2023         |
+| **Germany**                  | Funded Rust ecosystem through the Sovereign Tech Fund                 | 2023–present |
+| **White House / ONCD**       | Called on industry to adopt memory-safe languages                     | 2024         |
+| **DARPA**                    | Funded automated C-to-Rust translation (TRACTOR)                      | 2024         |
+| **EU**                       | Enacted the Cyber Resilience Act; obligations phase in through 2027   | 2024–2027    |
+| **CISA / FBI**               | Listed memory-unsafe languages as a product security bad practice     | 2024–2025    |
+| **CISA / NSA**               | Published adoption guidance on memory safe languages                  | 2025         |
+| **NIST**                     | Published SSDF; basis for federal procurement requirements            | Ongoing      |
+
+This is a **global, bipartisan, cross-sector consensus** that memory-unsafe code is an **unacceptable risk** in critical systems.
+
+The direction is clear. The question is not _whether_ your organization will need to address this, it's _when_, and whether you'll do so on your own terms or under external pressure.
+
+{% info(title="Where Does Your Organization Stand?", icon="warning") %}
+
+If your software touches critical infrastructure, handles sensitive data, or ships into regulated markets, the regulatory direction above applies to you. Most organizations I work with underestimate how long it takes to build internal Rust expertise and draft a credible memory safety roadmap.
+
+I help companies close that gap, typically saving months of trial and error. **[Book a free assessment call](/#contact)** and let's figure out your exposure before deadlines set the pace.
+
+{% end %}
 
 ## Memory Safety Vulnerabilities Are Everywhere
 
@@ -48,11 +80,12 @@ Even the most skilled programmers in the world, working on the most scrutinized 
 
 That's [glibc](https://sourceware.org/glibc/), one of the most critical, most reviewed, most battle-tested libraries in computing. Written in C by exceptional engineers. And yet, a remote code execution vulnerability hid in plain sight for over two decades.
 
-This is not a people problem but a tooling problem. And it's exactly the class of problem that Rust was designed to solve!
+The tools are the problem, and fixing the tools is exactly what Rust was designed to do!
+No amount of skill or review fixes this.
 
 ## The Regulatory Landscape: A Global Consensus Is Forming
 
-What was once a niche concern for security researchers has become a mainstream policy priority. Governments and standards bodies across the world are now explicitly calling for a shift to memory-safe languages. Here is a non-exhaustive timeline of the most significant developments.
+What was once a niche concern for security researchers has become a mainstream policy priority. Governments and standards bodies across the world are now explicitly calling for a shift to memory-safe languages. Here is a timeline of how we got here.
 
 ### United States: White House Office of the National Cyber Director (2024)
 
@@ -67,7 +100,7 @@ The report makes the case that software manufacturers can **prevent entire class
 >
 > Harry Coker, U.S. National Cyber Director
 
-This language is in no way aspirational but a policy directive that signals the direction of future government procurement, compliance requirements, and liability standards.
+This reads less like aspiration than a policy directive.
 
 ### United States: NSA Guidance on Memory Safety (2022)
 
@@ -93,21 +126,29 @@ The very first "bad practice" listed under _Product Properties_ is unambiguous (
 
 > "The development of new product lines for use in service of critical infrastructure or NCFs **in a memory-unsafe language (e.g., C or C++) where readily available alternative memory-safe languages could be used** is dangerous and significantly elevates risk to national security, national economic security, and national public health and safety."
 
-CISA further states that for existing products written in memory-unsafe languages, **not having a published memory safety roadmap is itself a bad practice**. Their recommendation:
+CISA further states that for existing products written in memory-unsafe languages, **not having a published memory safety roadmap is itself a bad practice**. The concept comes from an earlier CISA/NSA joint guide, [_The Case for Memory Safe Roadmaps_](https://www.cisa.gov/resources-tools/resources/case-memory-safe-roadmaps) (2023). Their recommendation:
 
 > "Software manufacturers should publish a memory safety roadmap by the end of 2025, outlining their prioritized approach to eliminating memory safety vulnerabilities in priority code components written in memory unsafe languages."
 
 If your organization produces software for critical infrastructure and you don't yet have a memory safety roadmap, you are already behind the curve.
 
+### United States: CISA and NSA Joint Guide on Memory Safe Languages (2025)
+
+On June 24, 2025, CISA and the NSA released a new joint guide, [_Memory Safe Languages: Reducing Vulnerabilities in Modern Software Development._](https://www.cisa.gov/resources-tools/resources/memory-safe-languages-reducing-vulnerabilities-modern-software-development)
+
+Where earlier guidance made the case for _why_ organizations should adopt memory-safe languages, this document focuses on _how_. It identifies the main obstacles to adoption and offers practical approaches for overcoming them. The agencies are unambiguous about the destination:
+
+> "Adopting memory safe languages (MSLs) offers the most comprehensive mitigation against this class of vulnerabilities and provides built-in safeguards that enhance security by design."
+
 ### United States: DARPA TRACTOR Program (2024)
 
 The **Defense Advanced Research Projects Agency (DARPA)** launched the [TRACTOR](https://www.darpa.mil/research/programs/translating-all-c-to-rust) program: **Translating All C To Rust**.
 
-DARPA's own summary makes the strategic importance clear:
+DARPA's own summary doesn't mince words:
 
 > "After more than two decades of grappling with memory safety issues in C and C++, the software engineering community has reached a consensus. It's not enough to rely on bug-finding tools. The preferred approach is to use 'safe' programming languages that can reject unsafe programs at compile time, thereby preventing the emergence of memory safety issues."
 
-This is DARPA, the agency that funded the creation of the internet, investing significant resources into automated C-to-Rust translation. The goal is to produce Rust code "of the same quality and style that a skilled Rust developer would produce, thereby eliminating the entire class of memory safety security vulnerabilities present in C programs."
+This is DARPA, the agency that funded the creation of the internet, pouring resources into automated C-to-Rust translation. The goal is to produce Rust code "of the same quality and style that a skilled Rust developer would produce, thereby eliminating the entire class of memory safety security vulnerabilities present in C programs."
 
 When the U.S. Department of Defense is funding automated migration from C to Rust, the strategic direction could not be clearer.
 
@@ -128,6 +169,8 @@ While the CRA does not mandate specific programming languages, its requirements 
 
 The CRA applies to any product with digital elements placed on the EU market, regardless of where it was developed. If you sell software or connected hardware in Europe, this is already your reality.
 
+And the deadlines are close. The CRA was adopted on October 10, 2024, and entered into force on December 11, 2024. The **vulnerability and incident reporting obligations** apply from **September 11, 2026**, and the **main obligations** apply from **December 11, 2027**.
+
 ### Germany: BSI NIS-2 Security Measures and the Sovereign Tech Fund
 
 Germany has been one of the most proactive governments in supporting memory-safe software.
@@ -137,7 +180,7 @@ The German Federal Office for Information Security (**BSI**) published [security
 > "Verwendung speichersicherer Programmiersprachen, beispielsweise Rust."
 > (Use of memory-safe programming languages, for example Rust.)
 
-This is part of a broader set of security-by-design requirements that the BSI considers essential for NIS-2 compliance, including input validation, encryption, minimizing attack surfaces, and secure coding practices. The fact that a national cybersecurity authority names Rust in its regulatory guidance is significant.
+This is part of a broader set of security-by-design requirements that the BSI considers essential for NIS-2 compliance, including input validation, encryption, minimizing attack surfaces, and secure coding practices. When a national cybersecurity authority names Rust in its regulatory guidance, that tells you where this is heading.
 
 On top of that, the [**Sovereign Tech Fund**](https://www.sovereigntechfund.de/), backed by the German Federal Ministry for Economic Affairs and Climate Action, has invested directly in [Rust ecosystem development](https://www.sovereigntechfund.de/news/on-rust-memory-safety-open-source-infrastructure).
 
@@ -146,33 +189,6 @@ On top of that, the [**Sovereign Tech Fund**](https://www.sovereigntechfund.de/)
 The U.S. **National Institute of Standards and Technology (NIST)** maintains the [Secure Software Development Framework (SSDF)](https://csrc.nist.gov/projects/ssdf), which is referenced throughout U.S. government procurement. The SSDF recommends practices that naturally favor memory-safe languages: reducing vulnerability classes at the source, maintaining software bills of materials (SBOMs), and conducting rigorous code review and testing.
 
 NIST's guidelines are the basis for [Executive Order 14028](https://www.nist.gov/itl/executive-order-14028-improving-nations-cybersecurity), which mandates that software sold to the U.S. federal government must comply with SSDF practices. Government contractors and vendors who produce software in memory-unsafe languages face an increasing burden to demonstrate that their software meets these requirements.
-
-## The Regulatory Landscape at a Glance
-
-Let's take a step back and look at the pattern:
-
-| Source                       | Action                                                                | Year         |
-| ---------------------------- | --------------------------------------------------------------------- | ------------ |
-| **Google/Microsoft** | Independently confirmed ~70% of CVEs are memory safety issues         | 2019–present |
-| **NSA**                      | Published guidance recommending memory-safe languages                 | 2022         |
-| **Germany**                  | Funded Rust ecosystem through the Sovereign Tech Fund                 | 2023–present |
-| **White House / ONCD**       | Called on industry to adopt memory-safe languages                     | 2024         |
-| **DARPA**                    | Funded automated C-to-Rust translation (TRACTOR)                      | 2024         |
-| **EU**                       | Enacted the Cyber Resilience Act with mandatory security requirements | 2024         |
-| **CISA / FBI**               | Listed memory-unsafe languages as a product security bad practice     | 2024–2025    |
-| **NIST**                     | Published SSDF; basis for federal procurement requirements            | Ongoing      |
-
-This is a **global, bipartisan, cross-sector consensus** that memory-unsafe code is an **unacceptable risk** in critical systems.
-
-The direction is clear. The question is not _whether_ your organization will need to address this, it's _when_, and whether you'll do so on your own terms or under external pressure.
-
-{% info(title="Where Does Your Organization Stand?", icon="warning") %}
-
-If your software touches critical infrastructure, handles sensitive data, or ships into regulated markets, the regulatory direction above applies to you. Most organizations I work with underestimate how long it takes to build internal Rust expertise and draft a credible memory safety roadmap.
-
-I help companies close that gap, typically saving months of trial and error. **[Book a free assessment call](/#contact)** and let's figure out your exposure before deadlines set the pace.
-
-{% end %}
 
 ## Why Rust, Specifically?
 
@@ -196,7 +212,7 @@ If you're sceptical about Rust's long-term viability before committing to it, I 
 
 ## The Cost of Waiting
 
-Some organizations look at this landscape and think: "We'll wait for the regulations to be finalized. We'll act when we have to."
+Some organizations look at all this and think: "We'll wait for the regulations to be finalized. We'll act when we have to."
 
 This is a mistake.
 
@@ -228,11 +244,11 @@ If CISA recommends every software manufacturer publish a memory safety roadmap b
 
 At a minimum:
 
-1. **An inventory of memory-unsafe code** in your products, prioritized by risk (network-facing code, cryptographic operations, data parsing).
-2. **A plan for new development** in a memory-safe language.
-3. **A migration strategy** for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface).
-4. **Interim mitigations** for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
-5. **Timeline and milestones** showing a credible, prioritized reduction of memory safety vulnerabilities.
+1. An inventory of memory-unsafe code in your products, prioritized by risk (network-facing code, cryptographic operations, data parsing).
+2. A plan for new development in a memory-safe language.
+3. A migration strategy for high-risk existing components, potentially through incremental Rust rewrites using the FFI (Foreign Function Interface).
+4. Interim mitigations for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
+5. A timeline with milestones showing a credible, prioritized reduction of memory safety vulnerabilities.
 
 This is exactly the kind of work I do with my clients at [corrode](/services/). We've helped organizations across industries, from 
 cloud infrastructure to embedded devices to backend services, develop practical Rust adoption strategies.
@@ -241,7 +257,7 @@ cloud infrastructure to embedded devices to backend services, develop practical 
 
 ## You Don't Have to Do This Alone
 
-It is hard to navigate this transition on your own on top of your already overwhelming workload.
+Making this transition on your own, on top of an already overwhelming workload, is hard.
 But here's the good news: **you don't need to figure this out from scratch**.
 
 The Rust ecosystem is mature, the tooling is excellent, and there is a growing body of industry experience to draw from. What most organizations lack is not motivation. It's **guidance**.
@@ -260,8 +276,6 @@ At [corrode](/) I provide Rust consulting and training specifically designed for
 I've also spent years documenting real-world Rust adoption through the [**Rust in Production podcast**](/podcast/), where companies like [Microsoft](/podcast/s04e01-microsoft/), [Cloudflare](/podcast/s05e03-cloudflare/), [1Password](/podcast/s04e06-1password/), [Volvo](/podcast/s03e08-volvo/), and [many others](/podcast/) share their experiences.
 
 I write about the practicalities of long-term Rust adoption on this blog, from [flattening the learning curve](/blog/flattening-rusts-learning-curve/) to [long-term maintenance strategies](/blog/long-term-rust-maintenance/) to understanding [Rust for foundational software](/blog/foundational-software/).
-
-All of this exists so that you can make an informed decision, with confidence, backed by real evidence.
 
 ## The Cost of Inaction Far Exceeds the Cost of Action
 
@@ -310,11 +324,11 @@ Let's make sure your organization is ahead of the curve, not behind it.
 [
   {
     "q": "Is Rust required by law in 2026?",
-    "a": "No single regulation mandates Rust by name. However, in 2026 the regulatory environment has shifted decisively toward memory-safe languages. CISA lists the use of memory-unsafe languages for new critical-infrastructure software as a \"bad practice.\" The EU Cyber Resilience Act holds manufacturers liable for exploitable vulnerabilities. Germany's BSI explicitly names Rust in its NIS-2 guidance. While you are free to choose any memory-safe language, Rust is the only production-ready option for systems programming where performance and zero-cost abstractions matter."
+    "a": "No single regulation mandates Rust by name. But the rules now point firmly toward memory-safe languages. CISA lists the use of memory-unsafe languages for new critical-infrastructure software as a \"bad practice,\" and in June 2025 CISA and the NSA followed up with a joint guide on how to adopt memory-safe languages. The EU Cyber Resilience Act holds manufacturers liable for exploitable vulnerabilities, with reporting obligations applying from September 2026 and the main obligations from December 2027. Germany's BSI names Rust directly in its NIS-2 guidance. You are free to choose any memory-safe language, but Rust is the only production-ready option for systems programming where performance and zero-cost abstractions matter."
   },
   {
     "q": "What is a memory safety roadmap, and do I need one in 2026?",
-    "a": "A memory safety roadmap is a documented plan showing how your organization will reduce memory safety vulnerabilities over time. CISA recommended that software manufacturers publish one by the end of 2025. In 2026, not having a roadmap is increasingly seen as a compliance gap, especially if you sell software to government agencies or operate in critical infrastructure sectors. A credible roadmap includes an inventory of memory-unsafe code, a plan for new development in a memory-safe language, a migration strategy for high-risk components, and a timeline with milestones."
+    "a": "A memory safety roadmap is a documented plan showing how your organization will reduce memory safety vulnerabilities over time. The idea comes from CISA and the NSA's 2023 guide, The Case for Memory Safe Roadmaps, and CISA recommended that software manufacturers publish one by the end of 2025. In 2026, not having a roadmap reads as a compliance gap, especially if you sell software to government agencies or operate in critical infrastructure sectors. A credible roadmap includes an inventory of memory-unsafe code, a plan for new development in a memory-safe language, a migration strategy for high-risk components, and a timeline with milestones."
   },
   {
     "q": "Why Rust instead of Go, Java, or another memory-safe language?",
@@ -326,7 +340,7 @@ Let's make sure your organization is ahead of the curve, not behind it.
   },
   {
     "q": "Can I migrate from C or C++ to Rust incrementally?",
-    "a": "Yes. Rust's Foreign Function Interface (FFI) allows you to call Rust from C/C++ and vice versa. This means you can migrate one module or component at a time without rewriting your entire codebase. Most successful Rust adoptions start with a high-risk, network-facing component and expand from there. DARPA's TRACTOR program is even funding research into automated C-to-Rust translation, which signals the strategic importance of this migration path."
+    "a": "Yes. Rust's Foreign Function Interface (FFI) lets you call Rust from C/C++ and vice versa. You can migrate one module or component at a time without rewriting your entire codebase. Most successful Rust adoptions start with a high-risk, network-facing component and expand from there. DARPA's TRACTOR program is even funding research into automated C-to-Rust translation, a sign of how seriously this migration path is being taken."
   },
   {
     "q": "What does a Rust consultant actually do?",
