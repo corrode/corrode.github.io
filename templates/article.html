@@ -39,6 +39,32 @@
       {% endif %}
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ config.base_url | safe }}/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "{{ config.base_url | safe }}/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": {{ page.title | json_encode | safe }},
+          "item": "{{ current_url | safe }}"
+        }
+      ]
+    }
+    </script>
 {% endblock %}
 
 
