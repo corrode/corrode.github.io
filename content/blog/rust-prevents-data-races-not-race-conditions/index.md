@@ -317,7 +317,7 @@ But two threads can both `load` the same value, both add one, and both `store` i
 
 Notice that we're using `SeqCst`, the strongest memory ordering Rust provides. The bug still occurs because the problem isn't memory ordering; it's that the increment is split into two separate operations.
 
-The fix is to collapse the two steps into a single indivisible operation. With a lock, that meant holding the guard across both. With atomics, it means a single read-modify-write operation, [`fetch_add`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicU64.html#method.fetch_add), which does the load-add-store in one step:
+The fix is to collapse the two steps into a single indivisible operation. With a lock, that meant holding the guard across both. With atomics, it means a single read-modify-write operation, [`fetch_add`](https://doc.rust-lang.org/std/sync/atomic/type.AtomicU64.html#method.fetch_add), which does the load-add-store in one step:
 
 ```rust
 counter.fetch_add(1, Ordering::SeqCst);

@@ -48,6 +48,7 @@ exclude = [
   '^https://forms\.gle/',                                            # Google Forms -> 401 to bots
   '^https://rustlab\.it/tickets25',                                  # ticketing endpoint -> intermittent 500
   '^https://rustasiaconf\.com/',                                     # conf site -> intermittent 503
+  '^https://(www\.)?tokioconf\.com/',                                # conf site -> intermittent 503
   '^https://www\.freedesktop\.org/software/systemd/man/devel/run0\.html', # -> 418
 
   # Live sites that the CI runner can't reach due to TLS/HTTP2/network
@@ -60,6 +61,7 @@ exclude = [
   '^https://(www\.)?autosar\.org',
   '^https://blog\.consol\.de',
   '^https://ocw\.cs\.pub\.ro',
+  '^https://tauri\.app',                                             # slow host -> intermittent timeout
 
   # Dead pages we can't repoint to a sensible replacement.
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
