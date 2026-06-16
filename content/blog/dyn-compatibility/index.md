@@ -22,7 +22,7 @@ When a trait can't be used with dynamic dispatch, we say it's "not dyn compatibl
 This has an impact on how you can use these traits in your code. 
 Dyn compatibility is based on a set of rules that determine whether a trait can be turned into a trait object.
 
-Once you understand why these rules exist, they become tell-tale sign of your design choices.
+Once you understand why these rules exist, they become a tell-tale sign of your design choices.
 Knowing your options lets you write more deliberate, flexible Rust.
 You'll see the tradeoffs between compile-time generics and runtime polymorphism, and 
 get a solid grasp of when each approach fits your problem.
@@ -184,7 +184,7 @@ The downside is that you can't fully lean on dynamic dispatch anymore [^why-dyna
     - It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
       You could technically do the same with generics, but as I mentioned sometimes you can't afford the increase in code size or compile times that come with monomorphization.
     - It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
-      For exmaple, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
+      For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
       Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
 
 ### Fix #2: Opt Out Problematic Methods with `where Self: Sized`
@@ -202,7 +202,7 @@ trait Widget {
 
 This means "this method can only be called when `Self` has a known size at compile time", which is true for concrete types but not for trait objects.
 It is more explicit because you're in control over how the trait can be used.
-The downside is that this limits the usability of trait further down the line because some methods won't be callable on all trait objects and changing the trait will cause breaking changes.
+The downside is that this limits the usability of the trait further down the line because some methods won't be callable on all trait objects and changing the trait will cause breaking changes.
 
 You won't be able to call `duplicate` on `&dyn Widget`, but you can still call it on concrete types like `Button`.
 
@@ -228,7 +228,7 @@ This means you don't lose all the flexibility of trait objects (in contrast to g
 
 We can change the return type of the problematic method to return a boxed trait object instead of `Self`.
 
-This works because `Box<dyn Widget>` has a known size at compile time -- it's a pointer to an object on the heap! Pointers have a known size (usually 8 bytes on 64-bit systems),  so the compiler knows how much space to allocate for it, unlike `Self` which varies based on the concrete type.
+This works because `Box<dyn Widget>` has a known size at compile time -- it's a pointer to an object on the heap! Pointers have a known size (usually 8 bytes on 64-bit systems), so the compiler knows how much space to allocate for it, unlike `Self` which varies based on the concrete type.
 
 ```rust
 trait Widget {
@@ -267,7 +267,7 @@ fn main() {
 }
 ```
 
-The downside is that `Box<dyn>` is often viral in your codebase:  you'll end up writing out the concrete type as `Box<dyn Widget>` more often than you'd like, which can lead to noisy code.
+The downside is that `Box<dyn>` is often viral in your codebase: you'll end up writing out the concrete type as `Box<dyn Widget>` more often than you'd like, which can lead to noisy code.
 
 On top of that, this fix only works for methods that return `Self`.
 If your trait also has static methods or generic methods, you'll need to combine this approach with one of the other fixes.
@@ -280,7 +280,7 @@ Maybe your code is silently trying to tell you that you are mixing up two differ
 
 In general, prefer smaller, focused traits over large, monolithic ones.
 Traits are not interfaces!
-Instead, we lean on composition and focus on behavior instead of mangling multiple responsibilities into a single trait.
+Instead, we lean on composition and focus on behavior rather than mangling multiple responsibilities into a single trait.
 
 Here's a more realistic example: separating rendering from widget creation. Factory methods are often static (no `self` parameter), which makes them incompatible with `dyn`. So we split them into separate traits.
 
