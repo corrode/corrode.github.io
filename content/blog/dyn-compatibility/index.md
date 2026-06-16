@@ -1,6 +1,6 @@
 +++
 title = "Understanding Dyn Compatibility"
-date = 2025-11-24
+date = 2026-06-17
 draft = false
 template = "article.html"
 [extra]
@@ -22,12 +22,10 @@ When a trait can't be used with dynamic dispatch, we say it's "not dyn compatibl
 This has an impact on how you can use these traits in your code. 
 Dyn compatibility is based on a set of rules that determine whether a trait can be turned into a trait object.
 
-Once you understand why these rules exist, they stop feeling like compiler errors and start revealing design choices.
+Once you understand why these rules exist, they become tell-tale sign of your design choices.
+Knowing your options lets you write more deliberate, flexible Rust.
 You'll see the tradeoffs between compile-time generics and runtime polymorphism, and 
 get a solid grasp of when each approach fits your problem.
-Knowing your options lets you write more deliberate, flexible Rust.
-
-Let's figure out why this happens and how to fix it!
 
 {% info(title="Dyn Compatibility and Object Safety", icon="crab") %}
 
@@ -37,13 +35,9 @@ If you're reading older resources, they mean the same thing.
 The name got changed because it was confusing.
 
 "Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
-The new term "dyn compatibility" does a better job at reflecting that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch. [^personal_note]
+The new term "dyn compatibility" does a better job at reflecting that it's about whether a trait can be used with `dyn Trait` in the context of dynamic dispatch. [^personal_note]
 
-[^personal_note]: I personally don't like either of the terms "object safety" or "dyn compatibility" because they sound like some obscure technical jargon.
-Certainly, "object safety" is misleading because Rust doesn't have "objects" in the traditional OOP sense -- it lacks classes and inheritance. And it's not about "safety" either, since it's really about whether a trait can be used with dynamic dispatch.
-"dyn compatibility" is better, but you have to know a lot of Rust jargon to understand what's going on. 
-But to be honest, I also can't think of a better name that is both short and accurate.
-
+[^personal_note]: I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
 
 {% end %}
 
@@ -72,8 +66,8 @@ impl Widget for Button {
 }
 
 fn show_widget(widget: &dyn Widget) {
-    widget.draw();
-    let copy = widget.duplicate();  // ❌ Error here
+    widget.draw(); // Works
+    let copy = widget.duplicate();  // Error
     copy.draw();
 }
 ```
@@ -81,19 +75,30 @@ fn show_widget(widget: &dyn Widget) {
 If you tried to compile this code, you'd get an error like this:
 
 ```
-error[E0038]: the trait `Widget` cannot be made into an object
-  --> src/main.rs:18:17
+error[E0038]: the trait `Widget` is not dyn compatible
+  --> src/main.rs:20:25
    |
-18 |     let widget: &dyn Widget = &button;
-   |                 ^^^^^^^^^^^ `Widget` is not dyn compatible
+20 | fn show_widget(widget: &dyn Widget) {
+   |                         ^^^^^^^^^^ `Widget` is not dyn compatible
    |
-   = note: method `duplicate` references the `Self` type in its return type
+note: for a trait to be dyn compatible it needs to allow building a vtable
+      for more information, visit <https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility>
+  --> src/main.rs:3:28
+   |
+ 1 | trait Widget {
+   |       ------ this trait is not dyn compatible...
+ 2 |     fn draw(&self);
+ 3 |     fn duplicate(&self) -> Self;  // Returns a copy of itself
+   |                            ^^^^ ...because method `duplicate` references the `Self` type in its return type
+   = help: consider moving `duplicate` to another trait
+   = help: only type `Button` implements `Widget`; consider using it directly instead.
 ```
 
 That might sound pretty confusing in the beginning.
 
-- What does "cannot be made into an object" even mean?
+- What does "not dyn compatible" even mean?
 - Shouldn't the `dyn` part take care of that?
+- What's a vtable, and why does the trait need to "allow building" one?
 - What does it have to do with `Self`?
 
 You've just encountered **dyn compatibility**.
@@ -106,9 +111,9 @@ Dynamic dispatch means that the exact method to call is determined at runtime ba
 
 However, for dynamic dispatch to work, you must follow certain rules. 
 
-1. The trait must not have any methods that return `Self`.
-2. The trait must not have any static methods (methods without a `self` parameter).
-3. The trait must not have any generic type parameters on its methods.
+1. The trait **must not** have any methods that return `Self`.
+2. The trait **must not** have any static methods (methods without a `self` parameter).
+3. The trait **must not** have any generic type parameters on its methods.
 
 In our example, the `duplicate` method returns `Self`, which means "the same type as the implementor of the trait".
 When you use `&dyn Widget`, the compiler doesn't know what `Self` is at runtime because it could be any type that implements `Widget`.
@@ -125,7 +130,7 @@ There are multiple ways to make it dyn compatible.
 We have a bunch of options:
 
 1. Use Generics Instead
-2. Opt Out Problem Methods with `where Self: Sized`
+2. Opt Out Problematic Methods with `where Self: Sized`
 3. Return Boxed Trait Objects Instead of `Self`
 4. Split Into Two Traits
 
