@@ -126,7 +126,7 @@
 .pro-hero-subtitle {
     font-size: clamp(1rem, 2vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     max-width: 800px;
     margin: 0 auto 3rem;
 }
@@ -167,7 +167,7 @@
 
 .pro-btn-secondary {
     background: transparent;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     border-color: rgba(255, 255, 255, 0.2);
     font-size: 1rem;
 
@@ -233,7 +233,7 @@
 
 .pro-section-subtitle {
     font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     text-align: center;
     max-width: 700px;
     margin: 0 auto 4rem;
@@ -256,7 +256,7 @@
     ul {
         list-style-type: square;
         padding-left: 1.5rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
     }
 
     li {
@@ -294,7 +294,7 @@
 
 .pro-testimonial-quote {
     font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.7;
     margin-bottom: 1rem;
     font-style: italic;
@@ -372,7 +372,7 @@
 
 .pro-price-note {
     text-align: center;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.72);
     font-size: 0.875rem;
     margin-top: 1rem;
 }
@@ -400,12 +400,12 @@
 
     span {
         font-size: 1.25rem;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.72);
     }
 }
 
 .pro-price-description {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.78);
     margin-bottom: 0.75rem;
     font-size: 0.95rem;
 }
@@ -424,7 +424,7 @@
 
     li {
         padding: 0.75rem 0;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
         display: flex;
         align-items: flex-start;
         gap: 0.75rem;
@@ -656,7 +656,7 @@
     p {
         font-size: 1.125rem;
         line-height: 1.8;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
         max-width: 700px;
         margin-left: auto;
         margin-right: auto;
@@ -692,7 +692,7 @@
     }
 
     p {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.85);
         line-height: 1.6;
         margin: 0;
     }
@@ -719,7 +719,7 @@
     p {
         font-size: 1.125rem;
         line-height: 1.8;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
     }
 }
 
@@ -749,7 +749,7 @@
 .pro-hero-note {
     margin-top: 1rem;
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
 
     a {
         color: $brightBgrd;
@@ -803,7 +803,7 @@
         }
 
         &.muted {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.72);
         }
     }
 
@@ -816,7 +816,7 @@
     }
 
     td {
-        color: rgba(255, 255, 255, 0.9);
+        color: rgba(255, 255, 255, 0.95);
 
         &:first-child {
             font-weight: 600;
@@ -837,7 +837,7 @@
         }
 
         &.muted {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
         }
     }
 }
@@ -846,7 +846,7 @@
 .pro-pricing-footer {
     text-align: center;
     margin-top: 3rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     font-size: 1.125rem;
 }
 

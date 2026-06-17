@@ -34,45 +34,47 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 <p class="pro-section-subtitle pro-subtitle-wide">
     Learning Rust can feel overwhelming.
     With all the resources and distractions of the internet, it can be hard to know what to work on first... or even work up the motivation to start.
-    LLMs are great for automating the busywork, but building true intuition and writing robust systems requires deep understanding.
+    LLMs are great for automating the busywork, but building true intuition and writing robust systems requires deep understanding. It's also frustrating to write prompts all day without getting better at Rust.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Programming exists not just as source code, but as mental models in our brains.
+    <a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">A program is a shared understanding between developers.</a> 
     When we lean too heavily on AI and work on autopilot, our skills atrophy. We're not in control; just along for the ride.  
-    The engineers who get the most out of LLMs are the ones who deeply understand what good code looks like: they can steer the output, spot the mistakes, and refactor with confidence.
+    The engineers who get the most out of LLMs are the ones who <strong>deeply understand</strong> what good code looks like: they can steer the output, spot the mistakes, and refactor with confidence.
+    Don't outsource your thinking. Regain the satisfaction of knowing exactly how and why your code works.
 </p>
+
+<p class="pro-section-subtitle pro-subtitle-wide">
+    As highlighted in recent <a href="https://rust-lang.github.io/perspectives-on-llms/index.html" target="_blank" rel="noopener">Rust Project discussions on AI</a>, it becomes <strong>really difficult to retain mental models of a codebase for code you didn't write yourself.</strong> 
+</p>
+
 <p class="pro-section-subtitle pro-subtitle-wide">
     Deep knowledge matters now more than ever.
     But acquiring it by yourself is hard. You might have weak spots in your Rust knowledge that you never get around to filling. You might be writing code that works, but does it follow best practices? Will it be maintainable in the long run? 
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    As highlighted in recent <a href="https://rust-lang.github.io/perspectives-on-llms/index.html" target="_blank" rel="noopener">Rust Project discussions on AI</a>, it becomes <strong>really difficult to retain mental models of a codebase for code you didn't write yourself.</strong> The engineers who use LLMs most effectively are the ones who already mastered the language: they know what idiomatic Rust looks like and can give valuable feedback.
-</p>
-<p class="pro-section-subtitle pro-subtitle-wide">
-    Just like a good workout, your brain needs to wrestle with hard problems to grow. <a href="https://pages.cs.wisc.edu/~remzi/Naur.pdf">A program is a shared understanding between developers.</a> Don't outsource your thinking—regain the satisfaction of knowing exactly how and why your code works.
+    Just like a good workout, your brain needs to wrestle with hard problems to learn a skill. 
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     Working with a mentor gives you a supportive space to develop that understanding. Together, we'll write high-quality software that stands the test of time, and remind you why programming is fun. I'll help you learn to <em>think in Rust</em>. Learn it once, use it <code class="pro-inline-code">'a</code> lifetime.
 </p>
 <div class="pro-section-subtitle pro-subtitle-wide pro-feature-list">
     <ul>
-        <li>Build systems that spark joy because every component fits together logically.</li>
-        <li>Use Rust patterns that make your codebase friendly and welcoming for your team to explore and extend.</li>
-        <li>Handle edge cases explicitly to prevent logic bugs before they happen.</li>
-        <li>Write code that communicates your intent clearly to future readers, learning to code generously.</li>
-        <li>Develop tests that give you peace of mind and confidence in your codebase.</li>
+        <li>Build systems you understand.</li>
+        <li>Use Rust patterns that make your codebase easy to extend.</li>
+        <li>Use the type system to prevent logic bugs.</li>
     </ul>
 </div>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    With all the demands of work, it can be hard to find the time and space to truly understand your tools. Here, there are no OKRs, sprints, or AI mandates. Just the freedom to ask "why", explore trade-offs, and write code you'll still understand six months from now.
+    With all the demands of work, it can be hard to find the time and space to truly master your tools. Here, there are no OKRs, sprints, or AI mandates. Just the freedom to ask "why", explore different solutions, and write code you'll enjoy coming back to in six months. 
 </p>
 <h3 class="pro-section-title pro-subsection-title">Break through learning plateaus together</h3>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    Learning a new language is hard, especially when your past experience in other languages works against you. Research shows that <a href="https://cacm.acm.org/research/here-we-go-again/"target="_blank" rel="noopener">61% of experienced programmers make incorrect assumptions</a>. It's completely normal to get stuck.
+    Learning a new language is <strong>hard</strong>, especially when your past experience in other languages works against you. Research shows that <a href="https://cacm.acm.org/research/here-we-go-again/"target="_blank" rel="noopener">61% of experienced programmers make incorrect assumptions</a>. It's completely normal to get stuck.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    A mentor helps you regain focus and momentum. Let's tackle the hard parts together in a friendly, low-stress environment. According to AWS, <a href="https://youtu.be/VthhIdqwdHc?si=sdykuMYs0VZ_ijM9&t=132" target="_blank" rel="noopener">teams without experts are 40% more likely to abandon Rust</a>. You don't have to do it alone.
-</p>
+    According to AWS, <a href="https://youtu.be/VthhIdqwdHc?si=sdykuMYs0VZ_ijM9&t=132" target="_blank" rel="noopener">teams without experts are 40% more likely to abandon Rust</a>. You don't have to do it alone.
+    A mentor helps you regain focus and momentum. Let's tackle the hard parts together in a friendly, supportive, low-stress environment. </p>
 <div class="pro-section-cta" style="margin-top: 2rem;">
 <a href="#pricing" class="pro-btn pro-btn-primary">I'm Ready. Let's Go</a>
 </div>
@@ -129,13 +131,13 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <section class="pro-section pro-value-prop">
 <div class="pro-container-narrow">
 <h2 id="how-it-works" class="pro-section-title">Work on your projects, at your pace.</h2>
-<p class="pro-section-subtitle">We'll focus on what sparks your curiosity.</p>
+<p class="pro-section-subtitle">We'll focus on what sparks <em>your curiosity</em>.</p>
 <div class="pro-value-content">
 <div class="pro-value-item">
 <h2>Discover the joy of <span class="highlight">Rust</span></h2>
-<p>We'll explore ownership, lifetimes, and design patterns from the ground up. Learn what separates the good from the best, and write robust, production-ready Rust code you can maintain for years.</p>
+<p>We'll cover ownership, lifetimes, and design patterns from the ground up. Learn what separates the good from the best, and write production-ready Rust code you can maintain for years to come.</p>
 <img src="/pro/ferris-master.png" alt="Ferris the Crab as a Wizard" class="pro-value-image" />
-<p>You'll gain the confidence to "open the hood" and see how things really work, moving past surface-level abstractions. We'll dive into the standard library source code and learn how to navigate the ecosystem effectively.</p>
+<p>You'll gain the confidence to "open the hood" and see how things really work, moving past surface-level abstractions. We'll dive into the standard library source code and learn how to navigate it without any additional tools.</p>
 </div>
 
 <div class="pro-value-item">
@@ -151,7 +153,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 </div>
 
 <div class="pro-value-item">
-<h2>Discover what's next</h2>
+<h2><span class="highlight">Job Interview Practice</span></h2>
 <p>Whether you're looking for your next role or just want to explore your options, I'll provide personalized advice, resume reviews, and interview prep to help you find a position that aligns with your values.</p>
 </div>
 
@@ -183,17 +185,18 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <td class="highlight">✓</td>
 </tr>
 <tr>
-<td>Get unstuck quickly</td>
-<td class="muted">Trial and error</td>
-<td class="highlight">✓</td>
-</tr>
-<tr>
-<td>Personalized feedback on your code</td>
+<td>Avoid bad habits</td>
 <td class="muted">✗</td>
 <td class="highlight">✓</td>
 </tr>
 <tr>
-<td>Code reviews from an expert</td>
+<tr>
+<td>Get unstuck</td>
+<td class="muted">Trial and error</td>
+<td class="highlight">✓</td>
+</tr>
+<tr>
+<td>Honest feedback</td>
 <td class="muted">✗</td>
 <td class="highlight">✓</td>
 </tr>
@@ -202,13 +205,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <td class="muted">✗</td>
 <td class="highlight">✓</td>
 </tr>
-<tr>
 <td>CV review & interview prep</td>
-<td class="muted">✗</td>
-<td class="highlight">✓</td>
-</tr>
-<tr>
-<td>Avoid common pitfalls & bad habits</td>
 <td class="muted">✗</td>
 <td class="highlight">✓</td>
 </tr>
@@ -244,7 +241,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <p class="pro-price-context">€180/session · save €100 · valid 3 months</p>
 <ul class="pro-price-features">
 <li>5 live 1-on-1 pairing sessions (60 min each)</li>
-<li>Personalized curriculum tailored to your goals</li>
+<li>Personalized curriculum built around your goals</li>
 <li>Code review & feedback between sessions</li>
 <li>Interview preparation & CV review</li>
 </ul>
@@ -258,10 +255,10 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <p class="pro-price-context">€170/session · save €300 · valid 6 months</p>
 <ul class="pro-price-features">
 <li>10 live 1-on-1 pairing sessions (60 min each)</li>
-<li>Personalized curriculum tailored to your goals</li>
+<li>Personalized curriculum built around your goals</li>
 <li>Code review & feedback between sessions</li>
 <li>Interview preparation & CV review</li>
-<li>Pre-allocated for the full journey. You know what you're getting into.</li>
+<li>Pre-allocated for the full journey.</li>
 </ul>
 <a href="https://cal.com/corrode/intro-call" class="pro-btn pro-btn-secondary pro-btn-full">Commit to the Full Journey</a>
 <p class="pro-price-note">Best value. For engineers who are serious about mastering Rust and want the space to do it properly.</p>
@@ -281,7 +278,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 [
   {
     "q": "Is This For Me?",
-    "a": "To get the most value out of our sessions, I recommend having solid programming fundamentals in at least one language. That said, if you're earlier in your journey, that's fine too! Fundamentals can be taught, and we'll figure out the right pace together on the intro call. What matters most is that you're motivated and willing to put in the work between sessions."
+    "a": "To get the most value out of our sessions, I recommend having solid programming fundamentals in at least one language. That said, if you're earlier in your learning, that's fine too! Fundamentals can be taught, and we'll figure out the right pace together on the intro call. What matters most is that you're motivated and willing to put in the work between sessions."
   },
   {
     "q": "What happens on the intro call?",
@@ -289,15 +286,15 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "What are the benefits of personal mentoring?",
-    "a": "You will always know exactly what to work on next in order to reach your personal Rust goals. You'll get immediate, honest feedback on your design decisions and code. Another human who went through the same learning process will be there to help you when you get stuck and to celebrate your wins. You'll also have accountability and structure to keep you on track. All things that are hard to get from books, videos, or AI."
+    "a": "You will always know exactly what to work on next to reach your personal Rust goals. You'll get immediate, honest feedback on your design decisions and code. Another human who went through the same learning process will be there to help you when you get stuck and to celebrate your wins. You'll also have accountability and structure to keep you on track. All things that are hard to get from books, videos, or AI."
   },
   {
     "q": "Can't I just use AI?",
-    "a": "AI is a powerful tool, but it's not a replacement for expertise. LLMs happily produce Rust that compiles but overuses trait objects, clones everywhere, escapes the borrow checker, and generally reads like Java with interfaces. The engineers who get real leverage out of these tools are the ones who can tell good Rust from slop, design the types and architecture themselves, and steer the AI inside a tight box. That's exactly the skill set we'll build together: domain modeling, type-driven design, idiomatic patterns, and the judgment to know when the AI's suggestion is wrong. The goal is for you to remain the pilot, not the passenger."
+    "a": "AI is a powerful tool, but it's not a replacement for expertise. LLMs happily produce Rust that compiles but overuses trait objects, clones everywhere, escapes the borrow checker, and generally reads like Java with interfaces. The engineers who get real value out of these tools are the ones who can tell good Rust from slop, design the types and architecture themselves, and steer the AI inside a tight box. That's exactly the skill set we'll build together: domain modeling, type-driven design, idiomatic patterns, and the judgment to know when the AI's suggestion is wrong. The goal is for you to remain the pilot, not the passenger."
   },
   {
     "q": "How long does it take to become proficient?",
-    "a": "It depends on what you define as proficient and your personal goals, but most students feel confident shipping their first production Rust code in a few months with weekly sessions. But remember, mastery is a journey, and I'll support you as long as you need to reach your goals."
+    "a": "It depends on what you define as proficient and your personal goals, but most students feel confident shipping their first production Rust code in a few months with weekly sessions. But remember, mastery takes time, and I'll support you as long as you need to reach your goals."
   },
   {
     "q": "What does a session look like?",
@@ -305,7 +302,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "Which package should I start with?",
-    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>[Session; 5]</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end journey and are ready to commit."
+    "a": "If you're not sure yet, start with <code>Once::new()</code>: it's a low-commitment way to see if the style works for you. Most people move to <code>[Session; 5]</code> once they know they want to make real progress. <code>Vec::with_capacity(10)</code> is for those who want a thorough, end-to-end experience and are ready to commit."
   },
   {
     "q": "What if I can't make a scheduled session?",
