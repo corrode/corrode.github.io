@@ -1190,8 +1190,4 @@ I hope that you were able to use some of these tips to speed up your Rust builds
 In case you found other ways to speed up your Rust builds, or if you have any
 questions or feedback, I'd love to hear from you.
 
-{% info(title="Get Professional Support", icon="crab") %}
-If you need support for commercial Rust projects,
-I can also help you with performance problems and reducing your build times.
-[Get in touch.](/services)
-{% end %}
+{{ next_steps(context="Fighting slow Rust builds on a commercial project?") }}

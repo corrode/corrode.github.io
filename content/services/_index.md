@@ -11,6 +11,8 @@ aliases = ["about"]
   Your browser does not support the video tag.
 </video>
 
+**Looking for help just for yourself?** Most of my work is with teams, but I also mentor individual engineers one-on-one. If that's you, [Rust mentorship](/mentorship) is built for exactly that.
+
 ## Here’s the problem...
 
 Rust is a complex language with a large API surface. Writing production-grade Rust requires a lot of architectural decisions. As a team lead excited about Rust, you're responsible for your project's success.

@@ -660,8 +660,7 @@ invaluable. Equally, if you are ready to embrace Rust and are seeking expertise
 in training or consulting to ensure a smooth transition, specialized support is
 essential.
 
-[Get in touch](/services/) to explore if Rust is the right choice for your
-organization and how it can contribute to your long-term success. 
+{{ next_steps(context="Weighing whether Rust is the right choice for your organization?") }}
 
 {% info(title="Rust in Production Podcast", icon="radio") %}
 Real-world experiences are the best way to learn about the benefits and
