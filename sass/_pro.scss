@@ -147,7 +147,6 @@
     font-weight: 600;
     text-decoration: none;
     border-radius: 6px;
-    transition: all 0.2s ease;
     cursor: pointer;
     border: 2px solid transparent;
 }
@@ -156,12 +155,9 @@
     background: $brightBgrd;
     color: $heroDark;
     font-size: 1.25rem;
-    box-shadow: 0 0 0 0 rgba($brightBgrd, 0.4);
-    transition: all 0.3s ease;
 
     &:hover {
         background: lighten($brightBgrd, 10%);
-        box-shadow: 0 0 10px 5px rgba($brightBgrd, 0.6);
     }
 }
 
@@ -325,7 +321,6 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 4rem 3.5rem;
-    transition: all 0.3s ease;
     position: relative;
     flex: 1;
     min-width: 360px;
@@ -737,7 +732,6 @@
         color: $brightBgrd;
         text-decoration: none;
         border-bottom: 1px solid rgba($brightBgrd, 0.3);
-        transition: border-color 0.2s ease;
 
         &:hover {
             border-bottom-color: $brightBgrd;
@@ -778,6 +772,7 @@
 }
 
 .pro-comparison-table {
+    display: table;
     width: 100%;
     max-width: 700px;
     margin: 2rem auto 0;
