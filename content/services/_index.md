@@ -1,5 +1,5 @@
 +++
-title = "From Prototype To Production In Half The Time"
+title = "Help Your Team Ship Production Rust in Half the Time"
 template = "page.html"
 sort_by = "date"
 description = "Friendly, professional Rust consulting services to help companies make the most of Rust. Our offerings include training, consulting, mentoring, code reviews, and team augmentation."
@@ -11,11 +11,13 @@ aliases = ["about"]
   Your browser does not support the video tag.
 </video>
 
-**Looking for help just for yourself?** Most of my work is with teams, but I also mentor individual engineers one-on-one. If that's you, [Rust mentorship](/mentorship) is built for exactly that.
+**Friendly, expert Rust consulting and training for engineering teams.** I help your team adopt Rust and ship production-grade services with confidence: faster, and without the costly missteps along the way.
+
+*Looking for help just for yourself? I also offer 1-on-1 [Rust mentorship](/mentorship) for individual engineers.*
 
 ## Here’s the problem...
 
-Rust is a complex language with a large API surface. Writing production-grade Rust requires a lot of architectural decisions. As a team lead excited about Rust, you're responsible for your project's success.
+You're a team lead, excited about Rust and responsible for your project's success. But Rust is a complex language with a large API surface, and writing production-grade Rust requires a lot of architectural decisions.
 Your team wants to do things right, but lacks experience, and you're trying to reduce risk.
 
 Courses alone won't cut it. Nameless agencies offer help, but they don't care about your project or team.
