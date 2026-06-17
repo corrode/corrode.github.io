@@ -15,6 +15,19 @@ resources = [
 ]
 +++
 
+{% info(title="In a hurry? The short version", icon="crab") %}
+
+If the compiler told you a trait is **"not dyn compatible"** your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
+
+To fix it, pick one:
+
+- use generics instead of `&dyn Trait`
+- add `where Self: Sized` to the offending method
+- return `Box<dyn Trait>` instead of `Self`, or
+- split the trait in two
+
+{% end %}
+
 In Rust, not all traits can be used as trait objects with `dyn Trait`.
 
 When a trait can't be used with dynamic dispatch, we say it's "not dyn compatible."
