@@ -39,27 +39,28 @@ Austin Bonander is a Senior Software Engineer at ClickHouse, where he works on R
 
 ### Links From The Episode
 
-- [ClickHouse](https://clickhouse.com/) - The open-source, column-oriented OLAP database at the center of the conversation
+- [OLAP](https://en.wikipedia.org/wiki/Online_analytical_processing) - A type of database used for analytics, not storing relational data
 - [sqlx](https://github.com/launchbadge/sqlx) - The async, pure-Rust SQL toolkit Austin maintains
-- [clickhouse-rs](https://github.com/ClickHouse/clickhouse-rs) - The Rust client for ClickHouse, supporting both its native TCP and HTTP interfaces
+- [Hadoop](https://hadoop.apache.org/) - Another OLAP database that was insufficient for Alexey
+- [Official /r/rust "Who's Hiring" thread for job-seekers and job-offerers](https://www.reddit.com/r/rust/search?sort=new&restrict_sr=on&q=flair%3A%F0%9F%92%BC%2Bjobs%2Bmegathread) - Where Austin found the Clickhouse job
+- [Clickhouse's C++ & Rust Journey](https://www.youtube.com/watch?v=cIXKsb0FYpc) - Alexeys talk at P99 CONF 2025
+- [No-Panic Rust: A Nice Technique for Systems Programming](https://blog.reverberate.org/2025/02/03/no-panic-rust.html) - Using linker checks to guarantee no panic calls in Rust code
+- [delta-kernel-rs](https://github.com/delta-io/delta-kernel-rs) - A Rust implementation of the Delta Lake kernel, with a non-trivial dependency graph
+- [ring](https://github.com/briansmith/ring) - BoringSSL crypto code packaged as a Rust crate
+- [H3](https://h3geo.org/) - Uber’s Geo Hashing using hexagons, currently used in ClickHouse
+- [H3O](https://docs.rs/h3o/latest/h3o/) - The same H3 Geo Hashing algorithm implemented in Rust, with better performance
+- [stdx](https://github.com/brson/stdx) - An attempt at creating an extended standard library with commonly used crates
+- [Hyrum's Law](https://www.hyrumslaw.com/) - With enough users, every observable behavior of your system will be depended on by somebody
 - [Corrosion](https://github.com/corrosion-rs/corrosion) - CMake integration for Rust, used to link Rust into a C++ build
 - [Cargo](https://doc.rust-lang.org/cargo/) - Rust's build system and package manager, not designed for multi-language monorepos
 - [CMake](https://cmake.org/) - The build system that dominates the ClickHouse server
-- [delta-kernel-rs](https://github.com/delta-io/delta-kernel-rs) - A Rust implementation of the Delta Lake kernel, with a non-trivial dependency graph
-- [ring](https://github.com/briansmith/ring) - A popular Rust crypto crate that is not FIPS compliant, pulled in transitively via object-store
-- [object_store](https://docs.rs/object_store/latest/object_store/) - The Rust crate for working with object stores like S3
 - [Poco](https://pocoproject.org/) - The C++ libraries used by the ClickHouse server, without HTTP/2 support
 - [hyper](https://hyper.rs/) - A fast HTTP implementation for Rust
-- [Hyrum's Law](https://www.hyrumslaw.com/) - With enough users, every observable behavior of your system will be depended on by somebody
-- [Zig](https://ziglang.org/) - A systems language with a first-party, multi-language build system, raised as a contrast to Rust's tooling story
-- [The Rustonomicon](https://doc.rust-lang.org/nomicon/) - The dark arts of unsafe Rust and FFI
-- [crates.io](https://crates.io/) - The Rust package registry, discussed in the context of supply-chain security and 2FA
-- [Where's the next generation of senior Rust devs going to come from?](https://blog.magosomni.com/posts/2026-02-18-grimdark-gen-ai/) - The blog post on Gen AI, junior hiring, and the Rust talent pipeline that we discuss near the end
-- [Rust in Production: Astral](/podcast/s04e03-astral/) - Another team building Rust tooling at the edges of a different ecosystem
 
 ### Official Links
 
 - [ClickHouse Website](https://clickhouse.com/)
 - [ClickHouse on GitHub](https://github.com/ClickHouse/ClickHouse)
+- [clickhouse-rs](https://github.com/ClickHouse/clickhouse-rs) - The Rust client for ClickHouse, supporting both its native TCP and HTTP interfaces
 - [Alexey Milovidov on GitHub](https://github.com/alexey-milovidov)
 - [Austin Bonander on GitHub](https://github.com/abonander)
