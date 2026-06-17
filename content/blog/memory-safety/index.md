@@ -55,14 +55,6 @@ This is a **global, bipartisan, cross-sector consensus** that memory-unsafe code
 
 The direction is clear. The question is not _whether_ your organization will need to address this, it's _when_, and whether you'll do so on your own terms or under external pressure.
 
-{% info(title="Where Does Your Organization Stand?", icon="warning") %}
-
-If your software touches critical infrastructure, handles sensitive data, or ships into regulated markets, the regulatory direction above applies to you. Most organizations I work with underestimate how long it takes to build internal Rust expertise and draft a credible memory safety roadmap.
-
-I help companies close that gap, typically saving months of trial and error. **[Book a free assessment call](/#contact)** and let's figure out your exposure before deadlines set the pace.
-
-{% end %}
-
 ## Memory Safety Vulnerabilities Are Everywhere
 
 Before we talk about regulation, let's talk about the problem.
@@ -253,48 +245,13 @@ At a minimum:
 4. Interim mitigations for code that won't be migrated soon (compiler hardening, fuzzing, static analysis).
 5. A timeline with milestones showing a credible, prioritized reduction of memory safety vulnerabilities.
 
-This is exactly the kind of work I do with my clients at [corrode](/services/). We've helped organizations across industries, from 
-cloud infrastructure to embedded devices to backend services, develop practical Rust adoption strategies (see our [case studies](/learn/case-studies/) for real-world examples).
-
 (For a complete guide on the organizational side, see our [Rust Business Adoption Checklist](/blog/successful-rust-business-adoption-checklist/).)
 
 ## You Don't Have to Do This Alone
 
-Making this transition on your own, on top of an already overwhelming workload, is hard.
-But here's the good news: **you don't need to figure this out from scratch**.
+Making this transition on your own, on top of an already overwhelming workload, is hard. But the Rust ecosystem is mature, the tooling is excellent, and there is a growing body of industry experience to draw from.
 
-The Rust ecosystem is mature, the tooling is excellent, and there is a growing body of industry experience to draw from. What most organizations lack is not motivation. It's **guidance**.
-
-That's where I come in.
-
-At [corrode](/) I provide Rust consulting and training specifically designed for organizations navigating this transition. I've helped teams:
-
-- Evaluate whether Rust is the right fit for their specific use case.
-- Build memory safety roadmaps aligned with CISA and EU CRA requirements.
-- Train existing C/C++ developers to become productive in Rust.
-- Architect interoperability layers between legacy C/C++ and new Rust code.
-- Review and audit Rust codebases for production readiness.
-- Hire and grow Rust teams (see our guide on [hiring Rust engineers](/blog/hiring-rust-engineers/)).
-
-I've also spent years documenting real-world Rust adoption through the [**Rust in Production podcast**](/podcast/), where companies like [Microsoft](/podcast/s04e01-microsoft/), [Cloudflare](/podcast/s05e03-cloudflare/), [1Password](/podcast/s04e06-1password/), [Volvo](/podcast/s03e08-volvo/), and [many others](/podcast/) share their experiences.
-
-I write about the practicalities of long-term Rust adoption on this blog, from [flattening the learning curve](/blog/flattening-rusts-learning-curve/) to [long-term maintenance strategies](/blog/long-term-rust-maintenance/) to understanding [Rust for foundational software](/blog/foundational-software/).
-
-## The Cost of Inaction Far Exceeds the Cost of Action
-
-Let me put it in business terms.
-
-Engaging a Rust consultant is an **insurance** policy for your organization.
-The cost of a consulting engagement is a rounding error compared to:
-
-- A single critical CVE in production ($150,000+ per Microsoft's estimate).
-- A regulatory non-compliance penalty under the EU Cyber Resilience Act.
-- An emergency scramble to produce a memory safety roadmap when your government customer asks for one.
-- The reputational damage of a headline-grabbing breach traced to a buffer overflow in 2026.
-
-**Starting now means you control the timeline, the budget, and the scope.** You choose which components to migrate first. You train your team at a sustainable pace. You build institutional knowledge before you _need_ it.
-
-Waiting means someone else, a regulator, a customer, a competitor, dictates the terms.
+I've documented real-world Rust adoption through the [**Rust in Production podcast**](/podcast/), where companies like [Microsoft](/podcast/s04e01-microsoft/), [Cloudflare](/podcast/s05e03-cloudflare/), [1Password](/podcast/s04e06-1password/), [Volvo](/podcast/s03e08-volvo/), and [many others](/podcast/) share their experiences. I also write about long-term Rust adoption on this blog, from [flattening the learning curve](/blog/flattening-rusts-learning-curve/) to [long-term maintenance strategies](/blog/long-term-rust-maintenance/) to [Rust for foundational software](/blog/foundational-software/).
 
 ## Next Steps
 
@@ -309,17 +266,7 @@ Here's what I recommend:
 
 I'd love to help you with any or all of the above.
 
-{% info(title="Let's Talk About Your Memory Safety Strategy", icon="crab") %}
-
-If you're evaluating Rust or need to build a memory safety roadmap for compliance, [reach out for a free initial consultation](/#contact).
-
-I work with organizations of all sizes, from startups to Fortune 500 companies, to make Rust adoption practical, sustainable, and aligned with regulatory requirements.
-
-Let's make sure your organization is ahead of the curve, not behind it.
-
-**[Get in touch →](/#contact)**
-
-{% end %}
+{{ next_steps(context="Evaluating Rust or building a memory safety roadmap for compliance?") }}
 
 ## Frequently Asked Questions
 

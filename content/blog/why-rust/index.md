@@ -660,21 +660,7 @@ invaluable. Equally, if you are ready to embrace Rust and are seeking expertise
 in training or consulting to ensure a smooth transition, specialized support is
 essential.
 
-[Get in touch](/services/) to explore if Rust is the right choice for your
-organization and how it can contribute to your long-term success. 
-
-{% info(title="Rust in Production Podcast", icon="radio") %}
-Real-world experiences are the best way to learn about the benefits and
-challenges of a technology. That's why we started <a href="/podcast">Rust in Production</a>, a
-podcast about companies that bet big on Rust.
-
-Listen to the first-hand accounts from decision-makers about why they chose Rust and how it
-impacted their business.
-Each episode is a deep dive into the motivations, challenges, and lessons learned
-from adopting Rust in production by companies that shape the future of infrastructure.
-
-<a href="/podcast">More information here</a>.
-{% end %}
+{{ next_steps(context="Weighing whether Rust is the right choice for your organization?") }}
 
 ## Talks
 

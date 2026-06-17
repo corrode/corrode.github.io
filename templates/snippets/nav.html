@@ -1,0 +1,74 @@
+<nav>
+    <!-- Logo and Home Link -->
+    <div>
+        <a {% if current_path and current_path == "/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+            href="{{ config.base_url ~ '/' }}">
+            <span class="logo">
+                {% set logo = load_data(path="static/corrode.svg") %}
+                {{ logo | safe }}
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" />
+    <label class="menu-button-container" for="menu-toggle">
+        <div class="menu-button"></div>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <a href="javascript:toggleColorScheme();">
+                <span id="icon-moon">
+                    {% set sun = load_data(path="static/icons/moon.svg") %}
+                    {{ sun | safe }}
+                </span>
+                <span id="icon-sun">
+                    {% set moon = load_data(path="static/icons/sun.svg") %}
+                    {{ moon | safe }}
+                </span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path == "/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/' }}"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path is starting_with("/blog") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/blog' }}">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path is containing("/podcast") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/podcast' }}">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path is starting_with("/learn/migration-guides") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/learn/migration-guides' }}">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path is starting_with("/workshops") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/workshops' }}">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path is starting_with("/mentorship") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/mentorship' }}">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ config.base_url ~ '/services' }}" class="cta-button">
+                <span>Consulting</span>
+            </a>
+        </li>
+    </ul>
+</nav>
