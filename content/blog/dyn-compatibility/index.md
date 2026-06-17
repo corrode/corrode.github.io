@@ -41,23 +41,29 @@ The new term "dyn compatibility" does a better job at reflecting that it's about
 
 {% end %}
 
-## The Problem
+## The Error Message
 
-Here's an example with code that **won't compile**:
+Here's an example with code that **won't compile**.
+
+Say you have a trait `Widget` which has a method that returns a copy of itself:
 
 ```rust
 trait Widget {
     fn draw(&self);
     fn duplicate(&self) -> Self;  // Returns a copy of itself
 }
+```
 
+...and there's a button, which implements `Widget`:
+
+```rust
 struct Button {
     label: String,
 }
 
 impl Widget for Button {
     fn draw(&self) {
-        println!("Button: {}", self.label);
+        // ...
     }
     
     fn duplicate(&self) -> Self {
@@ -66,8 +72,11 @@ impl Widget for Button {
 }
 
 fn show_widget(widget: &dyn Widget) {
-    widget.draw(); // Works
-    let copy = widget.duplicate();  // Error
+    // This works
+    widget.draw();
+
+    // This produces an error because duplicate returns `Self`
+    let copy = widget.duplicate();
     copy.draw();
 }
 ```
@@ -94,20 +103,20 @@ note: for a trait to be dyn compatible it needs to allow building a vtable
    = help: only type `Button` implements `Widget`; consider using it directly instead.
 ```
 
-That might sound pretty confusing in the beginning.
+That's a really good error message, but it might still sound pretty confusing in the beginning.
 
-- What does "not dyn compatible" even mean?
-- Shouldn't the `dyn` part take care of that?
-- What's a vtable, and why does the trait need to "allow building" one?
+- What does "not dyn compatible" mean?
+- Shouldn't the `dyn` part take care of it?
+- What's a "vtable", and why does the trait need to "allow building" one?
 - What does it have to do with `Self`?
 
-You've just encountered **dyn compatibility**.
+You've just unlocked **dyn compatibility** problems.
 
 ## What's going on?
 
 When you use `&dyn Trait`, Rust creates a **trait object**.
 Trait objects use **dynamic dispatch** to call methods at runtime.
-Dynamic dispatch means that the exact method to call is determined at runtime based on the actual type of the object.
+Dynamic dispatch just means that the exact method to call is determined at runtime based on the actual type of the object.
 
 However, for dynamic dispatch to work, you must follow certain rules. 
 
@@ -115,9 +124,10 @@ However, for dynamic dispatch to work, you must follow certain rules.
 2. The trait **must not** have any static methods (methods without a `self` parameter).
 3. The trait **must not** have any generic type parameters on its methods.
 
-In our example, the `duplicate` method returns `Self`, which means "the same type as the implementor of the trait".
+In our example, we violate the first rule: the `duplicate` method returns `Self`, which means "the same type as the implementor of the trait".
 When you use `&dyn Widget`, the compiler doesn't know what `Self` is at runtime because it could be any type that implements `Widget`.
 That's a problem, because the compiler needs to know the size of the return type at compile time, and `Self` could be **any size**.
+It needs to know the size, because the returned value has to live *somewhere*: the caller sets aside exactly the right amount of space (usually on the stack) before the call even happens. With a `&dyn Widget`, the concrete type is erased, so there's no single size the compiler could reserve for it.
 
 It will become clearer once we look at some fixes.
 
@@ -228,7 +238,7 @@ This means you don't lose all the flexibility of trait objects (in contrast to g
 
 We can change the return type of the problematic method to return a boxed trait object instead of `Self`.
 
-This works because `Box<dyn Widget>` has a known size at compile time -- it's a pointer to an object on the heap! Pointers have a known size (usually 8 bytes on 64-bit systems), so the compiler knows how much space to allocate for it, unlike `Self` which varies based on the concrete type.
+This works because `Box<dyn Widget>` has a known size at compile time -- it's a pointer to an object on the heap. (It's actually a *fat pointer*: two words wide, or 16 bytes on a 64-bit system, because it also stores a pointer to the vtable -- more on that later.) The key point is that this size is fixed and known at compile time, unlike `Self`, which varies based on the concrete type.
 
 ```rust
 trait Widget {
@@ -358,7 +368,7 @@ In summary, a trait is **dyn compatible** if it follows [these rules](https://do
 | Rule | Why? |
 |------|------|
 | No `Self: Sized` supertrait | The trait itself must not require `Self: Sized`, otherwise it can never be used as a trait object |
-| Methods must have a receiver | All methods need `&self`, `&mut self`, or similar. Static methods (no receiver) can't be called through a vtable |
+| Methods must have a receiver | Methods need a receiver: `&self`, `&mut self`, or a pointer type like `Box<Self>`, `Rc<Self>`, `Arc<Self>`, or `Pin<&Self>`. Static methods (no receiver) can't be called through a vtable |
 | No generic type parameters on methods | The vtable is a static struct created at compile time and can't have infinite entries. Generic methods are monomorphized at compile time (one copy per type), but trait objects work at runtime when the type is erased |
 | No `Self` in method parameters (except receiver) | `other: &Self` means "the same type as `self`", but with trait objects, we only know both are "`dyn Comparable`". They could be different underlying types! |
 | No `Self` return type | The compiler needs to know the size of the return value, but `Self` could be any size. With trait objects, the type is erased |
@@ -366,6 +376,25 @@ In summary, a trait is **dyn compatible** if it follows [these rules](https://do
 
 That's quite a lot of rules, but they all boil down to the same core issue:
 **the compiler needs to know sizes and types at compile time, but with trait objects, that information is erased at runtime.**
+
+If you ever need the gory details -- the exact, normative list of what makes a trait dyn compatible -- the [dyn compatibility section of the Rust Reference](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility) is the source of truth. The rules above are the gist; the spec is the fine print.
+
+{% info(title="A Modern Gotcha: `async fn` in Traits", icon="crab") %}
+
+Since [Rust 1.75](https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/), you can write `async fn` directly in a trait.
+But there's a catch: a trait with an `async fn` is **not dyn compatible**.
+
+The reason fits right into what we've seen.
+An `async fn` desugars to a regular method that returns `impl Future<...>` -- a hidden, return-position `impl Trait`.
+Opaque return types aren't dispatchable, so the trait can't be used behind `dyn`.
+
+If you need dynamic dispatch with async methods today, you have a few options:
+
+- Box the future yourself and return `Pin<Box<dyn Future<Output = ...>>>`.
+- Use the [`async-trait`](https://crates.io/crates/async-trait) crate, which does that boxing for you.
+- Use the [`dynosaur`](https://crates.io/crates/dynosaur) crate, which generates a dyn-compatible wrapper for traits with `async fn`.
+
+{% end %}
 
 ## Summary
 
@@ -376,7 +405,7 @@ That's quite a lot of rules, but they all boil down to the same core issue:
 3. Type information is erased at runtime in order to allow polymorphism
 4. The compiler must guarantee type safety at all times, even if it can't see the concrete type
 
-If your trait is not dyn compatible, don't worry! Many standard library traits (`Clone`, `Iterator`, etc.) are also not dyn compatible.
+If your trait is not dyn compatible, don't worry! Many standard library traits (`Clone`, `Default`, etc.) are also not dyn compatible.
 As we've seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits. 
 
 ### Historical Notes
@@ -388,4 +417,6 @@ If you do, too, here are some resources to dig deeper:
 - 2014-11-03: [Issue #428](https://github.com/rust-lang/rfcs/issues/428) - Object-safety and static methods
 - 2015-01-03: [RFC 546](https://rust-lang.github.io/rfcs/0546-Self-not-sized-by-default.html) - Removed implied `Sized` bound on traits
 - 2023-08-24: [Rust 1.72](https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html) - GATs can be opted out with `where Self: Sized`
+- 2023-12-28: [Rust 1.75.0](https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/) - Stabilized `async fn` and return-position `impl Trait` in traits -- though such traits still aren't dyn compatible
 - 2025-01-09: [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/) - Silently renamed "object safety" to "dyn compatibility" (tragically, not mentioned in the release notes!)
+- Planned: the lang team wants a "practical path" to call `async fn`s through `dyn Trait` natively -- it's on the [2026 project goals](https://github.com/rust-lang/rfcs/blob/master/text/3935-Project-Goals-2026.md), so the async gotcha above should ease over time
