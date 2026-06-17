@@ -70,7 +70,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 </p>
 <h3 class="pro-section-title pro-subsection-title">Break through learning plateaus together</h3>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    Learning a new language is <strong>hard</strong>, especially when your past experience in other languages works against you. Research shows that <a href="https://cacm.acm.org/research/here-we-go-again/"target="_blank" rel="noopener">61% of experienced programmers make incorrect assumptions</a>. It's completely normal to get stuck.
+    Learning a new language is <strong>hard</strong>, especially when your past experience in other languages works against you. Research shows that <a href="https://cacm.acm.org/research/here-we-go-again/" target="_blank" rel="noopener">61% of experienced programmers make incorrect assumptions</a>. It's completely normal to get stuck.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
     According to AWS, <a href="https://youtu.be/VthhIdqwdHc?si=sdykuMYs0VZ_ijM9&t=132" target="_blank" rel="noopener">teams without experts are 40% more likely to abandon Rust</a>. You don't have to do it alone.
@@ -190,7 +190,6 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <td class="highlight">✓</td>
 </tr>
 <tr>
-<tr>
 <td>Get unstuck</td>
 <td class="muted">Trial and error</td>
 <td class="highlight">✓</td>
@@ -205,6 +204,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <td class="muted">✗</td>
 <td class="highlight">✓</td>
 </tr>
+<tr>
 <td>CV review & interview prep</td>
 <td class="muted">✗</td>
 <td class="highlight">✓</td>
@@ -265,7 +265,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 </div>
 </div>
 
-<p class="pro-pricing-footer"><strong>Looking for team training or workshops instead?</strong> I help organizations go from prototype to production with.
+<p class="pro-pricing-footer"><strong>Looking for team training or workshops instead?</strong> I help organizations go from prototype to production.
  <a href="mailto:hi@corrode.dev?subject=Rust Team Training">Get in touch</a> to discuss your needs.</p> 
 </div>
 </section>
@@ -314,7 +314,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "What timezone do you work in?",
-    "a": "I'm based in D\u00fcsseldorf, Germany (CET/UTC+1). I prefer schedule sessions during European business hours, but I'm flexible to accommodate other timezones when possible. Some people prefer code reviews via Loom videos, which allows for more asynchronous communication. Please reach out to clarify the details."
+    "a": "I'm based in D\u00fcsseldorf, Germany (CET/UTC+1). I prefer to schedule sessions during European business hours, but I'm flexible to accommodate other timezones when possible. Some people prefer code reviews via Loom videos, which allows for more asynchronous communication. Please reach out to clarify the details."
   },
   {
     "q": "Do you offer refunds?",
