@@ -15,7 +15,7 @@ resources = [
 ]
 +++
 
-{% info(title="In a hurry? The short version", icon="crab") %}
+{% info(title="Here's the gist", icon="crab") %}
 
 If the compiler told you a trait is **"not dyn compatible"** your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
 
