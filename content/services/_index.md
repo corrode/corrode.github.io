@@ -254,6 +254,7 @@ I'm thankful to be featured in various podcasts and interviews. Here are some of
 
 From time to time I give talks about Rust and open-source software.
 
+- code.talks 2025, Hamburg, Germany - [Rust Beyond The Hype](https://www.youtube.com/watch?v=AkBnXrKmcvw)
 - Softwerkskammer Cologne Meetup - [Testing in Rust](https://www.meetup.com/softwerkskammer-koln/events/300415441/)
 - inovex Meetup Cologne, Germany - [Rust in Production](https://speakerdeck.com/mre/rust-in-production)
 - FOSDEM 2024, Brussels, Belgium - [The Four Horsemen of Bad Rust Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
