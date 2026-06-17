@@ -662,19 +662,6 @@ essential.
 
 {{ next_steps(context="Weighing whether Rust is the right choice for your organization?") }}
 
-{% info(title="Rust in Production Podcast", icon="radio") %}
-Real-world experiences are the best way to learn about the benefits and
-challenges of a technology. That's why we started <a href="/podcast">Rust in Production</a>, a
-podcast about companies that bet big on Rust.
-
-Listen to the first-hand accounts from decision-makers about why they chose Rust and how it
-impacted their business.
-Each episode is a deep dive into the motivations, challenges, and lessons learned
-from adopting Rust in production by companies that shape the future of infrastructure.
-
-<a href="/podcast">More information here</a>.
-{% end %}
-
 ## Talks
 
 * <a href="https://www.youtube.com/watch?v=DnT-LUQgc7s" target="_blank">Considering Rust &mdash; Jon Gjengset, 2020</a>

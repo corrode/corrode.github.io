@@ -307,7 +307,7 @@ We'll work on what matters to you: whether that's language fundamentals, systems
   },
   {
     "q": "What if I can't make a scheduled session?",
-    "a": "Life happens. Just let me know and we'll move your session to another slot. Sessions in the Pack are valid for 3 months, and Deep Dive sessions for 6 months, so there's plenty of flexibility."
+    "a": "Life happens. Just let me know and we'll move your session to another slot. The 5-session block is valid for 3 months, and the 10-session block for 6 months, so there's plenty of flexibility."
   },
   {
     "q": "How do I know you're the right mentor?",

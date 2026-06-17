@@ -36,6 +36,18 @@
             </a>
         </li>
         <li>
+            <a {% if current_path and current_path is starting_with("/blog") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/blog' }}">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a {% if current_path and current_path is containing("/podcast") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
+                href="{{ config.base_url ~ '/podcast' }}">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
             <a {% if current_path and current_path is starting_with("/learn/migration-guides") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
                 href="{{ config.base_url ~ '/learn/migration-guides' }}">
                 <span>Migrate</span>
@@ -51,18 +63,6 @@
             <a {% if current_path and current_path is starting_with("/mentorship") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
                 href="{{ config.base_url ~ '/mentorship' }}">
                 <span>Mentorship</span>
-            </a>
-        </li>
-        <li>
-            <a {% if current_path and current_path is starting_with("/blog") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                href="{{ config.base_url ~ '/blog' }}">
-                <span>Blog</span>
-            </a>
-        </li>
-        <li>
-            <a {% if current_path and current_path is containing("/podcast") %} class="nav-item active" {% else %} class="nav-item" {% endif %}
-                href="{{ config.base_url ~ '/podcast' }}">
-                <span>Podcast</span>
             </a>
         </li>
         <li>
