@@ -3,9 +3,16 @@ name: Zola
 on:
   push:
     branches:
-      - master 
+      - master
   pull_request:
   workflow_dispatch:
+
+# Serialize deploys so concurrent runs can't race when force-pushing to
+# gh-pages, which can leave the GitHub Pages deployment wedged. Queue rather
+# than cancel, so a half-finished push is never interrupted.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -20,7 +27,7 @@ jobs:
           BUILD_DIR: .
           BUILD_ONLY: true
           BUILD_FLAGS: --drafts
-          
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
