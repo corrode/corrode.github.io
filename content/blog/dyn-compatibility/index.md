@@ -124,6 +124,8 @@ However, for dynamic dispatch to work, you must follow certain rules.
 2. The trait **must not** have any static methods (methods without a `self` parameter).
 3. The trait **must not** have any generic type parameters on its methods.
 
+These are simplifications: each of these is really "...unless that method opts out with `where Self: Sized`", which we'll see in a moment. But for now, the rough version is enough to build intuition.
+
 In our example, we violate the first rule: the `duplicate` method returns `Self`, which means "the same type as the implementor of the trait".
 When you use `&dyn Widget`, the compiler doesn't know what `Self` is at runtime because it could be any type that implements `Widget`.
 That's a problem, because the compiler needs to know the size of the return type at compile time, and `Self` could be **any size**.
@@ -184,18 +186,20 @@ The difference is that with generics, the compiler knows the concrete type at co
 For instance, we might know that `W` is `Button` in this case, so `duplicate` returns a `Button`.
 Now the confusion about what `Self` means is gone!
 
-The downside is that you can't fully lean on dynamic dispatch anymore [^why-dynamic-dispatch] and that you might have to refactor a lot of code if you were using trait objects extensively before.
+The downside is that you can't fully lean on dynamic dispatch anymore and that you might have to refactor a lot of code if you were using trait objects extensively before.
 
-[^why-dynamic-dispatch]: **"What's the benefit of fully leaning on dynamic dispatch"**, you ask? Fair question!
+{% info(title="What's the benefit of fully leaning on dynamic dispatch?", icon="crab") %}
 
-    Dynamic dispatch has a bunch of really nice properties:
+Fair question! Dynamic dispatch has a bunch of really nice properties:
 
-    - It's very flexible. You can swap out implementations at runtime, which is great for plugins or when you want to change behavior without recompiling.
-    - It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
-      You could technically do the same with generics, but as I mentioned sometimes you can't afford the increase in code size or compile times that come with monomorphization.
-    - It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
-      For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
-      Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
+- It's very flexible. You can swap out implementations at runtime, which is great for plugins or when you want to change behavior without recompiling.
+- It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
+  You could technically do the same with generics, but as I mentioned sometimes you can't afford the increase in code size or compile times that come with monomorphization.
+- It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
+  For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
+  Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
+
+{% end %}
 
 ### Fix #2: Opt Out Problematic Methods with `where Self: Sized`
 
@@ -407,6 +411,18 @@ If you need dynamic dispatch with async methods today, you have a few options:
 
 If your trait is not dyn compatible, don't worry! Many standard library traits (`Clone`, `Default`, etc.) are also not dyn compatible.
 As we've seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits. 
+
+Which fix to reach for depends on what your trait needs and what you're willing to give up:
+
+| Fix | Reach for it when... | The tradeoff |
+|-----|----------------------|--------------|
+| **#1 Generics** (`<W: Widget>`) | You don't actually need trait objects -- the concrete type is known at each call site, and you don't need to mix different types in one collection | Static dispatch only; monomorphization can grow code size and compile times |
+| **#2 `where Self: Sized`** | You want to keep using `dyn Widget`, and the problematic method only ever needs to be called on concrete types | That method isn't callable through `dyn`; tightening the bound later is a breaking change |
+| **#3 Return `Box<dyn Widget>`** | The method returns `Self` and you genuinely need it through a trait object (e.g. a heterogeneous `Vec<Box<dyn Widget>>`) | A heap allocation per call, and `Box<dyn>` tends to spread through your API |
+| **#4 Split into two traits** | The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods | More traits to keep track of -- though that separation is often a feature, not a cost |
+| **`async-trait` / `dynosaur`** | Your trait has `async fn`s and you need to call them through `dyn` | Boxed futures (an allocation per call) until native `dyn` async lands |
+
+In practice you'll often combine these -- for example, splitting a trait *and* boxing a return value.
 
 ### Historical Notes
 
