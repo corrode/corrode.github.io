@@ -19,7 +19,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 <p class="pro-hero-note">Questions? <a href="https://cal.com/corrode/intro-call">Book a free 30-min intro call</a></p>
 </div>
 
-<video autoplay muted loop playsinline poster="/pro-pairing-session-poster.jpg" class="pro-hero-video">
+<video autoplay muted loop playsinline width="1024" height="576" poster="/pro-pairing-session-poster.jpg" class="pro-hero-video">
     <source src="/pro-pairing-session.avif" type="video/mp4; codecs=av01" />
     <source src="/pro-pairing-session.mp4" type="video/mp4" />
 </video>
