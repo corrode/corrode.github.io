@@ -14,7 +14,7 @@ Here's some of the feedback I hear:
 - "The borrow checker rules make it hard to write code that compiles."
 - "The syntax is complex with too many symbols and operators -- it's overwhelming."
 - "It's difficult to transition to Rust from a language they know."
-- "Thee written code is not satisfying to read, it feels clunky and verbose."
+- "The written code is not satisfying to read, it feels clunky and verbose."
 
 From these frustrations, people often conclude that Rust is not for them and quit.
 
@@ -228,7 +228,7 @@ fn main() {
 ```
 
 The code carries all the hallmarks of a beginner Rust programmer, possibly with a C/C++ background, who has not yet fully embraced the ergonomics Rust provides
-and is sceptical about performance implications of higher-level abstractions.
+and is skeptical about performance implications of higher-level abstractions.
 
 - The code is littered with `unwrap()` calls
 - Unnecessary mutability 
@@ -265,7 +265,7 @@ It's a common framework for understanding how people deal with loss, but I think
 > "There's nothing wrong with my code - it works perfectly fine! The ugly syntax is just Rust's problem, not mine."
 
 In this stage, developers continue writing C-style code and ignoring compiler warnings.
-They blame the language for being "overly complex.".
+They blame the language for being "overly complex."
 Oftentimes, this is the stage where they give up on the language and switch to something "more practical" like Python.
 Rust gets labeled as "unnecessarily complex, syntax-heavy, and idiosyncratic." 
 
@@ -338,7 +338,7 @@ I'll wait here.
 
 Many common patterns are beautifully handled by the standard library.
 It is absolutely worth your time to [read the documentation](https://doc.rust-lang.org/std/) and even its source code.
-For instance, you will find that you can get rid of all of of this boilerplate:
+For instance, you will find that you can get rid of all of this boilerplate:
 
 ```rust
 let p = Path::new(&path);
@@ -375,7 +375,7 @@ let mut cfg = HashMap::new();
 
 Manual string splitting is error-prone and very much discouraged.
 The reason is that strings are, in fact, very complicated.
-There is an outdated assumption that strings are just an array of "characters", but that assumption is ill-defined and a dangerous.
+There is an outdated assumption that strings are just an array of "characters", but that assumption is ill-defined and dangerous.
 It is not true for all modern operating systems, including Windows, macOS, and Linux and you should stop thinking about strings that way.
 
 Even in our simple example code from above, string splitting turns out to be a source of bugs: 
@@ -510,7 +510,7 @@ fn parse_config_file(path: &str) -> HashMap<String, String> {
 ```
 
 You'd be forgiven if you called it a day at this point. 
-However, to truly embrace Rust, it always helps to a step back and think about our problem for a little longer. 
+However, to truly embrace Rust, it always helps to take a step back and think about our problem for a little longer. 
 This is where you can really grow as a programmer.
 
 ## Use Proper Error Handling
@@ -638,7 +638,7 @@ We need to represent a few different outcomes of parsing a line:
 - A comment line
 - Finally, a valid key-value pair
 
-Most likely, you would ignore empty lines and comments in your parser, but it still a valid outcome of parsing a line.
+Most likely, you would ignore empty lines and comments in your parser, but it's still a valid outcome of parsing a line.
 The key insight is that these outcomes are now much more visible and that we have a *choice* of how to handle these outcomes in our code (in comparison to ignoring them silently like we did before).
 
 With that in mind, we can define a new enum to represent the different outcomes of parsing a line:
@@ -762,7 +762,7 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
 ```
 
 
-All we do is creating a map of key-value pairs from some input.
+All we do is create a map of key-value pairs from some input.
 At this stage we might as well convert `parse_config_file` into an `EnvParser` struct.
 And while we're at it, let's lift the requirement of passing a file path to the parser
 and instead accept any type that implements `Read`.
@@ -1026,7 +1026,7 @@ Rust's beauty is in its semantics and the core mechanics it provides: ownership,
 If you merely look at its foreign syntax, you will miss out on the real power of the language.
 
 What I find interesting in these exercises is that the benefits of looking for better abstractions are not about memory safety.
-Instead, it Rust makes testing easier, which meant that the developers in the experiment were able to find bugs that had remain completely hidden otherwise. 
+Instead, Rust makes testing easier, which meant that the developers in the experiment were able to find bugs that had remained completely hidden otherwise. 
 
 If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity of the underlying system.
 Rust values explicitness and you have to deal with the harsh reality that computing is messy.
