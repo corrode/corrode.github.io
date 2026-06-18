@@ -12,8 +12,7 @@ episode = "06"
 series = "Podcast"
 +++
 
-<!-- TODO: Replace with the real Letscast player embed once the episode is uploaded. -->
-<div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/clickhouse-with-alexey-milovidov-and-austin-bonander/player.js?size=s"></script></div>
+<div><script id="letscast-player-9e435c01" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/clickhouse-with-alexey-milovidov-and-austin-bonander/player.js?size=s"></script></div>
 
 There's a particular kind of pressure that comes with maintaining software at the very bottom of someone else's stack. ClickHouse lives in exactly that spot: roughly 1.5 million lines of mostly C++ and tens of millions of tests every single day.
 
@@ -41,7 +40,6 @@ Austin Bonander is a Senior Software Engineer at ClickHouse, where he works on R
 
 - [OLAP](https://en.wikipedia.org/wiki/Online_analytical_processing) - A type of database used for analytics, not storing relational data
 - [sqlx](https://github.com/launchbadge/sqlx) - The async, pure-Rust SQL toolkit Austin maintains
-- [Hadoop](https://hadoop.apache.org/) - Another OLAP database that was insufficient for Alexey
 - [Official /r/rust "Who's Hiring" thread for job-seekers and job-offerers](https://www.reddit.com/r/rust/search?sort=new&restrict_sr=on&q=flair%3A%F0%9F%92%BC%2Bjobs%2Bmegathread) - Where Austin found the Clickhouse job
 - [Clickhouse's C++ & Rust Journey](https://www.youtube.com/watch?v=cIXKsb0FYpc) - Alexeys talk at P99 CONF 2025
 - [No-Panic Rust: A Nice Technique for Systems Programming](https://blog.reverberate.org/2025/02/03/no-panic-rust.html) - Using linker checks to guarantee no panic calls in Rust code
