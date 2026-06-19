@@ -1,6 +1,6 @@
 +++
 title = "When Rust Gets Ugly"
-date = 2025-11-25
+date = 2026-06-19
 draft = false
 template = "article.html"
 [extra]
@@ -12,26 +12,27 @@ In workshops I often see people getting frustrated with Rust.
 Here's some of the feedback I hear: 
 
 - "The borrow checker rules make it hard to write code that compiles."
-- "The syntax is complex with too many symbols and operators -- it's overwhelming."
-- "It's difficult to transition to Rust from a language they know."
-- "The written code is not satisfying to read, it feels clunky and verbose."
+- "It's overwhelming! The syntax is complex with too many symbols and operators."
+- "It's difficult to transition to Rust from <this other language I know>."
+- "The code is not satisfying to read, it feels clunky and verbose."
 
 From these frustrations, people often conclude that Rust is not for them and quit.
 
 But after programming in Rust for 10 years, I think that **your coding style has the biggest impact on how your Rust code will look and feel**.
 
-People often say Rust has ugly syntax, but I'd argue the syntax is the least interesting thing about Rust. The semantics -- the bits and pieces the language provides to express your ideas and how those bits combine to build interesting things -- are much more important.
+People often say Rust's syntax is ugly, but I'd argue the syntax is the least interesting thing about Rust. The **semantics** (the bits and pieces the language provides to express your ideas and how those bits combine to build interesting things) are much more important.
 
 The "ugliness" is only skin-deep; Rust's beauty lies underneath the surface!
+And with better semantics comes better syntax.
 
-If you write Rust like you would write idiomatic code in other languages, it will *never feel right*. 
+If you write Rust like you would write idiomatic code in another language, it will *never feel right*. 
 You have to embrace how Rust wants you to structure your code.
 "You can write bad Java code in any language," is a common saying, and I think it applies here as well.
 
-Idiomatic Rust ticks all the boxes: it is correct, readable, and maintainable.
-If your Rust code doesn't meet these criteria yet, this article is for you.
+Good Rust can tick all the boxes: it's correct, readable, *and* maintainable.
+Heck, I'd say it's pretty, too!
 
-## The Problem
+## Parsing Things
 
 Let's take a simple example: parsing an `.env` file in Rust. How hard can it be?
 
@@ -44,15 +45,15 @@ LOG_FILE=app.log
 ```
 
 The goal is to parse the above content from a file called `.env` and return a data structure that contains the key-value pairs.
-Sounds simple enough!
+Child's play.
 
 I invite you to write your own version first.
-Or at least take a second to consider all the edge-cases that you can think of. 
+Or at least take a second to think about the problem. 
 
 ## A Painful First Attempt
 
-Here is one attempt to parse the above file that I saw in the wild recently. 
-Keep in mind that this is a bit of an exaggerated version, but it is not too far off from what I saw in practice.
+A Rust learner will sit down and attempt to parse the above file.
+They might come with a solution like the one below, which is not too far from what I've seen recently.
 
 ```rust
 use std::collections::HashMap;
@@ -62,7 +63,6 @@ use std::path::Path;
 
 // Parse .env file into a HashMap 
 fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
-    // Open the file and read its contents
     let p = Path::new(&path);
     let mut file = File::open(&p).unwrap();
     let mut bytes = Vec::new();
@@ -70,14 +70,12 @@ fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
 
     let s = String::from_utf8_lossy(&bytes).to_string();
 
-    // Split the string into lines
     let lines_with_refs: Vec<&'_ str> = s.split('\n').collect();
 
-    // Setup
     let mut idx = 0;
     let mut cfg: HashMap<String, String> = HashMap::new();
 
-    // Iter lines by idx
+    // Iter lines
     while idx < lines_with_refs.len() {
         // Get the line reference and trim it
         let lref = &lines_with_refs[idx];
@@ -101,7 +99,6 @@ fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
         let k: &str = parts[0].trim();
 
         // Check if key is empty
-        // If it is, print an error message and continue
         if k.len() > 0 {
             // We found a valid key. Insert into config
             let v: &str = parts[1].trim();
@@ -227,33 +224,40 @@ fn main() {
 }
 ```
 
-The code carries all the hallmarks of a beginner Rust programmer, possibly with a C/C++ background, who has not yet fully embraced the ergonomics Rust provides
-and is skeptical about performance implications of higher-level abstractions.
+The code carries all the hallmarks of a beginner Rust programmer, possibly with a C/C++ background.
 
-- The code is littered with `unwrap()` calls
+- Littered with `unwrap()` calls
 - Unnecessary mutability 
 - Manual indexing into arrays
-- Unnecessary lifetime annotations
+- Lifetime annotations
 - Cryptic variable names
-- Very imperative coding style
+- Imperative coding style
 
-Let's be clear: there are many, many antipatterns in the above code.
-The most important observation is that these antipatterns have nothing to do with Rust itself, but with bad coding practices in general.
+Let's be clear: there are many, many antipatterns in the above code,
+but the most important observation is that these antipatterns have nothing to do with Rust itself.
+They are bad coding practices in general.
 
-We will get back to this code later, but the first insight is that Rust makes all of these problems painfully explicit.
-It is a sharp tool targeting professionals, so it will permit you to sidestep its affordances, if you're willing to pay with worse developer ergonomics.
-And if you refuse to learn how to avoid such problems, you will end up writing bad code and hating the language for it. 
+The learner has not yet fully embraced the ergonomics Rust provides and might be skeptical about performance implications of higher-level abstractions.
 
-Refusal to rethink your coding style in light of Rust's design principles not only makes your code harder to read, what is worse is that it leads to business logic bugs in the code, because the compiler can't help you catch them. 
+We will get back to this code later, but note how Rust makes all of these problems painfully explicit.
+It looks painful, because it is: the abstractions are too low level for the problem at hand.
 
-If you feel like you're fighting the language, then there's a chance that **the language is trying to tell you something**. 
+Rust is a tool built for professionals, so it will let you sidestep its guardrails if you're willing to pay with worse developer ergonomics.
+And if you refuse to learn how to avoid such problems, you will end up writing bad code and hating the language for it
+and potentially telling others how much you hate it on the internet.
+
+Refusal to rethink your coding style in light of Rust's design principles not only makes your code harder to read, what is worse is that it 
+slows down your learning process.
+And down the road, it leads to business logic bugs in the code, because the compiler can't help you catch them. 
+
+## Better Semantics Unlock Nicer Syntax
+
+If you feel like you're fighting the language, then there's a chance that **the language is speaking to you**.
 It tries to push you into a healthier direction, but if you resist, it will patiently wait until you give in. 
-The moment you start to listen to what Rust is trying to teach you, everything snaps into place; writing Rust becomes effortless and feels natural.
+The moment you start to listen to what Rust is trying to teach you, everything snaps into place; writing Rust feels effortless and natural.
 
-Here is one of my favorite things about Rust, that I never experienced in other languages: **better semantics enable nicer syntax.**
-That means, the more you lean into the core mechanics behind Rust (traits, pattern matching, expressions, composition over inheritance, etc.), the more you can leverage these concepts to write code that is readable and extensible.
-
-The syntax takes a backseat. It gives way to semantics, which are much more important.
+Here is one of my favorite things about Rust, that I never experienced in other languages: **better semantics unlock nicer syntax.**
+That means, the more you lean into the core mechanics behind Rust (traits, pattern matching, expressions, composition over inheritance, etc.), the more you can build on these concepts to write code that is readable and extensible.
 
 ## The Five Stages Of Grief 
 
@@ -279,40 +283,40 @@ The more they try to write code that looks like C or Java, the more they run int
 
 #### Stage 3: Bargaining
 
-> "Maybe if I just use more `.unwrap()` calls and sprinkle in some `unsafe` blocks, I can write Rust the way I want to."
+> "Maybe if I just use more `.unwrap()` calls and sprinkle in some `Rc<RefCell<T>>`, I can write Rust the way I want to."
 
-Desperate to make progress, developers start making dangerous compromises. They liberally use `.clone()` to silence ownership errors, wrap simple operations in `unsafe` blocks, and litter code with `.unwrap()` calls, effectively sidestepping Rust's safety guarantees while keeping all of its verbosity.
+Desperate to make progress, developers start making dangerous compromises. They use `.clone()` to silence ownership errors, wrap simple operations in `unsafe` blocks, and litter code with `.unwrap()` calls, effectively sidestepping Rust's safety guarantees while keeping all of its verbosity.
 
 #### Stage 4: Depression
 
 > "I'll never get used to this language. My code is a mess of references, clones, and unnecessary mutations that even I can't read anymore."
 
-Reality sets in. Code becomes increasingly convoluted with superfluous mutable variables and overly complex data structures.
+Reality sets in. Code becomes increasingly convoluted with mutable variables and needlessly low-level code.
 What started as a promising project now feels like an unreadable jumble of syntax.
-Although the code compiles, the code is ugly and hard to maintain.
+Although the code compiles, it is ugly and hard to maintain.
 It just doesn't feel right but developers can't quite put their finger on why.
-They feel trapped and don't know how to improve their code or even which questions to ask.
+They feel trapped and don't know how to improve the situation or even which questions to ask.
 
 #### Stage 5: Acceptance
 
-> "I see now that these idioms exist for a reason - my code is not only safer but actually more readable when I embrace Rust's patterns instead of fighting them."
+> "After refactoring, I see now that these idioms exist for a reason. My code is not only safer but actually more readable when I embrace Rust's patterns instead of fighting them."
 
 Finally, developers begin embracing idiomatic patterns and the philosophy behind Rust.
-They refactor their spaghetti code and leverage stronger types rather than resisting them.
-Code becomes more maintainable, and they wonder how they ever wrote memory-unsafe code in other languages with such confidence.
+They refactor their spaghetti code and reach for stronger types rather than resisting them.
+Code becomes more maintainable, and they wonder how they ever wrote code in other languages without tooling that gives you such confidence.
 
 ## Let Go Of Old Bad Habits
 
 Okay, you (or your team-member) reached acceptance, how can you do better?
 
 The first step is to acknowledge that your existing code goes against Rust's design principles.
-It's a symptom of outdated ideas from the past still haunting you and holding back your progress.
-**Ugly Rust code is a band-aid around old, bad habits.**
+It's band-aid around outdated ideas from the past still haunting you and holding back your progress.
+**Ugly Rust code is a symptom of old, bad habits.**
 
 Based on this realization, we can systematically improve the code.
 While we go through the refactoring, keep in mind that there is no single "right" way to improve the code, but that it all depends on the context and your goals.
 
-There are a few techniques that can help you write better Rust code, some of which we've discussed before:
+There are a few techniques that can help you write better Rust, some of which we've discussed before:
 
 - [Think in expressions](/blog/expressions)
 - [Immutability by default](/blog/immutability)
@@ -334,11 +338,11 @@ I'll wait here.
 
 {% end %}
 
-## Read the Standard Library Documentation
+## Tip #1: Read the Standard Library Documentation
 
 Many common patterns are beautifully handled by the standard library.
 It is absolutely worth your time to [read the documentation](https://doc.rust-lang.org/std/) and even its source code.
-For instance, you will find that you can get rid of all of this boilerplate:
+For example, you will find that you can get rid of all of this boilerplate:
 
 ```rust
 let p = Path::new(&path);
@@ -348,15 +352,13 @@ file.read_to_end(&mut bytes).unwrap();
 let s = String::from_utf8_lossy(&bytes).to_string();
 ```
 
-and instead just call [`std::fs::read_to_string`](https://doc.rust-lang.org/std/fs/fn.read_to_string.html):
+and instead just call [`read_to_string`](https://doc.rust-lang.org/std/fs/fn.read_to_string.html):
 
 ```rust
-use std::fs::read_to_string;
-
-let s = read_to_string(path).unwrap();
+let s = std::fs::read_to_string(path).unwrap();
 ```
 
-### Use Type Inference
+### Tip #2: Use Type Inference
 
 [Rust is really good at inferring types.](https://rustc-dev-guide.rust-lang.org/type-inference.html) That's why we don't need to specify the type of
 our `HashMap` explicitly.
@@ -371,14 +373,14 @@ becomes
 let mut cfg = HashMap::new();
 ```
 
-## Lean Into the Typesystem
+## Tip #3: Lean Into the Typesystem
 
 Manual string splitting is error-prone and very much discouraged.
-The reason is that strings are, in fact, very complicated.
-There is an outdated assumption that strings are just an array of "characters", but that assumption is ill-defined and dangerous.
+The reason is that strings are, in fact, really complicated!
+There is an outdated assumption that strings are just an array of bytes, but that assumption is ill-defined and dangerous.
 It is not true for all modern operating systems, including Windows, macOS, and Linux and you should stop thinking about strings that way.
 
-Even in our simple example code from above, string splitting turns out to be a source of bugs: 
+Even in our simple example code from above, string splitting turns out to be a common source of bugs: 
 
 ```rust
 let lines_with_refs: Vec<&'a str> = s.split('\n').collect();
@@ -410,7 +412,7 @@ That is a common practice in Rust and very useful to keep the code clean.
 It means we don't have to come up with a fancy new name for the trimmed line
 and we also don't have to fall back to cryptic names like `lref` or `l` instead.
 
-By reading the standard library documentation, we learn about some useful methods on strings.
+By reading the standard library documentation (see tip 1), we learn about some useful methods on strings.
 So instead of `line.len() == 0`, we write `line.is_empty()` now.
 And `line.starts_with("#")` is easier on the eye than checking with `l.chars().next() == Some('#')`.
 
@@ -440,7 +442,7 @@ if k.len() > 0 {
 
 Note how we access `parts[0]` and `parts[1]` without checking if these are valid indices. 
 The code only coincidentally works for well-formed inputs. 
-We could add a check to ensure that `parts` has at least two elements:
+We could add a check to make sure that `parts` has at least two elements:
 
 ```rust
 if parts.len() >= 2 {
@@ -456,7 +458,7 @@ if parts.len() >= 2 {
 }
 ```
 
-But that's clunky and verbose.
+But that's equally clunky and verbose.
 Fortunately, we don't have to do any of that if we lean into the typesystem a little more and use pattern matching to destructure the result of `split_once`:
 
 ```rust
@@ -509,14 +511,14 @@ fn parse_config_file(path: &str) -> HashMap<String, String> {
 }
 ```
 
-You'd be forgiven if you called it a day at this point. 
-However, to truly embrace Rust, it always helps to take a step back and think about our problem for a little longer. 
+Much nicer.
+However, to truly embrace Rust, it always helps to take a step back and think about the root of the problem.
 This is where you can really grow as a programmer.
 
-## Use Proper Error Handling
+## Tip #4: Use Proper Error Handling
 
 We left a few things on the table so far; one obvious one is error handling.
-It depends on the business logic how you want to handle invalid lines, but let's assume we want to return an error if the file is malformed.
+How you want to handle invalid lines depends on the business logic, but let's assume we want to immediately return an error if the file is malformed.
 
 ```rust
 use std::collections::HashMap;
@@ -584,18 +586,20 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
 ```
 
 Granted, our code has gotten quite a bit more verbose again.
-But in comparison to the original code, the verbosity has a purpose: it marks the various bits and pieces of our code that can fail.
-We can decide to handle these errors gracefully on the call site and have full control over how we want to deal with them.
+But in comparison to the original code, the verbosity has a purpose: it marks the various bits and pieces of our code that can go wrong.
+We agency to decide how to handle these errors gracefully on the call site rather than silently ignoring them.
 
 Some errors are harder to handle than others.
-For example, we can choose to skip invalid lines, but we might want to return an error if the file itself cannot be read.
+For example, we can choose to skip invalid lines, or we could decide to return a collection of all the errors we encountered while parsing the file. 
 This and more we can express in code now.
 
-## Parsing Individual Lines
+## Tip #5: Parsing Individual Lines
 
 The "meat" of the parser is the part that parses individual lines.
 This is still buried in the single `parse_config_file` function, which has quite a lot of responsibilities
 such as reading the file, iterating over lines, and parsing each line.
+That causes a bunch of problems.
+For one, we can't test the line parsing logic in isolation.
 
 Since parsing lines is such a core part of the business logic, let's make sure it gets the attention it deserves.
 For starters, let's move the line parsing logic into its own function. 
@@ -623,10 +627,10 @@ fn parse_line(line: &str) -> Result<Option<(String, String)>, ParseError> {
 }
 ```
 
-Don't worry about the ugly function signature for now.
+Don't worry about the ugly function signature for now; we get back to that in second.
 In fact, it is a tell-tale sign that we're still not quite done yet.
 
-**In Rust, code that is "stringy-typed," usually is a sign of a missing abstraction.**
+**In Rust, code that feels "stringy-typed" is usually a sign of a missing abstraction.**
 
 In our case, the `Result<Option<(String, String)>>` type indicates that we are trying to parse a line that may or may not contain a key-value pair, and that parsing can fail.
 That is a good start for thinking about our missing abstraction.
@@ -639,15 +643,18 @@ We need to represent a few different outcomes of parsing a line:
 - Finally, a valid key-value pair
 
 Most likely, you would ignore empty lines and comments in your parser, but it's still a valid outcome of parsing a line.
-The key insight is that these outcomes are now much more visible and that we have a *choice* of how to handle these outcomes in our code (in comparison to ignoring them silently like we did before).
+The key insight is that these outcomes are now much more visible and that we have a *choice* of how to handle these outcomes in our code (in comparison to ignoring them like we did before).
 
 With that in mind, we can define a new enum to represent the different outcomes of parsing a line:
 
 ```rust
 #[derive(Debug)]
 enum ParsedLine {
+    // This is a valid key-value pair
     KeyValue(KeyValue),
+    // A comment line
     Comment(String),
+    // An empty line
     Empty,
 }
 
@@ -697,7 +704,7 @@ For example, we can make use of the fact that parsing a key-value pair only depe
 
 Multiline environment variables exist, so instead of "parsing a single line," we should say "parsing a single key-value pair."
 For now, we will ignore multiline key-value pairs and assume that each line contains at most one key-value pair.
-However, the solution we are building here is extensible enough to handle multiline key-value pairs if we wanted to.
+However, the solution we are building here is extensible enough to handle multiline key-value pairs in the future. 
 
 {% end %}
 
@@ -735,9 +742,14 @@ impl TryFrom<&str> for KeyValue {
 }
 ```
 
-It might look like we made the problem more complicated than it is.
-However, we can now simplify our parser even more and also test key-value parsing in isolation.
-On top of that, errors get handled much closer to the source of the problem.
+Hold on, didn't we made the problem more complicated than it is?
+And a natural reaction is to say "this is way too much work for such a simple problem."
+And yes, taken in isolation, we are yakshaving here and it might feel like we're over-engineering.
+
+I hear you, but think about it this way: we can now think about all edge-cases in isolation and errors get handled much closer to the source of the problem.
+We turned our ball of mud into a small thing that is easy to reason about.
+The entire Rust standard library is full of simple abstractions that build on top of each other to solve more complicated problems.
+That is the mindset shift which has to happen to write good Rust code. 
 
 Our `parse_config_file` function now becomes much simpler:
 
@@ -986,6 +998,8 @@ mod tests {
 }
 ```
 
+Sorry, that I had to drag you through all of that, but it's much easier to show than to tell.
+
 By just following a few key principles, we have transformed our initial parser into a more idiomatic Rust implementation.
 Now, every part has one clearly defined responsibility:
 
@@ -998,8 +1012,13 @@ look for wrinkles in the code and move more and more logic into the type system.
 
 ## Did You Find All The Edge Cases?
 
-Parsing environment files sounds simple on the surface, but that is not the case.
-How many of these cases did you catch in your implementation?
+Lastly, I'd like to come back to my initial question about edge cases.
+
+Parsing environment files sounds simple on the surface, but that is absolutely not the case!
+If you haven't already, I encourage you to write your own implementation of an environment file parser.
+
+And once you're done, answer the following question:
+How many of these cases do you handle in your own implementation?
 
 - **Empty lines** - Should be skipped
 - **Comment lines** - Lines starting with `#` should be skipped
@@ -1016,24 +1035,20 @@ How many of these cases did you catch in your implementation?
 - **Unicode characters** - How does your parser handle non-ASCII content?
 - **Invalid UTF-8** - How do you handle files with encoding errors?
 
-A robust parser would need to handle all these cases, with clear behavior defined for each.
+A correct parser would need to handle all these cases.
 Our improved implementation handles many of these cases, but not all.
-This just goes to show that it's easy to gloss over details.
+This just goes to show how easy it is to gloss over details.
 
 ## Summary
 
 Rust's beauty is in its semantics and the core mechanics it provides: ownership, borrowing, pattern matching, traits, and so on.
-If you merely look at its foreign syntax, you will miss out on the real power of the language.
+If you merely look at its (admittedly foreign) syntax, you overlook real elegance of the language.
 
-What I find interesting in these exercises is that the benefits of looking for better abstractions are not about memory safety.
-Instead, Rust makes testing easier, which meant that the developers in the experiment were able to find bugs that had remained completely hidden otherwise. 
-
-If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity of the underlying system.
+If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity underneath. 
 Rust values explicitness and you have to deal with the harsh reality that computing is messy.
-
-Turns out our assumptions about a program's execution are often wrong and our mental models are flawed.
-Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some practice.
-Don't worry: once you start to confront your bad habits and look around for better abstractions, greener pastures are right around the corner.
-
-Rust, after all is said and done, is still a systems programming language in the end.
+Rust is still a systems programming language at its core.
 It competes with the likes of C/C++ and for that it has pretty good ergonomics.
+Turns out our assumptions about a program's execution are often wrong and our mental models are flawed.
+
+Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some effort.
+Don't worry: once you start to confront your bad habits and look around for better abstractions, greener pastures lay ahead. 
