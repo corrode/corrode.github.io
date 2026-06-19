@@ -914,10 +914,4 @@ That's why testing, linting, and fuzzing are still important in Rust.
 For maximum robustness, combine Rust's safety guarantees with strict checks and
 strong verification methods.
 
-{% info(title="Let an Expert Review Your Rust Code", icon="crab") %}
-
-I hope you found this article helpful!
-If you want to take your Rust code to the next level, consider a code review by an expert.
-I offer code reviews for Rust projects of all sizes. [Get in touch](/services/) to learn more.
-
-{% end %}
+{{ next_steps(context="Want a second pair of expert eyes on your Rust code before it ships?") }}

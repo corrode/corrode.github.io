@@ -34,6 +34,33 @@
             color: $brightBgrd;
         }
     }
+
+    // The page is force-dark regardless of theme, so the toggle does nothing here.
+    .nav-theme-toggle {
+        display: none;
+    }
+
+    // The page background is always $brightPrim, so the default button (dark on
+    // dark) would be invisible. Always use the light-on-dark treatment here.
+    .cta-button {
+        background-color: white;
+        color: $brightPrim;
+        border-color: white;
+
+        span {
+            color: $brightPrim;
+        }
+
+        &:hover {
+            background-color: $brightBgrd;
+            border-color: $brightBgrd;
+            color: $brightPrim;
+
+            span {
+                color: $brightPrim;
+            }
+        }
+    }
 }
 
 // Main Content

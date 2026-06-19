@@ -577,11 +577,7 @@ tooling, and active community.
 By following the principles outlined in this post, you can
 ensure that your codebase remains robust and maintainable for years to come.
 
-{% info(title="Supercharge Your Rust Adoption", icon="radio") %}
-
 If you want to learn from top companies that have successfully adopted Rust,
-consider subscribing to the [Rust In Production Podcast](/podcast).
+consider subscribing to the [Rust in Production Podcast](/podcast).
 
-In case your company is considering to adopt Rust for a new project, feel free to reach out for a [consultation](/#contact).
-
-{% end %}
+{{ next_steps(context="Planning Rust for the long haul and want a codebase that stays maintainable for years?") }}
