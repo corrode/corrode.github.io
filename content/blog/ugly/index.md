@@ -367,11 +367,11 @@ Fortunately, we don't have to do any of that if we lean into the typesystem a li
 match line.split_once('=') {
     Some((k, v)) => {
         let k = k.trim();
-        if !k.is_empty() {
+        if k.is_empty() {
+            println!("Error in line with empty key");
+        } else {
             let v = v.trim();
             config.insert(k.to_string(), v.to_string());
-        } else {
-            println!("Error in line with empty key");
         }
     }
     None => println!("Error in line: no '=' found"),
@@ -398,11 +398,11 @@ fn parse_config_file(path: &str) -> HashMap<String, String> {
         match line.split_once('=') {
             Some((k, v)) => {
                 let k = k.trim();
-                if !k.is_empty() {
+                if k.is_empty() {
+                    println!("Error in line with empty key");
+                } else {
                     let v = v.trim();
                     config.insert(k.to_string(), v.to_string());
-                } else {
-                    println!("Error in line with empty key");
                 }
             }
             None => println!("Error in line: no '=' found"),
@@ -472,11 +472,11 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
         match line.split_once('=') {
             Some((k, v)) => {
                 let k = k.trim();
-                if !k.is_empty() {
+                if k.is_empty() {
+                    return Err(ParseError::InvalidLine(line.to_string()));
+                } else {
                     let v = v.trim();
                     config.insert(k.to_string(), v.to_string());
-                } else {
-                    return Err(ParseError::InvalidLine(line.to_string()));
                 }
             }
             None => return Err(ParseError::InvalidLine(line.to_string())),
@@ -517,11 +517,11 @@ fn parse_line(line: &str) -> Result<Option<(String, String)>, ParseError> {
     match line.split_once('=') {
         Some((k, v)) => {
             let k = k.trim();
-            if !k.is_empty() {
+            if k.is_empty() {
+                Err(ParseError::InvalidLine(line.to_string()))
+            } else {
                 let v = v.trim();
                 Ok(Some((k.to_string(), v.to_string())))
-            } else {
-                Err(ParseError::InvalidLine(line.to_string()))
             }
         }
         None => Err(ParseError::InvalidLine(line.to_string())),
@@ -584,14 +584,14 @@ fn parse_line(line: &str) -> Result<ParsedLine, ParseError> {
     match line.split_once('=') {
         Some((k, v)) => {
             let k = k.trim();
-            if !k.is_empty() {
+            if k.is_empty() {
+                Err(ParseError::InvalidLine(line.to_string()))
+            } else {
                 let v = v.trim();
                 Ok(ParsedLine::KeyValue(KeyValue {
                     key: k.to_string(),
                     value: v.to_string(),
                 }))
-            } else {
-                Err(ParseError::InvalidLine(line.to_string()))
             }
         }
         None => Err(ParseError::InvalidLine(line.to_string())),
@@ -628,14 +628,14 @@ impl TryFrom<&str> for KeyValue {
         match line.split_once('=') {
             Some((k, v)) => {
                 let k = k.trim();
-                if !k.is_empty() {
+                if k.is_empty() {
+                    Err(ParseError::InvalidLine(line.to_string()))
+                } else {
                     let v = v.trim();
                     Ok(KeyValue {
                         key: k.to_string(),
                         value: v.to_string(),
                     })
-                } else {
-                    Err(ParseError::InvalidLine(line.to_string()))
                 }
             }
             None => Err(ParseError::InvalidLine(line.to_string())),
@@ -687,39 +687,17 @@ It makes testing a lot easier, too.
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Read};
 use std::fs::File;
-use std::fmt;
 use std::error::Error;
 use std::convert::TryFrom;
 
+// `ParseError` is unchanged from Tip #4: the enum plus its
+// `Error`, `Display`, and `From<std::io::Error>` impls.
 #[derive(Debug)]
 enum ParseError {
     InvalidLine(String),
     IoError(std::io::Error),
 }
-
-impl Error for ParseError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        match self {
-            ParseError::IoError(err) => Some(err),
-            _ => None,
-        }
-    }
-}
-
-impl fmt::Display for ParseError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ParseError::InvalidLine(line) => write!(f, "Invalid line format: {}", line),
-            ParseError::IoError(err) => write!(f, "I/O error: {}", err),
-        }
-    }
-}
-
-impl From<std::io::Error> for ParseError {
-    fn from(err: std::io::Error) -> Self {
-        ParseError::IoError(err)
-    }
-}
+// ...
 
 #[derive(Debug, Clone)]
 struct KeyValue {
@@ -727,31 +705,14 @@ struct KeyValue {
     value: String,
 }
 
+// Same logic as the `TryFrom<&str>` impl above, but taking an owned
+// `String` (that's what `BufRead::lines()` yields).
 impl TryFrom<String> for KeyValue {
     type Error = ParseError;
 
     fn try_from(line: String) -> Result<Self, Self::Error> {
-        let line = line.trim();
-
-        if line.is_empty() || line.starts_with('#') {
-            return Err(ParseError::InvalidLine(line.to_string()));
-        }
-
-        match line.split_once('=') {
-            Some((k, v)) => {
-                let k = k.trim();
-                if !k.is_empty() {
-                    let v = v.trim();
-                    Ok(KeyValue {
-                        key: k.to_string(),
-                        value: v.to_string(),
-                    })
-                } else {
-                    Err(ParseError::InvalidLine(line.to_string()))
-                }
-            }
-            None => Err(ParseError::InvalidLine(line.to_string())),
-        }
+        // trim, skip empty/comment lines, then `split_once('=')`
+        // ...
     }
 }
 
@@ -836,44 +797,16 @@ fn main() -> Result<(), Box<dyn Error>> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tempfile::NamedTempFile;
-    use std::io::Write;
-    
-    // Tests for KeyValue struct
+
     #[test]
     fn test_keyvalue_valid() {
         let kv = KeyValue::try_from("key=value".to_string()).unwrap();
         assert_eq!(kv.key, "key");
         assert_eq!(kv.value, "value");
     }
-    
-    #[test]
-    fn test_keyvalue_with_spaces() {
-        let kv = KeyValue::try_from("  key  =  value  ".to_string()).unwrap();
-        assert_eq!(kv.key, "key");
-        assert_eq!(kv.value, "value");
-    }
-    
-    #[test]
-    fn test_keyvalue_empty_value() {
-        let kv = KeyValue::try_from("key=".to_string()).unwrap();
-        assert_eq!(kv.key, "key");
-        assert_eq!(kv.value, "");
-    }
-    
-    #[test]
-    fn test_parser_duplicate_keys() {
-        let input = "
-            key=value1
-            key=value2
-        ";
-        
-        let config = EnvParser::parse_str(input).unwrap();
-        assert_eq!(config.len(), 1);
-        // Last value should win for duplicate keys
-        assert_eq!(config.get("key"), Some("value2"));
-    }
-    
+
+    // ... plus focused tests for whitespace, empty values, and duplicate keys
+
     #[test]
     fn test_parser_all_edge_cases() {
         let input = "
@@ -886,9 +819,9 @@ mod tests {
             duplicate=second
             trailing_whitespace = value with spaces   
         ";
-        
+
         let config = EnvParser::parse_str(input).unwrap();
-        
+
         assert_eq!(config.len(), 6);
         assert_eq!(config.get("simple"), Some("value"));
         assert_eq!(config.get("indented_key"), Some("indented_value"));
