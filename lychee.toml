@@ -62,8 +62,10 @@ exclude = [
   '^https://blog\.consol\.de',
   '^https://ocw\.cs\.pub\.ro',
   '^https://tauri\.app',                                             # slow host -> intermittent timeout
-  '^https://(www\.)?gnu\.org',                                        # slow host -> intermittent timeout
+  '^https://(www\.)?gnu\.org',                                       # slow host -> intermittent timeout
   '^https://packages\.ubuntu\.com',                                  # intermittent 500
+  '^https://ubuntu\.com',                                            # timeout
+  '^https://go\.googlesource\.com',                                  # 503
 
   # Dead pages we can't repoint to a sensible replacement.
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
