@@ -118,111 +118,9 @@ fn parse_config_file<'a>(path: &'a str) -> HashMap<String, String> {
 }
 
 fn main() {
-    // Test with a string literal instead of a file for demonstration
-    let config_content = r#"
-        # This is a config file
-        host = localhost
-        port = 8080
-        user = admin
-
-        # This line is empty on purpose
-
-        password= secret
-        
-        # Edge cases
-          indented_key = indented_value
-        	tab_key	=	tab_value
-        key with spaces = value with spaces
-        quotes="quoted value"
-        escaped\=key = escaped value
-        # = in comments shouldn't be processed
-        empty_value=
-        =empty_key
-        duplicate=first
-        duplicate=second
-        trailing_whitespace = value with spaces   
-        spaced==double_equals
-        key=value#not_a_comment
-        "quoted key" = should_fail
-        multi\
-        line\
-        key=multiline_value
-        
-        # Invalid lines
-        justkey
-    "#;
-
-    // Write the content to a temporary file
-    std::fs::write("temp_config.env", config_content).unwrap();
-
-    // Parse the file
-    let config = parse_config_file("temp_config.env");
-
-    // Print the results
-    println!("\nParsed config entries:");
-    let mut keys: Vec<String> = config.keys().cloned().collect();
-    keys.sort();
-
-    for key in keys {
-        println!("{} = {}", key, config.get(&key).unwrap());
-    }
-
-    // Display some test results
-    println!("\nTest results:");
-
-    // Test 1: Check if basic keys are parsed correctly
-    if let Some(host) = config.get("host") {
-        println!("PASS: Basic key 'host' parsed correctly: {}", host);
-    } else {
-        println!("FAIL: Basic key 'host' not found");
-    }
-
-    // Test 2: Check if indentation is handled correctly
-    if let Some(value) = config.get("indented_key") {
-        println!("PASS: Indented key parsed correctly: {}", value);
-    } else {
-        println!("FAIL: Indented key not found");
-    }
-
-    // Test 3: Check if spaces in keys are preserved (bug)
-    if let Some(value) = config.get("key with spaces") {
-        println!("PASS: Key with spaces parsed correctly: {}", value);
-    } else {
-        println!("FAIL: Key with spaces not found (as expected with simple parser)");
-    }
-
-    // Test 4: Check for duplicate key behavior
-    if let Some(value) = config.get("duplicate") {
-        println!("NOTE: For duplicate keys, last value wins: {}", value);
-    }
-
-    // Test 5: Check if escaped equals sign is handled (it's not)
-    if let Some(value) = config.get("escaped\\=key") {
-        println!("PASS: Escaped equals in key handled correctly");
-    } else {
-        println!("FAIL: Escaped equals not handled correctly (expected with simple parser)");
-    }
-
-    // Test 6: Check comment character in value (will fail)
-    if let Some(value) = config.get("key") {
-        if value == "value#not_a_comment" {
-            println!("PASS: Comment character in value preserved");
-        } else {
-            println!("FAIL: Comment character in value not preserved: {}", value);
-        }
-    } else {
-        println!("FAIL: Key with comment in value not found");
-    }
-
-    // Test 7: Check multiline key handling (will fail)
-    if let Some(value) = config.get("multi\\") {
-        println!("PASS: Multiline key handled");
-    } else {
-        println!("FAIL: Multiline key not handled (expected with simple parser)");
-    }
-
-    // Clean up the temporary file
-    std::fs::remove_file("temp_config.env").unwrap_or_default();
+    // Parse a `.env` file in the current directory.
+    let config = parse_config_file(".env");
+    println!("{config:#?}");
 }
 ```
 
@@ -230,10 +128,12 @@ The code carries all the hallmarks of a beginner Rust programmer, possibly with 
 
 - Littered with `unwrap()` calls
 - Unnecessary mutability 
-- Manual indexing into arrays
+- Manual indexing into arrays[^panic]
 - Lifetime annotations
 - Cryptic variable names
 - Imperative coding style
+
+[^panic]: That manual indexing hides a latent bug: `parts[1]` is accessed without checking the length, so the parser happily panics at runtime on any line that doesn't contain an `=` (a stray `justkey`, say). The compiler can't save you here; you have to remember to handle it yourself.
 
 Let's be clear: there are many, many antipatterns in the above code,
 but the most important observation is that these antipatterns have nothing to do with Rust itself.
@@ -330,7 +230,7 @@ There are a few techniques that can help you write better Rust, some of which we
 
 Even just applying these basic techniques, we can get our code into a much better shape.
 
-{% info(title="Try It Out Yourself!") %}
+{% info(title="Before You Continue: Try It Out Yourself!") %}
 
 This is a hands-on exercise.
 Feel free to paste the above code into your editor and practice refactoring it. 
@@ -360,7 +260,7 @@ and instead just call [`read_to_string`](https://doc.rust-lang.org/std/fs/fn.rea
 let s = std::fs::read_to_string(path).unwrap();
 ```
 
-### Tip #2: Use Type Inference
+## Tip #2: Use Type Inference
 
 [Rust is really good at inferring types.](https://rustc-dev-guide.rust-lang.org/type-inference.html) That's why we don't need to specify the type of
 our `HashMap` explicitly.
