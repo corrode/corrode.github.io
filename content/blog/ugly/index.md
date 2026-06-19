@@ -55,7 +55,7 @@ Or at least take a second to think about the problem.
 ## A Painful First Attempt
 
 A Rust learner will sit down and attempt to parse the above file.
-They might come with a solution like the one below, which is not too far from what I've seen recently.
+They might come up with a solution like the one below, which is not too far from what I've seen recently.
 
 ```rust
 use std::collections::HashMap;
@@ -212,7 +212,7 @@ Code becomes more maintainable, and they wonder how they ever wrote code in othe
 Okay, you (or your team-member) reached acceptance, how can you do better?
 
 The first step is to acknowledge that your existing code goes against Rust's design principles.
-It's band-aid around outdated ideas from the past still haunting you and holding back your progress.
+It's a band-aid around outdated ideas from the past still haunting you and holding back your progress.
 **Ugly Rust code is a symptom of old, bad habits.**
 
 Based on this realization, we can systematically improve the code.
@@ -492,7 +492,7 @@ impl From<std::io::Error> for ParseError {
 
 Granted, our code has gotten quite a bit more verbose again.
 But in comparison to the original code, the verbosity has a purpose: it marks the various bits and pieces of our code that can go wrong.
-We agency to decide how to handle these errors gracefully on the call site rather than silently ignoring them.
+We have agency to decide how to handle these errors gracefully on the call site rather than silently ignoring them.
 
 Some errors are harder to handle than others.
 For example, we can choose to skip invalid lines, or we could decide to return a collection of all the errors we encountered while parsing the file. 
@@ -532,7 +532,7 @@ fn parse_line(line: &str) -> Result<Option<(String, String)>, ParseError> {
 }
 ```
 
-Don't worry about the ugly function signature for now; we get back to that in second.
+Don't worry about the ugly function signature for now; we get back to that in a second.
 In fact, it is a tell-tale sign that we're still not quite done yet.
 
 **In Rust, code that feels "stringy-typed" is usually a sign of a missing abstraction.**
@@ -782,7 +782,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let config = EnvParser::parse_str(env_content)?;
     
     println!("Parsed config entries:");
-    for (key, value) in &config.inner {
+    for (key, value) in &config.0 {
         println!("{} = {}", key, value);
     }
     
@@ -803,7 +803,7 @@ Now, every part has one clearly defined responsibility:
 - `EnvParser` is responsible for parsing the entire input
 - `EnvConfig` stores the parsed key-value pairs
 
-Sorry, that I had to drag you through all of that, but it's much easier to show than to tell.
+Sorry that I had to drag you through all of that, but it's much easier to show than to tell.
 
 I skipped a few intermediate steps, but the idea is always the same: continuously
 look for wrinkles in the code and move more and more logic into the type system.
@@ -840,7 +840,7 @@ This just goes to show how easy it is to gloss over details.
 ## Summary
 
 Rust's beauty is in its semantics and the core mechanics it provides: ownership, borrowing, pattern matching, traits, and so on.
-If you merely look at its (admittedly foreign) syntax, you overlook real elegance of the language.
+If you merely look at its (admittedly foreign) syntax, you overlook the real elegance of the language.
 
 If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity underneath. 
 Rust values explicitness and you have to deal with the harsh reality that computing is messy.
