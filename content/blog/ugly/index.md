@@ -417,46 +417,16 @@ Much nicer.
 However, to truly embrace Rust, it always helps to take a step back and think about the root of the problem.
 This is where you can really grow as a programmer.
 
-## Tip #4: Use Proper Error Handling
+## Tip #4: Don't Gloss Over Error Handling
 
 We left a few things on the table so far; one obvious one is error handling.
 How you want to handle invalid lines depends on the business logic, but let's assume we want to immediately return an error if the file is malformed.
 
+The function itself stays close to what we had; it just returns a `Result` now and uses `?` to bubble up I/O errors:
+
 ```rust
 use std::collections::HashMap;
 use std::fs::read_to_string;
-use std::fmt;
-use std::error::Error;
-
-#[derive(Debug)]
-enum ParseError {
-    InvalidLine(String),
-    IoError(std::io::Error),
-}
-
-impl Error for ParseError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        match self {
-            ParseError::IoError(err) => Some(err),
-            _ => None,
-        }
-    }
-}
-
-impl fmt::Display for ParseError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ParseError::InvalidLine(line) => write!(f, "Invalid line format: {}", line),
-            ParseError::IoError(err) => write!(f, "I/O error: {}", err),
-        }
-    }
-}
-
-impl From<std::io::Error> for ParseError {
-    fn from(err: std::io::Error) -> Self {
-        ParseError::IoError(err)
-    }
-}
 
 fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> {
     let s = read_to_string(path)?;
@@ -487,6 +457,39 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
 }
 ```
 
+The supporting `ParseError` type is mostly mechanical. We implement `Display` and
+`Error` so it plays nicely with the rest of the error ecosystem, and a `From<std::io::Error>`
+so that the `?` on `read_to_string` just works:
+
+```rust
+use std::fmt;
+use std::error::Error;
+
+#[derive(Debug)]
+enum ParseError {
+    InvalidLine(String),
+    IoError(std::io::Error),
+}
+
+impl fmt::Display for ParseError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ParseError::InvalidLine(line) => write!(f, "Invalid line format: {line}"),
+            ParseError::IoError(err) => write!(f, "I/O error: {err}"),
+        }
+    }
+}
+
+// An empty body is fine here; we lean on the default `source()`.
+impl Error for ParseError {}
+
+impl From<std::io::Error> for ParseError {
+    fn from(err: std::io::Error) -> Self {
+        ParseError::IoError(err)
+    }
+}
+```
+
 Granted, our code has gotten quite a bit more verbose again.
 But in comparison to the original code, the verbosity has a purpose: it marks the various bits and pieces of our code that can go wrong.
 We agency to decide how to handle these errors gracefully on the call site rather than silently ignoring them.
@@ -495,7 +498,7 @@ Some errors are harder to handle than others.
 For example, we can choose to skip invalid lines, or we could decide to return a collection of all the errors we encountered while parsing the file. 
 This and more we can express in code now.
 
-## Tip #5: Parsing Individual Lines
+## Tip #5: Break Up The Problem
 
 The "meat" of the parser is the part that parses individual lines.
 This is still buried in the single `parse_config_file` function, which has quite a lot of responsibilities
@@ -644,14 +647,15 @@ impl TryFrom<&str> for KeyValue {
 }
 ```
 
-Hold on, didn't we made the problem more complicated than it is?
-And a natural reaction is to say "this is way too much work for such a simple problem."
-And yes, taken in isolation, we are yakshaving here and it might feel like we're over-engineering.
+A natural reaction is to say "this is way too much work for such a simple problem."
+And yes, taken in isolation, we are heavily yakshaving here.
 
-I hear you, but think about it this way: we can now think about all edge-cases in isolation and errors get handled much closer to the source of the problem.
-We turned our ball of mud into a small thing that is easy to reason about.
-The entire Rust standard library is full of simple abstractions that build on top of each other to solve more complicated problems.
-That is the mindset shift which has to happen to write good Rust code. 
+Think of it this way: we can now reason about all edge-cases in isolation and errors get handled much closer to the source of the problem.
+We turned our big ball of mud into a smaller thing that is easier to work with.
+
+The entire Rust standard library is full of abstractions that build on top of each other to help solve bigger problems.
+I encourage you to embrace that mindset shift.
+Your code will be more maintainable and extensible.
 
 Our `parse_config_file` function now becomes much simpler:
 
@@ -660,12 +664,9 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
     let content = read_to_string(path)?;
     
     let mut config = HashMap::new();
-    
     for line in content.lines() {
         match KeyValue::try_from(line) {
-            Ok(kv) => {
-                config.insert(kv.key, kv.value);
-            },
+            Ok(kv) => { config.insert(kv.key, kv.value); },
             Err(ParseError::InvalidLine(_)) => continue, // Skip invalid lines
             Err(e) => return Err(e),
         }
@@ -675,13 +676,15 @@ fn parse_config_file(path: &str) -> Result<HashMap<String, String>, ParseError> 
 }
 ```
 
-
 All we do is create a map of key-value pairs from some input.
-At this stage we might as well convert `parse_config_file` into an `EnvParser` struct.
+
+## Tip #6: Introduce Ergonomic Abstractions
+
+At this stage we might as well convert `parse_config_file` into a proper struct.
 And while we're at it, let's lift the requirement of passing a file path to the parser
 and instead accept any type that implements `Read`.
-This allows us to parse strings, files, or any other input that can be read.
-It makes testing a lot easier, too.
+This allows us to handle strings, files, or any other input that can be read.
+It makes testing much easier.
 
 ```rust
 use std::collections::HashMap;
@@ -690,7 +693,7 @@ use std::fs::File;
 use std::error::Error;
 use std::convert::TryFrom;
 
-// `ParseError` is unchanged from Tip #4: the enum plus its
+// `ParseError` is unchanged: the enum plus its
 // `Error`, `Display`, and `From<std::io::Error>` impls.
 #[derive(Debug)]
 enum ParseError {
@@ -716,29 +719,15 @@ impl TryFrom<String> for KeyValue {
     }
 }
 
+/// A configuration struct that holds the parsed key-value pairs.
+//
+// A newtype wrapper around `HashMap<String, String>` so we can change the
+// internal representation later without breaking `EnvConfig`'s public API.
 #[derive(Debug)]
-struct EnvConfig {
-    inner: HashMap<String, String>,
-}
+struct EnvConfig(HashMap<String, String>);
 
 impl EnvConfig {
-    fn new() -> Self {
-        EnvConfig {
-            inner: HashMap::new(),
-        }
-    }
-
-    fn insert(&mut self, keyvalue: KeyValue) {
-        self.inner.insert(keyvalue.key, keyvalue.value);
-    }
-    
-    fn get(&self, key: &str) -> Option<&str> {
-        self.inner.get(key).map(|v| v.as_str())
-    }
-    
-    fn len(&self) -> usize {
-        self.inner.len()
-    }
+    // Methods like `new`, `insert`, `get`, `len`,...
 }
 
 struct EnvParser;
@@ -753,7 +742,9 @@ impl EnvParser {
                 Ok(line_str) => {
                     match KeyValue::try_from(line_str) {
                         Ok(kv) => config.insert(kv),
-                        Err(ParseError::InvalidLine(_)) => continue, // Skip invalid lines
+                        // Skip invalid lines...
+                        Err(ParseError::InvalidLine(_)) => continue,
+                        // ...but return other errors
                         Err(e) => return Err(e),
                     }
                 }
@@ -764,6 +755,7 @@ impl EnvParser {
         Ok(config)
     }
     
+    // Examples of parsing from different sources
     fn parse_str(input: &str) -> Result<EnvConfig, ParseError> {
         Self::parse(input.as_bytes())
     }
@@ -773,8 +765,11 @@ impl EnvParser {
         Self::parse(file)
     }
 }
+```
 
-// Example usage
+Example usage:
+
+```rust
 fn main() -> Result<(), Box<dyn Error>> {
     let env_content = "
         DB_HOST=localhost
@@ -793,47 +788,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     
     Ok(())
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_keyvalue_valid() {
-        let kv = KeyValue::try_from("key=value".to_string()).unwrap();
-        assert_eq!(kv.key, "key");
-        assert_eq!(kv.value, "value");
-    }
-
-    // ... plus focused tests for whitespace, empty values, and duplicate keys
-
-    #[test]
-    fn test_parser_all_edge_cases() {
-        let input = "
-            # Comments should be ignored
-            simple=value
-              indented_key = indented_value
-            empty_value=
-            key_with_equals=value=with=equals
-            duplicate=first
-            duplicate=second
-            trailing_whitespace = value with spaces   
-        ";
-
-        let config = EnvParser::parse_str(input).unwrap();
-
-        assert_eq!(config.len(), 6);
-        assert_eq!(config.get("simple"), Some("value"));
-        assert_eq!(config.get("indented_key"), Some("indented_value"));
-        assert_eq!(config.get("empty_value"), Some(""));
-        assert_eq!(config.get("key_with_equals"), Some("value=with=equals"));
-        assert_eq!(config.get("duplicate"), Some("second"));
-        assert_eq!(config.get("trailing_whitespace"), Some("value with spaces"));
-    }
-}
 ```
 
-Sorry, that I had to drag you through all of that, but it's much easier to show than to tell.
+Phew, that was a lot of code, but look how much more maintainable and extensible it is now!
+We could even go one step further and make the `EnvParser` struct implement `Iterator` so that you can iterate over the parsed key-value,
+but let's stop here.
+
+## What We Achieved
 
 By just following a few key principles, we have transformed our initial parser into a more idiomatic Rust implementation.
 Now, every part has one clearly defined responsibility:
@@ -841,6 +802,8 @@ Now, every part has one clearly defined responsibility:
 - `KeyValue` is responsible for parsing a single line 
 - `EnvParser` is responsible for parsing the entire input
 - `EnvConfig` stores the parsed key-value pairs
+
+Sorry, that I had to drag you through all of that, but it's much easier to show than to tell.
 
 I skipped a few intermediate steps, but the idea is always the same: continuously
 look for wrinkles in the code and move more and more logic into the type system.
@@ -855,20 +818,20 @@ If you haven't already, I encourage you to write your own implementation of an e
 And once you're done, answer the following question:
 How many of these cases do you handle in your own implementation?
 
-- **Empty lines** - Should be skipped
-- **Comment lines** - Lines starting with `#` should be skipped
-- **Whitespace in keys/values** - Leading and trailing whitespace should be trimmed
-- **Empty keys** - Lines like `=value` should be rejected
-- **Empty values** - Lines like `key=` should be allowed! (With empty string value)
-- **Missing equals sign** - Lines without an equals sign should be rejected
-- **Multiple equals signs** - How do you handle `key=value=more`? On Unix, this is valid and everything after the first `=` is part of the value
-- **Indented lines** - Lines with leading whitespace should be parsed normally
-- **Duplicate keys** - Later values should overwrite earlier ones
-- **Quoted values** - How do you handle `key="value"`? Our solution preserves the quotes
-- **Escaping** - How do you handle `key=value\nwith\nnewlines` or `key=value#notacomment`?
-- **Line continuations** - What about multi-line values with backslash? I don't handle them right now.
-- **Unicode characters** - How does your parser handle non-ASCII content?
-- **Invalid UTF-8** - How do you handle files with encoding errors?
+- Empty lines should be skipped
+- Comment lines starting with `#` should be skipped
+- Leading and trailing whitespace in keys and values should be trimmed
+- Empty keys like `=value` should be rejected
+- Empty values like `key=` should be allowed (with empty string value)
+- Lines without an equals sign should be rejected
+- On Unix, `key=value=more` is valid and everything after the first `=` is part of the value
+- Indented lines with leading whitespace should be parsed normally
+- Duplicate keys should overwrite earlier ones with later values
+- Quoted values like `key="value"` keep their quotes in our solution
+- Escape sequences like `key=value\nwith\nnewlines` or `key=value#notacomment` need careful handling
+- Line continuations with backslash for multi-line values are not handled right now
+- The parser should handle non-ASCII Unicode content
+- Files with invalid UTF-8 encoding errors should be handled gracefully
 
 A correct parser would need to handle all these cases.
 Our improved implementation handles many of these cases, but not all.
@@ -886,4 +849,4 @@ It competes with the likes of C/C++ and for that it has pretty good ergonomics.
 Turns out our assumptions about a program's execution are often wrong and our mental models are flawed.
 
 Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some effort.
-Don't worry: once you start to confront your bad habits and look around for better abstractions, greener pastures lay ahead. 
+So don't worry: once you start to confront your bad habits and look around for better abstractions, Rust stops being ugly.
