@@ -50,6 +50,10 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 </p>
 
 <p class="pro-section-subtitle pro-subtitle-wide">
+    In a <a href="https://arxiv.org/abs/2601.20245" target="_blank" rel="noopener">randomized controlled trial by Anthropic</a>, engineers who used an AI assistant to complete a coding task did poorly at diagnosing errors in code, which is a sign they never really learned the concepts behind what they had produced. You end up "borrowing" skills from the AI instead of developing them yourself.
+</p>
+
+<p class="pro-section-subtitle pro-subtitle-wide">
     Deep knowledge matters now more than ever.
     But acquiring it by yourself is hard. You might have weak spots in your Rust knowledge that you never get around to filling. You might be writing code that works, but does it follow best practices? Will it be maintainable in the long run? 
 </p>
