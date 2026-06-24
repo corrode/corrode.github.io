@@ -18,7 +18,7 @@ There's a particular kind of pressure that comes with maintaining software at th
 
 So what happens when you start introducing Rust into a codebase like that? Not as a rewrite, but linked into a C++ server with a CMake build process that has to be reproducible and FIPS compliant? In today's episode, we get into the messy, interesting reality. We talk about the question of whether the hardest part is Rust the language or Rust the ecosystem.
 
-My guests come at this from two very different angles. Alexey Milovidov is the creator of ClickHouse and its CTO. He started the project back in 2009 and has spent decades thinking about performance, correctness, and what it actually takes to build a production database. Austin Bonander is a Senior Software Engineer at ClickHouse and a renowned open-source maintainer of [sqlx](https://github.com/launchbadge/sqlx). He works close to the Rust tooling and the CLI. Together we talk about where Rust fits inside a C++ monolith, what it would take for Rust to earn a rewrite of core components, supply-chain and compliance headaches, and whether Rust is heading for the same accumulation of regrets that every "trendy" language eventually accumulates.
+My guests come at this from two very different angles. Alexey Milovidov is the creator of ClickHouse and its CTO. He started the project back in 2009 and has spent decades thinking about performance, correctness, and what it actually takes to build a production database. Austin Bonander is a Senior Software Engineer at ClickHouse and a renowned open-source maintainer of [sqlx](https://github.com/launchbadge/sqlx). He works on the official Rust client as well as other Rust-related tooling. Together we talk about where Rust fits inside a C++ monolith, what it would take for Rust to earn a rewrite of core components, supply-chain and compliance headaches, and whether Rust is heading for the same accumulation of regrets that every "trendy" language eventually accumulates.
 
 {{ codecrafters() }}
 
@@ -34,7 +34,7 @@ Alexey Milovidov is the creator of ClickHouse and the CTO of ClickHouse Inc. He 
 
 ### About Austin Bonander
 
-Austin Bonander is a Senior Software Engineer at ClickHouse, where he works on Rust tooling and the ClickHouse CLI. He is a long-time member of the Rust community and a maintainer of [sqlx](https://github.com/launchbadge/sqlx), the async, pure-Rust SQL toolkit. Through that work he has thought deeply about database protocols, API ergonomics, and the long-term maintenance burden of widely used open-source libraries.
+Austin Bonander is a Senior Software Engineer at ClickHouse, where he works on the official Rust client as well as other Rust-related tooling. He is a long-time member of the Rust community and a maintainer of [sqlx](https://github.com/launchbadge/sqlx), the async, pure-Rust SQL toolkit. Through that work he has thought deeply about database protocols, API ergonomics, and the long-term maintenance burden of widely used open-source libraries.
 
 ### Links From The Episode
 
