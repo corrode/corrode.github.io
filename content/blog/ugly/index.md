@@ -16,7 +16,7 @@ Here's some of the feedback I hear:
 - "It's difficult to transition to Rust from <this other language I know>."
 - "The code is not satisfying to read, it feels clunky and verbose."
 
-[^keywords]: It turns out that all 48 Rust keywords can [fit into 300 characters](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=c1c8e31332776002d7030e2e242ebcee), so there really isn't that much syntax to begin with. 
+[^keywords]: It turns out that all 48 Rust keywords can [fit into 300 characters](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=c1c8e31332776002d7030e2e242ebcee), so there isn't a crazy amount to begin with. 
 
 From these frustrations, people often conclude that Rust is not for them and quit.
 
