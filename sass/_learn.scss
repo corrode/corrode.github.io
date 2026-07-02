@@ -145,6 +145,25 @@
     }
 }
 
+.workshop-photo {
+    margin: 0 0 2.5rem;
+
+    img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin-left: 0;
+    }
+
+    figcaption {
+        margin-top: 0.75rem;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: rgba($brightPrim, 0.72);
+    }
+}
+
 /* Workshops sub-page CTA — a plain bordered box, like other boxed content. */
 .workshops-cta {
     margin: 3rem 0 1rem;
@@ -201,6 +220,10 @@
 
     .resource-thumb {
         background-color: rgba(white, 0.06);
+    }
+
+    .workshop-photo figcaption {
+        color: rgba(white, 0.72);
     }
 
     .workshops-cta {
