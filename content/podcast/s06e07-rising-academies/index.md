@@ -39,7 +39,7 @@ Dylan Brown is a Senior Engineering Manager at Rising Academies, where he leads 
 
 - [Why I like Rust as an Engineering Leader](https://dylanivanbrown.github.io/blog/2026/06/30/why-i-like-rust-as-engineering-leader/) - Dylan's blog post about the project 
 - [axum](https://github.com/tokio-rs/axum) - The ergonomic, Tokio-based web framework powering the backend
-- [sqlx](https://github.com/launchbadge/sqlx) - The async, pure-Rust SQL toolkit with compile-time checked queries
+- [sqlx](https://github.com/transact-rs/sqlx) - The async, pure-Rust SQL toolkit with compile-time checked queries
 - [cargo-xtask](https://github.com/matklad/cargo-xtask) - Instead of writing Python scripts for your project, you can just write Rust scripts
 - [pydantic](https://pydantic.dev) - A Python package that forces you to care about types in Python, coincidentally partially written in Rust
 - [Postman](https://www.postman.com/) - A graphical API client useful for writing end-to-end tests
