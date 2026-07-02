@@ -12,8 +12,7 @@ episode = "07"
 series = "Podcast"
 +++
 
-<!-- TODO: Replace with the real Letscast player embed once the episode is uploaded. -->
-<div><script id="letscast-player-PLACEHOLDER" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rising-academies-with-dylan-brown/player.js?size=s"></script></div>
+<div><script id="letscast-player-30669ebd" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rising-with-dylan-brown-872db41b-f845-41f0-8bac-147b5a6f5b87/player.js?size=s"></script></div>
 
 Most Rust in Production stories are about scale and performance. 
 This one is a story about low-cost phones and patchy mobile connections in Africa, where a student is learning maths over WhatsApp.
