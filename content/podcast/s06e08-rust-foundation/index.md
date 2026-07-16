@@ -38,24 +38,23 @@ David Wood is a Principal Software Engineer at Arm, CE-SW Rust Team Lead, Compil
 
 ### Links From The Episode
 
-- [Rust Foundation](https://rustfoundation.org/) - The independent non-profit supporting Rust's success and sustainability
-- [Rust Project Governance](https://www.rust-lang.org/governance) - How Rust's teams and governance structure are organized
-- [Rust Foundation Members](https://rustfoundation.org/members/) - Organizations supporting the Foundation financially
-- [Rust Foundation Initiatives](https://rustfoundation.org/initiatives/) - Foundation programs around infrastructure, security, interoperability, and ecosystem sustainability
-- [Rust Foundation Security Initiative](https://rustfoundation.org/initiative/security-initiative/) - Work on Rust ecosystem security and supply-chain resilience
-- [Rust Foundation Interop Initiative](https://rustfoundation.org/initiative/interop-initiative/) - Work on improving Rust interoperability with C and C++
-- [crates.io](https://crates.io/) - Rust's package registry
-- [Rust Compiler Team](https://www.rust-lang.org/governance/teams/compiler) - The Rust Project team responsible for the compiler
-- [RustConf](https://rustconf.com/) - The official Rust conference organized by the Rust Foundation
-- [Rust Foundation Commercial Network](https://rustfoundation.org/commercial-network/) - A network for organizations offering commercial Rust services
-- [Rust Foundation Trusted Trainer Program](https://rustfoundation.org/trusted-trainers/) - The Foundation's program for Rust training providers
+- [Mozilla](https://blog.mozilla.org/en/mozilla/mozilla-welcomes-the-rust-foundation/) - The first home of the Rust language
+- [Python Steering Council](https://peps.python.org/pep-0013/) - The governing body of the Python Project
+- [How to Write a C++ Language Extension Proposal](https://stroustrup.com/how-to-write-a-proposal.pdf) - Bjarne Stroustrup, the inventor of C++, on why C++ needed a standards committee
+- [SCRC](https://rustfoundation.org/safety-critical-rust-consortium/) - The Safety-Critical Rust Consortium
+- [FLS](https://github.com/rust-lang/fls) - The Ferrocene Language Specification, a specification of the Rust language that is required for certain steps in the certification of Rust for safety-critical applications
+- [Foundation Membership Tiers](https://rustfoundation.org/get-involved/#membership-info) - The different quantifiable benefits from Diamond to Silver and Associate Memberships
+- [Rust Commercial Network](https://rustfoundation.org/rust-commercial-network/) - A group of organisations that use Rust in production working together with the Rust Project
+- [Rust-C++ Interoperability Initiative](https://rustfoundation.org/interop-initiative/) - An initiative of the Rust Foundation to improve interoperability between Rust and C++
+- [Rust Embedded Working Group](https://rust-embedded.org/) - An official working group of the Rust language to improve usability of the language in hardware-constrained environments
+- [An AI Security Engineer in Residence for the Rust Ecosystem](https://rustfoundation.org/media/an-ai-security-engineer-in-residence-for-the-rust-ecosystem/) - Describing the position of the security engineer made possible by funding from Alpha-Omega
+- [Rust Foundation Maintainers Fund](https://rustfoundation.org/media/announcing-the-rust-foundation-maintainers-fund/) - The Foundation's fund to support Rust maintainers
+- [Rust Foundation Trusted Training](https://rustfoundation.org/training/) - The Foundation's accreditation program for Rust training providers
 
 ### Official Links
 
 - [Rust Foundation Website](https://rustfoundation.org/)
-- [Rust Foundation Blog](https://rustfoundation.org/news/)
+- [Rust Foundation Media Room](https://rustfoundation.org/media/)
 - [Rust Foundation on GitHub](https://github.com/rustfoundation)
 - [Rust Foundation on LinkedIn](https://www.linkedin.com/company/rust-foundation/)
-- [Rebecca Rumbul at the Rust Foundation](https://rustfoundation.org/staff/rebecca-rumbul/)
-- [Lori Lorusso at the Rust Foundation](https://rustfoundation.org/staff/lori-lorusso/)
 - [David Wood's website](https://davidtw.co/)
