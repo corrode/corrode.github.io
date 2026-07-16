@@ -40,20 +40,19 @@
         display: none;
     }
 
-    // The page background is always $brightPrim, so the default button (dark on
-    // dark) would be invisible. Always use the light-on-dark treatment here.
+    // The page background is always $brightPrim, so keep the CTA on the orange treatment.
     .cta-button {
-        background-color: white;
+        background-color: $brightBgrd;
         color: $brightPrim;
-        border-color: white;
+        border-color: $brightBgrd;
 
         span {
             color: $brightPrim;
         }
 
         &:hover {
-            background-color: $brightBgrd;
-            border-color: $brightBgrd;
+            background-color: $brightBgrdScnd;
+            border-color: $brightBgrdScnd;
             color: $brightPrim;
 
             span {
