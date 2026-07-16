@@ -142,12 +142,4 @@ All the material is open source and free. You can browse the [full workshop cata
 You can go through the material on your own to see if it fits your needs.
 Once you're ready, feel free to reach out about tailoring the content for you and your team.
 
-{% info(title="Speed Up Your Learning Process", icon="crab") %}
-
-Is your company considering a switch to Rust? 
-
-Rust is known for its steep learning curve, but with the right resources and guidance, you can become proficient in a matter of weeks. I offer hands-on workshops and training for teams and individuals who want to accelerate their learning process. 
-
-Check out my [services page](/services) or [send me an email](mailto:hi@corrode.dev?subject=Rust%20Workshops) to learn more.
-
-{% end %}
+{{ next_steps(context="Want to accelerate past Rust's learning curve with hands-on guidance?") }}

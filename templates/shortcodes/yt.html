@@ -1,3 +1,27 @@
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 1.5em 0;">
-  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube-nocookie.com/embed/{{ id }}{% if start %}?start={{ start }}{% endif %}" title="{{ title | default(value='YouTube video player') }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div
+    style="
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        margin: 1.5em 0;
+    "
+>
+    <iframe
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
+        src="https://www.youtube-nocookie.com/embed/{{ id }}{% if start or list %}?{% if start %}start={{ start }}{% if list %}&{% endif %}{% endif %}{% if list %}list={{ list }}{% endif %}{% endif %}"
+        title="{{ title | default(value='YouTube video player') }}"
+        frameborder="0"
+        allow="
+            accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture;
+            web-share;
+        "
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+    ></iframe>
 </div>

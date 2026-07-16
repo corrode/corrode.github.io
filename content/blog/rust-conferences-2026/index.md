@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2026-06-01
+updated = 2026-07-03
 template = "article.html"
 draft = false
 [extra]
@@ -11,7 +11,7 @@ series = "Rust Insights"
 +++
 
 The Rust community continues to grow, and with it, the number of conferences around the world.
-While some 2026 conferences haven't announced their dates yet, we're tracking what's confirmed so far.
+With the year well underway, most 2026 conferences have confirmed their dates, venues, and schedules, and the earlier events have already taken place.
 Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) 
 
 Oh, and in case the call for proposals (CFP) is still open, why not submit a
@@ -110,7 +110,7 @@ come together for practical Rust talks, hallway conversations, and real producti
 - **CFP**: Closed
 - **Links**: [Website](https://rustindia.org/) | [Schedule](https://rustindia.org/schedule) | [Recordings](https://www.youtube.com/watch?v=qKEm8CSMayM&list=PLbcv9d2YUhnbCxJmjB_4RbjUBgq6exSGs)
 
-{{ yt(id="qKEm8CSMayM", title="Rust India Conference 2026") }}
+{{ yt(id="qKEm8CSMayM", list="PLbcv9d2YUhnbCxJmjB_4RbjUBgq6exSGs", title="Rust India Conference 2026") }}
 
 ### TokioConf (Portland, USA)
 
@@ -126,8 +126,10 @@ The first-ever dedicated conference for developers building high-performance net
 - **Focus**: Async Rust, Tokio, high-performance network applications
 - **Pricing**: Event concluded
 - **CFP**: [Closed](https://sessionize.com/tokioconf-2026)
-- **Links**: [Website](https://www.tokioconf.com/) | [Recordings](https://www.youtube.com/@TokioConf)
+- **Links**: [Website](https://www.tokioconf.com/) | [Recordings](https://www.youtube.com/watch?v=Vh2fX3LP6MY&list=PLgVIJ9TpEgOmHj0ADDpf-qGckYEJs4QCE)
 - **Social**: [Tokio Blog](https://tokio.rs/blog)
+
+{{ yt(id="Vh2fX3LP6MY", list="PLgVIJ9TpEgOmHj0ADDpf-qGckYEJs4QCE", title="TokioConf 2026") }}
 
 ### RustWeek (Utrecht, Netherlands) 
 
@@ -163,7 +165,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 - **Where**: [Hotel Kolna, Kraków, Poland](https://rustmeet.eu/) (also online)
 - **Format**: 3 days (talks + workshops + lightning talks + social event)
 - **Focus**: Rust programming language
-- **Pricing**: Available via [Confreg](https://rustmeet.eu/)
+- **Pricing**: Event concluded
 - **CFP**: Closed
 - **Links**: [Website](https://rustmeet.eu/) | [Past Talks](https://www.youtube.com/@Rustmeet)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
@@ -186,7 +188,7 @@ After Seattle in 2025, RustConf returns to beautiful Montreal, Canada.
 - **Focus**: Official Rust conference (celebrating its 10th anniversary)
 - **Pricing**: [Tickets available](https://rustconf.com/)
 - **CFP**: Closed
-- **Links**: [Website](https://rustconf.com/) | [Newsletter](https://mailchi.mp/e0f01ceec688/rustconf-newsletter-registration) | [Past Talks](https://www.youtube.com/@rustfoundation)
+- **Links**: [Website](https://rustconf.com/) | [Schedule](https://rustconf.com/schedule/) | [Newsletter](https://mailchi.mp/e0f01ceec688/rustconf-newsletter-registration) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf) | [BlueSky](https://bsky.app/profile/rustconf.com)
 
 ### Oxidize (Berlin, Germany) 
@@ -229,7 +231,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Private Ticket €275, Freelancer Ticket €332, Company Ticket: €600](https://ti.to/events-matter/eurorust-2026)
 - **CFP**: Closed
-- **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
+- **Links**: [Website](https://eurorust.eu/) | [Schedule](https://eurorust.eu/schedule/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
 ### RustLab (Bologna, Italy)
@@ -247,7 +249,7 @@ It's lovingly organized featuring delicious Italian food and a great community.
 - **Focus**: Rust in Italy and beyond
 - **Pricing**: [€310 Regular Lite / €460 Regular Premium](https://rustlab.it/)
 - **CFP**: Closed
-- **Links**: [Website](https://rustlab.it/) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
+- **Links**: [Website](https://rustlab.it/) | [Schedule](https://rustlab.it/schedule) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
 
 ---

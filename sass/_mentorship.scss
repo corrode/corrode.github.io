@@ -34,6 +34,32 @@
             color: $brightBgrd;
         }
     }
+
+    // The page is force-dark regardless of theme, so the toggle does nothing here.
+    .nav-theme-toggle {
+        display: none;
+    }
+
+    // The page background is always $brightPrim, so keep the CTA on the orange treatment.
+    .cta-button {
+        background-color: $brightBgrd;
+        color: $brightPrim;
+        border-color: $brightBgrd;
+
+        span {
+            color: $brightPrim;
+        }
+
+        &:hover {
+            background-color: $brightBgrdScnd;
+            border-color: $brightBgrdScnd;
+            color: $brightPrim;
+
+            span {
+                color: $brightPrim;
+            }
+        }
+    }
 }
 
 // Main Content
