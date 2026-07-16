@@ -66,6 +66,12 @@ exclude = [
   '^https://packages\.ubuntu\.com',                                  # intermittent 500
   '^https://ubuntu\.com',                                            # timeout
   '^https://go\.googlesource\.com',                                  # 503
+  '^https://wiki\.haskell\.org/Lazy_evaluation$',                     # intermittent 503
+  '^https://wiki\.haskell\.org/Mutable_variable$',                    # intermittent 502
+  '^https://cppfaq\.rs/?$',                                           # CI network failure
+  '^https://fusion\.engineering/?$',                                  # intermittent 500
+  '^https://manpages\.ubuntu\.com/manpages/noble/en/man8/sudo\.8\.html', # intermittent timeout
+  '^https://greenlab\.di\.uminho\.pt/wp-content/uploads/2017/10/sleFinal\.pdf$', # intermittent timeout
 
   # Dead pages we can't repoint to a sensible replacement.
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
