@@ -579,7 +579,7 @@ However, the solution we are building here is extensible enough to handle multil
 
 {% end %}
 
-Since parsing is a fallible operation, we can implement `TryFrom` for our `KeyValue` struct:
+Since parsing is a fallible operation, we can implement [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) for our `KeyValue` struct:
 
 ```rust
 use std::convert::TryFrom;
