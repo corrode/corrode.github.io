@@ -809,9 +809,7 @@ If you merely look at its (admittedly foreign) syntax, you overlook the real ele
 
 If there is anything that makes Rust "ugly", it isn't its syntax but the fact that it doesn't hide the complexity underneath. 
 Rust values explicitness and you have to deal with the harsh reality that computing is messy.
-Rust is still a systems programming language at its core.
-It competes with the likes of C/C++ and for that it has pretty good ergonomics.
 Turns out our assumptions about a program's execution are often wrong and our mental models are flawed.
 
-Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some effort.
+Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some effort!
 So don't worry: once you start to confront your bad habits and look around for better abstractions, Rust stops being ugly.
