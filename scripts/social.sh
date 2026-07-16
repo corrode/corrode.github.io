@@ -407,13 +407,21 @@ process_directory() {
         process_post "$dir/index.md" "$dir"
     fi
 
-    # Recursively Process all subdirectories
+    # Recursively process content subdirectories, skipping generated build output.
     local subdir_basename
     for subdir in "$dir"/*; do
-        if [[ -d "$subdir" && $(basename "$subdir") != _* ]]; then
-            subdir_basename="${base_output_name}-$(basename "$subdir")"
-            process_directory "$subdir" "$subdir_basename"
+        if [[ ! -d "$subdir" ]]; then
+            continue
         fi
+
+        case "$(basename "$subdir")" in
+            _*|target)
+                continue
+                ;;
+        esac
+
+        subdir_basename="${base_output_name}-$(basename "$subdir")"
+        process_directory "$subdir" "$subdir_basename"
     done
 
     # Process markdown files in current directory
