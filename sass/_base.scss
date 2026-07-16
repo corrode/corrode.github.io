@@ -339,13 +339,13 @@ nav {
         }
 
         .cta-button {
-            background-color: white;
+            background-color: $brightBgrd;
             color: $brightPrim;
-            border-color: white;
+            border-color: $brightBgrd;
 
             &:hover {
-                background-color: $brightBgrd;
-                border-color: $brightBgrd;
+                background-color: $brightBgrdScnd;
+                border-color: $brightBgrdScnd;
                 color: $brightPrim;
             }
 
