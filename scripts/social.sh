@@ -67,6 +67,15 @@ generate_social_image() {
 #   GUEST NAME, ROLE         <- byline, role muted
 #   [S0X E0X]  Published on YYYY-MM-DD   <- mono badge + meta line
 #
+prepare_podcast_fonts() {
+    local output_dir=$1
+
+    cp static/fonts/BebasNeue-Bold.woff2 "$output_dir/"
+    cp static/fonts/JetBrainsMono-Regular.woff2 "$output_dir/"
+    woff2_decompress "$output_dir/BebasNeue-Bold.woff2" >/dev/null
+    woff2_decompress "$output_dir/JetBrainsMono-Regular.woff2" >/dev/null
+}
+
 generate_podcast_social_image() {
     local output_file=$1
     local title=$2
@@ -85,6 +94,107 @@ generate_podcast_social_image() {
 
     echo "Generating podcast episode social image: ${episode_label} – ${title} (with ${guest}) → ${output_file}"
 
+    # The Rust Foundation episode has a long three-guest byline. Render it as
+    # a custom card that keeps the normal podcast typography, uses the bundled
+    # fonts directly, and splits the byline across two lines to avoid overflow.
+    if [[ "$title" == "The Rust Foundation" ]]; then
+        local tmp_dir
+        tmp_dir=$(mktemp -d)
+        local bebas_font="$tmp_dir/BebasNeue-Bold.ttf"
+        local mono_font="$tmp_dir/JetBrainsMono-Regular.ttf"
+        local bg="$tmp_dir/bg.png"
+        local logo_img="$tmp_dir/logo.png"
+        local kicker="$tmp_dir/kicker.png"
+        local accent="$tmp_dir/accent.png"
+        local title_img="$tmp_dir/title.png"
+        local guests_img="$tmp_dir/guests.png"
+        local role_img="$tmp_dir/role.png"
+        local badge_text="$tmp_dir/badge_text.png"
+        local badge="$tmp_dir/badge.png"
+        local meta="$tmp_dir/meta.png"
+
+        prepare_podcast_fonts "$tmp_dir"
+
+        magick -background "$PODCAST_BG" -density 200 \
+            static/social/podcast-episode.svg \
+            -resize 1200x630 "$bg"
+
+        if [[ -n "$logo_file" && -f "$logo_file" ]]; then
+            magick -background none -density 300 "$logo_file" \
+                -resize 170x130 \
+                -background none -gravity center \
+                -extent 170x130 \
+                "$logo_img"
+        else
+            logo_img=""
+        fi
+
+        magick -background none -fill "$PODCAST_TEXT" \
+            -font "$bebas_font" -pointsize 60 -kerning 5 \
+            label:"RUST IN PRODUCTION" "$kicker"
+        magick -size "$(magick identify -format "%w" "$kicker")x12" "xc:${PODCAST_ACCENT}" "$accent"
+
+        magick -background none -fill "$PODCAST_TEXT" \
+            -font "$bebas_font" -pointsize 112 -kerning 1 \
+            label:"$(printf '%s' "$title" | tr '[:lower:]' '[:upper:]')" "$title_img"
+        magick -background none -fill "$PODCAST_TEXT" \
+            -font "$bebas_font" -pointsize 54 -kerning 1 \
+            label:"$(printf '%s' "$guest" | tr '[:lower:]' '[:upper:]')" "$guests_img"
+        magick -background none -fill "$PODCAST_MUTED" \
+            -font "$bebas_font" -pointsize 40 -kerning 1 \
+            label:"$(printf '%s' "$role" | tr '[:lower:]' '[:upper:]')" "$role_img"
+
+        local guests_w
+        guests_w=$(magick identify -format "%w" "$guests_img")
+        if [[ $guests_w -gt 1040 ]]; then
+            magick "$guests_img" -resize 1040x "$guests_img"
+        fi
+
+        magick -background none -fill "$PODCAST_TEXT" \
+            -font "$mono_font" -pointsize 30 \
+            label:"$episode_label" "$badge_text"
+        local tw th
+        tw=$(magick identify -format "%w" "$badge_text")
+        th=$(magick identify -format "%h" "$badge_text")
+        local box_w=$((tw + 36))
+        local box_h=$((th + 20))
+        magick -size "${box_w}x${box_h}" "xc:${PODCAST_BG}" \
+            -fill none -stroke "$PODCAST_BADGE_BORDER" -strokewidth 2 \
+            -draw "roundrectangle 1,1 $((box_w-2)),$((box_h-2)) 6,6" \
+            "$badge_text" -gravity Center -composite \
+            "$badge"
+        magick -background none -fill "$PODCAST_MUTED" \
+            -font "$mono_font" -pointsize 30 \
+            label:"Published on ${date}" "$meta"
+
+        local meta_x=$((80 + box_w + 24))
+        if [[ -n "$logo_img" ]]; then
+            magick "$bg" \
+                "$logo_img"   -gravity NorthEast -geometry +70+70                  -composite \
+                "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
+                "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
+                "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
+                "$guests_img" -gravity NorthWest -geometry +80+330                 -composite \
+                "$role_img"   -gravity NorthWest -geometry +80+385                 -composite \
+                "$badge"      -gravity NorthWest -geometry +80+470                 -composite \
+                "$meta"       -gravity NorthWest -geometry "+${meta_x}+480"       -composite \
+                "$output_file"
+        else
+            magick "$bg" \
+                "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
+                "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
+                "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
+                "$guests_img" -gravity NorthWest -geometry +80+330                 -composite \
+                "$role_img"   -gravity NorthWest -geometry +80+385                 -composite \
+                "$badge"      -gravity NorthWest -geometry +80+470                 -composite \
+                "$meta"       -gravity NorthWest -geometry "+${meta_x}+480"       -composite \
+                "$output_file"
+        fi
+
+        rm -rf "$tmp_dir"
+        return
+    fi
+
     local tmp_dir
     tmp_dir=$(mktemp -d)
     local bg="$tmp_dir/bg.png"
@@ -94,6 +204,10 @@ generate_podcast_social_image() {
     local byline_img="$tmp_dir/byline.png"
     local badge="$tmp_dir/badge.png"
     local meta="$tmp_dir/meta.png"
+    local bebas_font="$tmp_dir/BebasNeue-Bold.ttf"
+    local mono_font="$tmp_dir/JetBrainsMono-Regular.ttf"
+
+    prepare_podcast_fonts "$tmp_dir"
 
     # ---- Background ------------------------------------------------------
     # Use the dot-grid SVG template so the per-episode images share the
@@ -136,7 +250,7 @@ generate_podcast_social_image() {
     # Dark Bebas Neue on yellow, with a thick red underline bar beneath to
     # mirror the red highlight used on the site's section headings.
     magick -background none -fill "$PODCAST_TEXT" \
-        -font "Bebas-Neue-Regular" -pointsize 60 -kerning 5 \
+        -font "$bebas_font" -pointsize 60 -kerning 5 \
         label:"RUST IN PRODUCTION" "$kicker"
 
     # Thicker red accent bar that sits directly under the kicker.
@@ -164,7 +278,7 @@ generate_podcast_social_image() {
     magick \
         -background none \
         -fill "$PODCAST_TEXT" \
-        -font "Bebas-Neue-Regular" \
+        -font "$bebas_font" \
         -pointsize "$title_pt" \
         -kerning 2 \
         -size 1040x \
@@ -198,13 +312,13 @@ generate_podcast_social_image() {
         local role_part="$tmp_dir/role.png"
 
         magick -background none -fill "$PODCAST_TEXT" \
-            -font "Bebas-Neue-Regular" -pointsize "$byline_pt" -kerning 2 \
+            -font "$bebas_font" -pointsize "$byline_pt" -kerning 2 \
             label:"${guest_uc}" "$guest_part"
         magick -background none -fill "$PODCAST_TEXT" \
-            -font "Bebas-Neue-Regular" -pointsize "$byline_pt" -kerning 2 \
+            -font "$bebas_font" -pointsize "$byline_pt" -kerning 2 \
             label:", " "$sep_part"
         magick -background none -fill "$PODCAST_MUTED" \
-            -font "Bebas-Neue-Regular" -pointsize "$byline_pt" -kerning 2 \
+            -font "$bebas_font" -pointsize "$byline_pt" -kerning 2 \
             label:"${role_uc}" "$role_part"
 
         magick "$guest_part" "$sep_part" "$role_part" \
@@ -212,8 +326,14 @@ generate_podcast_social_image() {
             "$byline_img"
     else
         magick -background none -fill "$PODCAST_TEXT" \
-            -font "Bebas-Neue-Regular" -pointsize "$byline_pt" -kerning 2 \
+            -font "$bebas_font" -pointsize "$byline_pt" -kerning 2 \
             label:"${guest_uc}" "$byline_img"
+    fi
+
+    local byline_w
+    byline_w=$(magick identify -format "%w" "$byline_img")
+    if [[ $byline_w -gt 1040 ]]; then
+        magick "$byline_img" -resize 1040x "$byline_img"
     fi
 
     # ---- Episode badge (S0X E0X) ----------------------------------------
@@ -221,7 +341,7 @@ generate_podcast_social_image() {
     # <code> element used in the article meta line on episode pages.
     local badge_text="$tmp_dir/badge_text.png"
     magick -background none -fill "$PODCAST_TEXT" \
-        -font "JetBrains-Mono-Bold" -pointsize 30 \
+        -font "$mono_font" -pointsize 30 \
         label:"$episode_label" "$badge_text"
 
     # Read text dims to size the surrounding box.
@@ -241,7 +361,7 @@ generate_podcast_social_image() {
 
     # ---- Meta line ("Published on YYYY-MM-DD") --------------------------
     magick -background none -fill "$PODCAST_MUTED" \
-        -font "JetBrains-Mono-Bold" -pointsize 30 \
+        -font "$mono_font" -pointsize 30 \
         label:"Published on ${date}" "$meta"
 
     # ---- Compose everything ---------------------------------------------
