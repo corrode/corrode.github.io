@@ -48,11 +48,20 @@ generate_social_image() {
         # No caption; copy the template file as is
         cp "$template_file" "$output_file"
     else
+        local tmp_dir
+        tmp_dir=$(mktemp -d)
+        local text_img="$tmp_dir/text.png"
+        local inter_font="$tmp_dir/InterVariable.ttf"
+
+        cp static/fonts/InterVariable.woff2 "$tmp_dir/"
+        woff2_decompress "$tmp_dir/InterVariable.woff2" >/dev/null
+
         # Generate the caption image
-        magick -background none -fill '#000000' -font Inter-Bold -pointsize 80 -size 670x caption:"$title" text.png
+        magick -background none -fill '#000000' -font "$inter_font" -weight 700 -pointsize 80 -size 670x caption:"$title" "$text_img"
 
         # Composite the caption over the background image
-        magick "$template_file" text.png -gravity northwest -geometry +80+80 -composite "$output_file"
+        magick "$template_file" "$text_img" -gravity northwest -geometry +80+80 -composite "$output_file"
+        rm -rf "$tmp_dir"
     fi
 }
 
