@@ -34,6 +34,29 @@ PODCAST_TEXT='#1a1c26'      # $darkBgrd
 PODCAST_MUTED='#8a691f'     # $darkBgrd at 50% opacity blended over $brightBgrd (matches .episode-byline-role { opacity: 0.5 })
 PODCAST_BADGE_BORDER='#1a1c26'
 
+FONT_TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$FONT_TMP_DIR"' EXIT
+INTER_BOLD_FONT="$FONT_TMP_DIR/Inter-Bold.ttf"
+
+prepare_inter_bold_font() {
+    if [[ -f "$INTER_BOLD_FONT" ]]; then
+        return
+    fi
+
+    command -v woff2_decompress >/dev/null || {
+        echo "woff2_decompress is required to prepare bundled fonts" >&2
+        exit 1
+    }
+    command -v fonttools >/dev/null || {
+        echo "fonttools is required to instantiate Inter Bold from InterVariable.woff2" >&2
+        exit 1
+    }
+
+    cp static/fonts/InterVariable.woff2 "$FONT_TMP_DIR/"
+    woff2_decompress "$FONT_TMP_DIR/InterVariable.woff2" >/dev/null
+    fonttools varLib.instancer "$FONT_TMP_DIR/InterVariable.ttf" wght=700 -o "$INTER_BOLD_FONT" >/dev/null 2>&1
+}
+
 # Function to generate social image for a given title (blog posts etc.)
 generate_social_image() {
     local template_file=$1
@@ -48,11 +71,18 @@ generate_social_image() {
         # No caption; copy the template file as is
         cp "$template_file" "$output_file"
     else
+        local tmp_dir
+        tmp_dir=$(mktemp -d)
+        local text_img="$tmp_dir/text.png"
+
+        prepare_inter_bold_font
+
         # Generate the caption image
-        magick -background none -fill '#000000' -font Inter-Bold -pointsize 80 -size 670x caption:"$title" text.png
+        magick -background none -fill '#000000' -font "$INTER_BOLD_FONT" -pointsize 80 -size 670x caption:"$title" "$text_img"
 
         # Composite the caption over the background image
-        magick "$template_file" text.png -gravity northwest -geometry +80+80 -composite "$output_file"
+        magick "$template_file" "$text_img" -gravity northwest -geometry +80+80 -composite "$output_file"
+        rm -rf "$tmp_dir"
     fi
 }
 
@@ -94,107 +124,6 @@ generate_podcast_social_image() {
 
     echo "Generating podcast episode social image: ${episode_label} – ${title} (with ${guest}) → ${output_file}"
 
-    # The Rust Foundation episode has a long three-guest byline. Render it as
-    # a custom card that keeps the normal podcast typography, uses the bundled
-    # fonts directly, and splits the byline across two lines to avoid overflow.
-    if [[ "$title" == "The Rust Foundation" ]]; then
-        local tmp_dir
-        tmp_dir=$(mktemp -d)
-        local bebas_font="$tmp_dir/BebasNeue-Bold.ttf"
-        local mono_font="$tmp_dir/JetBrainsMono-Regular.ttf"
-        local bg="$tmp_dir/bg.png"
-        local logo_img="$tmp_dir/logo.png"
-        local kicker="$tmp_dir/kicker.png"
-        local accent="$tmp_dir/accent.png"
-        local title_img="$tmp_dir/title.png"
-        local guests_img="$tmp_dir/guests.png"
-        local role_img="$tmp_dir/role.png"
-        local badge_text="$tmp_dir/badge_text.png"
-        local badge="$tmp_dir/badge.png"
-        local meta="$tmp_dir/meta.png"
-
-        prepare_podcast_fonts "$tmp_dir"
-
-        magick -background "$PODCAST_BG" -density 200 \
-            static/social/podcast-episode.svg \
-            -resize 1200x630 "$bg"
-
-        if [[ -n "$logo_file" && -f "$logo_file" ]]; then
-            magick -background none -density 300 "$logo_file" \
-                -resize 170x130 \
-                -background none -gravity center \
-                -extent 170x130 \
-                "$logo_img"
-        else
-            logo_img=""
-        fi
-
-        magick -background none -fill "$PODCAST_TEXT" \
-            -font "$bebas_font" -pointsize 60 -kerning 5 \
-            label:"RUST IN PRODUCTION" "$kicker"
-        magick -size "$(magick identify -format "%w" "$kicker")x12" "xc:${PODCAST_ACCENT}" "$accent"
-
-        magick -background none -fill "$PODCAST_TEXT" \
-            -font "$bebas_font" -pointsize 112 -kerning 1 \
-            label:"$(printf '%s' "$title" | tr '[:lower:]' '[:upper:]')" "$title_img"
-        magick -background none -fill "$PODCAST_TEXT" \
-            -font "$bebas_font" -pointsize 54 -kerning 1 \
-            label:"$(printf '%s' "$guest" | tr '[:lower:]' '[:upper:]')" "$guests_img"
-        magick -background none -fill "$PODCAST_MUTED" \
-            -font "$bebas_font" -pointsize 40 -kerning 1 \
-            label:"$(printf '%s' "$role" | tr '[:lower:]' '[:upper:]')" "$role_img"
-
-        local guests_w
-        guests_w=$(magick identify -format "%w" "$guests_img")
-        if [[ $guests_w -gt 1040 ]]; then
-            magick "$guests_img" -resize 1040x "$guests_img"
-        fi
-
-        magick -background none -fill "$PODCAST_TEXT" \
-            -font "$mono_font" -pointsize 30 \
-            label:"$episode_label" "$badge_text"
-        local tw th
-        tw=$(magick identify -format "%w" "$badge_text")
-        th=$(magick identify -format "%h" "$badge_text")
-        local box_w=$((tw + 36))
-        local box_h=$((th + 20))
-        magick -size "${box_w}x${box_h}" "xc:${PODCAST_BG}" \
-            -fill none -stroke "$PODCAST_BADGE_BORDER" -strokewidth 2 \
-            -draw "roundrectangle 1,1 $((box_w-2)),$((box_h-2)) 6,6" \
-            "$badge_text" -gravity Center -composite \
-            "$badge"
-        magick -background none -fill "$PODCAST_MUTED" \
-            -font "$mono_font" -pointsize 30 \
-            label:"Published on ${date}" "$meta"
-
-        local meta_x=$((80 + box_w + 24))
-        if [[ -n "$logo_img" ]]; then
-            magick "$bg" \
-                "$logo_img"   -gravity NorthEast -geometry +70+70                  -composite \
-                "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
-                "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
-                "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
-                "$guests_img" -gravity NorthWest -geometry +80+330                 -composite \
-                "$role_img"   -gravity NorthWest -geometry +80+385                 -composite \
-                "$badge"      -gravity NorthWest -geometry +80+470                 -composite \
-                "$meta"       -gravity NorthWest -geometry "+${meta_x}+480"       -composite \
-                "$output_file"
-        else
-            magick "$bg" \
-                "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
-                "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
-                "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
-                "$guests_img" -gravity NorthWest -geometry +80+330                 -composite \
-                "$role_img"   -gravity NorthWest -geometry +80+385                 -composite \
-                "$badge"      -gravity NorthWest -geometry +80+470                 -composite \
-                "$meta"       -gravity NorthWest -geometry "+${meta_x}+480"       -composite \
-                "$output_file"
-        fi
-
-        rm -rf "$tmp_dir"
-        return
-    fi
-
     local tmp_dir
     tmp_dir=$(mktemp -d)
     local bg="$tmp_dir/bg.png"
@@ -217,29 +146,15 @@ generate_podcast_social_image() {
         -resize 1200x630 "$bg"
 
     # ---- Company logo (top-right) ---------------------------------------
-    # Render the per-episode logo as a flat dark silhouette so logos look
-    # consistent across episodes regardless of their original colors.
-    # Mirrors `filter: grayscale(1)` used on .podcast-logo-img on the site.
+    # Render logos on a transparent background and recolor visible pixels to
+    # the podcast text color. This avoids the fragile thresholding step that
+    # could turn transparent SVGs into a filled tile after ImageMagick updates.
     local logo_img=""
     if [[ -n "$logo_file" && -f "$logo_file" ]]; then
         logo_img="$tmp_dir/logo.png"
-        # Render the SVG at high density on the yellow background, then
-        # extract a dark-on-transparent silhouette via -colorspace gray +
-        # threshold/level. Hardcoded fills and gradients all collapse to
-        # the same flat shape.
-        #
-        # Logos vary wildly in aspect ratio (square icons, wide wordmarks,
-        # tall glyphs). To keep them visually consistent on the canvas we
-        # fit each silhouette inside a fixed 200x200 square box, preserving
-        # aspect ratio (`-resize 200x200` without `!`) and then padding
-        # transparent pixels around it with `-extent`.
         local logo_box=200
-        magick -background "$PODCAST_BG" -density 300 "$logo_file" \
+        magick -background none -density 300 "$logo_file" \
             -resize "${logo_box}x${logo_box}" \
-            -colorspace gray -level 0%,80% \
-            -alpha off \
-            \( +clone -threshold 60% -negate \) \
-            -alpha off -compose copy_opacity -composite \
             -fill "$PODCAST_TEXT" -colorize 100 \
             -background none -gravity center \
             -extent "${logo_box}x${logo_box}" \
@@ -264,11 +179,11 @@ generate_podcast_social_image() {
     # (left margin 80, right margin 80 → max content width 1040).
     local title_len=${#title}
     local title_pt=130
-    if [[ $title_len -gt 17 ]]; then
+    if [[ $title_len -gt 24 ]]; then
         title_pt=88
+    elif [[ $title_len -gt 18 ]]; then
+        title_pt=112
     elif [[ $title_len -gt 12 ]]; then
-        title_pt=104
-    elif [[ $title_len -gt 8 ]]; then
         title_pt=120
     fi
 
@@ -306,6 +221,7 @@ generate_podcast_social_image() {
     elif [[ $byline_len -gt 30 ]]; then byline_pt=64
     fi
 
+    local role_line_img=""
     if [[ -n "$role" ]]; then
         local guest_part="$tmp_dir/guest.png"
         local sep_part="$tmp_dir/sep.png"
@@ -332,6 +248,16 @@ generate_podcast_social_image() {
 
     local byline_w
     byline_w=$(magick identify -format "%w" "$byline_img")
+    if [[ $byline_w -gt 1040 && -n "$role" ]]; then
+        role_line_img="$tmp_dir/role-line.png"
+        magick -background none -fill "$PODCAST_TEXT" \
+            -font "$bebas_font" -pointsize 54 -kerning 1 \
+            label:"${guest_uc}" "$byline_img"
+        magick -background none -fill "$PODCAST_MUTED" \
+            -font "$bebas_font" -pointsize 40 -kerning 1 \
+            label:"${role_uc}" "$role_line_img"
+        byline_w=$(magick identify -format "%w" "$byline_img")
+    fi
     if [[ $byline_w -gt 1040 ]]; then
         magick "$byline_img" -resize 1040x "$byline_img"
     fi
@@ -377,35 +303,43 @@ generate_podcast_social_image() {
     local title_h
     title_h=$(magick identify -format "%h" "$title_img")
     local byline_y=$((210 + title_h + 30))
+    local role_line_y=$((byline_y + 55))
     local meta_y=$((byline_y + 100))
+    if [[ -n "$role_line_img" ]]; then
+        meta_y=$((byline_y + 140))
+    fi
 
     # Badge+meta row: place badge then meta to its right with a gap.
     local badge_w
     badge_w=$(magick identify -format "%w" "$badge")
     local meta_x=$((80 + badge_w + 24))
 
-    # Compose the final image. The logo (if any) is placed in the
-    # top-right, sitting comfortably over the dot-grid texture.
+    local composed="$tmp_dir/composed.png"
     if [[ -n "$logo_img" ]]; then
         magick "$bg" \
-            "$logo_img"   -gravity NorthEast -geometry +60+60                  -composite \
-            "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
-            "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
-            "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
-            "$byline_img" -gravity NorthWest -geometry "+80+${byline_y}"       -composite \
-            "$badge"      -gravity NorthWest -geometry "+80+${meta_y}"         -composite \
-            "$meta"       -gravity NorthWest -geometry "+${meta_x}+$((meta_y + 10))" -composite \
-            "$output_file"
+            "$logo_img" -gravity NorthEast -geometry +60+60 -composite \
+            "$composed"
     else
-        magick "$bg" \
-            "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
-            "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
-            "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
-            "$byline_img" -gravity NorthWest -geometry "+80+${byline_y}"       -composite \
-            "$badge"      -gravity NorthWest -geometry "+80+${meta_y}"         -composite \
-            "$meta"       -gravity NorthWest -geometry "+${meta_x}+$((meta_y + 10))" -composite \
-            "$output_file"
+        cp "$bg" "$composed"
     fi
+
+    magick "$composed" \
+        "$kicker"     -gravity NorthWest -geometry +80+70                  -composite \
+        "$accent"     -gravity NorthWest -geometry +80+138                 -composite \
+        "$title_img"  -gravity NorthWest -geometry +80+200                 -composite \
+        "$byline_img" -gravity NorthWest -geometry "+80+${byline_y}"       -composite \
+        "$composed"
+
+    if [[ -n "$role_line_img" ]]; then
+        magick "$composed" \
+            "$role_line_img" -gravity NorthWest -geometry "+80+${role_line_y}" -composite \
+            "$composed"
+    fi
+
+    magick "$composed" \
+        "$badge" -gravity NorthWest -geometry "+80+${meta_y}" -composite \
+        "$meta"  -gravity NorthWest -geometry "+${meta_x}+$((meta_y + 10))" -composite \
+        "$output_file"
 
     rm -rf "$tmp_dir"
 }
@@ -494,13 +428,21 @@ process_directory() {
         process_post "$dir/index.md" "$dir"
     fi
 
-    # Recursively Process all subdirectories
+    # Recursively process content subdirectories, skipping generated build output.
     local subdir_basename
     for subdir in "$dir"/*; do
-        if [[ -d "$subdir" && $(basename "$subdir") != _* ]]; then
-            subdir_basename="${base_output_name}-$(basename "$subdir")"
-            process_directory "$subdir" "$subdir_basename"
+        if [[ ! -d "$subdir" ]]; then
+            continue
         fi
+
+        case "$(basename "$subdir")" in
+            _*|target)
+                continue
+                ;;
+        esac
+
+        subdir_basename="${base_output_name}-$(basename "$subdir")"
+        process_directory "$subdir" "$subdir_basename"
     done
 
     # Process markdown files in current directory
