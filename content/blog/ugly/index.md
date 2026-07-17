@@ -1,6 +1,6 @@
 +++
 title = "When Rust Gets Ugly"
-date = 2026-07-16
+date = 2026-07-17
 draft = false
 template = "article.html"
 [extra]

@@ -34,6 +34,29 @@ PODCAST_TEXT='#1a1c26'      # $darkBgrd
 PODCAST_MUTED='#8a691f'     # $darkBgrd at 50% opacity blended over $brightBgrd (matches .episode-byline-role { opacity: 0.5 })
 PODCAST_BADGE_BORDER='#1a1c26'
 
+FONT_TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$FONT_TMP_DIR"' EXIT
+INTER_BOLD_FONT="$FONT_TMP_DIR/Inter-Bold.ttf"
+
+prepare_inter_bold_font() {
+    if [[ -f "$INTER_BOLD_FONT" ]]; then
+        return
+    fi
+
+    command -v woff2_decompress >/dev/null || {
+        echo "woff2_decompress is required to prepare bundled fonts" >&2
+        exit 1
+    }
+    command -v fonttools >/dev/null || {
+        echo "fonttools is required to instantiate Inter Bold from InterVariable.woff2" >&2
+        exit 1
+    }
+
+    cp static/fonts/InterVariable.woff2 "$FONT_TMP_DIR/"
+    woff2_decompress "$FONT_TMP_DIR/InterVariable.woff2" >/dev/null
+    fonttools varLib.instancer "$FONT_TMP_DIR/InterVariable.ttf" wght=700 -o "$INTER_BOLD_FONT" >/dev/null 2>&1
+}
+
 # Function to generate social image for a given title (blog posts etc.)
 generate_social_image() {
     local template_file=$1
@@ -48,11 +71,18 @@ generate_social_image() {
         # No caption; copy the template file as is
         cp "$template_file" "$output_file"
     else
+        local tmp_dir
+        tmp_dir=$(mktemp -d)
+        local text_img="$tmp_dir/text.png"
+
+        prepare_inter_bold_font
+
         # Generate the caption image
-        magick -background none -fill '#000000' -font Inter-Bold -pointsize 80 -size 670x caption:"$title" text.png
+        magick -background none -fill '#000000' -font "$INTER_BOLD_FONT" -pointsize 80 -size 670x caption:"$title" "$text_img"
 
         # Composite the caption over the background image
-        magick "$template_file" text.png -gravity northwest -geometry +80+80 -composite "$output_file"
+        magick "$template_file" "$text_img" -gravity northwest -geometry +80+80 -composite "$output_file"
+        rm -rf "$tmp_dir"
     fi
 }
 
