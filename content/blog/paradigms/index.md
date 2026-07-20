@@ -1,7 +1,7 @@
 +++
 title = "Navigating Programming Paradigms in Rust"
 date = 2023-12-04
-updated = 2027-07-20
+updated = 2026-07-20
 template = "article.html"
 draft = false
 [extra]
