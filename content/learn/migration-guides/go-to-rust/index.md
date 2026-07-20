@@ -2,7 +2,7 @@
 title = "Migrating from Go to Rust"
 description = "An opinionated look at what Rust fixes (nil panics, missed data races, error handling, leaky generics), plus where to keep Go and how to migrate services incrementally."
 date = 2026-05-21
-updated = 2026-06-11
+updated = 2026-07-20
 template = "article.html"
 [extra]
 series = "Migration Guides"
@@ -64,7 +64,7 @@ If you prefer to watch rather than read, here's a video from the Shuttle article
 ## A First Look At The Most Important Commands
 
 Go developers already have one of the cleanest toolchains in the industry.
-Back in the day, it started off a trend of "batteries included" toolchains that give you a single, consistent interface for building, testing, formatting, linting, and managing dependencies. I'm glad that Rust followed suit, because it's a great model. It's one of my favorite parts about both ecosystems.
+Back in the day, it helped start the trend of "batteries included" toolchains: one consistent interface for building, testing, formatting, and dependency management. I'm glad Rust followed suit. It's one of my favorite parts about both ecosystems.
 
 `cargo` has even more built-in:
 
@@ -74,7 +74,7 @@ Back in the day, it started off a trend of "batteries included" toolchains that 
 | `go run .`                   | `cargo run`                 | Build and run                                                          |
 | `gofmt` / `goimports`        | `cargo fmt`                 | Auto-formatter, zero config                                            |
 | `go test ./...`              | `cargo test`                | Testing built into the toolchain                                       |
-| `go vet ./...`               | `cargo clippy`              | Linter, Clippy is significantly more opinionated than `vet`           |
+| `go vet ./...`               | `cargo clippy`              | Linter; Clippy catches more style and correctness issues than `vet`    |
 | `go install ./cmd/foo`       | `cargo install --path .`    | Install a binary                                                       |
 | `golangci-lint run`          | `cargo clippy -- -D warnings` | Strict lint mode                                                     |
 | `go doc`                     | `cargo doc`                 | Generate and view API docs                                             |
@@ -92,7 +92,7 @@ Both communities have converged on the same insight: a single canonical formatti
 >
 > — Rob Pike, [Go Proverbs](https://go-proverbs.github.io/)
 
-The same is true of `rustfmt`: not everyone likes every detail, but the absence of style debates in code review is worth far more than the occasional formatting preference you'd have made differently.
+The same is true of `rustfmt`. Not everyone likes every detail, but removing style debates from code review is worth more than the occasional formatting choice you'd have made differently.
 
 ## Key Differences Between Go and Rust
 
@@ -104,13 +104,13 @@ Rust pushes memory management, data-race prevention, and error handling into the
 
 The practical tradeoff is that Go gives you a gentle learning curve, very fast compile times, and a larger ecosystem, whereas Rust gives you no GC, stricter compile-time checks, and zero-cost abstractions at the cost of a steeper learning curve and slower builds.
 
-**Most of what changes when you move from Go to Rust is that checks get pulled into the type system**. Nil-handling, error propagation, data races, resource lifetimes, cancellation, generics, these are all things Go relies on convention, tooling (`go vet`, `errcheck`, `golangci-lint`, `-race`), or runtime detection to keep honest. Rust encodes them as types the compiler enforces directly.
+Most of what changes when you move from Go to Rust is that checks get pulled into the type system. Nil-handling, error propagation, data races, resource lifetimes, cancellation, and generics are things Go relies on convention, tooling (`go vet`, `errcheck`, `golangci-lint`, `-race`), or runtime detection. Rust encodes them as types the compiler enforces directly.
 
 Does that mean "more cognitive overhead"? I'd challenge that. It's *more* upfront, yes, but it's also *harder to hold wrong*. A `Mutex<T>` in Rust doesn't just document that the data needs a lock, it makes the lock the *only* way to reach the data: you call `.lock()`, you get a guard, and the guard is what gives you access to the inner value. Drop the guard and the lock releases automatically. There is no "I forgot to lock" path because the unlocked path doesn't exist in the type. Once you internalize that pattern, and you find it repeated everywhere (`Option`, `Result`, `&mut T`, `Send`/`Sync`, RAII guards), Rust stops feeling heavy and starts feeling like the compiler is doing work you used to do in your head.
 
 {% info(title="It's Not About The Runtime!") %}
 
-People often claim that a managed runtime is "good enough for most backends", but I think they are missing the point. In my opinion, the tradeoff is more that Go optimizes for quick iteration speed whereas Rust optimizes for correctness. The fact that you have more control over memory is just a nice side effect for most production workloads. It means that you need fewer machines to do the same work, but the main reason to choose Rust is still robustness.
+People often claim that a managed runtime is "good enough for most backends", but I think they are missing the point. In my opinion, Go optimizes for quick iteration speed while Rust optimizes for correctness. More control over memory is a nice side effect for most production workloads. It can mean fewer machines for the same work, but the main reason to choose Rust is still correctness.
 
 {% end %}
 
@@ -150,7 +150,7 @@ fn handle(&self, req: &Request) -> Result<(), ServiceError> {
 You literally **cannot** dereference an `Option` without acknowledging the `None` case.
 Whole categories of pager-duty incidents disappear. 😆[^unwrap]
 
-[^unwrap]: You *can* still opt out with `.unwrap()` or `.expect()`, which panic on `None`. The difference is that those are explicit, greppable, and stick out in review, unlike an implicit nil dereference that compiles silently. When one does slip through it tends to make the news: Cloudflare's [November 2025 outage](https://blog.cloudflare.com/18-november-2025-outage/) was traced to a Rust `.unwrap()` that panicked on an unexpectedly large generated file. The point isn't that panics are impossible, it's that ignoring absence has to be a deliberate, visible choice.
+[^unwrap]: You *can* still opt out with `.unwrap()` or `.expect()`, which panic on `None`. The difference is that those calls are explicit and easily greppable. They stand out in review, unlike an implicit nil dereference that compiles but fails at runtime. When one panic does slip through it tends to make the news: Cloudflare's [November 2025 outage](https://blog.cloudflare.com/18-november-2025-outage/) was traced to a Rust `.unwrap()` that panicked on an unexpectedly large generated file. In Rust, panics are not impossible, but ignoring absence has to be a deliberate, visible choice.
 
 ### `-race` Won't Catch All Data Races 
 
@@ -237,7 +237,7 @@ But for latency-sensitive systems (trading, real-time bidding, network proxies, 
 >
 > &mdash; Stephen Blum, CTO, PubNub, on [Rust in Production](/podcast/s01e02-pubnub?t=17%3A25)
 
-### In Summary
+### The Tradeoff
 
 **Go just optimizes for a different set of values than Rust**, namely shipping speed and operational simplicity over compile-time guarantees. It's a design tradeoff.
 
@@ -341,8 +341,7 @@ impl Reader for MyType {
 }
 ```
 
-The Go style is great for ad-hoc "duck typing."
-Rust, on the other hand, allows for grepping every implementer of a trait (which I do a lot in practice).
+The Go style is great for ad-hoc "duck typing." Rust traits are explicit, so you can grep for every implementer. I do that a lot in practice.
 
 The closest equivalent of `interface{}` / `any` in Rust is `Box<dyn Any>`, but you almost never want it.
 The Go community knows the cost of reaching for `interface{}` too:
@@ -384,14 +383,14 @@ tokio::spawn(async move {
 - Rust async functions return `Future`s. They don't run until awaited or spawned.
 - The compiler tracks `Send`/`Sync` across `.await` points. If you hold a non-`Send` value across an await, you get a compile error explaining exactly why.
 - There's no built-in goroutine-style preemption. Long CPU-bound work in an async task starves the executor; you offload to `tokio::task::spawn_blocking` or `rayon` instead.
-- Channels (`tokio::sync::mpsc`, `broadcast`, `watch`) are first-class but live in libraries, not the language.
+- Channels (`tokio::sync::mpsc`, `broadcast`, `watch`) are first-class but get developed as crates, not as part of the language.
 
 You might walk away from this section, thinking that Go's concurrency model is objectively better, but Go's model is not without sin, either:
 
 - `WaitGroup` and `sync.Once` are easy to misuse, leading to goroutine leaks or deadlocks.
 - Until Go 1.14 the scheduler was cooperative; it now preempts goroutines asynchronously, so a tight CPU-bound loop no longer starves the system the way it used to.[^async-preemption]
-- Go's `context.Context` is a great convention for cancellation, but it's easy to forget to pass it through every call site, and the compiler won't tell you when you forget.
-- Managing shared mutable state with `sync.Mutex` and `sync.RWMutex` is error-prone, and the compiler won't tell you when you forget to lock something.
+- Go's `context.Context` is a great convention for cancellation, but it's easy to forget to pass it through every call site. The compiler does not check that for you.
+- Managing shared mutable state with `sync.Mutex` and `sync.RWMutex` is error-prone. Missing a lock only fails at runtime.
 
 [^async-preemption]: Before Go 1.14, the scheduler only switched goroutines at function-call safe points, so a tight loop with no calls could hog a thread indefinitely. Go 1.14 introduced signal-based [asynchronous preemption](https://go.dev/doc/go1.14#runtime), which fixes that. 
 
@@ -522,9 +521,9 @@ After using Rust for many years, I can't imagine going back to a world where str
 
 {% info(title="Spicy, type-level discussion ahead", icon="warning") %}
 
-Feel free to skip this section if you don't care about generics much. 😅
-In hindsight, I don't think it's all too important for the working engineer,
-but it's part of the story of what makes Go and Rust different, and of the philosophical mindset behind both.
+Skip this section if you don't care about generics much. 😅
+In hindsight, I don't think it matters for most working engineers,
+but it explains part of the design split between Go and Rust.
 
 {% end %}
 
@@ -553,12 +552,12 @@ Rust's generics are tied to traits, which double as the language's mechanism for
 
 Go's constraints are just interfaces with an extra `~` operator for type-set membership. There are no:
 
-- **Supertraits / constraint hierarchies.** In Rust you write `trait Ord: Eq + PartialOrd`, and any `T: Ord` automatically satisfies `Eq` and `PartialOrd`. Go has no equivalent; you stack interface embeddings, but the constraint solver doesn't reason about hierarchies the way Rust's trait system does.
-- **Associated types.** Rust's `Iterator` has `type Item;`, so `T::Item` is a first-class thing you can name in bounds. Go's closest equivalent is a second type parameter, which leaks into every signature.
-- **Blanket impls.** In Rust, `impl<T: Display> ToString for T` automatically gives every `Display` type a `to_string()` method. Go has no way to add methods to a type from outside its defining package, generic or not.
-- **Methods with their own type parameters.** This has long been an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature in Go. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`[^generic-methods]. In Rust, generic methods on generic types are routine.
+- Rust has supertraits and constraint hierarchies. You can write `trait Ord: Eq + PartialOrd`, and any `T: Ord` automatically satisfies `Eq` and `PartialOrd`. Go has interface embedding, but the constraint solver does not reason about hierarchies the way Rust's trait system does.
+- Rust has associated types. `Iterator` has `type Item;`, so `T::Item` is a first-class thing you can name in bounds. Go's closest equivalent is a second type parameter, which leaks into every signature.
+- Rust has blanket impls. `impl<T: Display> ToString for T` automatically gives every `Display` type a `to_string()` method. Go has no way to add methods to a type from outside its defining package, generic or not.
+- Rust supports methods with their own type parameters. Go has long treated this as an explicit, [documented](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md#No-parameterized-methods) non-feature. You cannot write `func (s Set[T]) Map[U](f func(T) U) Set[U]`[^generic-methods]. In Rust, generic methods on generic types are routine.
 
-[^generic-methods]: To be precise, this is about methods that introduce *their own* type parameters in addition to the receiver's. Go has had generic *functions* and generic types since 1.18, so `func Map[T, U any](s []T, f func(T) U) []U` is fine. What you can't do *today* is attach that `Map` to a method on a generic `Set[T]` and let the caller pick `U` per call. That restriction is on its way out, though: the [generic methods proposal](https://github.com/golang/go/issues/77273) was accepted in early 2026 and is targeted at Go 1.27, so this particular gap is about to be closed.
+[^generic-methods]: To be precise, this is about methods that introduce *their own* type parameters beyond the receiver's. Go has had generic *functions* and generic types since 1.18, so `func Map[T, U any](s []T, f func(T) U) []U` is fine. What you can't do *today* is attach that `Map` to a method on a generic `Set[T]` and let the caller pick `U` per call. That restriction is on its way out: the [generic methods proposal](https://github.com/golang/go/issues/77273) was accepted in early 2026 and is targeted at Go 1.27.
 
 The practical consequence is that the moment your abstraction needs more than "a function that works for any `T` with these few operations," Go pushes you back to `any` plus type assertions, code generation, or runtime reflection.
 
@@ -572,7 +571,7 @@ let evens: Vec<_> = (0..100).filter(|n| n % 2 == 0).collect();
 
 and the compiler figures out `_` is `i32` from the range, and `Vec<_>` is `Vec<i32>` from the `collect` target.[^iterator-readability]
 
-[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go is not a particularly functional language, and this iterator-chain style is very much an acquired taste, idiomatic Rust leans on it heavily, and the first few weeks it can be a little unfamiliar. You can, of course, still write a `for` loop in Rust, and for one-off code that's often the right call, but you'll find that iterator patterns will feel quite natural after a while, and the ability to chain transformations without intermediate variables is a real readability win once you internalize it. (That was at least my experience.)
+[^iterator-readability]: If you're coming from Go, that line takes a minute to parse: `(0..100)` is a lazy range, `.filter(|n| ...)` is a closure (the `|n|` is the parameter list, no curly braces needed for a single expression), and `.collect()` materializes the iterator into whatever type the left-hand side asks for. Go does not lean on this style, while idiomatic Rust uses it often. You can still write a `for` loop in Rust, and for one-off code that's often the right call. [Iterator chains start to feel natural after a while](/blog/paradigms/), and chaining transformations without intermediate variables can make the data flow easier to read.
 
 Go's inference is much shallower. It can usually infer type parameters from function arguments, but it [cannot infer from return-position context](https://go.dev/blog/type-inference), cannot chain inference through generic builders the way Rust does, and frequently forces explicit type arguments at call sites:
 
@@ -596,7 +595,7 @@ This is the part that bothers me most.
 
 A good generics system *removes* reasons to fall back to escape hatches. In Rust, generics + traits eliminate most of what you'd otherwise need `Box<dyn Any>` or runtime reflection for. The type system gets stronger.
 
-In Go, generics did not remove `any`, did not remove `reflect`, did not remove code generation as the dominant pattern for things like ORMs, decoders, and mocks. `encoding/json` still uses reflection. `database/sql` still uses `any`. `mockgen` still generates code. The places where a real generics system would shine are the same places Go reaches for runtime mechanisms it had before 1.18.
+In Go, generics did not remove `any`, `reflect`, or code generation as the dominant pattern for ORMs and decoders. Mocks still often rely on generated code. `encoding/json` still uses reflection. `database/sql` still uses `any`. The places where a real generics system would shine are the same places Go reaches for runtime mechanisms it had before 1.18.
 
 Generics in Go feel additive, a new tool in the box that's useful in narrow cases. Generics in Rust feel foundational; remove them and the language collapses.
 
@@ -632,7 +631,7 @@ With that out of the way, here's a rough map. Entries marked (stdlib) are part o
 | Mocking              | `uber-go/mock` (maintained fork of `mockgen`), `moq`      | hand-written fakes (idiomatic), `mockall`         |
 | HTTP test fakes      | `httptest` (stdlib)                                       | `wiremock`, `httpmock`                            |
 | Test containers      | `testcontainers-go`                                       | `testcontainers`                                  |
-| Random numbers       | `math/rand/v2` (stdlib)                                   | `rand` (crate, not in `std`)                      |
+| Random numbers       | `math/rand/v2` (stdlib)                                   | `rand` crate                                      |
 | Background tasks     | goroutines + `errgroup`                                   | `tokio::spawn` + `JoinSet`                        |
 
 For a typical backend service in Rust, `axum` + `sqlx` + `tokio` + `tracing` + `serde` + `clap` covers about 90% of what you need. The dependency count is higher than the Go equivalent, and that's a real cost (more `Cargo.lock` churn, more supply-chain surface). For services where the stdlib is enough, staying on Go is a perfectly defensible call.
@@ -654,10 +653,10 @@ There's this old joke:
 
 Here are the most typical ways the borrow checker gets in your way initially:
 
-1. **Long-lived references.** In Go, you'd happily hold a `*User` from a map for as long as you want. In Rust, that borrow blocks mutation of the map for its whole lifetime. The fix is usually to clone, or to scope the borrow tighter.
-2. **Self-referential structs.** Common in Go (a struct holding both data and an iterator over it). In Rust, this requires `Pin`, `ouroboros`, or a redesign. Almost always: redesign.
-3. **Sharing mutable state across goroutines.** What you'd write as `mu sync.Mutex; data map[K]V` becomes `Arc<Mutex<HashMap<K, V>>>`. Slightly more verbose, much more checked.
-4. **Returning references from functions.** [Lifetime annotations](/blog/lifetimes/) show up. They're not as bad as their reputation, but they're a new concept. (Think of them as "types" which allow you to talk about how long something lives inside your program.)
+1. Long-lived references. In Go, you'd happily hold a `*User` from a map for as long as you want. In Rust, that borrow blocks mutation of the map for its whole lifetime. The fix is usually to clone, or to scope the borrow tighter.
+2. Self-referential structs. This is common in Go: a struct holding both data and an iterator over it. In Rust, this requires `Pin`, `ouroboros`, or a redesign. Almost always: redesign.
+3. Shared mutable state across goroutines. What you'd write as `mu sync.Mutex; data map[K]V` becomes `Arc<Mutex<HashMap<K, V>>>`. Slightly more verbose, much more checked.
+4. Returning references from functions. [Lifetime annotations](/blog/lifetimes/) show up. They're not as bad as their reputation, but they're a new concept. Think of them as types that describe how long something lives inside your program.
 
 With all of these rules, the borrow checker truly sounds like a "gatekeeper" of sorts, which keeps getting in the way and is just overall frustrating to deal with.
 That is not the mental mindset you should have when learning Rust! 
@@ -667,15 +666,15 @@ It's a common misconception that the borrow checker makes things harder, whereas
 So whenever you get a compiler error from `rustc`, take a step back and think how your code could break.
 A few questions you can ask yourself:
 
-- If a value *got moved* from one place to another, what would happen if the original place tried to use it again?
-- If a value *is shared* across threads, what would happen if one thread modified it while another thread is using it?
-- If a pointer *is dereferenced*, what would happen if it was null or dangling?
-- When a value *goes out of scope*, what would happen if it was still being used somewhere else?
+- If a value *got moved* from one place to another, can the original place still use it safely?
+- If a value *is shared* across threads, can one thread modify it while another thread reads it?
+- If a pointer *is dereferenced*, can it be null or dangling?
+- When a value *goes out of scope*, can anything still refer to it?
 
 That is the mindset you need to understand the borrow checker.
 
 Humans are bad at reasoning about memory.
-We forget that pointers can be null, that old references can outlive the data they point to, and that multiple threads can touch the same data at the same time.
+We forget that pointers can be null. Old references can outlive the data they point to. Multiple threads can touch the same data at the same time.
 We tend to have a "linear" mental model of how data flows through a program, but in reality it's closer to a complex graph with many paths and interactions.
 Every `if` condition forces you to consider what happens in *both* branches.
 Every loop forces you to consider what happens on *every* iteration.
@@ -701,7 +700,7 @@ And here's Ed Page (maintainer of `clap`) on the other side of that curve, which
 
 ### Compile Times
 
-Be honest with your team: **Rust compile times are a real downgrade from Go's.**
+Be honest with your team: Rust compile times are a real downgrade from Go's.
 
 A clean release build of a medium service can take minutes in comparison to Go's near-instantaneous compiles.
 Incremental builds and `cargo check` are reasonable and compile times have gotten much better over the years, but you'll feel the difference.
@@ -766,26 +765,15 @@ The pattern is often called ["strangler fig,"](https://martinfowler.com/bliki/St
 
 {% info(title="Practical Migration Tips") %}
 
-**Start with a service that has a clear boundary.**
+Start with a service that has a clear boundary. Don't pick the most central, most-deployed service in your fleet. Pick the one where the contract with the rest of the system is well-defined and the blast radius is small.
 
-Don't pick the most central, most-deployed service in your fleet. Pick the one where the contract with the rest of the system is well-defined and the blast radius is small.
+Keep the same API contract. If your Go service exposes a REST API, your Rust service should too: same paths, same JSON shapes, same error envelope. The migration is invisible to clients, and you can swap traffic incrementally with a gateway.
 
-**Keep the same API contract.**
+Don't translate idioms verbatim. Resist the urge to write Go-flavoured Rust. `if err != nil { return err }` becomes `?`. Goroutine-per-request becomes `tokio::spawn` only when you actually need it (axum already concurrently handles requests). Interfaces with one method usually become trait bounds on a generic instead of `Box<dyn Trait>`.
 
-If your Go service exposes a REST API, your Rust service should too: same paths, same JSON shapes, same error envelope. The migration is invisible to clients, and you can swap traffic incrementally with a gateway.
+Use the compiler as a pair programmer. Rust's compiler errors are usually pretty good. Read them slowly. They almost always tell you the right answer. The team members who struggle longest are the ones who fight the compiler instead of treating it as a collaborator.
 
-**Don't translate idioms verbatim.**
-
-Resist the urge to write Go-flavoured Rust. `if err != nil { return err }` becomes `?`. Goroutine-per-request becomes `tokio::spawn` only when you actually need it (axum already concurrently handles requests). Interfaces with one method usually become trait bounds on a generic, not `Box<dyn Trait>`.
-
-**Use the compiler as a pair programmer.**
-
-Rust's compiler errors are usually pretty good. Read them slowly. They almost always tell you the right answer. The team members who struggle longest are the ones who fight the compiler instead of treating it as a collaborator.
-
-**Invest in training early.**
-
-I've seen teams try to do a Rust migration "on the side," learning as they go. It rarely ends well.
-It's a bit like training for a marathon by signing up for the race and then trying to run it without any prior training. You can do it, but it's going to be painful and you might not finish.
+Invest in training early. I've seen teams try to do a Rust migration "on the side," learning as they go. It rarely ends well. It's a bit like training for a marathon by signing up for the race and then trying to run it without any prior training. You can do it, but it's going to be painful and you might not finish.
 
 Block off real time for learning: a workshop, [an online course](https://course.corrode.dev/), paired sessions on real code. The upfront investment pays back many times over once the team is fluent.
 (Hey, if you want to talk about training options, [I'm happy to chat](/services).)
@@ -794,7 +782,7 @@ Block off real time for learning: a workshop, [an online course](https://course.
 
 ## Keeping Go's Strengths
 
-Not everything should be migrated. Go is excellent for Kubernetes-native tooling such as operators, controllers, and CRDs, where the ecosystem is overwhelmingly in Go. It's also a great fit for CLI utilities and dev tooling, thanks to its fast compiles, easy cross-compilation, and simple deployment story. Glue services like thin API layers, proxies, and format converters are another sweet spot, since the boilerplate ratio in Rust isn't worth it for that kind of work. And more broadly, Go shines anywhere your team velocity matters more than absolute correctness guarantees.
+Not everything should be migrated. Go is excellent for Kubernetes-native tooling such as operators and controllers, where the ecosystem is overwhelmingly in Go. It's also a great fit for CLI utilities and dev tooling, thanks to its fast compiles, easy cross-compilation, and simple deployment story. Glue services like thin API layers and format converters are another sweet spot, since the boilerplate ratio in Rust isn't worth it for that kind of work. More broadly, Go shines anywhere your team velocity matters more than absolute correctness guarantees.
 
 > Go is a very fine choice for networking services. We have a lot of Go at Canonical &mdash; Juju is a huge Go codebase.
 >
@@ -816,10 +804,9 @@ But here are some ballpark numbers, based on Go-to-Rust migrations I've helped w
   is already efficient. The wins come from no GC and tighter loops.
 - Memory: 30–50% reduction, mostly from the absence of GC overhead and a smaller
   runtime.
-- P99 latency: significantly more consistent. Rust services tend to flatline
-  where Go services have visible GC-induced jitter. (This has gotten much better
-  on the Go-side ever since they introduced their low-latency GC, but the
-  difference is still there under heavy load.)
+- P99 latency: more consistent under load. Rust services tend to flatline
+  where Go services can show GC-induced jitter. This has improved on the Go side
+  since the low-latency GC work, but the difference can still show up under heavy load.
 
 > I hadn't had to chase down a crash, or some weird multi-threaded race condition, or some of these other things which actually consumed a huge amount of my time before.
 >
@@ -827,13 +814,13 @@ But here are some ballpark numbers, based on Go-to-Rust migrations I've helped w
 
 Honestly, you're unlikely to get a 10x throughput improvement.
 What you get is fewer "silly errors" and flatter latency tails, plus the ability to expand into other domains like embedded development or systems programming while still using the same language.
-That's often the most surprising side-effect of a migration: there's a lot of opportunity for code-sharing across teams that previously had to use different stacks. **You can use Rust for everything.**
+That's often the most surprising side-effect of a migration: there's a lot of opportunity for code-sharing across teams that previously had to use different stacks. You can use Rust for everything.
 
 ## Conclusion
 
 Going from Go to Rust is a different kind of migration than coming from [Python](/learn/migration-guides/python-to-rust) or [TypeScript](/learn/migration-guides/typescript-to-rust).
 Coming from Go, you already know the benefits of a statically-typed, compiled language.
-You're likely looking for a more robust codebase with fewer footguns, and a stricter compiler that catches more mistakes at compile time.
+You're likely looking for a codebase with fewer footguns and a stricter compiler that catches more mistakes at compile time.
 
 For [foundational services](/blog/foundational-software/) (services that your organization relies on, that have high uptime requirements, that are critical to your business), that trade is obviously worth it.
 For others, Go is fine. 
