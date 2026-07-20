@@ -1,7 +1,7 @@
 +++
 title = "Navigating Programming Paradigms in Rust"
 date = 2023-12-04
-updated = 2025-02-08
+updated = 2027-07-20
 template = "article.html"
 draft = false
 [extra]
@@ -13,51 +13,21 @@ reviews = [
 ]
 +++
 
-Rust is a multi-paradigm programming language, accommodating imperative,
-object-oriented, and functional programming styles. The choice of style often
-depends on a developer's background and the specific problem they're addressing.
+Rust supports several programming styles. You can write plain imperative code, build APIs around structs and traits, or lean on iterators and algebraic data types. Which style fits best depends on the problem and on the habits you bring from other languages.
 
-With Rust attracting developers from varied backgrounds such as C++, Java,
-Python, and Haskell, it has shaped its own *unique* set of styles and idioms.
-This diversity is a strength, but it also leads to uncertainty about which style
-to use in various scenarios.
+That flexibility is useful, but it can also make Rust feel less obvious than languages with one dominant style. A C++ developer, a Java developer, a Python developer, and a Haskell developer may all reach for different Rust patterns.
 
-As the [Rust Book explains](https://doc.rust-lang.org/book/ch17-00-oop.html):
-> Many competing definitions describe what Object-Oriented Programming
-> is, and by some of these definitions Rust is object-oriented.
+The [Rust Book explains](https://doc.rust-lang.org/book/ch17-00-oop.html) that Rust can be called object-oriented under some definitions. It also points out Rust's [functional programming influences](https://doc.rust-lang.org/book/ch13-00-functional-features.html). Both statements are true. Rust borrowed from several traditions, then made its own tradeoffs.
 
-However, it [also states](https://doc.rust-lang.org/book/ch13-00-functional-features.html):
-> Rust’s design has taken inspiration from many existing languages and
-> techniques, and one significant influence is functional programming.
+## Choosing The Right Style
 
-These statements are not contradictory, but they do leave a lot of room for
-interpretation and personal preference.
+Rust has object-oriented pieces, but they do not look like classical inheritance. You usually compose behavior with data types and impl blocks. Traits provide shared behavior without forcing a class hierarchy.
 
-## Guiding Principles For Choosing The Right Paradigm
+Rust also makes functional patterns easy to use. Immutability, iterators, algebraic data types, and pattern matching all show up in everyday Rust.
 
-Rust is certainly influenced by object-oriented programming concepts. One factor
-that sets it apart from other object-oriented languages is its composition-based
-nature, as opposed to being inheritance-based. Its trait system is a core
-component of this object-oriented design, a concept absent in languages like C++
-and Java.
+At the same time, Rust is not a pure functional language. Side effects are allowed, mutable state is normal when it helps, and Rust does not enforce [referential transparency](https://en.wikipedia.org/wiki/Referential_transparency).
 
-Similarly, Rust's design encourages patterns that align closely with functional
-programming principles: immutability, iterator patterns, algebraic data types,
-and pattern matching.
-
-Just as Rust adopts certain object-oriented principles without being a purely
-object-oriented language, it similarly embraces functional programming concepts
-without being a purely functional language. It allows side effects everywhere
-and does not strictly enforce [referential
-transparency](https://en.wikipedia.org/wiki/Referential_transparency) — the
-ability to replace an expression with its value without changing the program's
-behavior.
-
-In conclusion, providing some guidance on using different paradigms in Rust
-might be helpful, especially for developers transitioning from other languages.
-This article explores my personal decision-making process when choosing between
-different paradigms in Rust, a process that has by now become almost second
-nature.
+The useful question is not which camp Rust belongs to. The useful question is which style makes a particular piece of code easier to understand and change. This article shows the decision process I use.
 
 ## A Small Example
 
@@ -71,7 +41,7 @@ for i in 0..10 {
 ```
 
 But even in such a short example, we can see a discrepancy between the problem
-we're trying to solve and the code we're writing: The intermediate values of
+we're trying to solve and the code we're writing. The intermediate values of
 `sum` are irrelevant! We only care about the final result.
 
 Compare that to a more functional version:
@@ -80,28 +50,21 @@ Compare that to a more functional version:
 let sum: u32 = (0..10).sum();
 ```
 
-In small examples like this, it might not matter much, but when we start working
-with nested loops, we see that in the imperative approach, more lines are
-dedicated to bookkeeping than to the actual problem. This causes the code's
-accidental complexity (the unnecessary complexity we introduce ourselves)
-to increase. Complexity, no matter how small, costs attention.
+In a small example, this barely matters, but with nested loops, the bookkeeping starts to take over. More lines describe how to move data around than what result we want. That is accidental complexity, and even small amounts cost attention.
 
 ## A Slightly Bigger Example: Nested Loops
 
-Let's consider a slightly bigger example. Imagine we had a list of programming
-languages, their supported paradigms, and the number of production users for
-each language. The task is to find the top five languages that support
-functional programming and have the most users.
+Let's use a slightly bigger example. Imagine a list of programming languages, the styles they support, and the number of production users for each language. The task is to find the five most-used languages that support functional programming.
 
 ```rust
 // All data is made up for the sake of this example! We love you, Haskell.
 let languages = vec![
-    Language::new("Rust", vec![Paradigm::Functional, Paradigm::ObjectOriented], 100_000),
-    Language::new("Go", vec![Paradigm::ObjectOriented], 200_000),
-    Language::new("Haskell", vec![Paradigm::Functional], 5_000),
-    Language::new("Java", vec![Paradigm::ObjectOriented], 1_000_000),
-    Language::new("C++", vec![Paradigm::ObjectOriented], 1_000_000),
-    Language::new("Python", vec![Paradigm::ObjectOriented, Paradigm::Functional], 1_000_000),
+    Language::new("Rust", vec![Style::Functional, Style::ObjectOriented], 100_000),
+    Language::new("Go", vec![Style::ObjectOriented], 200_000),
+    Language::new("Haskell", vec![Style::Functional], 5_000),
+    Language::new("Java", vec![Style::ObjectOriented], 1_000_000),
+    Language::new("C++", vec![Style::ObjectOriented], 1_000_000),
+    Language::new("Python", vec![Style::ObjectOriented, Style::Functional], 1_000_000),
 ];
 ```
 
@@ -111,7 +74,7 @@ Here is a *painfully* explicit solution using nested `for` loops:
 // Filter languages to keep only the functional ones
 let mut functional_languages = vec![];
 for language in languages {
-    if language.paradigms.contains(&Paradigm::Functional) {
+    if language.styles.contains(&Style::Functional) {
         functional_languages.push(language);
     }
 }
@@ -133,9 +96,7 @@ while functional_languages.len() > 5 {
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f9b28b96acde1f9d11e8dd5957539826))
 
-This is a *very verbose*, imperative solution. We mutate the vector in-place and
-destroy the intermediate results in the process. While it's not incorrect, I
-would argue that it's not the most idiomatic Rust code either.
+This imperative version is verbose. It mutates the vector in place and throws away intermediate results as it goes. It works, but it is not how I would usually write this in Rust.
 
 In practice, you would probably reach for a few more helper methods from the
 standard library:
@@ -143,7 +104,7 @@ standard library:
 ```rust
 let mut top_languages = vec![];
 for language in languages {
-    if language.paradigms.contains(&Paradigm::Functional) {
+    if language.styles.contains(&Style::Functional) {
         top_languages.push(language);
     }
 }
@@ -160,13 +121,10 @@ concise when filtering:
 
 ```rust
 let mut top_languages = languages;
-top_languages.retain(|language| language.paradigms.contains(&Paradigm::Functional));
+top_languages.retain(|language| language.styles.contains(&Style::Functional));
 ```
 
-We still use a mutable variable, but now the code looks more succinct. `retain`
-is a higher-order method that takes a closure as an argument, so the code
-naturally became a little more functional. Let's continue down this path and
-see where it takes us next.
+We still use a mutable variable, but the code is shorter. `retain` takes a closure, so the code has already moved a little toward a functional style. Let's keep going.
 
 ```rust
 let mut top_languages = languages.clone();
@@ -175,7 +133,7 @@ top_languages.sort();
 let top_languages: Vec<Language> = top_languages
     .into_iter()
     // Only keep functional languages
-    .filter(|language| language.paradigms.contains(&Paradigm::Functional))
+    .filter(|language| language.styles.contains(&Style::Functional))
     // Keep only the top 5 languages
     .take(5)
     // Collect the results into a vector
@@ -190,7 +148,7 @@ to chain all intermediate operations:
 let top_languages: Vec<Language> = languages
     .iter()
     // Only keep functional languages
-    .filter(|language| language.paradigms.contains(&Paradigm::Functional))
+    .filter(|language| language.styles.contains(&Style::Functional))
     // Sort our languages in descending order of popularity.
     .sorted_by_key(|lang| Reverse(lang.users))
     // Keep only the top 5 languages
@@ -201,57 +159,29 @@ let top_languages: Vec<Language> = languages
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8c1d45de856b6a7980ea48ebeaf43290))
 
-Sorting the entire list (even if it's filtered) to extract just the top 5
-elements seems somewhat inefficient. This highlights a limitation in Rust
-compared to C++, which offers a
-[partial_sort](https://en.cppreference.com/w/cpp/algorithm/partial_sort)
-function in its standard library. While Rust doesn't have an equivalent in std,
-there are third-party crates. Alternatively, a [BinaryHeap](https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html)
-can be used. 
+Sorting the whole filtered list just to keep five elements can be wasteful. C++ has [`partial_sort`](https://en.cppreference.com/w/cpp/algorithm/partial_sort) in its standard library. Rust does not have the same operation in `std`, though third-party crates can fill the gap. A [BinaryHeap](https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html) is another option.
 
-To me, this solution is easier to reason about. The operations are
-neatly aligned below each other, and the code reads like a description of what
-we're trying to achieve. I do admit, however, that it takes some getting used
-to, especially if you're not familiar with functional programming patterns.
+I still find this version easier to reason about. The operations line up under each other, and the code reads like a description of the result. It can feel strange at first if you are new to iterator-heavy Rust.
 
-One could say that I hand-picked a problem that is well-suited for functional
-programming, and that is certainly the case. The truth is, that this way of
-method chaining just feels natural after a while &mdash; especially for ad-hoc
-transformations on immutable data structures.
+Admittedly, I did pick a problem that fits functional code well.
+But I find that method chains start to feel natural when you are doing ad-hoc transformations on immutable data.
 
-There are a few reasons for this:
+There are a few reasons for that: 
 
-* **Readability**: The steps are easy to follow.
-* **Library Support**: The Rust standard library and external crates provide
-  many helpful combinators for iterators, which play nicely with immutable data structures.
-* **Efficiency**: Under the hood, methods like `map` and `filter` create new
-  iterators that operate on the previous iterator and do not incur any allocations.
-  The actual computations (like adding 1 or filtering even numbers) are only
-  executed when the final iterator is consumed, in this case by
-  the `collect` method. The `collect` method makes a single allocation to store the
-  results in a new vector. Our higher-level abstractions incur no runtime
-  overhead.
-* **Parallelism**: The functional approach lends itself to parallel computation.
-  Each chain of operations is independent of the others, allowing them
-  to be executed simultaneously on modern hardware.
+* The steps are easy to follow.
+* The standard library and crates provide iterator adapters that work well with immutable data.
+* Methods like `map` and `filter` build lazy iterators, so they do not allocate by themselves. Work happens when the iterator is consumed. In this example, `collect` performs the allocation for the final vector.
+* Independent chains can often be moved to parallel execution later.
 
-The result is clean, readable, and efficient code, which is why you'll see this
-pattern a lot.
+[John Carmack put the tradeoff well](https://cbarrete.com/carmack.html): "No matter what language you work in, programming in a functional style provides benefits. You should do it whenever it is convenient, and you should think hard about the decision when it isn't convenient."
 
-> No matter what language you work in, programming in a functional style provides
-> benefits. You should do it whenever it is convenient, and you should think hard
-> about the decision when it isn't convenient. &mdash; [John Carmack](https://web.archive.org/web/20120427212006/www.altdevblogaday.com/2012/04/26/functional-programming-in-c/)
-
-Carmack talks about *convenience* here. What is the tipping point where
-functional programming becomes inconvenient? Let's explore that with a more
-realistic example.
+But can you take it too far?
+Is there a point where functional Rust becomes inconvenient?
+Let's try a more realistic example.
 
 ## Real-World Example: Filtering a List of Files
 
-Here is a little Rust exercise: how would you list all XML files in a directory?
-Before you continue, feel free to try this yourself. See
-which style you would naturally lean towards. Why not try different approaches
-and see which one you prefer?
+Here is a small Rust exercise: how would you list all XML files in a directory? Before reading on, try it yourself and notice which style you reach for first.
 
 ### Imperative Style
 
@@ -275,13 +205,7 @@ fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f3314816d1584ea372e8cdf6bdccd426))
 
 
-Not great, not terrible.
-
-We have to do some bookkeeping, and there are some minor paper cuts like `let f
-= f?;` and the bit about `OsStr::to_str`, but overall it's fine. The paper cuts
-are due to the *inherent* complexity of the problem: dealing with the
-possibility of errors and the fact that the file extension might not be valid
-UTF-8 on all platforms.
+This version is fine. It has some bookkeeping, including `let f = f?;`, but that is not accidental complexity. Directory iteration can fail, and file extensions are not guaranteed to be valid UTF-8 on every platform.
 
 As the [documentation for
 `OsStr`](https://doc.rust-lang.org/std/ffi/struct.OsString.html) explains:
@@ -291,13 +215,11 @@ As the [documentation for
 * On Windows, strings are often arbitrary sequences of non-zero 16-bit values,
   interpreted as UTF-16 when it is valid to do so.
 
-The astute reader might have noticed that we don’t check if the path is
-actually a file before we check the extension. This is done in the interest of
-brevity.
+This example does not check whether the path is a file before checking the extension. I left that out to keep the example short.
 
 ### Functional Style
 
-Let's see how we can solve this problem in a more functional style:
+Here is the same problem written with iterator adapters:
 
 ```rust
 fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
@@ -313,13 +235,9 @@ fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=448b6246dd4da2d1cd9b8cf1f4e1f09e))
 
-This implementation is arguably more streamlined. It maps directory
-entries to paths, filters out non-XML files, and collects the results, all
-without needing mutable variables or conditional branching.
+This version maps directory entries to paths, filters out non-XML files, and collects the result without a mutable vector.
 
-That said, the solution also has its drawbacks.
-Most importantly, it is not equivalent to the imperative version.
-That is because `filter_map(Result::ok)` filters out all errors.
+It also changes the behavior. `filter_map(Result::ok)` drops every error.
 
 {% info(title="What is the difference between `filter` and `filter_map`?") %}
 In Rust, `filter` takes a closure that returns a `bool` to decide whether to
@@ -332,11 +250,7 @@ in the new iterator; if it returns `None`, the element is excluded. Essentially,
 
 {% end %}
 
-Whether we want to ignore errors depends on the use case;
-it is a tradeoff between correctness and ergonomics.
-In production code, we should at least log all errors, though.
-We can use [`inspect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.inspect)
-to do that:
+Ignoring errors may be acceptable for a quick script, but production code should at least log them. We can use [`inspect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.inspect) for that:
 
 ```rust
 fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
@@ -359,17 +273,13 @@ fn xml_files(p: &Path) -> Result<Vec<PathBuf>> {
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=f3bd287c8c82ff661b9ec9616b5514a9))
 
 
-So far, I would still lean towards the functional version, but let's see
-how both approaches hold up as we add more complexity.
+At this point I still prefer the iterator version. Now let's add more requirements.
 
 ### Making Filtering More Generic
 
-What if we wanted to filter by arbitrary file attributes?
-For instance, we might want to find all files with a given prefix or extension.
+What if we want to filter by arbitrary file attributes, such as a prefix or extension?
 
-We could introduce a new parameter, `valid`, which would be a function that
-takes a `Path` and returns a `bool`. (This is also known as a *predicate* in
-functional programming.)
+We can add a `valid` parameter: a function that takes a `Path` and returns a `bool`. Functional programmers call this a predicate.
 
 ```rust
 fn filter_files<F>(p: &Path, valid: &F) -> Result<Vec<PathBuf>>
@@ -384,13 +294,9 @@ where
 }
 ```
 
-This is a generic function that can be used for many different use cases.
-Higher-order functions like this are a typical pattern in functional programming
-and are also available in Rust.
+This generic function works for many filters. It also shows that higher-order functions are a normal part of Rust.
 
-The imperative version, while concise, now incorporates a higher-order function,
-demonstrating that the line between functional and imperative programming is
-often blurry:
+The imperative version can take the same `valid` function. The line between imperative and functional Rust is blurry:
 
 ```rust
 fn filter_files<F>(p: &Path, valid: &F) -> Result<Vec<PathBuf>> 
@@ -412,12 +318,11 @@ where
 
 ### Recursively Filtering Directories For Files
 
-Let's go one more step further.
+Let's go one step further.
 
-So far, our solution only works for a single directory. What if we wanted to
-*recursively* filter a directory and all its subdirectories for files?
+So far, the function only handles one directory. What if we want to recurse into subdirectories?
 
-First, the (mostly) imperative version with mutable state:
+Here is the mostly imperative version with mutable state:
 
 ```rust
 fn filter_files<F>(p: &Path, valid: &F) -> Result<Vec<PathBuf>>
@@ -440,10 +345,9 @@ where
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e55738f928e70d9f42e2408e10166e1e))
 
-While we have one more level of nesting, the imperative version holds up
-reasonably well.
+This adds one level of nesting, but the imperative version still holds together.
 
-Next, the functional version:
+Now compare the iterator version:
 
 ```rust
 fn filter_files<F>(p: &Path, valid: &F) -> Result<Vec<PathBuf>>
@@ -462,23 +366,13 @@ where
 }
 ```
 
-We're dealing with an iterator of iterators here, so we need to flatten it to
-get a single iterator of paths with the help of `flat_map`. However, this also
-means that we need to return a vector of paths in all cases, even if it's empty.
-The `unwrap_or_default` is a symptom of this.
+Now we have an iterator that can produce many paths for one input path, so we reach for `flat_map`. That forces each branch to return a collection, even when it has nothing to return. The `unwrap_or_default` is a smell here.
 
-I will let you be the judge of which version you prefer.
-
-Either way, this is where I feel the flow of logic is in need of improvement.
-What I want is better encapsulation and modularity to keep
-the complexity in check. Rust allows us to seamlessly transition to an
-object-oriented style to do just that.
+This is the point where I stop trying to force everything into one chain. The code needs a boundary around the traversal state. Rust gives us a good way to do that with a struct and an `Iterator` implementation.
 
 ### Transitioning to Object-Oriented Rust
 
-In contrast to the functional and imperative examples discussed earlier,
-let's introduce a new struct, `FileFilter`, which encapsulates the logic for
-filtering files and file iteration.
+Instead of pushing the traversal into a longer function, introduce a `FileFilter` struct that owns the filtering and iteration state.
 
 ```rust
 pub struct FileFilter {
@@ -488,8 +382,7 @@ pub struct FileFilter {
 }
 ```
 
-Each `FileFilter` object carries its state: a collection of predicates for
-filtering, a starting path, and a stack of directories for iteration. 
+Each `FileFilter` value stores the predicates, the starting path, and the directory stack.
 
 A predicate is defined like this:
 
@@ -497,22 +390,13 @@ A predicate is defined like this:
 type Predicate = dyn Fn(&Path) -> bool;
 ```
 
-You might be surprised to see a `dyn` here.
-In Rust, no two closures, even if identical, have the same type!
+You might be surprised to see a `dyn` here. The [Rust Reference](https://doc.rust-lang.org/reference/types/closure.html) says each closure has its own anonymous type. Even two identical closures have different types.
 
-> A closure expression produces a closure value with a unique, anonymous type
-> that cannot be written out. - [The Rust Reference](https://doc.rust-lang.org/reference/types/closure.html)
-
-To accommodate this in a collection like a Vec, we use a trait object with
-*dynamic dispatch*. By 'boxing' these closures, we create a `Box<Predicate>`
-(essentially `Box<dyn Fn(&Path) -> bool>`), which allows us to store different
-predicate closures in the same `Vec` despite their unique types.
+To store several closures in one `Vec`, we use a trait object with dynamic dispatch. Boxing each closure gives us a `Box<Predicate>` (`Box<dyn Fn(&Path) -> bool>`), so different closure types can live in the same collection.
 
 #### Adding Filters
 
-In functional programming, we leveraged the power of iterators and closures to
-filter files. In the imperative style, we directly manipulated vectors with
-loops and conditions. The FileFilter, however, abstracts these details away.
+Earlier versions exposed the filtering loop directly. `FileFilter` hides that detail behind a small API.
 
 Consider the `add_filter` method:
 
@@ -523,8 +407,7 @@ pub fn add_filter(mut self, predicate: impl Fn(&Path) -> bool + 'static) -> Self
 }
 ```
 
-This allows us to easily add multiple filters by chaining calls &mdash;
-something that was previously closely coupled with the iteration logic.
+Now callers can add filters by chaining method calls. The filter setup is separate from the traversal code.
 
 ```rust
 let filter = FileFilter::new()
@@ -540,8 +423,7 @@ let filter = FileFilter::new()
 
 #### Iterator Implementation
 
-What truly showcases the OOP approach in Rust is the implementation of the
-`Iterator` trait for `FileFilter`:
+The object-oriented part becomes useful when `FileFilter` implements `Iterator`:
 
 ```rust
 impl Iterator for FileFilter {
@@ -556,11 +438,7 @@ impl Iterator for FileFilter {
 }
 ```
 
-In doing so, `FileFilter` becomes a building block that neatly integrates
-with Rust's powerful iterator ecosystem and can be used in all the same places
-as any other iterator. This design allows for complex iteration logic to be
-encapsulated
-*within* the object, abstracting away the details from the user.
+With that implementation, `FileFilter` becomes a normal Rust iterator. Callers can chain it with the rest of the iterator ecosystem while the traversal logic stays inside the struct.
 
 You can find the full implementation of `FileFilter` [on
 GitHub](https://github.com/corrode/filefilter) or [on the Rust
@@ -571,59 +449,23 @@ production use.
 
 #### Encapsulation and Reusability
 
-The `FileFilter` example illustrates how OOP in Rust can lead to solid
-encapsulation and modularity. Unlike the earlier examples where the logic for
-filtering files was tightly coupled with iteration, we now separate
-the *what* (the predicates) from the *how* (the iteration and filtering logic).
-The trait system allows us to easily integrate our custom iterator with the
-rest of the ecosystem.
-Having these tools at our disposal makes the code more composable and reusable.
+The `FileFilter` example shows what object-oriented Rust is good at: encapsulation. We separate the predicates from the traversal machinery, then expose the result as an iterator. The trait system lets that custom iterator work with the rest of Rust.
 
 ## Summary
 
-Mixing different styles is not only possible, but encouraged in Rust! This can
-also be seen by taking a look at [Rust's key influences on its language
-design](https://doc.rust-lang.org/reference/influences.html). Influences as
-diverse as C++, Haskell, OCaml, and Erlang have shaped Rust's design.
+Rust works well when you mix styles deliberately. That should not be surprising. The language draws from [C++, Haskell, OCaml, Erlang](https://doc.rust-lang.org/reference/influences.html), and more.
 
-In the beginning, Rust was more functional in nature, but it has since evolved
-into a more balanced language, supporting a variety of styles. The question is
-where to draw the line between different programming paradigms.
+I often use a functional core with an imperative shell. Small functions transform data. The outer code handles I/O and sequencing. Error reporting sits at the boundary. For larger parts of an application, I use Rust's type system to keep related data and behavior together.
 
-I found that I often use a functional core with an imperative shell. The core
-consists of small, composable functions that transform data, while the shell
-provides the necessary control flow. I often use object-oriented constructs to
-organize larger parts of my application, encapsulating related data and
-functions.
+My rules of thumb:
 
-Here are my personal rules of thumb:
+* Use object-oriented patterns for organization. Structs and enums are good places to keep related data. Traits are good boundaries between parts of the program.
+* Use functional patterns for data transformations. Inside functions and closures, iterator adapters can make the data flow easier to read.
+* Use imperative code when sequencing matters. Explicit loops are often clearer near I/O, mutation, performance-sensitive code, or low-level details. Keep that code in a small scope when you can.
+* Prefer readability over allegiance to a style. Code that is easy to read and change usually beats code that follows one programming tradition perfectly.
+* Measure before optimizing. The bottleneck may not be where you expect, and readable code is easier to tune once you know what matters.
 
-* **Embrace object-oriented patterns for organization.** For organizing larger
-  parts of your application, consider object-oriented constructs. Using structs or enums can encapsulate related data and functions, providing a clear structure without worrying about the details.
-* **Leverage functional patterns for data transformations.** Especially within
-  smaller scopes like functions and closures, functional methods such as
-  mapping, filtering, or reducing can make your code both concise and clear.
-  Use functional programming when you can phrase your problem as a series of transformations over some data.
-
-* **Use imperative style for granular control.** In scenarios where you're
-  working close to the hardware, or when you need explicit step-by-step
-  execution, the imperative style is often a necessity. It allows for precise
-  control over operations, especially with mutable data. This style can be
-  particularly useful in performance-critical sections or when interfacing with
-  external systems where exact sequencing matters. However, always weigh its
-  performance gains against potential readability trade-offs. If possible,
-  encapsulate imperative code within a limited scope.
-* **Prioritize readability and maintainability.** Regardless of your chosen
-  paradigm, always write code that's straightforward and easy to maintain. It
-  benefits not only your future self, but also your colleagues who might work on
-  the same codebase.
-* **Avoid premature optimization.** Don't prematurely optimize for performance
-  at the cost of readability. The real bottleneck might be elsewhere. Measure
-  first, then optimize. Elegant solutions can be turned into fast ones, but
-  the reverse is not always true.
-
-Lastly, avoid bias towards any particular paradigm. You can write better code if
-you test your assumptions every now and then.
+Do not let your favorite style make the decision for you. Try the obvious version first, then refactor when the code starts to become unwieldy. 
 
 
 
