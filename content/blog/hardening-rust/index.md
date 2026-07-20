@@ -101,7 +101,7 @@ fn factorial(n: u64) -> u64 {
 ```
 
 If you allow users to call this function with large inputs, it might crash your program.
-Rust doesn't guarantee tail-call optimization—the compiler rewriting certain recursive calls into loops which don't grow the stack. This means deep recursion can lead to stack overflows, which cause unrecoverable crashes.
+Rust does not guarantee tail-call optimization on stable Rust. Some compilers and languages can turn certain tail-recursive functions into loops, but you should not rely on that transformation in Rust. If recursion depth depends on user input or external data, rewrite the algorithm iteratively or put an explicit bound on the depth.
 
 It requires some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
 
@@ -115,21 +115,19 @@ fn factorial(n: u64) -> u64 {
 }
 ```
 
-This is exactly the transformation that compilers for languages like Haskell perform automatically through tail-call optimization.
-
 **Panic behavior isn't the only runtime failure mode you need to worry about.**
 
-## Panic Hooks Are Your Last Line of Defense
+## Panic Hooks Make Failures Observable
 
-Now that you understand how panics work, let's talk about observability.
+Now that you understand how panics work, let's talk about operational hardening.
 
 When things go wrong, you want to know about it.
 But by default, Rust panics just print to `stderr` and disappear into the void.
 In production systems, that's not so great. 
 
 You might prefer crash reporting, and/or centralized failure handling, and that's where panic hooks come in.
-A panic hook is a function that gets called whenever a panic occurs, giving you a chance to handle it before the program terminates or unwinds.
-It's your last line of defense to log, report, or clean up before the inevitable.
+A panic hook is a function that gets called whenever a panic occurs, giving you a chance to record the failure before the program terminates or unwinds.
+It will not make an invalid state safe again. Its job is to capture enough context to debug the failure, alert someone, and shut down cleanly when possible.
 
 ### Example Panic Hooks
 
@@ -196,8 +194,9 @@ The [`PanicInfo`](https://doc.rust-lang.org/core/panic/struct.PanicInfo.html) st
 ### Sanitizing Sensitive Data
 
 Panic hooks are also your final opportunity to prevent information leaks.
-Remember that panic messages can contain sensitive data like file paths, internal state, or user information (PII) such as email addresses, IP addresses, credit card numbers, etc. 
-A well-designed panic hook sanitizes these messages before they reach logs or crash reports.
+The sensitive data can come from two places: the panic payload and the panic location. The payload is whatever your code passed to `panic!`, `unwrap`, `expect`, or an assertion. That means it can contain interpolated user input, internal state from `Debug` output, request headers, tokens, email addresses, IP addresses, customer IDs, or other identifiers. The location can expose source file paths, workspace names, or CI/build machine directory layouts.
+
+A well-designed panic hook sanitizes these messages before they reach logs or crash reports. Better yet, avoid putting secrets or raw user data into panic messages in the first place. Prefer stable error codes, request IDs, or redacted domain types. Regexes can catch obvious patterns like email addresses, bearer tokens, UUIDs, and IP addresses, but they are a last layer of defense, not the primary control.
 
 ```rust
 panic::set_hook(Box::new(|panic_info| {
@@ -240,7 +239,7 @@ Setting a hook is a great way to perform such cleanup operations.
 
 {% info(title="Panic Hooks Run in a Compromised Environment" icon="warning") %}
 
-Be careful: one of the subsystems you want to interact with might be the *cause* of the panic you're handling! For example, if your database connection pool panicked, trying to flush pending writes to that same pool will likely fail or hang. Keep cleanup operations minimal and avoid anything that could panic itself.
+Be careful: one of the subsystems you want to interact with might be the *cause* of the panic you're handling! For example, if your database connection pool panicked, trying to flush pending writes to that same pool will likely fail or hang. Keep cleanup operations fault-tolerant and avoid anything that can panic, block indefinitely, or depend on the subsystem that just failed.
 
 {% end %}
 
@@ -263,56 +262,28 @@ The most obvious difference is integer overflow behavior. Debug builds panic on 
 We covered that in [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/).
 
 But the differences run deeper than arithmetics.
-For example, the optimizer can reorder operations in ways that break timing-sensitive code:
+Release builds remove `debug_assert!` checks, enable optimizations, and may exercise different code paths behind `cfg(debug_assertions)`. Unsafe code and FFI boundaries are especially sensitive to this: undefined behavior can appear harmless in debug mode and break only once the optimizer starts relying on Rust's aliasing and validity rules.
+
+Here is a tiny example:
 
 ```rust
-fn rate_limited_operation() -> bool {
-    let start = std::time::Instant::now();
-
-    // Do some work
-    expensive_computation();
-
-    let elapsed = start.elapsed();
-    if elapsed < std::time::Duration::from_millis(100) {
-        // Rate limiting: reject if too fast
-        return false;
-    }
-
-    true
+fn apply_discount(price: u32, percent: u32) -> u32 {
+    debug_assert!(percent <= 100);
+    price - (price * percent / 100)
 }
 ```
 
-The optimizer might move the timing calculation or inline `expensive_computation()` in ways that change the timing behavior and break your rate-limit logic.
-One way around this is `black_box` from `std::hint`, which prevents the optimizer from making assumptions about certain values:
-
-```rust
-use std::hint::black_box;
-
-fn rate_limited_operation() -> bool {
-    let start = std::time::Instant::now();
-
-    // Do some work
-    black_box(expensive_computation());
-
-    let elapsed = start.elapsed();
-    if elapsed < std::time::Duration::from_millis(100) {
-        // Rate limiting: reject if too fast
-        return false;
-    }
-
-    true
-}
-```
-
-It's telling the compiler: "Don't touch this; assume it could have side effects you don't know about."
+In a debug build, `apply_discount(100, 150)` trips the `debug_assert!`.
+In a release build, the assertion is gone. The subtraction can underflow and wrap around, turning an invalid discount into a huge number.
+If the check protects a real runtime invariant, use `assert!` or return a `Result` instead of relying on `debug_assert!`.
 
 ### Testing Release Behavior 
 
-The fact that tests pass in debug mode tells you almost nothing about production behavior.
-**Run your tests against release builds**. 
+The fact that tests pass in debug mode does not prove that production behavior is correct.
+Run normal debug tests as the fast default, and add release-mode tests for critical integration tests, arithmetic-heavy code, unsafe or FFI-heavy code, and anything whose behavior depends on optimization or release-only configuration.
 
 ```bash
-# Add this to your CI pipeline
+# Add this to your CI pipeline in addition to regular `cargo test`
 cargo test --release
 ```
 
@@ -326,14 +297,15 @@ It's recommended to run those as part of CI.
 ## Secure Allocations With mimalloc 
 
 [mimalloc] is a drop-in global allocator built by Microsoft.
-What's special about it is that it also has a **secure mode**, which "adds guard pages, randomized allocation, encrypted free lists, etc." to prevent heap-based vulnerabilities.
-The performance penalty is usually around 10% according to mimalloc's own benchmarks, which is typically acceptable because Rust is never the bottleneck. [^mimalloc_safe]
+What's special about it is that it also has a **secure mode**, which adds mitigations like guard pages, randomized allocation, and encrypted free lists to make some heap-corruption bugs harder to exploit. [^mimalloc_safe]
 
-To enable secure mode, put in Cargo.toml:
+This is mostly defense-in-depth for programs with unsafe code, custom allocators, C/C++ dependencies, or FFI-heavy boundaries. Safe Rust already prevents most use-after-free and buffer-overflow bugs, and a secure allocator does not magically make memory-unsafe code safe.
+
+To enable secure mode, put this in `Cargo.toml`:
 
 ```toml
 [dependencies]
-mimalloc = { version = "*", features = ["secure"] }
+mimalloc = { version = "0.1", features = ["secure"] }
 ```
 
 Then use it as your global allocator:
@@ -345,8 +317,7 @@ use mimalloc::MiMalloc;
 static GLOBAL: MiMalloc = MiMalloc;
 ```
 
-Now, all heap allocations in your Rust program will use mimalloc's secure allocator, which will automatically catch common heap vulnerabilities like buffer overflows and use-after-free bugs at runtime.
-So even if your code has a memory safety issue, it will be much harder for an attacker to exploit it.
+Now, all heap allocations in your Rust program will use mimalloc's secure allocator. Measure the performance impact on your workload before rolling this out broadly; allocator choice can matter a lot for latency-sensitive services, games, packet processing, and other allocation-heavy programs.
 
 [mimalloc]: https://github.com/microsoft/mimalloc
 [^mimalloc_safe]: https://docs.rs/mimalloc-safe/latest/mimalloc_safe/
@@ -364,41 +335,49 @@ No shell, no package manager, no utilities an attacker could abuse for lateral m
 Even if your service is compromised, the attacker has very limited tools at their disposal to do further damage.
 
 My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless).
-They are minimal Debian-based images stripped of everything unnecessary, while still including libc, TLS certificates, timezone data, and a non-root user.
-Everything a typical service needs and nothing more.
+They are minimal Debian-based images stripped of everything unnecessary, while still including TLS certificates and a non-root user.
+For a typical Rust web service, start with `gcr.io/distroless/cc-debian13:nonroot`: it includes the C runtime libraries that a normal Debian-built Rust binary may dynamically link against, but no shell or package manager.
+
+Here is a Dockerfile using [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) for dependency caching:
 
 ```dockerfile
-# Build stage
-# Compile our Rust code into a statically linked binary
-FROM rust:slim-bookworm AS build
+# syntax=docker/dockerfile:1
 
-RUN apt-get update && apt-get install -y musl-tools lld
+ARG RUST_VERSION=1.92
 
+FROM rust:${RUST_VERSION}-bookworm AS chef
+RUN cargo install cargo-chef --locked
 WORKDIR /app
+
+FROM chef AS planner
 COPY . .
-RUN cargo build --release
+RUN cargo chef prepare --recipe-path recipe.json
 
-# Final image
-FROM gcr.io/distroless/static-debian12
+FROM chef AS builder
+COPY --from=planner /app/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
 
-COPY --from=build /app/target/release/myapp /bin/myapp
+COPY . .
+RUN cargo build --locked --release --bin myapp
 
-USER nonroot
+FROM gcr.io/distroless/cc-debian13:nonroot AS runtime
+COPY --from=builder /app/target/release/myapp /bin/myapp
 ENTRYPOINT ["/bin/myapp"]
 ```
 
-Make sure to look up the latest `static-debian` variant [here](https://github.com/GoogleContainerTools/distroless).
-It is essentially `FROM scratch` but with CA certificates and a `nonroot` user already included.
-If you need libc (e.g. for SQLite or other C dependencies), use `gcr.io/distroless/cc-debian` instead.
+`cargo-chef` keeps dependency builds in a separate Docker layer, so changing your application code does not force all dependencies to rebuild. The important details are: use the same Rust version in all build stages, build with `--locked`, scope workspace builds with `--bin` when appropriate, and keep `target/`, `.git/`, and editor files out of the build context via `.dockerignore`. I covered this pattern in more detail in [Tips For Faster CI Builds](/blog/tips-for-faster-ci-builds/#use-cargo-chef-for-docker-builds).
+
+The current distroless README lists `cc-debian13` as the latest `cc` image family. Keep the Debian suffix explicit instead of using the unversioned tag, and pin by digest if reproducible deploys matter to you.
+If you deliberately build a fully static musl binary, then `gcr.io/distroless/static-debian13:nonroot` or even `scratch` can be a better fit. But don't mix the two approaches: a glibc-linked binary needs a runtime image that provides the libraries it links against.
 
 {% info(title="A Note On Alpine Base Images", icon="info") %}
 
-Alpine base images are a well-known alternative, but they can cause subtle runtime issues with Tokio and async runtimes due to musl's thread-local storage implementation.
+Alpine base images are a well-known alternative, but they use musl instead of glibc. That can expose differences in DNS resolution, TLS/native dependencies, allocator behavior, and crates that assume a glibc-like environment.
 ([1](https://www.reddit.com/r/rust/comments/sq53vx/alpine_fails_to_run_my_app_what_steps_should_i/hwjloqz/)
 [2](https://martinheinz.dev/blog/92)
 [3](https://github.com/astral-sh/uv/issues/2732))
 
-Distroless sidesteps this entirely.
+That doesn't mean Alpine or musl are wrong; just treat them as a deliberate target and test them like one. If you build on Debian and want a small runtime image, distroless `cc` is usually the less surprising default.
 
 {% end %}
 
@@ -409,6 +388,14 @@ Even inside a minimal container, your process *still* has access to any file the
 If your service is ever exploited, the attacker can only reach the files you explicitly allowed. [^below]
 
 [^below]: This approach would have prevented a [vulnerability in Meta's `below` crate](https://security.opensuse.org/2025/03/12/below-world-writable-log-dir.html), a tool for recording and displaying system data like hardware utilization and cgroup information on Linux.
+
+{% info(title="Landlock Is Deployment-Specific" icon="info") %}
+
+Landlock is Linux-only and requires kernel support. It landed in Linux 5.13, but older enterprise kernels, custom cloud images, or container hosts may not enable it. Check your actual deployment target.
+
+Also apply the sandbox only after you know which files your process needs. If your service executes helper binaries from `/usr/bin`, reads timezone data from `/usr/share/zoneinfo`, loads certificates, opens SQLite files, reads config from `/etc`, or writes uploads to `/var/data`, those paths must be allowed explicitly. On non-Linux targets, look for equivalent sandboxing mechanisms instead of copying this exact snippet.
+
+{% end %}
 
 ```rust
 use landlock::{
@@ -447,8 +434,21 @@ Call `sandbox()` as early as possible in `main`, before spawning threads or acce
 The restrictions apply to the entire process from that point forward.
 
 The two approaches really go hand in hand: 
-- `FROM scratch` limits what's *in* the container
+- minimal images limit what's *in* the container
 - Landlock limits what the process can *touch* at runtime.
+
+### Drop Privileges and Capabilities
+
+Don't run as root in production, even inside a container.
+That's one reason distroless images provide a `nonroot` user and why the example above uses the `:nonroot` tag.
+If your service only needs to listen for HTTP traffic, prefer a high port like `8080` over running as root just to bind to port `80`.
+
+Linux capabilities are another useful lever.
+Instead of giving a process full root privileges, grant only the specific capability it needs, such as `CAP_NET_BIND_SERVICE` for binding to low ports.
+If a process needs elevated privileges only during startup, drop them before accepting requests.
+
+The details vary by platform and orchestrator, so treat Linux containers as one concrete example, not the universal model.
+For systemd services, Kubernetes, FreeBSD jails, macOS sandboxing, or Windows services, look up the equivalent least-privilege and sandboxing features for that environment.
 
 The big picture is that security hardening is about reducing the surface of things that can go wrong.
 Every capability your process holds unnecessarily is a liability and everything your code manages that could be delegated to the OS, init system, or container runtime probably should be. 
