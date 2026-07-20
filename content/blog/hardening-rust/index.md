@@ -1,12 +1,12 @@
 +++
 title = "Hardening Rust Code Against Runtime Failures"
-date = 2026-02-19
+date = 2026-07-21
 draft = false
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 resources = [
-   "[Patterns for Defensive Programming in Rust](/blog/defensive-programming) -- making your Rust code more robust by enforcing invariants",
+   "[Patterns for Defensive Programming in Rust](/blog/defensive-programming) -- enforcing invariants that Rust cannot check for you",
    "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust) -- common mistakes even safe Rust programmers make",
 ]
 +++
@@ -14,12 +14,51 @@ resources = [
 We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to utter misery.
 But being careful isn't enough.
 Even valid code can fail at runtime in ways that are hard to predict and control.
-That's what we're covering here.
+That's what we're covering next.
 
-This article is for you if you want to
+{% info(title="This article is for you if you want to...", icon="crab") %}
+
 - make your code resilient at runtime
 - harden your Rust code for production 
 - know how Rust code can fail in unexpected ways and how to recover from that
+
+{% end %}
+
+## Table of Contents
+
+<details class="toc">
+<summary>
+Click here to expand the table of contents.
+</summary>
+
+- [Panic Semantics Are Part of Your API](#panic-semantics-are-part-of-your-api)
+  - [Unwind vs. Abort](#unwind-vs-abort)
+  - [Thread-Level vs. Process-Level Failures](#thread-level-vs-process-level-failures)
+- [Stack Overflow as a Failure Mode](#stack-overflow-as-a-failure-mode)
+- [Observing Failures With Panic Hooks](#observing-failures-with-panic-hooks)
+  - [Example Panic Hooks](#example-panic-hooks)
+  - [Sanitizing Sensitive Data](#sanitizing-sensitive-data)
+  - [Cleanup Operations](#cleanup-operations)
+  - [Limitations](#limitations)
+- [Release and Debug Builds Are Two Different Programs](#release-and-debug-builds-are-two-different-programs)
+  - [Testing Release Behavior](#testing-release-behavior)
+- [Supply-Chain Security](#supply-chain-security)
+- [Secure Allocations With mimalloc](#secure-allocations-with-mimalloc)
+- [Limit Your Runtime Attack Surface](#limit-your-runtime-attack-surface)
+  - [Minimal Docker Images](#minimal-docker-images)
+  - [Filesystem Sandboxing With Landlock](#filesystem-sandboxing-with-landlock)
+  - [Drop Privileges and Capabilities](#drop-privileges-and-capabilities)
+- [Miri: Detecting Undefined Behavior at Runtime](#miri-detecting-undefined-behavior-at-runtime)
+- [Graceful Shutdown Handling](#graceful-shutdown-handling)
+- [Circuit Breakers for External Dependencies](#circuit-breakers-for-external-dependencies)
+- [Resource Limits](#resource-limits)
+  - [Request Body Size Limits](#request-body-size-limits)
+  - [Limit Queue Depth](#limit-queue-depth)
+  - [Set Timeouts on Everything External](#set-timeouts-on-everything-external)
+- [Health Checks and Self-Healing](#health-checks-and-self-healing)
+- [Runtime Hardening Tooling](#runtime-hardening-tooling)
+
+</details>
 
 ## Panic Semantics Are Part of Your API
 
@@ -41,11 +80,12 @@ let result = panic::catch_unwind(|| {
 
 But the [Rustonomicon](https://doc.rust-lang.org/nomicon/unwinding.html) has the following to say about unwinding panics:
 
-> We would encourage you to only **do this sparingly**. In particular, Rust's current unwinding implementation is heavily optimized for the "doesn't unwind" case. If a program doesn't unwind, there should be no runtime cost for the program being ready to unwind. [...] Ideally, you should only panic for programming errors or extreme problems.
+> We would encourage you to only **do this sparingly**. In particular, Rust's current unwinding implementation is heavily optimized for the "doesn't unwind" case. If a program doesn't unwind, there should be no runtime cost for the program being ready to unwind.
 
 The alternative to unwinding is aborting the entire process. That does what it says on the tin: the program immediately terminates without unwinding the stack or running destructors.
-Crash and burn.
+Halt and catch fire.
 Weirdly enough, that's often the safer choice, especially when dealing with FFI boundaries or performance-critical code.
+That's because unwinding across FFI boundaries is undefined behavior, and unwinding can be expensive in performance-sensitive code.
 
 To enable aborting on panic, add the following to your `Cargo.toml`:
 
@@ -55,6 +95,8 @@ panic = "abort"
 ```
 
 And **even if** you did not explicitly configure this, catastrophic panics like stack overflows and out-of-memory errors **always abort the process**. That's because unwinding in these situations is unsafe and can lead to undefined behavior.
+
+In practice, this shows up in two places:
 
 - Panics that would unwind across an extern "C" boundary are defined to abort instead of unwinding, because [letting unwinding cross that boundary is undefined behavior](https://doc.rust-lang.org/nomicon/ffi.html#panic-can-be-stopped-at-an-abi-boundary).
 - And if a `malloc` fails, [it aborts the process](https://news.ycombinator.com/item?id=11369457). If that's a problem, you need to proactively check for allocation sizes before allocating or avoid heap allocations altogether.
@@ -73,15 +115,64 @@ What sounds like a benefit can leave the system in a partially degraded state.
 
 This distinction becomes especially important in long-running systems (servers, workers, async runtimes,...).
 A panic in a request-handling thread might only abort that one request, while the rest of the service remains available.
+Here's a small example using scoped threads ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=309325417605cdb3cdd42e1b3e1a618d)):
+
+```rust
+use std::{thread, time::Duration};
+
+fn handle_request(id: u32) {
+    println!("request {id}: started");
+
+    if id == 2 {
+        panic!("request {id}: handler panicked");
+    }
+
+    thread::sleep(Duration::from_millis(100));
+    println!("request {id}: finished");
+}
+
+fn main() {
+    thread::scope(|s| {
+        let requests: Vec<_> = (1..=3)
+            .map(|id| (id, s.spawn(move || handle_request(id))))
+            .collect();
+
+        for (id, request) in requests {
+            match request.join() {
+                Ok(()) => println!("main: request {id} completed"),
+                Err(_) => println!("main: request {id} failed, but the process is still alive"),
+            }
+        }
+    });
+
+    println!("main: service keeps running");
+}
+```
+
+The output is noisy because Rust prints the panic message to stderr, but the interesting part is this:
+
+```text
+request 1: finished
+main: request 1 completed
+main: request 2 failed, but the process is still alive
+request 3: finished
+main: request 3 completed
+main: service keeps running
+```
+
+Request 2 panics, but requests 1 and 3 still finish. The panic belongs to the worker thread. The main thread sees it through `join()` and keeps running. [^unwinding]
+
+[^unwinding]: This only holds for unwinding panics. If you compile with `panic = "abort"`, or hit a stack overflow or out-of-memory failure, the whole process exits and `join()` never gets a chance to return `Err`.
+
 Whether this is acceptable depends on the system's invariants.
 If a panic indicates a violated assumption confined to a small scope, like a single request, letting the process continue may be reasonable.
 But if it signals a global invariant violation, continuing execution can be outright dangerous.
 
-The key insight is that panic behavior is **part of your system's failure model**.
+Panic behavior is **part of your system's failure model**.
 Treating all panics as equivalent hides important distinctions and leads to fragile assumptions.
-You should be explicit about whether a failure is allowed to take down a single task, a single thread, or the entire process. 
+Be explicit about whether a failure may take down a single task, a single thread, or the entire process. 
 
-**Never panic in an uncontrolled manner.**
+Never panic in an uncontrolled manner.
 
 ## Stack Overflow as a Failure Mode
 
@@ -115,9 +206,9 @@ fn factorial(n: u64) -> u64 {
 }
 ```
 
-**Panic behavior isn't the only runtime failure mode you need to worry about.**
+Panic behavior isn't the only runtime failure mode you need to worry about.
 
-## Panic Hooks Make Failures Observable
+## Observing Failures With Panic Hooks
 
 Now that you understand how panics work, let's talk about operational hardening.
 
@@ -164,6 +255,12 @@ panic::set_hook(Box::new(|panic_info| {
 }));
 ```
 
+{% info(title="What's Inside `PanicInfo`?" icon="info") %}
+
+The [`PanicInfo`](https://doc.rust-lang.org/core/panic/struct.PanicInfo.html) struct contains the panic message (via `.payload()`) and the source location where the panic occurred (via `.location()`). Be aware that both can leak sensitive information: file paths may reveal internal directory structure, and panic messages might contain interpolated user data.
+
+{% end %}
+
 And finally, here's [Sentry's panic hook handler](https://github.com/getsentry/sentry-rust/blob/625617015f2b64fabdf8264186911ca43873bb80/sentry-panic/src/lib.rs#L69-L77), which is even more sophisticated:
 
 ```rust
@@ -185,18 +282,12 @@ Sentry's panic hook:
 
 There's a lot to learn from these few lines of code!
 
-{% info(title="What's Inside `PanicInfo`?" icon="info") %}
-
-The [`PanicInfo`](https://doc.rust-lang.org/core/panic/struct.PanicInfo.html) struct contains the panic message (via `.payload()`) and the source location where the panic occurred (via `.location()`). Be aware that both can leak sensitive information: file paths may reveal internal directory structure, and panic messages might contain interpolated user data.
-
-{% end %}
-
 ### Sanitizing Sensitive Data
 
 Panic hooks are also your final opportunity to prevent information leaks.
 The sensitive data can come from two places: the panic payload and the panic location. The payload is whatever your code passed to `panic!`, `unwrap`, `expect`, or an assertion. That means it can contain interpolated user input, internal state from `Debug` output, request headers, tokens, email addresses, IP addresses, customer IDs, or other identifiers. The location can expose source file paths, workspace names, or CI/build machine directory layouts.
 
-A well-designed panic hook sanitizes these messages before they reach logs or crash reports. Better yet, avoid putting secrets or raw user data into panic messages in the first place. Prefer stable error codes, request IDs, or redacted domain types. Regexes can catch obvious patterns like email addresses, bearer tokens, UUIDs, and IP addresses, but they are a last layer of defense, not the primary control.
+A well-designed panic hook sanitizes these messages before they reach logs or crash reports. Better yet, avoid putting secrets or raw user data into panic messages in the first place. Prefer stable error codes, request IDs, or redacted domain types. Regexes can catch obvious patterns like email addresses and bearer tokens. UUIDs and IP addresses can also identify users. Treat those checks as your final fallback.
 
 ```rust
 panic::set_hook(Box::new(|panic_info| {
@@ -245,10 +336,10 @@ Be careful: one of the subsystems you want to interact with might be the *cause*
 
 ### Limitations
 
-Remember that panic hooks only run for unwinding panics.
-If your program aborts on panic, or if the panic is caused by a stack overflow or out-of-memory condition, **your hook won't execute**.
+Panic hooks only run for unwinding panics.
+If your program aborts on panic, or if the panic is caused by a stack overflow or out-of-memory condition, your hook won't execute.
 
-Therefore **never rely on panic hooks for correctness.** 
+Never rely on panic hooks for correctness.
 
 They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to rely on a system's fragile underpinnings at this stage. 
 
@@ -264,7 +355,7 @@ We covered that in [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/).
 But the differences run deeper than arithmetics.
 Release builds remove `debug_assert!` checks, enable optimizations, and may exercise different code paths behind `cfg(debug_assertions)`. Unsafe code and FFI boundaries are especially sensitive to this: undefined behavior can appear harmless in debug mode and break only once the optimizer starts relying on Rust's aliasing and validity rules.
 
-Here is a tiny example:
+Here is a trivial example:
 
 ```rust
 fn apply_discount(price: u32, percent: u32) -> u32 {
@@ -283,7 +374,7 @@ The fact that tests pass in debug mode does not prove that production behavior i
 Run normal debug tests as the fast default, and add release-mode tests for critical integration tests, arithmetic-heavy code, unsafe or FFI-heavy code, and anything whose behavior depends on optimization or release-only configuration.
 
 ```bash
-# Add this to your CI pipeline in addition to regular `cargo test`
+# Add this to your CI pipeline alongside regular `cargo test`
 cargo test --release
 ```
 
@@ -299,7 +390,8 @@ It's recommended to run those as part of CI.
 [mimalloc] is a drop-in global allocator built by Microsoft.
 What's special about it is that it also has a **secure mode**, which adds mitigations like guard pages, randomized allocation, and encrypted free lists to make some heap-corruption bugs harder to exploit. [^mimalloc_safe]
 
-This is mostly defense-in-depth for programs with unsafe code, custom allocators, C/C++ dependencies, or FFI-heavy boundaries. Safe Rust already prevents most use-after-free and buffer-overflow bugs, and a secure allocator does not magically make memory-unsafe code safe.
+Safe Rust already prevents most use-after-free and buffer-overflow bugs, and a secure allocator does not magically make memory-unsafe code safe.
+This is mostly defense-in-depth for programs with unsafe code, custom allocators, C/C++ dependencies, or FFI-heavy boundaries.
 
 To enable secure mode, put this in `Cargo.toml`:
 
@@ -331,12 +423,12 @@ Now, how you do that depends on your deployment environment, but generally peopl
 ### Minimal Docker images
 
 A minimal production image contains exactly what you put in it.
-No shell, no package manager, no utilities an attacker could abuse for lateral movement.
 Even if your service is compromised, the attacker has very limited tools at their disposal to do further damage.
 
 My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless).
 They are minimal Debian-based images stripped of everything unnecessary, while still including TLS certificates and a non-root user.
 For a typical Rust web service, start with `gcr.io/distroless/cc-debian13:nonroot`: it includes the C runtime libraries that a normal Debian-built Rust binary may dynamically link against, but no shell or package manager.
+(Check the latest version in the [distroless README](https://github.com/googlecontainertools/distroless))
 
 Here is a Dockerfile using [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) for dependency caching:
 
@@ -447,7 +539,7 @@ Linux capabilities are another useful lever.
 Instead of giving a process full root privileges, grant only the specific capability it needs, such as `CAP_NET_BIND_SERVICE` for binding to low ports.
 If a process needs elevated privileges only during startup, drop them before accepting requests.
 
-The details vary by platform and orchestrator, so treat Linux containers as one concrete example, not the universal model.
+The details vary by platform and orchestrator, so treat Linux containers as one concrete setup.
 For systemd services, Kubernetes, FreeBSD jails, macOS sandboxing, or Windows services, look up the equivalent least-privilege and sandboxing features for that environment.
 
 The big picture is that security hardening is about reducing the surface of things that can go wrong.
@@ -544,7 +636,7 @@ Everybody who was oncall for a production service will tell you this.
 Set explicit limits on everything.
 SREs will thank you for it!
 
-Apart from the fact that it makes your service more robust, it also makes it easier to immediately detect misconfigurations in code.
+Limits make your service more predictable, and they make misconfigurations obvious sooner.
 
 Common things you should limit include:
 - Upper bound on any user input (upload file size, parameter bounds, etc.)
@@ -552,8 +644,7 @@ Common things you should limit include:
 - timeouts on external calls
 - concurrent connections to external services
 - queue depth for background jobs
-- number of threads
-- DB connection pool size
+- thread count and DB connection pool size
 
 Here are some examples on how to do these in practice:
 
@@ -585,13 +676,13 @@ let client = reqwest::Client::builder()
     .build()?;
 ```
 
-The key insight is that **every unbounded resource is a potential DoS vector**.
-Explicit limits will turn those catastrophic failures into (annoying but harmless) graceful rejections.
+Every unbounded resource is a potential DoS vector.
+Explicit limits turn those catastrophic failures into (annoying but harmless) graceful rejections.
 
 ## Health Checks and Self-Healing
 
 Ideally, your system should be able to recover from transient failures without human intervention.
-Health checks let load balancers, orchestrators, and monitoring systems know when something is wrong and act accordingly.
+Health checks let load balancers and orchestrators know when something is wrong, so they can react.
 
 A typical setup has two endpoints, a liveness probe and a readiness probe.
 The liveness probe checks if the process is alive at all, while the readiness probe checks if the process is healthy enough to handle traffic.
@@ -620,8 +711,8 @@ enum Status {
 /// the readiness probe
 #[derive(Serialize)]
 struct HealthStatus {
-    // Overall health status of the service
-    status: Status 
+    // Health status of the service
+    status: Status,
     // Is the database connection healthy?
     database: bool,
     // Is the cache connection healthy?
