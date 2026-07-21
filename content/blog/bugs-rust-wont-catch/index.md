@@ -10,6 +10,7 @@ resources = [
     "[An update on rust-coreutils](https://discourse.ubuntu.com/t/an-update-on-rust-coreutils/80773): Canonical's announcement of the audit results",
     "[Patterns for Defensive Programming in Rust](/blog/defensive-programming/): companion post on writing more robust Rust code",
     "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/): common mistakes even safe Rust code can make",
+    "[Hardening Rust Code Against Runtime Failures](/blog/hardening-rust/): runtime failure modes and production hardening",
     "[Sharp Edges In The Rust Standard Library](/blog/sharp-edges-in-rust-std/): surprising behaviors in `std`",
     "[Rust Prevents Data Races, Not Race Conditions](/blog/rust-prevents-data-races-not-race-conditions/): where Rust's concurrency safety ends",
     "[uutils/coreutils on GitHub](https://github.com/uutils/coreutils): the Rust reimplementation of GNU coreutils",

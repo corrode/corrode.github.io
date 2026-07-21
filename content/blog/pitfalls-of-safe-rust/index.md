@@ -13,7 +13,8 @@ reviews = [
 ]
 resources = [
    "[The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk) -- My talk at FOSDEM 2024",
-   "[High Assurance Rust](https://highassurance.rs/) -- developing secure and robust software with Rust"
+   "[High Assurance Rust](https://highassurance.rs/) -- developing secure and robust software with Rust",
+   "[Hardening Rust Code Against Runtime Failures](/blog/hardening-rust/) -- production failures that safe Rust alone cannot prevent"
 ]
 +++
 
