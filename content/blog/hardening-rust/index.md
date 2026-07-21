@@ -173,6 +173,8 @@ Be explicit about whether a failure may take down a single task, a single thread
 
 Never panic in an uncontrolled manner.
 
+If you maintain a library, you have less control over where your code runs and what a panic can take down. Consider enabling stricter Clippy lints such as [`indexing_slicing`](https://rust-lang.github.io/rust-clippy/master/index.html#indexing_slicing) and [`arithmetic_side_effects`](https://rust-lang.github.io/rust-clippy/master/index.html#arithmetic_side_effects) to catch common panic sources before they become part of your public API. Those lints can be noisy in applications, but they are often useful when panic freedom matters more than convenience.
+
 ## Observing Failures With Panic Hooks
 
 Now that you understand how panics work, let's talk about operational hardening.
@@ -795,7 +797,8 @@ Finally, here are some more tools that help you catch problems before they hit p
 - [`honggfuzz`](https://github.com/google/honggfuzz) -- another fuzzer with Rust support
 - [`cargo-geiger`](https://github.com/geiger-rs/cargo-geiger) -- detects usage of unsafe code
 - [`cargo-valgrind`](https://github.com/jfrimmel/cargo-valgrind) -- runs Valgrind on Rust code to find memory errors
-- [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) -- code coverage analysis for Rust projects to identify untested code paths, which can help you find edge cases that might lead to runtime failures
+- [`cargo-llvm-cov`](https://github.com/taiki-e/cargo-llvm-cov) -- code coverage via rustc/LLVM source-based instrumentation (`-C instrument-coverage`). It reports line and region coverage, works with `cargo test` and `cargo nextest`, and is a good default for new projects.
+- [`cargo-tarpaulin`](https://github.com/xd009642/tarpaulin) -- an older Rust coverage tool with strong Cargo and CI ergonomics. On Linux it defaults to a `ptrace` backend (`x86_64` only); LLVM coverage is available through `--engine llvm` and is the default on macOS and Windows. Useful if its reports fit your workflow, but expect different platform and test-runner edge cases than `cargo-llvm-cov`.
 
 The tools above help catch undefined behavior, memory safety issues, code coverage gaps, and performance bottlenecks.
 They are dynamic analysis tools that complement Rust's static guarantees.
