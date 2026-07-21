@@ -1,5 +1,5 @@
 +++
-title = "Hardening Rust Code For Production" 
+title = "Hardening Rust Code For Production"
 date = 2026-07-21
 draft = false
 template = "article.html"
@@ -19,7 +19,7 @@ That's what we're covering next.
 {% info(title="This article is for you if you want to...", icon="crab") %}
 
 - make your code resilient at runtime
-- harden your Rust code for production 
+- harden your Rust code for production
 - know how Rust code can fail in unexpected ways and how to recover from that
 
 {% end %}
@@ -48,7 +48,7 @@ Click here to expand the table of contents.
   - [Minimal Docker Images](#minimal-docker-images)
   - [Filesystem Sandboxing With Landlock](#filesystem-sandboxing-with-landlock)
   - [Drop Privileges and Capabilities](#drop-privileges-and-capabilities)
-- [Miri: Detect Unsafe Code Issues](#miri-detect-unsafe-code-issues) 
+- [Miri: Detect Unsafe Code Issues](#miri-detect-unsafe-code-issues)
 - [Graceful Shutdown Handling](#graceful-shutdown-handling)
 - [Circuit Breakers for External Dependencies](#circuit-breakers-for-external-dependencies)
 - [Resource Limits](#resource-limits)
@@ -110,9 +110,9 @@ Another difference is between thread-level failures and process-level crashes.
 
 A common misunderstanding is that `panic` terminates the entire program, but in a multi-threaded application, that is not necessarily the case.
 For example, a background worker thread can panic while the main thread continues running.
-What sounds like a benefit can leave the system in a partially degraded state. 
+What sounds like a benefit can leave the system in a partially degraded state.
 
-This distinction becomes especially important in long-running systems (servers, workers, async runtimes,...).
+This distinction becomes especially important in long-running systems (servers, workers, async runtimes, ...).
 A panic in a request-handling thread might only abort that one request, while the rest of the service remains available.
 Here's a small example using scoped threads ([Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=309325417605cdb3cdd42e1b3e1a618d)):
 
@@ -169,7 +169,7 @@ But if it signals a global invariant violation, continuing execution can be outr
 
 Panic behavior is **part of your system's failure model**.
 Treating all panics as equivalent hides important distinctions and leads to fragile assumptions.
-Be explicit about whether a failure may take down a single task, a single thread, or the entire process. 
+Be explicit about whether a failure may take down a single task, a single thread, or the entire process.
 
 Never panic in an uncontrolled manner.
 
@@ -179,9 +179,9 @@ Now that you understand how panics work, let's talk about operational hardening.
 
 When things go wrong, you want to know about it.
 But by default, Rust panics just print to `stderr` and disappear into the void.
-In production systems, that's not so great. 
+In production systems, that's not so great.
 
-You might prefer crash reporting, and/or centralized failure handling, and that's where panic hooks come in.
+You might prefer crash reporting or centralized failure handling, and that's where panic hooks come in.
 A panic hook is a function that gets called whenever a panic occurs, giving you a chance to record the failure before the program terminates or unwinds.
 It will not make an invalid state safe again. Its job is to capture enough context to debug the failure, alert someone, and shut down cleanly when possible.
 
@@ -241,7 +241,7 @@ fn setup(&self, _cfg: &mut ClientOptions) {
 ```
 
 Sentry's panic hook:
-- Logs the panic information 
+- Logs the panic information
 - Preserves the previous panic hook behavior by calling `next(info)`
 - Ensures the hook is only set once using `INIT.call_once`
 
@@ -290,7 +290,7 @@ pub struct Customer {
 
 ### Cleanup Operations
 
-Before the process terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down. 
+Before the process terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down.
 Setting a hook is a great way to perform such cleanup operations.
 
 {% info(title="Panic Hooks Run in a Compromised Environment" icon="warning") %}
@@ -306,7 +306,7 @@ If your program aborts on panic, or if the panic is caused by a stack overflow o
 
 Never rely on panic hooks for correctness.
 
-They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to rely on a system's fragile underpinnings at this stage. 
+They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to rely on a system's fragile underpinnings at this stage.
 
 ## Stack Overflows And Runtime Behavior
 
@@ -331,7 +331,7 @@ The problem is that recursion can quickly exhaust stack space.
 If you allow users to call this function with large inputs, it might crash your program.
 [Rust does not guarantee tail-call optimization on stable Rust](https://weitzel.dev/blog/rustlang-trampoline/). Some compilers and languages can turn certain tail-recursive functions into loops, but you should not rely on that transformation in Rust. If recursion depth depends on user input or external data, rewrite the algorithm iteratively or put an explicit bound on the depth.
 
-It requires some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
+It takes some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
 
 ```rust
 fn factorial(n: u64) -> u64 {
@@ -353,7 +353,7 @@ In many ways, you're shipping a different program than the one you tested.
 The most obvious difference is integer overflow behavior. Debug builds panic on overflow, while release builds silently wrap around.
 We covered that in [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust/).
 
-But the differences run deeper than arithmetics.
+But the differences run deeper than arithmetic.
 Release builds remove `debug_assert!` checks, enable optimizations, and may exercise different code paths behind `cfg(debug_assertions)`. Unsafe code and FFI boundaries are especially sensitive to this: undefined behavior can appear harmless in debug mode and break only once the optimizer starts relying on Rust's aliasing and validity rules.
 
 Here is a trivial example:
@@ -369,7 +369,7 @@ In a debug build, `apply_discount(100, 150)` trips the `debug_assert!`.
 In a release build, the assertion is gone. The subtraction can underflow and wrap around, turning an invalid discount into a huge number.
 If the check protects a real runtime invariant, use `assert!` or return a `Result` instead of relying on `debug_assert!`.
 
-### Testing Release Behavior 
+### Testing Release Behavior
 
 The fact that tests pass in debug mode does not prove that production behavior is correct.
 Run normal debug tests as the fast default, and add release-mode tests for critical integration tests, arithmetic-heavy code, unsafe or FFI-heavy code, and anything whose behavior depends on optimization or release-only configuration.
@@ -388,7 +388,7 @@ It's recommended to run those as part of CI.
 
 ![cargo-audit run](cargo-audit.jpg)
 
-## Secure Allocations With mimalloc 
+## Secure Allocations With mimalloc
 
 [mimalloc] is a drop-in global allocator built by Microsoft.
 What's special about it is that it also has a **secure mode**, which adds mitigations like guard pages, randomized allocation, and encrypted free lists to make some heap-corruption bugs harder to exploit. [^mimalloc_safe]
@@ -428,13 +428,13 @@ Now, how you do that depends on your deployment environment, but generally peopl
 A minimal production image contains exactly what you put in it.
 Even if your service is compromised, the attacker has very limited tools at their disposal to do further damage.
 
-My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless), but I recommend that you do your own research[^distroless] as I'm not an expert on this.
+My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless), but please do your own research[^distroless] as I'm not an expert on this.
 
 [^distroless]: Data sources I found useful for this topic include [this post](https://www.minimus.io/post/best-distroless-image-alternatives-2026) and [this comparison](https://safeguard.sh/resources/blog/distroless-vs-chainguard-vs-wolfi-base-images).
 
 Distroless images are minimal Debian-based images stripped of everything unnecessary, while still including TLS certificates and a non-root user.
 For a typical Rust web service, start with `gcr.io/distroless/cc-debian13:nonroot`: it includes the C runtime libraries that a normal Debian-built Rust binary may dynamically link against, but no shell or package manager.
-(Check the latest version in the [distroless README](https://github.com/googlecontainertools/distroless))
+(Check the latest version in the [distroless README](https://github.com/googlecontainertools/distroless).)
 
 Here is an example Dockerfile using [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) for dependency caching:
 
@@ -463,9 +463,9 @@ COPY --from=builder /app/target/release/myapp /bin/myapp
 ENTRYPOINT ["/bin/myapp"]
 ```
 
-Take this Dockerfile as a starting point, but please adapt it to your own project requirements. 
+Take this Dockerfile as a starting point, but please adapt it to your own project requirements.
 
-`cargo-chef` keeps dependency builds in a separate Docker layer, so changing your application code does not force all dependencies to rebuild. The important details are: use the same Rust version in all build stages, build with `--locked`, scope workspace builds with `--bin` when appropriate, and keep `target/`, `.git/`, and editor files out of the build context via `.dockerignore`. For a deep-dive on Docker images and build-time optimization, see [Tips For Faster CI Builds](/blog/tips-for-faster-ci-builds).
+`cargo-chef` keeps dependency builds in a separate Docker layer, so changing your application code does not force all dependencies to rebuild. The important details are: use the same Rust version in all build stages, build with `--locked`, scope workspace builds with `--bin` when appropriate, and keep `target/`, `.git/`, and editor files out of the build context via `.dockerignore`. For a deep dive on Docker images and build-time optimization, see [Tips For Faster CI Builds](/blog/tips-for-faster-ci-builds).
 
 Keep the Debian suffix explicit instead of using the unversioned tag, and pin by digest if reproducible deploys matter to you.
 If you deliberately build a fully static musl binary, then `gcr.io/distroless/static-debian13:nonroot` or even `scratch` can be a better fit. But don't mix the two approaches: a glibc-linked binary needs a runtime image that provides the libraries it links against.
@@ -533,7 +533,7 @@ fn main() {
 Call `sandbox()` as early as possible in `main`, before spawning threads or accepting connections.
 The restrictions apply to the entire process from that point forward.
 
-The two approaches really go hand in hand: 
+The two approaches really go hand in hand:
 - minimal images limit what's *in* the container
 - Landlock limits what the process can *touch* at runtime.
 
@@ -551,7 +551,7 @@ The details vary by platform and orchestrator, so treat Linux containers as one 
 For systemd services, Kubernetes, FreeBSD jails, macOS sandboxing, or Windows services, look up the equivalent least-privilege and sandboxing features for that environment.
 
 The big picture is that security hardening is about reducing the surface of things that can go wrong.
-Every capability your process holds unnecessarily is a liability and everything your code manages that could be delegated to the OS, init system, or container runtime probably should be. 
+Every capability your process holds unnecessarily is a liability and everything your code manages that could be delegated to the OS, init system, or container runtime probably should be.
 
 ## Miri: Detect Unsafe Code Issues
 
@@ -559,8 +559,8 @@ Every capability your process holds unnecessarily is a liability and everything 
 
 It works by executing your Rust code in a special environment that tracks memory accesses, pointer validity, and other low-level details to catch issues that the compiler can't statically guarantee against.
 
-More people should know about Miri, because it is really helpful for tricky to detect race conditions in multi-threaded or async code; but it can do way more than that, of course.
-It detected a lot of [real-world bugs](https://github.com/rust-lang/miri?tab=readme-ov-file#bugs-found-by-miri) already, even in the standard library.
+More people should know about Miri, because it is really helpful for hard-to-detect race conditions in multi-threaded or async code; but it can do way more than that, of course.
+It has already detected a lot of [real-world bugs](https://github.com/rust-lang/miri?tab=readme-ov-file#bugs-found-by-miri), even in the standard library.
 
 Using it is as simple as running:
 
@@ -600,7 +600,7 @@ Instead, it shuts down gracefully when asked.
 Aim to finish in-flight requests, flush your buffers, and release resources cleanly before you exit.
 The pattern is: listen for shutdown signals, stop accepting new work, drain existing work, then exit.
 
-Framework like Axum have [built-in support for graceful shutdown](https://github.com/tokio-rs/axum/blob/main/examples/tls-graceful-shutdown/src/main.rs). Use it!
+Frameworks like Axum have [built-in support for graceful shutdown](https://github.com/tokio-rs/axum/blob/main/examples/tls-graceful-shutdown/src/main.rs). Use it!
 
 The key is handling signals like `SIGTERM` (sent by Kubernetes, systemd, or `docker stop`) and `SIGINT` (Ctrl+C).
 Here's a minimal example using [tokio-graceful-shutdown](https://crates.io/crates/tokio-graceful-shutdown), which is a crate that provides good signal handling without much boilerplate.
@@ -640,7 +640,7 @@ or the more actively maintained [`recloser`](https://crates.io/crates/recloser),
 ## Resource Limits
 
 Unbounded resources are a common source of runtime failures.
-Everybody who was oncall for a production service will tell you this.
+Everybody who was on call for a production service will tell you this.
 
 **Set explicit limits on everything**.
 SREs will thank you for it!
@@ -654,7 +654,7 @@ Common things you should limit include:
 - queue depth for background jobs
 - thread count and DB connection pool size
 
-Here are some examples on how to do these in practice:
+Here are some examples of how to do this in practice:
 
 ### Request body size limits
 
@@ -744,7 +744,7 @@ async fn readiness(
 ) -> Json<HealthResponse> {
     let db_ok = db.ping().await.is_ok();
     let cache_ok = cache.ping().await.is_ok();
-    
+
     let status = match (db_ok, cache_ok) {
         (true, true) => Status::Healthy,
         (false, false) => Status::Unhealthy,
@@ -764,7 +764,7 @@ let app = Router::new()
     .route("/health/ready", get(readiness));
 ```
 
-What's neat about it is that this maps directly to Kubernetes' health check system: 
+What's neat about it is that this maps directly to Kubernetes' health check system:
 
 ```yaml
 livenessProbe:
