@@ -201,7 +201,7 @@ UTF-8 is a great default for application strings, but it's absolutely, positivel
 
 ## Treat Every `panic!` as a Denial of Service
 
-In a CLI, every `unwrap`, every `expect`, every slice index, every unchecked arithmetic operation, every [`from_utf8`](https://doc.rust-lang.org/std/str/fn.from_utf8.html) is a potential denial of service if an attacker can shape the input.
+In a CLI, every `unwrap`, every `expect`, every slice index, every unchecked arithmetic operation, every [`from_utf8`](https://doc.rust-lang.org/std/str/fn.from_utf8.html) is a potential denial of service if an attacker can control the input.
 That's because a `panic!` unwinds the stack and aborts the process. If your tool is running in a cron job, a CI pipeline, or a shell script, that means the whole thing just stops working. Even worse, you could find yourself in a crash loop that paralyzes the entire system.
 
 A canonical case from the audit was `sort --files0-from` ([CVE-2026-35348](https://ubuntu.com/security/CVE-2026-35348)). The flag reads a NUL-separated list of filenames from a file, but the parser called `expect()` on a UTF-8 conversion of each name:
