@@ -12,7 +12,7 @@ reviews = [
 resources = [
     "[Making illegal states unrepresentable](/blog/illegal-state/)",
     "[Compile-time invariants in Rust](/blog/compile-time-invariants/)",
-    "[Hardening Rust Code Against Runtime Failures](/blog/hardening-rust/) -- what can still go wrong at runtime and how to prepare for it",
+    "[Hardening Rust Code For Production](/blog/hardening-rust/) -- what can still go wrong at runtime and how to prepare for it",
 ]
 +++
 
