@@ -1,5 +1,5 @@
 +++
-title = "Hardening Rust Code Against Runtime Failures"
+title = "Hardening Rust Code For Production" 
 date = 2026-07-21
 draft = false
 template = "article.html"
@@ -12,7 +12,7 @@ resources = [
 +++
 
 We talked about [patterns for defensive programming in Rust](/blog/defensive-programming) before, in which implicit invariants that aren't enforced by the compiler lead to utter misery.
-But being careful isn't enough.
+But being careful isn't enough!
 Even valid code can fail at runtime in ways that are hard to predict and control.
 That's what we're covering next.
 
@@ -34,12 +34,12 @@ Click here to expand the table of contents.
 - [Panic Semantics Are Part of Your API](#panic-semantics-are-part-of-your-api)
   - [Unwind vs. Abort](#unwind-vs-abort)
   - [Thread-Level vs. Process-Level Failures](#thread-level-vs-process-level-failures)
-- [Stack Overflow as a Failure Mode](#stack-overflow-as-a-failure-mode)
 - [Observing Failures With Panic Hooks](#observing-failures-with-panic-hooks)
   - [Example Panic Hooks](#example-panic-hooks)
   - [Sanitizing Sensitive Data](#sanitizing-sensitive-data)
   - [Cleanup Operations](#cleanup-operations)
   - [Limitations](#limitations)
+- [Stack Overflows And Runtime Behavior](#stack-overflows-and-runtime-behavior)
 - [Release and Debug Builds Are Two Different Programs](#release-and-debug-builds-are-two-different-programs)
   - [Testing Release Behavior](#testing-release-behavior)
 - [Supply-Chain Security](#supply-chain-security)
@@ -62,8 +62,7 @@ Click here to expand the table of contents.
 
 ## Panic Semantics Are Part of Your API
 
-Here's a question: what happens when a Rust program panics?
-
+What happens when a Rust program panics?
 There is no single correct answer because `panic!` is not a "single behavior."
 
 ### Unwind vs. Abort
@@ -149,7 +148,7 @@ fn main() {
 }
 ```
 
-The output is noisy because Rust prints the panic message to stderr, but the interesting part is this:
+The interesting part of the output is this:
 
 ```text
 request 1: finished
@@ -160,7 +159,7 @@ main: request 3 completed
 main: service keeps running
 ```
 
-Request 2 panics, but requests 1 and 3 still finish. The panic belongs to the worker thread. The main thread sees it through `join()` and keeps running. [^unwinding]
+Request 2 panics, but requests 1 and 3 still finish. The panic belongs to the worker thread. The main thread gets notified on `join()` but keeps running. [^unwinding]
 
 [^unwinding]: This only holds for unwinding panics. If you compile with `panic = "abort"`, or hit a stack overflow or out-of-memory failure, the whole process exits and `join()` never gets a chance to return `Err`.
 
@@ -173,40 +172,6 @@ Treating all panics as equivalent hides important distinctions and leads to frag
 Be explicit about whether a failure may take down a single task, a single thread, or the entire process. 
 
 Never panic in an uncontrolled manner.
-
-## Stack Overflow as a Failure Mode
-
-Okay, you handle errors gracefully and you know how your system behaves on panic.
-But did you account for stack overflows as well? 
-
-Here's some simple recursive code that can quickly exhaust stack space:
-
-```rust
-fn factorial(n: u64) -> u64 {
-    if n == 0 {
-        1
-    } else {
-        n * factorial(n - 1)
-    }
-}
-```
-
-If you allow users to call this function with large inputs, it might crash your program.
-Rust does not guarantee tail-call optimization on stable Rust. Some compilers and languages can turn certain tail-recursive functions into loops, but you should not rely on that transformation in Rust. If recursion depth depends on user input or external data, rewrite the algorithm iteratively or put an explicit bound on the depth.
-
-It requires some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
-
-```rust
-fn factorial(n: u64) -> u64 {
-    let mut result = 1;
-    for i in 1..=n {
-        result *= i;
-    }
-    result
-}
-```
-
-Panic behavior isn't the only runtime failure mode you need to worry about.
 
 ## Observing Failures With Panic Hooks
 
@@ -229,7 +194,7 @@ use std::panic;
 
 fn main() {
     panic::set_hook(Box::new(|panic_info| {
-        eprintln!("Panic occurred: {}", panic_info);
+        eprintln!("Panic occurred: {panic_info}");
         // Log to your monitoring system
         // Send crash reports
         // Clean up resources
@@ -343,6 +308,42 @@ Never rely on panic hooks for correctness.
 
 They're purely for observability and graceful degradation; don't try to recover from logic errors as it is very hard to rely on a system's fragile underpinnings at this stage. 
 
+## Stack Overflows And Runtime Behavior
+
+Okay, you handle errors gracefully and you know how your system behaves on panic.
+Panic behavior isn't the only runtime failure mode you need to worry about.
+
+Here's some simple recursive code.
+What is wrong with it?
+
+```rust
+fn factorial(n: u64) -> u64 {
+    if n == 0 {
+        1
+    } else {
+        n * factorial(n - 1)
+    }
+}
+```
+
+The problem is that recursion can quickly exhaust stack space.
+
+If you allow users to call this function with large inputs, it might crash your program.
+[Rust does not guarantee tail-call optimization on stable Rust](https://weitzel.dev/blog/rustlang-trampoline/). Some compilers and languages can turn certain tail-recursive functions into loops, but you should not rely on that transformation in Rust. If recursion depth depends on user input or external data, rewrite the algorithm iteratively or put an explicit bound on the depth.
+
+It requires some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
+
+```rust
+fn factorial(n: u64) -> u64 {
+    let mut result = 1;
+    for i in 1..=n {
+        result *= i;
+    }
+    result
+}
+```
+
+
 ## Release and Debug Builds Are Two Different Programs
 
 One of the most dangerous assumptions in Rust development is that debug and release builds are functionally equivalent.
@@ -384,6 +385,8 @@ Your code is only as safe as your dependencies.
 You should regularly audit your dependencies for known vulnerabilities.
 Two helpful tools for that are [`cargo-audit`](https://github.com/rustsec/rustsec/tree/main/cargo-audit) and [`cargo-deny`](https://embarkstudios.github.io/cargo-deny/).
 It's recommended to run those as part of CI.
+
+![cargo-audit run](cargo-audit.jpg)
 
 ## Secure Allocations With mimalloc 
 
