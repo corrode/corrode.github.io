@@ -48,7 +48,7 @@ Click here to expand the table of contents.
   - [Minimal Docker Images](#minimal-docker-images)
   - [Filesystem Sandboxing With Landlock](#filesystem-sandboxing-with-landlock)
   - [Drop Privileges and Capabilities](#drop-privileges-and-capabilities)
-- [Miri: Detecting Undefined Behavior at Runtime](#miri-detecting-undefined-behavior-at-runtime)
+- [Miri: Detect Unsafe Code Issues](#miri-detect-unsafe-code-issues) 
 - [Graceful Shutdown Handling](#graceful-shutdown-handling)
 - [Circuit Breakers for External Dependencies](#circuit-breakers-for-external-dependencies)
 - [Resource Limits](#resource-limits)
@@ -428,12 +428,15 @@ Now, how you do that depends on your deployment environment, but generally peopl
 A minimal production image contains exactly what you put in it.
 Even if your service is compromised, the attacker has very limited tools at their disposal to do further damage.
 
-My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless).
-They are minimal Debian-based images stripped of everything unnecessary, while still including TLS certificates and a non-root user.
+My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless), but I recommend that you do your own research[^distroless] as I'm not an expert on this.
+
+[^distroless]: Data sources I found useful for this topic include [this post](https://www.minimus.io/post/best-distroless-image-alternatives-2026) and [this comparison](https://safeguard.sh/resources/blog/distroless-vs-chainguard-vs-wolfi-base-images).
+
+Distroless images are minimal Debian-based images stripped of everything unnecessary, while still including TLS certificates and a non-root user.
 For a typical Rust web service, start with `gcr.io/distroless/cc-debian13:nonroot`: it includes the C runtime libraries that a normal Debian-built Rust binary may dynamically link against, but no shell or package manager.
 (Check the latest version in the [distroless README](https://github.com/googlecontainertools/distroless))
 
-Here is a Dockerfile using [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) for dependency caching:
+Here is an example Dockerfile using [`cargo-chef`](https://github.com/LukeMathWalker/cargo-chef) for dependency caching:
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -460,9 +463,11 @@ COPY --from=builder /app/target/release/myapp /bin/myapp
 ENTRYPOINT ["/bin/myapp"]
 ```
 
-`cargo-chef` keeps dependency builds in a separate Docker layer, so changing your application code does not force all dependencies to rebuild. The important details are: use the same Rust version in all build stages, build with `--locked`, scope workspace builds with `--bin` when appropriate, and keep `target/`, `.git/`, and editor files out of the build context via `.dockerignore`. I covered this pattern in more detail in [Tips For Faster CI Builds](/blog/tips-for-faster-ci-builds/#use-cargo-chef-for-docker-builds).
+Take this Dockerfile as a starting point, but please adapt it to your own project requirements. 
 
-The current distroless README lists `cc-debian13` as the latest `cc` image family. Keep the Debian suffix explicit instead of using the unversioned tag, and pin by digest if reproducible deploys matter to you.
+`cargo-chef` keeps dependency builds in a separate Docker layer, so changing your application code does not force all dependencies to rebuild. The important details are: use the same Rust version in all build stages, build with `--locked`, scope workspace builds with `--bin` when appropriate, and keep `target/`, `.git/`, and editor files out of the build context via `.dockerignore`. For a deep-dive on Docker images and build-time optimization, see [Tips For Faster CI Builds](/blog/tips-for-faster-ci-builds).
+
+Keep the Debian suffix explicit instead of using the unversioned tag, and pin by digest if reproducible deploys matter to you.
 If you deliberately build a fully static musl binary, then `gcr.io/distroless/static-debian13:nonroot` or even `scratch` can be a better fit. But don't mix the two approaches: a glibc-linked binary needs a runtime image that provides the libraries it links against.
 
 {% info(title="A Note On Alpine Base Images", icon="info") %}
@@ -548,9 +553,9 @@ For systemd services, Kubernetes, FreeBSD jails, macOS sandboxing, or Windows se
 The big picture is that security hardening is about reducing the surface of things that can go wrong.
 Every capability your process holds unnecessarily is a liability and everything your code manages that could be delegated to the OS, init system, or container runtime probably should be. 
 
-## Miri: Detecting Undefined Behavior at Runtime
+## Miri: Detect Unsafe Code Issues
 
-[`miri`](https://github.com/rust-lang/miri) is an interpreter for Rust's mid-level intermediate representation (MIR) that can detect undefined behavior at runtime.
+[Miri](https://github.com/rust-lang/miri) is an interpreter for Rust's mid-level intermediate representation (MIR) that can detect undefined behavior at runtime.
 
 It works by executing your Rust code in a special environment that tracks memory accesses, pointer validity, and other low-level details to catch issues that the compiler can't statically guarantee against.
 
@@ -629,16 +634,16 @@ async fn main() -> Result<()> {
 When an external service (database, API, cache) starts failing, you don't want to keep hammering it with requests.
 A circuit breaker tracks failures and "trips" when a threshold is reached.
 
-For production use, consider crates like [`recloser`](https://crates.io/crates/recloser) or [`failsafe`](https://crates.io/crates/failsafe).
+For production use, consider crates like [`failsafe`](https://crates.io/crates/failsafe)
+or the more actively maintained [`recloser`](https://crates.io/crates/recloser), which is based on failsafe.
 
 ## Resource Limits
 
 Unbounded resources are a common source of runtime failures.
 Everybody who was oncall for a production service will tell you this.
 
-Set explicit limits on everything.
+**Set explicit limits on everything**.
 SREs will thank you for it!
-
 Limits make your service more predictable, and they make misconfigurations obvious sooner.
 
 Common things you should limit include:
@@ -713,7 +718,7 @@ enum Status {
 /// which we will return as JSON from
 /// the readiness probe
 #[derive(Serialize)]
-struct HealthStatus {
+struct HealthResponse {
     // Health status of the service
     status: Status,
     // Is the database connection healthy?
@@ -736,7 +741,7 @@ async fn liveness() -> &'static str {
 async fn readiness(
     db: Extension<DbPool>,
     cache: Extension<CachePool>,
-) -> Json<HealthStatus> {
+) -> Json<HealthResponse> {
     let db_ok = db.ping().await.is_ok();
     let cache_ok = cache.ping().await.is_ok();
     
@@ -746,7 +751,7 @@ async fn readiness(
         _ => Status::Degraded,
     };
 
-    Json(HealthStatus {
+    Json(HealthResponse {
         status,
         database: db_ok,
         cache: cache_ok,
@@ -777,7 +782,8 @@ readinessProbe:
   periodSeconds: 5
 ```
 
-The distinction matters because
+Do we really need both probes? Yes, because they serve different purposes:
+
 - Kubernetes stops sending traffic (graceful degradation) if the readiness probe fails. It does not yet kill the pod.
 - Kubernetes restarts your pod if the liveness probe fails (it's self-healing!)
 
