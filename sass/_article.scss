@@ -72,16 +72,26 @@ article li pre {
     font-family: JetBrainsMono;
 }
 
-.author-avatar {
+.article-meta .author-link {
+    flex: 0 0 auto;
+    line-height: 0;
+    text-decoration: none;
+}
+
+.article-meta .author-avatar {
+    display: block;
     width: 40px;
     height: 40px;
+    max-width: none;
+    flex: 0 0 40px;
     border-radius: 50%;
     margin-left: 0;
+    object-fit: cover;
     background-color: $brightBgrdLight;
 }
 
 @media (prefers-color-scheme: dark) {
-    .author-avatar {
+    .article-meta .author-avatar {
         background-color: $brightBgrd;
     }
 }
@@ -154,13 +164,14 @@ article li pre {
 }
 
 article .subheading {
+    display: inline-block;
     font-size: 1.5em;
     font-weight: 600;
     margin-bottom: 0.3em;
-    text-decoration: underline;
-    text-decoration-thickness: 4px;
-    text-underline-offset: 6px;
-    text-decoration-color: $brightScnd;
+    padding-bottom: 0.05em;
+    line-height: 1;
+    border-bottom: 4px solid $brightScnd;
+    text-decoration: none;
 }
 
 article .subheading a {
