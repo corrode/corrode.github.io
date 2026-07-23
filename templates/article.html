@@ -83,20 +83,20 @@
 
 {% block content %}
 <article>
-  <div class="article-heading">
-    <h2 class="subheading">
+  <header class="article-heading">
+    <p class="subheading">
       <a href="{{ get_url(path=page.components | first) }}">{{ page.extra.series }}</a>
-    </h2>
+    </p>
     <h1>{{ page.title }}</h1>
     <div class="article-meta">
       <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
-      <span>by Matthias Endler</span>
-      <span class="icon-calendar"></span>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="icon-calendar" aria-hidden="true"></span>
       <span>
         {% if page.updated %}
-          Last updated: {{ page.updated }}
+          Last updated: <time datetime="{{ page.updated }}">{{ page.updated }}</time>
         {% else %}
-          Published: {{ page.date }}
+          Published: <time datetime="{{ page.date }}">{{ page.date }}</time>
         {% endif %}
       </span>
     </div>
@@ -109,19 +109,19 @@
         src="{{ page.extra.hero }}" alt="{{ page.title }}" />
     </div>
     {% endif %}
-  </div>
+  </header>
   <div class="article-content-wrapper">
     {% if page.extra.wide %}
-    <div class="article-content-wide">
+    <section class="article-content-wide">
     {% else %}
-    <div class="article-content">
+    <section class="article-content">
     {% endif %}
 
       {{ page.content | safe }}
-    </div>
+    </section>
   </div>
 
-  <div class="article-footer">
+  <footer class="article-footer">
     {% if page.extra.resources %}
     <div class="article-resources">
       <h2>Additional Resources</h2>
@@ -146,6 +146,6 @@
     {% include "snippets/newsletter.html" %}
 
     <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
-  </div>
+  </footer>
 </article>
 {% endblock content %}

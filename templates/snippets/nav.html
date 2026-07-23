@@ -1,4 +1,4 @@
-<nav>
+<nav aria-label="Main navigation">
     <!-- Logo and Home Link -->
     <div>
         <a {% if current_path and current_path == "/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}
@@ -10,21 +10,21 @@
         </a>
     </div>
 
-    <input id="menu-toggle" type="checkbox" />
-    <label class="menu-button-container" for="menu-toggle">
-        <div class="menu-button"></div>
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle" aria-label="Toggle navigation menu">
+        <div class="menu-button" aria-hidden="true"></div>
     </label>
 
     <!-- Menu Items -->
     <ul class="menu">
         <li class="nav-theme-toggle">
             <!-- Theme Toggle -->
-            <a href="javascript:toggleColorScheme();">
-                <span id="icon-moon">
+            <a href="javascript:toggleColorScheme();" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
                     {% set sun = load_data(path="static/icons/moon.svg") %}
                     {{ sun | safe }}
                 </span>
-                <span id="icon-sun">
+                <span id="icon-sun" aria-hidden="true">
                     {% set moon = load_data(path="static/icons/sun.svg") %}
                     {{ moon | safe }}
                 </span>
