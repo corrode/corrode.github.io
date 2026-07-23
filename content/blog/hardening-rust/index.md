@@ -1,6 +1,6 @@
 +++
 title = "Hardening Rust Code For Production"
-date = 2026-07-21
+date = 2026-07-23
 draft = false
 template = "article.html"
 [extra]
@@ -8,6 +8,9 @@ series = "Idiomatic Rust"
 resources = [
    "[Patterns for Defensive Programming in Rust](/blog/defensive-programming) -- enforcing invariants that Rust cannot check for you",
    "[Pitfalls of Safe Rust](/blog/pitfalls-of-safe-rust) -- common mistakes even safe Rust programmers make",
+]
+reviews = [
+    { name = "Dirkjan Ochtman", url = "https://dirkjan.ochtman.nl/" },
 ]
 +++
 
