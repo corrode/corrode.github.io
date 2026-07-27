@@ -17,7 +17,7 @@ resources = [
 +++
 
 
-In Rust, not all traits can be used as trait objects with `dyn Trait`.
+In Rust, some traits can't be used as trait objects with `dyn Trait`.
 
 When a trait can't be used with dynamic dispatch, we say it's "not dyn compatible."
 
@@ -49,7 +49,7 @@ If you're reading older resources, they mean the same thing.
 The name got changed because it was confusing.
 
 "Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
-The new term "dyn compatibility" does a better job of reflecting that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch. [^personal_note]
+The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch. [^personal_note]
 
 [^personal_note]: I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
 
@@ -132,7 +132,7 @@ When you use `&dyn Trait`, Rust creates a **trait object**.
 Trait objects use **dynamic dispatch** to call methods at runtime.
 Dynamic dispatch just means that the exact method to call is determined at runtime based on the actual type of the object.
 
-However, for dynamic dispatch to work, the trait's dispatchable API must follow certain rules.
+For dynamic dispatch to work, the trait's dispatchable API must follow certain rules.
 
 1. Dispatchable methods **must not** return `Self`.
 2. Dispatchable methods **must have an allowed receiver** (`&self`, `&mut self`, `Box<Self>`, and a few related pointer forms). Plain static methods don't have one.
@@ -209,7 +209,7 @@ Fair question! Dynamic dispatch has a bunch of really nice properties:
 
 - It's very flexible. You can swap out implementations at runtime, which is great for plugins or when you want to change behavior without recompiling.
 - It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
-  You could technically do the same with generics, but as I mentioned sometimes you can't afford the increase in code size or compile times that come with monomorphization.
+  You could technically do the same with generics, but sometimes you can't afford the increase in code size or compile times that come with monomorphization.
 - It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
   For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
   Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
@@ -383,7 +383,7 @@ If a trait has dispatchable methods that return `Self` or have generic parameter
 
 That is the root cause of dyn compatibility issues.
 
-In summary, a trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility):
+A trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility):
 
 | Rule | Why? |
 |------|------|
@@ -439,7 +439,7 @@ Which fix to reach for depends on what your trait needs and what you're willing 
 | **#1 Generics** (`<W: Widget>`) | You don't actually need trait objects (the concrete type is known at each call site) and you won't mix different types in one collection | Static dispatch only; monomorphization can grow code size and compile times |
 | **#2 `where Self: Sized`** | You want to keep using `dyn Widget`, and the problematic method only ever needs to be called on concrete types | That method isn't callable through `dyn`; tightening the bound later is a breaking change |
 | **#3 Return `Box<dyn Widget>`** | The method returns `Self` and you really need it through a trait object (e.g. a heterogeneous `Vec<Box<dyn Widget>>`) | A heap allocation per call, and `Box<dyn>` tends to spread through your API |
-| **#4 Split into two traits** | The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods | More traits to keep track of (though that separation is often a feature, not a cost) |
+| **#4 Split into two traits** | The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods | More traits to keep track of, though that separation often helps |
 | **`async-trait` / `dynosaur`** | Your trait has `async fn`s and you need to call them through `dyn` | Wrapper types and usually boxed futures/extra indirection until native `dyn` async improves |
 
 In practice you'll often combine these. For example, splitting a trait and boxing a return value.
@@ -455,4 +455,5 @@ If you do, too, here are some resources to dig deeper:
 - 2023-08-24: [Rust 1.72](https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html) - GATs can be opted out with `where Self: Sized`
 - 2023-12-28: [Rust 1.75.0](https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/) - Stabilized `async fn` and return-position `impl Trait` in traits (though such traits still aren't dyn compatible)
 - 2025-01-09: [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/) - The docs had moved from "object safety" to "dyn compatibility" around this release cycle; the [tracking issue](https://github.com/rust-lang/rust/issues/130852) notes that the rename missed the release notes.
-- Planned: the lang team wants a "practical path" to call `async fn`s through `dyn Trait` natively. It's on the [2026 project goals](https://github.com/rust-lang/rfcs/blob/master/text/3935-Project-Goals-2026.md), so the async gotcha above should ease over time
+
+The lang team also wants a "practical path" to call `async fn`s through `dyn Trait` natively. It's on the [2026 project goals](https://github.com/rust-lang/rfcs/blob/master/text/3935-Project-Goals-2026.md), so the async gotcha above should ease over time.
