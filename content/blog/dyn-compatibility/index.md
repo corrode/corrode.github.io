@@ -1,6 +1,6 @@
 +++
 title = "Understanding Dyn Compatibility"
-date = 2026-06-17
+date = 2026-07-28
 draft = false
 template = "article.html"
 [extra]
@@ -16,18 +16,6 @@ resources = [
 ]
 +++
 
-{% info(title="Here's the gist", icon="crab") %}
-
-If the compiler told you a trait is **"not dyn compatible"** your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
-
-To fix it, pick one:
-
-- use generics instead of `&dyn Trait`
-- add `where Self: Sized` to the offending method
-- return `Box<dyn Trait>` instead of `Self`, or
-- split the trait in two
-
-{% end %}
 
 In Rust, not all traits can be used as trait objects with `dyn Trait`.
 
@@ -39,6 +27,19 @@ Dyn compatibility is based on a set of rules that determine whether a trait can 
 Once you understand why these rules exist, they stop looking like arbitrary compiler errors and start pointing at real design choices.
 You'll see the tradeoffs between compile-time generics and runtime polymorphism, and learn when each one fits.
 Knowing your options lets you write more deliberate, flexible Rust.
+
+{% info(title="Quick Summary", icon="crab") %}
+
+If the compiler told you a trait is **"not dyn compatible"** your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
+
+To fix it, pick one:
+
+- use generics instead of `&dyn Trait`
+- add `where Self: Sized` to the offending method
+- return `Box<dyn Trait>` instead of `Self`, or
+- split the trait in two
+
+{% end %}
 
 {% info(title="Dyn Compatibility and Object Safety", icon="crab") %}
 
