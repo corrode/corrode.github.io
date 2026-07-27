@@ -41,6 +41,7 @@ exclude = [
   '^https?://t\.co/',
   '^https?://(www\.)?reddit\.com',
   '^https?://web\.archive\.org',
+  '^https?://news\.ycombinator\.com',
   '^https?://([a-z0-9-]+\.)?amazon\.[a-z.]+',
 
   # Hosts that block automated checkers or answer with non-2xx status codes
@@ -72,6 +73,8 @@ exclude = [
   '^https://fusion\.engineering/?$',                                  # intermittent 500
   '^https://manpages\.ubuntu\.com/manpages/noble/en/man8/sudo\.8\.html', # intermittent timeout
   '^https://greenlab\.di\.uminho\.pt/wp-content/uploads/2017/10/sleFinal\.pdf$', # intermittent timeout
+  '^https://lib\.rs/stats$',                                        # intermittent 502
+  '^https://soller\.dev/?$',                                        # expired TLS cert
 
   # Dead pages we can't repoint to a sensible replacement.
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
