@@ -16,6 +16,28 @@ content %}
     </div>
     <div class="article-content-wrapper">
         <div class="article-content">
+            <figure class="workshop-photo">
+                <picture>
+                    <source
+                        srcset="/workshops/refactoring-rust-rust-week-2026.webp"
+                        type="image/webp"
+                    />
+                    <img
+                        src="/workshops/refactoring-rust-rust-week-2026.jpg"
+                        alt="Engineers working through a Rust refactoring workshop in a classroom at Rust Week 2026 in Utrecht"
+                        width="1400"
+                        height="1050"
+                        loading="lazy"
+                    />
+                </picture>
+                <figcaption>
+                    Refactoring Rust workshop at Rust Week 2026 in Utrecht. I
+                    think hands-on training works best when people discuss
+                    different approaches, ask questions, and leave with patterns
+                    they can apply at work the next day.
+                </figcaption>
+            </figure>
+
             {% set workshops = load_data(path="data/workshops.toml") %}
             <ul class="list-row resource-list">
                 {% for w in workshops.workshop %} {{ cards::row(href=w.url,

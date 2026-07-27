@@ -451,9 +451,4 @@ By acknowledging the challenges and following these strategies, you can ensure a
 
 Check out our ['Rust in Production' podcast](/podcast/) for insights from industry experts on how their teams successfully adopted Rust in production. 
 
-{% info(title="Need Help with Your Rust Project?") %}
-
-If you're considering adopting Rust for your next project, I can help you get started.
-[Reach out for a free consultation](/#contact) if you need help with your Rust project. I'm happy to help you get the most out of Rust and guide you through the process.
-
-{% end %}
+{{ next_steps(context="Considering Rust for your next project and want guidance from someone who's done it before?") }}

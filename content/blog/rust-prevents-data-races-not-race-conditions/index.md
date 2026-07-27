@@ -357,9 +357,4 @@ Rust holds an enormous amount for you, and what remains is the part that lives i
 
 If you want to go deeper on the concurrency side of this, read [Rust Atomics and Locks](https://mara.nl/atomics/) by Mara Bos. It's free online.
 
-{% info(title="Want to get concurrency right in your Rust codebase?", icon="crab") %}
-
-I offer Rust consulting, from code reviews and audits to training your team on the patterns the compiler won't enforce for you, including the concurrency traps in this post.
-[Get in touch](/#contact) to learn more.
-
-{% end %}
+{{ next_steps(context="Want to get concurrency right in your Rust codebase, including the traps covered in this post?") }}

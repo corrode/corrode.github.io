@@ -34,6 +34,32 @@
             color: $brightBgrd;
         }
     }
+
+    // The page is force-dark regardless of theme, so the toggle does nothing here.
+    .nav-theme-toggle {
+        display: none;
+    }
+
+    // The page background is always $brightPrim, so keep the CTA on the orange treatment.
+    .cta-button {
+        background-color: $brightBgrd;
+        color: $brightPrim;
+        border-color: $brightBgrd;
+
+        span {
+            color: $brightPrim;
+        }
+
+        &:hover {
+            background-color: $brightBgrdScnd;
+            border-color: $brightBgrdScnd;
+            color: $brightPrim;
+
+            span {
+                color: $brightPrim;
+            }
+        }
+    }
 }
 
 // Main Content
@@ -87,6 +113,7 @@
     position: relative;
     width: 100%;
     max-width: 1000px;
+    aspect-ratio: 16 / 9;
     margin: 4rem auto 0;
     box-sizing: border-box;
     height: auto;
@@ -126,7 +153,7 @@
 .pro-hero-subtitle {
     font-size: clamp(1rem, 2vw, 1.25rem);
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     max-width: 800px;
     margin: 0 auto 3rem;
 }
@@ -147,7 +174,6 @@
     font-weight: 600;
     text-decoration: none;
     border-radius: 6px;
-    transition: all 0.2s ease;
     cursor: pointer;
     border: 2px solid transparent;
 }
@@ -156,18 +182,15 @@
     background: $brightBgrd;
     color: $heroDark;
     font-size: 1.25rem;
-    box-shadow: 0 0 0 0 rgba($brightBgrd, 0.4);
-    transition: all 0.3s ease;
 
     &:hover {
         background: lighten($brightBgrd, 10%);
-        box-shadow: 0 0 10px 5px rgba($brightBgrd, 0.6);
     }
 }
 
 .pro-btn-secondary {
     background: transparent;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     border-color: rgba(255, 255, 255, 0.2);
     font-size: 1rem;
 
@@ -233,7 +256,7 @@
 
 .pro-section-subtitle {
     font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     text-align: center;
     max-width: 700px;
     margin: 0 auto 4rem;
@@ -256,7 +279,7 @@
     ul {
         list-style-type: square;
         padding-left: 1.5rem;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
     }
 
     li {
@@ -294,7 +317,7 @@
 
 .pro-testimonial-quote {
     font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.7;
     margin-bottom: 1rem;
     font-style: italic;
@@ -325,7 +348,6 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 4rem 3.5rem;
-    transition: all 0.3s ease;
     position: relative;
     flex: 1;
     min-width: 360px;
@@ -372,7 +394,7 @@
 
 .pro-price-note {
     text-align: center;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.72);
     font-size: 0.875rem;
     margin-top: 1rem;
 }
@@ -400,12 +422,12 @@
 
     span {
         font-size: 1.25rem;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.72);
     }
 }
 
 .pro-price-description {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.78);
     margin-bottom: 0.75rem;
     font-size: 0.95rem;
 }
@@ -424,7 +446,7 @@
 
     li {
         padding: 0.75rem 0;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
         display: flex;
         align-items: flex-start;
         gap: 0.75rem;
@@ -656,7 +678,7 @@
     p {
         font-size: 1.125rem;
         line-height: 1.8;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
         max-width: 700px;
         margin-left: auto;
         margin-right: auto;
@@ -692,7 +714,7 @@
     }
 
     p {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.85);
         line-height: 1.6;
         margin: 0;
     }
@@ -719,7 +741,7 @@
     p {
         font-size: 1.125rem;
         line-height: 1.8;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.9);
     }
 }
 
@@ -737,7 +759,6 @@
         color: $brightBgrd;
         text-decoration: none;
         border-bottom: 1px solid rgba($brightBgrd, 0.3);
-        transition: border-color 0.2s ease;
 
         &:hover {
             border-bottom-color: $brightBgrd;
@@ -749,7 +770,7 @@
 .pro-hero-note {
     margin-top: 1rem;
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
 
     a {
         color: $brightBgrd;
@@ -778,6 +799,7 @@
 }
 
 .pro-comparison-table {
+    display: table;
     width: 100%;
     max-width: 700px;
     margin: 2rem auto 0;
@@ -803,7 +825,7 @@
         }
 
         &.muted {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.72);
         }
     }
 
@@ -816,7 +838,7 @@
     }
 
     td {
-        color: rgba(255, 255, 255, 0.9);
+        color: rgba(255, 255, 255, 0.95);
 
         &:first-child {
             font-weight: 600;
@@ -837,7 +859,7 @@
         }
 
         &.muted {
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
         }
     }
 }
@@ -846,7 +868,7 @@
 .pro-pricing-footer {
     text-align: center;
     margin-top: 3rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     font-size: 1.125rem;
 }
 

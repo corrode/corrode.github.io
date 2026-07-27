@@ -1,0 +1,42 @@
+.next-steps {
+    padding: 30px 40px;
+    border-radius: 4px;
+    border: 1px solid $heroDark;
+    margin: 3em 0;
+}
+
+.next-steps-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 0.5em;
+
+    h4 {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.next-steps-context {
+    margin: 0 0 1em;
+}
+
+.next-steps-paths {
+    margin: 0;
+    padding-left: 1.2em;
+
+    li {
+        margin: 0.4em 0;
+        line-height: 1.5;
+    }
+
+    a {
+        font-weight: 700;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .next-steps {
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+}

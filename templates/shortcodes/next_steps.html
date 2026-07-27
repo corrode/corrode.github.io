@@ -1,0 +1,26 @@
+<div class="next-steps">
+    <div class="next-steps-header">
+        <span class="icon icon-crab"></span>
+        <h4>Where to go from here</h4>
+    </div>
+    {% if context %}
+    <p class="next-steps-context">
+        {{ context | markdown(inline=true) | safe }}
+    </p>
+    {% else %}
+    <p class="next-steps-context">
+        Whether you're working on this with a team or on your own, you don't
+        have to figure it out alone.
+    </p>
+    {% endif %}
+    <ul class="next-steps-paths">
+        <li>
+            <a href="/services">For your team</a>. Training, code review, and
+            architecture support to ship Rust with confidence.
+        </li>
+        <li>
+            <a href="/mentorship">For yourself</a>. 1-on-1 mentorship to build
+            deep Rust intuition at your own pace.
+        </li>
+    </ul>
+</div>

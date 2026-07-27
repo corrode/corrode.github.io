@@ -1,5 +1,5 @@
 +++
-title = "From Prototype To Production In Half The Time"
+title = "Help Your Team Ship Production Rust in Half the Time"
 template = "page.html"
 sort_by = "date"
 description = "Friendly, professional Rust consulting services to help companies make the most of Rust. Our offerings include training, consulting, mentoring, code reviews, and team augmentation."
@@ -11,9 +11,13 @@ aliases = ["about"]
   Your browser does not support the video tag.
 </video>
 
+**Friendly, expert Rust consulting and training for engineering teams.** I help your team adopt Rust and ship production-grade services with confidence: faster, and without the costly missteps along the way.
+
+*Looking for help just for yourself? I also offer 1-on-1 [Rust mentorship](/mentorship) for individual engineers.*
+
 ## Here’s the problem...
 
-Rust is a complex language with a large API surface. Writing production-grade Rust requires a lot of architectural decisions. As a team lead excited about Rust, you're responsible for your project's success.
+You're a team lead, excited about Rust and responsible for your project's success. But Rust is a complex language with a large API surface, and writing production-grade Rust requires a lot of architectural decisions.
 Your team wants to do things right, but lacks experience, and you're trying to reduce risk.
 
 Courses alone won't cut it. Nameless agencies offer help, but they don't care about your project or team.
@@ -250,6 +254,7 @@ I'm thankful to be featured in various podcasts and interviews. Here are some of
 
 From time to time I give talks about Rust and open-source software.
 
+- code.talks 2025, Hamburg, Germany - [Rust Beyond The Hype](https://www.youtube.com/watch?v=AkBnXrKmcvw)
 - Softwerkskammer Cologne Meetup - [Testing in Rust](https://www.meetup.com/softwerkskammer-koln/events/300415441/)
 - inovex Meetup Cologne, Germany - [Rust in Production](https://speakerdeck.com/mre/rust-in-production)
 - FOSDEM 2024, Brussels, Belgium - [The Four Horsemen of Bad Rust Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)

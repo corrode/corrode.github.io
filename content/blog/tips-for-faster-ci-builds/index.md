@@ -299,10 +299,4 @@ If you've implemented all these optimizations and your builds are still slow, it
 Remember that each project is unique.
 Start with the easier wins like Swatinem's cache action and `--locked` flag, then progressively implement more advanced optimizations as needed. Monitor your CI metrics to ensure the changes are having the desired effect.
 
-{% info(title="Need Professional Support?", icon="crab") %}
-
-Is your Rust CI still too slow despite implementing these optimizations?
-I can help you identify and fix performance bottlenecks in your build pipeline.
-[Book a free consultation](/services) to discuss your specific needs.
-
-{% end %}
+{{ next_steps(context="Is your Rust CI still too slow despite these optimizations?") }}

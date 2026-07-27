@@ -81,60 +81,7 @@
     </head>
     <body class="pro-page">
         <div class="pro-app">
-            <!-- Standard navigation matching other pages -->
-            <nav>
-                <!-- Logo and Home Link -->
-                <div>
-                    <a class="nav-item" href="{{ config.base_url ~ '/' }}">
-                        <span class="logo">
-                            {% set logo = load_data(path="static/corrode.svg")
-                            %} {{ logo | safe }}
-                        </span>
-                    </a>
-                </div>
-
-                <input id="menu-toggle" type="checkbox" />
-                <label class="menu-button-container" for="menu-toggle">
-                    <div class="menu-button"></div>
-                </label>
-
-                <!-- Menu Items -->
-                <ul class="menu">
-                    <li>
-                        <a class="nav-item" href="{{ config.base_url ~ '/' }}"
-                            ><span>Home</span></a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            class="nav-item"
-                            href="{{ config.base_url ~ '/learn/migration-guides' }}"
-                            ><span>Migrate</span></a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            class="nav-item"
-                            href="{{ config.base_url ~ '/blog' }}"
-                            ><span>Blog</span></a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            class="nav-item"
-                            href="{{ config.base_url ~ '/podcast' }}"
-                            ><span>Podcast</span></a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="{{ config.base_url ~ '/services' }}"
-                            class="cta-button"
-                            ><span>Get Support</span></a
-                        >
-                    </li>
-                </ul>
-            </nav>
+            {% include "snippets/nav.html" %}
 
             <main class="pro-main">{{ section.content | safe }}</main>
         </div>
