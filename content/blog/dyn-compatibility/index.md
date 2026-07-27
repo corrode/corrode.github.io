@@ -17,7 +17,7 @@ resources = [
 +++
 
 
-Some Rust traits can be used as trait objects with `dyn Trait`. Others can't.
+In Rust, not all traits can be used as trait objects with `dyn Trait`.
 
 When a trait can't be used with dynamic dispatch, we say it's "not dyn compatible."
 
@@ -49,7 +49,7 @@ If you're reading older resources, they mean the same thing.
 The name got changed because it was confusing.
 
 "Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
-The new term "dyn compatibility" says the quiet part out loud: can this trait be used as `dyn Trait` for dynamic dispatch? [^personal_note]
+The new term "dyn compatibility" does a better job of reflecting that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch. [^personal_note]
 
 [^personal_note]: I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
 
@@ -117,7 +117,7 @@ note: for a trait to be dyn compatible it needs to allow building a vtable
    = help: only type `Button` implements `Widget`; consider using it directly instead.
 ```
 
-That's a good error message, but it can still be confusing the first time you see it.
+That's a really good error message, but it might still sound pretty confusing in the beginning.
 
 - What does "not dyn compatible" mean?
 - Shouldn't the `dyn` part take care of it?
@@ -129,15 +129,16 @@ You've just run into a **dyn compatibility** problem.
 ## What's going on?
 
 When you use `&dyn Trait`, Rust creates a **trait object**.
-Trait objects use **dynamic dispatch**: Rust chooses the method implementation at runtime based on the concrete type behind the object.
+Trait objects use **dynamic dispatch** to call methods at runtime.
+Dynamic dispatch just means that the exact method to call is determined at runtime based on the actual type of the object.
 
-For that to work, the trait's dispatchable API must follow certain rules.
+However, for dynamic dispatch to work, the trait's dispatchable API must follow certain rules.
 
 1. Dispatchable methods **must not** return `Self`.
 2. Dispatchable methods **must have an allowed receiver** (`&self`, `&mut self`, `Box<Self>`, and a few related pointer forms). Plain static methods don't have one.
 3. Dispatchable methods **must not** have generic type parameters.
 
-These are simplifications. Each method-level rule really means "unless that method opts out with `where Self: Sized`", which we'll see in a moment. Traits also have item-level restrictions, such as no associated constants. We'll come back to the full list later. For now, the rough version is enough.
+These are simplifications: each method-level rule is really "...unless that method opts out with `where Self: Sized`", which we'll see in a moment. Traits also have a few item-level restrictions, such as no associated constants; we'll summarize the fuller list later. For now, the rough version is enough to build intuition.
 
 In our example, we violate the first rule: the `duplicate` method returns `Self`, which means "the same type as the implementor of the trait".
 When you use `&dyn Widget`, the concrete implementor is hidden behind the trait-object interface.
@@ -149,10 +150,11 @@ It will become clearer once we look at some fixes.
 
 ## How To Fix It
 
-We don't have to rewrite everything.
-All fixes use the same `Widget` example, and each fix keeps a different tradeoff.
+Don't worry, we won't have to refactor all our code!
+All fixes use the same `Widget` trait example.
+There are multiple ways to make it dyn compatible.
 
-The main options are:
+We have a bunch of options:
 
 1. Use Generics Instead
 2. Opt Out Problematic Methods with `where Self: Sized`
@@ -167,7 +169,8 @@ Depending on the kind of dyn-compatibility issue, one might fit better than the 
 
 One common way to fix the problem is to use generics instead of trait objects.
 Generics resolve to concrete types *at compile time*, so the compiler knows the size of `Self`.
-The compiler generates a separate version of the function for each concrete type that implements the trait. Since the concrete type is known, the call no longer needs dynamic dispatch.
+Basically, the compiler will generate a separate version of the function for each type that implements the trait. Then at runtime, you no longer need to worry about any dynamic dispatch (which means "figuring out the type at runtime").
+The compiler always knows which type it is dealing with, so it can pick the right method to call.
 
 Our trait stays the same:
 
@@ -202,11 +205,14 @@ The downside is that you can't fully lean on dynamic dispatch anymore and that y
 
 {% info(title="What's the benefit of fully leaning on dynamic dispatch?", icon="crab") %}
 
-Fair question. Dynamic dispatch buys you flexibility. You can swap implementations at runtime, which is handy for plugins or for behavior you want to change without recompiling.
+Fair question! Dynamic dispatch has a bunch of really nice properties:
 
-It also gives you polymorphism without monomorphizing every call site. You treat different implementors the same way through one trait object. Generics can model many of the same ideas, but they create separate code for each concrete type, which can hurt compile times and binary size.
-
-A rendering engine is a classic example. Different shapes can all implement a `Drawable` trait. With dynamic dispatch, you can put them in one collection and call `draw()` on each item. With only generics, you'd need another layer of code to handle each concrete shape type.
+- It's very flexible. You can swap out implementations at runtime, which is great for plugins or when you want to change behavior without recompiling.
+- It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
+  You could technically do the same with generics, but as I mentioned sometimes you can't afford the increase in code size or compile times that come with monomorphization.
+- It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
+  For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
+  Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
 
 {% end %}
 
@@ -377,7 +383,7 @@ If a trait has dispatchable methods that return `Self` or have generic parameter
 
 That is the root cause of dyn compatibility issues.
 
-A trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility):
+In summary, a trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility):
 
 | Rule | Why? |
 |------|------|
@@ -392,10 +398,10 @@ A trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.
 | No opaque return type on dispatchable methods | `async fn` and return-position `impl Trait` hide a concrete return type that must be known statically |
 | Non-dispatchable methods must opt out | A method that violates the dispatch rules can still live on the trait if it has `where Self: Sized`, making it unavailable through `dyn Trait` |
 
-The details get long, but the idea is short:
+That's quite a lot of rules, but they all boil down to the same core issue:
 **the `dyn Trait` interface must have a finite, statically-known shape even though the concrete implementor behind it is hidden.**
 
-For the exact normative list, use the [dyn compatibility section of the Rust Reference](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility). The rules above are the working version; the Reference is the spec.
+If you ever need the gory details (the exact, normative list of what makes a trait dyn compatible), the [dyn compatibility section of the Rust Reference](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility) is the source of truth. The rules above are the gist; the spec is the fine print.
 
 {% info(title="A Modern Gotcha: `async fn` in Traits", icon="crab") %}
 
@@ -423,8 +429,8 @@ If you need dynamic dispatch with async methods today, you have a few options:
 3. Type information is erased at runtime to allow polymorphism
 4. The compiler must guarantee type safety at all times, even if it can't see the concrete type
 
-If your trait is not dyn compatible, you're in good company. Many standard library traits (`Clone`, `Default`, etc.) aren't dyn compatible either.
-You can usually work around the limitation with type erasure, generics, or smaller traits.
+If your trait is not dyn compatible, don't worry! Many standard library traits (`Clone`, `Default`, etc.) are also not dyn compatible.
+As we've seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits. 
 
 Which fix to reach for depends on what your trait needs and what you're willing to give up:
 
@@ -433,10 +439,10 @@ Which fix to reach for depends on what your trait needs and what you're willing 
 | **#1 Generics** (`<W: Widget>`) | You don't actually need trait objects (the concrete type is known at each call site) and you won't mix different types in one collection | Static dispatch only; monomorphization can grow code size and compile times |
 | **#2 `where Self: Sized`** | You want to keep using `dyn Widget`, and the problematic method only ever needs to be called on concrete types | That method isn't callable through `dyn`; tightening the bound later is a breaking change |
 | **#3 Return `Box<dyn Widget>`** | The method returns `Self` and you really need it through a trait object (e.g. a heterogeneous `Vec<Box<dyn Widget>>`) | A heap allocation per call, and `Box<dyn>` tends to spread through your API |
-| **#4 Split into two traits** | The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods | More traits to keep track of, but clearer separation |
+| **#4 Split into two traits** | The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods | More traits to keep track of (though that separation is often a feature, not a cost) |
 | **`async-trait` / `dynosaur`** | Your trait has `async fn`s and you need to call them through `dyn` | Wrapper types and usually boxed futures/extra indirection until native `dyn` async improves |
 
-You'll often combine these. For example, you might split a trait and box a return value.
+In practice you'll often combine these. For example, splitting a trait and boxing a return value.
 
 ### Historical Notes
 
