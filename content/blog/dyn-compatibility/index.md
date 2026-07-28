@@ -24,9 +24,9 @@ When a trait can't be used with dynamic dispatch, we say it's "not dyn compatibl
 This has an impact on how you can use these traits in your code. 
 Dyn compatibility is based on a set of rules that determine whether a trait can be turned into a trait object.
 
-Once you understand why these rules exist, they stop looking like arbitrary compiler errors and start pointing at real design choices.
-You'll see the tradeoffs between compile-time generics and runtime polymorphism, and learn when each one fits.
-Knowing your options lets you write more deliberate, flexible Rust.
+Once you understand why these rules exist, you'll know how to get around them by choosing a better design for your trait.
+Fixing the issue is mostly about tradeoffs between compile-time generics and runtime polymorphism and learning when each one fits.
+This lets you write more deliberate, flexible Rust.
 
 {% info(title="Quick Summary", icon="crab") %}
 
@@ -39,6 +39,8 @@ To fix it, pick one:
 - return `Box<dyn Trait>` instead of `Self`, or
 - split the trait in two
 
+Continue reading to understand the tradeoffs between each approach.
+
 {% end %}
 
 {% info(title="Dyn Compatibility and Object Safety", icon="crab") %}
@@ -49,9 +51,7 @@ If you're reading older resources, they mean the same thing.
 The name got changed because it was confusing.
 
 "Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
-The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch. [^personal_note]
-
-[^personal_note]: I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
+The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch, although I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
 
 {% end %}
 
@@ -124,8 +124,6 @@ That's a really good error message, but it might still sound pretty confusing in
 - What's a "vtable", and why does the trait need to "allow building" one?
 - What does it have to do with `Self`?
 
-You've just run into a **dyn compatibility** problem.
-
 ## What's going on?
 
 When you use `&dyn Trait`, Rust creates a **trait object**.
@@ -156,20 +154,21 @@ There are multiple ways to make it dyn compatible.
 
 We have a bunch of options:
 
-1. Use Generics Instead
-2. Opt Out Problematic Methods with `where Self: Sized`
-3. Return Boxed Trait Objects Instead of `Self`
-4. Split Into Two Traits
+1. Use generics instead
+2. Opt out problematic methods with `where Self: Sized`
+3. Return boxed trait objects instead of `Self`
+4. Split into two traits
 
-Let's look at each of these in detail.
 Each approach comes with different tradeoffs.
 Depending on the kind of dyn-compatibility issue, one might fit better than the others, or you might combine a few.
+Let's look at each of these in detail.
 
 ### Fix #1: Use Generics Instead
 
 One common way to fix the problem is to use generics instead of trait objects.
 Generics resolve to concrete types *at compile time*, so the compiler knows the size of `Self`.
-Basically, the compiler will generate a separate version of the function for each type that implements the trait. Then at runtime, you no longer need to worry about any dynamic dispatch (which means "figuring out the type at runtime").
+Basically, the compiler will generate a separate copy of the function for each concrete type that implements the trait.
+Then, at runtime, you no longer need to worry about any dynamic dispatch (which means "figuring out the type at runtime").
 The compiler always knows which type it is dealing with, so it can pick the right method to call.
 
 Our trait stays the same:
@@ -185,7 +184,7 @@ But now we change the function which uses the trait to use generics instead of `
 
 ```rust
 // Instead of: fn show_widget(widget: &dyn Widget)
-// Use generics:
+// use generics:
 fn show_widget<W: Widget>(widget: &W) {
     widget.draw();
     let copy = widget.duplicate();
@@ -201,7 +200,7 @@ The difference is that with generics, the compiler knows the concrete type at co
 For instance, we might know that `W` is `Button` in this case, so `duplicate` returns a `Button`.
 Now the confusion about what `Self` means is gone!
 
-The downside is that you can't fully lean on dynamic dispatch anymore and that you might have to refactor a lot of code if you were using trait objects extensively before.
+The downside is that you can't fully lean on dynamic dispatch anymore and that you might have to refactor a lot of code if you were using trait objects extensively before. Your binary size might also grow because of all the copies of the function that the compiler generates for each concrete type.
 
 {% info(title="What's the benefit of fully leaning on dynamic dispatch?", icon="crab") %}
 
@@ -257,7 +256,7 @@ So you keep most of the flexibility of trait objects (unlike with generics), as 
 
 We can change the return type of the problematic method to return a boxed trait object instead of `Self`.
 
-This works because `Box<dyn Widget>` has a known size at compile time. It's a pointer to an object on the heap. (It's actually a *fat pointer*: two words wide, or 16 bytes on a 64-bit system, because it also stores a pointer to the vtable; more on that later.) What matters is that this size is fixed and known at compile time, unlike `Self`, which varies based on the concrete type.
+This works because `Box<dyn Widget>` has a known size at compile time. It's a pointer to an object on the heap. It's actually a *fat pointer*: two words wide, or 16 bytes on a 64-bit system, because it also stores a pointer to the vtable; more on that later. What matters is that this size is fixed and known at compile time, unlike `Self`, which varies based on the concrete type.
 
 ```rust
 trait Widget {
@@ -296,7 +295,7 @@ fn main() {
 }
 ```
 
-One cost: `Box<dyn>` tends to be viral in your codebase. You'll end up writing `Box<dyn Widget>` more often than you'd like, which gets noisy.
+The downside is that `Box<dyn>` tends to be viral in your codebase. You'll end up writing `Box<dyn Widget>` more often than you'd like, which gets noisy.
 
 On top of that, this fix only works for methods that return `Self`.
 If your trait also has static methods or generic methods, you'll need to combine this approach with one of the other fixes.
@@ -305,13 +304,13 @@ If your trait also has static methods or generic methods, you'll need to combine
 
 Sometimes the best solution is to separate the dyn-compatible methods from the problematic ones into different traits.
 
-Maybe your code is silently trying to tell you that you are mixing up two different concepts and that they should be untangled. 
+Maybe your code is silently trying to tell you that you are mixing up two different responsibilities and that they should be untangled. 
 
 In general, prefer smaller, focused traits over large, monolithic ones.
 Traits are not interfaces!
-Instead, we lean on composition and focus on behavior rather than mangling multiple responsibilities into a single trait.
+Instead, we lean on composition and focus on behavior rather than mangling multiple ideas into a single trait.
 
-Here's a more realistic example: separating rendering from widget creation. Factory methods are often static (no `self` parameter), which makes them incompatible with `dyn`. So we split them into separate traits.
+Here's a more realistic example: separating rendering from widget creation. Factory methods are often static (no `self` parameter), which makes them incompatible with `dyn`. So we split them off into a separate trait.
 
 ```rust
 // This trait can be used with dyn
@@ -319,7 +318,7 @@ trait Widget {
     fn draw(&self);
 }
 
-// Separate trait for creating widgets - can't be used with dyn
+// Separate trait for creating widgets. Can't be used with `dyn`
 trait WidgetFactory {
     fn create(label: String) -> Self;  // No self parameter!
 }
