@@ -43,7 +43,7 @@ This episode is about where Rust fits into that world. We talk about why JetBrai
 - [How Rust IDEs Understand Code](https://blog.jetbrains.com/rust/2026/05/29/how-rust-ides-understand-code/) - Recap of the RustRover and rust-analyzer livestream with Lukas Wirth and Vlad Beskrovny
 - [Salsa](https://github.com/salsa-rs/salsa) - The incremental computation framework used by rust-analyzer
 - [RustRover licenses for open source](https://www.jetbrains.com/community/opensource/) - One way JetBrains supports open-source projects
-- [Rust Berlin Talks at JetBrains](https://berline.rs/2026/04/01/berlin-talks.html) - Berlin Rust meetup hosted at the JetBrains office
+- [Rust Berlin Talks at JetBrains](https://www.youtube.com/watch?v=ut5EHZ2FK0c) - Berlin Rust meetup hosted at the JetBrains office
 - [JetBrains Academy plugin](https://plugins.jetbrains.com/plugin/10081-jetbrains-academy) - Learn Rust inside RustRover and other JetBrains IDEs
 - [Rust in Production: Rust with Niko Matsakis](https://corrode.dev/podcast/s04e04-rust/) - The Rust Project episode mentioned in this conversation
 - [Rust Commercial Network](https://rustfoundation.org/rust-commercial-network/) - JetBrains and Ratatui are both part of the network
