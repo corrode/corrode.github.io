@@ -53,7 +53,7 @@ This episode is about where Rust fits into that world. We talk about why JetBrai
 - [Zig 2026: No-AI Policy, $670K Foundation, Left GitHub & Why Zig Isn't 1.0](https://www.youtube.com/watch?v=iqddnwKF8HQ) - JetBrains' interview with Andrew Kelley
 - [Interactive declarative macro tester](https://blog.jetbrains.com/rust/2026/07/22/whats-new-in-rustrover-2026-2/) - A RustRover feature for better macro debugging during development
 - [Grindhouse](https://grindhouse.dev/) - A joke turned into a flourishing community
-- [Terminal Tuesdays](https://www.youtube.com/@orhundev) - Orhun's terminal-focused livestreams and interviews
+- [Terminal Tuesdays](https://www.youtube.com/@TerminalCollectiveOrg) - Orhun's terminal-focused livestreams and interviews
 - [Terminal Collective Discord](https://discord.com/invite/6EUERBrAMs) - The terminal community Discord server
 - [Ratty](https://github.com/orhun/ratty) - A fun GPU-rendered terminal emulator with inline 3D graphics
 
