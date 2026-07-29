@@ -12,7 +12,7 @@ resources = [
 "[The Rust Reference: Dyn Compatibility](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility)",
 "[The Rust Reference: Trait Objects](https://doc.rust-lang.org/reference/types/trait-object.html)",
 "[Rust error E0038: dyn compatibility](https://doc.rust-lang.org/error_codes/E0038.html)",
-"[Two Ways To Do Dynamic Dispatch](https://www.youtube.com/watch?v=wU8hQvU8aKM) - Video by Logan Smith, which explains dyn dispatch from first principles"
+"[Two Ways To Do Dynamic Dispatch](https://www.youtube.com/watch?v=wU8hQvU8aKM) - Video by Logan Smith, which explains dyn dispatch from first principles",
 ]
 +++
 
@@ -20,26 +20,26 @@ resources = [
 In Rust, some traits can't be used as trait objects with `dyn Trait`.
 
 When a trait can't be used with dynamic dispatch, we say it's "not dyn compatible." [^object-safety]
-This has an impact on how you can use these traits in your code. 
+This has an impact on how you can use these traits in your code.
 
 [^object-safety]: The concept used to be called "object safety" until Rust 1.84.0. If you're reading older resources, they mean the same thing. The name got changed because it was confusing.
 
     "Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
-    The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch, although I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
-  
-I think that's one are where the Rust compiler could print a more helpful error message.
-  
+    The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch. I still don't love either term, but I also can't think of a better name that is both short and accurate.
+
+I think that's one area where the Rust compiler could print a more helpful error message.
+
 Fixing the issue is mostly about tradeoffs between compile-time generics and runtime polymorphism and learning when each one fits.
 Once you understand the concept, you'll know how to get around the issues by choosing a better design for your trait.
 
 {% info(title="Quick Help", icon="crab") %}
 
-If the compiler told you a trait is **"not dyn compatible"** your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
+If the compiler told you a trait is **"not dyn compatible"**, your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
 
 To fix it, pick one:
 
 - add `where Self: Sized` to the offending method
-- return `Box<dyn Trait>` instead of `Self`, or
+- return `Box<dyn Trait>` instead of `Self`
 - use generics instead of `&dyn Trait`
 - split the trait in two
 
@@ -53,7 +53,7 @@ Continue reading to understand the tradeoffs between each approach.
 
 Here's an example with code that **won't compile**.
 
-Say you have a trait `Widget` which has a method that returns a copy of itself:
+Say you have a trait `Widget` that has a method returning a copy of itself:
 
 ```rust
 trait Widget {
@@ -73,7 +73,7 @@ impl Widget for Button {
     fn draw(&self) {
         // ...
     }
-    
+
     fn duplicate(&self) -> Self {
         Button { label: self.label.clone() }
     }
@@ -111,7 +111,7 @@ note: for a trait to be dyn compatible it needs to allow building a vtable
    = help: only type `Button` implements `Widget`; consider using it directly instead.
 ```
 
-That all sounds sounds pretty confusing.
+That all sounds pretty confusing.
 
 - What does "not dyn compatible" mean?
 - Shouldn't the `dyn` part take care of it?
@@ -161,7 +161,7 @@ Let's look at each of these in detail.
 
 One common way to fix the problem is to use generics instead of trait objects.
 Generics resolve to concrete types *at compile time*, so the compiler knows the size of `Self`.
-Basically, the compiler will generate a separate copy of the function for each concrete type that implements the trait.
+The compiler generates a separate copy of the function for each concrete type that implements the trait.
 Then, at runtime, you no longer need to worry about any dynamic dispatch (which means "figuring out the type at runtime").
 The compiler always knows which type it is dealing with, so it can pick the right method to call.
 
@@ -187,14 +187,14 @@ fn show_widget<W: Widget>(widget: &W) {
 ```
 
 Note how we changed the function signature to use a generic type parameter `W` that implements the `Widget` trait.
-Here we tell Rust: "I have some type `W` that implements `Widget`, and I want to use it." and Rust will happily generate all the necessary code for each type used.
+Here we tell Rust: "I have some type `W` that implements `Widget`, and I want to use it." Rust then generates the necessary code for each type used.
 
 That's close to using `&dyn Widget`, but not quite the same.
 The difference is that with generics, the compiler knows the concrete type at compile time, so it can handle `Self` correctly.
 For instance, we might know that `W` is `Button` in this case, so `duplicate` returns a `Button`.
 Now the confusion about what `Self` means is gone!
 
-The downside is that you can't fully lean on dynamic dispatch anymore and that you might have to refactor a lot of code if you were using trait objects extensively before. Your binary size might also grow because of all the copies of the function that the compiler generates for each concrete type.
+The downside is that you can't fully lean on dynamic dispatch anymore, and you might have to refactor a lot of code if you were using trait objects extensively before. Your binary size might also grow because of all the copies of the function that the compiler generates for each concrete type.
 
 {% info(title="What's the benefit of fully leaning on dynamic dispatch?", icon="crab") %}
 
@@ -216,9 +216,11 @@ Another option is to keep using trait objects but change the problematic method 
 ```rust
 trait Widget {
     fn draw(&self);
-    
+
     // Only available when the concrete type is known
-    fn duplicate(&self) -> Self where Self: Sized;
+    fn duplicate(&self) -> Self
+    where
+        Self: Sized;
 }
 ```
 
@@ -231,14 +233,14 @@ You won't be able to call `duplicate` on `&dyn Widget`, but you can still call i
 ```rust
 fn main() {
     let button = Button { label: "Click me".to_string() };
-    
+
     // Can use as trait object now!
     let widget: &dyn Widget = &button;
     widget.draw();  // ✅ Works
- 
+
     // ❌ Can't call this on trait objects
-    // widget.duplicate(); 
-    
+    // widget.duplicate();
+
     // ✅ But duplicate still works on concrete types:
     let button2 = button.duplicate();
 }
@@ -268,7 +270,7 @@ impl Widget for Button {
     fn draw(&self) {
         println!("Button: {}", self.label);
     }
-    
+
     fn duplicate(&self) -> Box<dyn Widget> {
         Box::new(Button { label: self.label.clone() })
     }
@@ -280,7 +282,7 @@ fn main() {
         Box::new(Button { label: "Click me".to_string() }),
         Box::new(Button { label: "Submit".to_string() }),
     ];
-    
+
     for widget in &widgets {
         widget.draw();
         let copy = widget.duplicate();
@@ -298,7 +300,7 @@ If your trait also has static methods or generic methods, you'll need to combine
 
 Sometimes the best solution is to separate the dyn-compatible methods from the problematic ones into different traits.
 
-Maybe your code is silently trying to tell you that you are mixing up two different responsibilities and that they should be untangled. 
+Maybe your code is silently trying to tell you that you are mixing up two different responsibilities and that they should be untangled.
 
 In general, prefer smaller, focused traits over large, monolithic ones.
 Traits are not interfaces!
@@ -364,7 +366,7 @@ As you can see, a trait object has:
 2. A **vtable pointer** that points to a table of function pointers for the methods
 
 The [vtable](https://en.wikipedia.org/wiki/Virtual_method_table) is created at compile time and contains pointers to the methods for the specific type.
-It is a concept that is common in many programming languages that support dynamic dispatch, such as C++, C#, or D. 
+It is common in many programming languages that support dynamic dispatch, such as C++, C#, or D.
 When you call a method on a trait object, Rust uses the vtable to look up the correct function to call based on the actual type of the data.
 
 For dynamic dispatch to be sound, the vtable-facing methods need stable, concrete function signatures:
@@ -376,7 +378,7 @@ If a trait has dispatchable methods that return `Self` or have generic parameter
 
 That is the root cause of dyn compatibility issues.
 
-A trait is **dyn compatible** if it follows [a list of rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility). 
+A trait is **dyn compatible** if it follows [a list of rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility).
 
 <details>
 <summary>
@@ -427,7 +429,7 @@ If you need dynamic dispatch with async methods today, you have a few options:
 4. The compiler must guarantee type safety at all times, even if it can't see the concrete type
 
 If your trait is not dyn compatible, don't worry! Many standard library traits (`Clone`, `Default`, etc.) are also not dyn compatible.
-As we've seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits. 
+As we've seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits.
 
 Which fix to reach for depends on what your trait needs and what you're willing to give up:
 
