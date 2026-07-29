@@ -64,5 +64,6 @@ This episode is about where Rust fits into that world. We talk about why JetBrai
 - [JetBrains Open Source Support](https://www.jetbrains.com/community/opensource/)
 - [Orhun's Website](https://orhun.dev/)
 - [Orhun on GitHub](https://github.com/orhun)
+- [Orhun on YouTube](https://youtube.com/@orhundev)
 - [Orhun on Bluesky](https://bsky.app/profile/orhun.dev)
 - [Orhun on LinkedIn](https://www.linkedin.com/in/orhunp/)
