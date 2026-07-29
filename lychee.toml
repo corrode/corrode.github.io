@@ -73,7 +73,8 @@ exclude = [
   '^https://fusion\.engineering/?$',                                  # intermittent 500
   '^https://manpages\.ubuntu\.com/manpages/noble/en/man8/sudo\.8\.html', # intermittent timeout
   '^https://greenlab\.di\.uminho\.pt/wp-content/uploads/2017/10/sleFinal\.pdf$', # intermittent timeout
-  '^https://lib\.rs/stats$',                                        # intermittent 502
+  '^https://martinfowler\.com/bliki/StranglerFigApplication\.html$', # intermittent timeout
+  '^https://lib\.rs',                                               # intermittent 502
   '^https://soller\.dev/?$',                                        # expired TLS cert
 
   # Dead pages we can't repoint to a sensible replacement.
