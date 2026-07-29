@@ -1,6 +1,6 @@
 +++
 title = "Understanding Dyn Compatibility"
-date = 2026-07-28
+date = 2026-07-29
 draft = false
 template = "article.html"
 [extra]
@@ -19,41 +19,35 @@ resources = [
 
 In Rust, some traits can't be used as trait objects with `dyn Trait`.
 
-When a trait can't be used with dynamic dispatch, we say it's "not dyn compatible."
-
+When a trait can't be used with dynamic dispatch, we say it's "not dyn compatible." [^object-safety]
 This has an impact on how you can use these traits in your code. 
-Dyn compatibility is based on a set of rules that determine whether a trait can be turned into a trait object.
 
-Once you understand why these rules exist, you'll know how to get around them by choosing a better design for your trait.
+[^object-safety]: The concept used to be called "object safety" until Rust 1.84.0. If you're reading older resources, they mean the same thing. The name got changed because it was confusing.
+
+    "Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
+    The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch, although I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
+  
+I think that's one are where the Rust compiler could print a more helpful error message.
+  
 Fixing the issue is mostly about tradeoffs between compile-time generics and runtime polymorphism and learning when each one fits.
-This lets you write more deliberate, flexible Rust.
+Once you understand the concept, you'll know how to get around the issues by choosing a better design for your trait.
 
-{% info(title="Quick Summary", icon="crab") %}
+{% info(title="Quick Help", icon="crab") %}
 
 If the compiler told you a trait is **"not dyn compatible"** your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
 
 To fix it, pick one:
 
-- use generics instead of `&dyn Trait`
 - add `where Self: Sized` to the offending method
 - return `Box<dyn Trait>` instead of `Self`, or
+- use generics instead of `&dyn Trait`
 - split the trait in two
 
 Continue reading to understand the tradeoffs between each approach.
 
 {% end %}
 
-{% info(title="Dyn Compatibility and Object Safety", icon="crab") %}
 
-This concept used to be called "object safety" until Rust 1.84.0.
-If you're reading older resources, they mean the same thing.
-
-The name got changed because it was confusing.
-
-"Object safety" suggests that Rust has "objects" in the traditional OOP sense and that the term is about "safety", which is misleading.
-The new term "dyn compatibility" does a better job of saying that it's about whether a trait can be used with `dyn Trait` for dynamic dispatch, although I personally don't like either of the terms, but to be honest, I also can't think of a better name that is both short and accurate.
-
-{% end %}
 
 ## The Error Message
 
@@ -117,7 +111,7 @@ note: for a trait to be dyn compatible it needs to allow building a vtable
    = help: only type `Button` implements `Widget`; consider using it directly instead.
 ```
 
-That's a really good error message, but it might still sound pretty confusing in the beginning.
+That all sounds sounds pretty confusing.
 
 - What does "not dyn compatible" mean?
 - Shouldn't the `dyn` part take care of it?
@@ -382,7 +376,12 @@ If a trait has dispatchable methods that return `Self` or have generic parameter
 
 That is the root cause of dyn compatibility issues.
 
-A trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility):
+A trait is **dyn compatible** if it follows [a list of rules](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility). 
+
+<details>
+<summary>
+Click here for the full list.
+</summary>
 
 | Rule | Why? |
 |------|------|
@@ -396,20 +395,19 @@ A trait is **dyn compatible** if it follows [these rules](https://doc.rust-lang.
 | No `Self` return type on dispatchable methods | The caller needs to know the return value's size and type, but `Self` could be any implementor |
 | No opaque return type on dispatchable methods | `async fn` and return-position `impl Trait` hide a concrete return type that must be known statically |
 | Non-dispatchable methods must opt out | A method that violates the dispatch rules can still live on the trait if it has `where Self: Sized`, making it unavailable through `dyn Trait` |
+</details>
 
-That's quite a lot of rules, but they all boil down to the same core issue:
+The rules boil down to the same core issue:
 **the `dyn Trait` interface must have a finite, statically-known shape even though the concrete implementor behind it is hidden.**
-
-If you ever need the gory details (the exact, normative list of what makes a trait dyn compatible), the [dyn compatibility section of the Rust Reference](https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility) is the source of truth. The rules above are the gist; the spec is the fine print.
 
 {% info(title="A Modern Gotcha: `async fn` in Traits", icon="crab") %}
 
 Since [Rust 1.75](https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/), you can write `async fn` directly in a trait.
 But there's a catch: a trait with an `async fn` is **not dyn compatible**.
 
-The reason fits right into what we've seen.
 An `async fn` desugars to a regular method that returns `impl Future<...>`, a hidden return-position `impl Trait`.
-Opaque return types aren't dispatchable, so the trait can't be used behind `dyn`.
+The type is called "opaque", because we don't know what it is, and the compiler doesn't expose it to us.
+Opaque return types aren't dispatchable (which means we can't put them in a vtable of functions), so the trait can't be used behind `dyn`.
 
 If you need dynamic dispatch with async methods today, you have a few options:
 
@@ -435,7 +433,7 @@ Which fix to reach for depends on what your trait needs and what you're willing 
 
 | Fix | Reach for it when... | The tradeoff |
 |-----|----------------------|--------------|
-| **#1 Generics** (`<W: Widget>`) | You don't actually need trait objects (the concrete type is known at each call site) and you won't mix different types in one collection | Static dispatch only; monomorphization can grow code size and compile times |
+| **#1 Generics** (`<W: Widget>`) | You don't actually need trait objects (the concrete type is known at each call site) and you won't mix different types in one collection | Static dispatch only; monomorphization can grow code size and compile times and generic parameters need to be passed around in your API |
 | **#2 `where Self: Sized`** | You want to keep using `dyn Widget`, and the problematic method only ever needs to be called on concrete types | That method isn't callable through `dyn`; tightening the bound later is a breaking change |
 | **#3 Return `Box<dyn Widget>`** | The method returns `Self` and you really need it through a trait object (e.g. a heterogeneous `Vec<Box<dyn Widget>>`) | A heap allocation per call, and `Box<dyn>` tends to spread through your API |
 | **#4 Split into two traits** | The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods | More traits to keep track of, though that separation often helps |
@@ -453,6 +451,6 @@ If you do, too, here are some resources to dig deeper:
 - 2015-01-03: [RFC 546](https://rust-lang.github.io/rfcs/0546-Self-not-sized-by-default.html) - Removed implied `Sized` bound on traits
 - 2023-08-24: [Rust 1.72](https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html) - GATs can be opted out with `where Self: Sized`
 - 2023-12-28: [Rust 1.75.0](https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/) - Stabilized `async fn` and return-position `impl Trait` in traits (though such traits still aren't dyn compatible)
-- 2025-01-09: [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/) - The docs had moved from "object safety" to "dyn compatibility" around this release cycle; the [tracking issue](https://github.com/rust-lang/rust/issues/130852) notes that the rename missed the release notes.
+- 2025-01-09: [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/) - The docs had moved from "object safety" to "dyn compatibility" around this release cycle; the [tracking issue](https://github.com/rust-lang/rust/issues/130852#issuecomment-2947417189) notes that the rename unfortunately missed the release notes.
 
 The lang team also wants a "practical path" to call `async fn`s through `dyn Trait` natively. It's on the [2026 project goals](https://github.com/rust-lang/rfcs/blob/master/text/3935-Project-Goals-2026.md), so the async gotcha above should ease over time.
