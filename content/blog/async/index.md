@@ -433,7 +433,7 @@ fn main() {
 }
 ```
 
-([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=6f134711236a897f8d5b53cd5798fe37))
+([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=6f134711236a897f8d5b53cd5798fe37))
 
 
 ## Common Prejudice Against Threads
