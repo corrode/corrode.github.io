@@ -1,7 +1,7 @@
 +++
 title = "The State of Async Rust: Runtimes"
 date = 2024-02-21
-updated = 2026-05-09
+updated = 2026-07-30
 draft = false
 template = "article.html"
 [extra]
@@ -428,13 +428,12 @@ fn main() {
 
     // Receive messages from the channel
     for received in rx {
-        println!("Got: {:?}", received);
+        println!("Got: {received:?}");
     }
 }
 ```
 
-([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=6f134711236a897f8d5b53cd5798fe37))
-
+([Link to playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=fdaf503d054930dacf5b0a921ddb942d))
 
 ## Common Prejudice Against Threads
 
