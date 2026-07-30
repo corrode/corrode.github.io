@@ -12,6 +12,8 @@ episode = "09"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-f02961e4" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rustrover-with-orhun-parmaksiz-9e48c9f8-fa3f-45a6-8e32-442a5bd76600/player.js?size=s"></script></div>
+
 Welcome to the final episode of this season of Rust in Production. My guest is Orhun Parmaksız from JetBrains, and we talk about building developer tools with Rust.
 
 JetBrains is best known for IntelliJ IDEA, Kotlin, and a long line of IDEs for professional software teams. In the Rust world, that now includes RustRover: a commercial IDE built on the IntelliJ platform, with deep Rust support for navigation, refactoring, debugging, testing, and large codebases.
