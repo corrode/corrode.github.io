@@ -1,6 +1,6 @@
 +++
 title="Rust and C++ Interop"
-date=2026-05-22
+date=2026-07-30
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -25,30 +25,30 @@ resources = [
 ]
 +++
 
-Every conversation I have with a team that ships Rust into an existing C++ codebase reaches the same point: "the language is great, the interop is the hard part."
-
-That tracks with the [Microsoft episode of *Rust in Production*](/podcast/s04e01-microsoft/) we recorded with Victor Ciura. His one-line summary, paraphrased: *"The biggest challenge for gradual Rust adoption inside Microsoft is interop, and specifically interop with C++."* Google, Mozilla, KDAB, Canonical, Shopify, Brave, the Android team... everyone says some version of the same thing.
-
-The sharpest framing of it I've heard recently came from Alice Ryhl on our most recent [*Rust for Linux* live episode](/podcast/s06e04-rust4linux/), recorded at Rust Week 2026 in Utrecht. Her argument, in essence:
-
 > Interop, not rewrites, is how Rust wins inside Linux.
 >
-> &mdash; Alice Ryhl, *Rust in Production* S06E04
+> &mdash; [Alice Ryhl, *Rust in Production* S06E04](/podcast/s06e04-rust4linux/)
 
-You can't rewrite 35 million lines of C, neither would you want to. The work that matters is the work that lets a new Rust driver call into existing kernel subsystems without giving up the guarantees that made you reach for Rust in the first place. The same logic applies one level up: you're not going to rewrite Chromium, Office, Photoshop, or your in-house engine either. **Interop is the new rewrite.**
+I really like this quote by Alice, who is a Tokio core maintainer and a Rust4Linux contributor.
+
+Experienced developers are not against using Rust (most of them think the language is great!), but they know that interop is the hard part.
+
+That aligns with the [Microsoft episode of *Rust in Production*](/podcast/s04e01-microsoft/) with Victor Ciura. My takeaway was that the biggest challenge for gradual Rust adoption inside Microsoft is interop, and specifically interop with C++.
+
+You can't rewrite 35 million lines of C, neither would you want to. The work that matters is the work that lets a new Rust service call into existing subsystems without giving up the guarantees that made you reach for Rust in the first place. The same logic applies one level up: you're not going to rewrite Chromium, Office, Photoshop, or your in-house engine either. **Interop is the new rewrite.**
 
 I don't think this is going to change anytime soon. C++ is somewhere between [100 and 200 million lines](https://lwn.net/Articles/1036912/) of code inside Google *alone*. Most of the interesting Rust work over the next decade will happen *next to* a C++ codebase, not instead of one.
 
-So let's talk about what actually goes wrong at that boundary and the state of the ecosystem in 2026.
+So let's talk about what actually goes wrong at that boundary and the state of the ecosystem.
 
-## Pick The Right Tool, Not The Most Powerful One
+## Interop Tooling Overview 
 
-The interop space has grown a lot, and it's hard to keep track of all the options. As of today, here's a rough map of the landscape: 
+The interop space has grown a lot, and it's hard to keep track of all the options.
 
 | Tool | Direction | What it's good at | When to avoid |
 |---|---|---|---|
-| Hand-written `extern "C"` | both | small, stable C-shaped APIs; total control | non-trivial C++ types, large surface |
-| [`bindgen`](https://github.com/rust-lang/rust-bindgen) | C/C++ → Rust | parsing C headers, basic C++ | anything with templates, overloads, exceptions |
+| Hand-written `extern "C"` | both | small, stable C-shaped APIs; total control | non-trivial types, large surface area |
+| [`bindgen`](https://github.com/rust-lang/rust-bindgen) | C/C++ → Rust | parsing C headers, maybe some basic C++ | anything with templates, overloads, exceptions |
 | [`cbindgen`](https://github.com/mozilla/cbindgen) | Rust → C/C++ | generating C/C++ headers from Rust | round-tripping C++ types |
 | [`cxx`](https://github.com/dtolnay/cxx) | bidirectional | the 80% case; a curated subset of C++ that maps cleanly to Rust | exotic C++ (templates, virtual inheritance, exceptions in your hot path) |
 | [`autocxx`](https://github.com/google/autocxx) | C++ → Rust (mostly) | larger existing C++ APIs you don't want to wrap by hand | when you need rock-solid stability today |
@@ -64,31 +64,33 @@ In their Oxidize talk [*C++ Migration Strategies*](https://www.youtube.com/watch
 
 **Reach for `cxx` first.** It is, by a wide margin, the most battle-tested option. Mozilla uses it in Firefox, Google uses it in parts of Android, Brave embeds it deep in their browser ([they talked about it on the podcast](/podcast/s03e07-brave/)), and Slint, CXX-Qt, and a long tail of smaller projects all build on it.[^cxx-users] The KDAB team summarized the trade-off well in their [Zngur comparison](https://www.kdab.com/weighing-up-zngur-and-cxx-for-rustc-interop/): `cxx` is *opinionated* about which C++ types it will let through, and that opinionatedness is exactly why it's safe.
 
-**Be careful with `bindgen` for C++.** `bindgen` is wonderful for C. For C++ it silently skips anything it can't represent (templates, overloads, non-trivial constructors), and what you get back is `unsafe` *everything*. Manish's [Firefox post](https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/) is still the best honest writeup of what that costs you in practice.
+**Be careful with `bindgen` for C++.** `bindgen` is wonderful for C. For C++ it **silently** skips anything it can't represent (templates, overloads, non-trivial constructors), and what you get back is `unsafe` *everything*. Manish's [Firefox post](https://manishearth.github.io/blog/2021/02/22/integrating-rust-and-c-plus-plus-in-firefox/) is still the best writeup of what that means in practice.
 
-**Don't deploy `Crubit` into a project that isn't Google-shaped.** Crubit is genuinely impressive (Taylor Cramer's [RustConf 2025 interview](https://www.youtube.com/watch?v=eUTsOWbOHeY) is worth the 45 minutes), and Google funded it alongside a [$1M grant to the Rust Foundation](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) specifically to push this story forward. But it lives inside a Bazel monorepo and depends on bleeding-edge compiler features. For now it's a research lead-indicator, not a tool you drop into your repo on Monday.
+**Don't deploy `Crubit` yet (unless you use Bazel).** Crubit is quite impressive (see Taylor Cramer's [RustConf 2025 interview](https://www.youtube.com/watch?v=eUTsOWbOHeY)), and Google funded it alongside a [$1M grant to the Rust Foundation](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html) specifically to push this story forward. But it lives inside a Bazel monorepo and depends on bleeding-edge compiler features. For now it's a research-only project, not a tool you drop into your repo without scrutiny.
 
 {{ yt(id="eUTsOWbOHeY", title="Taylor Cramer Interview, Crubit Development Lead at Google (RustConf 2025)") }}
 
-### Rule: Match the tool to the API shape, not the language
+### Rule: The tool should match your API, not the language 
 
-If your C++ interface is already C-shaped (`extern "C"` headers, POD structs, opaque handles), don't reach for a code generator. Hand-written `extern "C"` plus a thin Rust wrapper is shorter, easier to debug, and easier to audit. Save `cxx` for the moment you actually need `std::unique_ptr`, `std::string`, or shared enums.
+If your C++ interface is already C-like (`extern "C"` headers, POD structs, opaque handles), don't reach for a code generator. Hand-written `extern "C"` plus a thin Rust wrapper is shorter, easier to debug, and easier to audit. If you heavily use `std::unique_ptr`, `std::string`, or shared enums, `cxx` is most likely the right choice.
 
 ## `#[repr(Rust)]` Is Not An ABI
 
-This is the single most common antipattern I see in code reviews: a struct gets defined on the Rust side, passed to C++, and "it works on my machine." Then a compiler upgrade reshuffles the fields and you get silent data corruption.
+You might believe that `#[repr(Rust)]` is a stable layout, but it is not.
+It can happen that you define a struct in Rust, pass it to C++, and it works fine; but then you upgrade your compiler and the layout changes, which leads to silent data corruption.
 
-Rust's default `#[repr(Rust)]` layout is [intentionally unspecified](https://github.com/rust-lang/rfcs/blob/master/text/0079-undefined-struct-layout.md). The compiler reorders fields, packs niches into enum discriminants, and may change those decisions between versions. Aria Desires' [*Notes on type layouts and ABIs in Rust*](https://faultlore.com/blah/rust-layouts-and-abis/) is the canonical deep dive; her [ABI Café](https://faultlore.com/blah/abi-puns/) post is the canonical horror story.
+Rust's default `#[repr(Rust)]` layout is [intentionally unspecified](https://github.com/rust-lang/rfcs/blob/master/text/0079-undefined-struct-layout.md). The compiler reorders fields, packs niches into enum discriminants, and may change those decisions between versions.
+For a deep dive, read Aria Desires' [Notes on type layouts and ABIs in Rust](https://faultlore.com/blah/rust-layouts-and-abis/).
 
-For anything that crosses the boundary, you need one of:
+In practice, that means for anything that crosses the boundary, you need one of:
 
 ```rust
-#[repr(C)]            // C-compatible layout
-#[repr(transparent)]  // same layout and ABI as the single inner field
-#[repr(u8)] / #[repr(i32)] / ...  // for enums with a fixed discriminant
+#[repr(C)]                 // C-compatible layout
+#[repr(transparent)]       // same layout and ABI as the single inner field
+#[repr(u8)] / #[repr(i32)] // for enums with a fixed discriminant
 ```
 
-A useful mental picture for what's safe to put on the wire:
+A useful mental model for what's safe to put on the wire:
 
 | Leave on the Rust side | Convert at the edge to | Safe to cross the boundary |
 |---|:---:|---|
@@ -100,13 +102,43 @@ A useful mental picture for what's safe to put on the wire:
 
 The left column is what you write inside your Rust code. The right column is what you let cross an `extern` function signature. The job of your FFI wrapper is the conversion in the middle.
 
-A few field-level rules that fall out of this.
+A few corollaries: 
 
-**Don't pass Rust enums with data across FFI.** A `Result<T, E>` or `Option<NonZeroU32>` has a defined layout *in your version of rustc, today*, but it isn't part of the language contract. Either lower it to a `#[repr(C)]` enum with explicit discriminants ([RFC 2195](https://github.com/rust-lang/rfcs/blob/master/text/2195-really-tagged-unions.md) calls these "really tagged unions"), or split it into a status code plus an out-parameter.
+### Don't pass Rust enums with data across FFI.
 
-If you're using `cxx`, you get a slightly nicer story: a Rust function declared as `-> Result<T>` in the bridge marshals as a C++ function that may throw a single exception type, and a C++ function that throws is reflected back into Rust as a `Result<T, cxx::Exception>`. The eShard team's [tour of the interop ecosystem](https://blog.tetrane.com/2022/Rust-Cxx-interop.html) shows a clean version of this pattern: their `OpenDatabase` struct carries a `UniquePtr<ResourceDatabase>`, an explicit `OpenDatabaseStatus` enum, and a `String error_message`, all `#[repr(C)]` via `cxx`. The status code is the wire contract; the rich error data rides as plain bytes alongside it. That is the production-grade version of "status code plus out-parameter," and it's how you propagate `anyhow`-style context without exporting `anyhow::Error` itself.
+A `Result<T, E>` or `Option<NonZeroU32>` has a defined layout *in your version of rustc, today*, but it isn't part of the language contract. Either lower it to a `#[repr(C)]` enum with explicit discriminants ([RFC 2195](https://github.com/rust-lang/rfcs/blob/master/text/2195-really-tagged-unions.md) calls these "really tagged unions"), or split it into a status code plus an out-parameter.
 
-If you need true rich error chains, encode them on the Rust side and pass them across as a serialized blob (`Vec<u8>` with a stable format — protobuf, postcard, JSON), then reconstruct on the other side. Trying to share a `dyn std::error::Error` across the boundary is not a thing that works.
+If you're using `cxx`, you get a slightly better version: a Rust function declared as `-> Result<T>` in the bridge marshals as a C++ function that may throw a single exception type, and a C++ function that throws is reflected back into Rust as a `Result<T, cxx::Exception>`.
+
+The eShard team's [tour of the interop ecosystem](https://www.eshard.com/blog/rust-cxx-interop) demonstrates this pattern. 
+Their `OpenDatabase` struct carries a `UniquePtr<ResourceDatabase>`, an explicit `OpenDatabaseStatus` enum, and a `String error_message`, all `#[repr(C)]` via `cxx`.
+
+```rust
+#[cxx::bridge]
+mod ffi {
+    #[namespace = "reven::sqlite::ffi"]
+    enum OpenDatabaseStatus {
+        Ok,
+        DatabaseError,
+        ReadMetadataError,
+    }
+
+    #[namespace = "reven::sqlite::ffi"]
+    struct OpenDatabase {
+        db: UniquePtr<ResourceDatabase>, // `ResourceDatabase` is a C++ type
+        status: OpenDatabaseStatus,
+        error_message: String,
+    }
+}
+```
+
+The status code is the wire contract.
+The rich error data is carried in the `error_message` string.
+That's the "status code plus out-parameter" pattern, and it's how you can propagate `anyhow`-style context without exporting `anyhow::Error`.
+
+If you need true rich error chains, encode them on the Rust side and pass them across as a serialized blob (`Vec<u8>` with a stable format, such as protobuf, postcard, JSON), then reconstruct on the other side. Trying to share a `dyn std::error::Error` across the boundary is just asking for trouble.[^vtable]
+
+[^vtable]: The vtable layout is not part of the language contract, and you can't guarantee that the C++ side will be able to call back into Rust correctly. 
 
 ```rust
 // Wrong: layout of Result is not part of the language contract.
@@ -130,7 +162,9 @@ pub unsafe extern "C" fn parse(
 }
 ```
 
-**Don't pass `&str` or `String`.** A Rust `String` carries a capacity field and uses Rust's allocator. A C++ `std::string` doesn't, and uses C++'s. They are not the same type at the bytes level. Use `&[u8]` / `*const u8 + len`, or let `cxx` give you a `CxxString` and a `&str` on either side.
+### Don't pass `&str` or `String`.
+
+A Rust `String` carries a capacity field and uses Rust's allocator. A C++ `std::string` doesn't, and uses C++'s. They are not the same type at the bytes level. Use `&[u8]` / `*const u8 + len`, or let `cxx` give you a `CxxString` and a `&str` on either side.
 
 {% mermaid() %}
 flowchart TB
@@ -150,7 +184,7 @@ flowchart TB
     cpp -. "copy bytes" .-> wire
 {% end %}
 
-Neither layout is part of a stable ABI. The only thing both sides agree on is a pointer and a length, so that's what you put on the wire — with the receiving side copying into its own native type if it wants ownership.
+Neither layout is part of a stable ABI. The only thing both sides agree on is a pointer and a length, so that's what you put on the wire, with the receiving side copying into its own native type if it wants ownership.
 
 ```rust
 // Wrong: layout of String is not stable, allocator mismatch.
@@ -178,9 +212,13 @@ mod ffi {
 }
 ```
 
-**Pointers and slices have edge cases.** David Benjamin's [*Passing nothing is surprisingly difficult*](https://davidben.net/2024/01/15/empty-slices.html) explains why an empty `&[T]` may have a non-null but unaligned `data` pointer, while C and C++ APIs frequently expect either null or a real allocation. If your callee dereferences `data` even when `len == 0`, you have undefined behavior. Wrap with `if slice.is_empty() { ptr::null() } else { slice.as_ptr() }` at the boundary.
+### Pointers and slices have edge cases.
 
-**Bitfields don't work.** Rust does not have C-compatible bitfields. `bindgen` emits getter/setter shims, but if you're hand-writing the struct, you need to pack and unpack the bits yourself. The Immunant team has [a good writeup](https://immunant.com/blog/2020/01/bitfields/) of how much pain this still is in 2026.
+David Benjamin's [*Passing nothing is surprisingly difficult*](https://davidben.net/2024/01/15/empty-slices.html) explains why an empty `&[T]` may have a non-null but unaligned `data` pointer, while C and C++ APIs frequently expect either null or a real allocation. If your callee dereferences `data` even when `len == 0`, you have undefined behavior. Wrap with `if slice.is_empty() { ptr::null() } else { slice.as_ptr() }` at the boundary.
+
+### Bitfields don't work.
+
+Rust does not have C-compatible bitfields. `bindgen` emits getter/setter shims, but if you're hand-writing the struct, you need to pack and unpack the bits yourself. The Immunant team has [a good writeup](https://immunant.com/blog/2020/01/bitfields/) of how much pain this still is.
 
 ```c
 // C header:
@@ -201,27 +239,52 @@ impl Flags {
 }
 ```
 
-> Watch out: C bitfield ordering is implementation-defined. Always check what `clang -fdump-record-layouts` says before assuming little-endian-first.
+Watch out: C bitfield ordering is implementation-defined.
 
-### Rule: Treat every struct that crosses the boundary as part of your public ABI
+<details>
+    <summary>
+        Always check what <code>clang -fdump-record-layouts</code> says before assuming little-endian-first.
+(Click here for an example.)
+    </summary>
 
-That means `#[repr(C)]` (or `transparent`), explicit field types (`u32`, not `usize`, unless you really mean `size_t`), no Rust-shaped enums, no `String`, no `Vec` by value. If you find yourself reaching for the standard library at the FFI line, you're about to ship a bug.
+```sh
+❯ printf 'typedef struct S { unsigned a:3; unsigned b:5; unsigned c:8; } S;\nint f(void) { return sizeof(S); }\n' | clang -Xclang -fdump-record-layouts -fsyntax-only -x c -
+
+*** Dumping AST Record Layout
+         0 | struct S
+     0:0-2 |   unsigned int a
+     0:3-7 |   unsigned int b
+     1:0-7 |   unsigned int c
+           | [sizeof=4, align=4]
+```
+</details>
+
+{% info(title="Rule: Treat every struct that crosses the boundary as part of your public ABI") %}
+
+That means `#[repr(C)]` (or `transparent`), explicit field types (`u32`, not `usize`, unless you really mean `size_t`), no Rust-style enums, no `String`, no `Vec` by value.
+If you find yourself reaching for the standard library at the FFI line, you're most likely doing it wrong (unless you use `cxx`).
+
+{% end %}
 
 ## C++ Has Move Constructors. Rust Has `Pin`. They Don't Match.
 
-This is the conceptual gap that most newcomers underestimate. In C++, *every non-trivial type is effectively pinned* — it may hold pointers into itself, and the type's move constructor exists specifically to fix up those pointers when the object is relocated. In Rust, every value is trivially memmove-able unless it's wrapped in `Pin`.
+In C++, *every non-trivial type is effectively pinned*.
+It may hold pointers into itself, and the type's move constructor exists specifically to fix up those pointers when the object is relocated.
+In Rust, it's the opposite: every value is trivially `memmove`-able unless it's wrapped in `Pin`.
 
-If you try to translate a `std::string`, `std::list`, or any class with a user-defined move constructor naïvely, you end up with self-references that get torn apart the first time the Rust side moves the value. The classic symptom is "everything looks fine for a while, then segfaults under load."
+If you try to translate a `std::string`, `std::list`, or any class with a user-defined move constructor naïvely, you end up with self-references that get torn apart the first time the Rust side moves the value. The typical symptom is that everything looks fine for a while, then segfaults under load. (Because under load, the allocator is more likely to relocate the value, which is when the self-references break.)
 
-The Crubit team has [the clearest writeup](https://ssbr.xyz/blog/rust-has-three-reference-types/) of why this is fundamental: in a codebase doing serious C++ interop, `Pin<&mut T>` is as common as `&mut T`, and the ergonomic gap shows. `cxx` solves this pragmatically by only ever letting you touch a C++ value through a `&CxxString`, `Pin<&mut CxxString>`, or `UniquePtr<CxxString>`. That sounds restrictive until you've debugged a use-after-move once.
+The Crubit team has [a good writeup](https://ssbr.xyz/blog/rust-has-three-reference-types/) of why this is important: in a codebase doing serious C++ interop, `Pin<&mut T>` is as common as `&mut T`, and that's quite unergonomic. `cxx` solves this pragmatically by only ever letting you touch a C++ value through a `&CxxString`, `Pin<&mut CxxString>`, or `UniquePtr<CxxString>`. That sounds restrictive, but much better than debugging a use-after-move.
 
-Miguel Young de la Sota's [*Move Constructors: Is it Possible?*](https://www.youtube.com/watch?v=UrDhMWISR3w) RustConf talk and the [`moveit`](https://crates.io/crates/moveit) crate explore what a fuller answer might look like. It's a glimpse of a future where this is solved at the type-system level; in the meantime, the practical rules are:
+Miguel Young de la Sota's [*Move Constructors: Is it Possible?*](https://www.youtube.com/watch?v=UrDhMWISR3w) RustConf talk and the [`moveit`](https://crates.io/crates/moveit) crate explore what a fuller answer could look like. It's a glimpse of a future where this is solved at the type-system level.
 
 {{ yt(id="UrDhMWISR3w", title="RustConf 2021 — Move Constructors: Is it Possible? by Miguel Young de la Sota") }}
 
+The rules of thumb are:
+
 1. **Never put a C++ object with a non-trivial move constructor on the Rust stack by value.** Always go through `Box`, `UniquePtr`, or a reference.
 2. **Treat anything coming out of a C++ container as pinned.** No `mem::replace`, no `mem::swap`, no destructuring.
-3. **If you need to construct a C++ object in place, use a helper that takes a `Pin<&mut MaybeUninit<T>>`.** `cxx` and `moveit` both provide patterns here. Inventing your own is a research project.
+3. **If you need to construct a C++ object in place, use a helper that takes a `Pin<&mut MaybeUninit<T>>`.** `cxx` and `moveit` both provide patterns here. 
 
 ### Rule: Don't try to "own" a C++ value in Rust
 
