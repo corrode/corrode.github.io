@@ -12,6 +12,8 @@ episode = "08"
 series = "Podcast"
 +++
 
+<div><script id="letscast-player-0ee72a9d" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-foundation-with-bec-rumbul-lori-lorusso-and-david-wood/player.js?size=s"></script></div>
+
 Most Rust developers use the language, compiler, package registry, and tooling every day without thinking too much about the organization that helps keep parts of that ecosystem funded and sustainable.
 
 This episode is a re-introduction to the Rust Foundation: what it does, what it does not do, how it relates to the Rust Project, and why that distinction matters for teams using Rust professionally.
