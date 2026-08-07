@@ -250,8 +250,8 @@ We'll work on what matters to you: whether that's language fundamentals, systems
 <li>Code review & feedback between sessions</li>
 <li>Interview preparation & CV review</li>
 </ul>
-<a href="https://cal.com/corrode/intro-call" class="pro-btn pro-btn-primary pro-btn-full">Start with a Free Intro Call</a>
-<p class="pro-price-note">Five sessions is enough to make real, lasting progress and see the difference a mentor makes.</p>
+<a href="https://buy.stripe.com/6oUfZigeKaubb4Xf5d9k401" class="pro-btn pro-btn-primary pro-btn-full">Buy the 5-Session Package</a>
+<p class="pro-price-note">Pay securely through Stripe. I'll email you a personal link for booking each session separately. Not sure yet? <a href="https://cal.com/corrode/intro-call">Start with a free intro call</a>.</p>
 </div>
 
 <div class="pro-price-card">
@@ -326,8 +326,12 @@ We'll work on what matters to you: whether that's language fundamentals, systems
     "a": "My goal is your success, not trapping you in a contract. If after your first session you don't feel it's a good fit, I'll refund you."
   },
   {
+    "q": "How do I schedule the five sessions?",
+    "a": "After purchasing the package, you'll receive a personal booking link by email. Use the same link whenever you're ready to schedule your next session. You can choose each date separately and use all five sessions at your own pace within three months."
+  },
+  {
     "q": "How does payment work?",
-    "a": "You pay upfront for your session package via Stripe. You'll receive an invoice you may be able to deduct as a professional development expense, so check with your employer or accountant. Unused sessions are refunded if things don't work out."
+    "a": "You pay upfront for your session package via Stripe. After payment, I'll email you a personal link for booking the included sessions individually. You'll receive a receipt from Stripe; contact me if you also need an invoice for professional development expenses. Unused sessions are refunded if things don't work out."
   }
 ]
 {% end %}
