@@ -21,7 +21,7 @@ jobs:
     if: github.ref != 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
-      - uses: shalzz/zola-deploy-action@master
+      - uses: shalzz/zola-deploy-action@v0.22.1
         env:
           PAGES_BRANCH: gh-pages
           BUILD_DIR: .
@@ -34,8 +34,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
-      - uses: shalzz/zola-deploy-action@master
+      - uses: shalzz/zola-deploy-action@v0.22.1
         env:
           PAGES_BRANCH: gh-pages
           BUILD_DIR: .
-          TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
