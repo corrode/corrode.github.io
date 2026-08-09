@@ -18,7 +18,6 @@ external_links_target_blank = true
 external_links_no_referrer = true
 
 [markdown.highlighting]
-code = true
 theme = "dracula"
 # light_theme = "dracula"
 # dark_theme = "dracula"
