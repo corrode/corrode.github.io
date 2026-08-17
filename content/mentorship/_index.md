@@ -37,7 +37,7 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
     Building true intuition and writing robust systems requires deep understanding.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    When we lean too heavily on AI and work on autopilot, our skills atrophy. We're not in control anymore; just along for the ride.  
+    When we lean too heavily on AI and work on autopilot, our skills atrophy. We're not in control anymore, just along for the ride.
     The best engineers <strong>deeply understand</strong> what good code looks like: they can spot the mistakes, and refactor with confidence.
     Don't outsource your thinking. Regain the satisfaction of knowing exactly how and why your code works.
 </p>
@@ -48,12 +48,12 @@ Spend time programming at the edge of your abilities with expert 1-on-1 coaching
 </p>
 
 <p class="pro-section-subtitle pro-subtitle-wide">
-    Acquiring deep knowledge matters by yourself is hard.
+    Acquiring deep knowledge by yourself is hard.
     You might have weak spots in your Rust knowledge that you never get around to filling.
     You might be writing code that "works", but does it follow best practices?
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-    Just like a good workout, your brain needs to wrestle with hard problems to learn a skill. 
+    Just like a good workout, your brain needs to wrestle with hard problems to learn a skill.
     Working with a mentor gives you a supportive space to develop that understanding. Together, we'll write high-quality software that stands the test of time, and remind you why programming is fun. I'll help you learn to <em>think in Rust</em>. Learn it once, use it <code class="pro-inline-code">'a</code> lifetime.
 </p>
 <div class="pro-section-subtitle pro-subtitle-wide pro-feature-list">
