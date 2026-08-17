@@ -126,20 +126,6 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-.pro-hero-badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: rgba($brightBgrd, 0.1);
-    border: 1px solid $brightBgrd;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 2rem;
-    color: $brightBgrd;
-}
-
 .pro-hero-title {
     font-family: "Bebas Neue", sans-serif;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
