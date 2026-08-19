@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>corrode + Svix</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/syntax-theme-dark-custom.css"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/syntax-theme-light-custom.css"
+      media="(prefers-color-scheme: light)"
+    />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <style>
+      html,
+      .container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+      }
+      body {
+        width: 100%;
+      }
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 0 0 0.5rem;
+        line-height: 1;
+      }
+      .brand-lockup picture {
+        display: flex;
+        align-items: center;
+      }
+      .brand-logo {
+        display: block;
+        width: 180px;
+        max-width: 35vw;
+        height: auto;
+      }
+      .brand-plus {
+        font-size: 2rem;
+        font-weight: 400;
+        opacity: 0.7;
+      }
+      #svix {
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+        text-align: center;
+        padding: 20px;
+      }
+      p {
+        margin: 1rem 0;
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+      .tagline {
+        font-size: 1.35rem;
+        font-weight: 600;
+      }
+      .episode-note {
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+      .cta-link {
+        display: inline-flex;
+        align-items: center;
+        background-color: #3a3f52;
+        color: white;
+        text-decoration: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: 1px solid white;
+      }
+      .cta-link svg {
+        margin-left: 10px;
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
+      }
+      .context {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+      @media (prefers-color-scheme: dark) {
+        .corrode-logo {
+          filter: invert(1);
+        }
+      }
+      @media (max-width: 420px) {
+        .brand-lockup {
+          gap: 0.75rem;
+        }
+        .brand-plus {
+          font-size: 1.5rem;
+        }
+        .cta-link {
+          padding: 0.875rem 1rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="brand-lockup" aria-label="corrode plus Svix">
+        <img
+          class="brand-logo corrode-logo"
+          src="/corrode.svg"
+          alt="corrode"
+        />
+        <span class="brand-plus" aria-hidden="true">+</span>
+        <picture>
+          <source
+            srcset="/svix/svix-brand-white.svg"
+            media="(prefers-color-scheme: dark)"
+          />
+          <img
+            class="brand-logo"
+            src="/svix/svix-brand.svg"
+            alt="Svix"
+          />
+        </picture>
+      </h1>
+      <div id="svix">
+        <p class="tagline">
+          Webhooks your customers can actually rely on.
+        </p>
+        <p>
+          Svix handles retries, secure signatures, monitoring, replay handling, and endpoint
+          management so you can focus on your product.
+        </p>
+        <a href="https://www.svix.com/?utm_source=corrode&utm_medium=podcast&utm_campaign=summer2026" class="cta-link" rel="sponsored">
+          Go to Svix
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </a>
+        <p class="episode-note">
+          Svix is backend by Rust! 
+          Learn more in our episode with <a href="/podcast/s04e02-svix/">Svix CEO Tom Hacohen on Rust in Production.</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
