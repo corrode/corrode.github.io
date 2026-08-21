@@ -3,7 +3,7 @@ title = "InfinyOn"
 date = 2024-10-31
 template = "episode.html"
 draft = false
-aliases = ["/p/s03e02"]
+aliases = ["/p/s03e02", "/podcast/s03e02-fluvio/"]
 [extra]
 guest = "Deb Roy Chowdhury"
 role = "VP Product Management"
