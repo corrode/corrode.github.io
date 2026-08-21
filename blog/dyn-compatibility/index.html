@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Understanding Dyn Compatibility | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="In Rust, some traits can’t be used as trait objects with dyn Trait.
+When a trait can’t be used with dynamic dispatch, we say it’s “not dyn compatible.” 1
+This has an impact on how you can use these traits in your code.
+I think that’s one area where t…">
+    <link rel="canonical" href="https://corrode.dev/blog/dyn-compatibility/">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Understanding Dyn Compatibility | corrode Rust Consulting">
+    <meta property="og:description" content="In Rust, some traits can’t be used as trait objects with dyn Trait.
+When a trait can’t be used with dynamic dispatch, we say it’s “not dyn compatible.” 1
+This has an impact on how you can use these traits in your code.
+I think that’s one area where t…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;social.png">
+    <meta property="og:image:secure_url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Understanding Dyn Compatibility | corrode Rust Consulting">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-07-29">
+    <meta property="article:author" content="Matthias Endler">
+    <meta name="publish_date" property="og:publish_date" content="2026-07-29">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@matthiasendler">
+    <meta name="twitter:creator" content="@matthiasendler">
+    <meta name="twitter:title" content="Understanding Dyn Compatibility | corrode Rust Consulting">
+    <meta name="twitter:description" content="In Rust, some traits can’t be used as trait objects with dyn Trait.
+When a trait can’t be used with dynamic dispatch, we say it’s “not dyn compatible.” 1
+This has an impact on how you can use these traits in your code.
+I think that’s one area where t…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;social.png">
+    <meta name="twitter:image:alt" content="Understanding Dyn Compatibility | corrode Rust Consulting">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/dyn-compatibility/"
+      },
+      "headline": "Understanding Dyn Compatibility",
+      "description": "In Rust, some traits can’t be used as trait objects with dyn Trait.\nWhen a trait can’t be used with dynamic dispatch, we say it’s “not dyn compatible.” 1\nThis has an impact on how you can use these traits in your code.\nI think that’s one area where t…",
+      
+      "image": "https://corrode.dev/blog/dyn-compatibility/social.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler",
+        "url": "https://endler.dev",
+        "sameAs": [
+          "https://github.com/mre",
+          "https://mastodon.social/@mre",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "url": "https://corrode.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        },
+        "sameAs": [
+          "https://github.com/corrode",
+          "https://www.linkedin.com/company/corrode",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "datePublished": "2026-07-29",
+      
+      "dateModified": "2026-07-29"
+      
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://corrode.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://corrode.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Understanding Dyn Compatibility",
+          "item": "https://corrode.dev/blog/dyn-compatibility/"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav aria-label="Main navigation">
+    <!-- Logo and Home Link -->
+    <div>
+        <a  class="nav-item" 
+            href="https://corrode.dev/">
+            <span class="logo">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle" aria-label="Toggle navigation menu">
+        <div class="menu-button" aria-hidden="true"></div>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <a href="javascript:toggleColorScheme();" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                </span>
+                <span id="icon-sun" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item active" 
+                href="https://corrode.dev/blog">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/podcast">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/learn/migration-guides">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/workshops">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/mentorship">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://corrode.dev/services" class="cta-button">
+                <span>Consulting&nbsp;→</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        <main class="container">
+            
+<article>
+  <header class="article-heading">
+    <p class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </p>
+    <h1>Understanding Dyn Compatibility</h1>
+    <div class="article-meta">
+      <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="icon-calendar" aria-hidden="true"></span>
+      <span>
+        
+          Published: <time datetime="2026-07-29">2026-07-29</time>
+        
+      </span>
+    </div>
+    
+  </header>
+  <div class="article-content-wrapper">
+    
+    <section class="article-content">
+    
+
+      <p>In Rust, some traits can’t be used as trait objects with <code>dyn Trait</code>.</p>
+<p>When a trait can’t be used with dynamic dispatch, we say it’s “not dyn compatible.” <sup class="footnote-reference" id="fr-object-safety-1"><a href="#fn-object-safety">1</a></sup>
+This has an impact on how you can use these traits in your code.</p>
+<p>I think that’s one area where the Rust compiler could print a more helpful error message.</p>
+<p>Fixing the issue is mostly about tradeoffs between compile-time generics and runtime polymorphism and learning when each one fits.
+Once you understand the concept, you’ll know how to get around the issues by choosing a better design for your trait.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>Quick Help</p>
+</h4>
+  </div>
+  
+  <p>If the compiler told you a trait is <strong>“not dyn compatible”</strong>, your trait can’t be used as <code>dyn Trait</code> because it has a method that can’t go through dynamic dispatch, usually one that returns <code>Self</code>, takes no <code>self</code>, or is generic.</p>
+<p>To fix it, pick one:</p>
+<ul>
+<li>add <code>where Self: Sized</code> to the offending method</li>
+<li>return <code>Box&lt;dyn Trait&gt;</code> instead of <code>Self</code></li>
+<li>use generics instead of <code>&amp;dyn Trait</code></li>
+<li>split the trait in two</li>
+</ul>
+<p>Continue reading to understand the tradeoffs between each approach.</p>
+
+</div>
+<h2 id="the-error-message"><a class="zola-anchor" href="#the-error-message" aria-label="Anchor link for: the-error-message">The Error Message</a></h2>
+<p>Here’s an example with code that <strong>won’t compile</strong>.</p>
+<p>Say you have a trait <code>Widget</code> that has a method returning a copy of itself:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span>;</span><span style="color: #6272A4;">  // Returns a copy of itself</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>…and there’s a button, which implements <code>Widget</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span>    label</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // ...</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Button</span><span> { label</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;font-style: italic;"> self</span><span style="color: #FF79C6;">.</span><span>label</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">clone</span><span>() }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> show_widget</span><span>(widget</span><span style="color: #FF79C6;">: &amp;dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // This works</span></span>
+<span class="giallo-l"><span>    widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // This produces an error because duplicate returns `Self`</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> copy</span><span style="color: #FF79C6;"> =</span><span> widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">duplicate</span><span>();</span></span>
+<span class="giallo-l"><span>    copy</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>If you tried to compile this code, you’d get an error like this:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span>error[</span><span style="color: #8BE9FD;font-style: italic;">E0038</span><span>]</span><span style="color: #FF79C6;">:</span><span> the</span><span style="color: #FF79C6;"> trait</span><span> `</span><span style="color: #8BE9FD;font-style: italic;">Widget</span><span>` is not</span><span style="color: #FF79C6;"> dyn</span><span> compatible</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">  --&gt;</span><span> src</span><span style="color: #FF79C6;">/</span><span>main</span><span style="color: #FF79C6;">.</span><span>rs</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;">20</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;">25</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   |</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;">20</span><span style="color: #FF79C6;"> | fn</span><span style="color: #50FA7B;"> show_widget</span><span>(widget</span><span style="color: #FF79C6;">: &amp;dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   |                         ^^^^^^^^^^</span><span> `</span><span style="color: #8BE9FD;font-style: italic;">Widget</span><span>` is not</span><span style="color: #FF79C6;"> dyn</span><span> compatible</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   |</span></span>
+<span class="giallo-l"><span>note</span><span style="color: #FF79C6;">: for</span><span> a</span><span style="color: #FF79C6;"> trait</span><span> to be</span><span style="color: #FF79C6;"> dyn</span><span> compatible it needs to allow building a vtable</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">      for</span><span> more information, visit &lt;https</span><span style="color: #FF79C6;">:</span><span style="color: #6272A4;">//doc.rust-lang.org/reference/items/traits.html#dyn-compatibility&gt;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">  --&gt;</span><span> src</span><span style="color: #FF79C6;">/</span><span>main</span><span style="color: #FF79C6;">.</span><span>rs</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;">3</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;">28</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   |</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;"> 1</span><span style="color: #FF79C6;"> | trait</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   |       ------</span><span> this</span><span style="color: #FF79C6;"> trait</span><span> is not</span><span style="color: #FF79C6;"> dyn</span><span> compatible</span><span style="color: #FF79C6;">...</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;"> 2</span><span style="color: #FF79C6;"> |     fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;"> 3</span><span style="color: #FF79C6;"> |     fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span>;</span><span style="color: #6272A4;">  // Returns a copy of itself</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   |                            ^^^^ ...</span><span>because method `duplicate` references the `</span><span style="color: #BD93F9;font-style: italic;">Self</span><span>` </span><span style="color: #FF79C6;">type in</span><span> its</span><span style="color: #FF79C6;"> return type</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   =</span><span> help</span><span style="color: #FF79C6;">:</span><span> consider moving `duplicate` to another</span><span style="color: #FF79C6;"> trait</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">   =</span><span> help</span><span style="color: #FF79C6;">:</span><span> only</span><span style="color: #FF79C6;"> type</span><span> `</span><span style="color: #8BE9FD;font-style: italic;">Button</span><span>` implements `</span><span style="color: #8BE9FD;font-style: italic;">Widget</span><span>`; consider using it directly instead</span><span style="color: #FF79C6;">.</span></span></code></pre>
+<p>That all sounds pretty confusing.</p>
+<ul>
+<li>What does “not dyn compatible” mean?</li>
+<li>Shouldn’t the <code>dyn</code> part take care of it?</li>
+<li>What’s a “vtable”, and why does the trait need to “allow building” one?</li>
+<li>What does it have to do with <code>Self</code>?</li>
+</ul>
+<h2 id="what-s-going-on"><a class="zola-anchor" href="#what-s-going-on" aria-label="Anchor link for: what-s-going-on">What’s going on?</a></h2>
+<p>When you use <code>&amp;dyn Trait</code>, Rust creates a <strong>trait object</strong>.
+Trait objects use <strong>dynamic dispatch</strong> to call methods at runtime.
+Dynamic dispatch just means that the exact method to call is determined at runtime based on the actual type of the object.</p>
+<p>For dynamic dispatch to work, the trait’s dispatchable API must follow certain rules.</p>
+<ol>
+<li>Dispatchable methods <strong>must not</strong> return <code>Self</code>.</li>
+<li>Dispatchable methods <strong>must have an allowed receiver</strong> (<code>&amp;self</code>, <code>&amp;mut self</code>, <code>Box&lt;Self&gt;</code>, and a few related pointer forms). Plain static methods don’t have one.</li>
+<li>Dispatchable methods <strong>must not</strong> have generic type parameters.</li>
+</ol>
+<p>These are simplifications: each method-level rule is really “…unless that method opts out with <code>where Self: Sized</code>”, which we’ll see in a moment. Traits also have a few item-level restrictions, such as no associated constants; we’ll summarize the fuller list later. For now, the rough version is enough to build intuition.</p>
+<p>In our example, we violate the first rule: the <code>duplicate</code> method returns <code>Self</code>, which means “the same type as the implementor of the trait”.
+When you use <code>&amp;dyn Widget</code>, the concrete implementor is hidden behind the trait-object interface.
+The vtable still points to the right concrete implementation, but the call site has no single concrete return type it can name for <code>duplicate</code>.
+That’s a problem, because the compiler needs to know the size of the return value at compile time, and <code>Self</code> could be <strong>any size</strong>.
+It needs to know the size, because the returned value has to live <em>somewhere</em>: the caller sets aside exactly the right amount of space (usually on the stack) before the call even happens. With a <code>&amp;dyn Widget</code>, the concrete type is erased from the caller’s static type, so there’s no single size the compiler could reserve for it.</p>
+<p>It will become clearer once we look at some fixes.</p>
+<h2 id="how-to-fix-it"><a class="zola-anchor" href="#how-to-fix-it" aria-label="Anchor link for: how-to-fix-it">How To Fix It</a></h2>
+<p>Don’t worry, we won’t have to refactor all our code!
+All fixes use the same <code>Widget</code> trait example.
+There are multiple ways to make it dyn compatible.</p>
+<p>We have a bunch of options:</p>
+<ol>
+<li>Use generics instead</li>
+<li>Opt out problematic methods with <code>where Self: Sized</code></li>
+<li>Return boxed trait objects instead of <code>Self</code></li>
+<li>Split into two traits</li>
+</ol>
+<p>Each approach comes with different tradeoffs.
+Depending on the kind of dyn-compatibility issue, one might fit better than the others, or you might combine a few.
+Let’s look at each of these in detail.</p>
+<h3 id="fix-1-use-generics-instead"><a class="zola-anchor" href="#fix-1-use-generics-instead" aria-label="Anchor link for: fix-1-use-generics-instead">Fix #1: Use Generics Instead</a></h3>
+<p>One common way to fix the problem is to use generics instead of trait objects.
+Generics resolve to concrete types <em>at compile time</em>, so the compiler knows the size of <code>Self</code>.
+The compiler generates a separate copy of the function for each concrete type that implements the trait.
+Then, at runtime, you no longer need to worry about any dynamic dispatch (which means “figuring out the type at runtime”).
+The compiler always knows which type it is dealing with, so it can pick the right method to call.</p>
+<p>Our trait stays the same:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span>;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>But now we change the function which uses the trait to use generics instead of <code>dyn</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// Instead of: fn show_widget(widget: &amp;dyn Widget)</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// use generics:</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> show_widget</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">W</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span>&gt;(widget</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">W</span><span>) {</span></span>
+<span class="giallo-l"><span>    widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> copy</span><span style="color: #FF79C6;"> =</span><span> widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">duplicate</span><span>();</span></span>
+<span class="giallo-l"><span>    copy</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Note how we changed the function signature to use a generic type parameter <code>W</code> that implements the <code>Widget</code> trait.
+Here we tell Rust: “I have some type <code>W</code> that implements <code>Widget</code>, and I want to use it.” Rust then generates the necessary code for each type used.</p>
+<p>That’s close to using <code>&amp;dyn Widget</code>, but not quite the same.
+The difference is that with generics, the compiler knows the concrete type at compile time, so it can handle <code>Self</code> correctly.
+For instance, we might know that <code>W</code> is <code>Button</code> in this case, so <code>duplicate</code> returns a <code>Button</code>.
+Now the confusion about what <code>Self</code> means is gone!</p>
+<p>The downside is that you can’t fully lean on dynamic dispatch anymore, and you might have to refactor a lot of code if you were using trait objects extensively before. Your binary size might also grow because of all the copies of the function that the compiler generates for each concrete type.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>What’s the benefit of fully leaning on dynamic dispatch?</p>
+</h4>
+  </div>
+  
+  <p>Fair question! Dynamic dispatch has a bunch of really nice properties:</p>
+<ul>
+<li>It’s very flexible. You can swap out implementations at runtime, which is great for plugins or when you want to change behavior without recompiling.</li>
+<li>It allows for polymorphism. You can treat different types that implement the same trait uniformly, which can simplify code that needs to work with various types.
+You could technically do the same with generics, but sometimes you can’t afford the increase in code size or compile times that come with monomorphization.</li>
+<li>It can lead to cleaner and more maintainable code in certain scenarios, especially when dealing with complex hierarchies of types and behaviors.
+For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a <code>Drawable</code> trait.
+Using dynamic dispatch, you can store them all in a single collection and call <code>draw()</code>. If you were to try the same with generics, you’d end up with a lot of boilerplate code to handle each shape type separately.</li>
+</ul>
+
+</div>
+<h3 id="fix-2-opt-out-problematic-methods-with-where-self-sized"><a class="zola-anchor" href="#fix-2-opt-out-problematic-methods-with-where-self-sized" aria-label="Anchor link for: fix-2-opt-out-problematic-methods-with-where-self-sized">Fix #2: Opt Out Problematic Methods with <code>where Self: Sized</code></a></h3>
+<p>Another option is to keep using trait objects but change the problematic method to only work with concrete types.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Only available when the concrete type is known</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    where</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">        Self</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Sized</span><span>;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>This means “this method can only be called when <code>Self</code> has a known size at compile time”, which is true for concrete types but not for trait objects.
+It’s more explicit, since you control how the trait can be used.
+The catch is that it limits the trait further down the line: some methods won’t be callable on every trait object, and changing the trait later becomes a breaking change.</p>
+<p>You won’t be able to call <code>duplicate</code> on <code>&amp;dyn Widget</code>, but you can still call it on concrete types like <code>Button</code>.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> main</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> button</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> { label</span><span style="color: #FF79C6;">:</span><span style="color: #F1FA8C;"> &quot;Click me&quot;</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>() };</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Can use as trait object now!</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> widget</span><span style="color: #FF79C6;">: &amp;dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span style="color: #FF79C6;"> = &amp;</span><span>button;</span></span>
+<span class="giallo-l"><span>    widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span><span style="color: #6272A4;">  // ✅ Works</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // ❌ Can&#39;t call this on trait objects</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // widget.duplicate();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // ✅ But duplicate still works on concrete types:</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> button2</span><span style="color: #FF79C6;"> =</span><span> button</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">duplicate</span><span>();</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>So you keep most of the flexibility of trait objects (unlike with generics), as long as you remember that some methods won’t be available through <code>dyn Trait</code>.</p>
+<h3 id="fix-3-return-boxed-trait-objects-instead-of-self"><a class="zola-anchor" href="#fix-3-return-boxed-trait-objects-instead-of-self" aria-label="Anchor link for: fix-3-return-boxed-trait-objects-instead-of-self">Fix #3: Return Boxed Trait Objects Instead of <code>Self</code></a></h3>
+<p>We can change the return type of the problematic method to return a boxed trait object instead of <code>Self</code>.</p>
+<p>This works because <code>Box&lt;dyn Widget&gt;</code> has a known size at compile time. It’s a pointer to an object on the heap. It’s actually a <em>fat pointer</em>: two words wide, or 16 bytes on a 64-bit system, because it also stores a pointer to the vtable; more on that later. What matters is that this size is fixed and known at compile time, unlike <code>Self</code>, which varies based on the concrete type.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Box</span><span>&lt;</span><span style="color: #FF79C6;">dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span>&gt;;</span><span style="color: #6272A4;">  // Returns trait object instead of Self</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span>    label</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">        println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Button: {}&quot;</span><span>,</span><span style="color: #BD93F9;font-style: italic;"> self</span><span style="color: #FF79C6;">.</span><span>label);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> duplicate</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Box</span><span>&lt;</span><span style="color: #FF79C6;">dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Box</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">Button</span><span> { label</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;font-style: italic;"> self</span><span style="color: #FF79C6;">.</span><span>label</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">clone</span><span>() })</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> main</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Now we can use trait objects!</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> widgets</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Box</span><span>&lt;</span><span style="color: #FF79C6;">dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span>&gt;&gt;</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> vec!</span><span>[</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Box</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">Button</span><span> { label</span><span style="color: #FF79C6;">:</span><span style="color: #F1FA8C;"> &quot;Click me&quot;</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>() }),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Box</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">Button</span><span> { label</span><span style="color: #FF79C6;">:</span><span style="color: #F1FA8C;"> &quot;Submit&quot;</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>() }),</span></span>
+<span class="giallo-l"><span>    ];</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> widget</span><span style="color: #FF79C6;"> in &amp;</span><span>widgets {</span></span>
+<span class="giallo-l"><span>        widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> copy</span><span style="color: #FF79C6;"> =</span><span> widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">duplicate</span><span>();</span></span>
+<span class="giallo-l"><span>        copy</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>The downside is that <code>Box&lt;dyn&gt;</code> tends to be viral in your codebase. You’ll end up writing <code>Box&lt;dyn Widget&gt;</code> more often than you’d like, which gets noisy.</p>
+<p>On top of that, this fix only works for methods that return <code>Self</code>.
+If your trait also has static methods or generic methods, you’ll need to combine this approach with one of the other fixes.</p>
+<h3 id="fix-4-split-into-two-traits"><a class="zola-anchor" href="#fix-4-split-into-two-traits" aria-label="Anchor link for: fix-4-split-into-two-traits">Fix #4: Split Into Two Traits</a></h3>
+<p>Sometimes the best solution is to separate the dyn-compatible methods from the problematic ones into different traits.</p>
+<p>Maybe your code is silently trying to tell you that you are mixing up two different responsibilities and that they should be untangled.</p>
+<p>In general, prefer smaller, focused traits over large, monolithic ones.
+Traits are not interfaces!
+Instead, we lean on composition and focus on behavior rather than mangling multiple ideas into a single trait.</p>
+<p>Here’s a more realistic example: separating rendering from widget creation. Factory methods are often static (no <code>self</code> parameter), which makes them incompatible with <code>dyn</code>. So we split them off into a separate trait.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// This trait can be used with dyn</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>);</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Separate trait for creating widgets. Can&#39;t be used with `dyn`</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> WidgetFactory</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> create</span><span>(label</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span>;</span><span style="color: #6272A4;">  // No self parameter!</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span>    label</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> draw</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">        println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Button: {}&quot;</span><span>,</span><span style="color: #BD93F9;font-style: italic;"> self</span><span style="color: #FF79C6;">.</span><span>label);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> WidgetFactory</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> create</span><span>(label</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Button</span><span> { label }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> main</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Use the factory to create widgets</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> button</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Button</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">create</span><span>(</span><span style="color: #F1FA8C;">&quot;Click me&quot;</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>());</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Use as trait object for drawing</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> widget</span><span style="color: #FF79C6;">: &amp;dyn</span><span style="color: #8BE9FD;font-style: italic;"> Widget</span><span style="color: #FF79C6;"> = &amp;</span><span>button;</span></span>
+<span class="giallo-l"><span>    widget</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">draw</span><span>();</span><span style="color: #6272A4;">  // ✅ Works</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Can&#39;t do this: let factory: &amp;dyn WidgetFactory = ...</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // But that&#39;s fine - factories work at compile time</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><h2 id="what-s-going-on-under-the-hood"><a class="zola-anchor" href="#what-s-going-on-under-the-hood" aria-label="Anchor link for: what-s-going-on-under-the-hood">What’s Going On Under the Hood?</a></h2>
+<p>When you write <code>&amp;dyn Trait</code>, you’re creating a <strong>trait object</strong>.
+It’s a special kind of value that consists of two pointers (a “fat pointer”):</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="plain"><span class="giallo-l"><span>┌─────────────────┐</span></span>
+<span class="giallo-l"><span>│  Data Pointer   │ --&gt; points to actual data (String, i32, etc.)</span></span>
+<span class="giallo-l"><span>├─────────────────┤</span></span>
+<span class="giallo-l"><span>│ VTable Pointer  │ --&gt; points to virtual method table</span></span>
+<span class="giallo-l"><span>└─────────────────┘</span></span></code></pre>
+<p>As you can see, a trait object has:</p>
+<ol>
+<li>A <strong>data pointer</strong> that points to the actual data (the concrete type implementing the trait)</li>
+<li>A <strong>vtable pointer</strong> that points to a table of function pointers for the methods</li>
+</ol>
+<p>The <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Virtual_method_table">vtable</a> is created at compile time and contains pointers to the methods for the specific type.
+It is common in many programming languages that support dynamic dispatch, such as C++, C#, or D.
+When you call a method on a trait object, Rust uses the vtable to look up the correct function to call based on the actual type of the data.</p>
+<p>For dynamic dispatch to be sound, the vtable-facing methods need stable, concrete function signatures:</p>
+<ul>
+<li>every dispatchable method needs a receiver that leads to the object and its vtable</li>
+<li>argument and return types must be expressible without knowing the hidden concrete <code>Self</code></li>
+<li>the vtable must contain a finite set of function pointers, known at compile time</li>
+</ul>
+<p>If a trait has dispatchable methods that return <code>Self</code> or have generic parameters, there is no single vtable entry with one concrete signature that can represent all possible calls.</p>
+<p>That is the root cause of dyn compatibility issues.</p>
+<p>A trait is <strong>dyn compatible</strong> if it follows <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility">a list of rules</a>.</p>
+<details>
+<summary>
+Click here for the full list.
+</summary>
+<table><thead><tr><th>Rule</th><th>Why?</th></tr></thead><tbody>
+<tr><td>All supertraits must also be dyn compatible</td><td>A <code>dyn Subtrait</code> also exposes the supertrait API, so those inherited methods must be dispatchable too</td></tr>
+<tr><td>No <code>Self: Sized</code> supertrait</td><td>The trait object type <code>dyn Trait</code> is unsized, so the trait itself must not require <code>Self: Sized</code></td></tr>
+<tr><td>No associated constants</td><td>Associated constants are not entries in the method vtable</td></tr>
+<tr><td>No generic associated types</td><td>The Reference currently forbids associated types with generics on dyn-compatible traits</td></tr>
+<tr><td>Dispatchable methods must have an allowed receiver</td><td>Methods need a receiver: <code>&amp;self</code>, <code>&amp;mut self</code>, or pointer receivers like <code>Box&lt;Self&gt;</code>, <code>Rc&lt;Self&gt;</code>, <code>Arc&lt;Self&gt;</code>, or <code>Pin&lt;P&gt;</code> where <code>P</code> is one of those pointer forms. Static methods (no receiver) can’t be dispatched through a trait object</td></tr>
+<tr><td>No generic type parameters on dispatchable methods</td><td>The vtable is a finite structure created at compile time. Generic methods are monomorphized at compile time (one copy per concrete instantiation), but a trait object erases the concrete receiver type</td></tr>
+<tr><td>No <code>Self</code> in dispatchable method parameters except the receiver</td><td><code>other: &amp;Self</code> means “the same concrete type as <code>self</code>”, but with trait objects we only know both are <code>dyn Comparable</code>; they could hide different underlying types</td></tr>
+<tr><td>No <code>Self</code> return type on dispatchable methods</td><td>The caller needs to know the return value’s size and type, but <code>Self</code> could be any implementor</td></tr>
+<tr><td>No opaque return type on dispatchable methods</td><td><code>async fn</code> and return-position <code>impl Trait</code> hide a concrete return type that must be known statically</td></tr>
+<tr><td>Non-dispatchable methods must opt out</td><td>A method that violates the dispatch rules can still live on the trait if it has <code>where Self: Sized</code>, making it unavailable through <code>dyn Trait</code></td></tr>
+</tbody></table>
+</details>
+<p>The rules boil down to the same core issue:
+<strong>the <code>dyn Trait</code> interface must have a finite, statically-known shape even though the concrete implementor behind it is hidden.</strong></p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-crab"></span>
+    
+    <h4><p>A Modern Gotcha: <code>async fn</code> in Traits</p>
+</h4>
+  </div>
+  
+  <p>Since <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/">Rust 1.75</a>, you can write <code>async fn</code> directly in a trait.
+But there’s a catch: a trait with an <code>async fn</code> is <strong>not dyn compatible</strong>.</p>
+<p>An <code>async fn</code> desugars to a regular method that returns <code>impl Future&lt;...&gt;</code>, a hidden return-position <code>impl Trait</code>.
+The type is called “opaque”, because we don’t know what it is, and the compiler doesn’t expose it to us.
+Opaque return types aren’t dispatchable (which means we can’t put them in a vtable of functions), so the trait can’t be used behind <code>dyn</code>.</p>
+<p>If you need dynamic dispatch with async methods today, you have a few options:</p>
+<ul>
+<li>Box the future yourself and return <code>Pin&lt;Box&lt;dyn Future&lt;Output = ...&gt;&gt;&gt;</code>.</li>
+<li>Use the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://crates.io/crates/async-trait"><code>async-trait</code></a> crate, which does that boxing for you.</li>
+<li>Use the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://crates.io/crates/dynosaur"><code>dynosaur</code></a> crate, which generates a dyn-compatible wrapper for traits with <code>async fn</code>.</li>
+</ul>
+
+</div>
+<h2 id="summary"><a class="zola-anchor" href="#summary" aria-label="Anchor link for: summary">Summary</a></h2>
+<p><strong>Dyn compatibility</strong> determines if a trait can be used with <code>dyn Trait</code>. The rules exist because:</p>
+<ol>
+<li>Trait objects use dynamic dispatch via vtables</li>
+<li>Vtables are static, compile-time structures, which hold method pointers</li>
+<li>Type information is erased at runtime to allow polymorphism</li>
+<li>The compiler must guarantee type safety at all times, even if it can’t see the concrete type</li>
+</ol>
+<p>If your trait is not dyn compatible, don’t worry! Many standard library traits (<code>Clone</code>, <code>Default</code>, etc.) are also not dyn compatible.
+As we’ve seen, there are ways to work around these limitations with type erasure, generics, or more fine-grained traits.</p>
+<p>Which fix to reach for depends on what your trait needs and what you’re willing to give up:</p>
+<table><thead><tr><th>Fix</th><th>Reach for it when…</th><th>The tradeoff</th></tr></thead><tbody>
+<tr><td><strong>#1 Generics</strong> (<code>&lt;W: Widget&gt;</code>)</td><td>You don’t actually need trait objects (the concrete type is known at each call site) and you won’t mix different types in one collection</td><td>Static dispatch only; monomorphization can grow code size and compile times and generic parameters need to be passed around in your API</td></tr>
+<tr><td><strong>#2 <code>where Self: Sized</code></strong></td><td>You want to keep using <code>dyn Widget</code>, and the problematic method only ever needs to be called on concrete types</td><td>That method isn’t callable through <code>dyn</code>; tightening the bound later is a breaking change</td></tr>
+<tr><td><strong>#3 Return <code>Box&lt;dyn Widget&gt;</code></strong></td><td>The method returns <code>Self</code> and you really need it through a trait object (e.g. a heterogeneous <code>Vec&lt;Box&lt;dyn Widget&gt;&gt;</code>)</td><td>A heap allocation per call, and <code>Box&lt;dyn&gt;</code> tends to spread through your API</td></tr>
+<tr><td><strong>#4 Split into two traits</strong></td><td>The trait mixes dispatchable behavior with non-dispatchable bits, like static factory methods</td><td>More traits to keep track of, though that separation often helps</td></tr>
+<tr><td><strong><code>async-trait</code> / <code>dynosaur</code></strong></td><td>Your trait has <code>async fn</code>s and you need to call them through <code>dyn</code></td><td>Wrapper types and usually boxed futures/extra indirection until native <code>dyn</code> async improves</td></tr>
+</tbody></table>
+<p>In practice you’ll often combine these. For example, splitting a trait and boxing a return value.</p>
+<h3 id="historical-notes"><a class="zola-anchor" href="#historical-notes" aria-label="Anchor link for: historical-notes">Historical Notes</a></h3>
+<p>I find it interesting to see how dyn compatibility evolved over time in Rust.
+If you do, too, here are some resources to dig deeper:</p>
+<ul>
+<li>2014-09-22: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-lang.github.io/rfcs/0255-object-safety.html">RFC 255</a> - Introduced object safety (2014, before Rust 1.0)</li>
+<li>2014-11-03: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/rfcs/issues/428">Issue #428</a> - Object-safety and static methods</li>
+<li>2015-01-03: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-lang.github.io/rfcs/0546-Self-not-sized-by-default.html">RFC 546</a> - Removed implied <code>Sized</code> bound on traits</li>
+<li>2023-08-24: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://blog.rust-lang.org/2023/08/24/Rust-1.72.0.html">Rust 1.72</a> - GATs can be opted out with <code>where Self: Sized</code></li>
+<li>2023-12-28: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/">Rust 1.75.0</a> - Stabilized <code>async fn</code> and return-position <code>impl Trait</code> in traits (though such traits still aren’t dyn compatible)</li>
+<li>2025-01-09: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/">Rust 1.84.0</a> - The docs had moved from “object safety” to “dyn compatibility” around this release cycle; the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/rust/issues/130852#issuecomment-2947417189">tracking issue</a> notes that the rename unfortunately missed the release notes.</li>
+</ul>
+<p>The lang team also wants a “practical path” to call <code>async fn</code>s through <code>dyn Trait</code> natively. It’s on the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/rfcs/blob/master/text/3935-Project-Goals-2026.md">2026 project goals</a>, so the async gotcha above should ease over time.</p>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-object-safety">
+<p>The concept used to be called “object safety” until Rust 1.84.0. If you’re reading older resources, they mean the same thing. The name got changed because it was confusing.</p>
+<p>“Object safety” suggests that Rust has “objects” in the traditional OOP sense and that the term is about “safety”, which is misleading.
+The new term “dyn compatibility” does a better job of saying that it’s about whether a trait can be used with <code>dyn Trait</code> for dynamic dispatch. I still don’t love either term, but I also can’t think of a better name that is both short and accurate. <a href="#fr-object-safety-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </section>
+  </div>
+
+  <footer class="article-footer">
+    
+    <div class="article-resources">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility">The Rust Reference: Dyn Compatibility</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/types/trait-object.html">The Rust Reference: Trait Objects</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/error_codes/E0038.html">Rust error E0038: dyn compatibility</a></p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.youtube.com/watch?v=wU8hQvU8aKM">Two Ways To Do Dynamic Dispatch</a> - Video by Logan Smith, which explains dyn dispatch from first principles</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;&title=Understanding Dyn Compatibility"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;dyn-compatibility&#x2F;&t=Understanding Dyn Compatibility"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2026-07-29">
+            Published: 2026-07-29
+        </time>
+    </div>
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog&#x2F;dyn-compatibility&#x2F;"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+         
+        <a href="https:&#x2F;&#x2F;github.com&#x2F;tirimia" target="_blank" rel="noopener noreferrer"
+            >Theodor-Alexandru Irimia</a
+        >
+    </div>
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout" id="newsletter">
+    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit">
+                <span id="newsletter-button-text">Subscribe</span>
+                <span
+                    id="newsletter-spinner"
+                    class="newsletter-spinner"
+                    style="display: none"
+                    aria-hidden="true"
+                ></span>
+                <span id="newsletter-button-loading" style="display: none">
+                    Subscribing…
+                </span>
+            </button>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const status = document.getElementById("newsletter-status");
+        const submitBtn = document.getElementById("newsletter-submit");
+        const buttonText = document.getElementById("newsletter-button-text");
+        const buttonLoading = document.getElementById(
+            "newsletter-button-loading",
+        );
+        const spinner = document.getElementById("newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "🎉 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </footer>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+    <div class="footer-newsletter" id="newsletter">
+        <div class="footer-newsletter-inner">
+            <div class="footer-newsletter-copy">
+                <h3>Idiomatic Rust in your inbox</h3>
+                <p>
+                    Occasional articles and podcast updates. No spam,
+                    unsubscribe any time.
+                </p>
+            </div>
+            <div
+                id="footer-newsletter-subscription"
+                class="footer-newsletter-form"
+            >
+                <form
+                    id="footer-newsletter-form"
+                    action="https://newsletter.corrode.dev/subscribe"
+                    method="post"
+                >
+                    <label for="footer-email" class="visually-hidden"
+                        >Email</label
+                    >
+                    <input
+                        id="footer-email"
+                        type="email"
+                        name="email"
+                        placeholder="mail@example.com"
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="hpfield"
+                        style="display: none"
+                        tabindex="-1"
+                        autocomplete="off"
+                    />
+                    <button type="submit" id="footer-newsletter-submit">
+                        <span id="footer-newsletter-button-text"
+                            >Subscribe</span
+                        >
+                        <span
+                            id="footer-newsletter-spinner"
+                            class="newsletter-spinner"
+                            style="display: none"
+                            aria-hidden="true"
+                        ></span>
+                        <span
+                            id="footer-newsletter-button-loading"
+                            style="display: none"
+                            >Subscribing…</span
+                        >
+                    </button>
+                    <p
+                        id="footer-newsletter-status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Offerings</h3>
+            <ul class="footer-links">
+                <li><a href="/services/">For Teams</a></li>
+                <li><a href="/mentorship/">For Individuals</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/podcast">Podcast</a></li>
+                <li><a href="/workshops/">Workshops</a></li>
+                <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                <li><a href="/learn/case-studies/">Case Studies</a></li>
+                <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                <li>
+                    <a href="/blog/idiomatic-rust-resources/"
+                        >Learning Resources</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Tools</h3>
+            <ul class="footer-links">
+                <li>
+                    <a href="https://course.corrode.dev/" rel="noreferrer"
+                        >Learn Rust</a
+                    >
+                </li>
+                <li>
+                    <a href="https://search.corrode.dev/" rel="noreferrer"
+                        >Rust Search</a
+                    >
+                </li>
+                <li>
+                    <a href="https://tools.corrode.dev/" rel="noreferrer"
+                        >Rust Tool Index</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Migration Guides</h3>
+            <ul class="footer-links">
+                <li>
+                    <a href="/learn/migration-guides/python-to-rust/">Python</a>
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/typescript-to-rust/"
+                        >TypeScript</a
+                    >
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/java-to-rust/">Java</a>
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/scala-to-rust/">Scala</a>
+                </li>
+                <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Company</h3>
+            <ul class="footer-links">
+                <li><a href="https://github.com/corrode">GitHub</a></li>
+                <li>
+                    <a href="https://www.linkedin.com/company/corrode/"
+                        >LinkedIn</a
+                    >
+                </li>
+                <li><a href="/legal/">Legal Notice</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+    (function () {
+        const container = document.getElementById(
+            "footer-newsletter-subscription",
+        );
+        const form = document.getElementById("footer-newsletter-form");
+        const status = document.getElementById("footer-newsletter-status");
+        const submitBtn = document.getElementById("footer-newsletter-submit");
+        const buttonText = document.getElementById(
+            "footer-newsletter-button-text",
+        );
+        const buttonLoading = document.getElementById(
+            "footer-newsletter-button-loading",
+        );
+        const spinner = document.getElementById("footer-newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "\ud83c\udf89 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "footer-newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

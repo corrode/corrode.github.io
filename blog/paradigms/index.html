@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Navigating Programming Paradigms in Rust | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="Rust supports several programming styles. You can write plain imperative code, build APIs around structs and traits, or lean on iterators and algebraic data types. Which style fits best depends on the problem and on the habits you bring from other la…">
+    <link rel="canonical" href="https://corrode.dev/blog/paradigms/">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Navigating Programming Paradigms in Rust | corrode Rust Consulting">
+    <meta property="og:description" content="Rust supports several programming styles. You can write plain imperative code, build APIs around structs and traits, or lean on iterators and algebraic data types. Which style fits best depends on the problem and on the habits you bring from other la…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;social.png">
+    <meta property="og:image:secure_url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Navigating Programming Paradigms in Rust | corrode Rust Consulting">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2023-12-04">
+    <meta property="article:modified_time" content="2026-07-20">
+    <meta property="article:author" content="Matthias Endler">
+    <meta name="publish_date" property="og:publish_date" content="2023-12-04">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@matthiasendler">
+    <meta name="twitter:creator" content="@matthiasendler">
+    <meta name="twitter:title" content="Navigating Programming Paradigms in Rust | corrode Rust Consulting">
+    <meta name="twitter:description" content="Rust supports several programming styles. You can write plain imperative code, build APIs around structs and traits, or lean on iterators and algebraic data types. Which style fits best depends on the problem and on the habits you bring from other la…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;social.png">
+    <meta name="twitter:image:alt" content="Navigating Programming Paradigms in Rust | corrode Rust Consulting">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/paradigms/"
+      },
+      "headline": "Navigating Programming Paradigms in Rust",
+      "description": "Rust supports several programming styles. You can write plain imperative code, build APIs around structs and traits, or lean on iterators and algebraic data types. Which style fits best depends on the problem and on the habits you bring from other la…",
+      
+      "image": "https://corrode.dev/blog/paradigms/social.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler",
+        "url": "https://endler.dev",
+        "sameAs": [
+          "https://github.com/mre",
+          "https://mastodon.social/@mre",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "url": "https://corrode.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        },
+        "sameAs": [
+          "https://github.com/corrode",
+          "https://www.linkedin.com/company/corrode",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "datePublished": "2023-12-04",
+      
+      "dateModified": "2026-07-20"
+      
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://corrode.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://corrode.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Navigating Programming Paradigms in Rust",
+          "item": "https://corrode.dev/blog/paradigms/"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav aria-label="Main navigation">
+    <!-- Logo and Home Link -->
+    <div>
+        <a  class="nav-item" 
+            href="https://corrode.dev/">
+            <span class="logo">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle" aria-label="Toggle navigation menu">
+        <div class="menu-button" aria-hidden="true"></div>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <a href="javascript:toggleColorScheme();" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                </span>
+                <span id="icon-sun" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item active" 
+                href="https://corrode.dev/blog">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/podcast">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/learn/migration-guides">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/workshops">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/mentorship">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://corrode.dev/services" class="cta-button">
+                <span>Consulting&nbsp;→</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        <main class="container">
+            
+<article>
+  <header class="article-heading">
+    <p class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </p>
+    <h1>Navigating Programming Paradigms in Rust</h1>
+    <div class="article-meta">
+      <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="icon-calendar" aria-hidden="true"></span>
+      <span>
+        
+          Last updated: <time datetime="2026-07-20">2026-07-20</time>
+        
+      </span>
+    </div>
+    
+  </header>
+  <div class="article-content-wrapper">
+    
+    <section class="article-content">
+    
+
+      <p>Rust supports several programming styles. You can write plain imperative code, build APIs around structs and traits, or lean on iterators and algebraic data types. Which style fits best depends on the problem and on the habits you bring from other languages.</p>
+<p>That flexibility is useful, but it can also make Rust feel less obvious than languages with one dominant style. A C++ developer, a Java developer, a Python developer, and a Haskell developer may all reach for different Rust patterns.</p>
+<p>The <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/book/ch17-00-oop.html">Rust Book explains</a> that Rust can be called object-oriented under some definitions. It also points out Rust’s <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/book/ch13-00-functional-features.html">functional programming influences</a>. Both statements are true. Rust borrowed from several traditions, then made its own tradeoffs.</p>
+<h2 id="choosing-the-right-style"><a class="zola-anchor" href="#choosing-the-right-style" aria-label="Anchor link for: choosing-the-right-style">Choosing The Right Style</a></h2>
+<p>Rust has object-oriented pieces, but they do not look like classical inheritance. You usually compose behavior with data types and impl blocks. Traits provide shared behavior without forcing a class hierarchy.</p>
+<p>Rust also makes functional patterns easy to use. Immutability, iterators, algebraic data types, and pattern matching all show up in everyday Rust.</p>
+<p>At the same time, Rust is not a pure functional language. Side effects are allowed, mutable state is normal when it helps, and Rust does not enforce <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://en.wikipedia.org/wiki/Referential_transparency">referential transparency</a>.</p>
+<p>The useful question is not which camp Rust belongs to. The useful question is which style makes a particular piece of code easier to understand and change. This article shows the decision process I use.</p>
+<h2 id="a-small-example"><a class="zola-anchor" href="#a-small-example" aria-label="Anchor link for: a-small-example">A Small Example</a></h2>
+<p>There is nothing wrong with simple <code>for</code> loops in Rust.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> sum</span><span style="color: #FF79C6;"> =</span><span style="color: #BD93F9;"> 0</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">for</span><span> i</span><span style="color: #FF79C6;"> in</span><span style="color: #BD93F9;"> 0</span><span style="color: #FF79C6;">..</span><span style="color: #BD93F9;">10</span><span> {</span></span>
+<span class="giallo-l"><span>    sum</span><span style="color: #FF79C6;"> +=</span><span> i;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>But even in such a short example, we can see a discrepancy between the problem
+we’re trying to solve and the code we’re writing. The intermediate values of
+<code>sum</code> are irrelevant! We only care about the final result.</p>
+<p>Compare that to a more functional version:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> sum</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> u32</span><span style="color: #FF79C6;"> =</span><span> (</span><span style="color: #BD93F9;">0</span><span style="color: #FF79C6;">..</span><span style="color: #BD93F9;">10</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">sum</span><span>();</span></span></code></pre>
+<p>In a small example, this barely matters, but with nested loops, the bookkeeping starts to take over. More lines describe how to move data around than what result we want. That is accidental complexity, and even small amounts cost attention.</p>
+<h2 id="a-slightly-bigger-example-nested-loops"><a class="zola-anchor" href="#a-slightly-bigger-example-nested-loops" aria-label="Anchor link for: a-slightly-bigger-example-nested-loops">A Slightly Bigger Example: Nested Loops</a></h2>
+<p>Let’s use a slightly bigger example. Imagine a list of programming languages, the styles they support, and the number of production users for each language. The task is to find the five most-used languages that support functional programming.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// All data is made up for the sake of this example! We love you, Haskell.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> languages</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> vec!</span><span>[</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Language</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;Rust&quot;</span><span>,</span><span style="color: #50FA7B;"> vec!</span><span>[Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>, Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">ObjectOriented</span><span>],</span><span style="color: #BD93F9;"> 100_000</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Language</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;Go&quot;</span><span>,</span><span style="color: #50FA7B;"> vec!</span><span>[Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">ObjectOriented</span><span>],</span><span style="color: #BD93F9;"> 200_000</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Language</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;Haskell&quot;</span><span>,</span><span style="color: #50FA7B;"> vec!</span><span>[Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>],</span><span style="color: #BD93F9;"> 5_000</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Language</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;Java&quot;</span><span>,</span><span style="color: #50FA7B;"> vec!</span><span>[Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">ObjectOriented</span><span>],</span><span style="color: #BD93F9;"> 1_000_000</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Language</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;C++&quot;</span><span>,</span><span style="color: #50FA7B;"> vec!</span><span>[Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">ObjectOriented</span><span>],</span><span style="color: #BD93F9;"> 1_000_000</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Language</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;Python&quot;</span><span>,</span><span style="color: #50FA7B;"> vec!</span><span>[Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">ObjectOriented</span><span>, Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>],</span><span style="color: #BD93F9;"> 1_000_000</span><span>),</span></span>
+<span class="giallo-l"><span>];</span></span></code></pre>
+<p>Here is a <em>painfully</em> explicit solution using nested <code>for</code> loops:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// Filter languages to keep only the functional ones</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> functional_languages</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> vec!</span><span>[];</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">for</span><span> language</span><span style="color: #FF79C6;"> in</span><span> languages {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> language</span><span style="color: #FF79C6;">.</span><span>styles</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">contains</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>) {</span></span>
+<span class="giallo-l"><span>        functional_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(language);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Sort the functional languages by the number of users in descending order</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">for</span><span> i</span><span style="color: #FF79C6;"> in</span><span style="color: #BD93F9;"> 1</span><span style="color: #FF79C6;">..</span><span>functional_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> j</span><span style="color: #FF79C6;"> =</span><span> i;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    while</span><span> j</span><span style="color: #FF79C6;"> &gt;</span><span style="color: #BD93F9;"> 0</span><span style="color: #FF79C6;"> &amp;&amp;</span><span> functional_languages[j]</span><span style="color: #FF79C6;">.</span><span>users</span><span style="color: #FF79C6;"> &gt;</span><span> functional_languages[j</span><span style="color: #FF79C6;"> -</span><span style="color: #BD93F9;"> 1</span><span>]</span><span style="color: #FF79C6;">.</span><span>users {</span></span>
+<span class="giallo-l"><span>        functional_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">swap</span><span>(j, j</span><span style="color: #FF79C6;"> -</span><span style="color: #BD93F9;"> 1</span><span>);</span></span>
+<span class="giallo-l"><span>        j</span><span style="color: #FF79C6;"> -=</span><span style="color: #BD93F9;"> 1</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Keep only the top 5 languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">while</span><span> functional_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>() &gt;</span><span style="color: #BD93F9;"> 5</span><span> {</span></span>
+<span class="giallo-l"><span>    functional_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">pop</span><span>();</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=f9b28b96acde1f9d11e8dd5957539826">Rust Playground</a>)</p>
+<p>This imperative version is verbose. It mutates the vector in place and throws away intermediate results as it goes. It works, but it is not how I would usually write this in Rust.</p>
+<p>In practice, you would probably reach for a few more helper methods from the
+standard library:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> top_languages</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> vec!</span><span>[];</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">for</span><span> language</span><span style="color: #FF79C6;"> in</span><span> languages {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> language</span><span style="color: #FF79C6;">.</span><span>styles</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">contains</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>) {</span></span>
+<span class="giallo-l"><span>        top_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(language);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Sort our languages in descending order of popularity.</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// This line is already somewhat functional in nature.</span></span>
+<span class="giallo-l"><span>top_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">sort_by_key</span><span>(</span><span style="color: #FF79C6;">|</span><span>lang</span><span style="color: #FF79C6;">|</span><span> std</span><span style="color: #FF79C6;">::</span><span>cmp</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">Reverse</span><span>(lang</span><span style="color: #FF79C6;">.</span><span>users));</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>top_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">truncate</span><span>(</span><span style="color: #BD93F9;">5</span><span>);</span></span></code></pre>
+<p>Since we’re consuming <code>languages</code> anyway, we might as well be a little more
+concise when filtering:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> top_languages</span><span style="color: #FF79C6;"> =</span><span> languages;</span></span>
+<span class="giallo-l"><span>top_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">retain</span><span>(</span><span style="color: #FF79C6;">|</span><span>language</span><span style="color: #FF79C6;">|</span><span> language</span><span style="color: #FF79C6;">.</span><span>styles</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">contains</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>));</span></span></code></pre>
+<p>We still use a mutable variable, but the code is shorter. <code>retain</code> takes a closure, so the code has already moved a little toward a functional style. Let’s keep going.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> top_languages</span><span style="color: #FF79C6;"> =</span><span> languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">clone</span><span>();</span></span>
+<span class="giallo-l"><span>top_languages</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">sort</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> top_languages</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Language</span><span>&gt;</span><span style="color: #FF79C6;"> =</span><span> top_languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">into_iter</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Only keep functional languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>language</span><span style="color: #FF79C6;">|</span><span> language</span><span style="color: #FF79C6;">.</span><span>styles</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">contains</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>))</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Keep only the top 5 languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">take</span><span>(</span><span style="color: #BD93F9;">5</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Collect the results into a vector</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">collect</span><span>();</span></span></code></pre>
+<p>Or, if external crates are an option, we could use <code>sorted_by_key</code> from
+<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.sorted_by_key"><code>itertools</code></a>
+to chain all intermediate operations:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> top_languages</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Language</span><span>&gt;</span><span style="color: #FF79C6;"> =</span><span> languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">iter</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Only keep functional languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>language</span><span style="color: #FF79C6;">|</span><span> language</span><span style="color: #FF79C6;">.</span><span>styles</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">contains</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>Style</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Functional</span><span>))</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Sort our languages in descending order of popularity.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">sorted_by_key</span><span>(</span><span style="color: #FF79C6;">|</span><span>lang</span><span style="color: #FF79C6;">|</span><span style="color: #50FA7B;"> Reverse</span><span>(lang</span><span style="color: #FF79C6;">.</span><span>users))</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Keep only the top 5 languages</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">take</span><span>(</span><span style="color: #BD93F9;">5</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Collect the results into a new vector</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">collect</span><span>();</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=8c1d45de856b6a7980ea48ebeaf43290">Rust Playground</a>)</p>
+<p>Sorting the whole filtered list just to keep five elements can be wasteful. C++ has <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://en.cppreference.com/w/cpp/algorithm/partial_sort"><code>partial_sort</code></a> in its standard library. Rust does not have the same operation in <code>std</code>, though third-party crates can fill the gap. A <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html">BinaryHeap</a> is another option.</p>
+<p>I still find this version easier to reason about. The operations line up under each other, and the code reads like a description of the result. It can feel strange at first if you are new to iterator-heavy Rust.</p>
+<p>Admittedly, I did pick a problem that fits functional code well.
+But I find that method chains start to feel natural when you are doing ad-hoc transformations on immutable data.</p>
+<p>There are a few reasons for that:</p>
+<ul>
+<li>The steps are easy to follow.</li>
+<li>The standard library and crates provide iterator adapters that work well with immutable data.</li>
+<li>Methods like <code>map</code> and <code>filter</code> build lazy iterators, so they do not allocate by themselves. Work happens when the iterator is consumed. In this example, <code>collect</code> performs the allocation for the final vector.</li>
+<li>Independent chains can often be moved to parallel execution later.</li>
+</ul>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://cbarrete.com/carmack.html">John Carmack put the tradeoff well</a>: “No matter what language you work in, programming in a functional style provides benefits. You should do it whenever it is convenient, and you should think hard about the decision when it isn’t convenient.”</p>
+<p>But can you take it too far?
+Is there a point where functional Rust becomes inconvenient?
+Let’s try a more realistic example.</p>
+<h2 id="real-world-example-filtering-a-list-of-files"><a class="zola-anchor" href="#real-world-example-filtering-a-list-of-files" aria-label="Anchor link for: real-world-example-filtering-a-list-of-files">Real-World Example: Filtering a List of Files</a></h2>
+<p>Here is a small Rust exercise: how would you list all XML files in a directory? Before reading on, try it yourself and notice which style you reach for first.</p>
+<h3 id="imperative-style"><a class="zola-anchor" href="#imperative-style" aria-label="Anchor link for: imperative-style">Imperative Style</a></h3>
+<p>Here is my imperative solution:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> xml_files</span><span>(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> files</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> f</span><span style="color: #FF79C6;"> in</span><span> fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // This line is necessary, because the file could have</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // been deleted since the call to `read_dir`.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> f</span><span style="color: #FF79C6;"> =</span><span> f</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">extension</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Some</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">OsStr</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;xml&quot;</span><span>)) {</span></span>
+<span class="giallo-l"><span>            files</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>());</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(files)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=f3314816d1584ea372e8cdf6bdccd426">Rust Playground</a>)</p>
+<p>This version is fine. It has some bookkeeping, including <code>let f = f?;</code>, but that is not accidental complexity. Directory iteration can fail, and file extensions are not guaranteed to be valid UTF-8 on every platform.</p>
+<p>As the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/ffi/struct.OsString.html">documentation for
+<code>OsStr</code></a> explains:</p>
+<ul>
+<li>On Unix systems, strings are often arbitrary sequences of non-zero bytes, in
+many cases interpreted as UTF-8.</li>
+<li>On Windows, strings are often arbitrary sequences of non-zero 16-bit values,
+interpreted as UTF-16 when it is valid to do so.</li>
+</ul>
+<p>This example does not check whether the path is a file before checking the extension. I left that out to keep the example short.</p>
+<h3 id="functional-style"><a class="zola-anchor" href="#functional-style" aria-label="Anchor link for: functional-style">Functional Style</a></h3>
+<p>Here is the same problem written with iterator adapters:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> xml_files</span><span>(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> entries</span><span style="color: #FF79C6;"> =</span><span> fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter_map</span><span>(Result</span><span style="color: #FF79C6;">::</span><span>ok)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>entry</span><span style="color: #FF79C6;">|</span><span> entry</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>())</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>path</span><span style="color: #FF79C6;">|</span><span> path</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">extension</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Some</span><span>(OsStr</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;xml&quot;</span><span>)))</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">collect</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(entries)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=448b6246dd4da2d1cd9b8cf1f4e1f09e">Rust Playground</a>)</p>
+<p>This version maps directory entries to paths, filters out non-XML files, and collects the result without a mutable vector.</p>
+<p>It also changes the behavior. <code>filter_map(Result::ok)</code> drops every error.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>What is the difference between <code>filter</code> and <code>filter_map</code>?</p>
+</h4>
+  </div>
+  
+  <p>In Rust, <code>filter</code> takes a closure that returns a <code>bool</code> to decide whether to
+include an element in the resulting iterator, whereas <code>filter_map</code> takes a
+closure that returns an <code>Option&lt;T&gt;</code>.</p>
+<p>For <code>filter_map</code>, if the closure returns <code>Some(value)</code>, that value is included
+in the new iterator; if it returns <code>None</code>, the element is excluded. Essentially,
+<code>filter_map</code> allows filtering and mapping in a single step.</p>
+
+</div>
+<p>Ignoring errors may be acceptable for a quick script, but production code should at least log them. We can use <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.inspect"><code>inspect</code></a> for that:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> xml_files</span><span>(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> entries</span><span style="color: #FF79C6;"> =</span><span> fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Logs each element of the iterator to stderr for debugging, then passes the value on.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">inspect</span><span>(</span><span style="color: #FF79C6;">|</span><span>entry</span><span style="color: #FF79C6;">|</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            if let</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(e)</span><span style="color: #FF79C6;"> =</span><span> entry {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">                eprintln!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error: {}&quot;</span><span>, e);</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        })</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter_map</span><span>(Result</span><span style="color: #FF79C6;">::</span><span>ok)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>entry</span><span style="color: #FF79C6;">|</span><span> entry</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>())</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>path</span><span style="color: #FF79C6;">|</span><span> path</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">extension</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Some</span><span>(OsStr</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;xml&quot;</span><span>)))</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">collect</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(entries)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=f3bd287c8c82ff661b9ec9616b5514a9">Rust Playground</a>)</p>
+<p>At this point I still prefer the iterator version. Now let’s add more requirements.</p>
+<h3 id="making-filtering-more-generic"><a class="zola-anchor" href="#making-filtering-more-generic" aria-label="Anchor link for: making-filtering-more-generic">Making Filtering More Generic</a></h3>
+<p>What if we want to filter by arbitrary file attributes, such as a prefix or extension?</p>
+<p>We can add a <code>valid</code> parameter: a function that takes a <code>Path</code> and returns a <code>bool</code>. Functional programmers call this a predicate.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> filter_files</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>&gt;(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>, valid</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">where</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    F</span><span style="color: #FF79C6;">:</span><span style="color: #50FA7B;"> Fn</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter_map</span><span>(Result</span><span style="color: #FF79C6;">::</span><span>ok)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>entry</span><span style="color: #FF79C6;">|</span><span> entry</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>())</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>path</span><span style="color: #FF79C6;">|</span><span style="color: #50FA7B;"> valid</span><span>(path))</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">collect</span><span>())</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>This generic function works for many filters. It also shows that higher-order functions are a normal part of Rust.</p>
+<p>The imperative version can take the same <code>valid</code> function. The line between imperative and functional Rust is blurry:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> filter_files</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>&gt;(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>, valid</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt; </span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">where</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    F</span><span style="color: #FF79C6;">:</span><span style="color: #50FA7B;"> Fn</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> files</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> f</span><span style="color: #FF79C6;"> in</span><span> fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> f</span><span style="color: #FF79C6;"> =</span><span> f</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span style="color: #50FA7B;"> valid</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>()) {</span></span>
+<span class="giallo-l"><span>            files</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>());</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(files)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=d89eb67e614ad324de56b7d94204dc7f">Rust Playground</a>)</p>
+<h3 id="recursively-filtering-directories-for-files"><a class="zola-anchor" href="#recursively-filtering-directories-for-files" aria-label="Anchor link for: recursively-filtering-directories-for-files">Recursively Filtering Directories For Files</a></h3>
+<p>Let’s go one step further.</p>
+<p>So far, the function only handles one directory. What if we want to recurse into subdirectories?</p>
+<p>Here is the mostly imperative version with mutable state:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> filter_files</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>&gt;(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>, valid</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">where</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    F</span><span style="color: #FF79C6;">:</span><span style="color: #50FA7B;"> Fn</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> files</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> f</span><span style="color: #FF79C6;"> in</span><span> fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> f</span><span style="color: #FF79C6;"> =</span><span> f</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_dir</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">            // Recursively filter the directory</span></span>
+<span class="giallo-l"><span>            files</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">extend</span><span>(</span><span style="color: #50FA7B;">filter_files</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>(), valid)</span><span style="color: #FF79C6;">?</span><span>);</span></span>
+<span class="giallo-l"><span>        }</span><span style="color: #FF79C6;"> else if</span><span style="color: #50FA7B;"> valid</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>()) {</span></span>
+<span class="giallo-l"><span>            files</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(f</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>());</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(files)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>(<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=e55738f928e70d9f42e2408e10166e1e">Rust Playground</a>)</p>
+<p>This adds one level of nesting, but the imperative version still holds together.</p>
+<p>Now compare the iterator version:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> filter_files</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>&gt;(p</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>, valid</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;&gt;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">where</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    F</span><span style="color: #FF79C6;">:</span><span style="color: #50FA7B;"> Fn</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_dir</span><span>(p)</span><span style="color: #FF79C6;">?</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">filter_map</span><span>(Result</span><span style="color: #FF79C6;">::</span><span>ok)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>entry</span><span style="color: #FF79C6;">|</span><span> entry</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">path</span><span>())</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">flat_map</span><span>(</span><span style="color: #FF79C6;">|</span><span>path</span><span style="color: #FF79C6;">| match</span><span> path {</span></span>
+<span class="giallo-l"><span>            p</span><span style="color: #FF79C6;"> if</span><span> p</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_dir</span><span>()</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> filter_files</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>p, valid)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap_or_default</span><span>(),</span></span>
+<span class="giallo-l"><span>            p</span><span style="color: #FF79C6;"> if</span><span style="color: #50FA7B;"> valid</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>p)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> vec!</span><span>[p],</span></span>
+<span class="giallo-l"><span>            _</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> vec!</span><span>[],</span></span>
+<span class="giallo-l"><span>        })</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        .</span><span style="color: #50FA7B;">collect</span><span>())</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Now we have an iterator that can produce many paths for one input path, so we reach for <code>flat_map</code>. That forces each branch to return a collection, even when it has nothing to return. The <code>unwrap_or_default</code> is a smell here.</p>
+<p>This is the point where I stop trying to force everything into one chain. The code needs a boundary around the traversal state. Rust gives us a good way to do that with a struct and an <code>Iterator</code> implementation.</p>
+<h3 id="transitioning-to-object-oriented-rust"><a class="zola-anchor" href="#transitioning-to-object-oriented-rust" aria-label="Anchor link for: transitioning-to-object-oriented-rust">Transitioning to Object-Oriented Rust</a></h3>
+<p>Instead of pushing the traversal into a longer function, introduce a <code>FileFilter</code> struct that owns the filtering and iteration state.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">pub struct</span><span style="color: #8BE9FD;font-style: italic;"> FileFilter</span><span> {</span></span>
+<span class="giallo-l"><span>    predicates</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Box</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Predicate</span><span>&gt;&gt;,</span></span>
+<span class="giallo-l"><span>    start</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Option</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>    stack</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;fs</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">ReadDir</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Each <code>FileFilter</code> value stores the predicates, the starting path, and the directory stack.</p>
+<p>A predicate is defined like this:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">type</span><span style="color: #8BE9FD;font-style: italic;"> Predicate</span><span style="color: #FF79C6;"> = dyn</span><span style="color: #50FA7B;"> Fn</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>;</span></span></code></pre>
+<p>You might be surprised to see a <code>dyn</code> here. The <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/types/closure.html">Rust Reference</a> says each closure has its own anonymous type. Even two identical closures have different types.</p>
+<p>To store several closures in one <code>Vec</code>, we use a trait object with dynamic dispatch. Boxing each closure gives us a <code>Box&lt;Predicate&gt;</code> (<code>Box&lt;dyn Fn(&amp;Path) -&gt; bool&gt;</code>), so different closure types can live in the same collection.</p>
+<h4 id="adding-filters"><a class="zola-anchor" href="#adding-filters" aria-label="Anchor link for: adding-filters">Adding Filters</a></h4>
+<p>Earlier versions exposed the filtering loop directly. <code>FileFilter</code> hides that detail behind a small API.</p>
+<p>Consider the <code>add_filter</code> method:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">pub fn</span><span style="color: #50FA7B;"> add_filter</span><span>(</span><span style="color: #FF79C6;">mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>, predicate</span><span style="color: #FF79C6;">: impl</span><span style="color: #50FA7B;"> Fn</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span style="color: #FF79C6;"> +</span><span> &#39;</span><span style="color: #8BE9FD;font-style: italic;">static</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">    self</span><span style="color: #FF79C6;">.</span><span>predicates</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(Box</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(predicate));</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">    self</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Now callers can add filters by chaining method calls. The filter setup is separate from the traversal code.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> filter</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> FileFilter</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">add_filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>path</span><span style="color: #FF79C6;">|</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // check if path begins with &quot;foo&quot;</span></span>
+<span class="giallo-l"><span>        path</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">file_name</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            .</span><span style="color: #50FA7B;">and_then</span><span>(OsStr</span><span style="color: #FF79C6;">::</span><span>to_str)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            .</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>name</span><span style="color: #FF79C6;">|</span><span> name</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;foo&quot;</span><span>))</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            .</span><span style="color: #50FA7B;">unwrap_or</span><span>(</span><span style="color: #BD93F9;">false</span><span>)</span></span>
+<span class="giallo-l"><span>    })  </span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">add_filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>path</span><span style="color: #FF79C6;">|</span><span> path</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">extension</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Some</span><span>(OsStr</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #F1FA8C;">&quot;xml&quot;</span><span>)));</span></span></code></pre><h4 id="iterator-implementation"><a class="zola-anchor" href="#iterator-implementation" aria-label="Anchor link for: iterator-implementation">Iterator Implementation</a></h4>
+<p>The object-oriented part becomes useful when <code>FileFilter</code> implements <code>Iterator</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> Iterator</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> FileFilter</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    type</span><span style="color: #8BE9FD;font-style: italic;"> Item</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">PathBuf</span><span>&gt;;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> next</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Option</span><span>&lt;</span><span style="color: #BD93F9;font-style: italic;">Self</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Item</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Iteration logic to filter entries.</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // This is outside the scope of this article</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Check out the full implementation on GitHub</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // or on the Rust Playground</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>With that implementation, <code>FileFilter</code> becomes a normal Rust iterator. Callers can chain it with the rest of the iterator ecosystem while the traversal logic stays inside the struct.</p>
+<p>You can find the full implementation of <code>FileFilter</code> <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/corrode/filefilter">on
+GitHub</a> or <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2021&amp;gist=d0b5ce70c858b39151ca46cf9dc07369">on the Rust
+Playground</a>.
+The code was closely modeled after the excellent
+<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/BurntSushi/walkdir">Walkdir</a> crate, which I recommend for
+production use.</p>
+<h4 id="encapsulation-and-reusability"><a class="zola-anchor" href="#encapsulation-and-reusability" aria-label="Anchor link for: encapsulation-and-reusability">Encapsulation and Reusability</a></h4>
+<p>The <code>FileFilter</code> example shows what object-oriented Rust is good at: encapsulation. We separate the predicates from the traversal machinery, then expose the result as an iterator. The trait system lets that custom iterator work with the rest of Rust.</p>
+<h2 id="summary"><a class="zola-anchor" href="#summary" aria-label="Anchor link for: summary">Summary</a></h2>
+<p>Rust works well when you mix styles deliberately. That should not be surprising. The language draws from <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/influences.html">C++, Haskell, OCaml, Erlang</a>, and more.</p>
+<p>I often use a functional core with an imperative shell. Small functions transform data. The outer code handles I/O and sequencing. Error reporting sits at the boundary. For larger parts of an application, I use Rust’s type system to keep related data and behavior together.</p>
+<p>My rules of thumb:</p>
+<ul>
+<li>Use object-oriented patterns for organization. Structs and enums are good places to keep related data. Traits are good boundaries between parts of the program.</li>
+<li>Use functional patterns for data transformations. Inside functions and closures, iterator adapters can make the data flow easier to read.</li>
+<li>Use imperative code when sequencing matters. Explicit loops are often clearer near I/O, mutation, performance-sensitive code, or low-level details. Keep that code in a small scope when you can.</li>
+<li>Prefer readability over allegiance to a style. Code that is easy to read and change usually beats code that follows one programming tradition perfectly.</li>
+<li>Measure before optimizing. The bottleneck may not be where you expect, and readable code is easier to tune once you know what matters.</li>
+</ul>
+<p>Do not let your favorite style make the decision for you. Try the obvious version first, then refactor when the code starts to become unwieldy.</p>
+
+    </section>
+  </div>
+
+  <footer class="article-footer">
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;&title=Navigating Programming Paradigms in Rust"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;paradigms&#x2F;&t=Navigating Programming Paradigms in Rust"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2023-12-04">
+            Published: 2023-12-04
+        </time>
+    </div><div class="updated">
+        <time datetime="2026-07-20">
+            Last updated: 2026-07-20
+        </time>
+    </div>
+    
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog&#x2F;paradigms&#x2F;"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+    
+    <div class="reviewers">
+        <span>Reviewers:</span>
+         
+        <a href="https:&#x2F;&#x2F;www.hannobraun.com&#x2F;" target="_blank" rel="noopener noreferrer"
+            >Hanno Braun</a
+        >,  
+        <a href="https:&#x2F;&#x2F;github.com&#x2F;guilliamxavier" target="_blank" rel="noopener noreferrer"
+            >Guilliam Xavier</a
+        > and 
+        <a href="https:&#x2F;&#x2F;vlad-onis.github.io&#x2F;" target="_blank" rel="noopener noreferrer"
+            >Vlad Hategan</a
+        >
+    </div>
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout" id="newsletter">
+    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit">
+                <span id="newsletter-button-text">Subscribe</span>
+                <span
+                    id="newsletter-spinner"
+                    class="newsletter-spinner"
+                    style="display: none"
+                    aria-hidden="true"
+                ></span>
+                <span id="newsletter-button-loading" style="display: none">
+                    Subscribing…
+                </span>
+            </button>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const status = document.getElementById("newsletter-status");
+        const submitBtn = document.getElementById("newsletter-submit");
+        const buttonText = document.getElementById("newsletter-button-text");
+        const buttonLoading = document.getElementById(
+            "newsletter-button-loading",
+        );
+        const spinner = document.getElementById("newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "🎉 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </footer>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+    <div class="footer-newsletter" id="newsletter">
+        <div class="footer-newsletter-inner">
+            <div class="footer-newsletter-copy">
+                <h3>Idiomatic Rust in your inbox</h3>
+                <p>
+                    Occasional articles and podcast updates. No spam,
+                    unsubscribe any time.
+                </p>
+            </div>
+            <div
+                id="footer-newsletter-subscription"
+                class="footer-newsletter-form"
+            >
+                <form
+                    id="footer-newsletter-form"
+                    action="https://newsletter.corrode.dev/subscribe"
+                    method="post"
+                >
+                    <label for="footer-email" class="visually-hidden"
+                        >Email</label
+                    >
+                    <input
+                        id="footer-email"
+                        type="email"
+                        name="email"
+                        placeholder="mail@example.com"
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="hpfield"
+                        style="display: none"
+                        tabindex="-1"
+                        autocomplete="off"
+                    />
+                    <button type="submit" id="footer-newsletter-submit">
+                        <span id="footer-newsletter-button-text"
+                            >Subscribe</span
+                        >
+                        <span
+                            id="footer-newsletter-spinner"
+                            class="newsletter-spinner"
+                            style="display: none"
+                            aria-hidden="true"
+                        ></span>
+                        <span
+                            id="footer-newsletter-button-loading"
+                            style="display: none"
+                            >Subscribing…</span
+                        >
+                    </button>
+                    <p
+                        id="footer-newsletter-status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Offerings</h3>
+            <ul class="footer-links">
+                <li><a href="/services/">For Teams</a></li>
+                <li><a href="/mentorship/">For Individuals</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/podcast">Podcast</a></li>
+                <li><a href="/workshops/">Workshops</a></li>
+                <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                <li><a href="/learn/case-studies/">Case Studies</a></li>
+                <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                <li>
+                    <a href="/blog/idiomatic-rust-resources/"
+                        >Learning Resources</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Tools</h3>
+            <ul class="footer-links">
+                <li>
+                    <a href="https://course.corrode.dev/" rel="noreferrer"
+                        >Learn Rust</a
+                    >
+                </li>
+                <li>
+                    <a href="https://search.corrode.dev/" rel="noreferrer"
+                        >Rust Search</a
+                    >
+                </li>
+                <li>
+                    <a href="https://tools.corrode.dev/" rel="noreferrer"
+                        >Rust Tool Index</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Migration Guides</h3>
+            <ul class="footer-links">
+                <li>
+                    <a href="/learn/migration-guides/python-to-rust/">Python</a>
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/typescript-to-rust/"
+                        >TypeScript</a
+                    >
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/java-to-rust/">Java</a>
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/scala-to-rust/">Scala</a>
+                </li>
+                <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Company</h3>
+            <ul class="footer-links">
+                <li><a href="https://github.com/corrode">GitHub</a></li>
+                <li>
+                    <a href="https://www.linkedin.com/company/corrode/"
+                        >LinkedIn</a
+                    >
+                </li>
+                <li><a href="/legal/">Legal Notice</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+    (function () {
+        const container = document.getElementById(
+            "footer-newsletter-subscription",
+        );
+        const form = document.getElementById("footer-newsletter-form");
+        const status = document.getElementById("footer-newsletter-status");
+        const submitBtn = document.getElementById("footer-newsletter-submit");
+        const buttonText = document.getElementById(
+            "footer-newsletter-button-text",
+        );
+        const buttonLoading = document.getElementById(
+            "footer-newsletter-button-loading",
+        );
+        const spinner = document.getElementById("footer-newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "\ud83c\udf89 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "footer-newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>

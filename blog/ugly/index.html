@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>When Rust Gets Ugly | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="In workshops I often see people getting frustrated with Rust.
+Here’s some of the feedback I hear:
+
+“The borrow checker rules make it hard to write code that compiles.”
+“It’s overwhelming! The syntax is complex with too many symbols and operators. 1”
+…">
+    <link rel="canonical" href="https://corrode.dev/blog/ugly/">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="When Rust Gets Ugly | corrode Rust Consulting">
+    <meta property="og:description" content="In workshops I often see people getting frustrated with Rust.
+Here’s some of the feedback I hear:
+
+“The borrow checker rules make it hard to write code that compiles.”
+“It’s overwhelming! The syntax is complex with too many symbols and operators. 1”
+…">
+    <meta property="og:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;social.png">
+    <meta property="og:image:secure_url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="When Rust Gets Ugly | corrode Rust Consulting">
+    <meta property="og:url" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-07-17">
+    <meta property="article:author" content="Matthias Endler">
+    <meta name="publish_date" property="og:publish_date" content="2026-07-17">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@matthiasendler">
+    <meta name="twitter:creator" content="@matthiasendler">
+    <meta name="twitter:title" content="When Rust Gets Ugly | corrode Rust Consulting">
+    <meta name="twitter:description" content="In workshops I often see people getting frustrated with Rust.
+Here’s some of the feedback I hear:
+
+“The borrow checker rules make it hard to write code that compiles.”
+“It’s overwhelming! The syntax is complex with too many symbols and operators. 1”
+…">
+    <meta name="twitter:image" content="https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;social.png">
+    <meta name="twitter:image:alt" content="When Rust Gets Ugly | corrode Rust Consulting">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/ugly/"
+      },
+      "headline": "When Rust Gets Ugly",
+      "description": "In workshops I often see people getting frustrated with Rust.\nHere’s some of the feedback I hear:\n\n“The borrow checker rules make it hard to write code that compiles.”\n“It’s overwhelming! The syntax is complex with too many symbols and operators. 1”\n…",
+      
+      "image": "https://corrode.dev/blog/ugly/social.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler",
+        "url": "https://endler.dev",
+        "sameAs": [
+          "https://github.com/mre",
+          "https://mastodon.social/@mre",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "url": "https://corrode.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        },
+        "sameAs": [
+          "https://github.com/corrode",
+          "https://www.linkedin.com/company/corrode",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "datePublished": "2026-07-17",
+      
+      "dateModified": "2026-07-17"
+      
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://corrode.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://corrode.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "When Rust Gets Ugly",
+          "item": "https://corrode.dev/blog/ugly/"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav aria-label="Main navigation">
+    <!-- Logo and Home Link -->
+    <div>
+        <a  class="nav-item" 
+            href="https://corrode.dev/">
+            <span class="logo">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle" aria-label="Toggle navigation menu">
+        <div class="menu-button" aria-hidden="true"></div>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <a href="javascript:toggleColorScheme();" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                </span>
+                <span id="icon-sun" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item active" 
+                href="https://corrode.dev/blog">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/podcast">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/learn/migration-guides">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/workshops">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/mentorship">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://corrode.dev/services" class="cta-button">
+                <span>Consulting&nbsp;→</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        <main class="container">
+            
+<article>
+  <header class="article-heading">
+    <p class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </p>
+    <h1>When Rust Gets Ugly</h1>
+    <div class="article-meta">
+      <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="icon-calendar" aria-hidden="true"></span>
+      <span>
+        
+          Published: <time datetime="2026-07-17">2026-07-17</time>
+        
+      </span>
+    </div>
+    
+  </header>
+  <div class="article-content-wrapper">
+    
+    <section class="article-content">
+    
+
+      <p>In workshops I often see people getting frustrated with Rust.</p>
+<p>Here’s some of the feedback I hear:</p>
+<ul>
+<li>“The borrow checker rules make it hard to write code that compiles.”</li>
+<li>“It’s overwhelming! The syntax is complex with too many symbols and operators. <sup class="footnote-reference" id="fr-keywords-1"><a href="#fn-keywords">1</a></sup>”</li>
+<li>“It’s difficult to transition to Rust from <this other language I know>.”</li>
+<li>“The code is not satisfying to read, it feels clunky and verbose.”</li>
+</ul>
+<p>From these frustrations, people often conclude that Rust is not for them and quit.</p>
+<p>But after programming in Rust for 10 years, I think that <strong>your coding style has the biggest impact on how your Rust code will look and feel</strong>.</p>
+<p>People often say Rust’s syntax is ugly, but I’d argue the syntax is the least interesting thing about Rust. The <strong>semantics</strong> (the bits and pieces the language provides to express your ideas and how those bits combine to build interesting things) are much more important.</p>
+<p>The “ugliness” is only skin-deep; Rust’s beauty lies underneath the surface!
+And with better semantics comes better syntax.</p>
+<p>If you feel like you’re fighting the language, then there’s a chance that <strong>the language is speaking to you</strong>.
+It tries to push you into a healthier direction, but if you resist, it will patiently wait until you give in.
+The moment you start to listen to what Rust is trying to teach you, everything snaps into place; writing Rust feels effortless.</p>
+<p><strong>Better semantics unlock nicer syntax.</strong>
+That means, the more you lean into the core mechanics behind Rust (traits, pattern matching, expressions, composition over inheritance, etc.), the more you can build on these concepts to write code that is readable and extensible.
+The syntax takes a backseat. It gives way to semantics, which are much more important.</p>
+<p>If you write Rust like you would write idiomatic code in another language, it will <em>never feel right</em>.
+You have to embrace how Rust wants you to structure your code.
+“You can write bad Java code in any language,” is a common saying, and I think it applies here as well.</p>
+<p>Good Rust can tick all the boxes: it’s correct, readable, <em>and</em> maintainable.
+Heck, I’d say it’s pretty, too!</p>
+<h2 id="parsing-things"><a class="zola-anchor" href="#parsing-things" aria-label="Anchor link for: parsing-things">Parsing Things</a></h2>
+<p>Let’s consider a simple example: parsing an <code>.env</code> file in Rust. How hard can it be?</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="shellscript"><span class="giallo-l"><span style="color: #BD93F9;">DB_HOST</span><span style="color: #FF79C6;">=</span><span style="color: #F1FA8C;">localhost</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;">DB_PORT</span><span style="color: #FF79C6;">=</span><span style="color: #F1FA8C;">5432</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #BD93F9;">API_KEY</span><span style="color: #FF79C6;">=</span><span style="color: #F1FA8C;">my_api_key</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;">LOG_FILE</span><span style="color: #FF79C6;">=</span><span style="color: #F1FA8C;">app.log</span></span></code></pre>
+<p>The goal is to parse the above content from a file called <code>.env</code> and return a data structure that contains the key-value pairs.
+Child’s play.</p>
+<p>I invite you to write your own version first.
+Or at least take a second to think about the problem.</p>
+<p>Then we’ll refactor a deliberately clunky first attempt into more idiomatic Rust and use that process to extract a general approach: read the standard library, lean on inference and types, handle errors explicitly, and split the problem into smaller parts.</p>
+<h2 id="a-painful-first-attempt"><a class="zola-anchor" href="#a-painful-first-attempt" aria-label="Anchor link for: a-painful-first-attempt">A Painful First Attempt</a></h2>
+<p>A Rust learner will sit down and attempt to parse the above file.
+They might come up with a solution like the one below, which is not too far from what I’ve seen recently.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>collections</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">File</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Read</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>path</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Path</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Parse .env file into a HashMap</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> parse_config_file</span><span>&lt;&#39;</span><span style="color: #8BE9FD;font-style: italic;">a</span><span>&gt;(path</span><span style="color: #FF79C6;">: &amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">a str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> p</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Path</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>path);</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> file</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> File</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">open</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>p)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> bytes</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span>    file</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">read_to_end</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span> bytes)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> s</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_utf8_lossy</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>bytes)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> lines_with_refs</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">_ str</span><span>&gt;</span><span style="color: #FF79C6;"> =</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split</span><span>(</span><span style="color: #F1FA8C;">&#39;</span><span style="color: #FF79C6;">\n</span><span style="color: #F1FA8C;">&#39;</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> idx</span><span style="color: #FF79C6;"> =</span><span style="color: #BD93F9;"> 0</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> cfg</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt;</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Iter lines</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    while</span><span> idx</span><span style="color: #FF79C6;"> &lt;</span><span> lines_with_refs</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Get the line reference and trim it</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> lref</span><span style="color: #FF79C6;"> = &amp;</span><span>lines_with_refs[idx];</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let mut</span><span> l</span><span style="color: #FF79C6;"> = *</span><span>lref;</span></span>
+<span class="giallo-l"><span>        l</span><span style="color: #FF79C6;"> =</span><span> l</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Skip empty lines</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> l</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #BD93F9;"> 0</span><span> {</span></span>
+<span class="giallo-l"><span>            idx</span><span style="color: #FF79C6;"> +=</span><span style="color: #BD93F9;"> 1</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            continue</span><span>;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Skip comments</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> l</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">chars</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">next</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #8BE9FD;font-style: italic;"> Some</span><span>(</span><span style="color: #F1FA8C;">&#39;#&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span>            idx</span><span style="color: #FF79C6;"> +=</span><span style="color: #BD93F9;"> 1</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            continue</span><span>;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Actual string splitting and trimming</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> parts</span><span style="color: #FF79C6;"> =</span><span> l</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span style="color: #FF79C6;">::</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>&gt;&gt;();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> k</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;"> =</span><span> parts[</span><span style="color: #BD93F9;">0</span><span>]</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Check if key is empty</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>() &gt;</span><span style="color: #BD93F9;"> 0</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">            // We found a valid key. Insert into config</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            let</span><span> v</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;"> =</span><span> parts[</span><span style="color: #BD93F9;">1</span><span>]</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span>            cfg</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(), v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>());</span></span>
+<span class="giallo-l"><span>        }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">            // This only happens if the line is malformed, so skip</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">            println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error in line {:?}&quot;</span><span>, parts);</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // Process next line</span></span>
+<span class="giallo-l"><span>        idx</span><span style="color: #FF79C6;"> +=</span><span style="color: #BD93F9;"> 1</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    return</span><span> cfg;</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> main</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Parse a `.env` file in the current directory.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> config</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> parse_config_file</span><span>(</span><span style="color: #F1FA8C;">&quot;.env&quot;</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    println!</span><span>(</span><span style="color: #F1FA8C;">&quot;{config:#?}&quot;</span><span>);</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>The code carries all the hallmarks of a beginner Rust programmer, possibly with a C/C++ background.</p>
+<ul>
+<li>Littered with <code>unwrap()</code> calls</li>
+<li>Unnecessary mutability</li>
+<li>Manual indexing into arrays<sup class="footnote-reference" id="fr-panic-1"><a href="#fn-panic">2</a></sup></li>
+<li>Lifetime annotations</li>
+<li>Cryptic variable names</li>
+<li>Imperative coding style</li>
+</ul>
+<p>Let’s be clear: there are many, many antipatterns in the above code,
+but the most important observation is that these antipatterns have nothing to do with Rust itself.
+They are bad coding practices in general.</p>
+<p>The learner has not yet fully embraced the ergonomics Rust provides and might be skeptical about performance implications of higher-level abstractions.</p>
+<p>We will get back to this code later, but note how Rust makes all of these problems painfully explicit.
+It looks painful, because it is: the abstractions are too low level for the problem at hand.</p>
+<p>Refusal to rethink your coding style in light of Rust’s design principles not only makes your code harder to read; worse, it slows down your learning process.</p>
+<p>Down the road, it also leads to business logic bugs in the code, because the compiler can’t help you catch them.</p>
+<h2 id="let-go-of-old-bad-habits"><a class="zola-anchor" href="#let-go-of-old-bad-habits" aria-label="Anchor link for: let-go-of-old-bad-habits">Let Go Of Old Bad Habits</a></h2>
+<p>So how can you do better?</p>
+<p>The first step is to acknowledge that your existing code goes against Rust’s design principles.
+It’s a band-aid around outdated ideas from the past still haunting you and holding back your progress.
+<strong>Ugly Rust code is a symptom of old, bad habits.</strong></p>
+<p>Based on this realization, we can systematically improve the code.
+While we go through the refactoring, keep in mind that there is no single “right” way to improve the code, but that it all depends on the context and your goals.</p>
+<p>There are a few techniques that can help you write better Rust, some of which we’ve discussed before:</p>
+<ul>
+<li><a href="/blog/expressions">Think in expressions</a></li>
+<li><a href="/blog/immutability">Immutability by default</a></li>
+<li><a href="/blog/illegal-state">Lean into the typesystem</a></li>
+<li><a href="/blog/iterators">Use iterator patterns</a></li>
+<li><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/">Read the standard library documentation</a></li>
+<li>Use proper error handling</li>
+<li>Split up the problem into smaller parts</li>
+</ul>
+<p>Even just applying these basic techniques, we can get our code into a much better shape.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-info"></span>
+    
+    <h4><p>Before You Continue: Try It Out Yourself!</p>
+</h4>
+  </div>
+  
+  <p>This is a hands-on exercise.
+Feel free to paste the above code into your editor and practice refactoring it.
+Here’s the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024&amp;gist=2510df77c1c8c6a227680ea49407fe18">link to the Rust playground</a>.
+At the end, there will be a little quiz to see if you found all the edge-cases.
+I’ll wait here.</p>
+
+</div>
+<h2 id="tip-1-read-the-standard-library-documentation"><a class="zola-anchor" href="#tip-1-read-the-standard-library-documentation" aria-label="Anchor link for: tip-1-read-the-standard-library-documentation">Tip #1: Read the Standard Library Documentation</a></h2>
+<p>Many common patterns are beautifully handled by the standard library.
+It is absolutely worth your time to <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/">read the documentation</a> and even its source code.
+For example, you will find that you can get rid of all of this boilerplate:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> p</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Path</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>path);</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> file</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> File</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">open</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>p)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> bytes</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span>file</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">read_to_end</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span> bytes)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> s</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_utf8_lossy</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>bytes)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>();</span></span></code></pre>
+<p>and instead just call <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/fs/fn.read_to_string.html"><code>read_to_string</code></a>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> s</span><span style="color: #FF79C6;"> =</span><span> std</span><span style="color: #FF79C6;">::</span><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">read_to_string</span><span>(path)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span></code></pre><h2 id="tip-2-use-type-inference"><a class="zola-anchor" href="#tip-2-use-type-inference" aria-label="Anchor link for: tip-2-use-type-inference">Tip #2: Use Type Inference</a></h2>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rustc-dev-guide.rust-lang.org/type-inference.html">Rust is really good at inferring types.</a> That’s why we don’t need to specify the type of
+our <code>HashMap</code> explicitly.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> cfg</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt;</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(); </span></span></code></pre>
+<p>becomes</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> cfg</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span></code></pre><h2 id="tip-3-lean-into-the-typesystem"><a class="zola-anchor" href="#tip-3-lean-into-the-typesystem" aria-label="Anchor link for: tip-3-lean-into-the-typesystem">Tip #3: Lean Into the Typesystem</a></h2>
+<p>Manual string splitting is error-prone and very much discouraged.
+The reason is that strings are, in fact, really complicated!
+There is an outdated assumption that strings are just an array of bytes, but that assumption is ill-defined and dangerous.
+It is not true for all modern operating systems, including Windows, macOS, and Linux and you should stop thinking about strings that way.</p>
+<p>Even in our simple example code from above, string splitting turns out to be a common source of bugs:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> lines_with_refs</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">a str</span><span>&gt;</span><span style="color: #FF79C6;"> =</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split</span><span>(</span><span style="color: #F1FA8C;">&#39;</span><span style="color: #FF79C6;">\n</span><span style="color: #F1FA8C;">&#39;</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span></span></code></pre>
+<p>This line expects that lines are separated by <code>\n</code>.
+That’s not true on Windows, where lines are separated by <code>\r\n</code>.</p>
+<p>The following line does the right thing on all platforms:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> lines</span><span style="color: #FF79C6;"> =</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>();</span></span></code></pre>
+<p>This returns an <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/primitive.str.html#method.lines">iterator over the lines of a string</a>.
+Knowing that, we can instead iterate over each line:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">for</span><span> line</span><span style="color: #FF79C6;"> in</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // ...</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Note that we shadow <code>line</code> with <code>line.trim()</code>.
+That is a common practice in Rust and very useful to keep the code clean.</p>
+<p>It means we don’t have to come up with a fancy new name for the trimmed line
+and we also don’t have to fall back to cryptic names like <code>lref</code> or <code>l</code> instead.</p>
+<p>By reading the standard library documentation (see tip 1), we learn about some useful methods on strings.
+So instead of <code>line.len() == 0</code>, we write <code>line.is_empty()</code> now.
+And <code>line.starts_with("#")</code> is easier on the eye than checking with <code>l.chars().next() == Some('#')</code>.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">for</span><span> line</span><span style="color: #FF79C6;"> in</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>()</span><span style="color: #FF79C6;"> ||</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;#&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        continue</span><span>;</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // ...</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Next, let’s tackle this part:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> parts</span><span style="color: #FF79C6;"> =</span><span> l</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span style="color: #FF79C6;">::</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>&gt;&gt;();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> k</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;"> =</span><span> parts[</span><span style="color: #BD93F9;">0</span><span>]</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>() &gt;</span><span style="color: #BD93F9;"> 0</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> v</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;"> =</span><span> parts[</span><span style="color: #BD93F9;">1</span><span>]</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span>    cfg</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(), v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>());</span></span>
+<span class="giallo-l"><span>}</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error in line {:?}&quot;</span><span>, parts);</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Note how we access <code>parts[0]</code> and <code>parts[1]</code> without checking if these are valid indices.
+The code only coincidentally works for well-formed inputs.
+We could add a check to make sure that <code>parts</code> has at least two elements:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">if</span><span> parts</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>()</span><span style="color: #FF79C6;"> &gt;=</span><span style="color: #BD93F9;"> 2</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> k</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;"> =</span><span> parts[</span><span style="color: #BD93F9;">0</span><span>]</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">len</span><span>() &gt;</span><span style="color: #BD93F9;"> 0</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> v</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span style="color: #FF79C6;"> =</span><span> parts[</span><span style="color: #BD93F9;">1</span><span>]</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // insert into config</span></span>
+<span class="giallo-l"><span>    }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // handle empty key</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // handle line error</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>But that’s equally clunky and verbose.
+Fortunately, we don’t have to do any of that if we lean into the typesystem a little more and use pattern matching to destructure the result of <code>split_once</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">match</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split_once</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Some</span><span>((k, v))</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> k</span><span style="color: #FF79C6;"> =</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">            println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error in line with empty key&quot;</span><span>);</span></span>
+<span class="giallo-l"><span>        }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            let</span><span> v</span><span style="color: #FF79C6;"> =</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span>            config</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(), v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>());</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    None</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error in line: no &#39;=&#39; found&quot;</span><span>),</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>With that, we end up with an already greatly simplified (but equally performant!) version of the code:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>collections</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>fs</span><span style="color: #FF79C6;">::</span><span>read_to_string;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> parse_config_file</span><span>(path</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> s</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> read_to_string</span><span>(path)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> config</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> line</span><span style="color: #FF79C6;"> in</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>()</span><span style="color: #FF79C6;"> ||</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;#&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            continue</span><span>;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        match</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split_once</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Some</span><span>((k, v))</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                let</span><span> k</span><span style="color: #FF79C6;"> =</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">                    println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error in line with empty key&quot;</span><span>);</span></span>
+<span class="giallo-l"><span>                }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                    let</span><span> v</span><span style="color: #FF79C6;"> =</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span>                    config</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(), v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>());</span></span>
+<span class="giallo-l"><span>                }</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            None</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Error in line: no &#39;=&#39; found&quot;</span><span>),</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>    config</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Much nicer.
+However, to truly embrace Rust, it always helps to take a step back and think about the root of the problem.
+This is where you can really grow as a programmer.</p>
+<h2 id="tip-4-don-t-gloss-over-error-handling"><a class="zola-anchor" href="#tip-4-don-t-gloss-over-error-handling" aria-label="Anchor link for: tip-4-don-t-gloss-over-error-handling">Tip #4: Don’t Gloss Over Error Handling</a></h2>
+<p>We left a few things on the table so far; one obvious one is error handling.
+How you want to handle invalid lines depends on the business logic, but let’s assume we want to immediately return an error if the file is malformed.</p>
+<p>The function itself stays close to what we had; it just returns a <code>Result</code> now and uses <code>?</code> to bubble up I/O errors:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>collections</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>fs</span><span style="color: #FF79C6;">::</span><span>read_to_string;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> parse_config_file</span><span>(path</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt;,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> s</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> read_to_string</span><span>(path)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> config</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> line</span><span style="color: #FF79C6;"> in</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>()</span><span style="color: #FF79C6;"> ||</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;#&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            continue</span><span>;</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        match</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split_once</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Some</span><span>((k, v))</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                let</span><span> k</span><span style="color: #FF79C6;"> =</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                    return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>()));</span></span>
+<span class="giallo-l"><span>                }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                    let</span><span> v</span><span style="color: #FF79C6;"> =</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span>                    config</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(), v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>());</span></span>
+<span class="giallo-l"><span>                }</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            None</span><span style="color: #FF79C6;"> =&gt; return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>())),</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(config)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>The supporting <code>ParseError</code> type is mostly mechanical. We implement <code>Display</code> and
+<code>Error</code> so it plays nicely with the rest of the error ecosystem, and a <code>From&lt;std::io::Error&gt;</code>
+so that the <code>?</code> on <code>read_to_string</code> just works:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>fmt;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>error</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">enum</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    InvalidLine</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    IoError</span><span>(std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>),</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span> fmt</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Display</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> fmt</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>, f</span><span style="color: #FF79C6;">: &amp;mut</span><span> fmt</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Formatter</span><span>&lt;&#39;</span><span style="color: #8BE9FD;font-style: italic;">_</span><span>&gt;)</span><span style="color: #FF79C6;"> -&gt;</span><span> fmt</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        match</span><span style="color: #BD93F9;font-style: italic;"> self</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> write!</span><span>(f,</span><span style="color: #F1FA8C;"> &quot;Invalid line format: {line}&quot;</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">IoError</span><span>(err)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #50FA7B;"> write!</span><span>(f,</span><span style="color: #F1FA8C;"> &quot;I/O error: {err}&quot;</span><span>),</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// An empty body is fine here; we lean on the default `source()`.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span> {}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> From</span><span>&lt;std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>&gt;</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> from</span><span>(err</span><span style="color: #FF79C6;">:</span><span> std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">IoError</span><span>(err)</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>In real projects, I often reach for <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://docs.rs/thiserror/latest/thiserror/"><code>thiserror</code></a> to remove most of that boilerplate without hiding the important part: which errors can happen.
+The same error type becomes:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> thiserror</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">enum</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span> {</span></span>
+<span class="giallo-l"><span>    #[error(</span><span style="color: #F1FA8C;">&quot;Invalid line format: {0}&quot;</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    InvalidLine</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>),</span></span>
+<span class="giallo-l"><span>    #[error(</span><span style="color: #F1FA8C;">&quot;I/O error: {0}&quot;</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    IoError</span><span>(#[from] std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>),</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Granted, our code has gotten quite a bit more verbose again.
+But in comparison to the original code, the verbosity has a purpose: it marks the various bits and pieces of our code that can go wrong.
+We have agency to decide how to handle these errors gracefully on the call site rather than silently ignoring them.</p>
+<p>Some errors are harder to handle than others.
+For example, we can choose to skip invalid lines, or we could decide to return a collection of all the errors we encountered while parsing the file.
+This and more we can express in code now.</p>
+<h2 id="tip-5-break-up-the-problem"><a class="zola-anchor" href="#tip-5-break-up-the-problem" aria-label="Anchor link for: tip-5-break-up-the-problem">Tip #5: Break Up The Problem</a></h2>
+<p>The “meat” of the parser is the part that parses individual lines.
+This is still buried in the single <code>parse_config_file</code> function, which has quite a lot of responsibilities
+such as reading the file, iterating over lines, and parsing each line.
+That causes a bunch of problems.
+For one, we can’t test the line parsing logic in isolation.</p>
+<p>Since parsing lines is such a core part of the business logic, let’s make sure it gets the attention it deserves.
+For starters, let’s move the line parsing logic into its own function.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> parse_line</span><span>(line</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Option</span><span>&lt;(</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>)&gt;,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>()</span><span style="color: #FF79C6;"> ||</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;#&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        return</span><span style="color: #8BE9FD;font-style: italic;"> Ok</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">None</span><span>);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    match</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split_once</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Some</span><span>((k, v))</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            let</span><span> k</span><span style="color: #FF79C6;"> =</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>()))</span></span>
+<span class="giallo-l"><span>            }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                let</span><span> v</span><span style="color: #FF79C6;"> =</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                Ok</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">Some</span><span>((k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(), v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>())))</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        None</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>())),</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Don’t worry about the ugly function signature for now; we get back to that in a second.
+In fact, it is a tell-tale sign that we’re still not quite done yet.</p>
+<p><strong>In Rust, code that feels “stringy-typed” is usually a sign of a missing abstraction.</strong></p>
+<p>In our case, the <code>Result&lt;Option&lt;(String, String)&gt;&gt;</code> type indicates that we are trying to parse a line that may or may not contain a key-value pair, and that parsing can fail.
+That is a good start for thinking about our missing abstraction.</p>
+<p>We need to represent a few different outcomes of parsing a line:</p>
+<ul>
+<li>An invalid line, represented by the <code>Result</code></li>
+<li>An empty line</li>
+<li>A comment line</li>
+<li>Finally, a valid key-value pair</li>
+</ul>
+<p>Most likely, you would ignore empty lines and comments in your parser, but it’s still a valid outcome of parsing a line.
+The key insight is that these outcomes are now much more visible and that we have a <em>choice</em> of how to handle these outcomes in our code (in comparison to ignoring them like we did before).</p>
+<p>With that in mind, we can define a new enum to represent the different outcomes of parsing a line:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">enum</span><span style="color: #8BE9FD;font-style: italic;"> ParsedLine</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // This is a valid key-value pair</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    KeyValue</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">KeyValue</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // A comment line</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    Comment</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // An empty line</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Empty</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> KeyValue</span><span> {</span></span>
+<span class="giallo-l"><span>    key</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>    value</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>We’d use it like so:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> parse_line</span><span>(line</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">ParsedLine</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        return</span><span style="color: #8BE9FD;font-style: italic;"> Ok</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParsedLine</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Empty</span><span>);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;#&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        return</span><span style="color: #8BE9FD;font-style: italic;"> Ok</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParsedLine</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">Comment</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>()));</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    match</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split_once</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Some</span><span>((k, v))</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            let</span><span> k</span><span style="color: #FF79C6;"> =</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>()))</span></span>
+<span class="giallo-l"><span>            }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                let</span><span> v</span><span style="color: #FF79C6;"> =</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                Ok</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParsedLine</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">KeyValue</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">KeyValue</span><span> {</span></span>
+<span class="giallo-l"><span>                    key</span><span style="color: #FF79C6;">:</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(),</span></span>
+<span class="giallo-l"><span>                    value</span><span style="color: #FF79C6;">:</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(),</span></span>
+<span class="giallo-l"><span>                }))</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        None</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>())),</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>We could even go one step further and express more of our invariants in the type system.
+For example, we can make use of the fact that parsing a key-value pair only depends on a single line.</p>
+<div class="info">
+  
+  <div class="info-header">
+    
+      <span class="icon icon-warning"></span>
+    
+    <h4><p>Note</p>
+</h4>
+  </div>
+  
+  <p>Multiline environment variables exist, so instead of “parsing a single line,” we should say “parsing a single key-value pair.”
+For now, we will ignore multiline key-value pairs and assume that each line contains at most one key-value pair.
+However, the solution we are building here is extensible enough to handle multiline key-value pairs in the future.</p>
+
+</div>
+<p>Since parsing is a fallible operation, we can implement <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/convert/trait.TryFrom.html"><code>TryFrom</code></a> for our <code>KeyValue</code> struct:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>convert</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">TryFrom</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> TryFrom</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>&gt;</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> KeyValue</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    type</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> try_from</span><span>(line</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #BD93F9;font-style: italic;">Self</span><span>,</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> line</span><span style="color: #FF79C6;"> =</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>()</span><span style="color: #FF79C6;"> ||</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">starts_with</span><span>(</span><span style="color: #F1FA8C;">&quot;#&quot;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>()));</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        match</span><span> line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">split_once</span><span>(</span><span style="color: #F1FA8C;">&#39;=&#39;</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Some</span><span>((k, v))</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                let</span><span> k</span><span style="color: #FF79C6;"> =</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                if</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                    Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>()))</span></span>
+<span class="giallo-l"><span>                }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                    let</span><span> v</span><span style="color: #FF79C6;"> =</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">trim</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                    Ok</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">KeyValue</span><span> {</span></span>
+<span class="giallo-l"><span>                        key</span><span style="color: #FF79C6;">:</span><span> k</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(),</span></span>
+<span class="giallo-l"><span>                        value</span><span style="color: #FF79C6;">:</span><span> v</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>(),</span></span>
+<span class="giallo-l"><span>                    })</span></span>
+<span class="giallo-l"><span>                }</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            None</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(line</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_string</span><span>())),</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>A natural reaction is to say “this is way too much work for such a simple problem.”
+And yes, taken in isolation, we are heavily yakshaving here.</p>
+<p>Think of it this way: we can now reason about all edge-cases in isolation and errors get handled much closer to the source of the problem.
+We turned our big ball of mud into a smaller thing that is easier to work with.</p>
+<p>The entire Rust standard library is full of abstractions that build on top of each other to help solve bigger problems.
+I encourage you to embrace that mindset shift.
+Your code will be more maintainable and extensible.</p>
+<p>Our <code>parse_config_file</code> function now becomes much simpler:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> parse_config_file</span><span>(path</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt;,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> content</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> read_to_string</span><span>(path)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let mut</span><span> config</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> line</span><span style="color: #FF79C6;"> in</span><span> content</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        match</span><span style="color: #8BE9FD;font-style: italic;"> KeyValue</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">try_from</span><span>(line) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Ok</span><span>(kv)</span><span style="color: #FF79C6;"> =&gt;</span><span> { config</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(kv</span><span style="color: #FF79C6;">.</span><span>key, kv</span><span style="color: #FF79C6;">.</span><span>value); },</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(_))</span><span style="color: #FF79C6;"> =&gt; continue</span><span>,</span><span style="color: #6272A4;"> // Skip invalid lines</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Err</span><span>(e)</span><span style="color: #FF79C6;"> =&gt; return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(e),</span><span style="color: #6272A4;"> // Fail on any other error</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(config)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>All we do is create a map of key-value pairs from some input.</p>
+<h2 id="tip-6-introduce-ergonomic-abstractions"><a class="zola-anchor" href="#tip-6-introduce-ergonomic-abstractions" aria-label="Anchor link for: tip-6-introduce-ergonomic-abstractions">Tip #6: Introduce Ergonomic Abstractions</a></h2>
+<p>At this stage we might as well convert <code>parse_config_file</code> into a proper struct.
+And while we’re at it, let’s lift the requirement of passing a file path to the parser
+and instead accept any type that implements <code>BufRead</code>.
+This keeps the parser focused on lines instead of bytes. Files, strings, network streams, and test fixtures can all be wrapped in a buffered reader.
+It makes testing much easier.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>collections</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>convert</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">TryFrom</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>error</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">File</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span>{</span><span style="color: #8BE9FD;font-style: italic;">BufRead</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> BufReader</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> Cursor</span><span>};</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// `ParseError` is unchanged: the enum plus its</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// `Error`, `Display`, and `From&lt;std::io::Error&gt;` impls.</span></span>
+<span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">enum</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    InvalidLine</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>),</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    IoError</span><span>(std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>),</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// ...</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> Clone</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> KeyValue</span><span> {</span></span>
+<span class="giallo-l"><span>    key</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>    value</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Same logic as the `TryFrom&lt;&amp;str&gt;` impl above, but taking an owned</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// `String` (that&#39;s what `BufRead::lines()` yields).</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> TryFrom</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>&gt;</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> KeyValue</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    type</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> try_from</span><span>(line</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #BD93F9;font-style: italic;">Self</span><span>,</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Error</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // trim, skip empty/comment lines, then `split_once(&#39;=&#39;)`</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">        // ...</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">/// A configuration struct that holds the parsed key-value pairs.</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">//</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// A newtype wrapper around `HashMap&lt;String, String&gt;` so we can change the</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// internal representation later without breaking `EnvConfig`&#39;s public API.</span></span>
+<span class="giallo-l"><span>#[derive(</span><span style="color: #8BE9FD;font-style: italic;">Debug</span><span>)]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> EnvConfig</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">HashMap</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>&gt;);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> EnvConfig</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Methods like `new`, `insert`, `get`, `len`,...</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> EnvParser</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> EnvParser</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> parse</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">R</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> BufRead</span><span>&gt;(reader</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> R</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">EnvConfig</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let mut</span><span> config</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> EnvConfig</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(); </span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        for</span><span> line</span><span style="color: #FF79C6;"> in</span><span> reader</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lines</span><span>() {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">            match</span><span> line {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                Ok</span><span>(line_str)</span><span style="color: #FF79C6;"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">                    match</span><span style="color: #8BE9FD;font-style: italic;"> KeyValue</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">try_from</span><span>(line_str) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                        Ok</span><span>(kv)</span><span style="color: #FF79C6;"> =&gt;</span><span> config</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">insert</span><span>(kv),</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">                        // Skip invalid lines...</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                        Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">InvalidLine</span><span>(_))</span><span style="color: #FF79C6;"> =&gt; continue</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">                        // ...but return other errors</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                        Err</span><span>(e)</span><span style="color: #FF79C6;"> =&gt; return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(e),</span></span>
+<span class="giallo-l"><span>                    }</span></span>
+<span class="giallo-l"><span>                }</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">                Err</span><span>(e)</span><span style="color: #FF79C6;"> =&gt; return</span><span style="color: #8BE9FD;font-style: italic;"> Err</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">ParseError</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">IoError</span><span>(e)),</span></span>
+<span class="giallo-l"><span>            }</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Ok</span><span>(config)</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Examples of parsing from different sources</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> parse_str</span><span>(input</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">EnvConfig</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">        Self</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">parse</span><span>(Cursor</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(input))</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> parse_file</span><span>(path</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">EnvConfig</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> ParseError</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        let</span><span> file</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> File</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">open</span><span>(path)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">        Self</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">parse</span><span>(BufReader</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>(file))</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Example usage:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;"><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> main</span><span>()</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;(),</span><span style="color: #8BE9FD;font-style: italic;"> Box</span><span>&lt;</span><span style="color: #FF79C6;">dyn</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt;&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> env_content</span><span style="color: #FF79C6;"> =</span><span style="color: #F1FA8C;"> &quot;</span></span>
+<span class="giallo-l"><span style="color: #F1FA8C;">        DB_HOST=localhost</span></span>
+<span class="giallo-l"><span style="color: #F1FA8C;">        DB_PORT=5432</span></span>
+<span class="giallo-l"><span style="color: #F1FA8C;">        </span></span>
+<span class="giallo-l"><span style="color: #F1FA8C;">        API_KEY=my_api_key</span></span>
+<span class="giallo-l"><span style="color: #F1FA8C;">        LOG_FILE=app.log</span></span>
+<span class="giallo-l"><span style="color: #F1FA8C;">    &quot;</span><span>;</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> config</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> EnvParser</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">parse_str</span><span>(env_content)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    println!</span><span>(</span><span style="color: #F1FA8C;">&quot;Parsed config entries:&quot;</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    for</span><span> (key, value)</span><span style="color: #FF79C6;"> in &amp;</span><span>config</span><span style="color: #FF79C6;">.</span><span style="color: #BD93F9;">0</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">        println!</span><span>(</span><span style="color: #F1FA8C;">&quot;{} = {}&quot;</span><span>, key, value);</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>    </span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>(())</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Phew, that was a lot of code, but look how much more maintainable and extensible it is now!
+We could even go one step further and make the <code>EnvParser</code> struct implement <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code>Iterator</code></a> so that you can iterate over the parsed key-value pairs,
+but let’s stop here.</p>
+<h2 id="what-we-achieved"><a class="zola-anchor" href="#what-we-achieved" aria-label="Anchor link for: what-we-achieved">What We Achieved</a></h2>
+<p>By just following a few key principles, we have transformed our initial parser into a more idiomatic Rust implementation.
+Now, every part has one clearly defined responsibility:</p>
+<ul>
+<li><code>KeyValue</code> is responsible for parsing a single line</li>
+<li><code>EnvParser</code> is responsible for parsing the entire input</li>
+<li><code>EnvConfig</code> stores the parsed key-value pairs</li>
+</ul>
+<p>Sorry that I had to drag you through all of that, but it’s much easier to show than to tell.</p>
+<p>I skipped a few intermediate steps, but the idea is always the same: continuously
+look for wrinkles in the code and move more and more logic into the type system.</p>
+<h2 id="did-you-find-all-the-edge-cases"><a class="zola-anchor" href="#did-you-find-all-the-edge-cases" aria-label="Anchor link for: did-you-find-all-the-edge-cases">Did You Find All The Edge Cases?</a></h2>
+<p>Lastly, I’d like to come back to my initial question about edge cases.</p>
+<p>Parsing environment files sounds simple on the surface, but that is absolutely not the case!
+If you haven’t already, I encourage you to write your own implementation of an environment file parser.</p>
+<p>And once you’re done, answer the following question:
+How many of these cases do you handle in your own implementation?</p>
+<ul>
+<li>Empty lines should be skipped</li>
+<li>Comment lines starting with <code>#</code> should be skipped</li>
+<li>Leading and trailing whitespace in keys and values should be trimmed</li>
+<li>Empty keys like <code>=value</code> should be rejected</li>
+<li>Empty values like <code>key=</code> should be allowed (with empty string value)</li>
+<li>Lines without an equals sign should be rejected</li>
+<li>On Unix, <code>key=value=more</code> is valid and everything after the first <code>=</code> is part of the value</li>
+<li>Indented lines with leading whitespace should be parsed normally</li>
+<li>Duplicate keys should overwrite earlier ones with later values</li>
+<li>Quoted values like <code>key="value"</code> should not include the quotes in the value</li>
+<li>Escape sequences like <code>key=value\nwith\nnewlines</code> or <code>key=value#notacomment</code> need careful handling</li>
+<li>Line continuations with backslash for multi-line values are not handled right now</li>
+<li>The parser should handle non-ASCII Unicode content</li>
+<li>Files with invalid UTF-8 encoding errors should be handled gracefully</li>
+</ul>
+<p>A correct parser would need to handle all these cases.
+Our improved implementation handles many of these cases, but not all.
+This just goes to show how easy it is to gloss over details.</p>
+<h2 id="summary"><a class="zola-anchor" href="#summary" aria-label="Anchor link for: summary">Summary</a></h2>
+<p>Rust’s beauty is in its semantics and the core mechanics it provides: ownership, borrowing, pattern matching, traits, and so on.
+If you merely look at its (admittedly foreign) syntax, you overlook the real elegance of the language.</p>
+<p>If there is anything that makes Rust “ugly”, it isn’t its syntax but the fact that it doesn’t hide the complexity underneath.
+Rust values explicitness and you have to deal with the harsh reality that computing is messy.
+Turns out our assumptions about a program’s execution are often wrong and our mental models are flawed.</p>
+<p>Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some effort!
+So don’t worry: once you start to confront your bad habits and look around for better abstractions, Rust stops being ugly.</p>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-keywords">
+<p>It turns out that all 48 Rust keywords can <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://play.rust-lang.org/?version=stable&amp;mode=debug&amp;edition=2024&amp;gist=c1c8e31332776002d7030e2e242ebcee">fit into 300 characters</a>, so there isn’t a crazy amount to begin with. <a href="#fr-keywords-1">↩</a></p>
+</li>
+<li id="fn-panic">
+<p>That manual indexing hides a latent bug: <code>parts[1]</code> is accessed without checking the length, so the parser happily panics at runtime on any line that doesn’t contain an <code>=</code> (a stray <code>justkey</code>, say). The compiler can’t save you here; you have to remember to handle it yourself. <a href="#fr-panic-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </section>
+  </div>
+
+  <footer class="article-footer">
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;&title=When Rust Gets Ugly"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+  title="Share on Reddit"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https:&#x2F;&#x2F;corrode.dev&#x2F;blog&#x2F;ugly&#x2F;&t=When Rust Gets Ugly"
+  target="_blank"
+  title="Share on Hacker News"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2026-07-17">
+            Published: 2026-07-17
+        </time>
+    </div>
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog&#x2F;ugly&#x2F;"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="newsletter-callout" id="newsletter">
+    <h2>Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit">
+                <span id="newsletter-button-text">Subscribe</span>
+                <span
+                    id="newsletter-spinner"
+                    class="newsletter-spinner"
+                    style="display: none"
+                    aria-hidden="true"
+                ></span>
+                <span id="newsletter-button-loading" style="display: none">
+                    Subscribing…
+                </span>
+            </button>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const status = document.getElementById("newsletter-status");
+        const submitBtn = document.getElementById("newsletter-submit");
+        const buttonText = document.getElementById("newsletter-button-text");
+        const buttonLoading = document.getElementById(
+            "newsletter-button-loading",
+        );
+        const spinner = document.getElementById("newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "🎉 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+  </footer>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="footer">
+    <div class="footer-newsletter" id="newsletter">
+        <div class="footer-newsletter-inner">
+            <div class="footer-newsletter-copy">
+                <h3>Idiomatic Rust in your inbox</h3>
+                <p>
+                    Occasional articles and podcast updates. No spam,
+                    unsubscribe any time.
+                </p>
+            </div>
+            <div
+                id="footer-newsletter-subscription"
+                class="footer-newsletter-form"
+            >
+                <form
+                    id="footer-newsletter-form"
+                    action="https://newsletter.corrode.dev/subscribe"
+                    method="post"
+                >
+                    <label for="footer-email" class="visually-hidden"
+                        >Email</label
+                    >
+                    <input
+                        id="footer-email"
+                        type="email"
+                        name="email"
+                        placeholder="mail@example.com"
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="hpfield"
+                        style="display: none"
+                        tabindex="-1"
+                        autocomplete="off"
+                    />
+                    <button type="submit" id="footer-newsletter-submit">
+                        <span id="footer-newsletter-button-text"
+                            >Subscribe</span
+                        >
+                        <span
+                            id="footer-newsletter-spinner"
+                            class="newsletter-spinner"
+                            style="display: none"
+                            aria-hidden="true"
+                        ></span>
+                        <span
+                            id="footer-newsletter-button-loading"
+                            style="display: none"
+                            >Subscribing…</span
+                        >
+                    </button>
+                    <p
+                        id="footer-newsletter-status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Offerings</h3>
+            <ul class="footer-links">
+                <li><a href="/services/">For Teams</a></li>
+                <li><a href="/mentorship/">For Individuals</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+                <li><a href="/blog/">Blog</a></li>
+                <li><a href="/podcast">Podcast</a></li>
+                <li><a href="/workshops/">Workshops</a></li>
+                <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                <li><a href="/learn/case-studies/">Case Studies</a></li>
+                <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                <li>
+                    <a href="/blog/idiomatic-rust-resources/"
+                        >Learning Resources</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Tools</h3>
+            <ul class="footer-links">
+                <li>
+                    <a href="https://course.corrode.dev/" rel="noreferrer"
+                        >Learn Rust</a
+                    >
+                </li>
+                <li>
+                    <a href="https://search.corrode.dev/" rel="noreferrer"
+                        >Rust Search</a
+                    >
+                </li>
+                <li>
+                    <a href="https://tools.corrode.dev/" rel="noreferrer"
+                        >Rust Tool Index</a
+                    >
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Migration Guides</h3>
+            <ul class="footer-links">
+                <li>
+                    <a href="/learn/migration-guides/python-to-rust/">Python</a>
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/typescript-to-rust/"
+                        >TypeScript</a
+                    >
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/java-to-rust/">Java</a>
+                </li>
+                <li>
+                    <a href="/learn/migration-guides/scala-to-rust/">Scala</a>
+                </li>
+                <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Company</h3>
+            <ul class="footer-links">
+                <li><a href="https://github.com/corrode">GitHub</a></li>
+                <li>
+                    <a href="https://www.linkedin.com/company/corrode/"
+                        >LinkedIn</a
+                    >
+                </li>
+                <li><a href="/legal/">Legal Notice</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+    (function () {
+        const container = document.getElementById(
+            "footer-newsletter-subscription",
+        );
+        const form = document.getElementById("footer-newsletter-form");
+        const status = document.getElementById("footer-newsletter-status");
+        const submitBtn = document.getElementById("footer-newsletter-submit");
+        const buttonText = document.getElementById(
+            "footer-newsletter-button-text",
+        );
+        const buttonLoading = document.getElementById(
+            "footer-newsletter-button-loading",
+        );
+        const spinner = document.getElementById("footer-newsletter-spinner");
+        if (!container || !form || !status || !submitBtn) return;
+
+        const setLoading = (loading) => {
+            submitBtn.disabled = loading;
+            buttonText.style.display = loading ? "none" : "";
+            buttonLoading.style.display = loading ? "" : "none";
+            spinner.style.display = loading ? "inline-block" : "none";
+        };
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "";
+            setLoading(true);
+            try {
+                const res = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const text = (await res.text()).trim();
+                if (res.ok) {
+                    const message =
+                        text && text !== "Thank you for subscribing"
+                            ? text
+                            : "\ud83c\udf89 You're in! Check your inbox to confirm.";
+                    const p = document.createElement("p");
+                    p.className = "footer-newsletter-success";
+                    p.setAttribute("role", "status");
+                    p.setAttribute("aria-live", "polite");
+                    p.textContent = message;
+                    container.replaceChildren(p);
+                } else {
+                    status.textContent =
+                        text ||
+                        "There was a problem with your subscription. Please try again later.";
+                    setLoading(false);
+                }
+            } catch (err) {
+                status.textContent =
+                    "There was a problem with your subscription. Please try again later.";
+                setLoading(false);
+            }
+        });
+    })();
+</script>
+
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        function applyPreferredColorScheme(scheme) {
+            for (var s = 0; s < document.styleSheets.length; s++) {
+                try {
+                    var rules = document.styleSheets[s].cssRules;
+                    for (var i = 0; i < rules.length; i++) {
+                        var rule = rules[i];
+                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
+                            switch (scheme) {
+                                case "light":
+                                    rule.media.appendMedium("original-prefers-color-scheme");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
+                                    break;
+                                case "dark":
+                                    rule.media.appendMedium("(prefers-color-scheme: light)");
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                                default:
+                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
+                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
+                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
+                                    break;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Ignore third-party stylesheets
+                }
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
