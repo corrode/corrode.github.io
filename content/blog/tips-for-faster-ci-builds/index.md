@@ -108,7 +108,7 @@ COPY . .
 RUN cargo build --release --bin app
 
 # We do not need the Rust toolchain to run the binary!
-FROM debian:bookworm-slim AS runtime
+FROM debian:trixie-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/app /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/app"]
@@ -120,7 +120,7 @@ Alternatively, if you don't mind a little extra typing, you can write your own D
 <summary>Click to expand</summary>
 
 ```Dockerfile
-FROM rust:1.81-slim-bookworm AS builder
+FROM rust:1.81-slim-trixie AS builder
 
 WORKDIR /usr/src/app
 
@@ -140,7 +140,7 @@ COPY src ./src
 RUN touch src/main.rs && cargo build --release
 
 # Runtime stage
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 # Install minimal runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
