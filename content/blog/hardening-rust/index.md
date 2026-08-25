@@ -448,7 +448,7 @@ Here is an example Dockerfile using [`cargo-chef`](https://github.com/LukeMathWa
 
 ARG RUST_VERSION=1.92
 
-FROM rust:${RUST_VERSION}-bookworm AS chef
+FROM rust:${RUST_VERSION}-trixie AS chef
 RUN cargo install cargo-chef --locked
 WORKDIR /app
 
