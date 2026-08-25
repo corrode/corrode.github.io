@@ -3,7 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>corrode + Svix</title>
+    <title>Svix: Reliable Webhooks Powered by Rust | corrode</title>
+    <meta
+      name="description"
+      content="Svix provides reliable webhooks with retries, secure signatures, monitoring, replay, and endpoint management—powered by Rust."
+    />
+    <link rel="canonical" href="https://corrode.dev/svix/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="corrode" />
+    <meta property="og:title" content="Svix: Reliable Webhooks Powered by Rust" />
+    <meta
+      property="og:description"
+      content="Reliable webhooks with retries, secure signatures, monitoring, replay, and endpoint management."
+    />
+    <meta property="og:url" content="https://corrode.dev/svix/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Svix: Reliable Webhooks Powered by Rust" />
+    <meta
+      name="twitter:description"
+      content="Reliable webhooks with retries, secure signatures, monitoring, replay, and endpoint management."
+    />
 
     <style>
       :root {
@@ -40,6 +59,11 @@
         text-decoration-thickness: 2px;
         text-underline-offset: 3px;
         text-decoration-color: rgba(17, 17, 17, 0.3);
+      }
+      a:focus-visible {
+        outline: 3px solid currentColor;
+        outline-offset: 4px;
+        border-radius: 2px;
       }
       .container {
         min-height: 100vh;
@@ -87,12 +111,19 @@
         line-height: 1.5;
       }
       .tagline {
+        margin: 1rem 0;
         font-size: 1.35rem;
         font-weight: 600;
+        line-height: 1.5;
       }
       .episode-note {
+        margin: 1rem 0;
         font-size: 1rem;
         opacity: 0.9;
+      }
+      .episode-note p {
+        margin: 0;
+        font-size: inherit;
       }
       .cta-link {
         display: inline-flex;
@@ -144,14 +175,14 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1 class="brand-lockup" aria-label="corrode plus Svix">
+    <main class="container">
+      <div class="brand-lockup" role="img" aria-label="corrode and Svix">
         <img
           class="brand-logo corrode-logo"
           src="/corrode.svg"
           width="200"
           height="86"
-          alt="corrode"
+          alt=""
         />
         <span class="brand-plus" aria-hidden="true">+</span>
         <picture>
@@ -164,24 +195,29 @@
             src="/svix/svix-brand.svg"
             width="609"
             height="209"
-            alt="Svix"
+            alt=""
           />
         </picture>
-      </h1>
-      <div id="svix">
-        <p class="tagline">
+      </div>
+      <section id="svix" aria-labelledby="svix-heading">
+        <h1 id="svix-heading" class="tagline">
           Webhooks your customers can actually rely on.
-        </p>
+        </h1>
         <p>
           Svix handles retries, secure signatures, monitoring, replay handling, and endpoint
           management so you can focus on your product.
         </p>
-        <a href="https://www.svix.com/?utm_source=corrode&utm_medium=podcast&utm_campaign=summer2026" class="cta-link" rel="sponsored">
+        <a
+          href="https://www.svix.com/?utm_source=corrode&amp;utm_medium=podcast&amp;utm_campaign=summer2026"
+          class="cta-link"
+          rel="sponsored"
+        >
           Go to Svix
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
+            aria-hidden="true"
           >
             <path
               fill-rule="evenodd"
@@ -190,12 +226,14 @@
             />
           </svg>
         </a>
-        <p class="episode-note">
-          Svix is powered by Rust!<br />
-          Learn more in our episode with
-          <a href="/podcast/s04e02-svix/">Svix CEO Tom Hacohen on Rust in Production.</a>
-        </p>
-      </div>
-    </div>
+        <footer class="episode-note">
+          <p>Svix is powered by Rust!</p>
+          <p>
+            Learn more in our episode with
+            <a href="/podcast/s04e02-svix/">Svix CEO Tom Hacohen on Rust in Production</a>.
+          </p>
+        </footer>
+      </section>
+    </main>
   </body>
 </html>
