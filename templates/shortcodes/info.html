@@ -6,7 +6,7 @@
     {% else %}
       <span class="icon icon-info"></span>
     {% endif %}
-    <h4>{{ title | markdown() | safe }}</h4>
+    <p class="info-title">{{ title | markdown(inline=true) | safe }}</p>
   </div>
   {% endif %}
   {{ body | markdown() | safe }}

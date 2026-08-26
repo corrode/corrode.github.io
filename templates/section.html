@@ -30,7 +30,7 @@
             data-updated="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">
           <a href="{{ post.permalink }}" class="blog-link">
             <div class="blog-content">
-              <h3 class="blog-title">{{ post.title }}</h3>
+              <h2 class="blog-title">{{ post.title }}</h2>
               <div class="blog-meta">
                 <time class="blog-date" datetime="{{ post.date }}">Published: {{ post.date }}</time>
                 <span class="blog-category">{{ post.extra.series }}</span>

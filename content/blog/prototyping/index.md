@@ -39,7 +39,7 @@ If you focus on simple patterns and make use of Rust's excellent tooling, even l
 I talked about prototyping in Rust on SE Radio.
 The article was the basis for the episode, so you can listen to it while reading along.
 
-<iframe src="https://play.libsyn.com/embed/episode/id/36781410/height/128/theme/modern/size/standard/thumbnail/yes/custom-color/ffffff/time-start/00:00:00/playlist-height/200/direction/backward/download/yes/hide-subscribe/no/hide-share/no" width="100%" height="128" scrolling="yes" class="iframe-class" frameborder="0"></iframe>
+<iframe src="https://play.libsyn.com/embed/episode/id/36781410/height/128/theme/modern/size/standard/thumbnail/yes/custom-color/ffffff/time-start/00:00:00/playlist-height/200/direction/backward/download/yes/hide-subscribe/no/hide-share/no" height="128" style="width: 100%" scrolling="yes" class="iframe-class" frameborder="0"></iframe>
 
 {% end %}
 

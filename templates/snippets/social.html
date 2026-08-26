@@ -1,7 +1,8 @@
 <a
-  href="https://mastodonshare.com/?text={{ page.permalink }}+%0A%23rust"
+  href="https://mastodonshare.com/?text={{ page.permalink | urlencode }}+%0A%23rust"
   title="Share on Mastodon"
   target="_blank"
+  rel="noopener"
 >
   <svg
     width="32px"
@@ -15,11 +16,10 @@
   </svg>
 </a>
 <a
-  href="https://reddit.com/r/rust/submit?url={{ page.permalink }}&title={{page.title}}"
+  href="https://reddit.com/r/rust/submit?url={{ page.permalink | urlencode }}&amp;title={{ page.title | urlencode }}"
   onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
   title="Share on Reddit"
   rel="noopener"
-  title="Share on Reddit"
 >
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
     <path
@@ -29,9 +29,10 @@
 </a>
 
 <a
-  href="https://news.ycombinator.com/submitlink?u={{ page.permalink }}&t={{ page.title }}"
+  href="https://news.ycombinator.com/submitlink?u={{ page.permalink | urlencode }}&amp;t={{ page.title | urlencode }}"
   target="_blank"
   title="Share on Hacker News"
+  rel="noopener"
 >
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     <path
@@ -40,7 +41,7 @@
   </svg>
 </a>
 
-<a href="/rss.xml" target="_blank" title="Subscribe to RSS feed">
+<a href="/rss.xml" target="_blank" rel="noopener" title="Subscribe to RSS feed">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill-rule="evenodd"

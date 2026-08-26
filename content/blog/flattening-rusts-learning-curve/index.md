@@ -4,6 +4,7 @@ date = 2025-05-05
 draft = false
 template = "article.html"
 [extra]
+compact_h3 = true
 series = "Rust Insights"
 +++
 
@@ -143,7 +144,7 @@ you took it too far.
 Often, this approach stems from a fear that you're not making progress fast enough.
 But you don't have to prove to someone else that you're clever enough to pick up Rust very quickly.
 
-#### Walk the Walk
+### Walk the Walk
 
 To properly learn Rust you actually have to write a lot of code by hand.
 Don't be a lurker on Reddit, reading through other people's success stories.
@@ -151,7 +152,7 @@ Have some skin in the game!
 Put in the hours because there is no silver bullet.
 Once it works, consider open sourcing your code even if you know it's not perfect.
 
-#### Don't Go on Auto-Pilot
+### Don't Go on Auto-Pilot
 
 LLMs are like driving a car on auto-pilot.
 It's comfortable at first, but you won't feel in control and slowly, that uneasy feeling will creep in.
@@ -166,7 +167,7 @@ Take however long it takes and then come back and try again.
 
 Slow is steady and steady is fast.
 
-#### Build Muscle Memory
+### Build Muscle Memory
 
 Muscle memory in programming is highly underrated.
 People will tell you that this is what code completion is for, but I believe it's a requirement to reach a state of flow:
@@ -180,7 +181,7 @@ You will get a "feeling" for how the output looks in different error scenarios.
 Don't gloss over these errors.
 Over time you will develop an intuition about what feels "rustic."
  
-#### Predict The Output
+### Predict The Output
 
 Another thing I like to do is to run "prediction exercises" where I guess if code will compile before running it.
 This builds intuition.
@@ -188,12 +189,12 @@ Try to make every program free of syntax errors before you run it.
 Don't be sloppy.
 Of course, you won't always succeed, but you will get much better at it over time.
 
-#### Try To Solve Problems Yourself, Only *Then* Look Up The Solution.
+### Try To Solve Problems Yourself, Only *Then* Look Up The Solution.
 
 Read lots of other people's code. I recommend [`ripgrep`](https://github.com/BurntSushi/ripgrep), for example,
 which is some of the best Rust code out there.
 
-#### Develop A Healthy Share Of Reading/Writing Code.
+### Develop A Healthy Share Of Reading/Writing Code.
 
 Don't be afraid to get your hands dirty.
 Which areas of Rust do you avoid?
@@ -203,12 +204,12 @@ Tackle your blind spots.
 Track your common "escape hatches" (unsafe, clone, etc.) to identify your current weaknesses.
 For example, if you are scared of proc macros, write a bunch of them.
 
-#### Break Your Code
+### Break Your Code
 
 After you're done with an exercise, break it! See what the compiler says. 
 See if you can explain what happens.
 
-#### Don't Use Other People's Crates While Learning
+### Don't Use Other People's Crates While Learning
 
 A poor personal version is better than a perfect external crate (at least while learning).
 Write some small library code yourself as an exercise.
@@ -358,7 +359,7 @@ That's why I don't like Rustlings too much; the exercises are not "fun" and too 
 I found that [Project Euler](https://projecteuler.net/) or [Advent of Code](https://adventofcode.com/) work way better for me.
 The question comes up quite often, so I wrote a blog post about [my favorite Rust learning resources](/blog/rust-learning-resources-2026/).
 
-#### Don't Just Watch YouTube
+### Don't Just Watch YouTube
 
 I like to watch YouTube, but exclusively for recreational purposes. 
 In my opinion, watching [ThePrimeagen](https://www.youtube.com/c/theprimeagen) is for entertainment only.
@@ -384,7 +385,7 @@ A good trainer, just like a good teacher, will not go through the Rust book with
 Don't be afraid to ask for a code review on Mastodon or the [Rust forum](https://users.rust-lang.org/) and return the favor and do code reviews there yourself.
 Take on opportunities for pair programming.
 
-#### Explain Rust Code To Non-Rust Developers
+### Explain Rust Code To Non-Rust Developers
 
 This is such a great way to see if you truly understood a concept.
 Don't be afraid to say "I don't know."

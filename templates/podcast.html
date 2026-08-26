@@ -48,7 +48,7 @@
         {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{
         hero_font | safe }}
     </div>
-    <img class="hero-img" src="/podcast/hero.svg" />
+    <img class="hero-img" src="/podcast/hero.svg" alt="" />
 </div>
 
 <article class="podcast-page">
@@ -118,7 +118,7 @@
             {% for season, season_episodes in section.pages |
             filter(attribute="draft", value=false) |
             group_by(attribute="extra.season") %}
-            <h3 class="podcast-season-heading">Season {{ season }}</h3>
+            <h2 class="podcast-season-heading">Season {{ season }}</h2>
             <ul class="podcast-list">
                 {% for episode in season_episodes %}
                 <li class="podcast-item">
