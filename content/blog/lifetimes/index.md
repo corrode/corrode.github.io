@@ -276,3 +276,5 @@ I only have to add lifetimes in two kinds of situations: returning references fr
 In all other cases, the compiler does a great job of inferring lifetimes
 for you, and you should only add them when you have a good reason to do so, i.e.  when the compiler tells you to, when optimizing for performance, or
 when you want to explicitly describe the relationships in your code to humans.
+
+{{ next_steps(context="Working in a real codebase and unsure whether a lifetime is necessary or a sign that your code needs refactoring? Let's take a look together!", source="lifetimes") }}

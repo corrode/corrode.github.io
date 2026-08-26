@@ -327,3 +327,5 @@ To me, `let-else` is the best solution for handling `None` because:
 
 I hope this helps more people handle `Option` in a more robust way.
 If it helps a single person avoid one `unwrap`, it was already worth it.
+
+{{ next_steps(context="Overwhelmed reviewing Rust at work and want a better codebase?", source="option-handling") }}

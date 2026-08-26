@@ -836,4 +836,4 @@ I've found that my prototypes in other languages often hit a wall where I need t
 With Rust, I can start simple and gradually turn that proof-of-concept into production code, all while staying in the same language and ecosystem.
 
 
-If you have any more tips or tricks for prototyping in Rust, [get in touch](/services) and I'll add them to the list!
+{{ next_steps(context="Taking a prototype toward production and want a second opinion on its Rust architecture, types, and error boundaries?", source="prototyping") }}

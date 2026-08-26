@@ -68,15 +68,6 @@
     width: 100%;
 }
 
-// Utility Classes
-.pro-text-center {
-    text-align: center;
-}
-
-.pro-highlight {
-    color: $brightBgrd;
-}
-
 .highlight {
     background-color: $brightBgrd;
     color: black;
@@ -86,14 +77,24 @@
     clip-path: polygon(2% 5%, 98% 2%, 97% 95%, 3% 98%);
     transform: rotate(-0.5deg);
 }
-.highlight-red {
-    color: $brightScnd;
-}
 
 // Create varied styles by targeting elements in different sections
 .pro-value-item:nth-child(1) .highlight {
     clip-path: polygon(0% 8%, 97% 5%, 98% 85%, 4% 95%);
     transform: rotate(0.8deg);
+}
+
+.pro-hero-title .highlight {
+    &:first-of-type {
+        clip-path: polygon(1% 6%, 99% 2%, 97% 94%, 2% 98%);
+        transform: rotate(-0.7deg);
+    }
+
+    &:last-of-type {
+        margin-top: 0.12em;
+        clip-path: polygon(2% 3%, 98% 7%, 99% 96%, 1% 92%);
+        transform: rotate(0.6deg);
+    }
 }
 
 // Hero Section
@@ -110,7 +111,6 @@
 }
 
 .pro-hero-video {
-    position: relative;
     width: 100%;
     max-width: 1000px;
     aspect-ratio: 16 / 9;
@@ -188,14 +188,17 @@
 }
 
 .pro-btn-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    text-align: center;
+    height: 6.25rem;
     margin-top: 2rem;
+    text-align: center;
 }
 
 // Content Sections
 .pro-section {
-    display: block;
     padding: 4rem 2rem;
     background-color: $brightPrim;
     position: relative;
@@ -215,9 +218,8 @@
     }
 }
 
-// Remove separator from first section after hero
-.pro-hero + .pro-section::before,
-.pro-section:first-child::before {
+// Remove the separator from the first section after the hero.
+.pro-hero + .pro-section::before {
     display: none;
 }
 
@@ -253,19 +255,23 @@
     margin: 0 auto 3rem;
 }
 
-.pro-why-mentor-section {
-    .pro-section-subtitle {
-        text-align: left;
-    }
-}
-
 .pro-feature-list {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.125rem;
+    line-height: 1.7;
     text-align: left;
 
+    p {
+        margin: 0 0 1rem;
+    }
+
     ul {
-        list-style-type: square;
+        margin: 0;
         padding-left: 1.5rem;
         color: rgba(255, 255, 255, 0.9);
+        list-style-type: square;
     }
 
     li {
@@ -298,26 +304,26 @@
 }
 
 .pro-testimonial {
+    margin: 0;
     text-align: center;
-}
 
-.pro-testimonial-quote {
-    font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 1.7;
-    margin-bottom: 1rem;
-    font-style: italic;
-}
+    blockquote {
+        margin: 0 0 1rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.125rem;
+        font-style: italic;
+        line-height: 1.7;
+    }
 
-.pro-testimonial-author {
-    font-size: 0.9rem;
-    font-weight: 600;
-    font-style: normal;
-    background-color: $brightBgrd;
-    color: black;
-    padding: 0.2em 0.5em;
-    display: inline-block;
-    clip-path: polygon(2% 5%, 98% 2%, 97% 95%, 3% 98%);
+    figcaption {
+        display: inline-block;
+        padding: 0.2em 0.5em;
+        background-color: $brightBgrd;
+        clip-path: polygon(2% 5%, 98% 2%, 97% 95%, 3% 98%);
+        color: black;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
 }
 
 // Pricing Cards
@@ -330,6 +336,8 @@
 }
 
 .pro-price-card {
+    display: flex;
+    flex-direction: column;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
@@ -350,20 +358,14 @@
             rgba($brightScnd, 0.1)
         );
         border-color: rgba($brightBgrd, 0.3);
-        transform: scale(1.05);
         box-shadow:
             0 8px 16px rgba(0, 0, 0, 0.4),
             0 20px 40px rgba(0, 0, 0, 0.3),
             0 0 30px rgba($brightBgrd, 0.15);
-
-        .pro-price-badge {
-            display: block;
-        }
     }
 }
 
 .pro-price-badge {
-    display: none;
     position: absolute;
     top: -12px;
     left: 50%;
@@ -373,6 +375,7 @@
     padding: 0.25rem 1rem;
     border-radius: 50px;
     font-size: 0.75rem;
+    margin: 0;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -404,7 +407,7 @@
     font-size: 3rem;
     font-weight: 700;
     color: $brightBgrd;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.5rem;
 
     span {
         font-size: 1.25rem;
@@ -412,11 +415,6 @@
     }
 }
 
-.pro-price-description {
-    color: rgba(255, 255, 255, 0.78);
-    margin-bottom: 0.75rem;
-    font-size: 0.95rem;
-}
 
 .pro-price-context {
     color: $brightBgrd;
@@ -426,6 +424,7 @@
 }
 
 .pro-price-features {
+    flex: 1;
     list-style: none;
     padding: 0;
     margin: 2rem 0;
@@ -446,6 +445,206 @@
     }
 }
 
+.pro-value-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.pro-value-item {
+    text-align: center;
+
+    .pro-value-image {
+        display: block;
+        margin: 3rem auto;
+        width: 300px;
+        max-width: 100%;
+        height: auto;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    }
+
+    h3 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+        color: white;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    p {
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.pro-section-cta {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.pro-testimonials + .pro-section-cta {
+    margin-top: 3rem;
+}
+
+.pro-cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+// Link styling for pro sections
+.pro-section {
+    a:not(.pro-btn) {
+        color: $brightBgrd;
+        text-decoration: none;
+        border-bottom: 1px solid rgba($brightBgrd, 0.3);
+
+        &:hover {
+            border-bottom-color: $brightBgrd;
+        }
+    }
+}
+
+// Hero intro call note
+.pro-hero-note {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+// Mentor profile image
+.pro-mentor-image {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 1.5rem;
+    display: block;
+    border-radius: 50%;
+    background-color: $brightBgrd;
+}
+
+
+// Comparison table
+.pro-comparison-table {
+    display: table;
+    width: 100%;
+    max-width: 700px;
+    margin: 2rem auto 0;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 1rem;
+        border-bottom: 0;
+    }
+
+    thead tr {
+        border-bottom: 2px solid rgba($brightBgrd, 0.3);
+    }
+
+    thead th {
+        color: $brightBgrd;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+
+        &:first-child {
+            text-align: left;
+        }
+
+        &.muted {
+            color: rgba(255, 255, 255, 0.72);
+        }
+    }
+
+    tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    tbody th,
+    td {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    tbody th {
+        font-weight: 600;
+        text-align: left;
+    }
+
+    td {
+        text-align: center;
+
+        &.highlight {
+            display: table-cell;
+            margin: 0;
+            padding: 1rem;
+            background: transparent;
+            clip-path: none;
+            color: $brightBgrd;
+            transform: none;
+        }
+
+        &.muted {
+            color: rgba(255, 255, 255, 0.6);
+        }
+    }
+}
+
+// Pricing section note
+.pro-pricing-footer {
+    margin-top: 3rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.125rem;
+    text-align: center;
+
+    p {
+        margin: 0;
+    }
+
+    p + p {
+        margin-top: 1rem;
+    }
+}
+
+// Footer - apply dark styling on pro page
+.pro-page .footer {
+    background-color: $brightPrim;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 600px;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.6);
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+}
+
+
+// Mentor chart
+.pro-mentor-chart {
+    display: block;
+    max-width: 100%;
+    margin: 6rem auto;
+    height: auto;
+    width: 800px;
+    padding: 0 1rem;
+}
+
 // Responsive
 @media (max-width: 768px) {
     // Hero
@@ -460,6 +659,10 @@
 
     .pro-hero-title {
         font-size: clamp(2rem, 10vw, 3rem);
+
+        .highlight:last-of-type {
+            font-size: 0.8em;
+        }
     }
 
     .pro-hero-subtitle {
@@ -519,7 +722,7 @@
     }
 
     .pro-value-item {
-        h2 {
+        h3 {
             font-size: clamp(1.5rem, 6vw, 2rem);
         }
 
@@ -540,7 +743,7 @@
         padding-top: 2rem;
     }
 
-    .pro-testimonial-quote {
+    .pro-testimonial blockquote {
         font-size: 1rem;
     }
 
@@ -560,7 +763,7 @@
             overflow-wrap: break-word;
         }
 
-        td:first-child {
+        tbody th {
             width: 45%;
         }
     }
@@ -571,10 +774,6 @@
         align-items: stretch;
         margin-top: 3rem;
         gap: 1.25rem;
-
-        .pro-price-card.featured {
-            transform: scale(1);
-        }
     }
 
     .pro-price-card {
@@ -628,275 +827,4 @@
     .pro-btn-primary {
         font-size: 1.1rem;
     }
-}
-
-// Value Proposition Section - Typography focused
-.pro-value-prop {
-    padding: 4rem 2rem;
-}
-
-.pro-value-content {
-    display: flex;
-    flex-direction: column;
-    gap: 5rem;
-}
-
-.pro-value-item {
-    text-align: center;
-
-    .pro-value-image {
-        display: block;
-        margin: 3rem auto;
-        width: 300px;
-        max-width: 100%;
-        height: auto;
-        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
-    }
-
-    h2 {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(1.75rem, 3.5vw, 2.25rem);
-        color: white;
-        margin-bottom: 1.5rem;
-        line-height: 1.2;
-    }
-
-    p {
-        font-size: 1.125rem;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.9);
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-// Community Features
-.pro-community-features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.pro-community-feature {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    text-align: left;
-
-    .pro-check {
-        color: $brightBgrd;
-        font-size: 1.5rem;
-        font-weight: 700;
-        flex-shrink: 0;
-    }
-
-    strong {
-        display: block;
-        color: white;
-        font-size: 1.125rem;
-        margin-bottom: 0.5rem;
-    }
-
-    p {
-        color: rgba(255, 255, 255, 0.85);
-        line-height: 1.6;
-        margin: 0;
-    }
-}
-
-.pro-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    margin-top: 4rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.pro-faq-item {
-    h3 {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 1.75rem;
-        color: white;
-        margin-bottom: 1rem;
-    }
-
-    p {
-        font-size: 1.125rem;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.9);
-    }
-}
-
-.pro-cta-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 3rem;
-    flex-wrap: wrap;
-}
-
-// Link styling for pro sections
-.pro-section {
-    a:not(.pro-btn) {
-        color: $brightBgrd;
-        text-decoration: none;
-        border-bottom: 1px solid rgba($brightBgrd, 0.3);
-
-        &:hover {
-            border-bottom-color: $brightBgrd;
-        }
-    }
-}
-
-// Hero intro call note
-.pro-hero-note {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.85);
-
-    a {
-        color: $brightBgrd;
-    }
-}
-
-// Mentor profile image
-.pro-mentor-image {
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 1.5rem;
-    display: block;
-    border-radius: 50%;
-    background-color: $brightBgrd;
-}
-
-// Subsection title (h3 within sections)
-.pro-subsection-title {
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-}
-
-// Comparison table
-.pro-comparison-wrapper {
-    overflow-x: visible;
-}
-
-.pro-comparison-table {
-    display: table;
-    width: 100%;
-    max-width: 700px;
-    margin: 2rem auto 0;
-    border-collapse: collapse;
-
-    th,
-    td {
-        padding: 1rem;
-    }
-
-    thead tr {
-        border-bottom: 2px solid rgba($brightBgrd, 0.3);
-    }
-
-    th {
-        text-align: center;
-        color: $brightBgrd;
-        font-size: 1rem;
-        font-weight: 600;
-
-        &:first-child {
-            text-align: left;
-        }
-
-        &.muted {
-            color: rgba(255, 255, 255, 0.72);
-        }
-    }
-
-    tbody tr {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-        &:last-child {
-            border-bottom: none;
-        }
-    }
-
-    td {
-        color: rgba(255, 255, 255, 0.95);
-
-        &:first-child {
-            font-weight: 600;
-        }
-
-        &:not(:first-child) {
-            text-align: center;
-        }
-
-        &.highlight {
-            display: table-cell;
-            color: $brightBgrd;
-            background: transparent;
-            padding: 1rem;
-            clip-path: none;
-            transform: none;
-            margin: 0;
-        }
-
-        &.muted {
-            color: rgba(255, 255, 255, 0.6);
-        }
-    }
-}
-
-// Pricing section note
-.pro-pricing-footer {
-    text-align: center;
-    margin-top: 3rem;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.125rem;
-}
-
-// Footer - apply dark styling on pro page
-.pro-page .footer {
-    background-color: $brightPrim;
-    position: relative;
-
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        max-width: 600px;
-        height: 0;
-        border-top: 1px solid rgba(0, 0, 0, 0.6);
-        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-}
-
-// Force dark mode always
-body.pro-page {
-    background-color: $brightPrim !important;
-    color: $darkPrim !important;
-}
-
-// Mentor chart
-.pro-mentor-chart {
-    display: block;
-    max-width: 100%;
-    margin: 6rem auto;
-    height: auto;
-    width: 800px;
-    padding: 0 1rem;
-}
-
-.pro-inline-code {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    padding: 1px;
-    font-family: monospace;
 }
