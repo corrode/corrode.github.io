@@ -22,21 +22,21 @@
       </div>
       
       {% set all_posts = section.pages | filter(attribute="draft", value=false) %}
-      <ul class="blog-list" id="blog-list">
+      <ul class="list-row" id="blog-list">
         {% for post in all_posts %}
-        <li class="blog-item" 
+        <li class="list-row-item blog-item"
             data-category="{{ post.extra.series | lower | replace(from=" ", to="-") }}"
             data-date="{{ post.date }}"
             data-updated="{% if post.updated %}{{ post.updated }}{% else %}{{ post.date }}{% endif %}">
-          <a href="{{ post.permalink }}" class="blog-link">
-            <div class="blog-content">
-              <h2 class="blog-title">{{ post.title }}</h2>
-              <div class="blog-meta">
-                <time class="blog-date" datetime="{{ post.date }}">Published: {{ post.date }}</time>
-                <span class="blog-category">{{ post.extra.series }}</span>
+          <a href="{{ post.permalink }}" class="list-row-link">
+            <div class="list-row-content">
+              <h2 class="list-row-title">{{ post.title }}</h2>
+              <div class="list-row-meta">
+                <time class="list-row-date blog-date" datetime="{{ post.date }}">Published: {{ post.date }}</time>
+                <span class="list-row-label">{{ post.extra.series }}</span>
               </div>
             </div>
-            <span class="blog-chevron" aria-hidden="true"></span>
+            <span class="chevron list-row-chevron" aria-hidden="true"></span>
           </a>
         </li>
         {% endfor %}
