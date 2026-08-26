@@ -28,7 +28,7 @@ and the unique reliability requirements when dealing with space-based infrastruc
 From ground station automation to data pipeline optimization, this conversation explores how modern systems programming languages
 are enabling the next generation of space technology infrastructure.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

@@ -20,7 +20,7 @@ So what happens when you start introducing Rust into a codebase like that? Not a
 
 My guests come at this from two very different angles. Alexey Milovidov is the creator of ClickHouse and its CTO. He started the project back in 2009 and has spent decades thinking about performance, correctness, and what it actually takes to build a production database. Austin Bonander is a Senior Software Engineer at ClickHouse and a renowned open-source maintainer of [sqlx](https://github.com/launchbadge/sqlx). He works on the official Rust client as well as other Rust-related tooling. Together we talk about where Rust fits inside a C++ monolith, what it would take for Rust to earn a rewrite of core components, supply-chain and compliance headaches, and whether Rust is heading for the same accumulation of regrets that every "trendy" language eventually accumulates.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

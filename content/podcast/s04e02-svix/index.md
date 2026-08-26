@@ -27,7 +27,7 @@ Can it be a security issue if a webhook gets handled twice? (Spoiler alert: yes)
 Today I sit down with Tom from Svix to talk about what it takes to build an enterprise-ready 
 webhook service. Of course it's written in Rust.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

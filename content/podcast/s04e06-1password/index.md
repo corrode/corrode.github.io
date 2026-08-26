@@ -20,7 +20,7 @@ When talking to peers, a lot of people mention 1Password as a company that naile
 
 In today's episode, I talk to Andrew about how 1Password uses Rust to build critical systems that must never fail, how Rust helps them handle secrets for millions of users, and the lessons they learned when adopting Rust in their stack.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

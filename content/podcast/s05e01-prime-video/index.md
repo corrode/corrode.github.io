@@ -16,7 +16,7 @@ series = "Podcast"
 
 Are you one of over 240 million subscribers of Amazon's Prime Video service? If so, you might be surprised to learn that much of the infrastructure behind Prime Video is built using Rust. They use a single codebase for media players, game consoles, and tablets. In this episode, we sit down with Alexandru Ene, a Principal Engineer at Amazon, to discuss how Rust is used at Prime Video, the challenges they face in building a global streaming service, and the benefits of using Rust for their systems. 
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

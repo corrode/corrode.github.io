@@ -32,7 +32,7 @@ And if you're interested in using Rust for your own projects, check out our
 dedicated [learn](/learn) page for additional content about Rust adoption
 or [reach out to us](/services) directly for a chat. 
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

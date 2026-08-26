@@ -16,7 +16,7 @@ series = "Podcast"
 
 Jon Gjengset is one of the most recognizable names in the Rust community, the author of *Rust for Rustaceans*, a prolific live-streamer, and a long-time contributor to the Rust ecosystem. Today he works as a Principal Engineer at Helsing, a European defense company that has made Rust a foundational part of its engineering stack. Helsing builds safety-critical software for real-world defense applications, where correctness, performance, and reliability are non-negotiable. In this episode, Jon talks about what it means to build mission-critical systems in Rust, why Helsing bet on Rust from the start, and what lessons from his years of Rust education have shaped the way he writes and thinks about production code.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

@@ -239,6 +239,16 @@ article .subheading a {
     padding: 0;
 }
 
+.info-header .sponsor-logo {
+    position: static;
+    width: 30px;
+    height: 30px;
+    max-width: none;
+    margin-left: 0;
+    flex: 0 0 30px;
+    object-fit: contain;
+}
+
 .info-header p {
     margin: 0.1em 0;
 }

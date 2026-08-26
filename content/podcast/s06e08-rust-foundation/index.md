@@ -20,7 +20,7 @@ This episode is a re-introduction to the Rust Foundation: what it does, what it 
 
 My guests are Rebecca Rumbul, Executive Director and CEO of the Rust Foundation, Lori Lorusso, Director of Outreach at the Rust Foundation, and David Wood, Principal Software Engineer at Arm, Compiler Team Co-Lead in the Rust Project, and a Rust Foundation board member. Together we talk about the practical side of ecosystem stewardship: infrastructure, security, interop, maintainer support, governance, corporate membership, open-source funding, and the pressure new technologies like AI put on language ecosystems.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

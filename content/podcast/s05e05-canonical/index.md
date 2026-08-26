@@ -18,7 +18,7 @@ What does it take to rewrite the foundational components of one of the world's m
 
 In this episode, we talk to Jon about the bold decision to "oxidize" Ubuntu's foundation. We explore why they're rewriting critical components like sudo in Rust, how they're managing the immense risk of changing software that millions depend on daily, and what it means to modernize a 20-year-old operating system without breaking the internet.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

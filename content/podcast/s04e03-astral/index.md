@@ -34,7 +34,7 @@ For example, it is 10x-100x faster than pip.
 In this episode I talk to Charlie Marsh, the Founder and CEO of Astral.
 We talk about Astral's mission and how Rust plays an important role in it. 
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

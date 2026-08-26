@@ -20,7 +20,7 @@ JetBrains is best known for IntelliJ IDEA, Kotlin, and a long line of IDEs for p
 
 This episode is about where Rust fits into that world. We talk about why JetBrains does not plan to rewrite the IntelliJ platform in Rust, why Fleet used Rust for its File System Daemon, how Air builds on parts of Fleet's architecture, and why JetBrains prefers out-of-process Rust helpers over JNI inside the JVM. We also get into RustRover's internals: PSI, THIR, MIR-based expression evaluation in the debugger, procedural macro sandboxing, library stubs, parser regression testing, cargo-nextest support, and the practical trade-offs between JetBrains' indexing model and rust-analyzer's Salsa-based approach.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

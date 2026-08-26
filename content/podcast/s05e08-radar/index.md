@@ -19,7 +19,7 @@ When their existing infrastructure started hitting performance and cost limits, 
 
 In this episode, we dive deep into the technical journey from prototype to production. We talk about RocksDB internals, finite-state transducers, the intricacies of geospatial indexing with Hilbert curves, and why Rust's type system and performance characteristics made it the perfect choice for rewriting critical infrastructure that processes location data at massive scale.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

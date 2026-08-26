@@ -27,7 +27,7 @@ the first place.
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

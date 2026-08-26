@@ -42,4 +42,6 @@ first episode we will talk to Paul Dix, founder and CTO of
 core of their time series database in Rust. Stay tuned! We will release the
 first episode on Thursday, December 14th and then biweekly episodes every Thursday.
 
+{{ svix() }}
+
 <!-- more -->

@@ -26,7 +26,7 @@ to the early days of Rust, an honest and personal look at Rust's strengths and w
 All of that packed with insightful anecdotes based on Niko's decades of experience.
 If you like Rust, you will enjoy this episode.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

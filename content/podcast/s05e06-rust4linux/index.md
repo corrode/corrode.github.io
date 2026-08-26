@@ -18,7 +18,7 @@ Bringing Rust into the Linux kernel is one of the most ambitious modernization e
 
 In this episode, we speak with Danilo Krummrich, Linux kernel maintainer and Rust for Linux core team member, about the groundbreaking work of integrating Rust into the Linux kernel. Among other things, we talk about the Nova GPU driver, a Rust-based successor to Nouveau for NVIDIA graphics cards, and discuss the technical challenges and cultural shifts required for large-scale Rust adoption in the kernel as well as the future of the Rust4Linux project. 
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

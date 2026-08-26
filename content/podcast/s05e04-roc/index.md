@@ -18,7 +18,7 @@ Creating a new programming language from scratch is a monumental undertaking. In
 
 We discuss why the Roc team moved away from using Rust as a host language and instead is in the process of migrating to Zig. What was the decision-making process like? What can Rust learn from this decision? And how does Zig compare to Rust for this kind of systems programming work?
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

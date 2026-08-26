@@ -21,7 +21,7 @@ building a database that scales to handle millions of writes per second, the
 reasons for choosing Rust, and how Rust enables them to ship more reliable
 software that customers can depend on.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

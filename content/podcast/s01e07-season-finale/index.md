@@ -26,7 +26,7 @@ there were definitely some surprises and unexpected turns along the way!
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

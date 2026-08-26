@@ -33,7 +33,7 @@ If you have any suggestions, please reach out!
 We'll be back in April.
 In the meantime, check out our dedicated [learn](/learn) page for additional content about Rust adoption.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

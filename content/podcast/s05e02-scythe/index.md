@@ -18,7 +18,7 @@ Building autonomous robots that operate safely in the real world is one of the m
 
 In this episode, we talk to Andrew Tinka from Scythe Robotics about how they use Rust to build autonomous electric mowers for commercial landscaping. We discuss the unique challenges of robotics software, why Rust is an ideal choice for cutting-edge safety-critical systems, and what it takes to keep autonomous machines running smoothly in the field.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

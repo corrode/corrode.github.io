@@ -20,7 +20,7 @@ That makes Veo a perfect guest. The Copenhagen-based company builds AI-powered c
 
 My guests sit on both sides of that interface. Anders Hellerup Madsen works close to the metal on the camera itself, on the embedded firmware and the [GStreamer](https://gstreamer.freedesktop.org/) media pipeline that turns raw sensor data into video. Gorm Casper works further up the stack, on the backend that ingests, processes, and analyzes those matches in Rust. Together we talk about where Rust fits across that whole journey, the trade-offs of doing media and computer vision work in a systems language, and what convinced a sports-tech company to bet on Rust for the parts that absolutely cannot fall over.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

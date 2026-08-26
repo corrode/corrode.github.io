@@ -24,7 +24,7 @@ We get into the big questions: Why does Alice believe that interop, not rewrites
 
 > "Rust is gonna save the Linux kernel." &mdash; Greg Kroah-Hartman
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

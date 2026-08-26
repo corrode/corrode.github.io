@@ -18,7 +18,7 @@ Space exploration demands software that is reliable, efficient, and able to oper
 
 In this episode, we speak with Sebastian Scholz, an engineer at Gama Space, a French company pioneering solar sail and drag sail technology for spacecraft propulsion and deorbiting. We explore how Rust is being used in aerospace applications, the unique challenges of developing software for space systems, and what it takes to build reliable embedded systems that operate beyond Earth's atmosphere.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

@@ -24,7 +24,7 @@ And in the dark: a faint glow, a narrow golden path that points us towards a mor
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

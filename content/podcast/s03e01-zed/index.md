@@ -20,7 +20,7 @@ In the first episode of the third season, I sit down with Conrad to discuss Zed'
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

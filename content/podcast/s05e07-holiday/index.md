@@ -16,7 +16,7 @@ As we close the chapter on 2025 and celebrate our second year of 'Rust in Produc
 
 In this special episode, we look back at some of the memorable moments from the past year and celebrate Rust's achievements. This goes beyond the case studies we've covered; it's about the Rust community as a whole and the state of the Rust ecosystem at the end of 2025.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

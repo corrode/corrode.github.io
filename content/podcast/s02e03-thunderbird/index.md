@@ -27,7 +27,7 @@ the challenges of working on a legacy codebase, the new Rust-based Exchange prot
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

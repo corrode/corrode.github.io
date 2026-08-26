@@ -21,7 +21,7 @@ We talk about the challenges of certifying Rust code for the automotive industry
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

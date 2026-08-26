@@ -20,7 +20,7 @@ Apollo GraphQL Platform.
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

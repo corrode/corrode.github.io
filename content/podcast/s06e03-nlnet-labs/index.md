@@ -19,7 +19,7 @@ For more than 25 years, NLnet Labs has been one of the small, non-profit teams k
 
 In this episode, I talk to Arya Khanna and Martin Hoffmann from NLnet Labs about what it takes to maintain critical Internet infrastructure as a small team, why they bet on Rust for new projects like the `domain` crate and Cascade and what the rest of us can learn from a codebase whose users include the people who keep your routes flowing.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

@@ -22,7 +22,7 @@ In this episode of Rust in Production, Jeremy talks about his journey. From gett
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

@@ -16,7 +16,7 @@ series = "Podcast"
 
 Rust adoption can be loud, like when companies such as Microsoft, Meta, and Google announce their use of Rust in high-profile projects. But there are countless smaller teams quietly using Rust to solve real-world problems, sometimes even without noticing. This episode tells one such story. Cian and his team at Cloudsmith have been adopting Rust in their Python monolith not because they wanted to rewrite everything in Rust, but because Rust extensions were simply best-in-class for the specific performance problems they were trying to solve in their Django application. As they had these initial successes, they gained more confidence in Rust and started using it in more and more areas of their codebase.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

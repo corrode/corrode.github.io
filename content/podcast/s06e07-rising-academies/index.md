@@ -22,7 +22,7 @@ My guest is Dylan Brown, a Senior Engineering Manager at Rising Academies, and h
 
 For Dylan, it's about what Rust enables: lower compute costs, boring deployments, painless refactors, and code reviews that focus on business logic instead of null checks.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

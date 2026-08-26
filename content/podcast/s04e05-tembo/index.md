@@ -29,7 +29,7 @@ It was delightful to hear that you could build all of this yourself, but that
 you would probably just waste your time doing so and would come up with the same
 design decisions as Adam and the team.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

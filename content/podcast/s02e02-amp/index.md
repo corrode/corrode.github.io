@@ -25,7 +25,7 @@ and building a cutting-edge production-ready system, which can be now replicated
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

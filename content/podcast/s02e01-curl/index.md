@@ -18,7 +18,7 @@ In the season premier we talk to none other than Daniel Stenberg! We focus on in
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

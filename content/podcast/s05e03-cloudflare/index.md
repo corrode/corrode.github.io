@@ -18,7 +18,7 @@ How do you build a system that handles 90 million requests per second? That's th
 
 In this episode, we talk to Kevin Guthrie and Edward Wang from Cloudflare about Pingora, their open-source Rust-based proxy that replaced nginx across their entire infrastructure. We'll find out why they chose Rust for mission-critical systems handling such massive scale, the technical challenges of replacing battle-tested infrastructure, and the lessons learned from "oxidizing" one of the internet's largest networks.
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

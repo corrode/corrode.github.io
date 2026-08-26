@@ -28,7 +28,7 @@ large Rust codebases, and why Rust is a great language for the problem space.
 
 <!-- more -->
 
-{{ codecrafters() }}
+{{ svix() }}
 
 ## Show Notes
 

@@ -20,3 +20,5 @@ There are two common themes that run through these messages:
 * Their gratitude for the vibrant ecosystem and the wealth of available crates
 
 As we look ahead to the Rust 2024 edition, we're excited about what's to come. Thank you for being part of this journey with us, and here's to a great start to 2025! May the new year bring us all faster compile times, gentler learning curves, and, if we get lucky, let-chains on stable Rust.
+
+{{ svix() }}
