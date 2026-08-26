@@ -122,9 +122,7 @@ Expect a developer-friendly atmosphere with ~15 expert talks in a single-track f
 
 ### RUSTAsia (Hong Kong)
 
-<a target="_blank">
-  <img src="rustasia.jpg" alt="RUSTAsia" />
-</a>
+<img src="rustasia.jpg" alt="RUSTAsia" />
 
 Another first-time event, RUSTAsia is a conference for Rust developers in Asia.
 After many years without a Rust conference in Asia (the last one being RustCon Asia in 2019), the community is excited to have a new event in Hong Kong.

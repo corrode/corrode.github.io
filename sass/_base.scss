@@ -147,6 +147,19 @@ h4 {
     margin-bottom: 15px;
 }
 
+.compact-h2 h2 {
+    font-size: 1.5em;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.compact-h3 h3 {
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 1em;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
 img {
     border-radius: 4px;
 }
@@ -832,6 +845,9 @@ details summary {
 
 /* Basic styling for code blocks in tables */
 td pre {
+    box-sizing: border-box;
+    width: 100%;
+    margin-left: 0;
     border: 1px solid rgba(white, 0.5);
 }
 

@@ -25,7 +25,7 @@
     min-width: 0;
 }
 
-.footer-newsletter-copy h3 {
+.footer-newsletter-copy h2 {
     color: white;
     font-size: 1rem;
     font-weight: 700;
@@ -128,8 +128,9 @@
     gap: 1rem;
 }
 
-.footer h3 {
+.footer h2 {
     color: white;
+    margin-top: 50px;
     font-size: 0.875rem;
     margin-bottom: 1.5rem;
     font-weight: 700;
@@ -193,7 +194,7 @@
         width: 100%;
     }
 
-    .footer h3 {
+    .footer h2 {
         font-size: 1rem;
         margin-bottom: 1rem;
         padding-left: 0.5rem;

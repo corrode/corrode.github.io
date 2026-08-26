@@ -23,7 +23,9 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
 
 ## Comparing Idioms in Rust and C++
 
-<table>
+<p class="table-scroll-hint">Scroll horizontally to compare Rust and C++.</p>
+<div class="comparison-table-wrapper" role="region" aria-label="Rust and C++ syntax comparison" tabindex="0">
+<table class="language-comparison">
   <thead>
     <tr>
       <th>Feature</th>
@@ -68,13 +70,13 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
     </tr>
     <tr>
       <td><strong>Immutable Reference</strong></td>
-      <td><code>&T</code></td>
-      <td><code>const T&</code></td>
+      <td><code>&amp;T</code></td>
+      <td><code>const T&amp;</code></td>
     </tr>
     <tr>
       <td><strong>Mutable Reference</strong></td>
-      <td><code>&mut T</code></td>
-      <td><code>T&</code></td>
+      <td><code>&amp;mut T</code></td>
+      <td><code>T&amp;</code></td>
     </tr>
     <tr>
       <td><strong>Raw Pointer</strong></td>
@@ -111,7 +113,7 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
       <td><strong>Class/Method Implementation</strong></td>
       <td>
         <pre><code class="language-rust">impl MyClass {
-    fn new(name: &String, data: &Vec<String>) -> Self {
+    fn new(name: &amp;String, data: &amp;Vec&lt;String&gt;) -> Self {
         // ...
     }
 }</code></pre>
@@ -121,12 +123,12 @@ It is not a comprehensive guide, but I hope it helps out a C++ developer looking
 // Header:
 class MyClass {
 public:
-    MyClass(const string& name, 
-            const vector<string>& data);
+    MyClass(const string&amp; name,
+            const vector&lt;string&gt;&amp; data);
 };
 // Implementation:
-MyClass::MyClass(const string& name, 
-                const vector<string>& data) {
+MyClass::MyClass(const string&amp; name,
+                const vector&lt;string&gt;&amp; data) {
     // ...
 }</code></pre>
       </td>
@@ -134,7 +136,7 @@ MyClass::MyClass(const string& name,
     <tr>
       <td><strong>Method with Self</strong></td>
       <td>
-        <pre><code class="language-rust">fn get_name(&self) -> String {
+        <pre><code class="language-rust">fn get_name(&amp;self) -> String {
     self.name.clone()
 }</code></pre>
       </td>
@@ -154,7 +156,7 @@ MyClass::MyClass(const string& name,
       <td><strong>Interface/Trait</strong></td>
       <td>
         <pre><code class="language-rust">trait Shape {
-    fn get_area(&self) -> f64;
+    fn get_area(&amp;self) -> f64;
 }</code></pre>
       </td>
       <td>
@@ -168,7 +170,7 @@ public:
       <td><strong>Implementing Interface</strong></td>
       <td>
         <pre><code class="language-rust">impl Shape for Circle {
-    fn get_area(&self) -> f64 {
+    fn get_area(&amp;self) -> f64 {
         // ...
     }
 }</code></pre>
@@ -185,13 +187,13 @@ public:
     <tr>
       <td><strong>Generic Function</strong></td>
       <td>
-        <pre><code class="language-rust">fn generic_call<T: Shape>(gen_shape: &T) {
+        <pre><code class="language-rust">fn generic_call&lt;T: Shape&gt;(gen_shape: &amp;T) {
     // ...
 }</code></pre>
       </td>
       <td>
-        <pre><code class="language-cpp">template<typename T>
-void generic_call(const T& gen_shape) {
+        <pre><code class="language-cpp">template&lt;typename T&gt;
+void generic_call(const T&amp; gen_shape) {
     // ...
 }</code></pre>
       </td>
@@ -201,16 +203,16 @@ void generic_call(const T& gen_shape) {
       <td>
         <pre><code class="language-rust">trait Shape {
     type InnerType;
-    fn make_inner(&self) -> Self::InnerType;
+    fn make_inner(&amp;self) -> Self::InnerType;
 }</code></pre>
       </td>
       <td>
         <pre><code class="language-cpp">// C++20 concepts approach
-template<typename T>
+template&lt;typename T&gt;
 concept Shape = requires(T t) {
     typename T::InnerType;
     { t.make_inner() } -> 
-        std::convertible_to<typename T::InnerType>;
+        std::convertible_to&lt;typename T::InnerType&gt;;
 };</code></pre>
       </td>
     </tr>
@@ -224,7 +226,7 @@ concept Shape = requires(T t) {
       </td>
       <td>
         <pre><code class="language-cpp">// Must specify contained types
-std::variant<Circle, Rectangle> my_shape;
+std::variant&lt;Circle, Rectangle&gt; my_shape;
 // Uses integer tags rather than named variants</code></pre>
       </td>
     </tr>
@@ -238,8 +240,8 @@ std::variant<Circle, Rectangle> my_shape;
       </td>
       <td>
         <pre><code class="language-cpp">std::visit(overloaded {
-    [](const Circle& c) { /* ... */ },
-    [](const Rectangle& r) { /* ... */ }
+    [](const Circle&amp; c) { /* ... */ },
+    [](const Rectangle&amp; r) { /* ... */ }
 }, my_shape);</code></pre>
       </td>
     </tr>
@@ -277,8 +279,8 @@ let cloned = original.clone();</code></pre>
         <pre><code class="language-cpp">// Manual allocation
 auto* ptr = new T();
 // Smart pointers
-auto unique = std::make_unique<T>();
-auto shared = std::make_shared<T>();
+auto unique = std::make_unique&lt;T&gt;();
+auto shared = std::make_shared&lt;T&gt;();
 // Implicit non-trivial copies when passing by value
 auto copy = original; // May implicitly copy</code></pre>
       </td>
@@ -287,7 +289,7 @@ auto copy = original; // May implicitly copy</code></pre>
       <td><strong>Destructors</strong></td>
       <td>
         <pre><code class="language-rust">impl Drop for MyType {
-    fn drop(&mut self) {
+    fn drop(&amp;mut self) {
         // cleanup
     }
 }</code></pre>
@@ -306,7 +308,7 @@ auto copy = original; // May implicitly copy</code></pre>
     <tr>
       <td><strong>Print to Console</strong></td>
       <td><code>println!("Hello, {name}");</code></td>
-      <td><code>std::cout << "Hello, " << name << std::endl;</code><br>
+      <td><code>std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; std::endl;</code><br>
       <code>std::println("Hello, {}", name);</code> (C++23)</td>
     </tr>
     <tr>
@@ -385,13 +387,13 @@ __int128, intptr_t/ptrdiff_t</code></pre>
     </tr>
     <tr>
       <td><strong>Immutable Reference</strong></td>
-      <td><code>&T</code></td>
-      <td><code>const T&</code></td>
+      <td><code>&amp;T</code></td>
+      <td><code>const T&amp;</code></td>
     </tr>
     <tr>
       <td><strong>Mutable Reference</strong></td>
-      <td><code>&mut T</code></td>
-      <td><code>T&</code></td>
+      <td><code>&amp;mut T</code></td>
+      <td><code>T&amp;</code></td>
     </tr>
     <tr>
       <td><strong>Raw Pointers</strong></td>
@@ -405,7 +407,7 @@ __int128, intptr_t/ptrdiff_t</code></pre>
     </tr>
     <tr>
       <td><strong>Slices</strong></td>
-      <td><code>&[T]</code></td>
+      <td><code>&amp;[T]</code></td>
       <td><code>std::span&lt;T&gt;</code> (C++20)</td>
     </tr>
     <tr>
@@ -420,12 +422,12 @@ __int128, intptr_t/ptrdiff_t</code></pre>
     </tr>
     <tr>
       <td><strong>String Slice</strong></td>
-      <td><code>&str</code> (UTF-8 encoded)</td>
+      <td><code>&amp;str</code> (UTF-8 encoded)</td>
       <td><code>std::string_view</code> (C++17)</td>
     </tr>
     <tr>
       <td><strong>C Compatible String</strong></td>
-      <td><code>CString</code>, <code>&CStr</code></td>
+      <td><code>CString</code>, <code>&amp;CStr</code></td>
       <td><code>std::string</code>, <code>const char*</code></td>
     </tr>
     <tr>
@@ -515,6 +517,7 @@ __int128, intptr_t/ptrdiff_t</code></pre>
     </tr>
   </tbody>
 </table>
+</div>
 
 ## From the Field
 

@@ -114,7 +114,7 @@
     {% if page.extra.wide %}
     <section class="article-content-wide">
     {% else %}
-    <section class="article-content">
+    <section class="article-content{% if page.extra.compact_h3 %} compact-h3{% endif %}">
     {% endif %}
 
       {{ page.content | safe }}

@@ -13,7 +13,7 @@ Here's some of the feedback I hear:
 
 - "The borrow checker rules make it hard to write code that compiles."
 - "It's overwhelming! The syntax is complex with too many symbols and operators. [^keywords]"
-- "It's difficult to transition to Rust from <this other language I know>."
+- "It's difficult to transition to Rust from &lt;this other language I know&gt;."
 - "The code is not satisfying to read, it feels clunky and verbose."
 
 [^keywords]: It turns out that all 48 Rust keywords can [fit into 300 characters](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=c1c8e31332776002d7030e2e242ebcee), so there isn't a crazy amount to begin with.

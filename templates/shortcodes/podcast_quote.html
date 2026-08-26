@@ -15,6 +15,8 @@
 {% set ep_content = load_data(path="content/podcast/" ~ ep ~ "/index.md", format="plain") %}
 {% set id = ep_content | split(pat="letscast-player-") | nth(n=1) | split(pat='"') | nth(n=0) %}
 {% set slug = ep_content | split(pat="/episodes/") | nth(n=1) | split(pat="/") | nth(n=0) %}
+{% set player_suffix = t | replace(from=":", to="-") %}
+{% set player_id = "player-" ~ id ~ "-" ~ player_suffix %}
 
 <blockquote>
     {{ body | markdown() | safe }}
@@ -22,28 +24,85 @@
         &mdash; <a href="{{ link_url }}">{{ author }}</a>{% if role %}, {{ role }}{% endif %} (<a href="{{ link_url }}">Rust in Production, S{{ season_num }}E{{ ep_num }}</a>)
     </p>
 </blockquote>
-<div>
-    {% if t %}
-    <script>
-        window.pO = window.pO || {};
-        window.pO['#player-{{ id }}'] = "{{ t }}".split(':').reverse().reduce((a,v,i)=>a+(parseInt(v)||0)*60**i,0)*1000;
-        if(!window.pH){
-            window.pH=1; let o;
-            const h = f => {
-                if(f&&f._h) return f;
-                let r = (s,e,c) => {
-                    let t = window.pO[s];
-                    if(t) { c.sharePlaytime=false; c.playtime=t; }
-                    let p = f(s,e,c);
-                    if(t) p.then(x => x.dispatch({type:'REQUEST_PLAYTIME', payload:t}));
-                    return p;
-                };
-                r._h=1; return r;
-            };
-            if(typeof podlovePlayer=='function') window.podlovePlayer=h(podlovePlayer);
-            else Object.defineProperty(window,'podlovePlayer',{get:()=>o, set:v=>o=h(v), configurable:true});
-        }
-    </script>
-    {% endif %}
-    <script id="letscast-player-{{ id }}" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.js?size=s"></script>
-</div>
+<div
+    id="{{ player_id }}"
+    data-template="https://letscast.fm/podlove/player/templates/variant-s.html?20240301"
+></div>
+<script>
+    (() => {
+        const playerTarget = document.getElementById("{{ player_id }}");
+        const episodeUrl = "https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.json";
+        const startTime = "{{ t }}"
+            .split(":")
+            .reverse()
+            .reduce(
+                (total, value, index) =>
+                    total + (parseInt(value, 10) || 0) * 60 ** index,
+                0,
+            ) * 1000;
+        const config = {
+            base: "https://letscast.fm/podlove/player/",
+            activeTab: null,
+            theme: {
+                tokens: {
+                    brand: "#E64415",
+                    brandDark: "#000000ff",
+                    brandDarkest: "#ee3856",
+                    brandLightest: "#F5F5F5",
+                    shadeDark: "#807E7C",
+                    shadeBase: "#807E7C",
+                    contrast: "#000000ff",
+                    alt: "#ffffffff",
+                },
+                fonts: {},
+            },
+            share: {
+                channels: [
+                    "twitter",
+                    "facebook",
+                    "linkedin",
+                    "xing",
+                    "pinterest",
+                    "whats-app",
+                    "link",
+                    "mail",
+                ],
+                outlet: "/share.html",
+                sharePlaytime: false,
+            },
+            features: {
+                persistTab: false,
+                persistPlaystate: false,
+            },
+            playtime: startTime,
+        };
+
+        window.podlovePlayerReady =
+            window.podlovePlayerReady ||
+            new Promise((resolve, reject) => {
+                if (typeof window.podlovePlayer === "function") {
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement("script");
+                script.src =
+                    "https://letscast.fm/packs/js/web-player.js?20240301";
+                script.addEventListener("load", resolve, { once: true });
+                script.addEventListener("error", reject, { once: true });
+                document.head.appendChild(script);
+            });
+
+        window.podlovePlayerReady
+            .then(() => window.podlovePlayer(playerTarget, episodeUrl, config))
+            .then((store) => {
+                store.dispatch({
+                    type: "REQUEST_PLAYTIME",
+                    payload: startTime,
+                });
+            })
+            .catch((error) => {
+                console.error("Failed to load podcast player", error);
+            });
+    })();
+</script>
