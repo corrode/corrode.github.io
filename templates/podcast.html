@@ -119,10 +119,10 @@
             filter(attribute="draft", value=false) |
             group_by(attribute="extra.season") %}
             <h2 class="podcast-season-heading">Season {{ season }}</h2>
-            <ul class="podcast-list">
+            <ul class="list-row podcast-list">
                 {% for episode in season_episodes %}
-                <li class="podcast-item">
-                    <a href="{{ episode.permalink }}" class="podcast-link">
+                <li class="list-row-item">
+                    <a href="{{ episode.permalink }}" class="list-row-link podcast-link">
                         <div class="podcast-logo-wrapper">
                             <img
                                 class="podcast-logo-img invert"
@@ -130,26 +130,26 @@
                                 alt="{{ episode.title }} Logo"
                             />
                         </div>
-                        <div class="podcast-item-content">
-                            <h3 class="podcast-item-title">
+                        <div class="list-row-content">
+                            <h3 class="list-row-title podcast-item-title">
                                 {{ episode.title }} {% if episode.extra.guest %}
                                 <span class="podcast-guest"
                                     >with {{ episode.extra.guest }}</span
                                 >
                                 {% endif %}
                             </h3>
-                            <div class="podcast-item-meta">
-                                <time class="podcast-item-date"
+                            <div class="list-row-meta podcast-item-meta">
+                                <time class="list-row-date"
                                     >{{ episode.date }}</time
                                 >
-                                <code
+                                <code class="meta-code"
                                     >S{{ episode.extra.season }} E{{
                                     episode.extra.episode }}</code
                                 >
                             </div>
                         </div>
                         <span
-                            class="podcast-item-chevron"
+                            class="chevron list-row-chevron podcast-item-chevron"
                             aria-hidden="true"
                         ></span>
                     </a>

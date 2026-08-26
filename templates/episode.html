@@ -11,7 +11,7 @@
         {% endif %}
         <div class="article-meta-top">
             <div class="article-meta-left">
-                <code>S{{ page.extra.season }} E{{ page.extra.episode }}</code>
+                <code class="meta-code">S{{ page.extra.season }} E{{ page.extra.episode }}</code>
                 Published on {{ page.date }}
             </div>
             <ul class="episode-subscribe-icons">
@@ -76,7 +76,7 @@
     </div>
 
     <div class="article-content-wrapper">
-        <div class="article-content episode-content">
+        <div class="article-content episode-content prose">
             {{ page.content | safe }}
 
             <div class="podcast-about">

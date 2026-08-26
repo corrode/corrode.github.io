@@ -102,11 +102,6 @@ body {
     border: 0;
 }
 
-.app {
-    display: flex;
-    flex-direction: column;
-}
-
 h1,
 h2,
 h3,
@@ -145,6 +140,18 @@ h4 {
     font-weight: 600;
     margin-top: 40px;
     margin-bottom: 15px;
+}
+
+.callout-label {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", Arial, sans-serif;
+    font-weight: 600;
+}
+
+.callout-title {
+    color: $brightBgrd;
+    margin-top: 0;
 }
 
 .compact-h2 h2 {
@@ -467,7 +474,7 @@ nav {
     flex: 1 0 auto;
 }
 
-section {
+.home-section {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -535,7 +542,8 @@ ul {
     justify-content: end;
 }
 
-blockquote {
+.prose blockquote,
+.pro-testimonial blockquote {
     font-style: italic;
     margin: 40px -25px;
     padding: 0px 20px;
@@ -636,9 +644,6 @@ hr {
         display: none;
     }
 
-    .section-content {
-        max-width: auto;
-    }
 
     .section-text {
         max-width: 100%;
@@ -681,26 +686,26 @@ figure figcaption {
     text-align: center;
 }
 
-table {
+:where(.prose) table {
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
     display: block;
 }
 
-th,
-td {
+:where(.prose) th,
+:where(.prose) td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid rgba(black, 0.2);
 }
 
-th:last-child,
-td:last-child {
+:where(.prose) th:last-child,
+:where(.prose) td:last-child {
     border-right: none;
 }
 
-tr:last-child td {
+:where(.prose) tr:last-child td {
     border-bottom: none;
 }
 
@@ -713,7 +718,7 @@ details summary {
 }
 
 .zola-anchor:hover {
-    text-decoration: underline;
+    text-decoration: none;
     // Show "anchor" SVG icon on hover
     &::before {
         content: url('data:image/svg+xml;utf8,<svg height="22" viewbox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"></path><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"></path></svg>');
@@ -729,9 +734,9 @@ details summary {
 }
 
 @media (max-width: 800px) {
-    table,
-    th,
-    td {
+    :where(.prose) table,
+    :where(.prose) th,
+    :where(.prose) td {
         font-size: smaller;
         padding: 4px;
     }
@@ -805,8 +810,8 @@ details summary {
             }
         }
 
-        th,
-        td {
+        :where(.prose) th,
+        :where(.prose) td {
             border-bottom: 1px solid rgba(white, 0.3);
         }
 
@@ -828,7 +833,9 @@ details summary {
             text-decoration: none;
         }
 
-        article code:not(pre > code) {
+        .prose code:not(pre > code),
+        .meta-code,
+        .resource-row-desc code {
             color: white;
             border: 1px solid rgba(white, 0.5);
         }
@@ -837,26 +844,27 @@ details summary {
             color: white;
         }
 
-        blockquote {
+        .prose blockquote,
+        .pro-testimonial blockquote {
             border-left-color: $brightScnd;
         }
     }
 }
 
 /* Basic styling for code blocks in tables */
-td pre {
+:where(.prose) td pre {
     box-sizing: border-box;
     width: 100%;
     margin-left: 0;
     border: 1px solid rgba(white, 0.5);
 }
 
-td pre code {
+:where(.prose) td pre code {
     font-size: 80%;
     display: block;
 }
 
-td .code-block-container {
+:where(.prose) td .code-block-container {
     position: relative;
     width: 100%;
     margin-left: 0%;

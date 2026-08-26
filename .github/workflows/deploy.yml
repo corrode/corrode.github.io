@@ -16,25 +16,37 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: Build and validate
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master'
     steps:
       - uses: actions/checkout@v4
-      - uses: shalzz/zola-deploy-action@v0.22.1
-        env:
-          PAGES_BRANCH: gh-pages
-          BUILD_DIR: .
-          BUILD_ONLY: true
-          BUILD_FLAGS: --drafts
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: shalzz/zola-deploy-action@v0.22.1
+      - name: Install Zola
+        env:
+          ZOLA_VERSION: "0.22.1"
+        run: |
+          curl -sSfL "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin
+          zola --version
+
+      - name: Build site
+        if: github.event_name != 'pull_request'
+        run: zola build
+
+      - name: Build site with drafts
+        if: github.event_name == 'pull_request'
+        run: zola build --drafts
+
+      - name: Validate HTML
+        run: >-
+          npx --yes --package vnu-jar@26.8.21 vnu
+          --errors-only
+          --skip-non-html
+          public
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/master'
+        uses: shalzz/zola-deploy-action@v0.22.1
         env:
           PAGES_BRANCH: gh-pages
           BUILD_DIR: .

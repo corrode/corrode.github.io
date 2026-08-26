@@ -199,6 +199,10 @@
 
 // Content Sections
 .pro-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 3em 0;
     padding: 4rem 2rem;
     background-color: $brightPrim;
     position: relative;
@@ -283,8 +287,10 @@
 .pro-testimonials {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     gap: 2.5rem;
-    margin-top: 4rem;
+    margin: 4rem 0 3em;
     padding-top: 3rem;
     position: relative;
 

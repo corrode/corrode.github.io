@@ -3,6 +3,6 @@
   {% if section.title %}
   <h1>{{ section.title }}</h1>
   {% endif %}
-  <div{% if section.extra.compact_h2 %} class="compact-h2"{% endif %}>{{ section.content | safe }}</div>
+  <div class="prose{% if section.extra.compact_h2 %} compact-h2{% endif %}">{{ section.content | safe }}</div>
 </article>
 {% endblock content %}
