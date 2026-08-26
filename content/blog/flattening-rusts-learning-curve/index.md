@@ -417,3 +417,5 @@ Set realistic expectations: You won't be a "Rust grandmaster" in a week but you 
 There is no silver bullet, but if you avoid the most common ways to shoot yourself in the foot, you pick up the language much faster.
 Rust is a day 2 language. You won't "feel" as productive as in your first week of Go or Python, but stick it out and it will pay off.
 Good luck and have fun!
+
+{{ next_steps(context="Already an experienced engineer (in Python, Go, or another language) but still unsure about Rust best practices, architecture, or code review?", source="flattening-rusts-learning-curve") }}

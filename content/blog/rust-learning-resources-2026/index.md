@@ -142,4 +142,4 @@ All the material is open source and free. You can browse the [full workshop cata
 You can go through the material on your own to see if it fits your needs.
 Once you're ready, feel free to reach out about tailoring the content for you and your team.
 
-{{ next_steps(context="Want to accelerate past Rust's learning curve with hands-on guidance?") }}
+{{ next_steps(context="Want to accelerate your Rust learning curve with hands-on guidance?", source="rust-learning-resources-2026") }}
