@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Learn Rust with CodeCrafters—40% Off | corrode</title>
+    <meta
+      name="description"
+      content="Learn Rust by rebuilding Redis, SQLite, Git, and more with CodeCrafters. Try it free and get 40% off if you upgrade through corrode."
+    />
+    <link rel="canonical" href="https://corrode.dev/codecrafters/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="corrode" />
+    <meta
+      property="og:title"
+      content="Learn Rust by Building Real Systems with CodeCrafters"
+    />
+    <meta
+      property="og:description"
+      content="Build your own Redis, SQLite, Git, and more through guided Rust challenges. Try CodeCrafters free and get 40% off if you upgrade."
+    />
+    <meta property="og:url" content="https://corrode.dev/codecrafters/" />
+    <meta
+      property="og:image"
+      content="https://corrode.dev/codecrafters/social.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://corrode.dev/codecrafters/social.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="CodeCrafters: Learn Rust by building real systems"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://corrode.dev/codecrafters/social.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="CodeCrafters: Learn Rust by building real systems"
+    />
+    <meta
+      name="twitter:title"
+      content="Learn Rust by Building Real Systems with CodeCrafters"
+    />
+    <meta
+      name="twitter:description"
+      content="Build Redis, SQLite, Git, and more through guided Rust challenges. Try CodeCrafters free and get 40% off if you upgrade."
+    />
+
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+      }
+      body {
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: #111;
+        background-color: #fab71c;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        font-size: 18px;
+        line-height: 1.7;
+      }
+      a {
+        color: #111;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+        text-decoration-color: rgba(17, 17, 17, 0.3);
+      }
+      a:focus-visible {
+        outline: 3px solid currentColor;
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+      .container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 0 0 0.5rem;
+        line-height: 1;
+      }
+      .corrode-logo {
+        display: block;
+        width: 180px;
+        max-width: 35vw;
+        height: auto;
+        transform: translateY(-0.3rem);
+      }
+      .brand-plus {
+        font-size: 2rem;
+        font-weight: 400;
+        opacity: 0.7;
+      }
+      .codecrafters-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        max-width: 42vw;
+        font-size: clamp(1.35rem, 4vw, 1.9rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        white-space: nowrap;
+      }
+      .codecrafters-logo {
+        display: block;
+        width: 46px;
+        height: auto;
+      }
+      #codecrafters {
+        width: 100%;
+        max-width: 600px;
+        padding: 20px;
+        text-align: center;
+      }
+      p {
+        margin: 1rem 0;
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+      .tagline {
+        margin: 1rem 0;
+        font-size: 1.35rem;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+      .cta-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        border: 1px solid white;
+        border-radius: 8px;
+        color: white;
+        background-color: #3a3f52;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .cta-link svg {
+        width: 16px;
+        height: 16px;
+        margin-left: 10px;
+        opacity: 0.8;
+      }
+      .offer-note {
+        margin-bottom: 0.4rem;
+      }
+      .context {
+        max-width: 560px;
+        margin: 0 auto;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+      .context p {
+        margin: 0;
+        font-size: inherit;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #cdcaca;
+          background-color: #2d3140;
+        }
+        a {
+          color: white;
+          text-decoration-color: #fab71c;
+        }
+        .corrode-logo,
+        .codecrafters-logo {
+          filter: invert(1);
+        }
+      }
+      @media (max-width: 520px) {
+        .brand-lockup {
+          gap: 0.65rem;
+        }
+        .corrode-logo {
+          width: 135px;
+        }
+        .brand-plus {
+          font-size: 1.4rem;
+        }
+        .codecrafters-brand {
+          gap: 0.4rem;
+          font-size: 1.15rem;
+        }
+        .codecrafters-logo {
+          width: 34px;
+        }
+        .cta-link {
+          padding: 0.875rem 1rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="brand-lockup" role="img" aria-label="corrode and CodeCrafters">
+        <img
+          class="corrode-logo"
+          src="/corrode.svg"
+          width="200"
+          height="86"
+          alt=""
+        />
+        <span class="brand-plus" aria-hidden="true">+</span>
+        <span class="codecrafters-brand" aria-hidden="true">
+          <img
+            class="codecrafters-logo"
+            src="/codecrafters/logo.svg"
+            width="52"
+            height="36"
+            alt=""
+          />
+          <span>CodeCrafters</span>
+        </span>
+      </div>
+      <section id="codecrafters" aria-labelledby="codecrafters-heading">
+        <h1 id="codecrafters-heading" class="tagline">
+          Learn Rust by building real systems.
+        </h1>
+        <p>
+          Build your own Redis, SQLite, Git, and more through guided challenges
+          that run in your editor—not a toy browser IDE.
+        </p>
+        <a
+          class="cta-link"
+          href="https://app.codecrafters.io/join?via=mre"
+          rel="sponsored"
+        >
+          Try CodeCrafters for free
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.293 5.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L14.586 11H3a1 1 0 1 1 0-2h11.586l-2.293-2.293a1 1 0 0 1 0-1.414Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </a>
+        <p class="offer-note"><strong>Get 40% off</strong> if you upgrade to a paid plan.</p>
+        <footer class="context">
+          <p>
+            Affiliate disclosure: corrode may receive a commission if you subscribe
+            through this link, at no extra cost to you.
+          </p>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
