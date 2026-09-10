@@ -9,7 +9,6 @@ We also publish a large body of free, open material for the wider Rust community
 - [Consulting & Training](https://corrode.dev/services/): Scoped Rust engagements: code review, architecture, training, and migration support.
 - [1-on-1 Rust Mentorship](https://corrode.dev/mentorship/): Personal mentorship for experienced engineers working on real Rust projects. Bring a prototype, design, or codebase and work directly with Matthias on architecture, implementation trade-offs, and code review. The goal is to make real progress while building the judgment to design, review, and ship maintainable Rust independently.
 - [Why Rust?](https://corrode.dev/blog/why-rust/): The case for adopting Rust, for engineers and decision makers.
-- [Business Inquiries](https://corrode.dev/quote/): Request a quote or discuss a project.
 
 ## Migration Guides
 
