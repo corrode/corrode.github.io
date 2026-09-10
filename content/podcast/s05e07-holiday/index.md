@@ -44,7 +44,7 @@ In this special episode, we look back at some of the memorable moments from the 
 - [CodeCrafters Course](https://www.youtube.com/watch?v=aZ5sfhGmEVU) - Build your own HTTP server in Rust
 - [Rust Project Goals](https://blog.rust-lang.org/2025/12/16/Project-Goals-2025-November-Update.md/) - November update on 41 active project goals
 - [cargo-script RFC](https://github.com/rust-lang/cargo/issues/12207) - Run Rust scripts without full Cargo projects
-- [Better pin ergonomics RFC](https://github.com/rust-lang/rust-project-goals/issues/389) - Improving async Rust ergonomics
+- [Pin ergonomics project goal](https://github.com/rust-lang/goals/issues/389) - Improving async Rust ergonomics
 - [KSAT with Vegard Sandengen (S04E07)](/podcast/s04e07-ksat/) - Make async better
 - [1Password with Andrew Burkhart (S04E06)](/podcast/s04e06-1password/) - Make it easier to learn Rust
 - [Rust Book by Brown University](https://rust-book.cs.brown.edu/) - Interactive learning resource for Rust

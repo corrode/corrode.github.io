@@ -81,7 +81,7 @@ and it was an honor to be part of it.
 - [Alex Crichton](https://github.com/alexcrichton) - Rust compiler, wasm, and lang-advisors team member
 - [cramertj](https://github.com/cramertj) - Rust lang-advisors and libs-contributors team member
 - [withoutboats](https://without.boats/) - Rust team alumni
-- [Carl Lerche](https://carllerche.com/) - tokio maintainer
+- [Carl Lerche](https://github.com/carllerche) - tokio maintainer
 - [aturon](https://aturon.github.io/) - Rust team alumni
 - [ALGOL 60](https://en.wikipedia.org/wiki/ALGOL_60#Code_sample_comparisons) - Doesn't look like C
 - [try blocks](https://doc.rust-lang.org/nightly/unstable-book/language-features/try-blocks.html) - Do we need a postfix `match` operator for this?
