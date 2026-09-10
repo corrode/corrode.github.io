@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% import "macros/cards.html" as cards %} {% block
+{% extends "base.html" %} {% block
 meta %}
 <script type="application/ld+json">
     {
@@ -48,9 +48,9 @@ meta %}
     <div class="article-content-wrapper">
         <div class="article-content">
             <ul class="list-row resource-list">
-                {% for page in section.pages %} {{ cards::row(
-                href=page.permalink, title=page.title, desc=page.description,
-                icon=page.permalink ~ page.extra.icon) }} {% endfor %}
+                {% for page in section.pages %} {{ <cards.row
+                href={page.permalink} title={page.title} desc={page.description}
+                icon={page.permalink ~ page.extra.icon} /> }} {% endfor %}
             </ul>
 
             <div class="workshops-cta">

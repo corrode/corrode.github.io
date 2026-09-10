@@ -377,4 +377,4 @@ The type system can encode many things, but it cannot encode conditions outside 
 
 Idiomatic Rust, then, is not just code that the borrow checker accepts or that `clippy` leaves alone. It is code whose types, names, and control flow tell the *truth* about the system they run in. And that truth is sometimes ugly. It could mean using file descriptors instead of paths, `OsStr` instead of `String`, [`?` instead of `unwrap`](/blog/pitfalls-of-safe-rust/), and bug-for-bug compatibility over clean semantics. None of it is as pretty as the version you would write on a whiteboard. But it is more honest.
 
-{{ next_steps(context="Shipping Rust to production and want to make sure you're not falling into the traps the compiler won't catch?") }}
+{{ <next_steps context="Shipping Rust to production and want to make sure you're not falling into the traps the compiler won't catch?" /> }}

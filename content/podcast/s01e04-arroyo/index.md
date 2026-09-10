@@ -20,7 +20,7 @@ for data engineers with Rust.
 
 <!-- more -->
 
-{{ svix() }}
+{{ <svix /> }}
 
 ## Show Notes
 

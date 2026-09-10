@@ -101,4 +101,4 @@ Rust developers can help too. If you want the market to improve, help your hirin
 
 Good luck with your Rust hiring process!
 
-{{ next_steps(context="Building out a Rust team and want to set them up for long-term success?") }}
+{{ <next_steps context="Building out a Rust team and want to set them up for long-term success?" /> }}

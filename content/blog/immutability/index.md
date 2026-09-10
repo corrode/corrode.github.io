@@ -221,14 +221,14 @@ impl Mailbox {
 }
 ```
 
-{% info(title="Note") %}
+{% <info title="Note"> %}
 
 This is a contrived example and not idiomatic Rust code! 
 In a real-world scenario, we should use better abstractions, such as a `Message`
 struct of some sort, which encapsulates the email's content and metadata, but
 bear with me for the sake of the argument.
 
-{% end %}
+{% </info> %}
 
 Note how `add_email` takes a `&mut self`, changing both the `emails` and
 `total_word_count` fields. 

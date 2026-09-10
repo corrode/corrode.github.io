@@ -32,7 +32,7 @@ I think that's one area where the Rust compiler could print a more helpful error
 Fixing the issue is mostly about tradeoffs between compile-time generics and runtime polymorphism and learning when each one fits.
 Once you understand the concept, you'll know how to get around the issues by choosing a better design for your trait.
 
-{% info(title="Quick Help", icon="crab") %}
+{% <info title="Quick Help" icon="crab"> %}
 
 If the compiler told you a trait is **"not dyn compatible"**, your trait can't be used as `dyn Trait` because it has a method that can't go through dynamic dispatch, usually one that returns `Self`, takes no `self`, or is generic.
 
@@ -45,7 +45,7 @@ To fix it, pick one:
 
 Continue reading to understand the tradeoffs between each approach.
 
-{% end %}
+{% </info> %}
 
 
 
@@ -196,7 +196,7 @@ Now the confusion about what `Self` means is gone!
 
 The downside is that you can't fully lean on dynamic dispatch anymore, and you might have to refactor a lot of code if you were using trait objects extensively before. Your binary size might also grow because of all the copies of the function that the compiler generates for each concrete type.
 
-{% info(title="What's the benefit of fully leaning on dynamic dispatch?", icon="crab") %}
+{% <info title="What's the benefit of fully leaning on dynamic dispatch?" icon="crab"> %}
 
 Fair question! Dynamic dispatch has a bunch of really nice properties:
 
@@ -207,7 +207,7 @@ Fair question! Dynamic dispatch has a bunch of really nice properties:
   For example, take a graphics rendering engine where you have different shapes (circles, squares, triangles) that all implement a `Drawable` trait.
   Using dynamic dispatch, you can store them all in a single collection and call `draw()`. If you were to try the same with generics, you'd end up with a lot of boilerplate code to handle each shape type separately.
 
-{% end %}
+{% </info> %}
 
 ### Fix #2: Opt Out Problematic Methods with `where Self: Sized`
 
@@ -402,7 +402,7 @@ Click here for the full list.
 The rules boil down to the same core issue:
 **the `dyn Trait` interface must have a finite, statically-known shape even though the concrete implementor behind it is hidden.**
 
-{% info(title="A Modern Gotcha: `async fn` in Traits", icon="crab") %}
+{% <info title="A Modern Gotcha: `async fn` in Traits" icon="crab"> %}
 
 Since [Rust 1.75](https://blog.rust-lang.org/2023/12/28/Rust-1.75.0/), you can write `async fn` directly in a trait.
 But there's a catch: a trait with an `async fn` is **not dyn compatible**.
@@ -417,7 +417,7 @@ If you need dynamic dispatch with async methods today, you have a few options:
 - Use the [`async-trait`](https://crates.io/crates/async-trait) crate, which does that boxing for you.
 - Use the [`dynosaur`](https://crates.io/crates/dynosaur) crate, which generates a dyn-compatible wrapper for traits with `async fn`.
 
-{% end %}
+{% </info> %}
 
 ## Summary
 

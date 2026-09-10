@@ -4,26 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    {%- if page and page.path is starting_with("/podcast") %}
+    {%- if page and page.path is starting_with(pat="/podcast") %}
         {%- if page.extra.guest %}
             {%- set generated_title = page.title ~ " with " ~ page.extra.guest ~ " - Rust in Production Podcast | corrode Rust Consulting" %}
         {%- else %}
             {%- set generated_title = page.title ~ " - Rust in Production Podcast | corrode Rust Consulting" %}
         {%- endif %}
-    {%- elif page.title %}
+    {%- elif page?.title %}
         {%- set generated_title = page.title ~ " | corrode Rust Consulting" %}
-    {%- elif section and section.title and section.path != "/" %}
+    {%- elif section?.title and section.path != "/" %}
         {%- set generated_title = section.title ~ " | corrode Rust Consulting" %}
-    {%- elif section and section.path and section.path == "/" %}
+    {%- elif section?.path == "/" %}
         {%- set generated_title = "corrode | Friendly, Professional Rust Consulting" %}
     {%- else %}
         {%- set generated_title = "corrode Rust Consulting" %}
     {%- endif %}
 
     {# Check for page permalink; otherwise use fallback (using path) #}
-    {%- if page.permalink %}
+    {%- if page?.permalink %}
         {%- set social_url = page.permalink %}
-    {%- elif page.path %}
+    {%- elif page?.path %}
         {%- set social_url = config.base_url ~ page.path %}
     {%- elif current_path %}
         {%- set social_url = config.base_url ~ current_path %}
@@ -31,13 +31,13 @@
         {%- set social_url = config.base_url %}
     {%- endif %}
 
-    {%- if page.extra.excerpt %}
+    {%- if page?.extra?.excerpt %}
         {%- set social_description = page.extra.excerpt %}
-    {%- elif page.summary %}
+    {%- elif page?.summary %}
         {%- set social_description = page.summary | striptags | trim %}
     {%- elif page and page.content | length > 0 %}
         {%- set social_description = page.content | striptags | trim | truncate(length=250) %}
-    {%- elif section and section.description %}
+    {%- elif section?.description %}
         {%- set social_description = section.description %}
     {%- elif section and section.content | length > 0 %}
         {%- set social_description = section.content | striptags | trim | truncate(length=250) %}
@@ -45,7 +45,7 @@
         {%- set social_description = "corrode is a friendly Rust consulting company based in Düsseldorf, Germany. We help you build reliable software and ship it to production. We offer consulting, training, and development services for Rust projects. Provided by Matthias Endler." %}
     {%- endif %}
 
-    {%- if page and page.colocated_path %}
+    {%- if page?.colocated_path %}
         {%- set social_image = "/" ~ page.colocated_path ~ "social.png" %}
     {% elif section and section.path != "/" and section.colocated_path %}
         {%- set social_image ="/" ~  section.colocated_path ~ "social.png" %}
@@ -57,7 +57,7 @@
 
     {%- set social_image =  config.base_url ~ social_image %}
 
-    {%- if page and (page.path is starting_with("/blog") or page.path is starting_with("/podcast")) %}
+    {%- if page and (page.path is starting_with(pat="/blog") or page.path is starting_with(pat="/podcast")) %}
         {%- set og_type = "article" %}
     {%- else %}
         {%- set og_type = "website" %}

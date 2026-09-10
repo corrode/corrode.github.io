@@ -268,7 +268,7 @@ We might dive into the standard library source code and learn how to navigate it
 <div class="pro-container">
 <h2 class="pro-section-title">Frequently Asked Questions</h2>
 
-{% faq() %}
+{% <faq> %}
 [
   {
     "q": "Is This For Me?",
@@ -323,7 +323,7 @@ We might dive into the standard library source code and learn how to navigate it
     "a": "You pay upfront for your session package via Stripe. After payment, I'll email you a personal link for booking the included sessions individually. You'll receive a receipt from Stripe; contact me if you also need an invoice for professional development expenses. Unused sessions are refunded if things don't work out."
   }
 ]
-{% end %}
+{% </faq> %}
 </div>
 </section>
 

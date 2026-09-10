@@ -88,11 +88,11 @@ This will render as:
 let t = SomeType::new();
 ```
 
-{% info(title="Caution When Hiding Code in Examples", icon="warning") %}
+{% <info title="Caution When Hiding Code in Examples" icon="warning"> %}
 
 Be careful with this approach and don't overdo it. Try to keep your examples simple and don't hide too much code because it can be a frustrating experience for your users if they copy-paste your examples and they don't work.
 
-{% end %}
+{% </info> %}
 
 To address the root cause: If you feel the urge to add a prelude because your crate requires importing many modules to be usable, consider whether your public API is too large. Try reducing the number of modules and types by refactoring your public API. This way, you won't need to hide imports in the first place.
 

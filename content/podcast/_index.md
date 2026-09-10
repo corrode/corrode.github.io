@@ -15,4 +15,4 @@ We show how these companies use Rust to solve some of the most complex technical
 
 Stories of companies who bet big on Rust. **Every other Thursday at 4 pm UTC.**
 
-{{ svix() }}
+{{ <svix /> }}

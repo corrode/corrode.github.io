@@ -20,7 +20,7 @@ Apollo GraphQL Platform.
 
 <!-- more -->
 
-{{ svix() }}
+{{ <svix /> }}
 
 ## Show Notes
 

@@ -10,9 +10,9 @@ hero = "teaching.svg"
 series = "Rust Insights"
 +++
 
-{% info(title="Looking for upcoming Rust conferences?", icon="ferris") %}
+{% <info title="Looking for upcoming Rust conferences?" icon="ferris"> %}
 This page covers Rust conferences in 2025. For upcoming events, check out our [Rust Conferences 2026](/blog/rust-conferences-2026/) page with dates, locations, ticket prices, CFP deadlines, and more.
-{% end %}
+{% </info> %}
 
 Rustaceans like to mingle, learn, and share their knowledge at conferences.
 With 13 conferences happening in 2025, it was a busy year for the Rust community.

@@ -187,7 +187,7 @@ NIST's guidelines are the basis for [Executive Order 14028](https://www.nist.gov
 
 ## Why Rust, Specifically?
 
-{{ yt(id="AkBnXrKmcvw") }}
+{{ <yt id="AkBnXrKmcvw" /> }}
 
 If you're a decision-maker, you might reasonably ask: "Why Rust? There are other memory-safe languages."
 
@@ -225,13 +225,13 @@ Organizations that start now will be ready when the regulatory hammer falls. Tho
 
 As we discuss in [_"Why Rust in Production?"_](/why-rust/), Rust doesn't just prevent bugs. It reduces on-call burden, improves developer confidence, and lowers long-term maintenance costs. In [a Google survey](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html), **85% of developers reported higher confidence in their team's Rust code** compared to code in other languages. That means on top of all the security benefits, your company gains in velocity, which results in faster time to market and lower development costs.
 
-{% info(title="Don't Start From Zero", icon="crab") %}
+{% <info title="Don't Start From Zero" icon="crab"> %}
 
 I've spent 10 years working with Rust and have helped teams across industries, from cloud infrastructure to embedded systems, bring it to production. The difference between a smooth adoption and a painful one almost always comes down to having someone who's done it before.
 
 If you're weighing a migration, building a roadmap, or training your first Rust team, **[let's talk](/#contact)**. A single conversation can save you months of wrong turns.
 
-{% end %}
+{% </info> %}
 
 ## What a Memory Safety Roadmap Looks Like
 
@@ -266,11 +266,11 @@ Here's what I recommend:
 
 I'd love to help you with any or all of the above.
 
-{{ next_steps(context="Evaluating Rust or building a memory safety roadmap for compliance?") }}
+{{ <next_steps context="Evaluating Rust or building a memory safety roadmap for compliance?" /> }}
 
 ## Frequently Asked Questions
 
-{% faq() %}
+{% <faq> %}
 [
   {
     "q": "Is Rust required by law in 2026?",
@@ -305,4 +305,4 @@ I'd love to help you with any or all of the above.
     "a": "With a large consultancy, you rarely know who will show up. The person in the sales meeting is not the person writing your code. A solo expert means the person who assessed your architecture is the same one reviewing pull requests, mentoring your developers, and answering questions on Slack. There is no handoff, no knowledge lost in translation, and no junior developer learning on your budget. The tradeoff is capacity: a solo expert can only work with a limited number of clients at a time, which tends to mean higher commitment to each engagement."
   }
 ]
-{% end %}
+{% </faq> %}

@@ -21,7 +21,7 @@
         </select>
       </div>
       
-      {% set all_posts = section.pages | filter(attribute="draft", value=false) %}
+      {% set all_posts = [post for post in section.pages if not post.draft] %}
       <ul class="blog-list" id="blog-list">
         {% for post in all_posts %}
         <li class="blog-item" 

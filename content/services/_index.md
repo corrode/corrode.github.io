@@ -72,7 +72,7 @@ I help teams put that scaffolding in place with type-driven design, solid contin
 
 The goal is simple: you stay in control of your codebase and can decide for yourself how much or how little you want to use agents for code generation.
 
-{% info(title="Feedback From Happy Customers", icon="heart") %}
+{% <info title="Feedback From Happy Customers" icon="heart"> %}
 
 <q>
     I had the pleasure of collaborating with
@@ -96,7 +96,7 @@ The goal is simple: you stay in control of your codebase and can decide for your
 &mdash; Torry Brelsford 
 </p>
 
-{% end %}
+{% </info> %}
 
 ## Get Expert Help That's Hard To Hire For
 
@@ -114,7 +114,7 @@ Download my free PDF for a brief overview of my services and expertise. Availabl
 
 ## Let's Find The Right Support For Your Team
 
-{% quiz() %}
+{% <quiz> %}
 
 const questions = [
   {
@@ -236,7 +236,7 @@ const questions = [
 
 const formUrl = "https://submit-form.com/r7PT0RxiL";
 
-{% end %}
+{% </quiz> %}
 
 ## Media
 
@@ -266,7 +266,7 @@ From time to time I give talks about Rust and open-source software.
 
 ## Happy To Answer Your Questions
 
-{% faq() %}
+{% <faq> %}
 [
   {
     "q": "Why a dedicated Rust expert?",
@@ -345,7 +345,7 @@ From time to time I give talks about Rust and open-source software.
     "a": "Getting started is easy! Simply <a href=\"https://cal.com/corrode\">schedule a free consultation call</a> with me to discuss your project needs and goals. We'll take it from there!"
   }
 ]
-{% end %}
+{% </faq> %}
 
 ## Accelerate Your Team's Rust Adoption Today
 

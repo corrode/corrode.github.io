@@ -115,12 +115,13 @@
 
     <div class="article-content-wrapper">
         <div class="article-content">
-            {% for season, season_episodes in section.pages |
-            filter(attribute="draft", value=false) |
-            group_by(attribute="extra.season") %}
+            {% set episodes = [episode for episode in section.pages if not episode.draft] %}
+            {% set seasons = episodes | group_by(attribute="extra.season") %}
+            {# Grouped maps are unordered in Tera 2; keep seasons in ascending order. #}
+            {% for season in [episode.extra.season for episode in episodes] | unique | sort %}
             <h3 class="podcast-season-heading">Season {{ season }}</h3>
             <ul class="podcast-list">
-                {% for episode in season_episodes %}
+                {% for episode in seasons[season] %}
                 <li class="podcast-item">
                     <a href="{{ episode.permalink }}" class="podcast-link">
                         <div class="podcast-logo-wrapper">

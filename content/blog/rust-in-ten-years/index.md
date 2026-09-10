@@ -14,13 +14,13 @@ authors = [
 ]
 +++
 
-{% info(title="Will Rust still exist, and have proper support, 10, 20 or even 30 years from now?") %}
+{% <info title="Will Rust still exist, and have proper support, 10, 20 or even 30 years from now?"> %}
 
 We’ve been asked this question multiple times in the last year. It is a fair question, as adopting any new technology requires an investment and comes with uncertainties, one of them being the durability of the technology. This article explains why we expect Rust to stand the test of time.
 
 *This article is a friendly collaboration between Tweede golf (author: [Hugo](https://tweedegolf.nl/en/about/9/hugo)) and corrode Rust Consulting (author: [Matthias](/services/)). For more insights on Rust, also visit [the Tweede golf blog](https://tweedegolf.nl/en/blog).*
 
-{% end %}
+{% </info> %}
 
 Wondering whether Rust will still be around is only relevant once you've determined that the language is technically the best solution for your project, so for the sake of this blog, we're assuming that you have indeed already made this assessment. If you are still wondering whether Rust is for you, or how this potentially costly tech switch can actually save you money, check out [this blog post](https://corrode.dev/why-rust/) instead.
 

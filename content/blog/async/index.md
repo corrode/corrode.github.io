@@ -197,7 +197,7 @@ synchronization primitives such as
 [`Mutex`](https://doc.rust-lang.org/std/sync/struct.Mutex.html) for all but the
 most trivial applications.
 
-{% info(title="Understanding 'static Lifetimes in Async Rust", icon="info") %}
+{% <info title="Understanding 'static Lifetimes in Async Rust" icon="info"> %}
 
 A `'static` trait bound mandates that the type does not contain any non-static
 references. This means the receiver can hold on to the type
@@ -232,7 +232,7 @@ This requirement marks a significant departure from
 synchronous Rust, where borrowing data across function calls is commonplace.
 It represents a fundamental shift in how we manage data lifetimes and ownership
 in asynchronous compared to synchronous Rust.
-{% end %}
+{% </info> %}
 
 > The Original Sin of Rust async programming is making it multi-threaded by
 > default. If premature optimization is the root of all evil, this is the mother

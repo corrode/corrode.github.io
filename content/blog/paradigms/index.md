@@ -239,7 +239,7 @@ This version maps directory entries to paths, filters out non-XML files, and col
 
 It also changes the behavior. `filter_map(Result::ok)` drops every error.
 
-{% info(title="What is the difference between `filter` and `filter_map`?") %}
+{% <info title="What is the difference between `filter` and `filter_map`?"> %}
 In Rust, `filter` takes a closure that returns a `bool` to decide whether to
 include an element in the resulting iterator, whereas `filter_map` takes a
 closure that returns an `Option<T>`.
@@ -248,7 +248,7 @@ For `filter_map`, if the closure returns `Some(value)`, that value is included
 in the new iterator; if it returns `None`, the element is excluded. Essentially,
 `filter_map` allows filtering and mapping in a single step.
 
-{% end %}
+{% </info> %}
 
 Ignoring errors may be acceptable for a quick script, but production code should at least log them. We can use [`inspect`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.inspect) for that:
 

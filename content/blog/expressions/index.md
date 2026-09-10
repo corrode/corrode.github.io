@@ -391,12 +391,12 @@ Don't take this too far or people will stop inviting you to dinner parties.
 
 It's fun to know that you could use `then_some`, `unwrap_or_else`, and `map_or` to chain expressions together, but don't use them just to show off.
 
-{% info(title="Warning", icon="warning") %}
+{% <info title="Warning" icon="warning"> %}
 
 The below code is correct, but the combinators get in the way of readability.
 It feels more like a Lisp program than Rust code.
 
-{% end %}
+{% </info> %}
 
 ```rust
 impl Config {

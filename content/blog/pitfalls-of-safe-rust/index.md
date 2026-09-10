@@ -120,7 +120,7 @@ For all other cases, use [`checked_add`](https://docs.rs/num/latest/num/trait.Ch
 [^intrinsics_docs]: There's also methods for wrapping and saturating arithmetic, which might be useful in some cases.
 It's worth it to check out the [`std::intrinsics`](https://doc.rust-lang.org/std/intrinsics/index.html) documentation to learn more.
 
-{% info(title="Quick Tip: Enable Overflow Checks In Release Mode", icon="info") %}
+{% <info title="Quick Tip: Enable Overflow Checks In Release Mode" icon="info"> %}
 
 Rust carefully balances performance and safety.
 In scenarios where a performance hit is acceptable, memory safety takes precedence. [^memory_safety]
@@ -148,7 +148,7 @@ the code will panic if an overflow occurs.
 See [the docs](https://doc.rust-lang.org/cargo/reference/profiles.html#release)
 for more details.
 
-{% end %}
+{% </info> %}
 
 
 ## Avoid `as` For Numeric Conversions
@@ -170,7 +170,7 @@ There are three main ways to convert between numeric types in Rust:
 3. Using [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html): This method is similar to `From::from()` but returns a `Result` instead of panicking. This is useful when you want to handle potential data loss gracefully.
 
 
-{% info(title="Quick Tip: Safe Numeric Conversions", icon="info") %}
+{% <info title="Quick Tip: Safe Numeric Conversions" icon="info"> %}
 
 **If in doubt, prefer `From::from()` and `TryFrom` over `as`.**
 
@@ -180,7 +180,7 @@ There are three main ways to convert between numeric types in Rust:
 
 (*Adapted from [StackOverflow answer by delnan](https://stackoverflow.com/a/28280042/270334) and [additional context](https://stackoverflow.com/a/48795524/270334).*)
 
-{% end %}
+{% </info> %}
 
 The `as` operator is **not safe for narrowing conversions**.
 It will silently truncate the value, leading to unexpected results.
@@ -915,4 +915,4 @@ That's why testing, linting, and fuzzing are still important in Rust.
 For maximum robustness, combine Rust's safety guarantees with strict checks and
 strong verification methods.
 
-{{ next_steps(context="Want a second pair of expert eyes on your Rust code before it ships?") }}
+{{ <next_steps context="Want a second pair of expert eyes on your Rust code before it ships?" /> }}

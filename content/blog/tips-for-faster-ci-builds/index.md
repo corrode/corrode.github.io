@@ -17,14 +17,14 @@ I've been working with many clients lately who host their Rust projects on GitHu
 CI is typically a bottleneck in the development process since it can significantly slow down feedback loops.
 However, there are several effective ways to speed up your GitHub Actions workflows!
 
-{% info(title="Want a Real-World Example?", icon="crab") %}
+{% <info title="Want a Real-World Example?" icon="crab"> %}
 
 Check out this production-ready GitHub Actions workflow that implements all the tips from this article:
 [click here](https://github.com/lycheeverse/lychee/blob/master/.github/workflows/ci.yml).
 
 Also see Arpad Borsos' [workflow templates](https://github.com/Swatinem/rust-gha-workflows) for Rust projects.
 
-{% end %}
+{% </info> %}
 
 ## Use Swatinem's cache action
 
@@ -299,4 +299,4 @@ If you've implemented all these optimizations and your builds are still slow, it
 Remember that each project is unique.
 Start with the easier wins like Swatinem's cache action and `--locked` flag, then progressively implement more advanced optimizations as needed. Monitor your CI metrics to ensure the changes are having the desired effect.
 
-{{ next_steps(context="Is your Rust CI still too slow despite these optimizations?") }}
+{{ <next_steps context="Is your Rust CI still too slow despite these optimizations?" /> }}

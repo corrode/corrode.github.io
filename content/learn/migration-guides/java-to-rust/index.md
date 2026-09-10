@@ -17,13 +17,13 @@ resources = [
 ]
 +++
 
-{% info(title="A Practical Guide for Decision Makers" ) %}
+{% <info title="A Practical Guide for Decision Makers"> %}
 
 This article is aimed at technical product managers and CTOs who are considering migrating a production Java application — or part of it — to Rust.
 I will give an **honest overview** of the challenges and benefits of such a migration, as well as practical tips to make it successful
 based on years of experience and successful transitions.
 
-{% end %}
+{% </info> %}
 
 Java is an amazing language.
 It's a true workhorse, powering some of the world's most critical systems.
@@ -43,7 +43,7 @@ By the end, you'll have a clear idea if Rust is the right choice for your organi
 I help teams migrate from Java to Rust, providing tailored guidance and training.
 If you're considering a migration, answer a few questions about your project, and I'll reach out with a customized plan.
  
-{% quiz() %}
+{% <quiz> %}
 
 const questions = [
   {
@@ -171,7 +171,7 @@ const questions = [
 
 const formUrl = "https://submit-form.com/OH6mf241q";
 
-{% end %}
+{% </quiz> %}
 
 ## Differences Between Java and Rust 
 
@@ -229,9 +229,9 @@ It takes a while to get used to that approach. The key is to think in terms of c
 
 This isn't just a stylistic preference; engineers coming from Java consistently say the trait-based model leads to cleaner architectures in practice:
 
-{% podcast_quote(player="s05e02-scythe?t=23:22", attribution="Andrew Tinka, Software Engineer at Scythe Robotics") %}
+{% <podcast_quote player="s05e02-scythe?t=23:22" attribution="Andrew Tinka, Software Engineer at Scythe Robotics"> %}
 "The Java capability of classes inheriting from each other leads to a lot of elaboration and customization of a class. 'Oh, I want this, but I want it to act a little bit differently, so I'm going to inherit from it and make a few changes.' [...] Rust encourages you not to build deep, deep hierarchies of classes inheriting from each other."
-{% end %}
+{% </podcast_quote> %}
 
 ### Compiler as Collaborator
 
@@ -374,9 +374,9 @@ When you migrate to Rust, also consider the secondary effects of improved perfor
 
 These secondary effects are often what teams talk about most after a migration. GC pauses and JVM warm-up are concrete pain points that simply disappear:
 
-{% podcast_quote(player="s05e08-radar?t=19:08", attribution="Jeff Kao, Staff Engineer at Radar") %}
+{% <podcast_quote player="s05e08-radar?t=19:08" attribution="Jeff Kao, Staff Engineer at Radar"> %}
 "Working at other companies where we used Scala and the JVM, there were consistently issues with the JVM and the garbage collector. [...] We knew that for a lot of what we were doing &mdash; text processing and indexing, storing large data structures in memory &mdash; we really did want to have something where we had a lot more control over the memory."
-{% end %}
+{% </podcast_quote> %}
 
 Based on my experience helping teams migrate to Rust, here are some ballpark improvements you might see:
 
@@ -418,9 +418,9 @@ With Rust's strict compiler checks, a lot of potential bugs are caught during de
 
 This matters even more when you're maintaining multiple platform-specific implementations (a common pattern in Java/Kotlin shops with Android, server, and desktop). Andrew Burkhart described exactly that consolidation story at 1Password:
 
-{% podcast_quote(player="s04e06-1password?t=07:50", attribution="Andrew Burkhart, Senior Rust Engineer at 1Password") %}
+{% <podcast_quote player="s04e06-1password?t=07:50" attribution="Andrew Burkhart, Senior Rust Engineer at 1Password"> %}
 "At the scale we're at now, it's just not feasible to have that much code and have that many different implementations. When you're building a security app, multiple implementations is a problem &mdash; any time you have to do that, there's now the risk that one of these implementations is vulnerable in some way that the other isn't. [...] Those languages may have different underlying models for async or memory management or whatever it is. And so it just wasn't feasible to continue on like that."
-{% end %}
+{% </podcast_quote> %}
 
 Over time, this leads to **more reliable code in production**. Rust's emphasis on memory safety and strict typing means that, once your system is built, you're less likely to face random crashes or bugs.
 This saves on-call costs and reduces the risk of downtime.
@@ -456,10 +456,10 @@ At the end of the day, Rust's investment pays off. Even if you don't go full Rus
 If you'd like to discuss this further, feel free to book a call with me.
 I offer consulting services to help you make the right decisions for your project -- even if that means sticking with Java.
 
-{% info(title="Make the most of Rust", icon="crab") %}
+{% <info title="Make the most of Rust" icon="crab"> %}
 
 Is your company considering to migrate from Java to Rust? 
 I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting. 
 [Get in touch for a free consultation](/services).
 
-{% end %}
+{% </info> %}

@@ -104,7 +104,7 @@ but the sense of accomplishment when you finish is incredible: you'll complete a
 
 If you got curious, the video above is my full walkthrough of the "Build your own HTTP server" challenge.
 
-{% info(title="Try CodeCrafters For Free", icon="crab") %}
+{% <info title="Try CodeCrafters For Free" icon="crab"> %}
 
 CodeCrafters is the platform I genuinely recommend to friends after they've learned the basics of Rust. 
 It's the next best thing after a personal mentor or workshop.
@@ -113,7 +113,7 @@ You can [try CodeCrafters for free here](https://app.codecrafters.io/join?via=mr
 
 On top of that, most companies will reimburse educational resources through their L&D budget, so check with your manager about getting reimbursed.
 
-{% end %}
+{% </info> %}
 
 ## Workshops
 
@@ -142,4 +142,4 @@ All the material is open source and free. You can browse the [full workshop cata
 You can go through the material on your own to see if it fits your needs.
 Once you're ready, feel free to reach out about tailoring the content for you and your team.
 
-{{ next_steps(context="Want to accelerate past Rust's learning curve with hands-on guidance?") }}
+{{ <next_steps context="Want to accelerate past Rust's learning curve with hands-on guidance?" /> }}

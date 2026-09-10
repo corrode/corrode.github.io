@@ -103,7 +103,7 @@ Here are some key takeaways from Tyler's experiences with Rust and C++:
 
 As Tyler's experiences illustrate, the benefits of Rust often become most apparent in the "day two operations" of software development – in code reviews, refactoring, and managing complexity.
 
-{{ next_steps(context="Moving a C++ codebase to Rust? Getting the interop boundaries right is exactly the kind of decision that pays off with a second pair of eyes.") }}
+{{ <next_steps context="Moving a C++ codebase to Rust? Getting the interop boundaries right is exactly the kind of decision that pays off with a second pair of eyes." /> }}
 
 ## Recommended Reading
 

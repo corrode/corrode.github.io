@@ -21,7 +21,7 @@ In this episode, I talk to Steve Klabnik, a software engineer at Oxide and renow
 
 <!-- more -->
 
-{{ svix() }}
+{{ <svix /> }}
 
 ## Show Notes
 

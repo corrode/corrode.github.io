@@ -1,0 +1,17 @@
+{# Components expand before Markdown: avoid blank lines before indented HTML,
+   which Markdown would otherwise turn into code blocks. #}
+{% component info(title="", icon="") -%}
+<div class="info">
+  {%- if title %}
+  <div class="info-header">
+    {%- if icon %}
+      <span class="icon icon-{{ icon }}"></span>
+    {%- else %}
+      <span class="icon icon-info"></span>
+    {%- endif %}
+    <h4>{{ title | markdown(inline=true) | safe }}</h4>
+  </div>
+  {%- endif %}
+  {{ body | markdown() | trim | safe }}
+</div>
+{%- endcomponent info %}

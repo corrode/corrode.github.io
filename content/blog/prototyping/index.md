@@ -34,14 +34,14 @@ For all its explicitness, Rust is surprisingly ergonomic when iterating on ideas
 You don't need to be a Rust expert to be productive - in fact, many of the techniques we'll discuss specifically help you *sidestep* Rust's more advanced features.
 If you focus on simple patterns and make use of Rust's excellent tooling, even less experienced Rust developers can quickly bring their ideas to life.
 
-{% info(title="Feel like listening instead?", icon="radio") %}
+{% <info title="Feel like listening instead?" icon="radio"> %}
 
 I talked about prototyping in Rust on SE Radio.
 The article was the basis for the episode, so you can listen to it while reading along.
 
 <iframe src="https://play.libsyn.com/embed/episode/id/36781410/height/128/theme/modern/size/standard/thumbnail/yes/custom-color/ffffff/time-start/00:00:00/playlist-height/200/direction/backward/download/yes/hide-subscribe/no/hide-share/no" width="100%" height="128" scrolling="yes" class="iframe-class" frameborder="0"></iframe>
 
-{% end %}
+{% </info> %}
 
 ## Why People Think Rust Is Not Good For Prototyping
 

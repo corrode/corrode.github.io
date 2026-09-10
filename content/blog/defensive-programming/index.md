@@ -334,7 +334,7 @@ The scope makes it crystal clear that these variables are only meant for initial
 
 ## Pattern: Defensively Handle Constructors
 
-{% info(title="Tip for libraries", icon="crab") %}
+{% <info title="Tip for libraries" icon="crab"> %}
 
 The following pattern is only truly helpful for libraries and APIs that need to be robust against future changes.
 In such a case, you want to ensure that all instances of a type are created through a constructor function that enforces validation logic.
@@ -343,7 +343,7 @@ Because without that, future refactorings can easily lead to invalid states.
 For application code, it's probably best to keep things simple.
 You typically have all the call sites under control and can ensure that validation logic is always called.
 
-{% end %}
+{% </info> %}
 
 Let's say you have a simple type like the following:
 
@@ -409,11 +409,11 @@ impl S {
 Now code outside your module cannot construct `S` directly because it cannot access the `_private` field.
 The compiler enforces that all construction must go through your `new()` method, which includes your validation logic!
 
-{% info(title="Why the underscore in `_private`?", icon="info") %}
+{% <info title="Why the underscore in `_private`?" icon="info"> %}
 
 Note that the underscore prefix is just a **naming convention** to indicate the field is intentionally unused; it's the lack of `pub` that makes it private and prevents external construction.
 
-{% end %}
+{% </info> %}
 
 For libraries that need to evolve over time, you can also use the `#[non_exhaustive]` attribute instead:
 
@@ -428,7 +428,7 @@ pub struct S {
 This has the same effect of preventing construction outside your crate, but also signals to users that you might add more fields in the future.
 The compiler will prevent them from using struct literal syntax, forcing them to use your constructor.
 
-{% info(title="`Should you use #[non_exhaustive]` or `_private`?", icon="info") %}
+{% <info title="`Should you use #[non_exhaustive]` or `_private`?" icon="info"> %}
 
 There's a big difference between these two approaches:
 
@@ -439,7 +439,7 @@ On top of that, some developers find `_private: ()` more explicit about intent: 
 
 With `#[non_exhaustive]`, the primary intent is signaling that fields might be added in the future, and preventing construction is more of a side effect.
 
-{% end %}
+{% </info> %}
 
 But what about code within the **same module**?
 With the patterns above, code in the same module can still bypass your validation:

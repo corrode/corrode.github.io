@@ -29,7 +29,7 @@ If you're writing CLI tools, embedded firmware, or game engines, some of this st
 
 For context, I've written about Go and Rust before: ["Go vs Rust? Choose Go."](https://endler.dev/2017/go-vs-rust/) back in 2017, and later the ["Rust vs Go: A Hands-On Comparison"](https://www.shuttle.dev/blog/2023/09/27/rust-vs-go-comparison) with the Shuttle team, which walks through a small backend service in both languages.
 
-{% info(title="What you will learn in this article") %}
+{% <info title="What you will learn in this article"> %}
 
 - Where Go and Rust overlap, and where they diverge.
 - How Go patterns map to Rust.
@@ -37,7 +37,7 @@ For context, I've written about Go and Rust before: ["Go vs Rust? Choose Go."](h
 - Where I tell people to keep Go and where Rust is worth the migration cost.
 - How to migrate Go services incrementally.
 
-{% end %}
+{% </info> %}
 
 ## Where I'm Coming From 
 
@@ -59,7 +59,7 @@ For a deliberately opposite take, I recommend reading ["Just Fucking Use Go"](ht
 
 If you prefer to watch rather than read, here's a video from the Shuttle article above, read and commented by the Primeagen: 
 
-{{ yt(id="dSoP7EF2YJ4", title="Finding duplicate words: Go vs Rust") }}
+{{ <yt id="dSoP7EF2YJ4" title="Finding duplicate words: Go vs Rust" /> }}
 
 ## A First Look At The Most Important Commands
 
@@ -108,11 +108,11 @@ Most of what changes when you move from Go to Rust is that checks get pulled int
 
 Does that mean "more cognitive overhead"? I'd challenge that. It's *more* upfront, yes, but it's also *harder to hold wrong*. A `Mutex<T>` in Rust doesn't just document that the data needs a lock, it makes the lock the *only* way to reach the data: you call `.lock()`, you get a guard, and the guard is what gives you access to the inner value. Drop the guard and the lock releases automatically. There is no "I forgot to lock" path because the unlocked path doesn't exist in the type. Once you internalize that pattern, and you find it repeated everywhere (`Option`, `Result`, `&mut T`, `Send`/`Sync`, RAII guards), Rust stops feeling heavy and starts feeling like the compiler is doing work you used to do in your head.
 
-{% info(title="It's Not About The Runtime!") %}
+{% <info title="It's Not About The Runtime!"> %}
 
 People often claim that a managed runtime is "good enough for most backends", but I think they are missing the point. In my opinion, Go optimizes for quick iteration speed while Rust optimizes for correctness. More control over memory is a nice side effect for most production workloads. It can mean fewer machines for the same work, but the main reason to choose Rust is still correctness.
 
-{% end %}
+{% </info> %}
 
 ## Reasons Why Teams Consider Moving from Go to Rust 
 
@@ -519,13 +519,13 @@ After using Rust for many years, I can't imagine going back to a world where str
 
 ## Go Generics Are Too Little, Too Late
 
-{% info(title="Spicy, type-level discussion ahead", icon="warning") %}
+{% <info title="Spicy, type-level discussion ahead" icon="warning"> %}
 
 Skip this section if you don't care about generics much. 😅
 In hindsight, I don't think it matters for most working engineers,
 but it explains part of the design split between Go and Rust.
 
-{% end %}
+{% </info> %}
 
 Go got generics in 1.18 (March 2022), thirteen years after the language shipped.
 They are useful, but they feel tacked on, and in practice they have most of the *downsides* of a generic type system without delivering the *upsides* you'd expect coming from Rust, Haskell, or even modern C++.
@@ -763,7 +763,7 @@ If you have an API gateway or reverse proxy, you can route specific endpoints to
 This works particularly well when one bounded context (auth, search, billing) is the right unit to migrate.
 The pattern is often called ["strangler fig,"](https://martinfowler.com/bliki/StranglerFigApplication.html) because the new service grows around the old one until it eventually replaces it entirely.
 
-{% info(title="Practical Migration Tips") %}
+{% <info title="Practical Migration Tips"> %}
 
 Start with a service that has a clear boundary. Don't pick the most central, most-deployed service in your fleet. Pick the one where the contract with the rest of the system is well-defined and the blast radius is small.
 
@@ -778,7 +778,7 @@ Invest in training early. I've seen teams try to do a Rust migration "on the sid
 Block off real time for learning: a workshop, [an online course](https://course.corrode.dev/), paired sessions on real code. The upfront investment pays back many times over once the team is fluent.
 (Hey, if you want to talk about training options, [I'm happy to chat](/services).)
 
-{% end %}
+{% </info> %}
 
 ## Keeping Go's Strengths
 
@@ -826,9 +826,9 @@ For [foundational services](/blog/foundational-software/) (services that your or
 For others, Go is fine. 
 The point of a migration is to put each problem in the language that solves it best.
 
-{% info(title="Ready to Make the Move to Rust?", icon="crab") %}
+{% <info title="Ready to Make the Move to Rust?" icon="crab"> %}
 
 I help backend teams evaluate, plan, and execute Go-to-Rust migrations.
 Whether you need an architecture review, training, or hands-on help porting a critical service, [let's talk about your needs](/services).
 
-{% end %}
+{% </info> %}

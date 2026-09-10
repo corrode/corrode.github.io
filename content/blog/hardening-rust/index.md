@@ -19,13 +19,13 @@ But being careful isn't enough!
 Even valid code can fail at runtime in ways that are hard to predict and control.
 That's what we're covering next.
 
-{% info(title="This article is for you if you want to...", icon="crab") %}
+{% <info title="This article is for you if you want to..." icon="crab"> %}
 
 - make your code resilient at runtime
 - harden your Rust code for production
 - know how Rust code can fail in unexpected ways and how to recover from that
 
-{% end %}
+{% </info> %}
 
 ## Table of Contents
 
@@ -225,11 +225,11 @@ panic::set_hook(Box::new(|panic_info| {
 }));
 ```
 
-{% info(title="What's Inside `PanicInfo`?" icon="info") %}
+{% <info title="What's Inside `PanicInfo`?" icon="info"> %}
 
 The [`PanicInfo`](https://doc.rust-lang.org/core/panic/struct.PanicInfo.html) struct contains the panic message (via `.payload()`) and the source location where the panic occurred (via `.location()`). Be aware that both can leak sensitive information: file paths may reveal internal directory structure, and panic messages might contain interpolated user data.
 
-{% end %}
+{% </info> %}
 
 And finally, here's [Sentry's panic hook handler](https://github.com/getsentry/sentry-rust/blob/625617015f2b64fabdf8264186911ca43873bb80/sentry-panic/src/lib.rs#L69-L77), which is even more sophisticated:
 
@@ -298,11 +298,11 @@ pub struct Customer {
 Before the process terminates, you might want to flush logs, close network connections, or notify other systems that this instance is going down.
 Setting a hook is a great way to perform such cleanup operations.
 
-{% info(title="Panic Hooks Run in a Compromised Environment" icon="warning") %}
+{% <info title="Panic Hooks Run in a Compromised Environment" icon="warning"> %}
 
 Be careful: one of the subsystems you want to interact with might be the *cause* of the panic you're handling! For example, if your database connection pool panicked, trying to flush pending writes to that same pool will likely fail or hang. Keep cleanup operations fault-tolerant and avoid anything that can panic, block indefinitely, or depend on the subsystem that just failed.
 
-{% end %}
+{% </info> %}
 
 ### Limitations
 
@@ -475,7 +475,7 @@ Take this Dockerfile as a starting point, but please adapt it to your own projec
 Keep the Debian suffix explicit instead of using the unversioned tag, and pin by digest if reproducible deploys matter to you.
 If you deliberately build a fully static musl binary, then `gcr.io/distroless/static-debian13:nonroot` or even `scratch` can be a better fit. But don't mix the two approaches: a glibc-linked binary needs a runtime image that provides the libraries it links against.
 
-{% info(title="A Note On Alpine Base Images", icon="info") %}
+{% <info title="A Note On Alpine Base Images" icon="info"> %}
 
 Alpine base images are a well-known alternative, but they use musl instead of glibc. That can expose differences in DNS resolution, TLS/native dependencies, allocator behavior, and crates that assume a glibc-like environment.
 ([1](https://www.reddit.com/r/rust/comments/sq53vx/alpine_fails_to_run_my_app_what_steps_should_i/hwjloqz/)
@@ -484,7 +484,7 @@ Alpine base images are a well-known alternative, but they use musl instead of gl
 
 That doesn't mean Alpine or musl are wrong; just treat them as a deliberate target and test them like one. If you build on Debian and want a small runtime image, distroless `cc` is usually the less surprising default.
 
-{% end %}
+{% </info> %}
 
 ### Filesystem sandboxing with Landlock
 
@@ -494,13 +494,13 @@ If your service is ever exploited, the attacker can only reach the files you exp
 
 [^below]: This approach would have prevented a [vulnerability in Meta's `below` crate](https://security.opensuse.org/2025/03/12/below-world-writable-log-dir.html), a tool for recording and displaying system data like hardware utilization and cgroup information on Linux.
 
-{% info(title="Landlock Is Deployment-Specific" icon="info") %}
+{% <info title="Landlock Is Deployment-Specific" icon="info"> %}
 
 Landlock is Linux-only and requires kernel support. It landed in Linux 5.13, but older enterprise kernels, custom cloud images, or container hosts may not enable it. Check your actual deployment target.
 
 Also apply the sandbox only after you know which files your process needs. If your service executes helper binaries from `/usr/bin`, reads timezone data from `/usr/share/zoneinfo`, loads certificates, opens SQLite files, reads config from `/etc`, or writes uploads to `/var/data`, those paths must be allowed explicitly. On non-Linux targets, look for equivalent sandboxing mechanisms instead of copying this exact snippet.
 
-{% end %}
+{% </info> %}
 
 ```rust
 use landlock::{

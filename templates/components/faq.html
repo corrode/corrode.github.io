@@ -1,4 +1,5 @@
-{# FAQ shortcode: renders a styled FAQ section with Google-compliant FAQPage
+{% component faq() -%}
+{# FAQ component: renders a styled FAQ section with Google-compliant FAQPage
 JSON-LD. Both the visible Q&A and the structured data are rendered server-side
 at build time, so they are present in the static HTML. This matters because
 search crawlers and LLM crawlers (GPTBot, ClaudeBot, PerplexityBot,
@@ -34,3 +35,4 @@ supported. #} {%- set items = load_data(literal=body, format="json") -%}
       ]
     }
 </script>
+{%- endcomponent faq %}

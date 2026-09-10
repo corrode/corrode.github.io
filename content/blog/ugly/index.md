@@ -181,7 +181,7 @@ There are a few techniques that can help you write better Rust, some of which we
 
 Even just applying these basic techniques, we can get our code into a much better shape.
 
-{% info(title="Before You Continue: Try It Out Yourself!") %}
+{% <info title="Before You Continue: Try It Out Yourself!"> %}
 
 This is a hands-on exercise.
 Feel free to paste the above code into your editor and practice refactoring it. 
@@ -189,7 +189,7 @@ Here's the [link to the Rust playground](https://play.rust-lang.org/?version=sta
 At the end, there will be a little quiz to see if you found all the edge-cases.
 I'll wait here.
 
-{% end %}
+{% </info> %}
 
 ## Tip #1: Read the Standard Library Documentation
 
@@ -571,13 +571,13 @@ fn parse_line(line: &str) -> Result<ParsedLine, ParseError> {
 We could even go one step further and express more of our invariants in the type system.
 For example, we can make use of the fact that parsing a key-value pair only depends on a single line.
 
-{% info(title="Note", icon="warning") %}
+{% <info title="Note" icon="warning"> %}
 
 Multiline environment variables exist, so instead of "parsing a single line," we should say "parsing a single key-value pair."
 For now, we will ignore multiline key-value pairs and assume that each line contains at most one key-value pair.
 However, the solution we are building here is extensible enough to handle multiline key-value pairs in the future. 
 
-{% end %}
+{% </info> %}
 
 Since parsing is a fallible operation, we can implement [`TryFrom`](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) for our `KeyValue` struct:
 

@@ -70,13 +70,13 @@ Your background with TypeScript's type system is a real advantage. You already t
 The main tradeoff you'll notice immediately is that Rust has stronger compile-time guarantees but [slower compile times](/blog/tips-for-faster-rust-compile-times/).
 Most developers find this worthwhile because the borrow checker catches so many issues that would otherwise surface in production.
 
-{% podcast_quote(player="s05e04-roc?t=45:10", attribution="Richard Feldman, Creator of Roc") %}
+{% <podcast_quote player="s05e04-roc?t=45:10" attribution="Richard Feldman, Creator of Roc"> %}
 "I certainly think that the degree to which compile times bother you would depend, sort of obviously, on what you're used to and what you think of as sort of possible or normal. Like if I'm used to Elm and sub-second recompiles and stuff like that, then yeah, I mean, it's going to bother me when I'm waiting 10 seconds to be able to build my thing or to run my tests."
-{% end %}
+{% </podcast_quote> %}
 
-{% podcast_quote(player="s03e05-zoo?t=40:33", attribution="Jessie Frazelle, CEO of Zoo") %}
+{% <podcast_quote player="s03e05-zoo?t=40:33" attribution="Jessie Frazelle, CEO of Zoo"> %}
 "Writing Rust is so much more natural to me that even TypeScript is hard for me to write. I\'m just looking for a match statement, or things where I want to abort a Promise. In Tokio you can abort an async operation; you can\'t do that in TypeScript. That drives me nuts."
-{% end %}
+{% </podcast_quote> %}
 
 ## Syntax at a Glance
 
@@ -316,7 +316,7 @@ async fn main() {
 
 The `#[tokio::main]` attribute sets up the Tokio runtime for you, so in practice it doesn't add much boilerplate.
 
-{% info(title="Async TypeScript and Rust: a quick summary" ) %}
+{% <info title="Async TypeScript and Rust: a quick summary"> %}
 
 **What's the same:**
 
@@ -338,7 +338,7 @@ By leaving the runtime as a library choice, you only pay for what you use.
 Rust targets embedded systems and environments where a large built-in runtime would be unacceptable.
 Different applications also have different concurrency needs: single-threaded, multi-threaded, work-stealing schedulers, and so on.
 
-{% end %}
+{% </info> %}
 
 As mentioned, for backend web services, Tokio is the standard choice. It's multi-threaded, battle-tested, and what frameworks like [axum](https://github.com/tokio-rs/axum) have first-class support for it.
 
@@ -346,9 +346,9 @@ As mentioned, for backend web services, Tokio is the standard choice. It's multi
 
 Rust enforces stronger guarantees than TypeScript through its ownership system and borrow checker. Most developers need a few months to get comfortable with the ownership model and will go through a phase of ["fighting the borrow checker"](https://www.youtube.com/watch?v=ZNFdkTIzdXM). This is normal and temporary. Once it clicks, it becomes one of the things you'll miss most when you go back to other languages. (This and the amazing compiler error messages.) There are ways to [flatten Rust's learning curve](/blog/flattening-rusts-learning-curve/) that can help you get there faster.
 
-{% podcast_quote(player="s04e06-1password?t=53:08", attribution="Andrew Burkhart, Senior Rust Engineer at 1Password") %}
+{% <podcast_quote player="s04e06-1password?t=53:08" attribution="Andrew Burkhart, Senior Rust Engineer at 1Password"> %}
 "I had never touched memory coming from TypeScript. I could not get through the Rust code at first, but luckily they hired me anyway. Everything I know about Rust I\'ve learned in the last three years. It\'s definitely something you can pick up. The hardest thing to get from zero to productive isn\'t the syntax: good Rust requires a bit of engineering knowledge the book doesn\'t always cover."
-{% end %}
+{% </podcast_quote> %}
 
 ## Rust Has Its Roots In Systems Programming
 
@@ -413,9 +413,9 @@ You won't deal with `null` or `undefined` errors, but you will end up modeling a
 
 NPM gives you more packages, but Rust's ecosystem is of excellent quality and growing rapidly.
 
-{% podcast_quote(player="s05e08-radar?t=08:55", attribution="Jeff Kao, Staff Engineer at Radar") %}
+{% <podcast_quote player="s05e08-radar?t=08:55" attribution="Jeff Kao, Staff Engineer at Radar"> %}
 "Rust really feels modern. There\'s a rich cargo crate ecosystem, a formatter, flame graphs, and the paradigms are very functional, but you\'re not forced to use them. Having a rich data structure ecosystem in the standard library, being able to process vectors with all the functions that many developers are used to these days, really felt refreshing. Especially for a team with largely a background in TypeScript."
-{% end %}
+{% </podcast_quote> %}
 
 > In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager)
 
@@ -562,15 +562,15 @@ This gives you a clean separation and lets you migrate gradually.
 
 A common pattern is a Rust backend with a TypeScript frontend connected through a typed API layer. The [`ts-rs`](https://github.com/Aleph-Alpha/ts-rs) crate can automatically generate TypeScript types from your Rust types, giving you closed-loop type safety across both sides with almost no extra work:
 
-{% podcast_quote(player="s02e02-amp?t=48:58", attribution="Carter Schultz, Robotics Architect at AMP") %}
+{% <podcast_quote player="s02e02-amp?t=48:58" attribution="Carter Schultz, Robotics Architect at AMP"> %}
 "We have a Rust backend and TypeScript frontend. There\'s an amazing crate, `ts-rs`, that for any Rust types you define will generate TypeScript types for them, so you have closed-loop type safety between them. We end up using `serde_json` to serialize a Rust type, send it to the frontend, and the frontend uses `ts-rs` to get TypeScript types for it. We have closed-loop type safety across both applications for practically free. It was so easy to set up."
-{% end %}
+{% </podcast_quote> %}
 
 Oxide Computer takes this further with a fully generated API layer: their server framework [Dropshot](https://github.com/oxidecomputer/dropshot) generates an OpenAPI spec directly from Rust endpoint definitions, which then drives a TypeScript client generator. No need to write or maintain API definitions by hand:
 
-{% podcast_quote(player="s03e03-oxide?t=1:23:42", attribution="Steve Klabnik, Author and Software Engineer at Oxide Computer") %}
+{% <podcast_quote player="s03e03-oxide?t=1:23:42" attribution="Steve Klabnik, Author and Software Engineer at Oxide Computer"> %}
 "I write my server-side definition, say \'please generate stuff and regenerate the client in TypeScript,\' and when I switch back to my TypeScript file it gives me a type error if I\'m not passing something correctly. I get full type safety the whole way up through the stack. We\'ve been very happy with TypeScript. It\'s a pragmatic decision to engage with that ecosystem deeply, and it\'s been very, very nice."
-{% end %}
+{% </podcast_quote> %}
 
 ## What About Deno and Bun?
 
@@ -597,10 +597,10 @@ Maybe pick a monitoring service or CLI tool – something important but not crit
 Perhaps you'll give it a shot during a hackathon or a sprint.
 Build confidence through early wins.
 
-{% info(title="Need Help With Your TypeScript to Rust Migration?", icon="crab") %}
+{% <info title="Need Help With Your TypeScript to Rust Migration?" icon="crab"> %}
 
 Migrating a production codebase is a big step, and the learning curve is real.
 I help engineering teams make successful transitions to Rust, from training and architecture reviews to hands-on migration planning.
 If you want to move faster and avoid the common pitfalls, [let's talk about your project](/services).
 
-{% end %}
+{% </info> %}

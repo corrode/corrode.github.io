@@ -329,13 +329,13 @@ respectively](https://github.com/rust-rocksdb/rust-rocksdb/pull/491). Thanks to
 reader [Lilian Anatolie Moraru](https://github.com/lilianmoraru) for mentioning
 this.
 
-{% info(title="Fair Warning", icon="warning") %}
+{% <info title="Fair Warning" icon="warning"> %}
 It seems that switching off features doesn't always improve
 compile time. (See [tikv's experiences
 here](https://github.com/tikv/tikv/pull/4453#issuecomment-481789292).)
 It may still be a good idea for improving security by reducing the code's attack surface.
 Furthermore, disabling features can help slim down the dependency tree.
-{% end %}
+{% </info> %}
 
 You get a list of features of a crate when installing it with `cargo add`.
 
@@ -454,11 +454,11 @@ project code is [on Github](https://github.com/bjorn3/rustc_codegen_cranelift).
 
 ### Switch To A Faster Linker
 
-{% info(title="What is a linker?") %}
+{% <info title="What is a linker?"> %}
 A [linker](<https://en.wikipedia.org/wiki/Linker_(computing)>) is a tool that
 combines multiple object files into a single executable.  
 It's the last step in the compilation process.
-{% end %}
+{% </info> %}
 
 You can check if your linker is a bottleneck by running:
 
@@ -947,11 +947,11 @@ on CI.
 
 ## CI Builds
 
-{% info(title="Tips for CI Builds") %}
+{% <info title="Tips for CI Builds"> %}
 
 Many of the techniques in this article also apply to CI builds. For CI-specific optimizations and best practices, check out my dedicated guide on [Tips for Faster CI Builds](/blog/tips-for-faster-ci-builds/), which covers caching strategies, workflow optimization, and GitHub Actions-specific improvements.
 
-{% end %}
+{% </info> %}
 
 ### Use A Cache For Your Dependencies
 
@@ -1190,4 +1190,4 @@ I hope that you were able to use some of these tips to speed up your Rust builds
 In case you found other ways to speed up your Rust builds, or if you have any
 questions or feedback, I'd love to hear from you.
 
-{{ next_steps(context="Fighting slow Rust builds on a commercial project?") }}
+{{ <next_steps context="Fighting slow Rust builds on a commercial project?" /> }}

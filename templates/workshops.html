@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% import "macros/cards.html" as cards %} {% block
+{% extends "base.html" %} {% block
 content %}
 <article>
     <div class="article-heading">
@@ -40,9 +40,9 @@ content %}
 
             {% set workshops = load_data(path="data/workshops.toml") %}
             <ul class="list-row resource-list">
-                {% for w in workshops.workshop %} {{ cards::row(href=w.url,
-                title=w.title, desc=w.description, pick=w.pick, image=w.image,
-                external=true, level=w.level, tags=w.tags, meta=w.meta) }} {%
+                {% for w in workshops.workshop %} {{ <cards.row href={w.url}
+                title={w.title} desc={w.description} pick={w.pick} image={w.image}
+                external={true} level={w.level} tags={w.tags} meta={w.meta} /> }} {%
                 endfor %}
             </ul>
 

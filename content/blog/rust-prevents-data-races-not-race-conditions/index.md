@@ -87,13 +87,13 @@ This is the point the Nomicon makes:
 
 > Data races are prevented _mostly_ through Rust's ownership system alone: it's impossible to alias a mutable reference, so it's impossible to perform a data race.
 
-{% info(title="Key takeaways") %}
+{% <info title="Key takeaways"> %}
 
 - A data race is a specific thing: concurrent access, at least one write, no synchronization. All three at once.
 - A data race is Undefined Behavior, not just a wrong answer.
 - In purely safe Rust, **data races are impossible**, because they require aliasing a mutable reference, which the borrow checker forbids.
 
-{% end %}
+{% </info> %}
 
 ## How Rust Lets You Share State Safely
 
@@ -130,13 +130,13 @@ Try to share something that *isn't* `Sync`, like an [`Rc<T>`](https://doc.rust-l
 
 That's the whole idea. Rust pushes many concurrency-safety checks from runtime into the type system.
 
-{% info(title="Key takeaways") %}
+{% <info title="Key takeaways"> %}
 
 - Synchronized access is not a data race, so it's allowed.
 - A `Mutex` is the standard way to share mutable state across threads (an `Arc<Mutex<T>>` when threads outlive their spawning scope).
 - The `Send` and `Sync` traits are how the compiler decides what's safe to move or share between threads. Non-thread-safe types won't compile in a multi-threaded context.
 
-{% end %}
+{% </info> %}
 
 ## Race Conditions Are Still Possible
 
@@ -207,13 +207,13 @@ The compiler can't know which behavior you wanted. As the Nomicon puts it:
 
 > It is considered "safe" for Rust to get deadlocked or do something nonsensical with incorrect synchronization.
 
-{% info(title="Key takeaways") %}
+{% <info title="Key takeaways"> %}
 
 - A **race condition** is a logic bug where the outcome depends on timing or thread interleaving.
 - You can have a race condition with zero data races. The withdrawal code locks correctly everywhere and still corrupts its own state.
 - Holding a lock per-access is not enough. **The critical section has to cover the whole logical operation**, or the invariant can break in the gap.
 
-{% end %}
+{% </info> %}
 
 ## Deadlocks Also Compile Just Fine
 
@@ -244,7 +244,7 @@ got the first lock
 
 It prints the first line and then waits indefinitely. The borrow checker has nothing to say, because nothing here is unsafe in the memory sense. A deadlocked program isn't reading bad memory; it's just not making progress.
 
-{% info(title="Why isn't `Mutex` reentrant in the first place?") %}
+{% <info title="Why isn't `Mutex` reentrant in the first place?"> %}
 
 A reentrant mutex would let you lock it again while you already hold it. The trouble is that Rust's `Mutex::lock` hands you a `&mut T` to the protected data. If re-locking were allowed, you could call `lock()` a second time and get a *second* `&mut T` to the same value while the first is still live, which is exactly the aliasing the borrow checker exists to prevent.
 
@@ -252,17 +252,17 @@ So a reentrant mutex in Rust can only safely hand out a shared `&T`, not `&mut T
 
 If you actually need reentrancy, [`parking_lot::ReentrantMutex`](https://docs.rs/parking_lot/latest/parking_lot/type.ReentrantMutex.html) provides it, and it gives out `&T` only. You pair it with `Cell` or `RefCell` for the actual mutation. See [this forum thread](https://users.rust-lang.org/t/reentrant-mutexes-in-rust/35653) for more info.
 
-{% end %}
+{% </info> %}
 
 Real deadlocks are usually subtler than this. The textbook version is two threads that grab two locks in opposite orders, each waiting on the lock the other holds. But the general problem is that **liveness** (the program keeps making progress) is not something Rust's safety guarantees cover. Safety is about not doing the wrong thing; it says nothing about eventually doing the right thing.
 
-{% info(title="Key takeaways") %}
+{% <info title="Key takeaways"> %}
 
 - A **deadlock** is a race condition where threads wait on each other (or themselves) forever.
 - `std::sync::Mutex` is not reentrant. Locking it twice on the same thread deadlocks.
 - Rust guarantees memory safety, not liveness. A program that hangs is still a "safe" program as far as the compiler is concerned.
 
-{% end %}
+{% </info> %}
 
 ## Atomics Are Not a Magic Bullet Either
 
@@ -327,7 +327,7 @@ With that one change, the program prints `400000` every time.
 
 This is the same check-then-act trap as the bank account, with no lock in sight; the problem was never about `Mutex`.
 
-{% info(title="Key takeaways") %}
+{% <info title="Key takeaways"> %}
 
 - Atomicity has a *scope*. The hardware guarantees the individual operation is
   atomic; making your logical operation atomic is still your job.
@@ -337,7 +337,7 @@ This is the same check-then-act trap as the bank account, with no lock in sight;
 - The fix mirrors the lock case: make the whole logical operation indivisible.
   Reach for `fetch_add` and friends instead of a separate load and store.
 
-{% end %}
+{% </info> %}
 
 ## So What Does Rust Actually Guarantee? 
 
@@ -357,4 +357,4 @@ Rust holds an enormous amount for you, and what remains is the part that lives i
 
 If you want to go deeper on the concurrency side of this, read [Rust Atomics and Locks](https://mara.nl/atomics/) by Mara Bos. It's free online.
 
-{{ next_steps(context="Want to get concurrency right in your Rust codebase, including the traps covered in this post?") }}
+{{ <next_steps context="Want to get concurrency right in your Rust codebase, including the traps covered in this post?" /> }}

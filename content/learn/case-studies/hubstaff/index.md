@@ -15,9 +15,9 @@ The new system needs to handle millions of events and work reliably at scale.
 The safe choice would be to stick with their trusty Ruby on Rails stack – after all, it had served them well so far.
 But that's not the path they chose.
 
-{% info(title="About Hubstaff") %}
+{% <info title="About Hubstaff"> %}
 Hubstaff helps distributed teams track time and manage their workforce. With 500,000+ active users across 112,000+ businesses, they needed their systems to scale reliably. As a remote-first company with 120 team members, they understand the importance of robust, efficient software.
-{% end %}
+{% </info> %}
 
 ## Why Hubstaff Chose Rust When Rails Was Working Fine
 
@@ -180,9 +180,9 @@ and [Artur Jakubiec](https://www.linkedin.com/in/artur-jakubiec/), Technical Lea
 
 Want to learn more about Hubstaff? [Check out their website](https://hubstaff.com/).
 
-{% info(title="Thinking About a Similar Migration?", icon="crab") %}
+{% <info title="Thinking About a Similar Migration?" icon="crab"> %}
 
 Hubstaff's story is not unique. Many teams hit the same scaling and reliability limits and find Rust to be the right answer.
 If you're evaluating a migration or want to understand whether Rust is the right fit for your stack, [let's talk](/services).
 
-{% end %}
+{% </info> %}

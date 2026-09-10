@@ -1,10 +1,11 @@
+{% component podcast_quote(player: string, attribution: string) -%}
 {% set ep_parts = player | split(pat="?t=") %}
 {% set ep = ep_parts | nth(n=0) %}
-{% set t = ep_parts | nth(n=1) | default(value="") | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
+{% set t = ((ep_parts | nth(n=1)) or "") | replace(from="%3A", to=":") | replace(from="%3a", to=":") %}
 
 {% set attr_parts = attribution | split(pat=", ", limit=2) %}
 {% set author = attr_parts | nth(n=0) %}
-{% set role = attr_parts | nth(n=1) | default(value="") %}
+{% set role = (attr_parts | nth(n=1)) or "" %}
 
 {% set season_num = ep | split(pat="e") | nth(n=0) | replace(from="s", to="") %}
 {% set ep_num = ep | split(pat="-") | nth(n=0) | split(pat="e") | nth(n=1) %}
@@ -17,13 +18,13 @@
 {% set slug = ep_content | split(pat="/episodes/") | nth(n=1) | split(pat="/") | nth(n=0) %}
 
 <blockquote>
-    {{ body | markdown() | safe }}
+    {{ body | markdown() | trim | safe }}
     <p>
         &mdash; <a href="{{ link_url }}">{{ author }}</a>{% if role %}, {{ role }}{% endif %} (<a href="{{ link_url }}">Rust in Production, S{{ season_num }}E{{ ep_num }}</a>)
     </p>
 </blockquote>
 <div>
-    {% if t %}
+    {%- if t %}
     <script>
         window.pO = window.pO || {};
         window.pO['#player-{{ id }}'] = "{{ t }}".split(':').reverse().reduce((a,v,i)=>a+(parseInt(v)||0)*60**i,0)*1000;
@@ -44,6 +45,7 @@
             else Object.defineProperty(window,'podlovePlayer',{get:()=>o, set:v=>o=h(v), configurable:true});
         }
     </script>
-    {% endif %}
+    {%- endif %}
     <script id="letscast-player-{{ id }}" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/{{ slug }}/player.js?size=s"></script>
 </div>
+{%- endcomponent podcast_quote %}

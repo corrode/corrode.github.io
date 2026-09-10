@@ -27,7 +27,7 @@ the first place.
 
 <!-- more -->
 
-{{ svix() }}
+{{ <svix /> }}
 
 ## Show Notes
 

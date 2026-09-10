@@ -326,7 +326,7 @@ You can find the available features in the crate's `Cargo.toml` file or on the
 crate's documentation page.
 For example, [here are the `tokio` features](https://docs.rs/crate/tokio/latest/features).
 
-{% info(title="Pro Tip: Quickly Discovering Unnecessary Features") %}
+{% <info title="Pro Tip: Quickly Discovering Unnecessary Features"> %}
 
 A nice trick is to use the [`default-features = false`](https://doc.rust-lang.org/cargo/reference/features.html#the-default-feature) option for each dependency in your
 `Cargo.toml`, which disables all features, which are enabled by default.
@@ -343,7 +343,7 @@ flate2 = { version = "1.0.30", default-features = false, features = ["zlib"] }
 ```
 
 
-{% end %}
+{% </info> %}
 
 ## Building On Solid Foundations
 
@@ -559,12 +559,12 @@ For example, you could schedule a **quarterly project review** to check for
 outdated dependencies, security vulnerabilities, and code smells.
 Find a time that works for your team and stick to it.
 
-{% info(title="Download My Free Maintenance Checklist", icon="info") %}
+{% <info title="Download My Free Maintenance Checklist" icon="info"> %}
 
 [Here is my own checklist for regular maintenance.](https://corrode.notion.site/Rust-Maintenance-Checklist-3fa116db4c6149cbacbe3c16f81c6bb0)
 Feel free to create a copy and adapt it to your needs. If you have any suggestions for improvements, please let me know and I'll update the list.
 
-{% end %}
+{% </info> %}
 
 ## Conclusion
 
@@ -580,4 +580,4 @@ ensure that your codebase remains robust and maintainable for years to come.
 If you want to learn from top companies that have successfully adopted Rust,
 consider subscribing to the [Rust in Production Podcast](/podcast).
 
-{{ next_steps(context="Planning Rust for the long haul and want a codebase that stays maintainable for years?") }}
+{{ <next_steps context="Planning Rust for the long haul and want a codebase that stays maintainable for years?" /> }}

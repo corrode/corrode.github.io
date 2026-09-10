@@ -43,7 +43,7 @@ assess whether Rust is the right tool for their use-case or not.
 The intent is to provide an honest look at Rust's practicality for production
 to help decision-makers understand its benefits and challenges.
 
-{% info(title="Streamline Your Decision-Making with Our Compact Audio Guide on Rust", icon="radio") %}
+{% <info title="Streamline Your Decision-Making with Our Compact Audio Guide on Rust" icon="radio"> %}
 Considering Rust for your production needs?  
 You might also want to listen to [this podcast episode of Rust in Production](/podcast/s01e07-season-finale/).
 
@@ -56,7 +56,7 @@ Key Highlights:
 - And much more.
 
 This episode offers a balanced perspective on the advantages and challenges of implementing Rust, supported by real-life experiences and insights from CTOs and lead engineers who have navigated this transition.
-{% end %}
+{% </info> %}
 
 <h2>Table of Contents</h2>
 
@@ -660,7 +660,7 @@ invaluable. Equally, if you are ready to embrace Rust and are seeking expertise
 in training or consulting to ensure a smooth transition, specialized support is
 essential.
 
-{{ next_steps(context="Weighing whether Rust is the right choice for your organization?") }}
+{{ <next_steps context="Weighing whether Rust is the right choice for your organization?" /> }}
 
 ## Talks
 
