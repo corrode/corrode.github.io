@@ -9,7 +9,7 @@
     {%- else %}
       <span class="icon icon-info"></span>
     {%- endif %}
-    <h4>{{ title | markdown(inline=true) | safe }}</h4>
+    <p class="callout-label">{{ title | markdown(inline=true) | safe }}</p>
   </div>
   {%- endif %}
   {{ body | markdown() | trim | safe }}

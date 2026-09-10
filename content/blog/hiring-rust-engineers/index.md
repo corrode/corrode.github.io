@@ -4,6 +4,7 @@ date = 2024-07-24
 updated = 2026-07-20
 template = "article.html"
 [extra]
+compact_h3 = true
 hero = "hero.svg"
 series = "Rust Insights"
 credits = [
@@ -45,13 +46,13 @@ I wrote this guide because I keep seeing companies make the same hiring mistakes
 
 ## Setting Talent Expectations
 
-#### Avoid Unrealistic Demands
+### Avoid Unrealistic Demands
 
 Don't ask for 10 years of Rust experience. Rust 1.0 shipped in 2015, so that requirement tells candidates you do not know the ecosystem well.
 
 It also narrows the pool for no good reason. A strong engineer with non-production Rust experience, or a clear desire to learn it, may be a better hire than someone who only checks the exact keyword box.
 
-#### Clearly Specify Tasks and Responsibilities
+### Clearly Specify Tasks and Responsibilities
 
 Don't add `Rust` to a job post just to attract more candidates. If the role will not use Rust in a meaningful way, say so. Otherwise you waste the candidate's time and your team's time.
 

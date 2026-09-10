@@ -39,7 +39,7 @@ If you focus on simple patterns and make use of Rust's excellent tooling, even l
 I talked about prototyping in Rust on SE Radio.
 The article was the basis for the episode, so you can listen to it while reading along.
 
-<iframe src="https://play.libsyn.com/embed/episode/id/36781410/height/128/theme/modern/size/standard/thumbnail/yes/custom-color/ffffff/time-start/00:00:00/playlist-height/200/direction/backward/download/yes/hide-subscribe/no/hide-share/no" width="100%" height="128" scrolling="yes" class="iframe-class" frameborder="0"></iframe>
+<iframe src="https://play.libsyn.com/embed/episode/id/36781410/height/128/theme/modern/size/standard/thumbnail/yes/custom-color/ffffff/time-start/00:00:00/playlist-height/200/direction/backward/download/yes/hide-subscribe/no/hide-share/no" height="128" style="width: 100%" scrolling="yes" class="iframe-class" frameborder="0"></iframe>
 
 {% </info> %}
 
@@ -836,4 +836,4 @@ I've found that my prototypes in other languages often hit a wall where I need t
 With Rust, I can start simple and gradually turn that proof-of-concept into production code, all while staying in the same language and ecosystem.
 
 
-If you have any more tips or tricks for prototyping in Rust, [get in touch](/services) and I'll add them to the list!
+{{ <next_steps context="Taking a prototype toward production and want a second opinion on its Rust architecture, types, and error boundaries?" source="prototyping" /> }}

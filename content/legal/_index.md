@@ -2,6 +2,8 @@
 title = "Legal Information"
 template = "page.html"
 sort_by = "date"
+[extra]
+compact_h2 = true
 +++
 
 Corrode Rust Consulting  
@@ -15,7 +17,7 @@ Send me an email at <hi@corrode.dev>.
 
 Responsible for this publication is Matthias Endler, according to §5 TMG (Germany).
 
-### Image Sources
+## Image Sources
 
 - [Isometric Vector Illustrations by Vecteezy](https://www.freepik.com/author/vectorpouch)
 - [high five by HeadsOfBirds from Noun Project (CC BY 3.0)](https://thenounproject.com/browse/icons/term/high-five/)
@@ -31,7 +33,7 @@ Responsible for this publication is Matthias Endler, according to §5 TMG (Germa
 - [GitLab Logo by GitLab](https://about.gitlab.com/press/)
 - [Ferris illustrations by Esther Arzola (CC BY 4.0)](https://arzola.myportfolio.com/ferris)
 
-### Credits for Videos
+## Credits for Videos
 
 - Internet Education Stock Videos by [Vecteezy](https://www.vecteezy.com/free-videos/internet-education)
 - Steampunk Stock Videos by [Vecteezy](https://www.vecteezy.com/free-videos/steampunk)

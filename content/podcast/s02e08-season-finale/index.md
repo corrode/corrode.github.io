@@ -163,7 +163,6 @@ Here are the dates:
 - September 5, 12, 19, 26
 - October 3
 
-To learn more, [check out the office hours page](/office-hours) on our website.
 
 ### Links from the Episode (in order of appearance)
 

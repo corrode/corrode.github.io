@@ -1,5 +1,5 @@
-// Shared list-row styles used by both _blog.scss and _podcast.scss.
-// Each consumer composes these base classes and only adds what's unique to it.
+// Shared list-row component for blog, podcast, and resource templates.
+// Consumers compose these base classes and add only their unique styles.
 
 .list-row {
     list-style: none;
@@ -80,7 +80,6 @@
 }
 
 .list-row-chevron {
-    @extend .chevron;
     transform: translateX(-20px) rotate(270deg);
     opacity: 0;
     transition: all 0.3s ease;

@@ -48,7 +48,7 @@
         {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{
         hero_font | safe }}
     </div>
-    <img class="hero-img" src="/podcast/hero.svg" />
+    <img class="hero-img" src="/podcast/hero.svg" alt="" />
 </div>
 
 <article class="podcast-page">
@@ -119,11 +119,11 @@
             {% set seasons = episodes | group_by(attribute="extra.season") %}
             {# Grouped maps are unordered in Tera 2; keep seasons in ascending order. #}
             {% for season in [episode.extra.season for episode in episodes] | unique | sort %}
-            <h3 class="podcast-season-heading">Season {{ season }}</h3>
-            <ul class="podcast-list">
+            <h2 class="podcast-season-heading">Season {{ season }}</h2>
+            <ul class="list-row podcast-list">
                 {% for episode in seasons[season] %}
-                <li class="podcast-item">
-                    <a href="{{ episode.permalink }}" class="podcast-link">
+                <li class="list-row-item">
+                    <a href="{{ episode.permalink }}" class="list-row-link podcast-link">
                         <div class="podcast-logo-wrapper">
                             <img
                                 class="podcast-logo-img invert"
@@ -131,26 +131,26 @@
                                 alt="{{ episode.title }} Logo"
                             />
                         </div>
-                        <div class="podcast-item-content">
-                            <h3 class="podcast-item-title">
+                        <div class="list-row-content">
+                            <h3 class="list-row-title podcast-item-title">
                                 {{ episode.title }} {% if episode.extra.guest %}
                                 <span class="podcast-guest"
                                     >with {{ episode.extra.guest }}</span
                                 >
                                 {% endif %}
                             </h3>
-                            <div class="podcast-item-meta">
-                                <time class="podcast-item-date"
+                            <div class="list-row-meta podcast-item-meta">
+                                <time class="list-row-date"
                                     >{{ episode.date }}</time
                                 >
-                                <code
+                                <code class="meta-code"
                                     >S{{ episode.extra.season }} E{{
                                     episode.extra.episode }}</code
                                 >
                             </div>
                         </div>
                         <span
-                            class="podcast-item-chevron"
+                            class="chevron list-row-chevron podcast-item-chevron"
                             aria-hidden="true"
                         ></span>
                     </a>

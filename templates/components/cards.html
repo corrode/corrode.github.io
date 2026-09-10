@@ -27,7 +27,7 @@
         /></span>
         {% endif %}
         <div class="list-row-content">
-            <h3 class="list-row-title">{{ title }}</h3>
+            <h2 class="list-row-title">{{ title }}</h2>
             {% if desc %}
             <p class="resource-row-desc">{{ desc | safe }}</p>
             {% endif %} {% if pick %}
@@ -45,7 +45,7 @@
             <div class="resource-meta">{{ meta | safe }}</div>
             {% endif %}
         </div>
-        <span class="list-row-chevron" aria-hidden="true"></span>
+        <span class="chevron list-row-chevron" aria-hidden="true"></span>
     </a>
 </li>
 {% endcomponent cards.row %}
