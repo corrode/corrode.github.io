@@ -154,10 +154,29 @@ article {
     margin: 0 auto;
 }
 
-.article-content.prose > h2 {
-    padding: 0.3em 0.2em 0.1em;
-    line-height: 1.1;
-    border-bottom: 1px solid rgba($heroDark, 0.5);
+.article-content.prose > h2,
+.article-content-wide.prose > h2 {
+    margin-top: 48px;
+    margin-bottom: 22px;
+    padding: 0;
+    font-size: 1.7em;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+
+    &::after {
+        content: "";
+        display: block;
+        width: 52px;
+        height: 3px;
+        margin-top: 4px;
+        background-color: $brightScnd;
+    }
+
+    code {
+        text-transform: none;
+    }
 }
 
 .article-content.prose > h2 code {
@@ -495,9 +514,6 @@ article {
         background-color: $darkBgrd;
     }
 
-    .article-content.prose > h2 {
-        border-bottom-color: rgba($darkPrim, 0.5);
-    }
 
     .article-content.prose > h2 code {
         border: 1px solid rgba($darkPrim, 0.5);
