@@ -1,15 +1,13 @@
 +++
-title = "Help Your Team Ship Production Rust in Half the Time"
+title = "Rust Consulting for Production Teams"
 template = "page.html"
 sort_by = "date"
 description = "Friendly, professional Rust consulting services to help companies make the most of Rust. Our offerings include training, consulting, mentoring, code reviews, and team augmentation."
 aliases = ["about"]
+[extra]
+video = "https://github.com/corrode/corrode.github.io/releases/download/assets/corrode.mp4"
+video_poster = "/video-preview.jpg"
 +++
-
-<video controls poster="/video-preview.jpg" style="width: 100%; max-width: 800px; height: auto; margin: 0 auto; display: block;">
-  <source src="https://github.com/corrode/corrode.github.io/releases/download/assets/corrode.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 **Friendly, expert Rust consulting and training for engineering teams.** I help your team adopt Rust and ship production-grade services with confidence: faster, and without the costly missteps along the way.
 
@@ -114,7 +112,7 @@ Download my free PDF for a brief overview of my services and expertise. Availabl
 
 ## Let's Find The Right Support For Your Team
 
-<link rel="stylesheet" href="quiz.css">
+<link rel="stylesheet" href="/services/quiz.css">
 <div class="quiz-container">
   <div class="quiz-progress-container">
     <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
@@ -137,8 +135,8 @@ Download my free PDF for a brief overview of my services and expertise. Availabl
     </p>
   </div>
 </div>
-<script src="quiz.js"></script>
-<script src="quiz-data.js"></script>
+<script src="/services/quiz.js"></script>
+<script src="/services/quiz-data.js"></script>
 
 ## Media
 

@@ -1,7 +1,6 @@
-{% extends "base.html" %} {% block content %}
-<article class="section-wrapper">
-  <h1>Bummer</h1>
-  <div>
+{% extends "page.html" %}
+{% block page_title %}Bummer{% endblock page_title %}
+{% block page_content %}
     <p>
       I'm sorry, but I couldn't find the page you were looking for. Maybe you
       mistyped the URL, or maybe I messed up. Either way, I'm sorry. 😞
@@ -10,6 +9,4 @@
       Let's start over. You can go back to the <a href="/">home page</a> or
       check out my <a href="/blog">blog</a>.
     </p>
-  </div>
-</article>
-{% endblock content %}
+{% endblock page_content %}

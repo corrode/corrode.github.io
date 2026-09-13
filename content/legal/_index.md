@@ -2,8 +2,7 @@
 title = "Legal Information"
 template = "page.html"
 sort_by = "date"
-[extra]
-compact_h2 = true
+
 +++
 
 Corrode Rust Consulting  

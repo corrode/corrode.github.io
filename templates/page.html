@@ -1,8 +1,18 @@
 {% extends "base.html" %} {% block content %}
-<article class="section-wrapper">
-  {% if section.title %}
-  <h1>{{ section.title }}</h1>
-  {% endif %}
-  <div class="prose{% if section.extra.compact_h2 %} compact-h2{% endif %}">{{ section.content | safe }}</div>
+<article>
+  <header class="article-heading{% if section and section.extra.video %} article-heading-video{% endif %}">
+    <h1>{% block page_title %}{{ section.title }}{% endblock page_title %}</h1>
+    {% if section and section.extra.video %}
+    <video controls playsinline preload="none" poster="{{ section.extra.video_poster }}" aria-label="{{ section.title }}">
+      <source src="{{ section.extra.video }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    {% endif %}
+  </header>
+  <div class="article-content-wrapper">
+    <div class="article-content prose">
+      {% block page_content %}{{ section.content | safe }}{% endblock page_content %}
+    </div>
+  </div>
 </article>
 {% endblock content %}
