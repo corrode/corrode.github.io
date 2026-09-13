@@ -28,13 +28,7 @@
 }
 
 .podcast-season-heading {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba($brightPrim, 0.5);
-    margin: 2.5rem 0 0.5rem;
-    padding: 0 12px;
+    padding-inline: 12px;
 
     &:first-child {
         margin-top: 0;
@@ -189,12 +183,7 @@
     border-top: 1px solid rgba($heroDark, 0.2);
 
     h2 {
-        font-size: 1.5em;
-        line-height: 1.5;
         margin-top: 0;
-        margin-bottom: 20px;
-        padding: 0;
-        border-bottom: 0;
     }
 }
 
@@ -235,9 +224,6 @@
         background-color: rgba(white, 0.1);
     }
 
-    .podcast-season-heading {
-        color: rgba(white, 0.45);
-    }
 
     .podcast-about {
         border-top-color: rgba(white, 0.15);

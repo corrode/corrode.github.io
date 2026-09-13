@@ -238,12 +238,12 @@
 }
 
 .pro-section-title {
-    font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    margin-bottom: 1rem;
     color: white;
     text-align: center;
+
+    &::after {
+        margin-inline: auto;
+    }
 }
 
 .pro-section-subtitle {
@@ -695,9 +695,6 @@
         padding: 2.5rem 1.25rem;
     }
 
-    .pro-section-title {
-        font-size: clamp(1.75rem, 7vw, 2.5rem);
-    }
 
     .pro-section-subtitle {
         font-size: 1rem;

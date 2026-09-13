@@ -174,7 +174,10 @@
 
     h2 {
         margin-top: 0;
-        border-bottom: none;
+
+        &::after {
+            margin-inline: auto;
+        }
     }
 
     p {

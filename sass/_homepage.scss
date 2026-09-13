@@ -266,8 +266,13 @@
 }
 
 .brands h2 {
-    font-size: 24px;
-    margin: 10px;
+    margin-top: 10px;
+}
+
+.brands h2::after,
+.cta-content h2::after,
+.testimonials h2::after {
+    margin-inline: auto;
 }
 
 .brands-subtitle {
