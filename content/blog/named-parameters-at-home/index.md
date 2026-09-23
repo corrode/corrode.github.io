@@ -11,7 +11,7 @@ Steve Klabnik recently wrote [“Arguing about arguments”](https://steveklabni
 
 I agree with Steve. In fact, I think I agree slightly more strongly than Steve does. :)
 
-Steve has warmed to named parameters. I’m still happy with Rust’s existing ways to get similar results, not just for named parameters, but also defaults, function overloading, and, regrettably or otherwise, variadic arguments.
+Steve has warmed to named parameters. I think we can get most of what we want without adding language features, by leaning into what Rust already provides. That goes for named parameters, defaults, function overloading, and, regrettably or otherwise, variadic arguments.
 
 None of these substitutes is *quite* the feature you get in Python, Ruby, C++, or Kotlin. That’s the point. They tend to give you maybe 80% of the ergonomics while preserving the property Steve cares about: there is considerably less magic in figuring out what a call means.
 
@@ -433,7 +433,7 @@ fn set_name(name: impl Into<String>) {
 
 Again, one function. One parameter list. Ordinary trait dispatch. And unlike unrestricted overloading, the relationship between accepted types is explicit: they must satisfy the bound.
 
-### “Different types should do genuinely different things”
+### “Different types need different behavior”
 
 That’s a trait too:
 
@@ -503,7 +503,7 @@ redirect_to(Redirect::Action {
 });
 ```
 
-More verbose? Absolutely. But I can ask my editor, “what can I redirect to?” and the answer is the variants of `Redirect`. That’s a much stronger property than “read the docs and discover the accepted shapes of this hash.”
+More verbose? Absolutely. But I can ask my editor, “what can I redirect to?” and the answer is the variants of `Redirect`. That’s a much stronger property than “read the docs and discover which keys and values this hash accepts.”
 
 If we really care about smoothing the edges, add conversions:
 
@@ -639,7 +639,7 @@ vec![1, 2, 3, 4]
 
 `macro_rules!` is stable Rust.
 
-I would not reach for a macro just to fake variadic functions. But when an API genuinely wants syntax that the function-call grammar does not provide, Rust already has an explicit mechanism for saying:
+I would not reach for a macro just to fake variadic functions. But when an API needs syntax that the function-call grammar does not provide, Rust already has an explicit mechanism for saying:
 
 > This is syntax, not an ordinary function.
 
@@ -778,7 +778,7 @@ But look at the mechanisms involved:
 * generics,
 * iterators,
 * methods,
-* macros when you genuinely need custom syntax.
+* macros when you need custom syntax.
 
 Those mechanisms are all useful far beyond argument passing. Rust doesn’t need a separate version of each concept specifically for functions.
 
@@ -828,7 +828,7 @@ But the friction in the Rust versions often pushes APIs toward things that turn 
 
 Four coordinates become a `Rect`. Seven configuration parameters become `RequestOptions`. A grab bag of dynamically accepted values becomes an enum.
 
-A family of related operations becomes a trait. A repeated sequence becomes an iterator. A genuinely unusual call syntax becomes visibly macro-shaped syntax.
+A family of related operations becomes a trait. A repeated sequence becomes an iterator. Custom call syntax becomes an explicit macro invocation.
 
 The workaround frequently turns accidental API structure into explicit type structure. That seems valuable.
 
@@ -921,7 +921,7 @@ Stable Rust already gives me:
 * heterogeneous alternatives: **enums**
 * options hashes: **options structs**
 * repeated homogeneous arguments: **slices and iterators**
-* truly syntax-shaped variable arguments: **macros**
+* variable arguments with custom syntax: **macros**
 * `foo=foo` forwarding noise: **field-init shorthand**
 
 None is a perfect substitute. Collectively, though, they cover a remarkable amount of the territory. And they do it by reusing features Rust already needs rather than teaching function calls how to become a little programming language of their own.
