@@ -11,9 +11,9 @@ Steve Klabnik recently wrote [“Arguing about arguments”](https://steveklabni
 
 I agree with Steve. In fact, I think I agree slightly more strongly than Steve does. :)
 
-Steve has warmed to named parameters. I think we can get most of what we want without adding language features, by leaning into what Rust already provides. That goes for named parameters, defaults, function overloading, and, regrettably or otherwise, variadic arguments.
+Steve has warmed to named parameters, but I think we can get most of what we want without adding language features. Instead, we can lean into what Rust already provides. That goes for named parameters, defaults, function overloading, and, regrettably or otherwise, variadic arguments.
 
-None of these substitutes is *quite* the feature you get in Python, Ruby, C++, or Kotlin. That’s the point. They tend to give you maybe 80% of the ergonomics while preserving the property Steve cares about: there is considerably less magic in figuring out what a call means.
+None of these substitutes is *quite* the feature you get in Python, Ruby, C++, or Kotlin. But that’s the point. They tend to give you maybe 80% of the ergonomics while preserving the property Steve cares about: there is considerably less magic in figuring out what a call means.
 
 The recurring pattern is that Rust takes something another language puts into **function-call semantics** and represents it with an ordinary piece of the type system instead. I think that’s usually a pretty good trade.
 
