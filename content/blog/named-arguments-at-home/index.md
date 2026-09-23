@@ -1,5 +1,5 @@
 +++
-title = "We Have Named Parameters At Home"
+title = "We Have Named Arguments At Home"
 date = 2026-09-23
 draft = false
 template = "article.html"
@@ -7,17 +7,17 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-Steve Klabnik recently wrote [“Arguing about arguments”](https://steveklabnik.com/writing/arguing-about-arguments/), about named parameters, optional arguments, default arguments, function overloading, and why most of that design space has historically made him nervous in Rust. It's a wonderful read, and I recommend it. 
+Steve Klabnik recently wrote [“Arguing about arguments”](https://steveklabnik.com/writing/arguing-about-arguments/), about named arguments, optional arguments, default arguments, function overloading, and why most of that design space has historically made him nervous in Rust. It's a wonderful read, and I recommend it. 
 
 I agree with Steve. In fact, I think I agree slightly more strongly than Steve does. :)
 
-Steve has warmed to named parameters, but I think we can get most of what we want without adding language features. Instead, we can lean into what Rust already provides. That goes for named parameters, defaults, function overloading, and, regrettably or otherwise, variadic arguments.
+Steve has warmed to named arguments, but I think we can get most of what we want without adding language features. Instead, we can lean into what Rust already provides. That goes for named arguments, defaults, function overloading, and, regrettably or otherwise, variadic arguments.
 
 None of these substitutes is *quite* the feature you get in Python, Ruby, C++, or Kotlin. But that’s the point. You get most of the ergonomics without adding magic to function calls.
 
 The recurring pattern is that Rust takes something another language puts into **function-call semantics** and represents it with a **familiar piece of the type system** instead. I think that’s often the better trade. 
 
-## Named parameters at home
+## Named arguments at home
 
 Steve uses this example from the `image` crate:
 
@@ -94,7 +94,7 @@ We get typo checking, autocomplete, and documentation attached to each field. We
 
 And, importantly, the names belong to the **type**, rather than becoming part of every function’s calling convention.
 
-That last property neatly dodges several problems Steve raises about real named parameters. Consider function pointers:
+That last property neatly dodges several problems Steve raises about real named arguments. Consider function pointers:
 
 ```rust
 fn resize(width: u32, height: u32) {}
@@ -152,7 +152,7 @@ struct PushArgs<T> {
 vec.push(PushArgs { value: 42 });
 ```
 
-The trick is to notice that named parameters are most useful exactly where an argument bundle becomes conceptually meaningful.
+The trick is to notice that named arguments are most useful exactly where an argument bundle becomes conceptually meaningful.
 
 These are bad:
 
@@ -214,7 +214,7 @@ fn(&str, Option<Duration>)
 
 and every caller supplies both arguments.
 
-This is obviously not what you want once you have six optional parameters:
+This is obviously not what you want once you have six optional arguments:
 
 ```rust
 request(
@@ -298,7 +298,7 @@ RequestOptions {
 }
 ```
 
-That is not nothing. But look at what we *didn’t* have to add: rules for which parameters may be omitted, how positional and named arguments interact, or whether you can omit something in the middle.
+That is not nothing. But look at what we *didn’t* have to add: rules for which arguments may be omitted, how positional and named arguments interact, or whether you can omit something in the middle.
 
 There’s no special syntax for declaring parameter defaults, no question about whether default expressions run at declaration time or invocation time, and no special representation in `fn` types.
 
@@ -788,7 +788,7 @@ This is the part that makes me agree with Steve’s larger point. The obvious re
 
 > Come on. These aren't actually named/default/overloaded/variadic arguments. They're workarounds.
 
-Correct. That is why I called this “named parameters at home,” not “Rust secretly has named parameters.” The distinction matters.
+Correct. That is why I called this “named arguments at home,” not “Rust secretly has named arguments.” The distinction matters.
 
 Actual named arguments might let me turn:
 
@@ -812,7 +812,7 @@ without defining anything else.
 
 That is undeniably nicer at the call site.
 
-Actual default parameters might let me write:
+Actual default arguments might let me write:
 
 ```rust
 request(url, timeout: timeout);
@@ -861,7 +861,7 @@ Like Steve, I think there is substantial value in preserving that boringness, es
 
 ## What about agents?
 
-Steve’s new openness to named parameters comes partly from coding agents. The argument makes sense: if a machine is doing the typing, verbosity becomes cheaper, while redundant labels may make a call easier to understand locally.
+Steve’s new openness to named arguments comes partly from coding agents. The argument makes sense: if a machine is doing the typing, verbosity becomes cheaper, while redundant labels may make a call easier to understand locally.
 
 I agree with the premise. I’m less sure it changes the conclusion.
 
@@ -905,7 +905,7 @@ The robots can type `RequestOptions` for me. Great.
 
 ## Keep the functions boring
 
-I’m not philosophically opposed to Rust ever gaining named parameters.
+I’m not philosophically opposed to Rust ever gaining named arguments.
 
 There may be a proposal that finds a tiny, coherent design which handles patterns, function pointers, traits, evaluation order, compatibility, and all the other sharp edges Steve describes. Language design is full of features that initially look impossible and eventually acquire a satisfying formulation.
 
@@ -926,6 +926,6 @@ Stable Rust already gives me:
 
 None is a perfect substitute. Collectively, though, they cover a remarkable amount of the territory. And they do it by reusing features Rust already needs rather than teaching function calls how to become a little programming language of their own.
 
-Maybe Rust eventually gets named parameters. Until then, we have named parameters at home.
+Maybe Rust eventually gets named arguments. Until then, we have named arguments at home.
 
 I kind of like them.
