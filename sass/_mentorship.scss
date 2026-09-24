@@ -624,20 +624,6 @@
 // Footer - apply dark styling on pro page
 .pro-page .footer {
     background-color: $brightPrim;
-    position: relative;
-
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        max-width: 600px;
-        height: 0;
-        border-top: 1px solid rgba(0, 0, 0, 0.6);
-        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
 }
 
 

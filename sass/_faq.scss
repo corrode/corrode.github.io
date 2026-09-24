@@ -1,7 +1,36 @@
+.faq-container,
 .faq-section {
+    width: 100%;
     max-width: 800px;
-    margin: 2rem auto;
+    margin-inline: auto;
 }
+
+.faq-section {
+    margin-block: 2rem;
+}
+
+.faq-panel.skew-top {
+    width: 100vw;
+    margin-top: 5em;
+    margin-bottom: 0;
+    margin-inline: calc(50% - 50vw);
+    padding: 5em 1rem 4em;
+    background-color: $darkBgrdDeep;
+
+    &::before {
+        transform: skewY(-1deg);
+    }
+
+    h2 {
+        margin-top: 0;
+        color: white;
+    }
+}
+
+.article-content-wrapper:has(.faq-panel) {
+    padding-bottom: 0;
+}
+
 
 .faq-item {
     border-radius: 8px;

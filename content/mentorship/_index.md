@@ -8,11 +8,11 @@ aliases = ["pro"]
 <header class="pro-hero">
 <div class="pro-hero-content">
 <h1 class="pro-hero-title">
-<span class="highlight">Build, Review,</span><br />
+<span class="highlight">Write, Review,</span><br />
 <span class="highlight">and Ship Better Rust</span>
 </h1>
 <p class="pro-hero-subtitle">
-For experienced engineers moving from Python, Go, or another language into serious Rust work. Bring your project or codebase and build the judgment to make sound design, architecture, and code-review decisions yourself.
+For experienced engineers moving from Python, Go, or another language into serious Rust work. Bring your project or codebase and learn how to make sound design, architecture, and code-review decisions yourself.
 </p>
 
 <div class="pro-hero-cta">
@@ -57,7 +57,7 @@ For experienced engineers moving from Python, Go, or another language into serio
 I've worked with Rust since 2015 and have consulted professionally since 2020. I help people get from prototype to production in Rust.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
-I believe the best way to build Rust expertise is by working through real code together. I ask questions and help you understand and own design trade-offs.
+I believe the best way to build Rust expertise is by working through real problems with an experienced mentor. I ask the right questions, so you can build the right mental model.
 </p>
 <p class="pro-section-subtitle pro-subtitle-wide">
 I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had more than 50 conversations with engineers and technical leaders about how Rust works in real organizations. You can also watch my <a href="https://www.youtube.com/watch?v=aZ5sfhGmEVU" target="_blank" rel="noopener">CodeCrafters teaching session</a> or read my <a href="/blog">articles on idiomatic and maintainable Rust</a>.
@@ -103,7 +103,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <h3>Recognize <span class="highlight">Good Rust</span></h3>
 <p>Bring a design you are unsure about, code you need to review, or a project you want to ship. We compare alternatives and make the trade-offs explicit.</p>
 <img src="/mentorship/ferris-master.png" alt="Ferris the Crab as a Wizard" class="pro-value-image" />
-<p>You leave with clearer mental models and concrete next steps. The goal is for you to handle the implementation.</p>
+<p>You leave with a clearer understanding and concrete next steps. The goal is for you to handle the implementation.</p>
 </article>
 
 <article class="pro-value-item">
@@ -229,7 +229,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 </section>
 
 <section class="pro-section">
-<div class="pro-container">
+<div class="faq-container">
 <h2 class="pro-section-title">Frequently Asked Questions</h2>
 
 {% <faq> %}

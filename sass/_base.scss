@@ -129,7 +129,7 @@ h2 {
 }
 
 // Section headings share one treatment; navigation and embedded UI keep theirs.
-h2:where(:not(.list-row-title, .subheading, .footer h2, .footer-newsletter-copy h2, .quiz-container h2)) {
+h2:where(:not(.list-row-title, .subheading, .footer h2, .quiz-container h2)) {
     margin-top: 48px;
     margin-bottom: 22px;
     padding: 0;
@@ -231,11 +231,6 @@ img.hero-img {
         padding: 0 10px;
         max-width: 500px;
     }
-}
-
-.hero-headline {
-    font-size: 2.8em;
-    margin-bottom: 0px;
 }
 
 a {
@@ -648,10 +643,6 @@ hr {
 }
 
 @media (max-width: 900px) {
-    .hero-headline {
-        font-size: 2.5em;
-    }
-
     img.hero {
         width: 100%;
     }
