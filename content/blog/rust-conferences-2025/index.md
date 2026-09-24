@@ -268,7 +268,7 @@ The last edition was held in Montreal, Canada and the 2025 edition will be annou
 - **Pricing**:
   - Regular: $525
   - Corporate: $775
-  - [Get tickets here](https://rustconf.com/register/)
+  - [2025 ticket information](https://ti.to/rustconf/2025)
 - **CFP**: Closed
 - **Links**: [Website](https://rustconf.com/) | [Past Talks](https://www.youtube.com/@rustfoundation)
 - **Social**: [Mastodon](https://hachyderm.io/@rustconf), [BlueSky](https://bsky.app/profile/rustconf.com)

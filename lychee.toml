@@ -76,6 +76,8 @@ exclude = [
   '^https://martinfowler\.com/bliki/StranglerFigApplication\.html$', # intermittent timeout
   '^https://lib\.rs',                                               # intermittent 502
   '^https://soller\.dev/?$',                                        # expired TLS cert
+  # Returns 200 locally; timed out in consecutive CI runs (2026-09-24).
+  '^https://www\.chiark\.greenend\.org\.uk/~ianmdlvl/rust-polyglot/async\.html$',
 
   # Dead pages we can't repoint to a sensible replacement.
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration

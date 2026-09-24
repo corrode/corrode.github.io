@@ -52,5 +52,5 @@ In this special episode, we look back at some of the memorable moments from the 
 - [C++ and Rust interop](https://github.com/rust-lang/rust-project-goals/blob/main/src/2025h2/interop-problem-map.md) - Safer language interoperability initiative
 - [Microsoft with Victor Ciura (S04E01)](/podcast/s04e01-microsoft/) - C++ doesn't have to die for Rust to succeed
 - [BorrowSanitizer initiative](https://borrowsanitizer.com/) - LLVM instrumentation for detecting aliasing violations
-- [Polonius](https://github.com/rust-lang/rust-project-goals/issues/118) - Next-generation borrow checker
+- [Polonius](https://github.com/rust-lang/goals/issues/118) - Next-generation borrow checker
 - [Rust with Niko Matsakis (S04E04)](/podcast/s04e04-rust/) - Be excellent to each other (Bill & Ted reference)
