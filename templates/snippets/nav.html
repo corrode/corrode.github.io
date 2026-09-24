@@ -19,7 +19,7 @@
     <ul class="menu">
         <li class="nav-theme-toggle">
             <!-- Theme Toggle -->
-            <a href="javascript:toggleColorScheme();" aria-label="Toggle color scheme">
+            <button id="theme-toggle" type="button" aria-label="Toggle color scheme">
                 <span id="icon-moon" aria-hidden="true">
                     {% set sun = load_data(path="static/icons/moon.svg") %}
                     {{ sun | safe }}
@@ -28,7 +28,7 @@
                     {% set moon = load_data(path="static/icons/sun.svg") %}
                     {{ moon | safe }}
                 </span>
-            </a>
+            </button>
         </li>
         <li>
             <a {% if current_path and current_path == "/" %} class="nav-item active" {% else %} class="nav-item" {% endif %}

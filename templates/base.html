@@ -177,35 +177,46 @@
             savePreferredColorScheme(newScheme);
         }
 
+        const originalThemeMedia = new WeakMap();
+
         function applyPreferredColorScheme(scheme) {
-            for (var s = 0; s < document.styleSheets.length; s++) {
-                try {
-                    var rules = document.styleSheets[s].cssRules;
-                    for (var i = 0; i < rules.length; i++) {
-                        var rule = rules[i];
-                        if (rule && rule.media && rule.media.mediaText.includes("prefers-color-scheme")) {
-                            switch (scheme) {
-                                case "light":
-                                    rule.media.appendMedium("original-prefers-color-scheme");
-                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
-                                    if (rule.media.mediaText.includes("dark")) rule.media.deleteMedium("(prefers-color-scheme: dark)");
-                                    break;
-                                case "dark":
-                                    rule.media.appendMedium("(prefers-color-scheme: light)");
-                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
-                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
-                                    break;
-                                default:
-                                    rule.media.appendMedium("(prefers-color-scheme: dark)");
-                                    if (rule.media.mediaText.includes("light")) rule.media.deleteMedium("(prefers-color-scheme: light)");
-                                    if (rule.media.mediaText.includes("original")) rule.media.deleteMedium("original-prefers-color-scheme");
-                                    break;
-                            }
-                        }
-                    }
-                } catch (e) {
-                    // Ignore third-party stylesheets
+            function themedMedia(owner, mediaText) {
+                if (!originalThemeMedia.has(owner)) {
+                    originalThemeMedia.set(owner, mediaText);
                 }
+                // Always start from the original query so repeated toggles preserve
+                // responsive conditions, comma-separated alternatives, and negation.
+                return originalThemeMedia.get(owner).replace(
+                    /\(prefers-color-scheme:\s*(light|dark)\)/gi,
+                    (_, preference) => preference.toLowerCase() === scheme
+                        ? '(min-width: 0px)'
+                        : '(not (min-width: 0px))'
+                );
+            }
+
+            function applyRules(rules) {
+                for (const rule of rules) {
+                    if (rule.media) {
+                        rule.media.mediaText = themedMedia(rule, rule.media.mediaText);
+                    }
+                    if (rule.cssRules) applyRules(rule.cssRules);
+                }
+            }
+
+            // Link media controls the entire syntax stylesheet, not its CSS rules.
+            // Update the element even if the inactive stylesheet has not loaded yet.
+            for (const link of document.querySelectorAll('link[rel="stylesheet"][media]')) {
+                link.media = themedMedia(link, link.media);
+            }
+            for (const sheet of document.styleSheets) {
+                let rules;
+                try {
+                    rules = sheet.cssRules;
+                } catch (e) {
+                    // Cross-origin stylesheets do not expose their rules.
+                    continue;
+                }
+                applyRules(rules);
             }
 
             if (scheme === "dark") {
@@ -217,6 +228,7 @@
             }
         }
 
+        document.getElementById('theme-toggle').addEventListener('click', toggleColorScheme);
         applyPreferredColorScheme(getPreferredColorScheme());
     </script>
 </body>
