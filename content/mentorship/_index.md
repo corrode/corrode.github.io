@@ -12,7 +12,7 @@ aliases = ["pro"]
 <span class="highlight">and Ship Better Rust</span>
 </h1>
 <p class="pro-hero-subtitle">
-For experienced engineers moving from Python, Go, or another language into serious Rust work. Bring your project or codebase and learn how to make sound design-, architecture-, and code-review decisions yourself.
+For experienced engineers moving from Python, Go, or another language into serious Rust work. Bring your project or codebase and learn how to make sound design, architecture, and code-review decisions yourself.
 </p>
 
 <div class="pro-hero-cta">

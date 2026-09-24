@@ -57,7 +57,7 @@ LLMs have limitations around the deeper architectural decisions that make Rust g
 - Idiomatic Rust: when to use traits and lifetimes, and when to avoid them; how to structure async code to separate I/O-heavy code from simple business logic that can be sync.
 - Testing: how to use unit tests for quick feedback loops where other teams might rely on costly end-to-end tests, which are slow.
 
-If you're shipping Rust into production, this is the difference between a codebase is a joy to work with in two years, or turns a liability nobody understands or wants to touch.
+If you're shipping Rust into production, this is the difference between a codebase that is a joy to work with in two years and a liability nobody understands or wants to touch.
 
 ## You Stay In Control With The Right Guardrails
 
@@ -66,7 +66,7 @@ But I believe the earlier you involve an expert, the more confident you will fee
 
 Rust is one of the best languages in the world for working with AI-assisted coding because of its strict compiler, but that only works if the surrounding scaffolding is set up well.
 
-I help teams put that scaffolding in place with type-driven design, solid continuous integration, a fast test harness, and reliable review workflows. I also coach engineers on how to use agents instead, so your team ships faster *and* stays in control. 
+I help teams put that scaffolding in place with type-driven design, solid continuous integration, a fast test harness, and reliable review workflows. I also coach engineers on how to use agents, so your team ships faster *and* stays in control.
 
 {% <info title="Feedback From Happy Customers" icon="heart"> %}
 
