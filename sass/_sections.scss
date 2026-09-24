@@ -1,3 +1,22 @@
+.consultation-cta {
+    padding-block: clamp(4rem, 8vw, 6rem);
+
+    h2 {
+        margin-top: 0;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.consultation-cta-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 .skew-top {
     position: relative;
     z-index: 5;

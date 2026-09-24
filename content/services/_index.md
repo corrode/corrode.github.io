@@ -162,7 +162,9 @@ From time to time I give talks about Rust and open-source software.
 - [View Previous Talks →](https://endler.dev/talks/)
 
 
-## Happy To Answer Your Questions
+<section class="faq-panel skew-top" aria-labelledby="happy-to-answer-your-questions">
+<div class="faq-container">
+<h2 id="happy-to-answer-your-questions">Happy To Answer Your Questions</h2>
 
 {% <faq> %}
 [
@@ -245,15 +247,20 @@ From time to time I give talks about Rust and open-source software.
 ]
 {% </faq> %}
 
+</div>
+</section>
+
+<section class="consultation-cta">
+
 ## Accelerate Your Team's Rust Adoption Today
 
-<div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
+<div class="consultation-cta-actions">
   <a class="cta-button" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Schedule A Free Consultation</a>
   <p>
     or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
-</div>  
-
+</div>
+</section>
 
 <script type="text/javascript">
   (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
