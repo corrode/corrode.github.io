@@ -1,5 +1,5 @@
 +++
-title = "We Have Named Arguments At Home"
+title = "We Have Named Arguments at Home"
 date = 2026-09-24
 draft = false
 template = "article.html"
@@ -23,7 +23,7 @@ Instead, you can get 80% of the ergonomics without adding any magic to function 
 
 The recurring pattern is that Rust takes something another language puts into **function-call semantics** and represents it as a normal part of its type system, elegantly sidestepping the mentioned design problems.
 
-## Named arguments at home
+## Named Arguments at Home
 
 Let's revisit Steve's example from the `image` crate:
 
@@ -152,7 +152,7 @@ No new rules required.
 
 This feels extremely idiomatic to me: rather than teaching function calls a second field-like syntax with subtly different semantics, just use the field syntax that already exists.
 
-### The lightweight version
+### Arguments Are Part of Your Domain
 
 Of course, declaring a bespoke argument type for every two-argument function would be ridiculous.
 I would not write:
@@ -195,9 +195,8 @@ connect(ConnectionOptions {
 ```
 
 The design pressure forced us to uncover missing domain concepts.
-That's just great language design.
 
-## Optional arguments at home
+## Optional Arguments at Home
 
 An optional argument is, to some extent, an argument which may or may not exist.
 Rust has a type for that.
@@ -283,7 +282,7 @@ request(url, options);
 
 It composes nicely because it's just a value.
 
-## Default arguments at home
+## Default Arguments at Home
 
 Now the obvious objection: writing all those `None`s is terrible.
 
@@ -370,7 +369,7 @@ request(
 
 I think this gets most of the important bits right.
 
-## The builder pattern is the deluxe version
+## Builder Pattern for the Really Complex Cases
 
 Sometimes even the options struct is too noisy, often when construction requires validation or conversion.
 
@@ -403,7 +402,7 @@ Doing that with language-level keyword arguments generally requires constructing
 In Rust, it's method calls.
 I personally find this very pleasing to read. 
 
-## Function overloading at home
+## Function Overloading at Home
 
 In Java, you can write: 
 
@@ -422,7 +421,7 @@ fn connect(url: &str, timeout: Duration) {}
 I am very happy about this.
 But there are several different things people mean when they say they want overloading, and Rust already covers most of them separately.
 
-### "I want one convenience form and one configurable form"
+### "I Want One Convenience Form and One Configurable Form"
 
 Give them different names:
 
@@ -441,7 +440,7 @@ See [`Vec::new()`](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.new)
 
 This costs the library author one additional name (often just `with_...`) and saves every user from doing overload resolution in their head.
 
-### "I want several input types"
+### "I Want Several Input Types"
 
 Use a trait.
 The standard library does this all the time with traits like `Into`, `AsRef`, and `Borrow`.
@@ -470,7 +469,7 @@ fn set_name(name: impl Into<String>) {
 That's just a single function with one parameter list and trait dispatch.
 And unlike unrestricted overloading, the relationship between accepted types is explicit: they work as long as they satisfy the bound.
 
-### "Different types need different behavior"
+### "Different Types Need Different Behavior"
 
 That's a trait, too:
 
@@ -498,7 +497,7 @@ fn render(value: impl Render, out: &mut Output) {
 
 That's polymorphism; we just put it in the trait system instead of in name resolution.
 
-## Flexible argument types at home
+## Flexible Argument Types at Home
 
 Steve's Ruby example has this equally lovely and terrifying quality:
 
@@ -584,7 +583,7 @@ redirect_to(Redirect::Action {
 Remember that this has no runtime cost and is fully type-safe.
 Not bad for a compiled language.
 
-## Options hashes at home
+## Options Hashes at Home
 
 An "options hash" is basically a dynamically typed anonymous struct.
 So the extremely boring Rust translation is: use a statically typed, named struct.
@@ -625,7 +624,7 @@ fn redirect_to(target: Url, options: RedirectOptions)
 
 Now, options have a name and the fields can be documented in one place.
 
-## Variadic arguments at home
+## Variadic Arguments at Home
 
 Rust does not have general-purpose variadic Rust functions.
 But once again, it already has several ways of expressing the same concept. 
@@ -663,7 +662,7 @@ because the caller can naturally pass an existing collection.
 If the arguments are heterogeneous, the last resort is to write a custom macro.
 To be clear, I would not use macros just to fake variadic functions, but I do like how macros can be used in stable Rust, and how the exclamation mark stands out from normal function calls. 
 
-## Keyword-looking syntax at home
+## Keyword-Looking Syntax at Home
 
 There is one tiny affordance in all of these examples that I think deserves more credit: field-init shorthand.
 
@@ -710,7 +709,7 @@ Options {
 In my opinion, that's even better than keyword arguments.
 That's because the labels are still present, the duplication disappears, and nothing needs to change in how we call functions.
 
-## Composition is a superpower 
+## Composition Is a Superpower
 
 The thing I like the most about Rust is how each concept nicely interacts with the others.
 That is not an easy task, and Rust deserves a lot of credit for that.
@@ -790,7 +789,7 @@ Those mechanisms are all useful far beyond argument passing.
 
 Basic Rust syntax is all the machinery required to build ergonomic APIs.
 
-## Friction produces better APIs 
+## Friction Produces Better APIs
 
 The obvious response to everything above is:
 
@@ -827,7 +826,7 @@ Friction in APIs often pushes us toward solutions that turn out to be useful bey
 In a sense, the concrete issue points to a broader design problem, and resolving it opens up completely new ways to solve similar problems.
 That's great systems design.
 
-## Rust's Answer To Almost Everything Is: Better Types 
+## Rust's Answer to Almost Everything Is: Better Types
 
 I think there's a broader design principle behind all of this.
 
@@ -849,7 +848,7 @@ Rust, however, tends to move complexity *outward* and let the type system do all
 foo(FooOptions { ... })
 ```
 
-## What about agents?
+## What about Agents?
 
 One might ask: "In the age of agentic development, doesn't verbosity become cheaper while redundant labels may make a call easier to understand locally?"
 
@@ -892,7 +891,7 @@ says something useful to both humans and agents.
 And if agents really do make typing cost increasingly irrelevant, then the principal downside of these slightly-more-verbose Rust idioms gets cheaper too.
 The robots can type `RequestOptions` for me.
 
-## Keep the functions boring
+## Keep the Functions Boring
 
 I'm not opposed to Rust ever gaining named arguments.
 There may be a proposal that finds a tiny, coherent design which handles patterns, function pointers, traits, evaluation order, compatibility, and all the other sharp edges described.
