@@ -18,7 +18,7 @@ In fact, I think I agree slightly more strongly than Steve does. :)
 I actually think we can get most of what we want without adding any new language features.
 Instead, we can lean into what Rust already provides.
 
-None of these substitutes what you get in Python, Ruby, C++, or Kotlin, but that's sort of the point.
+None of these is an exact substitute for what you get in Python, Ruby, C++, or Kotlin, but that's sort of the point.
 Instead, you can get 80% of the ergonomics without adding any magic to function calls at all.
 
 The recurring pattern is that Rust takes something another language puts into **function-call semantics** and represents it as a normal part of its type system, elegantly sidestepping the mentioned design problems.
@@ -136,7 +136,7 @@ consume(length: data.len(), data: data);
 ```
 
 I.e., should arguments be evaluated in the order they appear at the call site, or in the order the parameters appear in the declaration?
-Here, that means computing `data.len()` before moving data or after? 
+Here, does that mean computing `data.len()` before moving `data` or after? 
 
 Rust already answered this question for structs:
 
@@ -166,8 +166,7 @@ vec.push(PushArgs { value: 42 });
 ```
 
 That would be silly.
-The trick is to notice that named arguments are most useful exactly where an argument bundle becomes conceptually meaningful,
-which is the same point in time where you reach for a struct anyway.
+The trick is to notice that named arguments are most useful exactly where an argument bundle becomes conceptually meaningful, which is the same point at which you reach for a struct anyway.
 
 These are bad:
 
@@ -269,7 +268,7 @@ request(
 );
 ```
 
-Instead of optional arguments we deal with data.
+Instead of optional arguments, we deal with data.
 And that adds a nice property: there is no special distinction between "arguments supplied syntactically to this invocation" and "options I calculated elsewhere."
 
 ```rust
@@ -330,7 +329,7 @@ But look at what we *didn't* have to add: rules for which arguments may be omitt
 
 There's no special syntax for declaring parameter defaults, no question about whether default expressions run at declaration time or invocation time, and no special representation in `fn` types.
 
-`Default` is just a trait and function calls stay uneventful.
+`Default` is just a trait, and function calls remain untouched.
 
 Defaults are now usable independently of the function:
 
@@ -468,7 +467,7 @@ fn set_name(name: impl Into<String>) {
 }
 ```
 
-That's just a single function one parameter list, and a trait dispatch.
+That's just a single function with one parameter list and trait dispatch.
 And unlike unrestricted overloading, the relationship between accepted types is explicit: they work as long as they satisfy the bound.
 
 ### "Different types need different behavior"
@@ -497,7 +496,7 @@ fn render(value: impl Render, out: &mut Output) {
 }
 ```
 
-That's polymorphism, we just put it in the trait system instead of in name resolution.
+That's polymorphism; we just put it in the trait system instead of in name resolution.
 
 ## Flexible argument types at home
 
@@ -542,7 +541,7 @@ redirect_to(Redirect::Action {
 ```
 
 That's more verbose, but in a good way.
-And I can ask, "hey editor, what can I redirect to?" and the editor replies that it is the variants of `Redirect`.
+And I can ask, "Hey editor, what can I redirect to?" and the editor replies with the variants of `Redirect`.
 That's more helpful than "read the docs and discover which keys and values this hash accepts."
 
 If we really cared about smoothing down the edges, we could add `From` conversions: 
@@ -582,7 +581,7 @@ redirect_to(Redirect::Action {
 });
 ```
 
-Remember that there is no runtime cost and fully typesafe.
+Remember that this has no runtime cost and is fully type-safe.
 Not bad for a compiled language.
 
 ## Options hashes at home
@@ -614,7 +613,8 @@ redirect_to(
 );
 ```
 
-Yes, the Rust version is more noisy, but it also detects when we misspell `status`, it's impossible to pass a string where the status code goes, and straightforward to list every supported option.
+Yes, the Rust version is noisier, but it also detects when we misspell `status`.
+It's impossible to pass a string where the status code goes, and it's straightforward to list every supported option.
 
 I don't think Rust should optimize for making the syntax as dense as possible. 
 Instead, if a set of options is common enough to deserve convenient syntax, it is probably common enough to justify a type.
@@ -658,9 +658,9 @@ sum(1, 2, 3, 4)
 ```
 
 because the caller can naturally pass an existing collection.
-(All typesafe, of course, and with zero indirection at runtime.)
+(All type-safe, of course, and with zero indirection at runtime.)
 
-If the arguments are heterogeneous the last resort is to write a custom macro.
+If the arguments are heterogeneous, the last resort is to write a custom macro.
 To be clear, I would not use macros just to fake variadic functions, but I do like how macros can be used in stable Rust, and how the exclamation mark stands out from normal function calls. 
 
 ## Keyword-looking syntax at home
@@ -710,12 +710,10 @@ Options {
 In my opinion, that's even better than keyword arguments.
 That's because the labels are still present, the duplication disappears, and nothing needs to change in how we call functions.
 
-This is one of my favorite small pieces of Rust syntax because it's cuts down on boilerplate with little fanfare, and it works in a lot of places, not just function calls. 
-
 ## Composition is a superpower 
 
 The thing I like the most about Rust is how each concept nicely interacts with the others.
-That is not an easy task and Rust deserves a lot of credit for that.
+That is not an easy task, and Rust deserves a lot of credit for that.
 
 For example, suppose we want a complex HTTP request API with:
 
@@ -758,7 +756,7 @@ request(
 )?;
 ```
 
-And all we had to do is write the code we'd likely write anyway: 
+And all we had to do was write the code we'd likely write anyway: 
 
 ```rust
 #[derive(Default)]
@@ -826,7 +824,7 @@ Friction in APIs often pushes us toward solutions that turn out to be useful bey
 - A bunch of dynamically accepted values turn into an enum.
 - A family of related operations becomes a trait.
 
-In a sense, the concrete issue points to a broader design problem and resolving it opens up completely new ways to solve similar problems.
+In a sense, the concrete issue points to a broader design problem, and resolving it opens up completely new ways to solve similar problems.
 That's great systems design.
 
 ## Rust's Answer To Almost Everything Is: Better Types 
@@ -889,7 +887,7 @@ request(
 ```
 
 says something useful to both humans and agents.
-`timeout` is not merely an optional syntactic argument to this particular invocation, it is a way to configure a request. 
+`timeout` is not merely an optional syntactic argument to this particular invocation; it is a way to configure a request. 
 
 And if agents really do make typing cost increasingly irrelevant, then the principal downside of these slightly-more-verbose Rust idioms gets cheaper too.
 The robots can type `RequestOptions` for me.
@@ -904,5 +902,5 @@ Stable Rust already gives me structs for named options, `Option` and `Default` f
 
 Collectively, they cover a lot of ground.
 And they do it by reusing features Rust already needs.
-And I think that's a core of Rust's design philosophy: finding the smallest, composable, orthogonal set of abstractions, which, when combined, can solve many problems in elegant ways.
+And I think that's a core part of Rust's design philosophy: finding the smallest, composable, orthogonal set of abstractions, which, when combined, can solve many problems in elegant ways.
 The whole is greater than the sum of its parts.
