@@ -45,3 +45,5 @@ Discover a wealth of tutorials, workshops, and articles created by Rust experts,
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
 
 <link rel="stylesheet" href="styles.css">
+
+{{ <next_steps context="Read the material but unsure how to apply it at work? We can use your own codebase for hands-on Rust training or mentorship." source="idiomatic-rust-resources" /> }}

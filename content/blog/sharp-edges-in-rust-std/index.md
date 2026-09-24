@@ -285,4 +285,6 @@ If you're looking to go further, [Pitfalls of Safe Rust](/blog/pitfalls-of-safe-
 
 In general, I like that Rust has a relatively small standard library because once a feature is in there it stays there forever. [^forever]
 
+{{ <next_steps context="Want a code review focused on the surprises Rust's compiler won't catch? Let's check the assumptions behind your Rust usage." source="sharp-edges-in-rust-std" /> }}
+
 [^forever]: Yes, you *can* deprecate functionality, but this is a very timid and [laborious process](https://rust-lang.github.io/rfcs/1270-deprecation.html) and that still doesn't mean functionality gets removed. For example, `std::env::home_dir()` has been deprecated for years and is now not getting removed, but instead will be [fixed with a bugfix release and un-deprecated](https://releases.rs/docs/1.85.0/#compatibility-notes).

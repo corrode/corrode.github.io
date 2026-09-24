@@ -96,7 +96,7 @@ Crop {
 ```
 
 We also get typo checking, autocomplete, and per-field documentation for free!
-And we can put invariants on the type and pass the arguments around as values.
+And we can [put invariants on the type](/blog/compile-time-invariants/) and pass the arguments around as values.
 
 And, perhaps most importantly, **the names belong to the type**, rather than becoming part of every function's calling convention.
 
@@ -788,6 +788,7 @@ We combined standard Rust concepts: structs, enums, `Option`, `Default`, struct 
 Those mechanisms are all useful far beyond argument passing.
 
 Basic Rust syntax is all the machinery required to build ergonomic APIs.
+[Keeping things simple](/blog/simple/) doesn't mean worse ergonomics.
 
 ## Friction Produces Better APIs
 
@@ -842,7 +843,7 @@ foo(x, **options)
 foo(*args, **options)
 ```
 
-Rust, however, tends to move complexity *outward* and let the type system do all the work.
+Rust, however, tends to move complexity *outward* and [let the type system do all the work](/blog/illegal-state/).
 
 ```rust
 foo(FooOptions { ... })
@@ -903,3 +904,5 @@ Collectively, they cover a lot of ground.
 And they do it by reusing features Rust already needs.
 And I think that's a core part of Rust's design philosophy: finding the smallest, composable, orthogonal set of abstractions, which, when combined, can solve many problems in elegant ways.
 The whole is greater than the sum of its parts.
+
+{{ <next_steps context="Want a second opinion on your team's Rust APIs? Let's review the types and abstractions together." source="named-arguments-at-home" /> }}

@@ -805,3 +805,5 @@ Finally, here are some more tools that help you catch problems before they hit p
 
 The tools above help catch undefined behavior, memory safety issues, code coverage gaps, and performance bottlenecks.
 They are dynamic analysis tools that complement Rust's static guarantees.
+
+{{ <next_steps context="Getting a Rust service ready for production? Let's audit the failure handling, shutdown behavior, and operational risks." source="hardening-rust" /> }}

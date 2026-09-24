@@ -456,3 +456,5 @@ If you do, too, here are some resources to dig deeper:
 - 2025-01-09: [Rust 1.84.0](https://blog.rust-lang.org/2025/01/09/Rust-1.84.0/) - The docs had moved from "object safety" to "dyn compatibility" around this release cycle; the [tracking issue](https://github.com/rust-lang/rust/issues/130852#issuecomment-2947417189) notes that the rename unfortunately missed the release notes.
 
 The lang team also wants a "practical path" to call `async fn`s through `dyn Trait` natively. It's on the [2026 project goals](https://github.com/rust-lang/rfcs/blob/master/text/3935-Project-Goals-2026.md), so the async gotcha above should ease over time.
+
+{{ <next_steps context="Stuck choosing between generics, trait objects, and enums? I can help you work through the tradeoffs in your own APIs." source="dyn-compatibility" /> }}

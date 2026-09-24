@@ -813,3 +813,5 @@ Turns out our assumptions about a program's execution are often wrong and our me
 
 Fortunately, we can encapsulate a lot of the complexity behind ergonomic abstractions; it just takes some effort!
 So don't worry: once you start to confront your bad habits and look around for better abstractions, Rust stops being ugly.
+
+{{ <next_steps context="Your Rust code compiles, but still feels awkward? Let's work through it together." source="ugly" /> }}

@@ -449,3 +449,5 @@ If you're unsure about whether using an expression is worth it, seek feedback fr
 If they look confused, you probably tried to be too clever. 
 
 Now, try to refactor some code to train that muscle.
+
+{{ <next_steps context="Want feedback on making your Rust code more idiomatic without making it harder to read? I can review your code." source="expressions" /> }}

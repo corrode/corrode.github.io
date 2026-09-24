@@ -534,3 +534,5 @@ The default mode for writing Rust should be _synchronous_. Freely after
 [Stroustrup](https://news.ycombinator.com/item?id=22206779):  
 *Inside Rust, there is a smaller, simpler language that is waiting to get out.*
 It is this language that most Rust code should be written in.
+
+{{ <next_steps context="Deciding whether your Rust application needs async, or where to draw the line? Let's review the design together." source="async" /> }}

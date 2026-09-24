@@ -465,7 +465,9 @@ My rules of thumb:
 * Prefer readability over allegiance to a style. Code that is easy to read and change usually beats code that follows one programming tradition perfectly.
 * Measure before optimizing. The bottleneck may not be where you expect, and readable code is easier to tune once you know what matters.
 
-Do not let your favorite style make the decision for you. Try the obvious version first, then refactor when the code starts to become unwieldy. 
+Do not let your favorite style make the decision for you. Try the obvious version first, then refactor when the code starts to become unwieldy.
+
+{{ <next_steps context="Bringing habits from another language into Rust? I can help your team decide which patterns to keep and which not." source="paradigms" /> }}
 
 
 

@@ -414,3 +414,5 @@ choose immutability.
 
 Good code keeps mutable state short-lived, making it easier to reason about.
 The use of `mut` should be the exception, not the rule.
+
+{{ <next_steps context="Struggling with shared mutable state in your Rust application? Let's look at ownership and find a simpler design." source="immutability" /> }}

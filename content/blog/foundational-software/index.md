@@ -218,3 +218,5 @@ Solutions that work across language boundaries and up and down the stack.
 Rust is a language for decades and my mission is to be a part of this shift.
 
 On to the next 10 years!
+
+{{ <next_steps context="Building foundational software? I can help your team plan Rust adoption and review the architecture before you commit to it." source="foundational-software" /> }}

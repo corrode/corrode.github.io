@@ -572,3 +572,5 @@ Simplicity is about removing the unnecessary, the irrelevant, the noise.
 Simple is good.
 Be simple.
 
+{{ <next_steps context="Have a feeling that your Rust code is too complicated? Let's review your Rust abstractions and find what you can simplify." source="simple" /> }}
+

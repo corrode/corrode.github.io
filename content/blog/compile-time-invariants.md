@@ -326,3 +326,5 @@ Always be on the lookout for ways to let the type-system guide you towards
 stronger abstractions. 
 
 If you liked this, you might also be interested in my previous post on [making illegal states unrepresentable in Rust](/blog/illegal-state).
+
+{{ <next_steps context="Which runtime checks could your types handle instead? Let's look for useful compile-time guarantees in your codebase." source="compile-time-invariants" /> }}

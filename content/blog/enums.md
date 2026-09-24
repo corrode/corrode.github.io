@@ -500,3 +500,5 @@ Here's a quick summary of the different state management approaches in Rust:
 Remember, the goal is to write code that is not only correct but also maintainable and understandable by your team.
 
 My recommendation is to use enums whenever you need to represent a set of possible values, like when representing the state of an object. For even stronger guarantees, consider the typestate pattern, especially in safety-critical applications.
+
+{{ <next_steps context="Unsure whether you use enums and typestate effectively? Let's work through the design with your team." source="enums" /> }}

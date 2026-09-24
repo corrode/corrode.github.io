@@ -349,3 +349,5 @@ know and love from Python.
 
 I encourage you to explore the iterator API in Rust and see how you can use it
 to make your code more expressive and concise.
+
+{{ <next_steps context="Want to get comfortable with iterator patterns in real code? I offer Rust training and code reviews built around the problems you're working on." source="iterators" /> }}

@@ -320,3 +320,5 @@ but you could consider using a validation library like
 If possible, use self-contained, custom types to model your domain.
 It will improve your system design, making it easier to test and reason
 about. Handle errors at the lowest possible level (as early as possible).
+
+{{ <next_steps context="Want Rust to enforce more of your business rules? Let's review your domain model." source="illegal-state" /> }}

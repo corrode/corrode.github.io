@@ -744,3 +744,5 @@ It's a skill that doesn't come naturally and it's not covered in most Rust books
 
 Remember: if you find yourself writing `// this should never happen`, take a step back and ask how the compiler could enforce that invariant for you instead.
 The best bug is the one that never compiles in the first place.
+
+{{ <next_steps context="Want to make your Rust code harder to misuse and safer to refactor? I can help your team apply these patterns in code review." source="defensive-programming" /> }}

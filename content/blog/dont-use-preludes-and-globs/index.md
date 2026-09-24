@@ -226,3 +226,5 @@ As you can see, the list of downsides is long. The only upside is that it saves 
 - Enable the [clippy lint for wildcard imports](https://rust-lang.github.io/rust-clippy/master/index.html#/wildcard_imports) to catch glob imports in your code.
 - If you really want to create a prelude, at least use it for traits and macros only, not for types. Extending behavior of existing types (like adding a `par_iter` method to iterators with Rayon) is an acceptable use case for preludes if used in moderation. To avoid naming conflicts, consider using a unique prefix for extension traits like `CrateNameHashmapExt` instead of `HashMapExt`.
 - If you depend on a crate which has a prelude, consider not using it and instead importing the types you need explicitly. This way, you can avoid conflicts down the road and make it easier to see where a type comes from.
+
+{{ <next_steps context="Finding it hard to follow dependencies through your Rust modules? Let's review your module structure and public APIs." source="dont-use-preludes-and-globs" /> }}
