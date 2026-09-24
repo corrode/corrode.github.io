@@ -332,89 +332,6 @@ article {
     font-style: italic;
 }
 
-.newsletter-callout {
-    padding: 120px 1em 4em;
-    margin-top: 4em;
-    background-color: $darkBgrd;
-    color: $darkPrim;
-}
-
-.newsletter-inner {
-    max-width: 768px;
-    margin: 0 auto;
-}
-
-#newsletter-subscription p,
-#newsletter-subscription p b {
-    color: white;
-}
-
-.newsletter-success {
-    margin: 0;
-    font-size: 1.05em;
-    font-weight: 600;
-    line-height: 1.5;
-    color: $brightBgrd;
-}
-
-.newsletter-callout ul {
-    padding: 0;
-    list-style: none;
-    display: flex;
-}
-
-.newsletter-callout li {
-    display: flex;
-    align-items: center;
-}
-
-.newsletter-callout img {
-    display: block;
-    margin-right: 5px;
-}
-
-.newsletter-callout ul a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.newsletter-callout li:hover {
-    color: $brightScnd;
-}
-
-.newsletter-callout .postscript {
-    font-size: 0.9em;
-    margin-top: 1em;
-}
-
-.newsletter-callout form {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-
-.newsletter-callout input[type="email"] {
-    font-size: 1em;
-    padding: 0.8em;
-    border: none;
-    border-radius: 4px;
-    width: 100%;
-    color: $brightPrim;
-}
-
-.newsletter-callout input[type="submit"],
-.newsletter-callout button[type="submit"] {
-    font-size: 1em;
-    padding: 0.8em;
-    border: none;
-    border-radius: 4px;
-    background-color: $brightScnd;
-    color: white;
-    cursor: pointer;
-}
-
 .social {
     padding-top: 1em;
 }
@@ -463,20 +380,6 @@ article {
         max-width: 100%;
     }
 
-    .newsletter-callout {
-        padding-top: 4em;
-        padding-bottom: 3em;
-    }
-
-    .newsletter-callout form {
-        flex-direction: column;
-    }
-
-    .newsletter-callout input[type="submit"],
-    .newsletter-callout button[type="submit"] {
-        width: 100%;
-    }
-
     .social {
         margin-top: 3em;
         padding-top: 1em;
@@ -492,12 +395,8 @@ article {
     padding-bottom: 5em;
 }
 
-article + .newsletter-callout::before {
-    transform: skewY(-1deg);
-}
-
 .article-footer {
-    padding: 1em 1em 3em;
+    padding: 1em 1em 7em;
     background-color: $brightBgrd;
 
     &.skew-top {

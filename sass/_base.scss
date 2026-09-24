@@ -129,7 +129,7 @@ h2 {
 }
 
 // Section headings share one treatment; navigation and embedded UI keep theirs.
-h2:where(:not(.list-row-title, .subheading, .footer h2, .footer-newsletter-copy h2, .quiz-container h2)) {
+h2:where(:not(.list-row-title, .subheading, .footer h2, .quiz-container h2)) {
     margin-top: 48px;
     margin-bottom: 22px;
     padding: 0;
