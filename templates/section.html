@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block content %}
-<article>
+<article class="blog-overview">
   <div class="article-heading">
     <h1>{{section.title}}</h1>
     {{ section.description | safe }}
@@ -42,7 +42,6 @@
         {% endfor %}
       </ul>
       
-      {% include "snippets/newsletter.html" %}
     </div>
   </div>
 </article>
