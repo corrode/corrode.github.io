@@ -233,10 +233,6 @@ img.hero-img {
     }
 }
 
-.hero-headline {
-    font-size: 2.8em;
-    margin-bottom: 0px;
-}
 
 a {
     color: $brightPrim;
@@ -648,9 +644,6 @@ hr {
 }
 
 @media (max-width: 900px) {
-    .hero-headline {
-        font-size: 2.5em;
-    }
 
     img.hero {
         width: 100%;

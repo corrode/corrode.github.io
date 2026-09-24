@@ -68,7 +68,6 @@
         flex-direction: column;
         width: 100%;
         max-width: 500px;
-        margin: 0 auto;
         gap: 2rem;
         align-items: stretch;
         padding: 0 1rem;
@@ -134,14 +133,12 @@
     color: $darkPrim;
 }
 
-
 .newsletter-inner {
     max-width: 768px;
     margin: 0 auto;
 }
 
-#newsletter-subscription p,
-#newsletter-subscription p b {
+#newsletter-subscription p {
     color: white;
 }
 
@@ -150,39 +147,6 @@
     font-size: 1.05em;
     font-weight: 600;
     line-height: 1.5;
-    color: $brightBgrd;
-}
-
-.newsletter-callout ul {
-    padding: 0;
-    list-style: none;
-    display: flex;
-}
-
-.newsletter-callout li {
-    display: flex;
-    align-items: center;
-}
-
-.newsletter-callout img {
-    display: block;
-    margin-right: 5px;
-}
-
-.newsletter-callout ul a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.newsletter-callout li:hover {
-    color: $brightScnd;
-}
-
-.newsletter-callout .postscript {
-    font-size: 0.9em;
-    margin-top: 1em;
 }
 
 .newsletter-callout form {
@@ -200,7 +164,6 @@
     color: $brightPrim;
 }
 
-.newsletter-callout input[type="submit"],
 .newsletter-callout button[type="submit"] {
     font-size: 1em;
     padding: 0.8em;
@@ -221,11 +184,6 @@
         padding-bottom: 3em;
     }
 
-    .newsletter-callout form {
-        flex-direction: column;
-    }
-
-    .newsletter-callout input[type="submit"],
     .newsletter-callout button[type="submit"] {
         width: 100%;
     }

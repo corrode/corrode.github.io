@@ -49,7 +49,7 @@ I'll help you navigate the Rust crate ecosystem, systems architecture, code revi
 
 ## Why LLMs Alone Are Not Enough 
 
-LLMs have limitations around the deeper architectural decisions that make or break a Rust codebase:
+LLMs have limitations around the deeper architectural decisions that make Rust great: 
 
 - Domain modeling: turning business logic into types the compiler enforces.
 - Type-driven design: making illegal states unrepresentable to prevent entire categories of bugs.
@@ -57,18 +57,16 @@ LLMs have limitations around the deeper architectural decisions that make or bre
 - Idiomatic Rust: when to use traits and lifetimes, and when to avoid them; how to structure async code to separate I/O-heavy code from simple business logic that can be sync.
 - Testing: how to use unit tests for quick feedback loops where other teams might rely on costly end-to-end tests, which are slow.
 
-If you're shipping Rust into production, this is the layer that decides whether the codebase is a joy to work with in two years, or a liability nobody understands or wants to touch.
+If you're shipping Rust into production, this is the difference between a codebase is a joy to work with in two years, or turns a liability nobody understands or wants to touch.
 
 ## You Stay In Control With The Right Guardrails
 
-You're probably already using LLMs to write Rust. The question is whether the output is something you'd be proud to ship, or something you'll be paying down for years.
-I believe the earlier you involve an expert, the more confident you will feel about the way your Rust project is evolving, and the better automated code generation will work for you because it has reliable guardrails to operate within.
+You're probably already using LLMs to write Rust and that is fine.
+But I believe the earlier you involve an expert, the more confident you will feel about the way your Rust project is evolving, and the better automated code generation will work for you because it has reliable guardrails to operate within.
 
 Rust is one of the best languages in the world for working with AI-assisted coding because of its strict compiler, but that only works if the surrounding scaffolding is set up well.
 
-I help teams put that scaffolding in place with type-driven design, solid continuous integration, a fast test harness, and review workflows that scale when most of the code is machine-generated. I also coach engineers on how to drive the AI instead of babysitting it, so your team ships faster *and* the code stays yours.
-
-The goal is simple: you stay in control of your codebase and can decide for yourself how much or how little you want to use agents for code generation.
+I help teams put that scaffolding in place with type-driven design, solid continuous integration, a fast test harness, and reliable review workflows. I also coach engineers on how to use agents instead, so your team ships faster *and* stays in control. 
 
 {% <info title="Feedback From Happy Customers" icon="heart"> %}
 
