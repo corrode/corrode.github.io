@@ -229,7 +229,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 </section>
 
 <section class="pro-section">
-<div class="pro-container">
+<div class="faq-container">
 <h2 class="pro-section-title">Frequently Asked Questions</h2>
 
 {% <faq> %}

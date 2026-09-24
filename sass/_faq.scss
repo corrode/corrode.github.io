@@ -1,6 +1,12 @@
+.faq-container,
 .faq-section {
+    width: 100%;
     max-width: 800px;
-    margin: 2rem auto;
+    margin-inline: auto;
+}
+
+.faq-section {
+    margin-block: 2rem;
 }
 
 .faq-item {
