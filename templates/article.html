@@ -110,7 +110,7 @@
     </div>
     {% endif %}
   </header>
-  <div class="article-content-wrapper">
+  <div class="article-content-wrapper{% if page.extra.resources %} article-content-with-resources{% endif %}">
     {% if page.extra.wide %}
     <section class="article-content-wide prose">
     {% else %}
@@ -121,7 +121,8 @@
     </section>
   </div>
 
-  <footer class="article-footer">
+  <footer class="article-footer{% if page.extra.resources %} skew-top skew-top-reverse{% endif %}">
+    <div class="article-footer-inner">
     {% if page.extra.resources %}
     <div class="article-resources prose">
       <h2>Additional Resources</h2>
@@ -144,6 +145,7 @@
     </div>
 
     <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+    </div>
   </footer>
 </article>
 {% include "snippets/newsletter.html" %}

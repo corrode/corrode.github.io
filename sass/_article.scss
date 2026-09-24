@@ -488,10 +488,34 @@ article {
     background-color: $brightScndLight;
 }
 
+.article-content-with-resources {
+    padding-bottom: 5em;
+}
+
+article + .newsletter-callout::before {
+    transform: skewY(-1deg);
+}
+
 .article-footer {
-    max-width: 800px;
-    margin: 0px auto;
-    padding: 1em;
+    padding: 1em 1em 3em;
+    background-color: $brightBgrd;
+
+    &.skew-top {
+        padding-top: 6em;
+    }
+
+    &.skew-top-reverse::before {
+        transform: skewY(1deg);
+    }
+}
+
+.article-footer-inner {
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.article-resources > h2 {
+    margin-top: 0;
 }
 
 .editor-credits {
@@ -499,6 +523,10 @@ article {
 }
 
 @media (prefers-color-scheme: dark) {
+    .article-footer {
+        background-color: $heroDark;
+    }
+
     .article-content-wrapper {
         background-color: $darkBgrd;
     }

@@ -410,4 +410,9 @@
         transform-origin: 0;
         z-index: -1;
     }
+
+    &.skew-top-reverse::before {
+        transform: skewY(2deg);
+        transform-origin: 100% 0;
+    }
 }
