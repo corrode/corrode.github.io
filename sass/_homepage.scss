@@ -40,10 +40,14 @@
 
 .call-to-action {
     padding: 10px 0px 80px;
-    background-color: $brightPrim;
+    background-color: $heroDark;
     text-align: center;
     width: 100%;
     margin: 0 auto;
+}
+
+.homepage .call-to-action {
+    background-color: $brightPrim;
 }
 
 .call-to-action b {
@@ -200,9 +204,6 @@
         opacity: 0.7;
     }
 
-    .call-to-action {
-        background-color: #111;
-    }
 }
 
 .scroll-indicator {
