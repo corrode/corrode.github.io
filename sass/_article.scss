@@ -333,13 +333,15 @@ article {
 }
 
 .newsletter-callout {
-    width: 110%;
-    margin-left: -5%;
-    padding: 3em;
+    padding: 120px 1em 4em;
     margin-top: 4em;
-    border-radius: 4px;
     background-color: $darkBgrd;
     color: $darkPrim;
+}
+
+.newsletter-inner {
+    max-width: 768px;
+    margin: 0 auto;
 }
 
 #newsletter-subscription p,
@@ -462,8 +464,8 @@ article {
     }
 
     .newsletter-callout {
-        width: 100%;
-        margin-left: 0;
+        padding-top: 4em;
+        padding-bottom: 3em;
     }
 
     .newsletter-callout form {
