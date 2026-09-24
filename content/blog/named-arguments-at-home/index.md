@@ -310,7 +310,7 @@ request(
 
 That is getting awfully close to:
 
-```text
+```ruby
 request(url, timeout: 5s)
 ```
 
@@ -652,7 +652,7 @@ sum(vec![1, 2, 3, 4]);
 
 That is arguably more composable than:
 
-```text
+```ruby
 sum(1, 2, 3, 4)
 ```
 
@@ -688,7 +688,7 @@ let options = RequestOptions {
 
 This directly addresses one of Steve's complaints about keyword arguments:
 
-```python
+```
 response_model=response_model,
 status_code=status_code,
 tags=tags,
@@ -833,7 +833,7 @@ I think there's a broader design principle behind all of this.
 A common design philosophy in dynamic languages is to make familiar constructs more powerful by overloading them with additional semantics.
 After all, that is one affordance which dynamic typing allows: the ability to decide the meaning of an object at runtime. 
 
-```text
+```ruby
 foo(x)
 foo(x, y)
 foo(x, timeout: 3)
