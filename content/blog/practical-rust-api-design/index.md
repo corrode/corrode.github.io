@@ -285,7 +285,7 @@ let item = items.get(index);
 ```
 
 If you use indexing, you need to know that the index is valid to avoid a panic.
-With `get`, you can try the lookup and handle `None` if it fails.
+With `get`, you can try the lookup and [handle `None` if it fails](/blog/rust-option-handling-best-practices/).
 Remember that both are safe Rust: an invalid index doesn't cause undefined behavior in either case.
 
 Now suppose the index comes from user input.
@@ -302,7 +302,7 @@ If an index is indeed valid by construction, indexing can express that assumptio
 A panic then points to a bug in your API.
 
 And sometimes you can sidestep those issues entirely.
-For example, if you need to visit each element of a collection, use an iterator.
+For example, if you need to visit each element of a collection, [use an iterator](/blog/iterators/).
 This way, you don't have to worry about indices at all.
 
 ## Decide What You Want to Promise
@@ -434,6 +434,8 @@ Instead of writing "keep this resource alive", maybe you can return a borrowed t
 
 You don't have to follow every single suggestion in this article, either. 
 The goal is to make your API easier to understand and harder to misuse.
+
+{{ <next_steps context="Want a second pair of eyes on your Rust APIs? I can help you put these patterns to work in your codebase." source="practical-rust-api-design" /> }}
 
 [^deref]: [RFC 241: Deref coercions](https://github.com/rust-lang/rfcs/blob/master/text/0241-deref-conversions.md) discusses why automatically borrowing arguments would make local reasoning harder.
 
