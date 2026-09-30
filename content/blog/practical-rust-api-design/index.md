@@ -9,7 +9,7 @@ series = "Idiomatic Rust"
 A good metric for ergonomic system design is how much of a program you have to keep in your head at once to know what's going on. 
 It's empowering if you can understand a function by its type signature and get immediate feedback on whether you used it correctly.
 Other times, it feels like you're a code archaeologist:
-was this value validated before?
+Was this value validated before?
 Is it safe to retry this call?
 Can this panic?
 Bad APIs make local reasoning hard.  
@@ -17,10 +17,10 @@ Bad APIs make local reasoning hard.
 *Local reasoning* means being able to understand a piece of code from a limited amount of surrounding context and the contracts of the APIs it uses. 
 The main point is that you can rely on those contracts without additional knowledge of the implementation. 
 
-I think that's what makes Rust feel different from other languages: the ability that you can encode invariants in the type system and that you can do so *at zero cost*.
+I think that's what makes Rust feel different from other languages: the ability to encode invariants in the type system and do so *at zero cost*.
 The combination of both properties is rare.
 
-You will notice this "local reasoning principle" throughout Rust's standard library;
+You will notice this "local reasoning principle" throughout Rust's standard library:
 through explicit unsafe blocks, borrows marked with `&`, the use of `Result` and `Option`, or the use of enums to represent a closed set of possibilities.
 This information is always visible in every function signature.
 You don't need to look elsewhere.
@@ -45,7 +45,7 @@ fn first_line<'text>(text: &'text str) -> Option<&'text str>
 
 The input is tied to the output.
 So we know that the caller can't keep using the returned string after the borrow of `text` has ended.
-And by extenssion, the function can't returna  temporary string either.
+And by extension, the function can't return a temporary string either.
 That's super helpful to know.
 It means that the function is not making any long-lived allocations.
 
@@ -63,9 +63,9 @@ Yet it also uses type inference, lifetime elision, automatic borrowing of method
 That's because writing everything out would make many programs harder to read.
 What you should make explicit depends on your context.
 
-A good rule of thumb when designing an API, is to look for relationships that callers would otherwise have to remember.
-Does your function really take a `&str`, or should it rather be a newtype like `Text`, with additional guarantees? 
-Does an `Option<&str>` suffice, or should it rather return a `Result<&str, TextError>`?
+A good rule of thumb when designing an API is to look for relationships that callers would otherwise have to remember.
+Does your function really take a `&str`, or should it instead take a newtype like `Text`, with additional guarantees? 
+Does an `Option<&str>` suffice, or should the function instead return a `Result<&str, TextError>`?
 
 ## Keep Consequential Choices Visible
 
@@ -106,12 +106,12 @@ But it's a slippery slope.
 It can lead to leaky abstractions, where a wrapper type is treated as if it were the underlying type, but it is not quite the same. 
 
 Suppose a `UserId` stores a `String`.
-You might consider to `impl Deref<Target = str>` for it, so that callers can use it as if it were a `&str`.
+You might consider implementing `Deref<Target = str>` for it, so that callers can use it as if it were a `&str`.
 That sounds convenient, but now you expose the whole string interface through `Deref`.
 You implicitly allow callers to treat the identifier as text, sidestepping all your type invariants.
 Instead, an explicit `as_str()` leaves a visible point where they choose to do that.
 It also lets your `UserId` newtype have an API of its own.
-That's great, because interaction with user ids becomes more deliberate. 
+That's great, because interaction with user IDs becomes more deliberate. 
 
 Use `Deref` only when the wrapper transparently behaves like its target and dereferencing is cheap and unsurprising.
 [The standard library agrees.](https://doc.rust-lang.org/std/ops/trait.Deref.html#when-to-implement-deref-or-derefmut)
@@ -131,7 +131,7 @@ I think that signature would be clearer if we put the requirement right next to 
 fn visit(callback: impl FnMut(&str))
 ```
 
-Now you can read signature from left to right. 
+Now you can read the signature from left to right. 
 This saves you from jumping back and forth just to figure out what `F` means.
 One less thing to keep in your head while reading.[^impl-trait]
 
@@ -177,7 +177,7 @@ fn inspect(fd: RawFd) -> std::io::Result<()>
 fn inspect(fd: BorrowedFd<'_>) -> std::io::Result<()>
 ```
 
-Just by looking at the signature, we know that that the descriptor stays alive.[^io-safety]
+Just by looking at the signature, we know that the descriptor stays alive.[^io-safety]
 You can get that borrow from a `File`, for example:
 
 ```rust
@@ -191,7 +191,7 @@ inspect(file.as_fd())?;
 Now the compiler can help!
 You can't drop `file` and then keep using the descriptor borrowed from it in safe Rust.
 You no longer need to search through the code to check whether someone closed it earlier.
-Those "Time-Of-Check to Time-Of-Use" bugs are a [common pitfall of safe Rust](/blog/pitfalls-of-safe-rust).
+Those "time-of-check to time-of-use" bugs are a [common pitfall of safe Rust](/blog/pitfalls-of-safe-rust).
 
 But what if our function should really take ownership of the file descriptor? 
 Use `OwnedFd` instead.
@@ -199,13 +199,13 @@ When dropped, the descriptor is closed automatically, so the caller doesn't have
 
 In a sense, memory and file descriptors share a similar set of types with different guarantees:
 
-| Memory      | File descriptors | Use-Case                                                                                           |
+| Memory      | File descriptors | Use Case                                                                                           |
 | ----------- | ---------------- | -------------------------------------------------------------------------------------------------- |
 | `Box<T>`    | `OwnedFd`        | "I want to own this resource and close it when I'm done."                                          |
 | `&T`        | `BorrowedFd<'a>` | "I want to borrow this resource for a limited time."                                               |
 | Raw pointer | `RawFd`          | "I want to use this resource, but I don't know who owns it or how long it will live."              |
 
-Look guards are another example.
+Lock guards are another example.
 
 ```rust
 {
@@ -232,7 +232,7 @@ Provide a safe Rust wrapper instead.
 ## Explain Who Is Responsible
 
 Sometimes things are truly outside of Rust's control. 
-We use unsafe APIs to make make that division of responsibility explicit. 
+We use unsafe APIs to make that division of responsibility explicit. 
 
 An `unsafe fn` says: "Before you call me, you MUST establish these conditions. This is your responsibility."
 An `unsafe` block means you're responsible for satisfying the conditions of the unsafe operations inside the block.[^unsafe]
@@ -261,7 +261,7 @@ You have to check.
 Quick tip: in Rust 2024, unsafe operations inside unsafe functions warn by default unless you put them in an explicit unsafe block.
 You can enforce that with `#![deny(unsafe_op_in_unsafe_fn)]`.
 
-Another tip: When you write a safety comment, explain *why* the operation is safe.
+Another tip: when you write a safety comment, explain *why* the operation is safe.
 "This is safe" doesn't help the next person, but
 "The caller guarantees that the index is in bounds" gives them something they can check.
 
@@ -318,7 +318,7 @@ With that in mind, think about what happens when you try to change your API.
 For example, users can match on every variant of your public enum.
 They can't forget a case, because the compiler will warn them about it.
 That's local reasoning at work, which is great.
-But on the flipside, it also means that you can't add a variant without breaking their code.
+But on the flip side, it also means that you can't add a variant without breaking their code.
 You've broken a guarantee they depended on.
 
 To prevent that, mark your enum as `#[non_exhaustive]` so you can add variants later:
@@ -332,7 +332,7 @@ pub enum ServiceError {
 ```
 
 In that case, users have to include a fallback when matching the enum.[^non-exhaustive]
-You've pushed the responsibility to the call-site, which is likely the better place to decide what to do with an unexpected variant.
+You've pushed the responsibility to the call site, which is likely the better place to decide what to do with an unexpected variant.
 Exhaustive matching still works inside your own crate.
 
 Should you add `#[non_exhaustive]` to every public enum just in case?
@@ -415,7 +415,7 @@ fn describe(status: StatusCode) -> &'static str {
 That's pretty clever, because adding a new constant like `StatusCode::EARLY_HINTS` assigns a name to a value without changing the underlying representation; numeric checks continue to work.
 
 So before making something public, ask yourself: am I willing to uphold this guarantee forever? 
-This applies to all public types, not just enums like public fields inside a struct.
+This applies to your entire public API, including enums and public fields inside structs.
 
 Changing things later can break user code.
 From their perspective, it was part of the API all along.
