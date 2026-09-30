@@ -14,7 +14,7 @@ Is it safe to retry this call?
 Can this panic?
 Bad APIs make local reasoning hard.  
 
-*Local reasoning* means being able to understand a piece of code from a limited amount of surrounding context and the contracts of the APIs it uses. 
+"Local reasoning" here means being able to understand a piece of code from a limited amount of surrounding context and the contracts of the APIs it uses. 
 The main point is that you can rely on those contracts without additional knowledge of the implementation. 
 
 I think that's what makes Rust feel different from other languages: the ability to encode invariants in the type system and do so *at zero cost*.
@@ -27,6 +27,8 @@ You don't need to look elsewhere.
 A simple way to write better Rust is to check if your function signatures communicate as much information as possible to the caller.
 Maybe show the signature to a friend or colleague and ask them to explain what it does.
 It's eye-opening.
+
+Let's look at a few examples.
 
 ## Put Relationships in the Signature
 
