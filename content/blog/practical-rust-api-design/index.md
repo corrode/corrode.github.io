@@ -6,7 +6,7 @@ template = "article.html"
 series = "Idiomatic Rust"
 +++
 
-A good metric for ergonomic system design is how much of a program you have to keep in your head at once to know what's going on. 
+A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what's going on. 
 It's empowering if you can understand a function by its type signature and get immediate feedback on whether you used it correctly.
 Other times, it feels like you're a code archaeologist:
 Was this value validated before?
