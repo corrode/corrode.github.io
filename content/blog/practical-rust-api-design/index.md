@@ -20,7 +20,7 @@ The main point is that you can rely on those contracts without additional knowle
 What makes Rust feel different from other languages is the ability to encode invariants in the type system and do so *at zero cost*.
 The combination of both properties is rare.
 
-Once you notice this "local reasoning principle", you'll see it everywhere in Rust's standard library: through the use of `Result` and `Option`, borrows marked with `&`, enums to represent a closed set of possibilities. or  explicit unsafe blocks.
+Once you notice this "local reasoning principle", you'll see it everywhere in Rust's standard library: through the use of `Result` and `Option`, borrows marked with `&`, enums to represent a closed set of possibilities, or explicit unsafe blocks.
 This information is always visible in every function signature.
 
 A simple way to apply this mindset yourself is to check if your function signatures communicate as much information as possible to the caller.
@@ -37,7 +37,8 @@ Consider this function signature:
 fn first_line(text: &str) -> Option<&str>
 ```
 
-Before even looking at the implementation, we already know that the function takes a borrowed input and may have no output. (Or, rather, it may return `None`.)
+Before even looking at the implementation, we already know that the function takes a borrowed input and may have no output.
+(Or, rather, it may return `None`.)
 Actually, if you know Rust's lifetime elision rules, you know that the real signature is:
 
 ```rust
@@ -64,8 +65,11 @@ That's because writing everything out would make many programs [harder to read](
 What you should make explicit depends on your context.
 
 A good rule of thumb when designing an API is to look for relationships that callers would otherwise have to keep in their heads. 
-Does your function really take any `&str`, or does it expect a string that has been validated in some way? For example, is an empty string valid input? 
-What does `None` mean in the return value? Should it be treated as an error, or is it a valid case? Should it be a `Result` instead? 
+Does your function really take any `&str`, or does it expect a string that has been validated in some way?
+For example, is an empty string valid input? 
+What does `None` mean in the return value?
+Should it be treated as an error, or is it a valid case?
+Should it be a `Result` instead? 
 Good function signatures tell a story about the relationships between inputs and outputs.
 
 ## Keep Consequential Choices Visible
@@ -97,7 +101,7 @@ Sometimes, people argue that we could go one step further.
 Why not automatically borrow an owned argument in an ordinary function call?
 We could then write `inspect(text)` instead of `inspect(&text)`, which seems convenient.
 But, as always, there's a cost to convenience.
-Namely, saving the `&` would remove information readers currently get from the expression itself, namely that the value does not move.[^deref]
+Saving the `&` would remove information readers currently get from the expression itself: that the value does not move.[^deref]
 
 Convenience does not always mean better ergonomics.
 This gives us a way to judge our own conveniences, too.
@@ -164,7 +168,7 @@ Ask yourself: does naming this type help the caller understand something?
 We usually learn about ownership in the context of memory.
 But the same rules apply in other situations.
 
-Take file descriptors for example.
+Take file descriptors, for example.
 On Unix, a raw file descriptor is just an integer.
 That integer doesn't tell you whether the descriptor is still open, or who's responsible for closing it.
 Worse, once it's closed, the operating system can reuse the number for something else.
@@ -180,12 +184,12 @@ fn inspect(fd: BorrowedFd<'_>) -> std::io::Result<()>
 ```
 
 The first signature only gives us an integer.
-[`RawFd`](https://doc.rust-lang.org/std/os/unix/io/type.RawFd.html) is literally just an alias around a [`c_int`](https://doc.rust-lang.org/std/os/raw/type.c_int.html). 
+[`RawFd`](https://doc.rust-lang.org/std/os/unix/io/type.RawFd.html) is literally just an alias for [`c_int`](https://doc.rust-lang.org/std/os/raw/type.c_int.html). 
 But that descriptor might already be closed.
 Those "time-of-check to time-of-use" bugs are a [common pitfall of safe Rust](/blog/pitfalls-of-safe-rust).
 
 The second guarantees that the descriptor remains open for the duration of the borrow.[^io-safety]
-The caller keeps its owner alive, and Rust checks that relationship when we borrow from a File:
+The caller keeps its owner alive, and Rust checks that relationship when we borrow from a `File`:
 
 ```rust
 use std::fs::File;
@@ -201,7 +205,7 @@ You no longer need to search through the code to check whether someone closed it
 
 But what if our function should really take ownership of the file descriptor? 
 Use `OwnedFd` instead.
-When dropped, the descriptor is closed automatically, so the caller doesn't have to remember to do it.
+When the `OwnedFd` is dropped, the descriptor is closed automatically, so the caller doesn't have to remember to do it.
 
 In a sense, memory and file descriptors share a similar set of types with different guarantees:
 
@@ -223,14 +227,14 @@ Lock guards are another example.
 
 If you can access the data, you hold the lock.
 You don't have to "trace the program back" to an earlier `lock()` call and check every path for an unlock.
-In C, that's very much the case, and easy to get wrong.
+In C, that's very much the case and easy to get wrong.
 
 Of course, these types only guarantee what they encode.
 A `BorrowedFd` keeps track of one borrow, but it doesn't guarantee exclusivity over the underlying resource. 
 That means another process might still be writing to the same file.
 
 But in general, you can stop relying on callers to remember the provenance of a resource. 
-That's a much stronger guarantee than if your API documentation says "keep this open until you're done."
+That's a much stronger guarantee than simply saying "keep this open until you're done" in your API documentation.
 
 Raw handles are still necessary at a low-level boundary, but you don't have to pass them through your entire application.
 
@@ -249,8 +253,8 @@ In Rust, there are two different responsibilities, which share the same keyword:
 
 The difference is that an `unsafe fn` sets safety conditions that its **caller** must meet, while an `unsafe` block marks where the **person writing the code** claims that each unsafe operation's safety conditions have been met.
 
-In both cases, it is good practice to **add safety comments** to make readers aware.
-Here's who that could look like in practice:
+In both cases, it is good practice to **add safety comments** to make readers aware of these conditions.
+Here's how that could look in practice:
 
 ```rust
 /// # Safety
@@ -261,7 +265,7 @@ unsafe fn element_unchecked(values: &[u8], index: usize) -> u8 {
 }
 ```
 
-In general you should use `get(index)` instead to handle the `None` case, but this example illustrates how to document safety obligations.
+In general, you should use `get(index)` instead to handle the `None` case, but this example illustrates how to document safety obligations.
 
 Since the type system can't check the safety conditions, it's your obligation to keep the documentation up to date.
 Suppose someone adds another unsafe operation to this function later.
@@ -425,7 +429,7 @@ fn describe(status: StatusCode) -> &'static str {
 }
 ```
 
-That's pretty clever, because adding a new constant like `StatusCode::EARLY_HINTS` assigns a name to a value without changing the underlying representation and numeric checks continue to work.
+That's pretty clever, because adding a new constant like `StatusCode::EARLY_HINTS` assigns a name to a value without changing the underlying representation, and numeric checks continue to work.
 
 So before making something public, ask yourself: am I willing to uphold this guarantee forever? 
 This applies to your entire public API, including enums and public fields inside structs.
