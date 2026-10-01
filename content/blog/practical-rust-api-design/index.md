@@ -17,16 +17,15 @@ Bad APIs make local reasoning hard.
 "Local reasoning" here means being able to understand a piece of code from a limited amount of surrounding context and the contracts of the APIs it uses. 
 The main point is that you can rely on those contracts without additional knowledge of the implementation. 
 
-I think that's what makes Rust feel different from other languages: the ability to encode invariants in the type system and do so *at zero cost*.
+What makes Rust feel different from other languages is the ability to encode invariants in the type system and do so *at zero cost*.
 The combination of both properties is rare.
 
-You will notice this "local reasoning principle" throughout Rust's standard library:
-through explicit unsafe blocks, borrows marked with `&`, the use of `Result` and `Option`, or the use of enums to represent a closed set of possibilities.
+Once you notice this "local reasoning principle", you'll see it everywhere in Rust's standard library: through the use of `Result` and `Option`, borrows marked with `&`, enums to represent a closed set of possibilities. or  explicit unsafe blocks.
 This information is always visible in every function signature.
-You don't need to look elsewhere.
-A simple way to write better Rust is to check if your function signatures communicate as much information as possible to the caller.
+
+A simple way to apply this mindset yourself is to check if your function signatures communicate as much information as possible to the caller.
 Maybe show the signature to a friend or colleague and ask them to explain what it does.
-It's eye-opening.
+It can be eye-opening.
 
 Let's look at a few examples.
 
@@ -46,28 +45,28 @@ fn first_line<'text>(text: &'text str) -> Option<&'text str>
 ```
 
 The input is tied to the output.
-So we know that the caller can't keep using the returned string after the borrow of `text` has ended.
+That implies that the caller can't keep using the returned string after the borrow of `text` has ended.
 And by extension, the function can't return a temporary string either.
-That's super helpful to know.
-It means that the function is not making any long-lived allocations.
+The function is not making any long-lived allocations.
 
 That's a lot of useful information for just one function header! 
 
 All of that is great, but equally important, there are a few "implicit" assumptions that the signature does *not* guarantee.
 Take the function name: it suggests that the function returns "the first line of something." 
-However, the type system does not prove that.
+However, the type system does not enforce that. 
 It could return the last line for all we know, and the signature would be identical. 
 
 The function header also won't tell us whether anything is logged, how it performs, or whether it panics. 
 
 Rust is often described as an explicit language.
 Yet it also uses type inference, lifetime elision, automatic borrowing of method receivers, and implicit coercions.
-That's because writing everything out would make many programs harder to read.
+That's because writing everything out would make many programs [harder to read](/blog/ugly).
 What you should make explicit depends on your context.
 
-A good rule of thumb when designing an API is to look for relationships that callers would otherwise have to remember.
-Does your function really take a `&str`, or should it instead take a newtype like `Text`, with additional guarantees? 
-Does an `Option<&str>` suffice, or should the function instead return a `Result<&str, TextError>`?
+A good rule of thumb when designing an API is to look for relationships that callers would otherwise have to keep in their heads. 
+Does your function really take any `&str`, or does it expect a string that has been validated in some way? For example, is an empty string valid input? 
+What does `None` mean in the return value? Should it be treated as an error, or is it a valid case? Should it be a `Result` instead? 
+Good function signatures tell a story about the relationships between inputs and outputs.
 
 ## Keep Consequential Choices Visible
 
@@ -95,25 +94,25 @@ The compiler applies a deref coercion automatically.
 I think that's a good compromise: the ownership decision is still visible, but the compiler handles the bookkeeping.
 
 Sometimes, people argue that we could go one step further.
-We could automatically borrow an owned argument in an ordinary function call.
-You could then write `inspect(text)` instead of `inspect(&text)`, which seems convenient.
+Why not automatically borrow an owned argument in an ordinary function call?
+We could then write `inspect(text)` instead of `inspect(&text)`, which seems convenient.
 But, as always, there's a cost to convenience.
-Namely, saving the `&` would remove information readers currently get from the expression itself.[^deref]
-The lesson here is that convenience does not mean better ergonomics.
+Namely, saving the `&` would remove information readers currently get from the expression itself, namely that the value does not move.[^deref]
 
+Convenience does not always mean better ergonomics.
 This gives us a way to judge our own conveniences, too.
 Implementing `Deref` for a wrapper makes its target's methods available implicitly.
 That's convenient. 
 But it's a slippery slope.
-It can lead to leaky abstractions, where a wrapper type is treated as if it were the underlying type, but it is not quite the same. 
+It can lead to leaky abstractions, where a wrapper type is treated as if it were the underlying type, but is not quite the same. 
 
 Suppose a `UserId` stores a `String`.
 You might consider implementing `Deref<Target = str>` for it, so that callers can use it as if it were a `&str`.
-That sounds convenient, but now you expose the whole string interface through `Deref`.
-You implicitly allow callers to treat the identifier as text, sidestepping all your type invariants.
-Instead, an explicit `as_str()` leaves a visible point where they choose to do that.
+Now you expose the whole string interface through `Deref`.
+You implicitly allow callers to treat the identifier as text, sidestepping all type invariants.
+Instead, an explicit `as_str()` leaves a visible point where the identifier is treated as text.
 It also lets your `UserId` newtype have an API of its own.
-That's great, because interaction with user IDs becomes more deliberate. 
+Interaction with user IDs becomes more deliberate. 
 
 Use `Deref` only when the wrapper transparently behaves like its target and dereferencing is cheap and unsurprising.
 [The standard library agrees.](https://doc.rust-lang.org/std/ops/trait.Deref.html#when-to-implement-deref-or-derefmut)
@@ -156,15 +155,16 @@ fn nonempty(lines: &[String]) -> impl Iterator<Item = &str> {
 ```
 
 `impl Iterator<Item = &str>` tells the caller what they can do with the result, namely iterate over borrowed strings.
-Besides, if you tried writing out the concrete return type of that function, it would be unnecessarily long and complicated. 
+(Besides, if you tried writing out the concrete return type of that function, it would be unnecessarily long and complicated.)
 
 Ask yourself: does naming this type help the caller understand something?
 
 ## Ownership Beyond Memory
 
 We usually learn about ownership in the context of memory.
+But the same rules apply in other situations.
 
-But the same questions apply to file descriptors.
+Take file descriptors for example.
 On Unix, a raw file descriptor is just an integer.
 That integer doesn't tell you whether the descriptor is still open, or who's responsible for closing it.
 Worse, once it's closed, the operating system can reuse the number for something else.
@@ -179,8 +179,13 @@ fn inspect(fd: RawFd) -> std::io::Result<()>
 fn inspect(fd: BorrowedFd<'_>) -> std::io::Result<()>
 ```
 
-Just by looking at the signature, we know that the descriptor stays alive.[^io-safety]
-You can get that borrow from a `File`, for example:
+The first signature only gives us an integer.
+[`RawFd`](https://doc.rust-lang.org/std/os/unix/io/type.RawFd.html) is literally just an alias around a [`c_int`](https://doc.rust-lang.org/std/os/raw/type.c_int.html). 
+But that descriptor might already be closed.
+Those "time-of-check to time-of-use" bugs are a [common pitfall of safe Rust](/blog/pitfalls-of-safe-rust).
+
+The second guarantees that the descriptor remains open for the duration of the borrow.[^io-safety]
+The caller keeps its owner alive, and Rust checks that relationship when we borrow from a File:
 
 ```rust
 use std::fs::File;
@@ -193,7 +198,6 @@ inspect(file.as_fd())?;
 Now the compiler can help!
 You can't drop `file` and then keep using the descriptor borrowed from it in safe Rust.
 You no longer need to search through the code to check whether someone closed it earlier.
-Those "time-of-check to time-of-use" bugs are a [common pitfall of safe Rust](/blog/pitfalls-of-safe-rust).
 
 But what if our function should really take ownership of the file descriptor? 
 Use `OwnedFd` instead.
@@ -223,22 +227,30 @@ In C, that's very much the case, and easy to get wrong.
 
 Of course, these types only guarantee what they encode.
 A `BorrowedFd` keeps track of one borrow, but it doesn't guarantee exclusivity over the underlying resource. 
-Another process might still be writing to the same file.
+That means another process might still be writing to the same file.
 
 But in general, you can stop relying on callers to remember the provenance of a resource. 
 That's a much stronger guarantee than if your API documentation says "keep this open until you're done."
 
 Raw handles are still necessary at a low-level boundary, but you don't have to pass them through your entire application.
-Provide a safe Rust wrapper instead.
+
+The lesson is that you can encapsulate ownership information in your own types and provide a safe wrapper around an unsafe API.
 
 ## Explain Who Is Responsible
 
 Sometimes things are truly outside of Rust's control. 
-We use unsafe APIs to make that division of responsibility explicit. 
+In that case, the safety responsibility shifts to the user.
+We use unsafe APIs to make that inversion of responsibility explicit. 
 
-An `unsafe fn` says: "Before you call me, you MUST establish these conditions. This is your responsibility."
-An `unsafe` block means you're responsible for satisfying the conditions of the unsafe operations inside the block.[^unsafe]
-Those are two different responsibilities, even though they share the same keyword.
+In Rust, there are two different responsibilities, which share the same keyword:
+
+- An `unsafe fn` says: "Before you call me, you MUST establish these conditions. This is your responsibility."
+- An `unsafe` block means you're responsible for satisfying the conditions of the unsafe operations inside the block.[^unsafe]
+
+The difference is that an `unsafe fn` sets safety conditions that its **caller** must meet, while an `unsafe` block marks where the **person writing the code** claims that each unsafe operation's safety conditions have been met.
+
+In both cases, it is good practice to **add safety comments** to make readers aware.
+Here's who that could look like in practice:
 
 ```rust
 /// # Safety
@@ -249,23 +261,20 @@ unsafe fn element_unchecked(values: &[u8], index: usize) -> u8 {
 }
 ```
 
-The caller promises that the index is within bounds.
-The implementation relies on that promise when calling `get_unchecked`.
-It's a good practice to add a safety comment to make users aware.
+In general you should use `get(index)` instead to handle the `None` case, but this example illustrates how to document safety obligations.
 
-This is just an example and you should not do that specific thing in practice.
-You'd use `get(index)` here to handle the `None` case, but the example shows why the distinction between an unsafe block and an unsafe function matters. 
+Since the type system can't check the safety conditions, it's your obligation to keep the documentation up to date.
 Suppose someone adds another unsafe operation to this function later.
 Does knowing that `index` is in bounds make that operation safe, too?
 Maybe.
-You have to check.
+You have to check and potentially update your docs.
 
-Quick tip: in Rust 2024, unsafe operations inside unsafe functions warn by default unless you put them in an explicit unsafe block.
-You can enforce that with `#![deny(unsafe_op_in_unsafe_fn)]`.
-
-Another tip: when you write a safety comment, explain *why* the operation is safe.
+Quick tip: when you write a safety comment, explain *why* the operation is safe.
 "This is safe" doesn't help the next person, but
 "The caller guarantees that the index is in bounds" gives them something they can check.
+
+Another tip: in Rust 2024, unsafe operations inside unsafe functions warn by default unless you put them in an explicit unsafe block.
+You can enforce that with `#![deny(unsafe_op_in_unsafe_fn)]`.
 
 ## Don't Make Callers Do Your Work
 
@@ -294,14 +303,15 @@ Or is it something you should expect and handle?
 
 One escape hatch is to make every caller check the index before calling your function.
 A strict precondition might make your work simpler, but think about your users. 
-Before you document another thing the caller "must" do, ask whether your API could do it instead.
+Before you document another thing the caller "must" do, ask whether your API could handle it instead.
 For example, you could return an `Option` and let callers decide what to do next.
 
 That doesn't mean you should avoid indexing altogether.
 If an index is indeed valid by construction, indexing can express that assumption directly.
-A panic then points to a bug in your API.
+A panic then means there's a bug in your API.
+It's probably fine to panic in that case, instead of introducing undefined behavior.
 
-And sometimes you can sidestep those issues entirely.
+And often it's possible to sidestep these issues entirely.
 For example, if you need to visit each element of a collection, [use an iterator](/blog/iterators/).
 This way, you don't have to worry about indices at all.
 
@@ -335,9 +345,10 @@ pub enum ServiceError {
 
 In that case, users have to include a fallback when matching the enum.[^non-exhaustive]
 You've pushed the responsibility to the call site, which is likely the better place to decide what to do with an unexpected variant.
-Exhaustive matching still works inside your own crate.
+Exhaustive matching keeps working inside your own crate.
 
 Should you add `#[non_exhaustive]` to every public enum just in case?
+No.
 If the set of possibilities really is closed, exhaustive matching gives users a useful guarantee.
 Don't take it away without a reason.
 Examples of closed sets include days of the week, months of the year, or the suits of a deck of cards: 
@@ -353,7 +364,7 @@ pub enum Suit {
 
 If you make this enum non-exhaustive, users can't use your crate to implement a card game without having to handle an impossible case.
 
-The awkward middle ground is a set that looks closed but isn't.
+The awkward middle ground is a set that looks closed but really isn't.
 HTTP status codes are a good example: mapping all the standard codes doesn't mean you're safe from a vendor inventing their own codes. 
 This caused a real problem in `http-types`: [a user reported](https://github.com/http-rs/http-types/issues/507) that constructing a response with Cloudflare's custom status codes panicked because the library's `StatusCode` enum couldn't represent them.
 
@@ -414,7 +425,7 @@ fn describe(status: StatusCode) -> &'static str {
 }
 ```
 
-That's pretty clever, because adding a new constant like `StatusCode::EARLY_HINTS` assigns a name to a value without changing the underlying representation; numeric checks continue to work.
+That's pretty clever, because adding a new constant like `StatusCode::EARLY_HINTS` assigns a name to a value without changing the underlying representation and numeric checks continue to work.
 
 So before making something public, ask yourself: am I willing to uphold this guarantee forever? 
 This applies to your entire public API, including enums and public fields inside structs.
@@ -424,6 +435,7 @@ From their perspective, it was part of the API all along.
 
 ## Try It on Your Own APIs
 
+I suggest you put that advice into practice.
 Pick a function in your codebase and look at it from the caller's perspective.
 What do you have to know to use it correctly?
 Can you get that information from the signature, or do you have to read the implementation first?
