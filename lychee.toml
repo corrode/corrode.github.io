@@ -46,6 +46,7 @@ exclude = [
 
   # Hosts that block automated checkers or answer with non-2xx status codes
   # even though the page is fine in a browser.
+  '^https://www\.primevideo\.com/?$',                               # homepage -> intermittent 503 to automated checks
   '^https://forms\.gle/',                                            # Google Forms -> 401 to bots
   '^https://rustlab\.it/tickets25',                                  # ticketing endpoint -> intermittent 500
   '^https://rustasiaconf\.com/',                                     # conf site -> intermittent 503

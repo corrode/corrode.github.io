@@ -328,7 +328,7 @@ This time, it's in Paris, France. 🥖
 - **Where**: [Cité des Sciences et de l'Industrie, Paris, France](https://maps.app.goo.gl/4SNzfvFVF3VqMDY5A)
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
-- **Pricing**: [Get tickets here](https://ti.to/events-matter/eurorust-2025)
+- **Pricing**: Event concluded
 - **CFP**: [Closed](https://www.papercall.io/eurorust-2025)
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
