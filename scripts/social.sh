@@ -453,6 +453,99 @@ process_directory() {
     done
 }
 
+# Composite a text layer using the same bundled fonts as the content cards.
+standalone_text() {
+    local canvas=$1 text=$2 font=$3 size=$4 x=$5 y=$6
+    local color=${7:-$PODCAST_TEXT} gravity=${8:-northwest}
+    local layer="$FONT_TMP_DIR/standalone-text.png"
+    magick -background none -fill "$color" -font "$font" \
+        -pointsize "$size" label:"$text" "$layer"
+    magick "$canvas" "$layer" -gravity "$gravity" \
+        -geometry "+${x}+${y}" -composite "$canvas"
+}
+
+# Normalize SVG viewports before rasterizing; small logo viewBoxes otherwise blur.
+# Python is only used for XML manipulation, not a separate card generator.
+prepare_social_svg() {
+    python3 - "$@" "$PODCAST_BG" <<'PY'
+import sys
+import xml.etree.ElementTree as ET
+
+source, output, width, height, mode, background = sys.argv[1:]
+ET.register_namespace("", "http://www.w3.org/2000/svg")
+with open(source) as file:
+    root = ET.fromstring(file.read().replace("#ffc61a", background))
+root.set("width", width)
+root.set("height", height)
+if mode == "podcast":
+    # Render the title separately with the bundled font, avoiding font fallback.
+    for child in list(root):
+        if child.tag == "{http://www.w3.org/2000/svg}text":
+            root.remove(child)
+ET.ElementTree(root).write(output)
+PY
+}
+
+generate_standalone_cards() {
+    local output canvas="$FONT_TMP_DIR/standalone.png"
+    local svg="$FONT_TMP_DIR/standalone.svg" logo="$FONT_TMP_DIR/standalone-logo.png"
+    local bebas="$FONT_TMP_DIR/BebasNeue-Bold.ttf"
+    local mono="$FONT_TMP_DIR/JetBrainsMono-Regular.ttf"
+
+    for output in static/social/default.png static/social/podcast.png \
+        static/codecrafters/social.png static/svix/social.png; do
+        if [[ -f "$output" && $FORCE -eq 0 ]]; then
+            continue
+        fi
+        prepare_inter_bold_font
+        if [[ ! -f "$bebas" || ! -f "$mono" ]]; then
+            prepare_podcast_fonts "$FONT_TMP_DIR"
+        fi
+
+        case "$output" in
+            static/social/default.png)
+                magick -background "$PODCAST_BG" static/social/default-template.svg "$canvas"
+                standalone_text "$canvas" 'Friendly,' "$INTER_BOLD_FONT" 76 80 85
+                standalone_text "$canvas" 'professional' "$INTER_BOLD_FONT" 76 80 190
+                standalone_text "$canvas" 'Rust' "$INTER_BOLD_FONT" 76 80 295
+                standalone_text "$canvas" 'Consulting' "$INTER_BOLD_FONT" 76 80 400
+                ;;
+            static/social/podcast.png)
+                prepare_social_svg static/social/raw/podcast.svg "$svg" 1200 630 podcast
+                magick -background "$PODCAST_BG" "$svg" "$canvas"
+                standalone_text "$canvas" 'RUST IN' "$bebas" 123 367 152
+                standalone_text "$canvas" 'PRODUCTION' "$bebas" 123 367 262 "$PODCAST_ACCENT"
+                ;;
+            *)
+                local partner tagline
+                magick -size 1200x630 "xc:$PODCAST_BG" "$canvas"
+                if [[ "$output" == static/codecrafters/social.png ]]; then
+                    partner=codecrafters
+                    tagline='Learn Rust by building real systems'
+                    prepare_social_svg static/codecrafters/logo.svg "$svg" 260 185 logo
+                    magick -background none -density 144 "$svg" -resize 260x185 "$logo"
+                    magick "$canvas" "$logo" -gravity north -geometry +0+80 -composite "$canvas"
+                    standalone_text "$canvas" 'CodeCrafters' "$INTER_BOLD_FONT" 60 0 295 "$PODCAST_TEXT" north
+                else
+                    partner=svix
+                    tagline='Webhooks your customers can rely on'
+                    prepare_social_svg static/svix/svix-brand.svg "$svg" 440 200 logo
+                    magick -background none -density 144 "$svg" -resize 440x200 "$logo"
+                    magick "$canvas" "$logo" -gravity north -geometry +0+145 -composite "$canvas"
+                fi
+                standalone_text "$canvas" "$tagline" "$INTER_BOLD_FONT" 40 0 395 "$PODCAST_TEXT" north
+                magick "$canvas" -fill "$PODCAST_ACCENT" -draw 'rectangle 540,476 660,483' "$canvas"
+                standalone_text "$canvas" "corrode.dev/$partner" "$mono" 25 0 566 '#685020' north
+                ;;
+        esac
+        magick "$canvas" -strip -depth 8 "$output"
+        echo "Generated $output"
+    done
+}
+
+# Build standalone cards first; generic podcast pages copy the show's card.
+generate_standalone_cards
+
 # Process all content directories
 for content_dir in content/*; do
     if [[ -d "$content_dir" && $(basename "$content_dir") != _* ]]; then
