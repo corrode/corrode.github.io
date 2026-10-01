@@ -50,7 +50,8 @@ RustWeek brings the Rust community together in Utrecht for talks, workshops, a h
 - **Where**: Utrecht, Netherlands
 - **Format**: 1 day of workshops, 2 days of talks, a hackathon, and social activities
 - **Focus**: Broad, open to Rust developers of all levels
-- **Links**: [Website](https://2027.rustweek.org/)
+- **CFP**: [Open](https://sessionize.com/rustweek-2027) — closes January 10, 2027 at 23:59 CET. Workshop proposals are handled separately via [email](mailto:rustweek@rustnl.org).
+- **Links**: [Website](https://2027.rustweek.org/) | [CFP Announcement](https://2027.rustweek.org/blog/2026-10-01-cfp-opened/)
 
 ## Q3 2027
 
