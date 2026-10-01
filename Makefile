@@ -13,8 +13,8 @@ build: ## Build website
 	zola build
 
 .PHONY: social
-social: ## Generate social images for blog posts
-	./scripts/social.sh
+social: ## Generate missing social images
+	python3 scripts/social.py
 
 .PHONY: svg
 svg: ## Optimize SVG files
