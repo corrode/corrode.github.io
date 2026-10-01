@@ -11,7 +11,7 @@ series = "Rust Insights"
 +++
 
 {% <info title="Looking for upcoming Rust conferences?" icon="ferris"> %}
-This page covers Rust conferences in 2025. For upcoming events, check out our [Rust Conferences 2026](/blog/rust-conferences-2026/) page with dates, locations, ticket prices, CFP deadlines, and more.
+This page covers Rust conferences in 2025. For upcoming events, check out our [Rust Conferences 2026](/blog/rust-conferences-2026/) and [Rust Conferences 2027](/blog/rust-conferences-2027/) pages.
 {% </info> %}
 
 Rustaceans like to mingle, learn, and share their knowledge at conferences.

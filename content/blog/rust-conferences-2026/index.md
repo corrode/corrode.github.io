@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2026-09-10
+updated = 2026-10-01
 template = "article.html"
 draft = false
 [extra]
@@ -14,8 +14,12 @@ The Rust community continues to grow, and with it, the number of conferences aro
 With the year well underway, most 2026 conferences have confirmed their dates, venues, and schedules, and the earlier events have already taken place.
 Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) 
 
-Oh, and in case the call for proposals (CFP) is still open, why not submit a
-talk or workshop proposal?
+{% <info title="Planning Ahead for 2027?"> %}
+
+Some conference organizers have already announced their 2027 dates and locations.
+See our [Rust Conferences 2027](/blog/rust-conferences-2027/) page for the latest updates.
+
+{% </info> %}
 
 <!-- Interactive Map -->
 <div id="conference-map"></div>
@@ -252,11 +256,13 @@ It's lovingly organized featuring delicious Italian food and a great community.
 - **Links**: [Website](https://rustlab.it/) | [Schedule](https://rustlab.it/schedule) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
 
+## Want to catch up on past events?
+
+Browse our dedicated [Rust conference recordings page](https://search.corrode.dev/conferences), where you can filter by year, topic, and conference! 
+
+[![Rust Search conference archive with year and topic filters and video recordings](conference-recordings.png)](https://search.corrode.dev/conferences)
+
 ---
-
-That's all we know about Rust conferences for 2026 so far! As conferences announce their dates and details, we'll keep this page updated.
-
-Missing an event? Spot an error? Feel free to [edit this list directly](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2026/index.md) or let us know.
 
 See you at the next conference! 🦀
 
