@@ -97,7 +97,7 @@ inspect(&text);
 The compiler applies a deref coercion automatically.
 I think that's a good compromise: the ownership decision is still visible, but the compiler handles the bookkeeping.
 
-Sometimes, people argue that we could go one step further.
+Some people argue that we could go one step further.
 Why not automatically borrow an owned argument in an ordinary function call?
 We could then write `inspect(text)` instead of `inspect(&text)`, which seems convenient.
 But, as always, there's a cost to convenience.
