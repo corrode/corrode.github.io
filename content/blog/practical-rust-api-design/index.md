@@ -184,7 +184,7 @@ fn inspect(fd: BorrowedFd<'_>) -> std::io::Result<()>
 ```
 
 The first signature only gives us an integer.
-[`RawFd`](https://doc.rust-lang.org/std/os/unix/io/type.RawFd.html) is literally just an alias for [`c_int`](https://doc.rust-lang.org/std/os/raw/type.c_int.html). 
+[`RawFd`](https://doc.rust-lang.org/std/os/fd/type.RawFd.html) is literally just an alias for [`c_int`](https://doc.rust-lang.org/std/os/raw/type.c_int.html). 
 But that descriptor might already be closed.
 Those "time-of-check to time-of-use" bugs are a [common pitfall of safe Rust](/blog/pitfalls-of-safe-rust).
 
