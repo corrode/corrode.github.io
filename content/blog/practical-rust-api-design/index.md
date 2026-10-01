@@ -1,6 +1,6 @@
 +++
 title = "Practical Rust API Design"
-date = 2026-09-30
+date = 2026-10-01
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
