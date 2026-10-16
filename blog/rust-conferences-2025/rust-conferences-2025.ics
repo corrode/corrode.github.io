@@ -1,0 +1,142 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rust Conferences//2025 Schedule//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Rust Conferences 2025
+X-WR-TIMEZONE:UTC
+X-WR-CALDESC:Major Rust programming language conferences in 2025
+
+BEGIN:VEVENT
+UID:rustnation2025@rustnationuk.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250219
+DTEND;VALUE=DATE:20250221
+SUMMARY:Rust Nation UK 2025
+LOCATION:The Brewery\, 52 Chiswell Street\, London\, EC1Y 4SD\, UK
+DESCRIPTION:Rust Nation has evolved into a staple event in the Rust community. The organization\, speaker lineup\, and recordings are always top-notch.\n\nFormat: In-person workshops + conference\nFocus: Rust ecosystem and community\nPricing:\n- Conference Only: 304 USD (early bird)\n- Workshops starting at $300 + VAT\n\nWebsite: https://www.rustnationuk.com/\nSchedule: https://www.rustnationuk.com/schedule
+URL:https://www.rustnationuk.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustinparis2025@rustinparis.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250314
+DTEND;VALUE=DATE:20250315
+SUMMARY:Rust in Paris 2025
+LOCATION:Maison.A Verso\, 52 rue de la victoire\, 75009 Paris - France
+DESCRIPTION:When Safety Meets Elegance. Features 12 speakers\, 1 day of talks\, and 250 attendees.\n\nFormat: Single-day conference\nFocus: Building secure\, high-performing software with Rust\nPricing:\n- Student: €99 ex. 20% VAT\n- Early Bird: €249 ex. 20% VAT\n\nWebsite: https://rustinparis.com/
+URL:https://rustinparis.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustmeet2025@rustmeet.eu
+DTSTAMP:20241209T000000Z
+DTSTART;VALUE=DATE:20250315
+DTEND;VALUE=DATE:20250317
+SUMMARY:RUSTMEET 2025 (Gliwice)
+LOCATION:Gliwice\, Poland
+DESCRIPTION:An event in Poland\, actively co-created by Rust enthusiasts.\n\nFormat: 2 days of talks and workshops\nFocus: Rust programming language\nPricing: TBA\nCFP: Open until January 10\, 2025\n\nWebsite: https://rustmeet.eu/
+URL:https://rustmeet.eu/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustikon2025@rustikon.dev
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250326
+DTEND;VALUE=DATE:20250327
+SUMMARY:Rustikon 2025 (Warsaw)
+LOCATION:POLIN Conference Centre\, Warsaw\, Poland
+DESCRIPTION:First Rust conference in Poland. ~15 expert talks in single-track format.\n\nFormat: Single-day conference\nFocus: Rust adoption in Poland and beyond\nPricing:\n- Standard: $172 USD\n- Student: $12 USD\n\nWebsite: https://www.rustikon.dev/
+URL:https://www.rustikon.dev/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustasia2025@rustasiaconf.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250328
+DTEND;VALUE=DATE:20250329
+SUMMARY:RUSTAsia 2025
+LOCATION:InnoCentre\, Kowloon Tong\, Hong Kong
+DESCRIPTION:First RUSTAsia conference. Hybrid format (in-person + online).\n\nFormat: Hybrid conference\nFocus: Rust in Asia\nPricing:\n- Online: $68\n- General: $245 (Early Bird)\n- VIP: $375\n- Corporate: $450\n\nCFP Open until December 31\, 2024\n\nWebsite: https://rustasiaconf.com/
+URL:https://rustasiaconf.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustkonf-turkiye2025@turkiyerustcom
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250420
+DTEND;VALUE=DATE:20250421
+SUMMARY:Rust Konf Türkiye 2025
+LOCATION:Istanbul\, Turkey
+DESCRIPTION:First-ever Rust conference in Turkey. Features technical talks\, workshops\, and networking.\n\nFormat: Single-day conference with talks and workshops\nFocus: Low-level programming\, system development\, and Rust ecosystem\nPricing: Free\n\nCFP Open until January 1\, 2025\n\nWebsite: https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-@-april-20-2025
+URL:https://kommunity.com/turkiye-rust-community/events/rust-konf-turkiye-@-april-20-2025
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustweek2025@rustweek.org
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250512
+DTEND;VALUE=DATE:20250518
+SUMMARY:RustWeek 2025 (Utrecht)
+LOCATION:Kinepolis Utrecht\, Netherlands
+DESCRIPTION:Week-long event combining talks\, workshops\, and social events.\n\nFormat: Full week (2 days talks + 1 day workshops + social events)\nFocus: Rust in industry\nPricing (Early Bird):\n- Conference: €189 (Individual) / €375 (Company)\n- Conference + Workshop: €329 (Individual) / €569 (Company)\n- Students: €29.95\n\nCFP Open until January 12\, 2025\n\nWebsite: https://rustweek.org/
+URL:https://rustweek.org/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustsummit2025@rustsummit.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250607
+DTEND;VALUE=DATE:20250608
+SUMMARY:Rust Summit 2025 (Belgrade)
+LOCATION:Belgrade\, Serbia
+DESCRIPTION:First conference for Rust blockchain professionals.\n\nFocus: Blockchain\nPricing: $72.90 (General Admission)\nCFP: Open\n\nWebsite: https://rustsummit.com/
+URL:https://rustsummit.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustforge2025@rustforgeconf.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250827
+DTEND;VALUE=DATE:20250831
+SUMMARY:RustForge 2025
+LOCATION:Shed 6\, Wellington\, New Zealand
+DESCRIPTION:First conference in the Asia/Pacific region that focuses on Rust.\n\nFormat: 2 days of workshops\, excursions and collaborative coding\, followed by a 2 day conference\nFocus: A tech conference for the Rust community where the hallway track is the main track.\n\nWebsite: https://rustforgeconf.com/
+URL:https://rustforgeconf.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:rustconf2025@rustconf.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250902
+DTEND;VALUE=DATE:20250906
+SUMMARY:RustConf 2025
+LOCATION:TBA
+DESCRIPTION:Official Rust conference organized by the Rust Foundation.\n\nFormat: 1 day of workshops\, 3 days of talks\nFocus: Official Rust conference\n\nWebsite: https://rustconf.com/
+URL:https://rustconf.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:oxidize2025@oxidizeconf.com
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20250916
+DTEND;VALUE=DATE:20250919
+SUMMARY:Oxidize 2025 (Berlin)
+LOCATION:Tagungswerk\, Berlin\, Germany
+DESCRIPTION:Two days of applied Rust insights from industry innovators.\n\nFormat: 1 day workshops + 2 days talks\nFocus: Applied Rust insights\n\nWebsite: https://oxidizeconf.com/
+URL:https://oxidizeconf.com/
+END:VEVENT
+
+BEGIN:VEVENT
+UID:eurorust2025@eurorust.eu
+DTSTAMP:20241203T000000Z
+DTSTART;VALUE=DATE:20251009
+DTEND;VALUE=DATE:20251011
+SUMMARY:EuroRust 2025 (Paris)
+LOCATION:Paris\, France
+DESCRIPTION:One of the largest Rust conferences in Europe. Covers all things Rust: patterns\, idioms\, system programming\, CLI tooling\, servers\, WASM and embedded systems.\n\nFormat: 2 days of talks\n\nWebsite: https://eurorust.eu/
+URL:https://eurorust.eu/
+END:VEVENT
+
+END:VCALENDAR
