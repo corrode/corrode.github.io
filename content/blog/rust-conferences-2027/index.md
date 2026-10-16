@@ -4,7 +4,7 @@ date = 2026-10-01
 template = "article.html"
 draft = false
 [extra]
-excerpt = "Plan your 2027 Rust conference trips with confirmed dates and locations for Rust Nation UK, TokioConf, RustWeek, and RustConf."
+excerpt = "Plan your 2027 Rust conference trips with confirmed dates and locations for Rust Nation UK, TokioConf, RustWeek, RustConf, and EuroRust."
 hero = "teaching.svg"
 series = "Rust Insights"
 +++
@@ -66,6 +66,18 @@ Hosted by the Rust Foundation, RustConf heads to Vancouver in 2027, with online 
 - **Focus**: Rust and its open-source ecosystem
 - **Links**: [Website](https://rustconf.com/)
 
+## Q4 2027
+
+### EuroRust (Prague, Czech Republic)
+
+EuroRust heads to Prague for two days of talks covering Rust patterns and idioms, systems programming, CLI tooling, servers, and WASM. Workshops take place on October 13 at a separate location in the city center, with side activities on October 13, 14, and 16.
+
+- **When**: October 13-16, 2027 (main conference October 14-15)
+- **Where**: Cubex Centrum, Prague, Czech Republic
+- **Format**: 1 day of workshops, 2 days of talks, and side activities
+- **Focus**: The European Rust community, covering all things Rust
+- **Links**: [Website](https://eurorust.eu/) | [Tickets](https://www.tickettailor.com/events/eurorust/2414461)
+
 ## More conferences to watch
 
 We haven't found official 2027 dates for the following conferences yet. These are events to keep an eye on, not confirmed 2027 editions:
@@ -75,7 +87,7 @@ We haven't found official 2027 dates for the following conferences yet. These ar
 - [Rust India](https://rustindia.org/)
 - [RUSTMEET](https://rustmeet.eu/en/)
 - [Oxidize](https://oxidizeconf.com/)
-- [EuroRust](https://eurorust.eu/)
+
 - [RustLab](https://rustlab.it/)
 - [RustForge](https://www.rustforgeconf.com/)
 
