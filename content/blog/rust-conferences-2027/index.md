@@ -85,7 +85,7 @@ We haven't found official 2027 dates for the following conferences yet. These ar
 - [Rustikon](https://www.rustikon.dev/)
 - [Rust in Paris](https://www.rustinparis.com/)
 - [Rust India](https://rustindia.org/)
-- [RUSTMEET](https://rustmeet.eu/en/)
+- [RUSTMEET](https://rustmeet.confreg.pl/)
 - [Oxidize](https://oxidizeconf.com/)
 
 - [RustLab](https://rustlab.it/)

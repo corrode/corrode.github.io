@@ -64,7 +64,7 @@ Learn more about Rust Week on their [website](https://rustweek.org/).
 - [sched_ext Schedulers written in Rust](https://sched-ext.com/docs/scheds/rust) - sched_lavd shows promise for video game performance, and servers?
 - [Aya](https://aya-rs.dev/) - Build eBPF programs with nothing more than Rust and the Linux kernel
 - [RustWeek: Completion-based IO](https://2026.rustweek.org/talks/alice) - Alice's talk at RustWeek about IO
-- [WE DO NOT BREAK USERSPACE](https://linuxreviews.org/WE_DO_NOT_BREAK_USERSPACE) - An e-mail from Linus explaining the mantra in typical Linus fashion
+- [WE DO NOT BREAK USERSPACE](https://lore.kernel.org/lkml/CA+55aFy98A+LJK4+GWMcbzaa1zsPBRo76q+ioEjbx-uaMKH6Uw@mail.gmail.com/t/) - An e-mail from Linus explaining the mantra in typical Linus fashion
 - [Linux clippy config](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/.clippy.toml) - It's not pedantic!
 - [Rust code style](https://origin.kernel.org/doc/html/latest/rust/coding-guidelines.html) - Coding guidelines of the Linux project for Rust code
 - [rustfmt config](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/.rustfmt.toml) - Almost vanilla with some ideas for the future

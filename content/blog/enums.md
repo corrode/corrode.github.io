@@ -11,7 +11,7 @@ resources = [
     "[Idiomatic Rust](/#series-idiomatic-rust) - More articles on writing idiomatic Rust code",
 ]
 reviews = [
-    { name = "Maikel", url = "https://mastodon.social/@the@mkl.lol" }
+    { name = "Maikel" }
 ]
 +++
 

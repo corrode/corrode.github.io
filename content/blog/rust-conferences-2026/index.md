@@ -159,19 +159,19 @@ All Rustaceans are welcome to attend and submit talks.
 
 ### RUSTMEET (Kraków, Poland)
 
-<a href="https://rustmeet.eu/" target="_blank">
+<a href="https://rustmeet.confreg.pl/events/68-rustmeet-2026" target="_blank">
   <img src="rustmeet.jpg" alt="RUSTMEET" />
 </a>
 
 An event in Poland, actively co-created by Rust enthusiasts.
 
 - **When**: June 12-14, 2026
-- **Where**: [Hotel Kolna, Kraków, Poland](https://rustmeet.eu/) (also online)
+- **Where**: [Hotel Kolna, Kraków, Poland](https://rustmeet.confreg.pl/events/68-rustmeet-2026) (also online)
 - **Format**: 3 days (talks + workshops + lightning talks + social event)
 - **Focus**: Rust programming language
 - **Pricing**: Event concluded
 - **CFP**: Closed
-- **Links**: [Website](https://rustmeet.eu/) | [Past Talks](https://www.youtube.com/@Rustmeet)
+- **Links**: [Event page](https://rustmeet.confreg.pl/events/68-rustmeet-2026) | [Past Talks](https://www.youtube.com/@Rustmeet)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
 ## Q3 2026
@@ -235,7 +235,7 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Current tickets and prices](https://www.tickettailor.com/events/eurorust/2022388) (side activities sold separately)
 - **CFP**: Closed
-- **Links**: [Website](https://eurorust.eu/) | [Schedule](https://eurorust.eu/schedule) | [Past Talks](https://www.youtube.com/@eurorust)
+- **Links**: [Website](https://eurorust.eu/) | [Schedule](https://eurorust.eu/2026/schedule/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 
 ### RustLab (Bologna, Italy)
