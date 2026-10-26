@@ -12,7 +12,7 @@ reviews = [
     { name = "Ramon Garate", url = "https://ramonverse.com" },
 ]
 resources = [
-    "[Syntax comparison between TypeScript and Rust - Robbie Cook](https://blog.robbie.digital/posts/typescript-to-rust)",
+    "[Syntax comparison between TypeScript and Rust - Robbie Cook (archived)](https://web.archive.org/web/20250312002537/https://blog.robbie.digital/posts/typescript-to-rust)",
     "[My experience migrating TypeScript libraries to Rust - Patrick Desjardins](https://patrickdesjardins.com/blog/migrating-typescript-library-to-rust)",
     "[Node.js to Rust in 2024 - Pascal Poredda](https://pascal-poredda.de/blog/migrating-from-node-to-rust)"
 ]

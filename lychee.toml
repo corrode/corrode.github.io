@@ -46,6 +46,8 @@ exclude = [
 
   # Hosts that block automated checkers or answer with non-2xx status codes
   # even though the page is fine in a browser.
+  # Homepage returns 200 locally but repeated 404/502 responses in CI (2026-10-26).
+  '^https://system76\.com/?$',
   '^https://www\.primevideo\.com/?$',                               # homepage -> intermittent 503 to automated checks
   '^https://forms\.gle/',                                            # Google Forms -> 401 to bots
   '^https://rustlab\.it/tickets25',                                  # ticketing endpoint -> intermittent 500
