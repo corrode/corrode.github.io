@@ -323,9 +323,13 @@ auto copy = original; // May implicitly copy</code></pre>
     </tr>
   </tbody>
 </table>
+</div>
+
+{{ <migration_cta /> }}
 
 ## Rust vs C++ Type Equivalents
 
+<div class="comparison-table-wrapper" role="region" aria-label="Rust and C++ type comparison" tabindex="0">
 <table style="width:100%">
   <thead>
     <tr>
@@ -546,6 +550,6 @@ If you want a counterpoint on the cost side, Victor is also blunt about Rust com
 Migrating a C++ codebase is one of the more involved transitions.
 The languages share many low-level concepts, but Rust's ownership model requires a shift in how you structure code (no mutable aliases, no self-referential structs, etc.). 
 I help engineering teams navigate that shift, from training and architecture reviews to hands-on migration support.
-[Get in touch to talk about your project](/services).
+[Get in touch to talk about your project](https://cal.com/corrode/intro-call?utm_source=corrode&utm_medium=website&utm_campaign=migration-guides&utm_content=article-bottom).
 
 {% </info> %}

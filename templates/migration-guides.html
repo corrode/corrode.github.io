@@ -53,15 +53,7 @@ meta %}
                 icon={page.permalink ~ page.extra.icon} /> }} {% endfor %}
             </ul>
 
-            <div class="workshops-cta">
-                <h2>Planning a migration?</h2>
-                <p>
-                    A move to Rust is easier with someone who has done it
-                    before. We help teams scope the work, de-risk the rewrite,
-                    and bring their engineers up to speed.
-                </p>
-                <a href="/services/" class="cta-button">Get in touch →</a>
-            </div>
+            {{ <migration_cta placement="catalog-bottom" /> }}
         </div>
     </div>
 </article>

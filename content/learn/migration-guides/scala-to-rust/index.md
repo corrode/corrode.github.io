@@ -58,6 +58,8 @@ While Scala and Clojure offer good performance for JVM languages, Rust provides 
 
 Rust's predictable resource usage and lack of garbage collection pauses make it ideal for systems that require consistent performance. Organizations often find that moving performance-critical components to [Rust can significantly reduce their infrastructure costs](https://corrode.dev/blog/why-rust/#cost-savings).
 
+{{ <migration_cta /> }}
+
 ## Making the Business Case
 
 The business case for Rust extends beyond technical merits.
@@ -94,6 +96,6 @@ I can help you evaluate your current systems, design a migration strategy, and
 help you make an informed decision about moving to Rust. I offer consulting
 services to help you assess the technical and business implications of a
 migration, and I can train your developers to succeed with Rust.
-[Get in touch for a free consultation](/services).
+[Get in touch for a free consultation](https://cal.com/corrode/intro-call?utm_source=corrode&utm_medium=website&utm_campaign=migration-guides&utm_content=article-bottom).
 
 {% </info> %}

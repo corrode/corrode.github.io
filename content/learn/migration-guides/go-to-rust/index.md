@@ -636,6 +636,7 @@ With that out of the way, here's a rough map. Entries marked (stdlib) are part o
 
 For a typical backend service in Rust, `axum` + `sqlx` + `tokio` + `tracing` + `serde` + `clap` covers about 90% of what you need. The dependency count is higher than the Go equivalent, and that's a real cost (more `Cargo.lock` churn, more supply-chain surface). For services where the stdlib is enough, staying on Go is a perfectly defensible call.
 
+{{ <migration_cta /> }}
 
 ## Key Challenges in Transitioning to Rust
 
@@ -829,6 +830,6 @@ The point of a migration is to put each problem in the language that solves it b
 {% <info title="Ready to Make the Move to Rust?" icon="crab"> %}
 
 I help backend teams evaluate, plan, and execute Go-to-Rust migrations.
-Whether you need an architecture review, training, or hands-on help porting a critical service, [let's talk about your needs](/services).
+Whether you need an architecture review, training, or hands-on help porting a critical service, [let's talk about your needs](https://cal.com/corrode/intro-call?utm_source=corrode&utm_medium=website&utm_campaign=migration-guides&utm_content=article-bottom).
 
 {% </info> %}

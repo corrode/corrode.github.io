@@ -468,6 +468,8 @@ Here's a practical mapping of common npm packages to their Rust crate equivalent
 **A key difference:** You won't find a Rust equivalent for every small utility package.
 Where npm culture encourages installing tiny single-function packages, Rust culture favors using the standard library or writing the utility yourself. The standard library's [iterator](/blog/iterators/), collections, and string APIs are rich enough that you rarely need external packages for basic operations.
 
+{{ <migration_cta /> }}
+
 ## Rust vs TypeScript For Backend Services
 
 TypeScript is a great language for backend services.
@@ -601,6 +603,6 @@ Build confidence through early wins.
 
 Migrating a production codebase is a big step, and the learning curve is real.
 I help engineering teams make successful transitions to Rust, from training and architecture reviews to hands-on migration planning.
-If you want to move faster and avoid the common pitfalls, [let's talk about your project](/services).
+If you want to move faster and avoid the common pitfalls, [let's talk about your project](https://cal.com/corrode/intro-call?utm_source=corrode&utm_medium=website&utm_campaign=migration-guides&utm_content=article-bottom).
 
 {% </info> %}

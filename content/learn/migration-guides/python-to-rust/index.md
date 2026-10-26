@@ -319,6 +319,8 @@ That's great because it's ready to use out of the box, but it also means that Py
 
 In practice, almost 100% of production Rust applications use Tokio as their async runtime and it's just one `cargo add tokio` away, so I'd say the tradeoff is worth it for the flexibility and performance benefits you get from Rust's async model. But that's just my personal opinion.
 
+{{ <migration_cta /> }}
+
 ## String Types: `String` vs `&str`
 
 In Python, there is only one string type: `str`. It is immutable and garbage-collected.
@@ -692,6 +694,6 @@ However, if you do hit the limits of Python, Rust is a strong contender and I've
 I help teams make successful transitions from Python to Rust.
 My clients moved critical workloads to Rust and saw significant improvements in performance and reliability.
 If you liked my guide, chances are you will like the way I work as well. 
-Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](/services).
+Whether you need training, architecture guidance, or migration planning, [let's talk about your needs](https://cal.com/corrode/intro-call?utm_source=corrode&utm_medium=website&utm_campaign=migration-guides&utm_content=article-bottom).
 
 {% </info> %}
