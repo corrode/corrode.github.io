@@ -376,7 +376,11 @@ article {
 }
 
 .prose a code:not(pre > code) {
+    // Keep the parent link's text underline out of the code box.
+    display: inline-block;
+    max-width: 100%;
     background-color: $brightScndLight;
+    box-shadow: 0 2px 0 color-mix(in srgb, currentColor 30%, transparent);
 }
 
 .article-content-with-resources {
@@ -415,10 +419,6 @@ article {
     }
 
     .article-content-wrapper {
-        background-color: $darkBgrd;
-    }
-
-    .prose a code:not(pre > code) {
         background-color: $darkBgrd;
     }
 
