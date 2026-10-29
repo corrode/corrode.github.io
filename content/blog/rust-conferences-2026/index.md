@@ -178,6 +178,10 @@ An event in Poland, actively co-created by Rust enthusiasts.
 
 ### Rust Summit (Belgrade, Serbia)
 
+<a href="https://rustsummit.com/" target="_blank">
+  <img src="rustsummit.jpg" alt="Rust Summit" />
+</a>
+
 The third Rust Summit focuses on Rust development for blockchain systems. It brings developers from different blockchain ecosystems together for talks and workshops.
 
 - **When**: August 27, 2026
@@ -252,6 +256,10 @@ This time, it's in Barcelona, Spain. 🇪🇸
 
 ### RustChinaConf (Shenzhen, China)
 
+<a href="https://rustchinaconf.org/" target="_blank">
+  <img src="rustchinaconf.jpg" alt="RustChinaConf" />
+</a>
+
 Co-located with GOSIM Shenzhen, RustChinaConf covers Rust for AI systems, AI-assisted Rust development, and lessons from running Rust in production.
 
 - **When**: October 15-17, 2026
@@ -282,6 +290,10 @@ It's lovingly organized featuring delicious Italian food and a great community.
 
 ### RustCon (Moscow, Russia)
 
+<a href="https://rustcon.ru/" target="_blank">
+  <img src="rustcon.jpg" alt="RustCon" />
+</a>
+
 RustCon is an annual Rust conference in Moscow, with talks on development techniques, engineering practices, and experience from Rust projects.
 
 - **When**: December 4, 2026
@@ -295,6 +307,10 @@ RustCon is an annual Rust conference in Moscow, with talks on development techni
 
 ### FOSDEM Rust Devroom (Brussels, Belgium)
 
+<a href="https://rust-fosdem.github.io/" target="_blank">
+  <img src="fosdem-rust.jpg" alt="FOSDEM Rust Devroom" />
+</a>
+
 A full day of Rust talks, demos, and discussions within FOSDEM, covering the language, tooling, and Rust's use in free and open-source software.
 
 - **When**: February 1, 2026
@@ -307,6 +323,10 @@ A full day of Rust talks, demos, and discussions within FOSDEM, covering the lan
 
 ### Rust Verification Workshop (Turin, Italy)
 
+<a href="https://sites.google.com/view/rustverify2026/home" target="_blank">
+  <img src="rust-verification.jpg" alt="Rust Verification Workshop at ETAPS" />
+</a>
+
 The sixth Rust Verification Workshop brings researchers, language designers, and tool builders together to discuss how to verify Rust programs. It includes talks, tool demos, and open discussions alongside ETAPS.
 
 - **When**: April 13-14, 2026
@@ -318,6 +338,10 @@ The sixth Rust Verification Workshop brings researchers, language designers, and
 - **Links**: [Workshop website](https://sites.google.com/view/rustverify2026/home)
 
 ### Linux Plumbers Rust Microconference (Prague, Czechia)
+
+<a href="https://lpc.events/event/20/sessions/257/" target="_blank">
+  <img src="linux-plumbers-rust.jpg" alt="Linux Plumbers Rust Microconference" />
+</a>
 
 A discussion-focused Rust track at the Linux Plumbers Conference. Topics include Rust for Linux, kernel abstractions, tooling, and Rust development across the Linux ecosystem.
 
