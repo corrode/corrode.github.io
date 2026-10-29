@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Practical Rust API Design | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what’s going on.
+It’s empowering if you can understand a function by its type signature and get immediate feedback on whether you used i…">
+    <link rel="canonical" href="https://corrode.dev/blog/practical-rust-api-design/">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Practical Rust API Design | corrode Rust Consulting">
+    <meta property="og:description" content="A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what’s going on.
+It’s empowering if you can understand a function by its type signature and get immediate feedback on whether you used i…">
+    <meta name="image" property="og:image" content="https://corrode.dev/blog/practical-rust-api-design/social.png">
+    <meta property="og:image:secure_url" content="https://corrode.dev/blog/practical-rust-api-design/social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Practical Rust API Design | corrode Rust Consulting">
+    <meta property="og:url" content="https://corrode.dev/blog/practical-rust-api-design/">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-10-02">
+    <meta property="article:author" content="Matthias Endler">
+    <meta name="publish_date" property="og:publish_date" content="2026-10-02">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@matthiasendler">
+    <meta name="twitter:creator" content="@matthiasendler">
+    <meta name="twitter:title" content="Practical Rust API Design | corrode Rust Consulting">
+    <meta name="twitter:description" content="A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what’s going on.
+It’s empowering if you can understand a function by its type signature and get immediate feedback on whether you used i…">
+    <meta name="twitter:image" content="https://corrode.dev/blog/practical-rust-api-design/social.png">
+    <meta name="twitter:image:alt" content="Practical Rust API Design | corrode Rust Consulting">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/practical-rust-api-design/"
+      },
+      "headline": "Practical Rust API Design",
+      "description": "A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what’s going on.\nIt’s empowering if you can understand a function by its type signature and get immediate feedback on whether you used i…",
+      
+      "image": "https://corrode.dev/blog/practical-rust-api-design/social.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler",
+        "url": "https://endler.dev",
+        "sameAs": [
+          "https://github.com/mre",
+          "https://mastodon.social/@mre",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "url": "https://corrode.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        },
+        "sameAs": [
+          "https://github.com/corrode",
+          "https://www.linkedin.com/company/corrode",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "datePublished": "2026-10-02",
+      
+      "dateModified": "2026-10-02"
+      
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://corrode.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://corrode.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Practical Rust API Design",
+          "item": "https://corrode.dev/blog/practical-rust-api-design/"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav aria-label="Main navigation">
+    <!-- Logo and Home Link -->
+    <div>
+        <a  class="nav-item" 
+            href="https://corrode.dev/">
+            <span class="logo">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle">
+        <span class="menu-button" aria-hidden="true"></span>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" type="button" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                </span>
+                <span id="icon-sun" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                </span>
+            </button>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item active" 
+                href="https://corrode.dev/blog">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/podcast">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/learn/migration-guides">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/workshops">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/mentorship">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://corrode.dev/services" class="cta-button">
+                <span>Consulting&nbsp;→</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        <main class="container">
+            
+<article>
+  <header class="article-heading">
+    <p class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </p>
+    <h1>Practical Rust API Design</h1>
+    <div class="article-meta">
+      <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="article-date">
+        
+          Published: <time datetime="2026-10-02">2026-10-02</time>
+        
+      </span>
+    </div>
+    
+  </header>
+  <div class="article-content-wrapper">
+    
+    <section class="article-content prose">
+    
+
+      <p>A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what’s going on.
+It’s empowering if you can understand a function by its type signature and get immediate feedback on whether you used it correctly.
+Other times, it feels like you’re a code archaeologist:
+Was this value validated before?
+Is it safe to retry this call?
+Can this panic?
+Bad APIs make local reasoning hard.</p>
+<p>“Local reasoning” here means being able to understand a piece of code from a limited amount of surrounding context and the contracts of the APIs it uses.
+The main point is that you can rely on those contracts without additional knowledge of the implementation.</p>
+<p>What makes Rust feel different from other languages is the ability to encode invariants in the type system and do so <em>at zero cost</em>.
+The combination of both properties is rare.</p>
+<p>Once you notice this “local reasoning principle”, you’ll see it everywhere in Rust’s standard library: through the use of <code>Result</code> and <code>Option</code>, borrows marked with <code>&amp;</code>, enums to represent a closed set of possibilities, or explicit unsafe blocks.
+This information is always visible in every function signature.</p>
+<p>A simple way to apply this mindset yourself is to check if your function signatures communicate as much information as possible to the caller.
+Maybe show the signature to a friend or colleague and ask them to explain what it does.
+It can be eye-opening.</p>
+<p>Let’s look at a few examples.</p>
+<h2 id="put-relationships-in-the-signature"><a class="zola-anchor" href="#put-relationships-in-the-signature" aria-label="Anchor link for: put-relationships-in-the-signature">Put Relationships in the Signature</a></h2>
+<p>Consider this function signature:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> first_line</span><span>(text</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Option</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>&gt;</span></span></code></pre>
+<p>Before even looking at the implementation, we already know that the function takes a borrowed input and may have no output.
+(Or, rather, it may return <code>None</code>.)
+Actually, if you know Rust’s lifetime elision rules, you know that the real signature is:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> first_line</span><span>&lt;&#39;</span><span style="color: #8BE9FD;font-style: italic;">text</span><span>&gt;(text</span><span style="color: #FF79C6;">: &amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">text str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Option</span><span>&lt;</span><span style="color: #FF79C6;">&amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">text str</span><span>&gt;</span></span></code></pre>
+<p>The input is tied to the output.
+That implies that the caller can’t keep using the returned string after the borrow of <code>text</code> has ended.
+And by extension, the function can’t return a temporary string either.
+The function is not making any long-lived allocations.</p>
+<p>That’s a lot of useful information for just one function header!</p>
+<p>All of that is great, but equally important, there are a few “implicit” assumptions that the signature does <em>not</em> guarantee.
+Take the function name: it suggests that the function returns “the first line of something.”
+However, the type system does not enforce that.
+It could return the last line for all we know, and the signature would be identical.</p>
+<p>The function header also won’t tell us whether anything is logged, how it performs, or whether it panics.</p>
+<p>Rust is often described as an explicit language.
+Yet it also uses type inference, lifetime elision, automatic borrowing of method receivers, and implicit coercions.
+That’s because writing everything out would make many programs <a href="/blog/ugly">harder to read</a>.
+What you should make explicit depends on your context.</p>
+<p>A good rule of thumb when designing an API is to look for relationships that callers would otherwise have to keep in their heads.
+Does your function really take any <code>&amp;str</code>, or does it expect a string that has been validated in some way?
+For example, is an empty string valid input?
+What does <code>None</code> mean in the return value?
+Should it be treated as an error, or is it a valid case?
+Should it be a <code>Result</code> instead?
+Good function signatures tell a story about the relationships between inputs and outputs.</p>
+<h2 id="keep-consequential-choices-visible"><a class="zola-anchor" href="#keep-consequential-choices-visible" aria-label="Anchor link for: keep-consequential-choices-visible">Keep Consequential Choices Visible</a></h2>
+<p>Consider these two calls, where <code>text</code> is a <code>String</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #50FA7B;">inspect</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>text);</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">consume</span><span>(text);</span></span></code></pre>
+<p>The first call borrows <code>text</code> while the second one moves it.</p>
+<p>Now let’s look at the context of the borrowed call:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> inspect</span><span>(text</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    println!</span><span>(</span><span style="color: #F1FA8C;">&quot;{text}&quot;</span><span>);</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> text</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from</span><span>(</span><span style="color: #F1FA8C;">&quot;hello&quot;</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">inspect</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>text);</span></span></code></pre>
+<p>The compiler applies a deref coercion automatically.
+I think that’s a good compromise: the ownership decision is still visible, but the compiler handles the bookkeeping.</p>
+<p>Some people argue that we could go one step further.
+Why not automatically borrow an owned argument in an ordinary function call?
+We could then write <code>inspect(text)</code> instead of <code>inspect(&amp;text)</code>, which seems convenient.
+But, as always, there’s a cost to convenience.
+Saving the <code>&amp;</code> would remove information readers currently get from the expression itself: that the value does not move.<sup class="footnote-reference" id="fr-deref-1"><a href="https://corrode.dev/blog/practical-rust-api-design/#fn-deref">[1]</a></sup></p>
+<p>Convenience does not always mean better ergonomics.
+This gives us a way to judge our own conveniences, too.
+Implementing <code>Deref</code> for a wrapper makes its target’s methods available implicitly.
+That’s convenient.
+But it’s a slippery slope.
+It can lead to leaky abstractions, where a wrapper type is treated as if it were the underlying type, but is not quite the same.</p>
+<p>Suppose a <code>UserId</code> stores a <code>String</code>.
+You might consider implementing <code>Deref&lt;Target = str&gt;</code> for it, so that callers can use it as if it were a <code>&amp;str</code>.
+Now you expose the whole string interface through <code>Deref</code>.
+You implicitly allow callers to treat the identifier as text, sidestepping all type invariants.
+Instead, an explicit <code>as_str()</code> leaves a visible point where the identifier is treated as text.
+It also lets your <code>UserId</code> newtype have an API of its own.
+Interaction with user IDs becomes more deliberate.</p>
+<p>Use <code>Deref</code> only when the wrapper transparently behaves like its target and dereferencing is cheap and unsurprising.
+<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/ops/trait.Deref.html#when-to-implement-deref-or-derefmut">The standard library agrees.</a></p>
+<h2 id="give-names-a-purpose"><a class="zola-anchor" href="#give-names-a-purpose" aria-label="Anchor link for: give-names-a-purpose">Give Names a Purpose</a></h2>
+<p>Take a look at this function signature:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> visit</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">F</span><span style="color: #FF79C6;">:</span><span style="color: #50FA7B;"> FnMut</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)&gt;(callback</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> F</span><span>)</span></span></code></pre>
+<p>Here, we introduce a name, <code>F</code>, give it a bound of <code>FnMut(&amp;str)</code>, and then use it exactly once for <code>callback</code>.
+I think that signature would be clearer if we put the requirement right next to where it’s used:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> visit</span><span>(callback</span><span style="color: #FF79C6;">: impl</span><span style="color: #50FA7B;"> FnMut</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>))</span></span></code></pre>
+<p>Now you can read the signature from left to right.
+This saves you from jumping back and forth just to figure out what <code>F</code> means.
+One less thing to keep in your head while reading.<sup class="footnote-reference" id="fr-impl-trait-1"><a href="https://corrode.dev/blog/practical-rust-api-design/#fn-impl-trait">[2]</a></sup></p>
+<p>Now, I’m not saying that version two is <em>always</em> better.
+For example, it can be helpful to keep generics separate from the rest of the signature when the generic type is used in multiple places:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> choose</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>&gt;(first</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> T</span><span>, second</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> T</span><span>, take_first</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> T</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    if</span><span> take_first { first }</span><span style="color: #FF79C6;"> else</span><span> { second }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Here, <code>T</code> tells us that both arguments as well as the return value have the same type.
+The same thinking applies to return types:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> nonempty</span><span>(lines</span><span style="color: #FF79C6;">: &amp;</span><span>[</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>])</span><span style="color: #FF79C6;"> -&gt; impl</span><span style="color: #8BE9FD;font-style: italic;"> Iterator</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Item</span><span style="color: #FF79C6;"> = &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>&gt; {</span></span>
+<span class="giallo-l"><span>    lines</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">iter</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">map</span><span>(String</span><span style="color: #FF79C6;">::</span><span>as_str)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">filter</span><span>(</span><span style="color: #FF79C6;">|</span><span>s</span><span style="color: #FF79C6;">| !</span><span>s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">is_empty</span><span>())</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p><code>impl Iterator&lt;Item = &amp;str&gt;</code> tells the caller what they can do with the result, namely iterate over borrowed strings.
+(Besides, if you tried writing out the concrete return type of that function, it would be unnecessarily long and complicated.)</p>
+<p>Ask yourself: does naming this type help the caller understand something?</p>
+<h2 id="ownership-beyond-memory"><a class="zola-anchor" href="#ownership-beyond-memory" aria-label="Anchor link for: ownership-beyond-memory">Ownership Beyond Memory</a></h2>
+<p>We usually learn about ownership in the context of memory.
+But the same rules apply in other situations.</p>
+<p>Take file descriptors, for example.
+On Unix, a raw file descriptor is just an integer.
+That integer doesn’t tell you whether the descriptor is still open, or who’s responsible for closing it.
+Worse, once it’s closed, the operating system can reuse the number for something else.</p>
+<p>Consider these two signatures, using types from <code>std::os::fd</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> inspect</span><span>(fd</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> RawFd</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span> std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;()&gt;</span></span></code></pre><pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> inspect</span><span>(fd</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> BorrowedFd</span><span>&lt;&#39;</span><span style="color: #8BE9FD;font-style: italic;">_</span><span>&gt;)</span><span style="color: #FF79C6;"> -&gt;</span><span> std</span><span style="color: #FF79C6;">::</span><span>io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;()&gt;</span></span></code></pre>
+<p>The first signature only gives us an integer.
+<a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/os/fd/type.RawFd.html"><code>RawFd</code></a> is literally just an alias for <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/os/raw/type.c_int.html"><code>c_int</code></a>.
+But that descriptor might already be closed.
+Those “time-of-check to time-of-use” bugs are a <a href="/blog/pitfalls-of-safe-rust">common pitfall of safe Rust</a>.</p>
+<p>The second guarantees that the descriptor remains open for the duration of the borrow.<sup class="footnote-reference" id="fr-io-safety-1"><a href="https://corrode.dev/blog/practical-rust-api-design/#fn-io-safety">[3]</a></sup>
+The caller keeps its owner alive, and Rust checks that relationship when we borrow from a <code>File</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>fs</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">File</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">use</span><span> std</span><span style="color: #FF79C6;">::</span><span>os</span><span style="color: #FF79C6;">::</span><span>fd</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">AsFd</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> file</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> File</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">open</span><span>(</span><span style="color: #F1FA8C;">&quot;notes.txt&quot;</span><span>)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">inspect</span><span>(file</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">as_fd</span><span>())</span><span style="color: #FF79C6;">?</span><span>;</span></span></code></pre>
+<p>Now the compiler can help!
+You can’t drop <code>file</code> and then keep using the descriptor borrowed from it in safe Rust.
+You no longer need to search through the code to check whether someone closed it earlier.</p>
+<p>But what if our function should really take ownership of the file descriptor?
+Use <code>OwnedFd</code> instead.
+When the <code>OwnedFd</code> is dropped, the descriptor is closed automatically, so the caller doesn’t have to remember to do it.</p>
+<p>In a sense, memory and file descriptors share a similar set of types with different guarantees:</p>
+<table><thead><tr><th>Memory</th><th>File descriptors</th><th>Use Case</th></tr></thead><tbody>
+<tr><td><code>Box&lt;T&gt;</code></td><td><code>OwnedFd</code></td><td>“I want to own this resource and close it when I’m done.”</td></tr>
+<tr><td><code>&amp;T</code></td><td><code>BorrowedFd&lt;'a&gt;</code></td><td>“I want to borrow this resource for a limited time.”</td></tr>
+<tr><td>Raw pointer</td><td><code>RawFd</code></td><td>“I want to use this resource, but I don’t know who owns it or how long it will live.”</td></tr>
+</tbody></table>
+<p>Lock guards are another example.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> _guard</span><span style="color: #FF79C6;"> =</span><span> lock</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">lock</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // do cool things with lock</span></span>
+<span class="giallo-l"><span>} </span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// We no longer have access to the lock here, because `_guard` was dropped. </span></span></code></pre>
+<p>If you can access the data, you hold the lock.
+You don’t have to “trace the program back” to an earlier <code>lock()</code> call and check every path for an unlock.
+In C, that’s very much the case and easy to get wrong.</p>
+<p>Of course, these types only guarantee what they encode.
+A <code>BorrowedFd</code> keeps track of one borrow, but it doesn’t guarantee exclusivity over the underlying resource.
+That means another process might still be writing to the same file.</p>
+<p>But in general, you can stop relying on callers to remember the provenance of a resource.
+That’s a much stronger guarantee than simply saying “keep this open until you’re done” in your API documentation.</p>
+<p>Raw handles are still necessary at a low-level boundary, but you don’t have to pass them through your entire application.</p>
+<p>The lesson is that you can encapsulate ownership information in your own types and provide a safe wrapper around an unsafe API.</p>
+<h2 id="explain-who-is-responsible"><a class="zola-anchor" href="#explain-who-is-responsible" aria-label="Anchor link for: explain-who-is-responsible">Explain Who Is Responsible</a></h2>
+<p>Sometimes things are truly outside of Rust’s control.
+In that case, the safety responsibility shifts to the user.
+We use unsafe APIs to make that inversion of responsibility explicit.</p>
+<p>In Rust, there are two different responsibilities, which share the same keyword:</p>
+<ul>
+<li>An <code>unsafe fn</code> says: “Before you call me, you MUST establish these conditions. This is your responsibility.”</li>
+<li>An <code>unsafe</code> block means you’re responsible for satisfying the conditions of the unsafe operations inside the block.<sup class="footnote-reference" id="fr-unsafe-1"><a href="https://corrode.dev/blog/practical-rust-api-design/#fn-unsafe">[4]</a></sup></li>
+</ul>
+<p>The difference is that an <code>unsafe fn</code> sets safety conditions that its <strong>caller</strong> must meet, while an <code>unsafe</code> block marks where the <strong>person writing the code</strong> claims that each unsafe operation’s safety conditions have been met.</p>
+<p>In both cases, it is good practice to <strong>add safety comments</strong> to make readers aware of these conditions.
+Here’s how that could look in practice:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">/// # Safety</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">/// `index` must be less than `values.len()`.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">unsafe fn</span><span style="color: #50FA7B;"> element_unchecked</span><span>(values</span><span style="color: #FF79C6;">: &amp;</span><span>[</span><span style="color: #8BE9FD;font-style: italic;">u8</span><span>], index</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> usize</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> u8</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // SAFETY: The caller guarantees that `index` is in bounds.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    unsafe</span><span> {</span><span style="color: #FF79C6;"> *</span><span>values</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">get_unchecked</span><span>(index) }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>In general, you should use <code>get(index)</code> instead to handle the <code>None</code> case, but this example illustrates how to document safety obligations.</p>
+<p>Since the type system can’t check the safety conditions, it’s your obligation to keep the documentation up to date.
+Suppose someone adds another unsafe operation to this function later.
+Does knowing that <code>index</code> is in bounds make that operation safe, too?
+Maybe.
+You have to check and potentially update your docs.</p>
+<p>Quick tip: when you write a safety comment, explain <em>why</em> the operation is safe.
+“This is safe” doesn’t help the next person, but
+“The caller guarantees that the index is in bounds” gives them something they can check.</p>
+<p>Another tip: in Rust 2024, unsafe operations inside unsafe functions warn by default unless you put them in an explicit unsafe block.
+You can enforce that with <code>#![deny(unsafe_op_in_unsafe_fn)]</code>.</p>
+<h2 id="don-t-make-callers-do-your-work"><a class="zola-anchor" href="#don-t-make-callers-do-your-work" aria-label="Anchor link for: don-t-make-callers-do-your-work">Don’t Make Callers Do Your Work</a></h2>
+<p>You’ve probably heard the advice to panic for programmer errors and return <code>Result</code> for recoverable failures.
+That’s reasonable, but who decides what counts as a programmer error?</p>
+<p>You do, when you design the API.<sup class="footnote-reference" id="fr-errors-1"><a href="https://corrode.dev/blog/practical-rust-api-design/#fn-errors">[5]</a></sup></p>
+<p>Consider the difference between indexing and <code>get</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> item</span><span style="color: #FF79C6;"> =</span><span> items[index];</span></span></code></pre><pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> item</span><span style="color: #FF79C6;"> =</span><span> items</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">get</span><span>(index);</span></span></code></pre>
+<p>If you use indexing, you need to know that the index is valid to avoid a panic.
+With <code>get</code>, you can try the lookup and <a href="/blog/rust-option-handling-best-practices/">handle <code>None</code> if it fails</a>.
+Remember that both are safe Rust: an invalid index doesn’t cause undefined behavior in either case.</p>
+<p>Now suppose the index comes from user input.
+Is an out-of-bounds index really a bug in your program?
+Or is it something you should expect and handle?</p>
+<p>One escape hatch is to make every caller check the index before calling your function.
+A strict precondition might make your work simpler, but think about your users.
+Before you document another thing the caller “must” do, ask whether your API could handle it instead.
+For example, you could return an <code>Option</code> and let callers decide what to do next.</p>
+<p>That doesn’t mean you should avoid indexing altogether.
+If an index is indeed valid by construction, indexing can express that assumption directly.
+A panic then means there’s a bug in your API.
+It’s probably fine to panic in that case, instead of introducing undefined behavior.</p>
+<p>And often it’s possible to sidestep these issues entirely.
+For example, if you need to visit each element of a collection, <a href="/blog/iterators/">use an iterator</a>.
+This way, you don’t have to worry about indices at all.</p>
+<h2 id="decide-what-you-want-to-promise"><a class="zola-anchor" href="#decide-what-you-want-to-promise" aria-label="Anchor link for: decide-what-you-want-to-promise">Decide What You Want to Promise</a></h2>
+<p>Another mental model for building great APIs is to think about what you want to guarantee to your users.
+Remember <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.hyrumslaw.com/">Hyrum’s Law</a>:</p>
+<blockquote>
+<p>With a sufficient number of users of an API,
+it does not matter what you promise in the contract:
+all observable behaviors of your system
+will be depended on by somebody.</p>
+</blockquote>
+<p>With that in mind, think about what happens when you try to change your API.</p>
+<p>For example, users can match on every variant of your public enum.
+They can’t forget a case, because the compiler will warn them about it.
+That’s local reasoning at work, which is great.
+But on the flip side, it also means that you can’t add a variant without breaking their code.
+You’ve broken a guarantee they depended on.</p>
+<p>To prevent that, mark your enum as <code>#[non_exhaustive]</code> so you can add variants later:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span>#[non_exhaustive]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">pub enum</span><span style="color: #8BE9FD;font-style: italic;"> ServiceError</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Unavailable</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Rejected</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>In that case, users have to include a fallback when matching the enum.<sup class="footnote-reference" id="fr-non-exhaustive-1"><a href="https://corrode.dev/blog/practical-rust-api-design/#fn-non-exhaustive">[6]</a></sup>
+You’ve pushed the responsibility to the call site, which is likely the better place to decide what to do with an unexpected variant.
+Exhaustive matching keeps working inside your own crate.</p>
+<p>Should you add <code>#[non_exhaustive]</code> to every public enum just in case?
+No.
+If the set of possibilities really is closed, exhaustive matching gives users a useful guarantee.
+Don’t take it away without a reason.
+Examples of closed sets include days of the week, months of the year, or the suits of a deck of cards:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">pub enum</span><span style="color: #8BE9FD;font-style: italic;"> Suit</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Hearts</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Diamonds</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Clubs</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Spades</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>If you make this enum non-exhaustive, users can’t use your crate to implement a card game without having to handle an impossible case.</p>
+<p>The awkward middle ground is a set that looks closed but really isn’t.
+HTTP status codes are a good example: mapping all the standard codes doesn’t mean you’re safe from a vendor inventing their own codes.
+This caused a real problem in <code>http-types</code>: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/http-rs/http-types/issues/507">a user reported</a> that constructing a response with Cloudflare’s custom status codes panicked because the library’s <code>StatusCode</code> enum couldn’t represent them.</p>
+<p><code>#[non_exhaustive]</code> doesn’t solve that problem by itself.
+It lets you add additional variants in the future, but it doesn’t allow users to represent unknown codes today.
+How about we add <code>Unregistered(u16)</code>?</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span>#[non_exhaustive]</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">pub enum</span><span style="color: #8BE9FD;font-style: italic;"> Status</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Ok</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    NotFound</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Other known status codes we can&#39;t name yet...</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    Unregistered</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">u16</span><span>),</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Now users can handle codes which don’t have a name yet:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> is_early_hints</span><span>(status</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Status</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    match</span><span> status {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        Status</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">Unregistered</span><span>(</span><span style="color: #BD93F9;">103</span><span>)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #BD93F9;"> true</span><span>,</span></span>
+<span class="giallo-l"><span>        _</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #BD93F9;"> false</span><span>,</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>But that introduces another compatibility trap.
+Suppose a later release adds an <code>EarlyHints</code> variant and starts returning it for code <code>103</code>.
+The function now returns <code>false</code> for the same HTTP status code.
+The code still compiles, but its <em>behavior</em> has changed.
+I recommend reading <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://seanmonstar.com/blog/pattern-matching-and-backwards-compatibility/">“Pattern Matching and Backwards Compatibility”</a>
+by Sean McArthur, the author of the <code>http</code> crate, about how even an enum with a catch-all variant can make promises you didn’t intend.</p>
+<p>The escape hatch for the <code>http</code> crate was to make <code>StatusCode</code> an opaque struct with associated constants for the known codes like <code>StatusCode::OK</code>.
+Users can then construct values from numeric codes, even when the library doesn’t have a name for them:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> http</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">StatusCode</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> status</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> StatusCode</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_u16</span><span>(</span><span style="color: #BD93F9;">599</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">unwrap</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">assert_eq!</span><span>(status</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">as_u16</span><span>(),</span><span style="color: #BD93F9;"> 599</span><span>);</span></span></code></pre>
+<p>They can still match on familiar codes, but they have to include a fallback.
+And they can handle an unnamed code by inspecting its numeric value:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">use</span><span> http</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">StatusCode</span><span>;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> describe</span><span>(status</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> StatusCode</span><span>)</span><span style="color: #FF79C6;"> -&gt; &amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">static str</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    match</span><span> status {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        StatusCode</span><span style="color: #FF79C6;">::</span><span style="color: #BD93F9;">OK</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;success&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>        code</span><span style="color: #FF79C6;"> if</span><span> code</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">as_u16</span><span>()</span><span style="color: #FF79C6;"> ==</span><span style="color: #BD93F9;"> 103</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;early hints&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>        _</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;some other status&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>That’s pretty clever, because adding a new constant like <code>StatusCode::EARLY_HINTS</code> assigns a name to a value without changing the underlying representation, and numeric checks continue to work.</p>
+<p>So before making something public, ask yourself: am I willing to uphold this guarantee forever?
+This applies to your entire public API, including enums and public fields inside structs.</p>
+<p>Changing things later can break user code.
+From their perspective, it was part of the API all along.</p>
+<h2 id="try-it-on-your-own-apis"><a class="zola-anchor" href="#try-it-on-your-own-apis" aria-label="Anchor link for: try-it-on-your-own-apis">Try It on Your Own APIs</a></h2>
+<p>I suggest you put that advice into practice.
+Pick a function in your codebase and look at it from the caller’s perspective.
+What do you have to know to use it correctly?
+Can you get that information from the signature, or do you have to read the implementation first?</p>
+<p>Look for instructions in the documentation that the compiler could help enforce.
+Instead of writing “keep this resource alive”, maybe you can return a borrowed type.
+“Only pass validated text” might become a newtype with some validation in the constructor.</p>
+<p>You don’t have to follow every single suggestion in this article, either.
+The goal is to make your API easier to understand and harder to misuse.</p>
+<div class="next-steps">
+    <div class="next-steps-header">
+        <span class="icon icon-crab"></span>
+        <p class="callout-label">Where to go from here</p>
+    </div>
+    <p class="next-steps-context">
+        Want a second pair of eyes on your Rust APIs? I can help you put these patterns to work in your codebase.
+    </p>
+    <ul class="next-steps-paths">
+        <li>
+            <a href="/services">For your team</a>. Training, code review, and
+            architecture support to ship Rust with confidence.
+        </li>
+        <li>
+            <a href="/mentorship?utm_source=corrode&amp;utm_medium=internal&amp;utm_campaign=mentorship&amp;utm_content=next-steps&amp;utm_term=practical-rust-api-design">For yourself</a>.
+            1-on-1 mentorship for Rust design, architecture, and code review on real projects.
+        </li>
+    </ul>
+</div>
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn-deref">
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/rfcs/blob/master/text/0241-deref-conversions.md">RFC 241: Deref coercions</a> discusses why automatically borrowing arguments would make local reasoning harder. <a href="https://corrode.dev/blog/practical-rust-api-design/#fr-deref-1">↩</a></p>
+</li>
+<li id="fn-impl-trait">
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-lang.github.io/rfcs/1951-expand-impl-trait.html">RFC 1951: Expand <code>impl Trait</code></a> explains ergonomics in terms of how much you have to keep in your head, and discusses who chooses the concrete type. <a href="https://corrode.dev/blog/practical-rust-api-design/#fr-impl-trait-1">↩</a></p>
+</li>
+<li id="fn-io-safety">
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-lang.github.io/rfcs/3128-io-safety.html">RFC 3128: I/O safety</a> explains the analogy between raw handles and raw pointers, and introduces owned and borrowed handle types. <a href="https://corrode.dev/blog/practical-rust-api-design/#fr-io-safety-1">↩</a></p>
+</li>
+<li id="fn-unsafe">
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-lang.github.io/rfcs/2585-unsafe-block-in-unsafe-fn.html">RFC 2585: Unsafe blocks in unsafe functions</a> separates defining safety obligations from satisfying them.
+The <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html">Rust 2024 edition guide</a> covers the lint’s current default. <a href="https://corrode.dev/blog/practical-rust-api-design/#fr-unsafe-1">↩</a></p>
+</li>
+<li id="fn-errors">
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/rust-lang/rfcs/blob/master/text/0236-error-conventions.md">RFC 236: Error conventions</a> recommends expressing contracts through types where possible, and using <code>Result</code> or <code>Option</code> when a stricter contract is hard to justify.
+The discussion of task failure predates Rust 1.0; the advice about API contracts is the relevant part here. <a href="https://corrode.dev/blog/practical-rust-api-design/#fr-errors-1">↩</a></p>
+</li>
+<li id="fn-non-exhaustive">
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-lang.github.io/rfcs/2008-non-exhaustive.html">RFC 2008: Non-exhaustive enums and structs</a> discusses exhaustive matching and the freedom to add new variants. <a href="https://corrode.dev/blog/practical-rust-api-design/#fr-non-exhaustive-1">↩</a></p>
+</li>
+</ol>
+</section>
+
+    </section>
+  </div>
+
+  <footer class="article-footer">
+    <div class="article-footer-inner">
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https%3A//corrode.dev/blog/practical-rust-api-design/+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+  rel="noopener"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https%3A//corrode.dev/blog/practical-rust-api-design/&amp;title=Practical%20Rust%20API%20Design"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https%3A//corrode.dev/blog/practical-rust-api-design/&amp;t=Practical%20Rust%20API%20Design"
+  target="_blank"
+  title="Share on Hacker News"
+  rel="noopener"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" rel="noopener" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2026-10-02">
+            Published: 2026-10-02
+        </time>
+    </div>
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog/practical-rust-api-design/"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+    </div>
+  </footer>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="site-footer">
+    <section class="newsletter-callout skew-top" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="newsletter-inner">
+    <h2 class="callout-title" id="newsletter-title">Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                autocomplete="email"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit" disabled>
+                Subscribe
+            </button>
+            <div id="newsletter-turnstile"></div>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+  </div>
+</section>
+
+<script>
+    (() => {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const email = document.getElementById("tlemail");
+        const submit = document.getElementById("newsletter-submit");
+        const challenge = document.getElementById("newsletter-turnstile");
+        const status = document.getElementById("newsletter-status");
+        if (!container || !form || !email || !submit || !challenge || !status)
+            return;
+
+        const local = ["localhost", "127.0.0.1", "0.0.0.0", "[::1]"].includes(
+            window.location.hostname,
+        );
+        let loading = false;
+        let widgetId = null;
+        const disableSubmit = () => {
+            submit.disabled = true;
+        };
+        const loadTurnstile = () => {
+            if (loading || widgetId !== null) return;
+            loading = true;
+            const script = document.createElement("script");
+            script.src =
+                "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+            script.async = true;
+            script.onload = () => {
+                widgetId = window.turnstile.render(challenge, {
+                    sitekey: local
+                        ? "1x00000000000000000000AA"
+                        : "0x4AAAAAAEdVZvjmk2hw9PFR",
+                    action: "newsletter",
+                    appearance: "interaction-only",
+                    theme: "auto",
+                    callback: () => {
+                        submit.disabled = false;
+                        status.textContent = "";
+                    },
+                    "expired-callback": disableSubmit,
+                    "timeout-callback": disableSubmit,
+                    "error-callback": () => {
+                        disableSubmit();
+                        status.textContent =
+                            "Verification failed. Please try again.";
+                    },
+                });
+            };
+            script.onerror = () => {
+                loading = false;
+                status.textContent =
+                    "Verification could not be loaded. Please try again.";
+            };
+            document.head.appendChild(script);
+        };
+
+        const showError = (message) => {
+            status.textContent =
+                message ||
+                "There was a problem with your subscription. Please try again.";
+            submit.textContent = "Subscribe";
+            disableSubmit();
+            window.turnstile.reset(widgetId);
+        };
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            disableSubmit();
+            submit.textContent = "Subscribing…";
+            status.textContent = "";
+
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const message = (await response.text()).trim();
+                if (!response.ok) {
+                    showError(message);
+                    return;
+                }
+
+                status.textContent = message
+                    ? `🎉 ${message}`
+                    : "🎉 You’re in! Please check your inbox.";
+                container.replaceChildren(status);
+            } catch {
+                showError();
+            }
+        });
+
+        email.addEventListener("focus", loadTurnstile);
+        email.addEventListener("input", loadTurnstile);
+    })();
+</script>
+
+    <div class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h2>Offerings</h2>
+                <ul class="footer-links">
+                    <li><a href="/services/">For Teams</a></li>
+                    <li><a href="/mentorship/">For Individuals</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Resources</h2>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/workshops/">Workshops</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li>
+                        <a href="/blog/idiomatic-rust-resources/"
+                            >Learning Resources</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Tools</h2>
+                <ul class="footer-links">
+                    <li>
+                        <a href="https://course.corrode.dev/" rel="noreferrer"
+                            >Learn Rust</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://search.corrode.dev/" rel="noreferrer"
+                            >Rust Search</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://tools.corrode.dev/" rel="noreferrer"
+                            >Rust Tool Index</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Migration Guides</h2>
+                <ul class="footer-links">
+                    <li>
+                        <a href="/learn/migration-guides/python-to-rust/">Python</a>
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/typescript-to-rust/"
+                            >TypeScript</a
+                        >
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/java-to-rust/">Java</a>
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/scala-to-rust/">Scala</a>
+                    </li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Company</h2>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li>
+                        <a href="https://www.linkedin.com/company/corrode/"
+                            >LinkedIn</a
+                        >
+                    </li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        const originalThemeMedia = new WeakMap();
+
+        function applyPreferredColorScheme(scheme) {
+            function themedMedia(owner, mediaText) {
+                if (!originalThemeMedia.has(owner)) {
+                    originalThemeMedia.set(owner, mediaText);
+                }
+                // Always start from the original query so repeated toggles preserve
+                // responsive conditions, comma-separated alternatives, and negation.
+                return originalThemeMedia.get(owner).replace(
+                    /\(prefers-color-scheme:\s*(light|dark)\)/gi,
+                    (_, preference) => preference.toLowerCase() === scheme
+                        ? '(min-width: 0px)'
+                        : '(not (min-width: 0px))'
+                );
+            }
+
+            function applyRules(rules) {
+                for (const rule of rules) {
+                    if (rule.media) {
+                        rule.media.mediaText = themedMedia(rule, rule.media.mediaText);
+                    }
+                    if (rule.cssRules) applyRules(rule.cssRules);
+                }
+            }
+
+            // Link media controls the entire syntax stylesheet, not its CSS rules.
+            // Update the element even if the inactive stylesheet has not loaded yet.
+            for (const link of document.querySelectorAll('link[rel="stylesheet"][media]')) {
+                link.media = themedMedia(link, link.media);
+            }
+            for (const sheet of document.styleSheets) {
+                let rules;
+                try {
+                    rules = sheet.cssRules;
+                } catch (e) {
+                    // Cross-origin stylesheets do not expose their rules.
+                    continue;
+                }
+                applyRules(rules);
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', toggleColorScheme);
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
