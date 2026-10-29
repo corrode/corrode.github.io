@@ -73,6 +73,8 @@ Hosted by the Rust Foundation, RustConf heads to Vancouver in 2027, with online 
 
 ### Oxidize (Berlin, Germany)
 
+[![Oxidize](oxidize.jpg)](https://oxidizeconf.com/)
+
 Oxidize returns to Berlin in September 2027. The organizers announced the dates in their 2026 recap; the conference website still shows the previous edition, so don't use its venue or ticket details to plan your 2027 trip.
 
 - **When**: September 14-16, 2027
@@ -83,6 +85,8 @@ Oxidize returns to Berlin in September 2027. The organizers announced the dates 
 ## Q4 2027
 
 ### EuroRust (Prague, Czech Republic + Online)
+
+[![EuroRust](eurorust.jpg)](https://eurorust.eu/)
 
 EuroRust heads to Prague for two days of talks covering Rust patterns and idioms, systems programming, CLI tooling, servers, and WASM. Workshops take place on October 13 at a separate location in the city center, with side activities on October 13, 14, and 16.
 
@@ -97,6 +101,8 @@ EuroRust heads to Prague for two days of talks covering Rust patterns and idioms
 
 ### FOSDEM Rust Devroom (Brussels, Belgium)
 
+[![FOSDEM Rust Devroom](fosdem-rust.jpg)](https://rust-fosdem.github.io/)
+
 The Rust Devroom returns to FOSDEM for talks on the language, tooling, and Rust's use in free and open-source software. The organizers have confirmed the 2027 date, even though the devroom website still shows 2026.
 
 - **When**: January 31, 2027
@@ -109,6 +115,8 @@ The Rust Devroom returns to FOSDEM for talks on the language, tooling, and Rust'
 
 ### Rust Verification Workshop (Copenhagen, Denmark)
 
+[![Rust Verification Workshop at ETAPS](rust-verification.jpg)](https://etaps.org/2027/cfp/)
+
 ETAPS explicitly lists the Rust Verification Workshop as a co-located event for 2027. The workshop's own dates and program are still to be announced; the main ETAPS dates aren't a confirmed workshop schedule.
 
 - **When**: TBA
@@ -118,6 +126,8 @@ ETAPS explicitly lists the Rust Verification Workshop as a co-located event for 
 - **Links**: [ETAPS 2027 Announcement](https://etaps.org/2027/cfp/)
 
 ### PLRust (Kyoto, Japan)
+
+[![PLRust — Programming Language Exploration into Rust](plrust.jpg)](https://2027.programmingconference.org/home/plrust-2027)
 
 The first Workshop on Programming Language Exploration into Rust brings together people working on Rust in programming language research, in academia and industry. Topics include ownership, borrow checking, formal methods, tooling, and education.
 
