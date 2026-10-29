@@ -5,12 +5,12 @@ updated = 2026-10-29
 template = "article.html"
 draft = false
 [extra]
-excerpt = "Plan your 2027 Rust conference trips with confirmed dates and locations for Rust Nation UK, TokioConf, RustWeek, RustConf, and EuroRust."
+excerpt = "Plan your 2027 Rust conference trips with confirmed dates and locations, plus announced Rust tracks and research workshops."
 hero = "teaching.svg"
 series = "Rust Insights"
 +++
 
-Planning your Rust conference trips for 2027? Here are the events with confirmed dates so far. We'll add more conferences, ticket prices, and call for proposals (CFP) deadlines as organizers announce them.
+Planning your Rust conference trips for 2027? Here are the conferences with confirmed dates so far, followed by announced Rust tracks and workshops. Some workshop dates are still to be announced. We'll add more conferences, ticket prices, and call for proposals (CFP) deadlines as organizers announce them.
 
 Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) For the 2026 events, see [Rust Conferences 2026](/blog/rust-conferences-2026/).
 
@@ -71,6 +71,15 @@ Hosted by the Rust Foundation, RustConf heads to Vancouver in 2027, with online 
 - **Focus**: Rust and its open-source ecosystem
 - **Links**: [Website](https://rustconf.com/)
 
+### Oxidize (Berlin, Germany)
+
+Oxidize returns to Berlin in September 2027. The organizers announced the dates in their 2026 recap; the conference website still shows the previous edition, so don't use its venue or ticket details to plan your 2027 trip.
+
+- **When**: September 14-16, 2027
+- **Where**: Berlin, Germany (venue to be announced)
+- **Focus**: Applied Rust
+- **Links**: [2027 Announcement](https://www.linkedin.com/posts/oxidizeconf_rustlang-safetycritical-embedded-activity-7506330642297597952-ekNi) | [Website](https://oxidizeconf.com/)
+
 ## Q4 2027
 
 ### EuroRust (Prague, Czech Republic + Online)
@@ -84,6 +93,41 @@ EuroRust heads to Prague for two days of talks covering Rust patterns and idioms
 - **Tickets**: Early-bird tickets are on sale. Reduced-price tickets are available for private attendees and freelancers; company-paid attendees need company tickets. Side activities are ticketed separately.
 - **Links**: [Website](https://eurorust.eu/) | [Tickets](https://www.tickettailor.com/events/eurorust/2414461)
 
+## Rust tracks and workshops
+
+### FOSDEM Rust Devroom (Brussels, Belgium)
+
+The Rust Devroom returns to FOSDEM for talks on the language, tooling, and Rust's use in free and open-source software. The organizers have confirmed the 2027 date, even though the devroom website still shows 2026.
+
+- **When**: January 31, 2027
+- **Where**: Brussels, Belgium
+- **Format**: Rust track within FOSDEM 2027
+- **Focus**: Rust in free and open-source software
+- **Pricing**: Free
+- **CFP**: Open. The announcement gives conflicting deadlines: November 20 and December 1, 2026. Check with the organizers before relying on either date.
+- **Links**: [2027 CFP Announcement](https://lists.fosdem.org/hyperkitty/list/fosdem@lists.fosdem.org/message/RSGU64NXAIXYVDNLB7SDLDOHUNP4BXCC/) | [Devroom Website](https://rust-fosdem.github.io/)
+
+### Rust Verification Workshop (Copenhagen, Denmark)
+
+ETAPS explicitly lists the Rust Verification Workshop as a co-located event for 2027. The workshop's own dates and program are still to be announced; the main ETAPS dates aren't a confirmed workshop schedule.
+
+- **When**: TBA
+- **Where**: Copenhagen, Denmark
+- **Format**: Research workshop, co-located with ETAPS 2027
+- **Focus**: Verification of Rust programs
+- **Links**: [ETAPS 2027 Announcement](https://etaps.org/2027/cfp/)
+
+### PLRust (Kyoto, Japan)
+
+The first Workshop on Programming Language Exploration into Rust brings together people working on Rust in programming language research, in academia and industry. Topics include ownership, borrow checking, formal methods, tooling, and education.
+
+- **When**: TBA
+- **Where**: Kyoto, Japan
+- **Format**: Research workshop alongside ‹Programming› 2027, with 20-25 minute talks
+- **Focus**: Programming language research involving Rust
+- **CFP**: Talk proposals are due December 14, 2026, Anywhere on Earth (UTC−12). The workshop page says the submission system is not open yet.
+- **Links**: [Workshop Website and Call for Talks](https://2027.programmingconference.org/home/plrust-2027) | [Event Listing](https://conf.researchr.org/series/plrust)
+
 ## More conferences to watch
 
 We haven't found official 2027 dates for the following conferences yet. These are events to keep an eye on, not confirmed 2027 editions:
@@ -92,7 +136,6 @@ We haven't found official 2027 dates for the following conferences yet. These ar
 - [Rust in Paris](https://www.rustinparis.com/)
 - [Rust India](https://rustindia.org/)
 - [RUSTMEET](https://rustmeet.confreg.pl/)
-- [Oxidize](https://oxidizeconf.com/)
 - [RustLab](https://rustlab.it/)
 - [RustForge](https://www.rustforgeconf.com/)
 
