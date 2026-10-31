@@ -1,6 +1,8 @@
 +++
 title = "Local Reasoning in Rust"
-date = 2026-10-01
+date = 2026-10-02
+updated = 2026-10-31
+aliases = ["/blog/practical-rust-api-design/"]
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
@@ -18,9 +20,9 @@ Bad APIs make local reasoning hard.
 The main point is that you can rely on those contracts without additional knowledge of the implementation. 
 
 What makes Rust feel different from other languages is the ability to encode invariants in the type system and do so *at zero cost*.
-This is a rare combination.
+That's a rare combination.
 
-Once you notice this "local reasoning principle", you'll see it everywhere in Rust's standard library: through the use of `Result` and `Option`, borrows marked with `&`, enums to represent a closed set of possibilities, or explicit unsafe blocks.
+Once you notice this "local reasoning principle", you'll see it everywhere in Rust's standard library: through the use of `Result` and `Option`, borrows marked with `&`, enums to represent a closed set of possibilities, or explicit `unsafe` functions.
 This information is always visible in every function signature.
 
 A simple way to apply this mindset yourself is to check if your function signatures communicate as much information as possible to the caller.
