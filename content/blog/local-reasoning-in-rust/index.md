@@ -1,12 +1,12 @@
 +++
-title = "Practical Rust API Design"
+title = "Local Reasoning in Rust"
 date = 2026-10-01
 template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 +++
 
-A good metric for ergonomic systems design is how much of a program you have to keep in your head at once to know what's going on. 
+A good metric for ergonomic API design is how much of a program you have to keep in your head at once to know what's going on. 
 It's empowering if you can understand a function by its type signature and get immediate feedback on whether you used it correctly.
 Other times, it feels like you're a code archaeologist:
 Was this value validated before?
@@ -18,7 +18,7 @@ Bad APIs make local reasoning hard.
 The main point is that you can rely on those contracts without additional knowledge of the implementation. 
 
 What makes Rust feel different from other languages is the ability to encode invariants in the type system and do so *at zero cost*.
-The combination of both properties is rare.
+This is a rare combination.
 
 Once you notice this "local reasoning principle", you'll see it everywhere in Rust's standard library: through the use of `Result` and `Option`, borrows marked with `&`, enums to represent a closed set of possibilities, or explicit unsafe blocks.
 This information is always visible in every function signature.
@@ -451,7 +451,7 @@ Instead of writing "keep this resource alive", maybe you can return a borrowed t
 You don't have to follow every single suggestion in this article, either. 
 The goal is to make your API easier to understand and harder to misuse.
 
-{{ <next_steps context="Want a second pair of eyes on your Rust APIs? I can help you put these patterns to work in your codebase." source="practical-rust-api-design" /> }}
+{{ <next_steps context="Want a second pair of eyes on your Rust APIs? I can help you put these patterns to work in your codebase." source="local-reasoning-in-rust" /> }}
 
 [^deref]: [RFC 241: Deref coercions](https://github.com/rust-lang/rfcs/blob/master/text/0241-deref-conversions.md) discusses why automatically borrowing arguments would make local reasoning harder.
 
