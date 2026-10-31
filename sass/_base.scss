@@ -726,6 +726,8 @@ figure {
 
 figure figcaption {
     text-align: center;
+    font-size: 0.9em;
+    font-style: italic;
 }
 
 :where(.prose) table {
