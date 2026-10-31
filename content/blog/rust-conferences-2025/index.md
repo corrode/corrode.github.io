@@ -11,7 +11,7 @@ series = "Rust Insights"
 +++
 
 {% <info title="Looking for upcoming Rust conferences?" icon="ferris"> %}
-This page covers Rust conferences in 2025. For upcoming events, check out our [Rust Conferences 2026](/blog/rust-conferences-2026/) page with dates, locations, ticket prices, CFP deadlines, and more.
+This page covers Rust conferences in 2025. For upcoming events, check out our [Rust Conferences 2026](/blog/rust-conferences-2026/) and [Rust Conferences 2027](/blog/rust-conferences-2027/) pages.
 {% </info> %}
 
 Rustaceans like to mingle, learn, and share their knowledge at conferences.
@@ -69,7 +69,7 @@ It features 12 speakers, 1 day of talks, and 250 attendees.
 
 ### RUSTMEET (Gliwice, Poland)
 
-<a href="https://rustmeet.eu/" target="_blank">
+<a href="https://rustmeet.confreg.pl/events/30-rustmeet-2025" target="_blank">
   <img src="rustmeet.jpg" alt="RUSTMEET" />
 </a>
 
@@ -90,7 +90,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
   - Standard: $120
   - Student: $20
 - **CFP**: [Closed](https://rustmeet.confreg.pl/events/30-rustmeet-2025)
-- **Links**: [Website](https://rustmeet.eu/) 
+- **Links**: [Event page](https://rustmeet.confreg.pl/events/30-rustmeet-2025)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
 ### Rustikon (Warsaw, Poland)
@@ -189,7 +189,7 @@ anniversary of Rust 1.0. All Rustaceans are welcome to attend and submit talks.
   - Company: $390
   - Conference + Workshop: $343 (Individual) / $592 (Company)
   - Student: $31
-- **CfP**: [Closed](https://www.papercall.io/rust-week)
+- **CfP**: Closed
 - **Links**: [Website](https://rustweek.org/) | [Past Talks](https://www.youtube.com/@rustnederlandrustnl)
 - **Social**: [BlueSky](https://bsky.app/profile/rustnl.bsky.social) | [Mastodon](https://fosstodon.org/@rustnl) | [LinkedIn](https://www.linkedin.com/company/rustnl/) | [Twitter](https://x.com/Rust_NL) 
 
@@ -328,8 +328,8 @@ This time, it's in Paris, France. 🥖
 - **Where**: [Cité des Sciences et de l'Industrie, Paris, France](https://maps.app.goo.gl/4SNzfvFVF3VqMDY5A)
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
-- **Pricing**: [Get tickets here](https://ti.to/events-matter/eurorust-2025)
-- **CFP**: [Closed](https://www.papercall.io/eurorust-2025)
+- **Pricing**: Event concluded
+- **CFP**: Closed
 - **Links**: [Website](https://eurorust.eu/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
 

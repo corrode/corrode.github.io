@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2026"
 date = 2025-10-15
-updated = 2026-09-10
+updated = 2026-10-29
 template = "article.html"
 draft = false
 [extra]
@@ -14,8 +14,12 @@ The Rust community continues to grow, and with it, the number of conferences aro
 With the year well underway, most 2026 conferences have confirmed their dates, venues, and schedules, and the earlier events have already taken place.
 Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) 
 
-Oh, and in case the call for proposals (CFP) is still open, why not submit a
-talk or workshop proposal?
+{% <info title="Planning Ahead for 2027?"> %}
+
+Some conference organizers have already announced their 2027 dates and locations.
+See our [Rust Conferences 2027](/blog/rust-conferences-2027/) page for the latest updates.
+
+{% </info> %}
 
 <!-- Interactive Map -->
 <div id="conference-map"></div>
@@ -155,22 +159,38 @@ All Rustaceans are welcome to attend and submit talks.
 
 ### RUSTMEET (Kraków, Poland)
 
-<a href="https://rustmeet.eu/" target="_blank">
+<a href="https://rustmeet.confreg.pl/events/68-rustmeet-2026" target="_blank">
   <img src="rustmeet.jpg" alt="RUSTMEET" />
 </a>
 
 An event in Poland, actively co-created by Rust enthusiasts.
 
 - **When**: June 12-14, 2026
-- **Where**: [Hotel Kolna, Kraków, Poland](https://rustmeet.eu/) (also online)
+- **Where**: [Hotel Kolna, Kraków, Poland](https://rustmeet.confreg.pl/events/68-rustmeet-2026) (also online)
 - **Format**: 3 days (talks + workshops + lightning talks + social event)
 - **Focus**: Rust programming language
 - **Pricing**: Event concluded
 - **CFP**: Closed
-- **Links**: [Website](https://rustmeet.eu/) | [Past Talks](https://www.youtube.com/@Rustmeet)
+- **Links**: [Event page](https://rustmeet.confreg.pl/events/68-rustmeet-2026) | [Past Talks](https://www.youtube.com/@Rustmeet)
 - **Social**: [LinkedIn](https://www.linkedin.com/company/rustmeet/) | [Mastodon](https://c.im/@rustmeet) | [BlueSky](https://bsky.app/profile/rustmeet.bsky.social) | [Discord](https://discord.com/invite/CsVnFrYVzm)
 
 ## Q3 2026
+
+### Rust Summit (Belgrade, Serbia)
+
+<a href="https://rustsummit.com/" target="_blank">
+  <img src="rustsummit.jpg" alt="Rust Summit" />
+</a>
+
+The third Rust Summit focuses on Rust development for blockchain systems. It brings developers from different blockchain ecosystems together for talks and workshops.
+
+- **When**: August 27, 2026
+- **Where**: Belgrade, Serbia
+- **Format**: 1 day (talks + workshops)
+- **Focus**: Rust in blockchain and web3
+- **Pricing**: Event concluded
+- **CFP**: Closed
+- **Links**: [Website](https://rustsummit.com/)
 
 ### RustConf (Montreal, Canada) 
 
@@ -231,8 +251,24 @@ This time, it's in Barcelona, Spain. 🇪🇸
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Current tickets and prices](https://www.tickettailor.com/events/eurorust/2022388) (side activities sold separately)
 - **CFP**: Closed
-- **Links**: [Website](https://eurorust.eu/) | [Schedule](https://eurorust.eu/schedule) | [Past Talks](https://www.youtube.com/@eurorust)
+- **Links**: [Website](https://eurorust.eu/) | [Schedule](https://eurorust.eu/2026/schedule/) | [Past Talks](https://www.youtube.com/@eurorust)
 - **Social**: [Twitter](https://x.com/euro_rust) | [Mastodon](https://fosstodon.org/@eurorust)
+
+### RustChinaConf (Shenzhen, China)
+
+<a href="https://rustchinaconf.org/" target="_blank">
+  <img src="rustchinaconf.jpg" alt="RustChinaConf" />
+</a>
+
+Co-located with GOSIM Shenzhen, RustChinaConf covers Rust for AI systems, AI-assisted Rust development, and lessons from running Rust in production.
+
+- **When**: October 15-17, 2026
+- **Where**: Shenzhen, China
+- **Format**: 3-day conference, co-located with GOSIM Shenzhen 2026
+- **Focus**: Rust for AI, AI for Rust, and Rust in production
+- **Pricing**: Event concluded
+- **CFP**: Closed
+- **Links**: [Website](https://rustchinaconf.org/)
 
 ### RustLab (Bologna, Italy)
 
@@ -252,11 +288,78 @@ It's lovingly organized featuring delicious Italian food and a great community.
 - **Links**: [Website](https://rustlab.it/) | [Schedule](https://rustlab.it/schedule) | [Past Talks](https://www.youtube.com/@rustlabconference3671)
 - **Social**: [Twitter](https://x.com/rustlab_conf) | [Mastodon](https://mastodon.uno/@rustlab)
 
+### RustCon (Moscow, Russia)
+
+<a href="https://rustcon.ru/" target="_blank">
+  <img src="rustcon.jpg" alt="RustCon" />
+</a>
+
+RustCon is an annual Rust conference in Moscow, with talks on development techniques, engineering practices, and experience from Rust projects.
+
+- **When**: December 4, 2026
+- **Where**: Loft “Prostranstvo Vesna”, Moscow, Russia
+- **Format**: 1 day of talks and networking
+- **Focus**: Rust development and practical engineering experience
+- **Pricing**: [Current tickets and prices](https://rustcon.ru/)
+- **Links**: [Website](https://rustcon.ru/)
+
+## Rust tracks and workshops
+
+### FOSDEM Rust Devroom (Brussels, Belgium)
+
+<a href="https://rust-fosdem.github.io/" target="_blank">
+  <img src="fosdem-rust.jpg" alt="FOSDEM Rust Devroom" />
+</a>
+
+A full day of Rust talks, demos, and discussions within FOSDEM, covering the language, tooling, and Rust's use in free and open-source software.
+
+- **When**: February 1, 2026
+- **Where**: ULB Campus Solbosch, Brussels, Belgium
+- **Format**: 1-day Rust track at FOSDEM 2026
+- **Focus**: Rust in free and open-source software
+- **Pricing**: Event concluded
+- **CFP**: Closed
+- **Links**: [Devroom website](https://rust-fosdem.github.io/)
+
+### Rust Verification Workshop (Turin, Italy)
+
+<a href="https://sites.google.com/view/rustverify2026/home" target="_blank">
+  <img src="rust-verification.jpg" alt="Rust Verification Workshop at ETAPS" />
+</a>
+
+The sixth Rust Verification Workshop brings researchers, language designers, and tool builders together to discuss how to verify Rust programs. It includes talks, tool demos, and open discussions alongside ETAPS.
+
+- **When**: April 13-14, 2026
+- **Where**: Turin, Italy
+- **Format**: 2-day research workshop, co-located with ETAPS 2026
+- **Focus**: Formal verification of Rust programs
+- **Pricing**: Event concluded
+- **CFP**: Closed
+- **Links**: [Workshop website](https://sites.google.com/view/rustverify2026/home)
+
+### Linux Plumbers Rust Microconference (Prague, Czechia)
+
+<a href="https://lpc.events/event/20/sessions/257/" target="_blank">
+  <img src="linux-plumbers-rust.jpg" alt="Linux Plumbers Rust Microconference" />
+</a>
+
+A discussion-focused Rust track at the Linux Plumbers Conference. Topics include Rust for Linux, kernel abstractions, tooling, and Rust development across the Linux ecosystem.
+
+- **When**: October 7, 2026
+- **Where**: Prague Congress Centre, Prague, Czechia
+- **Format**: Rust microconference within Linux Plumbers Conference 2026
+- **Focus**: Rust for Linux and related engineering discussions
+- **Pricing**: Event concluded
+- **CFP**: Closed
+- **Links**: [Schedule and session details](https://lpc.events/event/20/sessions/257/)
+
+## Want to catch up on past events?
+
+Browse our dedicated [Rust conference recordings page](https://search.corrode.dev/conferences), where you can filter by year, topic, and conference! 
+
+[![Rust Search conference archive with year and topic filters and video recordings](conference-recordings.png)](https://search.corrode.dev/conferences)
+
 ---
-
-That's all we know about Rust conferences for 2026 so far! As conferences announce their dates and details, we'll keep this page updated.
-
-Missing an event? Spot an error? Feel free to [edit this list directly](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2026/index.md) or let us know.
 
 See you at the next conference! 🦀
 
@@ -278,7 +381,7 @@ See you at the next conference! 🦀
 <link rel="stylesheet" href="styles.css">
 
 <script>
-// Only show confirmed conferences on the map
+// Only show confirmed conferences, tracks, and workshops on the map
 function initConferenceMap() {
   const conferences = [
     {
@@ -338,6 +441,14 @@ function initConferenceMap() {
       dates: 'June 12-14, 2026'
     },
     {
+      name: 'Rust Summit',
+      city: 'Belgrade',
+      country: 'Serbia',
+      lat: 44.8125,
+      lng: 20.4612,
+      dates: 'August 27, 2026'
+    },
+    {
       name: 'RustConf',
       city: 'Montreal',
       country: 'Canada',
@@ -362,12 +473,52 @@ function initConferenceMap() {
       dates: 'October 14-17, 2026'
     },
     {
+      name: 'RustChinaConf',
+      city: 'Shenzhen',
+      country: 'China',
+      lat: 22.5431,
+      lng: 114.0579,
+      dates: 'October 15-17, 2026'
+    },
+    {
       name: 'RustLab',
       city: 'Bologna',
       country: 'Italy',
       lat: 44.4949,
       lng: 11.3426,
       dates: 'November 1-3, 2026'
+    },
+    {
+      name: 'RustCon',
+      city: 'Moscow',
+      country: 'Russia',
+      lat: 55.7558,
+      lng: 37.6173,
+      dates: 'December 4, 2026'
+    },
+    {
+      name: 'FOSDEM Rust Devroom',
+      city: 'Brussels',
+      country: 'Belgium',
+      lat: 50.8503,
+      lng: 4.3517,
+      dates: 'February 1, 2026'
+    },
+    {
+      name: 'Rust Verification Workshop',
+      city: 'Turin',
+      country: 'Italy',
+      lat: 45.0703,
+      lng: 7.6869,
+      dates: 'April 13-14, 2026'
+    },
+    {
+      name: 'Linux Plumbers Rust Microconference',
+      city: 'Prague',
+      country: 'Czechia',
+      lat: 50.0755,
+      lng: 14.4378,
+      dates: 'October 7, 2026'
     }
   ];
 

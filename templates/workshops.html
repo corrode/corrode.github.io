@@ -1,5 +1,39 @@
-{% extends "base.html" %} {% block
-content %}
+{% extends "base.html" %}
+
+{% block meta %}
+{% set workshops = load_data(path="data/workshops.toml") %}
+{# Escape < after JSON encoding so catalog text cannot terminate the script. #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "numberOfItems": {{ workshops.workshop | length }},
+    "itemListElement": [
+        {% for w in workshops.workshop %}
+        {
+            "@type": "ListItem",
+            "position": {{ loop.index }},
+            "item": {
+                "@type": "Course",
+                "name": {{ w.title | json_encode | replace(from="<", to="\\u003c") | safe }},
+                "url": {{ w.url | json_encode | replace(from="<", to="\\u003c") | safe }},
+                "description": {{ w.description | striptags | trim | json_encode | replace(from="<", to="\\u003c") | safe }},
+                "provider": {
+                    "@type": "Organization",
+                    "name": "Corrode",
+                    "url": "https://corrode.dev"
+                },
+                "educationalLevel": {{ w.level | json_encode | replace(from="<", to="\\u003c") | safe }},
+                "keywords": {{ w.tags | json_encode | replace(from="<", to="\\u003c") | safe }}
+            }
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endblock meta %}
+
+{% block content %}
 <article>
     <div class="article-heading">
         <div class="page-hero">

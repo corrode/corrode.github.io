@@ -180,6 +180,8 @@ Even if you eventually decide against Rust, the training will improve your team'
 7. **Monitor and Test**  
 Use monitoring and automated tests throughout the migration. Rust's safety guarantees help, but you still need to test thoroughly and catch any issues early.
 
+{{ <migration_cta /> }}
+
 ## Tip 3: Choose The Right Migration Strategy 
 
 Initially, you will likely be dealing with a mix of Java and Rust.
@@ -356,6 +358,6 @@ I offer consulting services to help you make the right decisions for your projec
 
 Is your company considering to migrate from Java to Rust? 
 I offer consulting services to get you up to speed with your Rust projects, from training your team to code reviews and architecture consulting. 
-[Get in touch for a free consultation](/services).
+[Get in touch for a free consultation](https://cal.com/corrode/intro-call?utm_source=corrode&utm_medium=website&utm_campaign=migration-guides&utm_content=article-bottom).
 
 {% </info> %}

@@ -36,8 +36,8 @@ DTSTART;VALUE=DATE:20250315
 DTEND;VALUE=DATE:20250317
 SUMMARY:RUSTMEET 2025 (Gliwice)
 LOCATION:Gliwice\, Poland
-DESCRIPTION:An event in Poland\, actively co-created by Rust enthusiasts.\n\nFormat: 2 days of talks and workshops\nFocus: Rust programming language\nPricing: TBA\nCFP: Open until January 10\, 2025\n\nWebsite: https://rustmeet.eu/
-URL:https://rustmeet.eu/
+DESCRIPTION:An event in Poland\, actively co-created by Rust enthusiasts.\n\nFormat: 2 days of talks and workshops\nFocus: Rust programming language\nPricing: TBA\nCFP: Open until January 10\, 2025\n\nWebsite: https://rustmeet.confreg.pl/events/30-rustmeet-2025
+URL:https://rustmeet.confreg.pl/events/30-rustmeet-2025
 END:VEVENT
 
 BEGIN:VEVENT

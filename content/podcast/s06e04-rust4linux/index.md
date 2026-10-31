@@ -18,7 +18,7 @@ series = "Podcast"
 
 Hot off the press: this episode is a live recording from [Rust Week](https://2026.rustweek.org/) in Utrecht, just two days ago. On stage with me are two people who hardly need an introduction in the Linux world: [Greg Kroah-Hartman](http://www.kroah.com/linux/), Linux Foundation Fellow, stable kernel maintainer and an embassador for the kernel, and [Alice Ryhl](https://www.ryhl.io/), core maintainer of [Tokio](https://tokio.rs/) and one of the driving forces behind Rust for Linux at Google.
 
-I have to admit a bit of personal history here: I first wrote about Greg more than 20 years ago for the German online newspaper [Pro-Linux](https://www.pro-linux.de/). Getting to sit down with him, and with Alice, in front of a live audience to talk about how Rust is reshaping the most important piece of infrastructure on the planet, was a genuine career highlight.
+I have to admit a bit of personal history here: I first wrote about Greg more than 20 years ago for the German online newspaper [Pro-Linux](https://web.archive.org/web/20200531000000/https://www.pro-linux.de/). Getting to sit down with him, and with Alice, in front of a live audience to talk about how Rust is reshaping the most important piece of infrastructure on the planet, was a genuine career highlight.
 
 We get into the big questions: Why does Alice believe that interop, not rewrites, is how Rust wins inside Linux? How do you carefully weave in Rust while maintaining a 35-million-line C codebase? And what does it actually feel like, day to day, to write kernel code in Rust?
 
@@ -64,7 +64,7 @@ Learn more about Rust Week on their [website](https://rustweek.org/).
 - [sched_ext Schedulers written in Rust](https://sched-ext.com/docs/scheds/rust) - sched_lavd shows promise for video game performance, and servers?
 - [Aya](https://aya-rs.dev/) - Build eBPF programs with nothing more than Rust and the Linux kernel
 - [RustWeek: Completion-based IO](https://2026.rustweek.org/talks/alice) - Alice's talk at RustWeek about IO
-- [WE DO NOT BREAK USERSPACE](https://linuxreviews.org/WE_DO_NOT_BREAK_USERSPACE) - An e-mail from Linus explaining the mantra in typical Linus fashion
+- [WE DO NOT BREAK USERSPACE](https://lore.kernel.org/lkml/CA+55aFy98A+LJK4+GWMcbzaa1zsPBRo76q+ioEjbx-uaMKH6Uw@mail.gmail.com/t/) - An e-mail from Linus explaining the mantra in typical Linus fashion
 - [Linux clippy config](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/.clippy.toml) - It's not pedantic!
 - [Rust code style](https://origin.kernel.org/doc/html/latest/rust/coding-guidelines.html) - Coding guidelines of the Linux project for Rust code
 - [rustfmt config](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/.rustfmt.toml) - Almost vanilla with some ideas for the future
