@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Thinking in Traits | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="Rust favors composition over inheritance.
+I’m sure you’ve heard that before, but rarely does anyone take the time to explain what it means in practice.
+Also, why is this model the right choice for Rust?
+Let’s take a step back and look at an example: …">
+    <link rel="canonical" href="https://corrode.dev/blog/thinking-in-traits/">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Thinking in Traits | corrode Rust Consulting">
+    <meta property="og:description" content="Rust favors composition over inheritance.
+I’m sure you’ve heard that before, but rarely does anyone take the time to explain what it means in practice.
+Also, why is this model the right choice for Rust?
+Let’s take a step back and look at an example: …">
+    <meta name="image" property="og:image" content="https://corrode.dev/blog/thinking-in-traits/social.png">
+    <meta property="og:image:secure_url" content="https://corrode.dev/blog/thinking-in-traits/social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Thinking in Traits | corrode Rust Consulting">
+    <meta property="og:url" content="https://corrode.dev/blog/thinking-in-traits/">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-11-02">
+    <meta property="article:author" content="Matthias Endler">
+    <meta name="publish_date" property="og:publish_date" content="2026-11-02">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@matthiasendler">
+    <meta name="twitter:creator" content="@matthiasendler">
+    <meta name="twitter:title" content="Thinking in Traits | corrode Rust Consulting">
+    <meta name="twitter:description" content="Rust favors composition over inheritance.
+I’m sure you’ve heard that before, but rarely does anyone take the time to explain what it means in practice.
+Also, why is this model the right choice for Rust?
+Let’s take a step back and look at an example: …">
+    <meta name="twitter:image" content="https://corrode.dev/blog/thinking-in-traits/social.png">
+    <meta name="twitter:image:alt" content="Thinking in Traits | corrode Rust Consulting">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/thinking-in-traits/"
+      },
+      "headline": "Thinking in Traits",
+      "description": "Rust favors composition over inheritance.\nI’m sure you’ve heard that before, but rarely does anyone take the time to explain what it means in practice.\nAlso, why is this model the right choice for Rust?\nLet’s take a step back and look at an example: …",
+      
+      "image": "https://corrode.dev/blog/thinking-in-traits/social.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler",
+        "url": "https://endler.dev",
+        "sameAs": [
+          "https://github.com/mre",
+          "https://mastodon.social/@mre",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "url": "https://corrode.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        },
+        "sameAs": [
+          "https://github.com/corrode",
+          "https://www.linkedin.com/company/corrode",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "datePublished": "2026-11-02",
+      
+      "dateModified": "2026-11-02"
+      
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://corrode.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://corrode.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Thinking in Traits",
+          "item": "https://corrode.dev/blog/thinking-in-traits/"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav aria-label="Main navigation">
+    <!-- Logo and Home Link -->
+    <div>
+        <a  class="nav-item" 
+            href="https://corrode.dev/">
+            <span class="logo">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle">
+        <span class="menu-button" aria-hidden="true"></span>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" type="button" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                </span>
+                <span id="icon-sun" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                </span>
+            </button>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item active" 
+                href="https://corrode.dev/blog">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/podcast">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/learn/migration-guides">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/workshops">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/mentorship">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://corrode.dev/services" class="cta-button">
+                <span>Consulting&nbsp;→</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        <main class="container">
+            
+<article>
+  <header class="article-heading">
+    <p class="subheading">
+      <a href="https://corrode.dev/blog">Idiomatic Rust</a>
+    </p>
+    <h1>Thinking in Traits</h1>
+    <div class="article-meta">
+      <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="article-date">
+        
+          Published: <time datetime="2026-11-02">2026-11-02</time>
+        
+      </span>
+    </div>
+    
+  </header>
+  <div class="article-content-wrapper article-content-with-resources">
+    
+    <section class="article-content prose">
+    
+
+      <p>Rust favors composition over inheritance.
+I’m sure you’ve heard that before, but rarely does anyone take the time to explain what it means in practice.
+Also, why is this model the right choice for Rust?</p>
+<p>Let’s take a step back and look at an example: have you ever asked yourself why <code>collect()</code> works the way it does?</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> doubled</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;_&gt;</span><span style="color: #FF79C6;"> =</span><span> numbers</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">iter</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>x</span><span style="color: #FF79C6;">|</span><span> x</span><span style="color: #FF79C6;"> *</span><span style="color: #BD93F9;"> 2</span><span>)</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span></span></code></pre>
+<p>How does <code>collect</code> know to produce a <code>Vec</code> here?
+To answer that, let’s first look at the signature of <code>Iterator::collect</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> collect</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">B</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> FromIterator</span><span>&lt;</span><span style="color: #BD93F9;font-style: italic;">Self</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Item</span><span>&gt;&gt;(</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> B</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">where</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">    Self</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Sized</span><span>,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    FromIterator</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_iter</span><span>(</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Note how it doesn’t mention <code>Vec</code> at all.</p>
+<p>In fact, it doesn’t “know” about any collection type or any other type, for that matter.
+The thing it <em>does</em> know is that whatever type you want must be capable of constructing itself from an iterator.
+And <code>Vec&lt;_&gt;</code> happens to be a type that does.
+Further note that we didn’t specify the element type of the vector.
+The compiler is clever enough to infer that from the context!</p>
+<p>The mechanism is the same for any other supported type, like hash maps, strings, or any custom collection type of your choosing as long as it implements <code>FromIterator</code> for the iterator’s item type.</p>
+<p>And what “collecting” means is also defined by the type itself.
+A <code>String</code>, for example, has the ability to collect characters:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> chars</span><span style="color: #FF79C6;"> =</span><span> [</span><span style="color: #F1FA8C;">&#39;a&#39;</span><span>,</span><span style="color: #F1FA8C;"> &#39;b&#39;</span><span>,</span><span style="color: #F1FA8C;"> &#39;c&#39;</span><span>];</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> string</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;"> =</span><span> chars</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">iter</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span><span style="color: #6272A4;"> // &quot;abc&quot;</span></span></code></pre>
+<p>And a <code>HashMap</code> can collect key-value pairs:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> pairs</span><span style="color: #FF79C6;"> =</span><span> [(</span><span style="color: #F1FA8C;">&quot;a&quot;</span><span>,</span><span style="color: #BD93F9;"> 1</span><span>), (</span><span style="color: #F1FA8C;">&quot;b&quot;</span><span>,</span><span style="color: #BD93F9;"> 2</span><span>), (</span><span style="color: #F1FA8C;">&quot;c&quot;</span><span>,</span><span style="color: #BD93F9;"> 3</span><span>)];</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// {&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: 3}</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> map</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> HashMap</span><span>&lt;_, _&gt;</span><span style="color: #FF79C6;"> =</span><span> pairs</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">iter</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">cloned</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span></span></code></pre>
+<p>It’s only fair to mention that interfaces can also express shared contracts.
+Here, two independently defined implementations connect through a shared item type.
+This is “composition through contracts”:</p>
+<figure>
+  <img src="collect-contracts.svg" alt="Ranges, slice iterators, and custom iterators connect through collect() to Vec, HashSet, or a custom collection. Both traits share the item type T." width="720" height="270" style="display: block; margin: 1em auto; max-width: 100%; height: auto;">
+  <figcaption>Any of these iterators can feed into any of these collections as long as the bounds are satisfied. For example, <code>HashSet&lt;T&gt;</code> also requires <code>T: Eq + Hash</code>.</figcaption>
+</figure>
+<p>Here, a producer yields values of some type <code>T</code> through the <code>Iterator</code> trait.
+On the other side, a collection implements <code>FromIterator&lt;T&gt;</code> to describe how it can build itself from those values.
+The shared item type <code>T</code> connects the two contracts, and <code>collect()</code> is the bridge between them.
+It requires only that the destination can be constructed from the items the iterator yields.</p>
+<p>In our first example, the <code>Vec&lt;_&gt;</code> annotation selects the destination type.
+Because <code>Vec&lt;T&gt;</code> implements <code>FromIterator&lt;T&gt;</code>, the compiler knows how to connect that destination to our iterator.
+<code>collect()</code> is the glue that passes the iterator to that implementation, which creates and fills the vector.</p>
+<p>Note how neither side needs to know the concrete type on the other side.
+The iterator doesn’t need to know how a vector stores its elements.
+And the vector doesn’t need to know where the items came from, only how to iterate over them.</p>
+<p><strong>That means we can extend either side independently.</strong>
+A new iterator can feed existing collections, and a new collection implementing <code>FromIterator&lt;T&gt;</code> can accept existing iterators yielding <code>T</code>.
+We don’t need a separate conversion for every producer–collection pair.
+All we need is one implementation, and <code>collect()</code> is the glue that brings it all together.</p>
+<p>In simple Rust pseudocode, we can expand the calls step by step:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// We call:</span></span>
+<span class="giallo-l"><span>iterator</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span style="color: #FF79C6;">::</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>&gt;&gt;()</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// collect() delegates to:</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">Vec</span><span style="color: #FF79C6;">::</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>&gt;</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from_iter</span><span>(iterator)</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Which conceptually expands to:</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let mut</span><span> vector</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">new</span><span>();</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">while let</span><span style="color: #8BE9FD;font-style: italic;"> Some</span><span>(item)</span><span style="color: #FF79C6;"> =</span><span> iterator</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">next</span><span>() {</span></span>
+<span class="giallo-l"><span>    vector</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">push</span><span>(item);</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"><span>vector</span></span></code></pre>
+<p>The value of an abstraction is the code that no longer needs to exist between its users.</p>
+<h2 id="boulevard-of-broken-hierarchies"><a class="zola-anchor" href="#boulevard-of-broken-hierarchies" aria-label="Anchor link for: boulevard-of-broken-hierarchies">Boulevard of Broken Hierarchies</a></h2>
+<p>Class inheritance models <strong>“is-a”</strong> relationships.
+In Java, for example, an <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/javax/net/ssl/SSLSocket.html"><code>SSLSocket</code></a> is a subclass of <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/net/Socket.html"><code>Socket</code></a>.
+An encrypted socket is still a socket, after all.
+But does every socket operation make sense for it?</p>
+<p><code>Socket.shutdownOutput()</code> lets a TCP connection stop sending while continuing to receive, a feature called “half-closing.”
+Code using a socket might therefore do this:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="java"><span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">void</span><span style="color: #50FA7B;"> finishSending</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">Socket</span><span> socket) throws IOException {</span></span>
+<span class="giallo-l"><span>    socket.</span><span style="color: #50FA7B;">shutdownOutput</span><span>();</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>On Android API levels 21 through 23, the platform’s <code>SSLSocket</code> implementations <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://android.googlesource.com/platform/libcore/+/android-6.0.0_r1/luni/src/main/java/javax/net/ssl/SSLSocket.java#847">rejected this operation</a> with <code>UnsupportedOperationException</code>.
+This caused <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/square/okhttp/issues/9123">a real crash in OkHttp 5.2.0</a>.
+Modern OpenJDK <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://bugs.openjdk.org/browse/JDK-8207009">supports TLS-aware shutdown</a>, so this is a historical mismatch, not a universal limitation of TLS.
+Still, the <code>Socket</code> type exposed an operation without telling callers whether that implementation supported it.</p>
+<p>With composition, a TLS connection can hold a socket internally without exposing every operation on it.
+It can provide reading and writing, with a separate capability for half-closing where supported.
+We can reuse the transport without inheriting its entire interface.</p>
+<p>Simply replacing inheritance with interfaces—or traits—doesn’t fix a poorly chosen contract.
+What’s important is that <strong>the contract matches the capabilities of its implementations</strong>.</p>
+<h2 id="capability-not-taxonomy"><a class="zola-anchor" href="#capability-not-taxonomy" aria-label="Anchor link for: capability-not-taxonomy">Capability, Not Taxonomy</a></h2>
+<p>Rust makes trait-based composition central to code reuse.
+In Rust, we ask what a type can <strong>do</strong>, not what it <strong>is</strong>.
+In other words, traits describe capabilities, not taxonomies.</p>
+<p>Here are simplified versions of two central I/O traits from the standard library:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Read</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> read</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>, buf</span><span style="color: #FF79C6;">: &amp;mut</span><span> [</span><span style="color: #8BE9FD;font-style: italic;">u8</span><span>])</span><span style="color: #FF79C6;"> -&gt;</span><span> io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">usize</span><span>&gt;;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre><pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Write</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> write</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>, buf</span><span style="color: #FF79C6;">: &amp;</span><span>[</span><span style="color: #8BE9FD;font-style: italic;">u8</span><span>])</span><span style="color: #FF79C6;"> -&gt;</span><span> io</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">usize</span><span>&gt;;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Note how these are two independent traits.
+A type can implement <code>Read</code>, or <code>Write</code>, or both, or neither.
+You’re declaring which operations a type supports, without inheriting a bunch of unrelated methods.
+The capabilities are orthogonal.</p>
+<p>For example:</p>
+<ul>
+<li>A byte slice (<code>&amp;[u8]</code>) implements <code>Read</code> but not <code>Write</code>.</li>
+<li>The <code>Sink</code> returned by <code>std::io::sink()</code> implements <code>Write</code> but not <code>Read</code>.</li>
+<li>A <code>TcpStream</code> implements both.</li>
+</ul>
+<p>The trait implementation belongs to the <em>type</em>, not to a concrete value.
+Take <code>std::fs::File</code>, for example.
+It implements both <code>Read</code> and <code>Write</code>, but a file opened in read-only mode will still fail at runtime if you try to write to it.
+Even a file opened for writing can fail when the disk fills up.
+The trait implementation is a promise that the type supports those operations, but what it can’t do is guarantee that every operation will succeed at runtime.</p>
+<p>If you want to distinguish read-only and writable handles at compile time, you could define a <code>ReadOnlyFile</code> and a <code>WritableFile</code> and only implement the appropriate traits for each.
+That rules out unsupported operations in your API, but it still doesn’t make I/O infallible.</p>
+<h2 id="same-type-different-capabilities"><a class="zola-anchor" href="#same-type-different-capabilities" aria-label="Anchor link for: same-type-different-capabilities">Same Type, Different Capabilities</a></h2>
+<p>Rust can express that a container has a capability only when its contents do.
+For example, <code>Vec&lt;T&gt;</code> implements <code>Clone</code> when <code>T</code> implements <code>Clone</code>.
+Thanks to this trick, we don’t end up with two different <code>Vec</code> types, one cloneable and one not.</p>
+<p>Here’s the same pattern for a small wrapper you could define yourself:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">struct</span><span style="color: #8BE9FD;font-style: italic;"> Batch</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>&gt; {</span></span>
+<span class="giallo-l"><span>    items</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Clone</span><span>&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Clone</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> Batch</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> clone</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #BD93F9;font-style: italic;"> Self</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">        Self</span><span> {</span></span>
+<span class="giallo-l"><span>            items</span><span style="color: #FF79C6;">:</span><span style="color: #BD93F9;font-style: italic;"> self</span><span style="color: #FF79C6;">.</span><span>items</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">clone</span><span>(),</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>A <code>Batch&lt;String&gt;</code> is cloneable because <code>String</code> is cloneable.
+A <code>Batch&lt;std::net::TcpStream&gt;</code> is not, since <code>TcpStream</code> does not implement <code>Clone</code>.
+If you were to call <code>.clone()</code> on that batch, the code wouldn’t compile.
+You can store non-cloneable items in a batch; you just can’t clone that batch.</p>
+<p>For this wrapper, you can use <code>#[derive(Clone)]</code> to generate the conditional implementation automatically.
+Note that the bound belongs on the <strong>implementation</strong>, not on <code>Batch</code> itself.
+Making your type cloneable requires <code>T: Clone</code>, but apart from that, <code>Batch&lt;T&gt;</code> is still a perfectly valid type for non-cloneable elements.
+The compiler works out which operations are available from the <strong>capabilities of the component types</strong>.</p>
+<p>A conditional implementation can also apply to every type that satisfies a trait bound as opposed to one particular wrapper.
+This is called a <em>blanket implementation</em>.
+For example, the standard library implements <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/string/trait.ToString.html"><code>ToString</code> for every type that implements <code>Display</code></a>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">impl</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span style="color: #FF79C6;">:</span><span> std</span><span style="color: #FF79C6;">::</span><span>fmt</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Display</span><span style="color: #FF79C6;"> + ?</span><span style="color: #8BE9FD;font-style: italic;">Sized</span><span>&gt;</span><span style="color: #8BE9FD;font-style: italic;"> ToString</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> T</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Implementation omitted.</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>All you have to do to get a <code>.to_string()</code> method is implement <code>Display</code> for your type.
+The compiler automatically generates the <code>ToString</code> implementation for you.</p>
+<p>The rule applies even to types written long after the standard library itself.
+This is an elegant way to express a reusable implication between capabilities: “If a type can be displayed, it can be turned into a string.”</p>
+<p>The same idea appears in conversions.
+You might know that implementing <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/convert/trait.From.html"><code>From&lt;T&gt; for U</code></a> automatically provides <code>Into&lt;U&gt; for T</code> through a blanket implementation.
+That’s why you normally implement <code>From</code> rather than writing the corresponding <code>Into</code> implementation yourself.</p>
+<h2 id="building-blocks-from-building-blocks"><a class="zola-anchor" href="#building-blocks-from-building-blocks" aria-label="Anchor link for: building-blocks-from-building-blocks">Building Blocks From Building Blocks</a></h2>
+<p>Conditional implementations also let us add behavior by wrapping one value in another.
+This is a different type of composition: “composition of values.”
+A wrapper holds another value and builds on its capabilities.
+Take our <code>Read</code> trait from earlier:</p>
+<ul>
+<li>A <code>File</code> implements <code>Read</code>.</li>
+<li>Wrapping it in a <code>BufReader</code> adds buffering, and the result still implements <code>Read</code>.</li>
+<li>Calling <code>.take(limit)</code> on that reader limits how many bytes it yields, and the result <em>still</em> implements <code>Read</code>.</li>
+</ul>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="plain"><span class="giallo-l"><span>File</span></span>
+<span class="giallo-l"><span>  → BufReader&lt;File&gt;</span></span>
+<span class="giallo-l"><span>    → Take&lt;BufReader&lt;File&gt;&gt;</span></span></code></pre>
+<p>So a parser accepting <code>R: Read</code> doesn’t need separate support for files, buffered files, and length-limited buffered files.
+It just reads bytes!</p>
+<p>We can add buffering and a byte limit without teaching the parser about either.
+The parser doesn’t need to understand how its input was assembled.</p>
+<p>This works because each wrapper preserves the contract that the next piece needs.
+A <code>BufReader&lt;R&gt;</code> implements <code>Read</code> when <code>R</code> does, and so does <code>Take&lt;R&gt;</code>.
+The result of one composition becomes a building block for the next.</p>
+<p>You can see the same idea in iterator chains.</p>
+<ul>
+<li><code>.map()</code> produces a <code>Map&lt;I, F&gt;</code> iterator that applies a function to each item of the underlying iterator <code>I</code>.</li>
+<li><code>.filter()</code> produces a <code>Filter&lt;I, P&gt;</code> iterator that yields only the items of <code>I</code> that satisfy the predicate <code>P</code>.</li>
+<li><code>.take()</code> produces a <code>Take&lt;I&gt;</code> iterator that yields at most the first <code>n</code> items of <code>I</code>.</li>
+</ul>
+<p>Each type implements <code>Iterator</code>, so you can chain them.</p>
+<p>Writing your own iterator connects your type to this vast ecosystem of adapters.
+All you need is to provide the associated <code>Item</code> type and the <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.Iterator.html"><code>next()</code> method</a>.
+<code>map</code>, <code>filter</code>, <code>fold</code>, and <code>collect</code> already have default implementations, available when their additional bounds are satisfied.
+This is how you reuse code without a base class.
+Default methods provide behavior within a trait you implement; blanket implementations can make another trait apply automatically.</p>
+<p>But adapters don’t have to be limited to a single, rigid contract either.
+They can provide rich, additional capabilities, too.</p>
+<p>For example, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/struct.Map.html#impl-DoubleEndedIterator-for-Map%3CI,+F%3E"><code>Map&lt;I, F&gt;</code> implements <code>DoubleEndedIterator</code></a> when its input iterator does, and it does so with an appropriate trait bound on the mapping function:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> values</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;_&gt;</span><span style="color: #FF79C6;"> =</span><span> (</span><span style="color: #BD93F9;">0</span><span style="color: #FF79C6;">..</span><span style="color: #BD93F9;">5</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>n</span><span style="color: #FF79C6;">|</span><span> n</span><span style="color: #FF79C6;"> *</span><span style="color: #BD93F9;"> 2</span><span>)</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">rev</span><span>()</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    .</span><span style="color: #50FA7B;">collect</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #50FA7B;">assert_eq!</span><span>(values, [</span><span style="color: #BD93F9;">8</span><span>,</span><span style="color: #BD93F9;"> 6</span><span>,</span><span style="color: #BD93F9;"> 4</span><span>,</span><span style="color: #BD93F9;"> 2</span><span>,</span><span style="color: #BD93F9;"> 0</span><span>]);</span></span></code></pre>
+<p>So because the <code>map</code> adapter has a conditional implementation for <code>DoubleEndedIterator</code>, it preserves the ability to iterate backward through the input.
+We’re not limited to basic iteration.</p>
+<p>And since we know the concrete iterator types, the compiler can optimize and inline the entire chain of adapters into a single loop.
+Optimized iterator code can <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/book/ch13-04-performance.html">perform comparably to a hand-written loop</a>.
+So <a href="/blog/iterators">fully embracing iterator patterns</a> has no runtime cost.</p>
+<h2 id="to-enum-or-to-trait"><a class="zola-anchor" href="#to-enum-or-to-trait" aria-label="Anchor link for: to-enum-or-to-trait">To Enum Or To Trait?</a></h2>
+<p>Hold on, Rust has another way to express “different kinds of things that are related”: enums!
+These are useful in situations where you know the full list of possibilities in advance.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">enum</span><span style="color: #8BE9FD;font-style: italic;"> InputSource</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    File</span><span> { path</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> PathBuf</span><span> },</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Http</span><span> { url</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>, timeout</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Duration</span><span> },</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Stdin</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Enums are great if you almost always want to handle all of the variants in one place.
+Traits are the better model if different types implement the same behavior and you don’t know all of the types right now.
+In other words, enums are a closed set of variants while traits are an open set of implementations.</p>
+<p>You can’t add new variants to an enum without changing the enum definition.
+But traits enable the open/closed principle: you can add new implementations without modifying existing code.
+This allows other crates to extend your library without needing to modify your code.</p>
+<p>Imagine your library defines the <code>Record</code> and <code>FetchError</code> types, and you want to provide a way for users to fetch records from different sources.</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">pub trait</span><span style="color: #8BE9FD;font-style: italic;"> DataSource</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> fetch</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Record</span><span>&gt;,</span><span style="color: #8BE9FD;font-style: italic;"> FetchError</span><span>&gt;;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>In your library, you implement <code>DataSource</code> for a <code>PostgresSource</code> and a <code>RedisSource</code>.</p>
+<p>But now, users can implement it for their own <code>CsvFileSource</code> or a <code>CustomApiSource</code>.
+Heck, you don’t even need to know these types exist.
+And yet, your contract still holds: any type that implements <code>DataSource</code> can be used to fetch records.</p>
+<p>The reverse is also true: an external contributor can define an extension trait and implement it for <strong>your</strong> type without you knowing about it.
+You can even do that with types from the standard library:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> ScreamingCase</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> screaming_case</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>;</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> ScreamingCase</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> screaming_case</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #BD93F9;font-style: italic;">        self</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">to_uppercase</span><span>()</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>As long as the trait is in scope, you can call the method on a <code>String</code>:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> text</span><span style="color: #FF79C6;"> =</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">from</span><span>(</span><span style="color: #F1FA8C;">&quot;hello&quot;</span><span>);</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">assert_eq!</span><span>(text</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">screaming_case</span><span>(),</span><span style="color: #F1FA8C;"> &quot;HELLO&quot;</span><span>);</span></span></code></pre>
+<p>No need to modify <code>String</code> or derive a <code>ScreamingString</code> subclass.
+This implementation is allowed because we define <code>ScreamingCase</code> in our crate.
+Rust’s <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/items/implementations.html#trait-implementation-coherence">coherence rules</a> restrict implementations involving foreign traits <strong>and</strong> types.
+For example, we couldn’t implement the standard library’s <code>Display</code> trait directly for <code>Vec&lt;String&gt;</code>, since neither the trait nor the type is ours.</p>
+<p>This is <strong>composition at the level of behavior</strong>: we combine an existing type with an independently defined capability.
+The type and the trait don’t need to know about each other.
+The same type can implement other, unrelated traits, and each function can ask for just the capabilities it needs by means of trait bounds:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #6272A4;">// This works for any type that implements `ScreamingCase`.</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">// E.g. why not implement it for `Vec&lt;String&gt;`, or `char` as well?</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> scream</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> ScreamingCase</span><span>&gt;(value</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">T</span><span>) {</span></span>
+<span class="giallo-l"><span style="color: #50FA7B;">    println!</span><span>(</span><span style="color: #F1FA8C;">&quot;{}&quot;</span><span>, value</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">screaming_case</span><span>());</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>This open-set/closed-set principle is a good way to think about when to use enums and when to use traits.
+But to be fair, the lines can blur a bit.
+An enum can also implement traits, and a library can restrict who implements a trait through a technique called a “sealed trait.”</p>
+<p>In application code, exhaustive enum checking can make refactoring easier because the compiler will tell you which <code>match</code> statements need to be updated when you add a new variant.
+Introduce a trait instead when you have a good reason to share a contract <strong>across types</strong>.</p>
+<h2 id="smaller-traits-better-contracts"><a class="zola-anchor" href="#smaller-traits-better-contracts" aria-label="Anchor link for: smaller-traits-better-contracts">Smaller Traits, Better Contracts</a></h2>
+<p>The more unrelated responsibilities a trait combines, the harder it becomes to implement and reuse.
+Every implementer has to account for operations it may not need.</p>
+<p>Consider this application context:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Context</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> fetch</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>, key</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Record</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt;;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> store</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>, key</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>, record</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Record</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;(),</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt;;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> run</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;(),</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt;;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Ask yourself: what concept does this trait capture?
+What contract does it enforce?
+It combines reading records, writing records, and running the application.</p>
+<p>Perhaps your application really needs one type to provide it all, but a function that copies records shouldn’t require its inputs to run an application.
+Let’s split the capabilities:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Fetch</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> fetch</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span style="color: #BD93F9;font-style: italic;">self</span><span>, key</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Record</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt;;</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">trait</span><span style="color: #8BE9FD;font-style: italic;"> Store</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    fn</span><span style="color: #50FA7B;"> store</span><span>(</span><span style="color: #FF79C6;">&amp;mut</span><span style="color: #BD93F9;font-style: italic;"> self</span><span>, key</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>, record</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">Record</span><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;(),</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt;;</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Now a read-only source can implement <code>Fetch</code>, a write-only destination can implement <code>Store</code>, and the execution runtime is left out.
+Your functions don’t need to know about the runtime either, and you can compose the exact capabilities you need:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> copy_record</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">S</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Fetch</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> D</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Store</span><span>&gt;(</span></span>
+<span class="giallo-l"><span>    source</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">S</span><span>,</span></span>
+<span class="giallo-l"><span>    destination</span><span style="color: #FF79C6;">: &amp;mut</span><span style="color: #8BE9FD;font-style: italic;"> D</span><span>,</span></span>
+<span class="giallo-l"><span>    key</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">str</span><span>,</span></span>
+<span class="giallo-l"><span>)</span><span style="color: #FF79C6;"> -&gt;</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;(),</span><span style="color: #8BE9FD;font-style: italic;"> Error</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    let</span><span> record</span><span style="color: #FF79C6;"> =</span><span> source</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">fetch</span><span>(key)</span><span style="color: #FF79C6;">?</span><span>;</span></span>
+<span class="giallo-l"><span>    destination</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">store</span><span>(key,</span><span style="color: #FF79C6;"> &amp;</span><span>record)</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Each of your types can implement either trait. Or both.</p>
+<p>This also explains how independent crates work with your types.
+Serde defines <code>Serialize</code> and <code>Deserialize</code>; your types implement them, often through derive macros.
+Serde’s serializers don’t need to know about your application’s structs in advance.
+They just use the shared contract: a type that implements <code>Serialize</code> can be serialized.
+Code becomes more composable as a consequence.
+If Serde decided to couple serialization and deserialization into a single trait, some use cases would be impossible to express.</p>
+<p>All of that is great for testing, too.
+We can test <code>copy_record</code> with a fake <code>Fetch</code> implementation and a fake <code>Store</code> implementation, without creating a runtime.</p>
+<p>The goal isn’t to make every trait contain exactly one method.
+<code>Iterator</code> has many methods, but they are all strictly related to the task of iterating over a sequence of values, and all but one (<code>next()</code>) have a default implementation.
+It’s fine to keep methods together when they describe the same contract, but if you’re unsure if callers need the independent capabilities, split your traits.</p>
+<h2 id="rules-for-designing-traits"><a class="zola-anchor" href="#rules-for-designing-traits" aria-label="Anchor link for: rules-for-designing-traits">Rules For Designing Traits</a></h2>
+<p>Below are a couple of concrete tips around trait design.</p>
+<ul>
+<li>
+<p>When you approach a problem, ask what your code needs a type to be able to do.
+Often, an existing trait already expresses that. Check the standard library
+and popular crates first. And sometimes a concrete type or an enum is enough.</p>
+</li>
+<li>
+<p>Write the code concretely first. If you find yourself copying similar
+implementations across different types, look for a shared contract. By then,
+you’ll have concrete examples to test your abstraction against. And when you
+do need a new trait, give it a contract you can explain in a single sentence.</p>
+</li>
+<li>
+<p>Abstraction has a cost for readers. They may need to follow bounds and
+implementations across several files to understand a call. Sometimes that
+indirection hides details they shouldn’t need to care about. Sometimes it
+hides an important detail they should.</p>
+</li>
+<li>
+<p>Trait-based abstractions in Rust often incur zero additional runtime overhead,
+but there is a compilation cost as well. The costs depend on how you use the trait. Generic
+code is usually monomorphized: the compiler generates code for the concrete
+types that use it. That permits static dispatch and inlining, but many
+instantiations can still increase compile time and binary size. For
+<a href="/blog/dyn-compatibility/">dyn-compatible traits</a>, dynamic dispatch through
+<code>dyn Trait</code> lets the same caller operate on different implementations, but
+introduces indirection and can limit inlining. Not every trait supports this:
+<code>FromIterator</code>, for example, is not dyn-compatible.</p>
+</li>
+</ul>
+<p>Keep these trade-offs in mind when you introduce a trait.
+There is no free lunch.</p>
+<h2 id="think-beyond-the-parts"><a class="zola-anchor" href="#think-beyond-the-parts" aria-label="Anchor link for: think-beyond-the-parts">Think Beyond the Parts</a></h2>
+<p>Let’s come back to our <code>collect()</code> once more.
+So far, we’ve used the destination type to choose a collection.
+But it can also determine control flow.
+For example, we can decide to stop iterating on the first error or keep going and collect every result, including errors.</p>
+<p>I first learned about this from Karol Kuczmarski’s <a class="external-link" rel="noopener noreferrer external" target="_blank" href="http://xion.io/post/code/rust-iter-patterns.html">Iteration patterns for Result &amp; Option</a>, still one of my favorite Rust posts.</p>
+<p>Here it is in action:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">let</span><span> input</span><span style="color: #FF79C6;"> =</span><span> [</span><span style="color: #F1FA8C;">&quot;10&quot;</span><span>,</span><span style="color: #F1FA8C;"> &quot;oops&quot;</span><span>,</span><span style="color: #F1FA8C;"> &quot;30&quot;</span><span>];</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> every_result</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">u32</span><span>, _&gt;&gt;</span><span style="color: #FF79C6;"> =</span></span>
+<span class="giallo-l"><span>    input</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">iter</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>s</span><span style="color: #FF79C6;">|</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">parse</span><span>())</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> all_or_error</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Vec</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">u32</span><span>&gt;, _&gt;</span><span style="color: #FF79C6;"> =</span></span>
+<span class="giallo-l"><span>    input</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">iter</span><span>()</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">map</span><span>(</span><span style="color: #FF79C6;">|</span><span>s</span><span style="color: #FF79C6;">|</span><span> s</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">parse</span><span>())</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">collect</span><span>();</span></span></code></pre>
+<p>Note that in both cases, the iterator expressions are <strong>identical</strong>.
+The only thing that changes is the destination type:</p>
+<ul>
+<li><code>Vec&lt;Result&lt;u32, _&gt;&gt;</code> collects every parse result.</li>
+<li><code>Result&lt;Vec&lt;u32&gt;, _&gt;</code> returns the first error and stops advancing the iterator immediately.</li>
+</ul>
+<p>In the second case, <code>"30"</code> is never parsed.
+If every parse succeeds, the second version returns <code>Ok</code> containing the vector of values.
+This behavior comes from <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/result/enum.Result.html#impl-FromIterator%3CResult%3CA,+E%3E%3E-for-Result%3CV,+E%3E">the standard library’s <code>FromIterator</code> implementation for <code>Result</code></a>.
+Here’s a stub of that implementation:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">impl</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">A</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> E</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> V</span><span>&gt;</span><span style="color: #8BE9FD;font-style: italic;"> FromIterator</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">A</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> E</span><span>&gt;&gt;</span><span style="color: #FF79C6;"> for</span><span style="color: #8BE9FD;font-style: italic;"> Result</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">V</span><span>,</span><span style="color: #8BE9FD;font-style: italic;"> E</span><span>&gt;</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">where</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    V</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> FromIterator</span><span>&lt;</span><span style="color: #8BE9FD;font-style: italic;">A</span><span>&gt;,</span></span>
+<span class="giallo-l"><span>{</span></span>
+<span class="giallo-l"><span style="color: #6272A4;">    // Implementation omitted.</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>What this says is:</p>
+<blockquote>
+<p>An iterator of <code>Result&lt;A, E&gt;</code> values can be collected into a <code>Result&lt;V, E&gt;</code>, as long as <code>V</code> can collect values of type <code>A</code>.</p>
+</blockquote>
+<p>The <code>V: FromIterator&lt;A&gt;</code> bound means that <code>V</code> could be a <code>Vec&lt;A&gt;</code> or any other type that can collect those values.
+<code>collect()</code> itself doesn’t need to know any of this: it just calls the destination type’s <code>FromIterator</code> implementation.</p>
+<p>See how all of those pieces fit together?
+That’s the real payoff when you think in traits.
+A single implementation can connect a type to an entire ecosystem of algorithms, adapters, and collections.</p>
+<p>A few carefully crafted capabilities can combine in ways their authors never imagined.
+That makes the whole greater than the sum of its parts.
+And that’s just great API design.</p>
+
+    </section>
+  </div>
+
+  <footer class="article-footer skew-top skew-top-reverse">
+    <div class="article-footer-inner">
+    
+    <div class="article-resources prose">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="http://xion.io/post/code/rust-iter-patterns.html">Iteration patterns for Result &amp; Option</a> - Karol Kuczmarski’s post that introduced me to collecting results in different ways</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/iter/trait.FromIterator.html">FromIterator</a> - How collections construct themselves from iterators</p>
+</li>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/items/implementations.html#trait-implementation-coherence">Trait Implementation Coherence</a> - The rules for implementing traits</p>
+</li>
+        
+        <li><p><a href="/blog/enums/">Using Enums to Represent State</a> - Modeling a closed set of possibilities</p>
+</li>
+        
+        <li><p><a href="/blog/dyn-compatibility/">Understanding Dyn Compatibility</a> - When traits can be used with dynamic dispatch</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https%3A//corrode.dev/blog/thinking-in-traits/+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+  rel="noopener"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https%3A//corrode.dev/blog/thinking-in-traits/&amp;title=Thinking%20in%20Traits"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https%3A//corrode.dev/blog/thinking-in-traits/&amp;t=Thinking%20in%20Traits"
+  target="_blank"
+  title="Share on Hacker News"
+  rel="noopener"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" rel="noopener" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2026-11-02">
+            Published: 2026-11-02
+        </time>
+    </div>
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog/thinking-in-traits/"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+    </div>
+  </footer>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="site-footer">
+    <section class="newsletter-callout skew-top" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="newsletter-inner">
+    <h2 class="callout-title" id="newsletter-title">Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                autocomplete="email"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit" disabled>
+                Subscribe
+            </button>
+            <div id="newsletter-turnstile"></div>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+  </div>
+</section>
+
+<script>
+    (() => {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const email = document.getElementById("tlemail");
+        const submit = document.getElementById("newsletter-submit");
+        const challenge = document.getElementById("newsletter-turnstile");
+        const status = document.getElementById("newsletter-status");
+        if (!container || !form || !email || !submit || !challenge || !status)
+            return;
+
+        const local = ["localhost", "127.0.0.1", "0.0.0.0", "[::1]"].includes(
+            window.location.hostname,
+        );
+        let loading = false;
+        let widgetId = null;
+        const disableSubmit = () => {
+            submit.disabled = true;
+        };
+        const loadTurnstile = () => {
+            if (loading || widgetId !== null) return;
+            loading = true;
+            const script = document.createElement("script");
+            script.src =
+                "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+            script.async = true;
+            script.onload = () => {
+                widgetId = window.turnstile.render(challenge, {
+                    sitekey: local
+                        ? "1x00000000000000000000AA"
+                        : "0x4AAAAAAEdVZvjmk2hw9PFR",
+                    action: "newsletter",
+                    appearance: "interaction-only",
+                    theme: "auto",
+                    callback: () => {
+                        submit.disabled = false;
+                        status.textContent = "";
+                    },
+                    "expired-callback": disableSubmit,
+                    "timeout-callback": disableSubmit,
+                    "error-callback": () => {
+                        disableSubmit();
+                        status.textContent =
+                            "Verification failed. Please try again.";
+                    },
+                });
+            };
+            script.onerror = () => {
+                loading = false;
+                status.textContent =
+                    "Verification could not be loaded. Please try again.";
+            };
+            document.head.appendChild(script);
+        };
+
+        const showError = (message) => {
+            status.textContent =
+                message ||
+                "There was a problem with your subscription. Please try again.";
+            submit.textContent = "Subscribe";
+            disableSubmit();
+            window.turnstile.reset(widgetId);
+        };
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            disableSubmit();
+            submit.textContent = "Subscribing…";
+            status.textContent = "";
+
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const message = (await response.text()).trim();
+                if (!response.ok) {
+                    showError(message);
+                    return;
+                }
+
+                status.textContent = message
+                    ? `🎉 ${message}`
+                    : "🎉 You’re in! Please check your inbox.";
+                container.replaceChildren(status);
+            } catch {
+                showError();
+            }
+        });
+
+        email.addEventListener("focus", loadTurnstile);
+        email.addEventListener("input", loadTurnstile);
+    })();
+</script>
+
+    <div class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h2>Offerings</h2>
+                <ul class="footer-links">
+                    <li><a href="/services/">For Teams</a></li>
+                    <li><a href="/mentorship/">For Individuals</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Resources</h2>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/workshops/">Workshops</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li>
+                        <a href="/blog/idiomatic-rust-resources/"
+                            >Learning Resources</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Tools</h2>
+                <ul class="footer-links">
+                    <li>
+                        <a href="https://course.corrode.dev/" rel="noreferrer"
+                            >Learn Rust</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://search.corrode.dev/" rel="noreferrer"
+                            >Rust Search</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://tools.corrode.dev/" rel="noreferrer"
+                            >Rust Tool Index</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Migration Guides</h2>
+                <ul class="footer-links">
+                    <li>
+                        <a href="/learn/migration-guides/python-to-rust/">Python</a>
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/typescript-to-rust/"
+                            >TypeScript</a
+                        >
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/java-to-rust/">Java</a>
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/scala-to-rust/">Scala</a>
+                    </li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Company</h2>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li>
+                        <a href="https://www.linkedin.com/company/corrode/"
+                            >LinkedIn</a
+                        >
+                    </li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        const originalThemeMedia = new WeakMap();
+
+        function applyPreferredColorScheme(scheme) {
+            function themedMedia(owner, mediaText) {
+                if (!originalThemeMedia.has(owner)) {
+                    originalThemeMedia.set(owner, mediaText);
+                }
+                // Always start from the original query so repeated toggles preserve
+                // responsive conditions, comma-separated alternatives, and negation.
+                return originalThemeMedia.get(owner).replace(
+                    /\(prefers-color-scheme:\s*(light|dark)\)/gi,
+                    (_, preference) => preference.toLowerCase() === scheme
+                        ? '(min-width: 0px)'
+                        : '(not (min-width: 0px))'
+                );
+            }
+
+            function applyRules(rules) {
+                for (const rule of rules) {
+                    if (rule.media) {
+                        rule.media.mediaText = themedMedia(rule, rule.media.mediaText);
+                    }
+                    if (rule.cssRules) applyRules(rule.cssRules);
+                }
+            }
+
+            // Link media controls the entire syntax stylesheet, not its CSS rules.
+            // Update the element even if the inactive stylesheet has not loaded yet.
+            for (const link of document.querySelectorAll('link[rel="stylesheet"][media]')) {
+                link.media = themedMedia(link, link.media);
+            }
+            for (const sheet of document.styleSheets) {
+                let rules;
+                try {
+                    rules = sheet.cssRules;
+                } catch (e) {
+                    // Cross-origin stylesheets do not expose their rules.
+                    continue;
+                }
+                applyRules(rules);
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', toggleColorScheme);
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
