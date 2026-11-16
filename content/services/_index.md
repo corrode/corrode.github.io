@@ -25,6 +25,10 @@ You're stuck, afraid of making the wrong move.
 
 ## There Must Be a Better Way...
 
+Rust had [one of the fastest-growing developer communities in the world in 2023](/blog/rust-in-ten-years/#growth).
+It powers [high-stakes systems where safety and reliability are not optional](/blog/foundational-software/).
+Rust is being used to build critical new software, and your team should be part of that future.
+
 What you need is to move forward with **confidence**. You want excellent Rust that's robust, testable, quick to compile, and easy for your team to extend. You want Rust projects that are a joy to work with.
 
 **Your teams will spend thousands of hours maintaining Rust services. Invest the time to learn how to do it well.**
