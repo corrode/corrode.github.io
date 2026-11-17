@@ -92,9 +92,3 @@ exclude = [
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
   '^https://www\.influxdata\.com/products/influxdb-enterprise/',     # product page retired
 ]
-
-# GitHub's HTML endpoints intermittently return 503 during bulk checks.
-# Pace requests instead of ignoring GitHub links or accepting server errors.
-[hosts."github.com"]
-concurrency = 2
-request_interval = "100ms"
