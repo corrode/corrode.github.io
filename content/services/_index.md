@@ -29,6 +29,22 @@ In this free consultation, we'll discuss your system, your team's experience, an
 
 {% </info> %}
 
+{% <info title="From Prototype to Production" icon="heart"> %}
+
+<q>
+    I had the pleasure of collaborating with
+    Matthias to take my product from a prototype to
+    a production ready solution. Thanks
+    to Matthias's guidance, I now have a robust
+    product built on Rust that I can trust to
+    deliver performance and reliability.
+</q>
+<p style="text-align:right">
+&mdash; <a href="https://www.linkedin.com/in/somdip-datta/">Somdip Datta</a>, Financial Engineer and Author
+</p>
+
+{% </info> %}
+
 ## Here’s the problem...
 
 Your existing system is showing its age and starting to become a liability.
