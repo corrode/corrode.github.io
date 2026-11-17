@@ -389,7 +389,7 @@ sentiment:
 >
 > Up to a point of 10.000 video participants we didn't have to refactor thanks to Rust's performance.
 > We could focus on features instead without worrying about bottlenecks.  
-> &mdash; Source: [FrOSCon 2024 talk by Daniél Kerkmann (German)](https://media.ccc.de/v/froscon2024-3105-in_rust_radikal_refactorn#t=1198)
+> &mdash; Source: [FrOSCon 2024 talk by Daniél Kerkmann (German)](https://frab.froscon.org/de/froscon2024/public/events/3105)
 
 Another aspect of performance is energy efficiency.
 

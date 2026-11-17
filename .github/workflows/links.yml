@@ -21,6 +21,7 @@ jobs:
   link-check:
     name: Check links
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -37,10 +38,11 @@ jobs:
 
       # Speed up repeat runs and avoid re-hitting every external host.
       - name: Restore lychee cache
-        uses: actions/cache@v4
+        id: lychee-cache
+        uses: actions/cache/restore@v4
         with:
           path: .lycheecache
-          key: lychee-${{ github.sha }}
+          key: lychee-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: lychee-
 
       - name: Check links
@@ -52,6 +54,7 @@ jobs:
           # over the network.
           args: >-
             --config lychee.toml
+            --verbose
             --cache
             --max-cache-age 1d
             --root-dir "${{ github.workspace }}/public"
@@ -59,3 +62,12 @@ jobs:
             "public/**/*.html"
             "public/llms.txt"
           fail: true
+
+      # Keep successful checks even when another link fails. Lychee already
+      # omits errors when saving its cache to disk.
+      - name: Save lychee cache
+        if: ${{ !cancelled() && hashFiles('.lycheecache') != '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: .lycheecache
+          key: ${{ steps.lychee-cache.outputs.cache-primary-key }}

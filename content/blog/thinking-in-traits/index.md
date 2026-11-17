@@ -126,7 +126,7 @@ void finishSending(Socket socket) throws IOException {
 ```
 
 On Android API levels 21 through 23, the platform's `SSLSocket` implementations [rejected this operation](https://android.googlesource.com/platform/libcore/+/android-6.0.0_r1/luni/src/main/java/javax/net/ssl/SSLSocket.java#847) with `UnsupportedOperationException`.
-This caused [a real crash in OkHttp 5.2.0](https://github.com/square/okhttp/issues/9123).
+This caused [a real crash in OkHttp 5.2.0](https://github.com/lysine-dev/okhttp/issues/9123).
 Modern OpenJDK [supports TLS-aware shutdown](https://bugs.openjdk.org/browse/JDK-8207009), so this is a historical mismatch, not a universal limitation of TLS.
 Still, the `Socket` type exposed an operation without telling callers whether that implementation supported it.
 
