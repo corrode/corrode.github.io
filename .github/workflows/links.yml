@@ -54,6 +54,7 @@ jobs:
           # over the network.
           args: >-
             --config lychee.toml
+            --verbose
             --cache
             --max-cache-age 1d
             --root-dir "${{ github.workspace }}/public"
@@ -62,8 +63,8 @@ jobs:
             "public/llms.txt"
           fail: true
 
-      # Keep successful checks even when another link fails. HTTP errors are
-      # excluded from the cache in lychee.toml and will be checked again.
+      # Keep successful checks even when another link fails. Lychee already
+      # omits errors when saving its cache to disk.
       - name: Save lychee cache
         if: ${{ !cancelled() && hashFiles('.lycheecache') != '' }}
         uses: actions/cache/save@v4

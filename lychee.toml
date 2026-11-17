@@ -14,8 +14,6 @@ retry_wait_time = 3
 timeout = 20
 max_concurrency = 12
 
-# Recheck failures rather than carrying them into later CI runs.
-cache_exclude_status = "400..=599"
 
 # Plenty of hosts answer automated traffic with 403/429 even when the link is
 # fine. 405 means the URL exists but doesn't allow GET/HEAD (e.g. the
