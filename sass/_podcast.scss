@@ -94,6 +94,10 @@
     background-color: $brightBgrdScnd;
     text-align: center;
 
+    &::before {
+        transform: skewY(-0.5deg);
+    }
+
     &::after {
         content: "";
         position: absolute;
@@ -102,7 +106,7 @@
         right: 0;
         height: max(3rem, 4vw);
         background-color: inherit;
-        transform: skewY(1deg);
+        transform: skewY(0.5deg);
         transform-origin: 0 100%;
         z-index: -1;
     }
