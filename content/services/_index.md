@@ -46,8 +46,10 @@ Along the way, your team needs to build the expertise to maintain the new Rust c
 
 And your existing system has to keep running during the migration.
 
+Or you've already built a Rust prototype, but you're not sure whether the architecture is ready for production.
+
 All of these decisions are made with limited information, under budget and time constraints, and you're worried about making the wrong call.
-That's a big task that has serious consequences if done wrong.
+That's a big task!
 
 ## There Must Be a Better Way...
 
@@ -58,7 +60,6 @@ You don't have to figure it all out alone. With an experienced Rust specialist a
 For an existing C++ or Python system, we find the component that makes the most sense to migrate first and plan how to integrate it with the rest of the system. We work on a deployment strategy that allows you to roll back if something goes wrong. We also establish CI and review workflows that your team can maintain after the migration is complete.
 
 **Your team will spend thousands of hours maintaining Rust services. Invest the time to learn how to do it well.**
-Together we'll build a codebase that is a joy to work with.
 
 ## Why Me?
 
@@ -94,8 +95,9 @@ For more background, see the [C++ to Rust migration guide](/learn/migration-guid
 ## Get Expert Help That's Hard To Hire For
 
 Rust has a steep learning curve.
-I try to teach your team how to hit the ground running with Rust by pairing, reviewing code, and discussing architecture decisions together.
-Empathy and trust are important, so I try to meet the team where they are and help each team member with the right level of guidance depending on their experience.
+I help your team get productive with Rust by pairing, reviewing code, and discussing architecture decisions together.
+
+Empathy and trust are important, so I meet the team where they are and adapt my guidance to the experience level of each engineer.
 My goal is to build up a group of excellent Rust engineers who can justify engineering decisions and learn how to navigate the Rust ecosystem.
 
 For an overview to share with your team, the services PDF is available in [English](corrode_rust_team_augmentation_en.pdf) and [German](corrode_rust_team_augmentation_de.pdf). For individual support, see [1-on-1 Rust mentorship](/mentorship).
@@ -109,7 +111,7 @@ We plan the hands-on migration work and mentoring requirements at this stage.
 ### 1. Assess
 
 In this stage, we review your system, architecture, and migration options against your operational constraints.
-We identify the risks, choose a manageable first step, and agree on a mode of operation.
+We identify the risks, choose a manageable first step, and agree on what to tackle next and how we'll work together.
 
 ### 2. Migrate
 
