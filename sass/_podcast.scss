@@ -22,7 +22,6 @@
     gap: 2rem;
 }
 
-
 .podcast-hero h1 {
     font-size: clamp(3.25rem, 7.5vw, 6rem);
     line-height: 1.1;
@@ -44,9 +43,13 @@
     max-width: 36rem;
     line-height: 1.65;
 
-    p { margin: 0 0 1rem; }
-    p:last-child { margin-bottom: 0; }
+    p {
+        margin: 0 0 1rem;
+    }
 
+    p:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .podcast-hero-details {
@@ -64,7 +67,9 @@
     }
 }
 
-.podcast-detail-icon { flex-shrink: 0; }
+.podcast-detail-icon {
+    flex-shrink: 0;
+}
 
 .podcast-browse {
     display: inline-flex;
@@ -114,7 +119,9 @@
     h2 {
         margin: 0 0 1rem;
 
-        &::after { margin-inline: auto; }
+        &::after {
+            margin-inline: auto;
+        }
     }
 
     a {
@@ -124,30 +131,19 @@
         gap: 0.6rem;
         min-height: 48px;
         padding: 0.65rem 1rem;
-
         border-radius: 4px;
         color: inherit;
         text-decoration: none;
         font-size: 0.9rem;
         line-height: 1.4;
 
-        &:hover { background: rgba($brightPrim, 0.06); }
+        &:hover {
+            background: rgba($brightPrim, 0.06);
+        }
     }
 
-    img { flex-shrink: 0; }
-}
-
-@media (prefers-color-scheme: dark) {
-    .podcast-hero h1 .highlight {
-        background-color: $brightBgrd;
-    }
-
-    .podcast-listening {
-        background-color: $darkBgrdDeep;
-
-        a:hover { background: rgba(white, 0.12); }
-
-        img { filter: invert(1); }
+    img {
+        flex-shrink: 0;
     }
 }
 
@@ -169,7 +165,9 @@
     margin: 0;
     list-style: none;
 
-    li { margin: 0; }
+    li {
+        margin: 0;
+    }
 }
 
 .podcast-season-heading {
@@ -183,22 +181,15 @@
 .podcast-sponsor {
     margin-top: 3rem;
 
-    .info { width: auto; margin-inline: 0; }
+    .info {
+        width: auto;
+        margin-inline: 0;
+    }
 }
 
-.podcast-back { display: inline-block; padding-block: 0.75rem; }
-
-@media (prefers-reduced-motion: reduce) {
-    html:has(.podcast-page) { scroll-behavior: auto; }
-    .podcast-page .list-row-chevron { transition: none; }
-}
-
-@media (max-width: 700px) {
-    .podcast-hero-inner { grid-template-columns: minmax(0, 1fr); }
-    .podcast-hero-art { display: none; }
-    .podcast-hero h1 { font-size: calc((100vw - 2.5rem) / 4.1); }
-    .podcast-listening ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .podcast-listening a { padding-inline: 0.5rem; font-size: 0.8rem; }
+.podcast-back {
+    display: inline-block;
+    padding-block: 0.75rem;
 }
 
 .podcast-list {
@@ -354,6 +345,31 @@
     }
 }
 
+@media (max-width: 700px) {
+    .podcast-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .podcast-hero-art {
+        display: none;
+    }
+
+    // Size the stacked title so its longest line fits between the page gutters.
+    .podcast-hero h1 {
+        font-size: calc((100vw - 2.5rem) / 4.1);
+    }
+
+    .podcast-listening ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .podcast-listening a {
+        padding-inline: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
 @media (max-width: 640px) {
     .podcast-link {
         grid-template-columns: 40px minmax(0, 1fr);
@@ -370,7 +386,6 @@
         gap: 0.5rem;
     }
 
-
     .article-meta-top {
         flex-direction: column;
         align-items: flex-start;
@@ -379,6 +394,22 @@
 }
 
 @media (prefers-color-scheme: dark) {
+    .podcast-hero h1 .highlight {
+        background-color: $brightBgrd;
+    }
+
+    .podcast-listening {
+        background-color: $darkBgrdDeep;
+
+        a:hover {
+            background: rgba(white, 0.12);
+        }
+
+        img {
+            filter: invert(1);
+        }
+    }
+
     .episode-byline {
         color: white;
     }
@@ -387,12 +418,21 @@
         background-color: rgba(white, 0.1);
     }
 
-
     .podcast-about {
         border-top-color: rgba(white, 0.15);
     }
 
     .episode-content > div:first-child {
         border-color: rgba(white, 0.15);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:has(.podcast-page) {
+        scroll-behavior: auto;
+    }
+
+    .podcast-page .list-row-chevron {
+        transition: none;
     }
 }

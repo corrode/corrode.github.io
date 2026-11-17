@@ -39,16 +39,25 @@
     <header class="podcast-hero" id="podcast-top">
         <div class="podcast-hero-inner">
             <div class="podcast-hero-copy">
-                <h1 id="podcast-title"><span class="highlight">Rust in</span> <span class="highlight">Production</span> <span class="highlight">Podcast</span></h1>
+                <h1 id="podcast-title">
+                    <span class="highlight">Rust in</span>
+                    <span class="highlight">Production</span>
+                    <span class="highlight">Podcast</span>
+                </h1>
                 <div class="podcast-intro">{{ section.extra.intro | markdown | safe }}</div>
                 <ul class="podcast-hero-details" role="list">
                     <li>
-                        <svg class="podcast-detail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 11h18" /></svg>
+                        <svg class="podcast-detail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <rect x="3" y="5" width="18" height="16" rx="2" />
+                            <path d="M16 3v4M8 3v4M3 11h18" />
+                        </svg>
                         <span>{{ section.extra.schedule }}</span>
                     </li>
                     <li>
                         <a class="podcast-browse" href="#episodes">
-                            <svg class="podcast-detail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6h12M9 12h12M9 18h12M3 6h1M3 12h1M3 18h1" /></svg>
+                            <svg class="podcast-detail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M9 6h12M9 12h12M9 18h12M3 6h1M3 12h1M3 18h1" />
+                            </svg>
                             <span>Browse episodes</span>
                         </a>
                     </li>
@@ -62,17 +71,36 @@
         <div class="podcast-listening-inner">
             <h2 id="podcast-listening-title">Listen and subscribe</h2>
             <ul role="list">
-                <li><a href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"><img src="/podcast/apple.svg" alt="" width="32" height="32" />Apple Podcasts</a></li>
-                <li><a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"><img src="/podcast/spotify.svg" alt="" width="32" height="32" />Spotify</a></li>
-                <li><a href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"><img src="/podcast/youtube.svg" alt="" width="32" height="32" />YouTube</a></li>
-                <li><a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"><img src="/podcast/rss.svg" alt="" width="32" height="32" />RSS feed</a></li>
+                <li>
+                    <a href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330">
+                        <img src="/podcast/apple.svg" alt="" width="32" height="32" />
+                        <span>Apple Podcasts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">
+                        <img src="/podcast/spotify.svg" alt="" width="32" height="32" />
+                        <span>Spotify</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t">
+                        <img src="/podcast/youtube.svg" alt="" width="32" height="32" />
+                        <span>YouTube</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed">
+                        <img src="/podcast/rss.svg" alt="" width="32" height="32" />
+                        <span>RSS feed</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </section>
 
     <div class="article-content-wrapper">
         <div class="article-content" id="episodes" tabindex="-1">
-
             {% for season in season_numbers %}
                 <h2 class="podcast-season-heading" id="season-{{ season }}">Season {{ season }}</h2>
                 <ul class="list-row podcast-list" role="list">
@@ -84,7 +112,10 @@
                             </div>
                             <div class="list-row-content">
                                 <h3 class="list-row-title podcast-item-title">
-                                    {{ episode.title }} {% if episode.extra.guest %}<span class="podcast-guest">with {{ episode.extra.guest }}</span>{% endif %}
+                                    {{ episode.title }}
+                                    {% if episode.extra.guest %}
+                                    <span class="podcast-guest">with {{ episode.extra.guest }}</span>
+                                    {% endif %}
                                 </h3>
                                 <div class="list-row-meta podcast-item-meta">
                                     <time class="list-row-date" datetime="{{ episode.date }}">{{ episode.date }}</time>
