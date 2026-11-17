@@ -1,4 +1,12 @@
 @font-face {
+    font-family: "Josefin Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/JosefinSans-Bold.woff2") format("woff2");
+}
+
+@font-face {
     font-family: "Inter";
     font-style: normal;
     font-weight: 100 900; /* variable font weights */
@@ -8,6 +16,7 @@
 @font-face {
     font-family: "JetBrainsMono";
     font-style: normal;
+    font-display: swap;
     src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
 }
 
@@ -192,45 +201,8 @@ img {
 }
 
 code {
-    font-family: "JetBrainsMono", monospace;
+    font-family: $fontMono;
     font-size: 1em;
-}
-
-div.hero {
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px auto 0px auto;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-}
-
-.hero-font {
-    width: 400px;
-    height: auto;
-}
-
-img.hero-img {
-    max-width: 65%;
-    width: 800px;
-    height: auto;
-}
-
-@media only screen and (max-width: 900px) {
-    div.hero {
-        flex-direction: column;
-        padding: 0;
-        margin: 20px auto;
-    }
-
-    img.hero-img {
-        display: none;
-    }
-
-    img.hero-font {
-        padding: 0 10px;
-        max-width: 500px;
-    }
 }
 
 a {

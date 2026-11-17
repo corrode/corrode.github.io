@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block meta %}
+    <link rel="preload" href="/fonts/JosefinSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
     {% set structured_data = load_data(path="static/corrode-consulting-structured-data.jsonld") %}
     <script type="application/ld+json">
         {{ structured_data | safe }}
@@ -10,14 +11,15 @@
 {% block content %}
 <div class="homepage">
     <div class="fold">
-        <div class="hero">
-            <div class="hero-font">
-                {% set hero_font = load_data(path="static/hero/hero-font.svg") %}
-                {{ hero_font | safe }}
-            </div>
-            <img class="hero-img" src="/hero/hero-img.svg" alt="Illustration of a software factory" />
-            <h1 class="visually-hidden">Expert Rust Consulting for Engineering Teams</h1>
-        </div>
+        <header class="home-hero">
+            <h1 class="home-hero-title">
+                <span class="highlight">Friendly,</span>
+                <span class="highlight">professional</span>
+                <span class="highlight">Rust</span>
+                <span class="highlight">Consulting</span>
+            </h1>
+            <img class="home-hero-art" src="/hero/hero-img.svg" alt="" width="453" height="386" fetchpriority="high" />
+        </header>
 
         <div class="brands-and-scroll">
             <div class="brands">
@@ -94,8 +96,8 @@
                 </div>
             </div>
 
-            <a href="#call-to-action" class="smooth-scroll">
-                <div class="scroll-indicator invert">
+            <a href="#call-to-action" class="smooth-scroll" aria-label="Explore our Rust consulting services">
+                <div class="scroll-indicator invert" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20">
                         <path fill-rule="evenodd" d="M14.5 5.955 8 12.5 1.5 5.955 2.944 4.5 8 9.59l5.056-5.09z"/>
                     </svg>
@@ -104,7 +106,7 @@
         </div>
     </div>
 
-    <div id="call-to-action" class="call-to-action skew-top">
+    <div id="call-to-action" class="call-to-action skew-top" tabindex="-1">
         <div class="cta-content">
             <h2>Ship Production Rust Without the Costly Mistakes</h2>
             <p class="hero-subtitle">Planning a Rust migration or evaluating an existing prototype? Tell me what you're working on, and let's explore how I can help your team.</p>

@@ -29,7 +29,7 @@ code {
     padding: 5px 10px;
     margin: 3px;
     font-size: 0.85rem;
-    font-family: JetBrainsMono;
+    font-family: "JetBrainsMono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
     color: #111;
     background: transparent;
     border: 2px solid rgba(17, 17, 17, 0.2);
