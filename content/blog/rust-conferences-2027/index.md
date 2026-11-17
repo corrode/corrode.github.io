@@ -14,6 +14,8 @@ Planning your Rust conference trips for 2027? Here are the conferences with conf
 
 Come say hi if you see us at any of these events! (We'll bring [Rust in Production](/podcast) stickers.) For the 2026 events, see [Rust Conferences 2026](/blog/rust-conferences-2026/).
 
+<div id="conference-map" role="region" aria-label="Map of 2027 Rust conferences, tracks, and workshops" hidden></div>
+
 ## Q1 2027
 
 ### Rust Nation UK (London, UK)
@@ -162,3 +164,8 @@ Browse our dedicated [Rust conference recordings page](https://search.corrode.de
 Missing an event? Spot an error? Feel free to [edit this list directly](https://github.com/corrode/corrode.github.io/edit/master/content/blog/rust-conferences-2027/index.md) or let us know.
 
 Check the organizers' websites for the latest details before booking travel. See you at the next conference! 🦀
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="map.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script src="map.js" defer></script>
