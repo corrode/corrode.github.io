@@ -22,6 +22,13 @@ You'll work directly with me, Matthias Endler, alongside your existing engineeri
 
 In this free consultation, we'll discuss your system, your team's experience, and where you want to be in six months.
 
+{% <info title="Helping Your Team Own the Code" icon="heart"> %}
+
+<q>He didn't fix the code for us; he created a safe space for us to learn how to fix it ourselves.</q>
+<p style="text-align:right">&mdash; Ernie Prabhakar, Director of Product, <a href="https://www.quiltdata.com/">Quilt Data</a></p>
+
+{% </info> %}
+
 {% <info title="From Prototype to Production" icon="heart"> %}
 
 <q>
