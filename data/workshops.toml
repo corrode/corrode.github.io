@@ -13,7 +13,7 @@ description = "An interactive course you take in your browser: write real code, 
 pick = "Small exercises with instant feedback." 
 level = "Beginner"
 tags = ["Interactive", "In your browser"]
-meta = "★ 17 · 20+ exercises · Free"
+meta = "★ 17 · 80+ exercises · Free"
 image = "https://opengraph.githubassets.com/main/corrode/course"
 
 [[workshop]]
@@ -22,8 +22,8 @@ url = "https://github.com/corrode/learning-rust-by-counting-words"
 description = "Build <code>wc</code>, a little tool that counts words, lines, and characters. A gentle, practical introduction to Rust."
 pick = "Start here if you've never written Rust and prefer a project-based approach." 
 level = "Beginner"
-tags = ["Fundamentals", "2 hours"]
-meta = "★ 8 · Updated Aug 2024"
+tags = ["Fundamentals", "6 hours"]
+meta = "★ 8 · Updated Oct 2026"
 image = "https://opengraph.githubassets.com/main/corrode/learning-rust-by-counting-words"
 
 [[workshop]]
@@ -52,8 +52,8 @@ url = "https://github.com/corrode/refactoring-rust"
 description = "A refactoring workshop: take working but rough Rust and reshape it into idiomatic, ergonomic, maintainable code, one step at a time."
 pick = "Pick this if you can write Rust but want it to read like an expert wrote it."
 level = "Intermediate"
-tags = ["Refactoring", "Half day"]
-meta = "★ 94 · Updated Jun 2026"
+tags = ["Refactoring", "Full day"]
+meta = "★ 94 · Updated Oct 2026"
 image = "https://opengraph.githubassets.com/main/corrode/refactoring-rust"
 
 [[workshop]]
