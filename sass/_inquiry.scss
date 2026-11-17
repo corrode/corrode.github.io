@@ -1,0 +1,68 @@
+.inquiry {
+    scroll-margin-top: 2rem;
+    margin-block: 3rem;
+
+    .inquiry-fields {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    label {
+        margin-top: 1rem;
+        font-weight: 600;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        min-width: 0;
+        min-height: 48px;
+        padding: 0.75rem;
+        border: 1px solid $brightPrim;
+        border-radius: 4px;
+        background: white;
+        color: $brightPrim;
+        font: inherit;
+        font-size: 1rem;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    :focus-visible {
+        outline: 3px solid currentColor;
+        outline-offset: 3px;
+    }
+
+    .cta-button {
+        max-width: 100%;
+        min-height: 48px;
+        white-space: normal;
+        font: inherit;
+        background: $brightPrim;
+        color: white;
+    }
+
+    button:disabled {
+        opacity: 0.65;
+        cursor: wait;
+    }
+
+    #inquiry-status:empty {
+        display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        input, textarea, select {
+            background: $darkBgrd;
+            color: white;
+            border-color: $darkPrim;
+            color-scheme: dark;
+        }
+
+        .cta-button {
+            background: $brightBgrd;
+            color: $brightPrim;
+        }
+    }
+}
