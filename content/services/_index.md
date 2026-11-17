@@ -1,6 +1,6 @@
 +++
 title = "Rust Migration Consulting for Engineering Teams"
-template = "services.html"
+template = "page.html"
 sort_by = "date"
 description = "Migrate C++ or Python systems to Rust with Matthias Endler. Architecture reviews, hands-on migration support, and mentoring to help your team use Rust in production."
 aliases = ["about"]
