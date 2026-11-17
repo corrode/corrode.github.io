@@ -127,7 +127,7 @@
 }
 
 .pro-hero-title {
-    font-family: "Josefin Sans", Arial, sans-serif;
+    font-family: $fontHero;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 700;
     line-height: 1.2;

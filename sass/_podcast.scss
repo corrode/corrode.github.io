@@ -23,7 +23,7 @@
 }
 
 .podcast-hero h1 {
-    font-family: "Josefin Sans", Arial, sans-serif;
+    font-family: $fontHero;
     font-size: clamp(2.5rem, 5.5vw, 4rem);
     font-weight: 700;
     line-height: 1.2;
