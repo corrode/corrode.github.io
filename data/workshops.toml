@@ -3,7 +3,7 @@
 #
 # Each entry is self-contained: `tags` and `meta` render as-is, so the course
 # and the repo workshops can show different details. `meta` is a point-in-time
-# snapshot (last checked 2026-06) — refresh it now and then. `pick` is a
+# snapshot (stars last checked 2026-11) — refresh it now and then. `pick` is a
 # one-line "who is this for" nudge. `image` is the card thumbnail.
 
 [[workshop]]
@@ -13,7 +13,7 @@ description = "An interactive course you take in your browser: write real code, 
 pick = "Small exercises with instant feedback." 
 level = "Beginner"
 tags = ["Interactive", "In your browser"]
-meta = "★ 12 · 20+ exercises · Free"
+meta = "★ 17 · 20+ exercises · Free"
 image = "https://opengraph.githubassets.com/main/corrode/course"
 
 [[workshop]]
@@ -23,7 +23,7 @@ description = "Build <code>wc</code>, a little tool that counts words, lines, an
 pick = "Start here if you've never written Rust and prefer a project-based approach." 
 level = "Beginner"
 tags = ["Fundamentals", "2 hours"]
-meta = "★ 6 · Updated Aug 2024"
+meta = "★ 8 · Updated Aug 2024"
 image = "https://opengraph.githubassets.com/main/corrode/learning-rust-by-counting-words"
 
 [[workshop]]
@@ -33,7 +33,7 @@ description = "Build a fast file finder and learn how to structure a real-world 
 pick = "Pick this if you want to build a real command-line tool from scratch."
 level = "Beginner"
 tags = ["CLI", "Half day"]
-meta = "★ 33 · Updated Apr 2025"
+meta = "★ 36 · Updated Apr 2025"
 image = "https://opengraph.githubassets.com/main/corrode/write-yourself-a-cli"
 
 [[workshop]]
@@ -43,7 +43,7 @@ description = "Learn to write effective, ergonomic tests in Rust, from unit test
 pick = "Pick this if your code works but your tests feel messy or brittle."
 level = "Beginner"
 tags = ["Testing", "2–3 hours"]
-meta = "★ 6 · Updated Mar 2025"
+meta = "★ 8 · Updated Mar 2025"
 image = "https://opengraph.githubassets.com/main/corrode/write-yourself-some-tests"
 
 [[workshop]]
@@ -53,7 +53,7 @@ description = "A refactoring workshop: take working but rough Rust and reshape i
 pick = "Pick this if you can write Rust but want it to read like an expert wrote it."
 level = "Intermediate"
 tags = ["Refactoring", "Half day"]
-meta = "★ 83 · Updated Jun 2026"
+meta = "★ 94 · Updated Jun 2026"
 image = "https://opengraph.githubassets.com/main/corrode/refactoring-rust"
 
 [[workshop]]
@@ -63,7 +63,7 @@ description = "Build a working shell from scratch. A deep dive into intermediate
 pick = "Pick this if you want to go deep on systems concepts in Rust."
 level = "Intermediate"
 tags = ["Systems", "6 hours"]
-meta = "★ 44 · Updated Nov 2024"
+meta = "★ 53 · Updated Nov 2024"
 image = "https://opengraph.githubassets.com/main/corrode/write-yourself-a-shell"
 
 [[workshop]]
@@ -73,5 +73,5 @@ description = "Build a small web application with axum and Postgres to learn how
 pick = "Pick this if you're building web backends with axum and Postgres."
 level = "Intermediate"
 tags = ["Web", "Half day"]
-meta = "★ 31 · Updated Mar 2025"
+meta = "★ 34 · Updated Mar 2025"
 image = "https://opengraph.githubassets.com/main/corrode/write-yourself-a-web-app"
