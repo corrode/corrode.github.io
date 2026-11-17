@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block meta %}
+    <link rel="preload" href="/fonts/JosefinSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
     {% set structured_data = load_data(path="static/corrode-consulting-structured-data.jsonld") %}
     <script type="application/ld+json">
         {{ structured_data | safe }}
