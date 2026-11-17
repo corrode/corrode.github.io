@@ -11,7 +11,8 @@
 }
 
 .podcast-hero {
-    padding: clamp(2rem, 5vw, 4rem) max(1.25rem, calc((100% - 1200px) / 2)) 2rem;
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem);
+    padding-inline: max(1.25rem, calc((100% - 1200px) / 2));
 }
 
 .podcast-hero-inner {
