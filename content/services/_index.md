@@ -22,19 +22,10 @@ You'll work directly with me, Matthias Endler, alongside your existing engineeri
 
 In this free consultation, we'll discuss your system, your team's experience, and where you want to be in six months.
 
-{% <info title="From Prototype to Production" icon="heart"> %}
+{% <info title="Helping Your Team Own the Code" icon="heart"> %}
 
-<q>
-    I had the pleasure of collaborating with
-    Matthias to take my product from a prototype to
-    a production ready solution. Thanks
-    to Matthias's guidance, I now have a robust
-    product built on Rust that I can trust to
-    deliver performance and reliability.
-</q>
-<p style="text-align:right">
-&mdash; <a href="https://www.linkedin.com/in/somdip-datta/">Somdip Datta</a>, Financial Engineer and Author
-</p>
+<q>He didn't fix the code for us; he created a safe space for us to learn how to fix it ourselves.</q>
+<p style="text-align:right">&mdash; Ernie Prabhakar, Director of Product, <a href="https://www.quiltdata.com/">Quilt Data</a></p>
 
 {% </info> %}
 
