@@ -10,6 +10,7 @@ role = "Senior Rust Engineer"
 season = "04"
 episode = "06"
 series = "Podcast"
+services_prompt = "Designing a shared Rust core for your native applications?"
 +++
 
 <div><script id="letscast-player-0e3cbed3" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/1password-with-andrew-burkhart/player.js?size=s"></script></div>

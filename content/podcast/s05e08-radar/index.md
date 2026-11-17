@@ -10,6 +10,7 @@ role = "Staff Engineer"
 season = "05"
 episode = "08"
 series = "Podcast"
+services_prompt = "Could Rust simplify your data infrastructure?"
 +++
 
 <div><script id="letscast-player-7e84c99d" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/radar-with-jeff-kao/player.js?size=s"></script></div>

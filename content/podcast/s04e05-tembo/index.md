@@ -10,6 +10,7 @@ role = "Founding Engineer"
 season = "04"
 episode = "05"
 series = "Podcast"
+services_prompt = "Choosing a job queue for your Rust service?"
 +++
 
 <div><script id="letscast-player-a72393de" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/tembo-with-adam-hendel/player.js?size=s"></script></div>

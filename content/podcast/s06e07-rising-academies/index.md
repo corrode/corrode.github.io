@@ -10,6 +10,7 @@ role = "Senior Engineering Manager"
 season = "06"
 episode = "07"
 series = "Podcast"
+services_prompt = "Would Rust be a good fit for your next backend?"
 +++
 
 <div><script id="letscast-player-30669ebd" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rising-with-dylan-brown-872db41b-f845-41f0-8bac-147b5a6f5b87/player.js?size=s"></script></div>

@@ -10,6 +10,7 @@ role = "CTO and Senior Software Engineer"
 season = "06"
 episode = "06"
 series = "Podcast"
+services_prompt = "Adding Rust to an existing C++ codebase?"
 +++
 
 <div><script id="letscast-player-9e435c01" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/clickhouse-with-alexey-milovidov-and-austin-bonander/player.js?size=s"></script></div>

@@ -10,6 +10,7 @@ role = "Co-Founders"
 season = "03"
 episode = "04"
 series = "Podcast"
+services_prompt = "Want a Rust codebase that your team can maintain confidently?"
 +++
 
 <div><script id="letscast-player-4553b0d1" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/gitbutler-with-scott-chacon-and-kiril-videlov/player.js?size=s"></script></div>
