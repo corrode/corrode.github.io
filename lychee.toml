@@ -14,6 +14,9 @@ retry_wait_time = 3
 timeout = 20
 max_concurrency = 12
 
+# Recheck failures rather than carrying them into later CI runs.
+cache_exclude_status = "400..=599"
+
 # Plenty of hosts answer automated traffic with 403/429 even when the link is
 # fine. 405 means the URL exists but doesn't allow GET/HEAD (e.g. the
 # newsletter form's POST-only endpoint). Treat all of these as a pass.
@@ -89,3 +92,9 @@ exclude = [
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
   '^https://www\.influxdata\.com/products/influxdb-enterprise/',     # product page retired
 ]
+
+# GitHub's HTML endpoints intermittently return 503 during bulk checks.
+# Pace requests instead of ignoring GitHub links or accepting server errors.
+[hosts."github.com"]
+concurrency = 1
+request_interval = "1s"
