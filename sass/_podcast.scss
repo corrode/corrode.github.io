@@ -204,6 +204,7 @@
 @media (max-width: 700px) {
     .podcast-hero-inner { grid-template-columns: minmax(0, 1fr); }
     .podcast-hero-art { display: none; }
+    .podcast-hero h1 .highlight { display: inline-block; }
     .podcast-listening ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .podcast-listening a { padding-inline: 0.5rem; font-size: 0.8rem; }
 }
