@@ -172,20 +172,12 @@
     li { margin: 0; }
 }
 
-.podcast-page .podcast-archive {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 1.25rem;
-}
-
-.podcast-archive > h2 { margin-top: 0; }
-
-
 .podcast-season-heading {
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid currentColor;
-    margin: 3rem 0 0;
-    font-size: 1.75rem;
+    padding-inline: 12px;
+
+    &:first-child {
+        margin-top: 0;
+    }
 }
 
 .podcast-sponsor {
@@ -244,7 +236,7 @@
 
 .podcast-guest {
     font-weight: 400;
-    opacity: 0.8;
+    opacity: 0.65;
     font-size: 1rem;
 }
 

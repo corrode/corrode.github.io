@@ -71,12 +71,10 @@
     </section>
 
     <div class="article-content-wrapper">
-        <div class="article-content podcast-archive">
-            <h2 id="episodes" tabindex="-1">All episodes</h2>
+        <div class="article-content" id="episodes" tabindex="-1">
 
             {% for season in season_numbers %}
-            <section aria-labelledby="season-{{ season }}">
-                <h3 class="podcast-season-heading" id="season-{{ season }}" tabindex="-1">Season {{ season }}</h3>
+                <h2 class="podcast-season-heading" id="season-{{ season }}">Season {{ season }}</h2>
                 <ul class="list-row podcast-list" role="list">
                     {% for episode in seasons[season] %}
                     <li class="list-row-item">
@@ -85,12 +83,12 @@
                                 <img class="podcast-logo-img invert" src="{{ episode.path }}logo.svg" alt="" width="40" height="40" loading="lazy" decoding="async" />
                             </div>
                             <div class="list-row-content">
-                                <h4 class="list-row-title podcast-item-title">
+                                <h3 class="list-row-title podcast-item-title">
                                     {{ episode.title }} {% if episode.extra.guest %}<span class="podcast-guest">with {{ episode.extra.guest }}</span>{% endif %}
-                                </h4>
+                                </h3>
                                 <div class="list-row-meta podcast-item-meta">
-                                    <time class="list-row-date" datetime="{{ episode.date }}">{{ episode.date | date(format="%b %e, %Y") }}</time>
-                                    <span>Episode {{ episode.extra.episode }}</span>
+                                    <time class="list-row-date" datetime="{{ episode.date }}">{{ episode.date }}</time>
+                                    <code class="meta-code">S{{ episode.extra.season }} E{{ episode.extra.episode }}</code>
                                 </div>
                             </div>
                             <span class="chevron list-row-chevron podcast-item-chevron" aria-hidden="true"></span>
@@ -98,7 +96,6 @@
                     </li>
                     {% endfor %}
                 </ul>
-            </section>
             {% endfor %}
             <aside class="podcast-sponsor" aria-label="Podcast sponsor">{{ section.content | safe }}</aside>
             <p class="podcast-footer">Podcast recordings are licensed under <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>.</p>
