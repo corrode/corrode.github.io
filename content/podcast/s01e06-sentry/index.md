@@ -10,6 +10,7 @@ role = "Senior Native Platform Engineer"
 season = "01"
 episode = "06"
 series = "Podcast"
+services_prompt = "Connecting Python to a performance-critical Rust component?"
 +++
 
 <div><script id="letscast-player-e098acdf" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/rust-in-production-ep-6-sentry-s-arpad-borsos/player.js?size=s"></script></div>

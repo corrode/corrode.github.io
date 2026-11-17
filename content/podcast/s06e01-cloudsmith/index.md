@@ -10,6 +10,7 @@ role = "Service Reliability Engineer"
 season = "06"
 episode = "01"
 series = "Podcast"
+services_prompt = "Considering Rust for a bottleneck in your Python application?"
 +++
 
 <div><script id="letscast-player-1901e78b" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/cloudsmith-with-cian-butler/player.js?size=s"></script></div>

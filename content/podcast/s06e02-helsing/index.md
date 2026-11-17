@@ -10,6 +10,7 @@ role = "Principal Engineer"
 season = "06"
 episode = "02"
 series = "Podcast"
+services_prompt = "Want clearer types and error handling in your Rust code?"
 +++
 
 <div><script id="letscast-player-8654cc1e" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/helsing-with-jon-gjengset/player.js?size=s"></script></div>

@@ -10,6 +10,7 @@ role = "Rust Engineer"
 season = "04"
 episode = "07"
 series = "Podcast"
+services_prompt = "Adding Rust to a data pipeline that has to keep running?"
 +++
 
 <div><script id="letscast-player-204ce5f9" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/ksat-with-vegard-sandengen/player.js?size=s"></script></div>

@@ -10,6 +10,7 @@ role = "System Architect"
 season = "03"
 episode = "08"
 series = "Podcast"
+services_prompt = "Introducing Rust to your embedded team?"
 +++
 
 <div><script id="letscast-player-5d620579" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/volvo-with-julius-gustavsson/player.js?size=s"></script></div>

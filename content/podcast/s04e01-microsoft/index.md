@@ -10,6 +10,7 @@ role = "Principal Engineer"
 season = "04"
 episode = "01"
 series = "Podcast"
+services_prompt = "Helping your C++ team get started with Rust?"
 +++
 
 <div><script id="letscast-player-ec2b56fd" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/microsoft-with-victor-ciura/player.js?size=s"></script></div>

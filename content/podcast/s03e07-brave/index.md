@@ -10,6 +10,7 @@ role = "Senior Software Engineer"
 season = "03"
 episode = "07"
 series = "Podcast"
+services_prompt = "Integrating a Rust component into your C++ application?"
 +++
 
 <div><script id="letscast-player-9d22a062" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/brave-with-anton-lazarev/player.js?size=s"></script></div>
