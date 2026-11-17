@@ -96,5 +96,5 @@ exclude = [
 # GitHub's HTML endpoints intermittently return 503 during bulk checks.
 # Pace requests instead of ignoring GitHub links or accepting server errors.
 [hosts."github.com"]
-concurrency = 1
-request_interval = "1s"
+concurrency = 2
+request_interval = "100ms"
