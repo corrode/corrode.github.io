@@ -60,7 +60,7 @@
 }
 
 .list-row-date {
-    font-family: JetBrainsMono;
+    font-family: $fontMono;
     font-size: 0.85rem;
     color: rgba($brightPrim, 0.6);
     font-weight: 500;
@@ -68,7 +68,7 @@
 }
 
 .list-row-label {
-    font-family: JetBrainsMono;
+    font-family: $fontMono;
     font-size: 0.85rem;
     color: rgba($brightPrim, 0.6);
     font-weight: 500;

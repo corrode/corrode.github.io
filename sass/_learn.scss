@@ -73,7 +73,7 @@
 }
 
 .resource-tag {
-    font-family: JetBrainsMono;
+    font-family: $fontMono;
     font-size: 0.7rem;
     font-weight: 500;
     line-height: 1;
@@ -120,7 +120,7 @@
 
 .resource-meta {
     margin-top: 0.55rem;
-    font-family: JetBrainsMono;
+    font-family: $fontMono;
     font-size: 0.76rem;
     color: rgba($brightPrim, 0.55);
 }
