@@ -1,74 +1,28 @@
 +++
-title = "Rust Consulting for Production Teams"
+title = "Rust Migration Consulting for Engineering Teams"
 template = "page.html"
 sort_by = "date"
-description = "Friendly, professional Rust consulting services to help companies make the most of Rust. Our offerings include training, consulting, mentoring, code reviews, and team augmentation."
+description = "Migrate C++ or Python systems to Rust with Matthias Endler. Architecture reviews, hands-on migration support, and mentoring to help your team use Rust in production."
 aliases = ["about"]
+
 [extra]
+headline = "Migrate to Rust With Confidence"
 video = "https://github.com/corrode/corrode.github.io/releases/download/assets/corrode.mp4"
 video_poster = "/video-preview.jpg"
 +++
 
-Rust is at the forefront of [high-stakes systems where safety and reliability are critical](/blog/foundational-software/). It's being used [across industries](/podcast) to build reliable software, and your team should be part of that future. My goal is to help your team adopt Rust and use it in production with confidence while avoiding the costly missteps along the way. I offer **friendly, professional Rust consulting** to help you make the most of Rust.
+Whether you're evaluating Rust for a new system or migrating an existing C++ or Python codebase, I help your team make future-proof architectural decisions, write idiomatic Rust, and develop the expertise to maintain production systems for years to come.
 
-*Looking for help just for yourself? I also offer 1-on-1 [Rust mentorship](/mentorship) for exceptional engineers who move fast.*
+You'll work directly with me, Matthias Endler, alongside your existing engineering team.
 
-## Here’s the problem...
+<div class="consultation-cta-actions">
+  <a class="cta-button" href="https://cal.com/corrode/chat" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Discuss Your Rust Migration</a>
+  <p>or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.</p>
+</div>
 
-You're a team lead, excited about Rust and responsible for your project's success. But Rust is a complex language with a large API surface, and writing production-grade Rust requires a lot of architectural decisions.
-Your team wants to do things right, but lacks experience, and you're trying to reduce risk.
+In this free consultation, we'll discuss your system, your team's experience, and where you want to be in six months.
 
-Courses alone won't cut it. Nameless agencies offer help, but they don't care about your project or team.
-Worse, they might even lead you down the wrong path because they lack real experience.
-Contract devs can hurt engineering culture and create  knowledge silos.
-You're stuck, afraid of making the wrong move.
-
-## There Must Be a Better Way...
-
-What you need is to move forward with **confidence**. You want excellent Rust that's robust, testable, quick to compile, and easy for your team to extend. You want Rust projects that are a joy to work with.
-
-**Your teams will spend thousands of hours maintaining Rust services. Invest the time to learn how to do it well.**
-**Don't struggle alone; get a mentor.**
-**Together we'll build a codebase you'll love working with and feel confident maintaining yourself.**
-
-## Why Me?
-
-The right mentor can make all the difference. 
-
-I offer **friendly, human-centered** mentoring based on a decade of Rust experience and dozens of production success stories.
-I provide support for teams who care.
-
-My expertise focuses on three key areas:
-- **Time**: Get to production faster through proven strategies and best practices
-- **Quality**: Learn to write robust, idiomatic Rust code
-- **Cost**: Avoid costly mistakes and rework by getting it right the first time
-
-My training helps you get Rust to production in half the time and brings your team up to speed in 2 months instead of 4.
-It's the training which prepares you for the years to come, teaching you how to write Rust code **well**... and then getting out of your way.
-I'll help you navigate the Rust crate ecosystem, systems architecture, code reviews, and idiomatic Rust.
-
-## Why LLMs Alone Are Not Enough 
-
-LLMs have limitations around the deeper architectural decisions that make Rust great: 
-
-- Domain modeling: turning business logic into types the compiler enforces.
-- Type-driven design: making illegal states unrepresentable to prevent entire categories of bugs.
-- API and architecture review: shaping the boundaries between modules, crates, and services so the codebase stays maintainable as it grows.
-- Idiomatic Rust: when to use traits and lifetimes, and when to avoid them; how to structure async code to separate I/O-heavy code from simple business logic that can be sync.
-- Testing: how to use unit tests for quick feedback loops where other teams might rely on costly end-to-end tests, which are slow.
-
-If you're shipping Rust into production, this is the difference between a codebase that is a joy to work with in two years and a liability nobody understands or wants to touch.
-
-## You Stay In Control With The Right Guardrails
-
-You're probably already using LLMs to write Rust and that is fine.
-But I believe the earlier you involve an expert, the more confident you will feel about the way your Rust project is evolving, and the better automated code generation will work for you because it has reliable guardrails to operate within.
-
-Rust is one of the best languages in the world for working with AI-assisted coding because of its strict compiler, but that only works if the surrounding scaffolding is set up well.
-
-I help teams put that scaffolding in place with type-driven design, solid continuous integration, a fast test harness, and reliable review workflows. I also coach engineers on how to use agents, so your team ships faster *and* stays in control.
-
-{% <info title="Feedback From Happy Customers" icon="heart"> %}
+{% <info title="From Prototype to Production" icon="heart"> %}
 
 <q>
     I had the pleasure of collaborating with
@@ -82,65 +36,100 @@ I help teams put that scaffolding in place with type-driven design, solid contin
 &mdash; <a href="https://www.linkedin.com/in/somdip-datta/">Somdip Datta</a>, Financial Engineer and Author
 </p>
 
-<q>
-  Your Rust expertise exceeded my expectations. In just 12 hours, you engineered
-  solutions and taught me key concepts, bridging my zero Rust experience to
-  project confidence. Your ability to explain clearly while coding, combined with
-  excellent communication skills, made our time incredibly valuable.
-</q>
-<p style="text-align:right">
-&mdash; Torry Brelsford 
-</p>
-
 {% </info> %}
+
+## Here’s the problem...
+
+Your existing system is showing its age and starting to become a liability.
+You want to move to Rust, but you're unsure where to start and which parts of the system should be rewritten first.
+Along the way, your team needs to build the expertise to maintain the new Rust codebase and review changes.
+
+And your existing system has to keep running during the migration.
+
+Or you've already built a Rust prototype, but you're not sure whether the architecture is ready for production.
+
+All of these decisions are made with limited information, under budget and time constraints, and you're worried about making the wrong call.
+That's a big task!
+
+## There Must Be a Better Way...
+
+What you need is to move forward with **confidence**. You want excellent Rust that's robust, testable, quick to compile, and easy for your team to extend. You want Rust projects that are a joy to work with.
+
+You don't have to figure it all out alone. With an experienced Rust specialist alongside your team, you can review the architecture and build your team's expertise as you go.
+
+For an existing C++ or Python system, we find the component that makes the most sense to migrate first and plan how to integrate it with the rest of the system. We work on a deployment strategy that allows you to roll back if something goes wrong. We also establish CI and review workflows that your team can maintain after the migration is complete.
+
+**Your team will spend thousands of hours maintaining Rust services. Invest the time to learn how to do it well.**
+
+## Why Me?
+
+I'm Matthias Endler. I've been part of the Rust community since 2015 and have worked as a consultant since 2020.
+I focus on Rust migrations, architecture reviews, and getting teams up to speed with production-level Rust expertise.
+
+I maintain open-source Rust projects including [lychee](https://github.com/lycheeverse/lychee) and host the [Rust in Production podcast](/podcast), where I speak with engineers about the systems they build and maintain. You'll work with me directly, in your team's codebase and existing workflows.
+
+I teach Rust from first principles.
+Together, we model your domain, design APIs, and use design patterns that make refactoring and testing easy.
+
+## Why LLMs Alone Are Not Enough
+
+AI is great at code generation, but maintaining a system in production requires more than that.
+How do you review code, and how do you put the right safeguards in place to make the system reliable and extensible for future feature requests?
+With the right guidance, you can focus on the code that matters most and learn how to build reliable systems that allow for future growth.
+
+## You Stay In Control With The Right Guardrails
+
+Solid foundations matter more than ever.
+Together, we make the architecture understandable and use static analysis, testing, profiling, and CI/CD to catch regressions early.
+
+This covers:
+
+- Domain modeling and type-driven design
+- API and architecture review
+- Async Rust, including handling cancellation and shared state
+- Crate selection and dependency management
+- Building fast feedback loops with unit tests
+
+For more background, see the [C++ to Rust migration guide](/learn/migration-guides/cpp-to-rust/) and [Python to Rust migration guide](/learn/migration-guides/python-to-rust/), or read about [Rust in foundational software](/blog/foundational-software/).
 
 ## Get Expert Help That's Hard To Hire For
 
-<div style="display: flex; align-items: center; justify-content: left; flex-direction: row; gap: 10px;">
-  <a class="cta-button" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Schedule A Free Consultation</a>
-  <p>
-    or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
-  </p>
-</div>  
+Rust has a steep learning curve.
+I help your team get productive with Rust by pairing, reviewing code, and discussing architecture decisions together.
 
-Want to share the vision with your team?
-Download my free PDF for a brief overview of my services and expertise. Available in [English](corrode_rust_team_augmentation_en.pdf) and [German](corrode_rust_team_augmentation_de.pdf).
+Empathy and trust are important, so I meet the team where they are and adapt my guidance to the experience level of each engineer.
+My goal is to build up a group of excellent Rust engineers who can justify engineering decisions and learn how to navigate the Rust ecosystem.
 
-<script async src="https://tally.so/widgets/embed.js"></script>
+For an overview to share with your team, the services PDF is available in [English](corrode_rust_team_augmentation_en.pdf) and [German](corrode_rust_team_augmentation_de.pdf). For individual support, see [1-on-1 Rust mentorship](/mentorship).
 
-## Let's Find The Right Support For Your Team
+## Let's Find The Right Support
 
-<link rel="stylesheet" href="/services/quiz.css">
-<div class="quiz-container">
-  <div class="quiz-progress-container">
-    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
-  </div>
-  <div id="quiz-question-container"></div>
+We start with a free consultation to discuss your current system, your team's experience, and your goals.
+From there, we find the right support for your team.
+We plan the hands-on migration work and mentoring requirements at this stage.
 
-  <div id="quiz-navigation-container">
-    <button class="quiz-navbutton" id="quiz-prev-question" style="display: none">
-      ← Previous
-    </button>
-    <button class="quiz-navbutton" id="quiz-next-question">Next →</button>
-  </div>
+### 1. Assess
 
-  <div id="quiz-results" style="display: none">
-    <h2>Thank you for your interest!</h2>
-    <p>I'll send you a customized migration strategy based on your responses.</p>
-    <p>
-      In the meantime, feel free to check out my
-      <a href="/blog">other articles about Rust</a>.
-    </p>
-  </div>
-</div>
-<script src="/services/quiz.js"></script>
-<script src="/services/quiz-data.js"></script>
+In this stage, we review your system, architecture, and migration options against your operational constraints.
+We identify the risks, choose a manageable first step, and agree on what to tackle next and how we'll work together.
+
+### 2. Migrate
+
+Alongside your engineers, I guide implementation through pairing, architecture discussions, and code reviews.
+This also covers dependency choices, testing strategies, and project structure.
+At all times, your team stays involved in the decisions and the code.
+
+### 3. Enable
+
+The goal is for your engineers to explain, extend, and operate the system without depending on me for every decision.
+I do this by giving workshops, reviewing code, and offering 1-on-1 mentoring.
+Your engineers practice designing APIs and writing production-grade Rust while I provide feedback and guidance.
 
 ## Media
 
 I'm thankful to be featured in various podcasts and interviews. Here are some of my recent appearances:
 
-- SE Radio Interview - [Prototyping in Rust](https://se-radio.net/2025/05/se-radio-670-matthias-endler-on-prototype-in-rust/) 
+- SE Radio Interview - [Prototyping in Rust](https://se-radio.net/2025/05/se-radio-670-matthias-endler-on-prototype-in-rust/)
 - Rustacean Station Podcast - [lychee and Open Source Maintenance](https://rustacean-station.org/episode/matthias-endler/)
 - Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
 - RustShip Podcast Episode 5 - [corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
@@ -169,28 +158,16 @@ From time to time I give talks about Rust and open-source software.
 {% <faq> %}
 [
   {
-    "q": "Why a dedicated Rust expert?",
-    "a": "Have you ever been to a restaurant that serves everything from sushi to pizza? How does that make you feel about the quality of the food? The same applies to software development. A generalist might be able to help you with many things, but they won't be able to provide the same level of expertise as a specialist.\n\nIf you want sushi or pizza, I can recommend a great place around Düsseldorf, but I can help with Rust!"
-  },
-  {
     "q": "How do I know you're any good?",
-    "a": "I am a passionate open-source maintainer. Some popular Rust crates I built are <a href=\"https://github.com/tinysearch/tinysearch\">tinysearch</a>, <a href=\"https://github.com/mre/hyperjson\">hyperjson</a>, and <a href=\"https://github.com/lycheeverse/lychee\">lychee</a>. My projects are used by companies like Google, Microsoft, and Amazon and integrated into more than 30,000 repositories and my Rust crates have over 1.5 million downloads on crates.io.\n\nIf you want to check how I communicate, check out my <a href=\"/podcast\">podcast</a> where I talk to decision makers and lead engineers about Rust adoption in their companies."
+    "a": "You can inspect my open-source work, including <a href=\"https://github.com/lycheeverse/lychee\">lychee</a>, <a href=\"https://github.com/tinysearch/tinysearch\">tinysearch</a>, and <a href=\"https://github.com/mre/hyperjson\">hyperjson</a>. For a sense of how I approach technical decisions, listen to the <a href=\"/podcast\">Rust in Production podcast</a> or watch one of the talks linked above."
   },
   {
     "q": "What is your main area of expertise within Rust?",
-    "a": "My main strength lies in backend systems, APIs, command-line tooling, and DevOps. I have extensive experience building high-performance, scalable systems in Rust, and delivering robust and efficient solutions. I also specialize in helping teams adopt Rust, providing training, code reviews, and ongoing support to ensure successful integration of Rust into your tech stack."
-  },
-  {
-    "q": "How do you specialize in bringing teams to production with Rust?",
-    "a": "From experience, I learned that a lot of developers are excited about Rust and might even have started a project with it. However, they often struggle to bring it to production. This entails a lot of challenges, such as setting up a CI/CD pipeline, structuring the codebase, and dependency management.\n\nMy expertise lies in guiding teams through the entire process of adopting Rust and deploying it to production. This includes initial strategy, architecture design, implementation, testing, and deployment. I focus on backend systems and APIs, ensuring they're robust, efficient, and scalable. My approach combines hands-on development with knowledge transfer, enabling your team to maintain and expand the system independently."
+    "a": "Backend systems, APIs, command-line tooling, and DevOps. I help teams with architecture, idiomatic Rust, testing, and deployment, combining hands-on development with training and code reviews."
   },
   {
     "q": "What if we're new to Rust?",
     "a": "That's perfectly fine! I specialize in helping teams adopt Rust. We can start with training sessions and gradually move into more hands-on development as your team's comfort with Rust grows."
-  },
-  {
-    "q": "Can you help with an existing Rust project?",
-    "a": "Absolutely! Whether you need help optimizing an existing codebase, expanding functionality, or conducting code reviews, I can assist with projects at any stage of development."
   },
   {
     "q": "What size teams do you typically work with?",
@@ -202,11 +179,7 @@ From time to time I give talks about Rust and open-source software.
   },
   {
     "q": "How will we collaborate?",
-    "a": "I'm located in the Central European Timezone (CET), and I'm available for regular meetings during business hours.\n\nI work remotely with clients worldwide. However, I'm also open to on-site visits if needed, especially for workshops or kick-off meetings."
-  },
-  {
-    "q": "What tools do you use for remote collaboration?",
-    "a": "I'm proficient with a variety of remote collaboration tools including Slack, Teams, Zoom, GitHub, Jira, Tuple, Rust Rover, Visual Studio Code, and GitLab. I'm also happy to adapt to your team's preferred tools and workflows to ensure seamless integration with your existing processes."
+    "a": "I'm located in the Central European time zone (CET), and I'm available for regular meetings during business hours.\n\nI work remotely with clients worldwide. However, I'm also open to on-site visits if needed, especially for workshops or kick-off meetings."
   },
   {
     "q": "What's your availability like?",
@@ -222,7 +195,7 @@ From time to time I give talks about Rust and open-source software.
   },
   {
     "q": "What's your cancellation policy?",
-    "a": "I understand that plans can change. Therefore you can cancel our services at the end of any month with no further obligation."
+    "a": "I understand that plans can change. Therefore, you can cancel our services at the end of any month with no further obligation."
   },
   {
     "q": "How do you handle confidentiality?",
@@ -233,16 +206,8 @@ From time to time I give talks about Rust and open-source software.
     "a": "Yes, I can provide ongoing support and maintenance as needed. However, the goal is to empower your team to be self-sufficient in Rust development. We can discuss post-project support options based on your specific needs."
   },
   {
-    "q": "What if I'm not satisfied with the service?",
-    "a": "I take great pride in my work and strive to ensure that all my clients are satisfied. If you're not happy with the service, please let me know, and we'll find a solution."
-  },
-  {
     "q": "What happens if you're unavailable due to illness or other reasons?",
     "a": "As a solo consultant, I strive to maintain clear communication with my clients. In case of planned absences, I'll notify you well in advance. For unexpected issues, I have a network of trusted Rust experts who can provide backup support if absolutely necessary, ensuring your project stays on track. However, this would only be done with your explicit approval."
-  },
-  {
-    "q": "How do I get started?",
-    "a": "Getting started is easy! Simply <a href=\"https://cal.com/corrode\">schedule a free consultation call</a> with me to discuss your project needs and goals. We'll take it from there!"
   }
 ]
 {% </faq> %}
@@ -254,8 +219,11 @@ From time to time I give talks about Rust and open-source software.
 
 ## Accelerate Your Team's Rust Adoption Today
 
+Bring your prototype, migration questions, or plans to the meeting.
+We'll discuss where hands-on support would be useful.
+
 <div class="consultation-cta-actions">
-  <a class="cta-button" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Schedule A Free Consultation</a>
+  <a class="cta-button" href="https://cal.com/corrode/chat" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Discuss Your Rust Migration</a>
   <p>
     or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
