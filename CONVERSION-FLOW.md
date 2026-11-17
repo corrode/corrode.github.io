@@ -13,9 +13,9 @@ Rebased onto upstream `master` at `0df30b8a` (PR #146). Upstream already refocus
 | Services inquiry | Calendar booking only; upstream removed the former ten-step quiz | One form with six visible fields, after the engagement-process section |
 | Services availability FAQ | General accommodation language | Ask for project timing without implying availability |
 | Workshops closing section | Book a workshop → services page | Primary CTA → `/services/#contact`; workshop context retained |
-| Shared navigation | Consulting styled as a competing CTA | Consulting retained as an ordinary navigation link |
+| Shared navigation | Consulting button → services page | Unchanged |
 
-Service discovery links, workshop materials, PDF downloads, personal mentorship links, social links, and footer navigation remain secondary destinations. The newsletter remains separate and unchanged. The shared navigation styling change appears site-wide; the commercial content changes affect `/`, `/services/`, and `/workshops/`.
+Service discovery links, workshop materials, PDF downloads, personal mentorship links, social links, and footer navigation remain secondary destinations. The newsletter remains separate and unchanged. The navigation template is unchanged. The commercial content changes affect `/`, `/services/`, and `/workshops/`.
 
 ## Infrastructure and privacy
 

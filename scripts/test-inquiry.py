@@ -85,12 +85,12 @@ with sync_playwright() as p:
                 page.on("pageerror", lambda error: errors.append(str(error)))
                 for path in ["/", "/workshops/", "/services/"]:
                     page.goto("http://inquiry.test" + path, wait_until="networkidle")
-                    links = page.locator("a.cta-button")
+                    links = page.locator("main a.cta-button")
                     assert links.count() > 0
                     for link in links.all():
                         expect(link).to_have_text(cta)
                         assert link.get_attribute("href") in ["/services/#contact", "#contact"]
-                    fits(page, "a.cta-button", width)
+                    fits(page, "main a.cta-button", width)
                     assert page.locator('[data-cal-link], #my-cal-inline, #quiz-question-container').count() == 0
                     links.first.click()
                     expect(page.locator("#inquiry-form")).to_be_visible()
