@@ -9,9 +9,9 @@ video = "https://github.com/corrode/corrode.github.io/releases/download/assets/c
 video_poster = "/video-preview.jpg"
 +++
 
-**Friendly, expert Rust consulting and training for engineering teams.** I help your team adopt Rust and ship production-grade services with confidence: faster, and without the costly missteps along the way.
+Rust is at the forefront of [high-stakes systems where safety and reliability are critical](/blog/foundational-software/). It's being used [across industries](/podcast) to build reliable software, and your team should be part of that future. My goal is to help your team adopt Rust and use it in production with confidence while avoiding the costly missteps along the way. I offer **friendly, professional Rust consulting** to help you make the most of Rust.
 
-*Looking for help just for yourself? I also offer 1-on-1 [Rust mentorship](/mentorship) for individual engineers.*
+*Looking for help just for yourself? I also offer 1-on-1 [Rust mentorship](/mentorship) for exceptional engineers who move fast.*
 
 ## Here’s the problem...
 
@@ -24,10 +24,6 @@ Contract devs can hurt engineering culture and create  knowledge silos.
 You're stuck, afraid of making the wrong move.
 
 ## There Must Be a Better Way...
-
-Rust had [one of the fastest-growing developer communities in the world in 2023](/blog/rust-in-ten-years/#growth).
-It powers [high-stakes systems where safety and reliability are not optional](/blog/foundational-software/).
-Rust is being used to build critical new software, and your team should be part of that future.
 
 What you need is to move forward with **confidence**. You want excellent Rust that's robust, testable, quick to compile, and easy for your team to extend. You want Rust projects that are a joy to work with.
 
