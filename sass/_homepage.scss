@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "Josefin Sans";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/JosefinSans-Bold.woff2") format("woff2");
+}
+
 .homepage {
     text-align: center;
     .content {
@@ -36,6 +44,64 @@
     justify-content: center;
     padding: 4rem 0;
     gap: 3rem;
+}
+
+.home-hero {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 40rem);
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 1.25rem auto 0;
+    padding-inline: 1.25rem;
+    text-align: left;
+}
+
+.home-hero-title {
+    margin: 0;
+    font-family: "Josefin Sans", Arial, sans-serif;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.2;
+
+    .highlight {
+        display: table;
+        margin: 0 0 0.12em;
+        padding: 0.12em 0.25em;
+        background-color: $brightBgrdScnd;
+    }
+
+    .highlight:nth-child(even) {
+        transform: rotate(0.6deg);
+    }
+}
+
+.home-hero-art {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 900px) {
+    .home-hero {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-hero-title {
+        font-size: min(6rem, calc((100vw - 2.5rem) / 6.5));
+    }
+
+    .home-hero-art {
+        display: none;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .home-hero-title .highlight {
+        background-color: $brightBgrd;
+    }
 }
 
 .call-to-action {
