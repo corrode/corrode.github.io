@@ -1,10 +1,5 @@
-# Workshops shown on the Workshops page (/workshops), in listed order.
-# The interactive course leads, then the repo workshops (Beginner first).
-#
-# Each entry is self-contained: `tags` and `meta` render as-is, so the course
-# and the repo workshops can show different details. `meta` is a point-in-time
-# snapshot (stars last checked 2026-11) — refresh it now and then. `pick` is a
-# one-line "who is this for" nudge. `image` is the card thumbnail.
+# Workshops for /workshops, in display order.
+# GitHub star counts last checked 2026-11.
 
 [[workshop]]
 title = "A Beginner's Guide to Rust"
