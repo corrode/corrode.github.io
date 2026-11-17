@@ -84,6 +84,14 @@
     border-radius: 8px;
   }
 
+  /* Keep article image styles from changing Leaflet's tile positioning. */
+  #conference-map img.leaflet-tile {
+    position: absolute;
+    margin: 0;
+    max-width: none;
+    border-radius: 0;
+  }
+
   .map-attribution {
     font-size: 0.75rem;
     color: #888;
