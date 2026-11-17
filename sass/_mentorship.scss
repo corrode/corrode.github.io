@@ -127,13 +127,12 @@
 }
 
 .pro-hero-title {
-    font-family: "Bebas Neue", sans-serif;
+    font-family: "Josefin Sans", Arial, sans-serif;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.2;
     margin-bottom: 1.5rem;
     color: white;
-    letter-spacing: -0.02em;
 }
 
 .pro-hero-subtitle {
@@ -650,11 +649,7 @@
     }
 
     .pro-hero-title {
-        font-size: clamp(2rem, 10vw, 3rem);
-
-        .highlight:last-of-type {
-            font-size: 0.8em;
-        }
+        font-size: min(3rem, calc((100vw - 2.5rem) / 11.5));
     }
 
     .pro-hero-subtitle {
