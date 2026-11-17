@@ -16,11 +16,11 @@ Whether you're evaluating Rust for a new system or migrating an existing C++ or 
 You'll work directly with me, Matthias Endler, alongside your existing engineering team.
 
 <div class="consultation-cta-actions">
-  <a class="cta-button" href="https://cal.com/corrode/chat" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Discuss Your Rust Migration</a>
+  <a class="cta-button" href="#contact">Discuss Your Rust Migration</a>
   <p>or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.</p>
 </div>
 
-In this free consultation, we'll discuss your system, your team's experience, and where you want to be in six months.
+Tell me about your system and your approximate project timing. I'll reply by email so we can discuss the next step.
 
 {% <info title="Helping Your Team Own the Code" icon="heart"> %}
 
@@ -132,6 +132,8 @@ The goal is for your engineers to explain, extend, and operate the system withou
 I do this by giving workshops, reviewing code, and offering 1-on-1 mentoring.
 Your engineers practice designing APIs and writing production-grade Rust while I provide feedback and guidance.
 
+{{ <inquiry /> }}
+
 ## Media
 
 I'm thankful to be featured in various podcasts and interviews. Here are some of my recent appearances:
@@ -190,7 +192,7 @@ From time to time I give talks about Rust and open-source software.
   },
   {
     "q": "What's your availability like?",
-    "a": "My availability varies, but I always strive to accommodate my clients' needs. It's best to reach out early so we can plan accordingly. For urgent requests, I'll do my best to adjust my schedule."
+    "a": "Tell me your approximate project timing in the inquiry form so we can discuss whether our schedules align."
   },
   {
     "q": "What's your pricing structure?",
@@ -224,22 +226,15 @@ From time to time I give talks about Rust and open-source software.
 
 <section class="consultation-cta">
 
-## Accelerate Your Team's Rust Adoption Today
+## Discuss Your Rust Migration
 
-Bring your prototype, migration questions, or plans to the meeting.
-We'll discuss where hands-on support would be useful.
+Tell me about your prototype, migration questions, or plans.
+We can discuss where hands-on support would be useful.
 
 <div class="consultation-cta-actions">
-  <a class="cta-button" href="https://cal.com/corrode/chat" data-cal-link="corrode/chat" data-cal-namespace="chat" data-cal-config='{"layout":"month_view"}'>Discuss Your Rust Migration</a>
+  <a class="cta-button" href="#contact">Discuss Your Rust Migration</a>
   <p>
     or email me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.
   </p>
 </div>
 </section>
-
-<script type="text/javascript">
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-Cal("init", "chat", {origin:"https://app.cal.com"});
-
-Cal.ns.chat("ui", {"cssVarsPerTheme":{"light":{"cal-brand":"#292929"},"dark":{"cal-brand":"#fab71c"}},"hideEventTypeDetails":true,"layout":"month_view"});
-</script>

@@ -1,0 +1,41 @@
+{% component inquiry() %}
+<section id="contact" class="inquiry" aria-labelledby="inquiry-heading">
+    <h2 id="inquiry-heading">Discuss Your Rust Migration</h2>
+    <p>Planning a Rust migration or evaluating an existing prototype? Tell me what you're working on, and let's explore how I can help your team.</p>
+    <form id="inquiry-form" action="https://submit-form.com/r7PT0RxiL" method="post" aria-describedby="inquiry-privacy">
+        <p>All fields are required. A short description and rough timing are enough.</p>
+        <div class="inquiry-fields">
+            <label for="inquiry-name">Name</label>
+            <input id="inquiry-name" name="name" autocomplete="name" required maxlength="200">
+            <label for="inquiry-email">Work email</label>
+            <input id="inquiry-email" name="email" type="email" autocomplete="email" required maxlength="254">
+            <label for="inquiry-company">Company</label>
+            <input id="inquiry-company" name="company" autocomplete="organization" required maxlength="200">
+            <label for="inquiry-stack">Current technology or source language</label>
+            <input id="inquiry-stack" name="currentStack" placeholder="For example, C++, Python, or an existing Rust prototype" required maxlength="500">
+            <label for="inquiry-challenges">Migration challenge or project description</label>
+            <textarea id="inquiry-challenges" name="challenges" rows="5" required maxlength="5000" aria-describedby="inquiry-description-help"></textarea>
+            <small id="inquiry-description-help">What are you building, and where would help be useful? Please leave out confidential information.</small>
+            <label for="inquiry-timeline">Approximate project timing</label>
+            <select id="inquiry-timeline" name="timeline" required>
+                <option value="">Select a timeframe</option>
+                <option>As soon as possible</option>
+                <option>Within 1–3 months</option>
+                <option>Within 3–6 months</option>
+                <option>More than 6 months away</option>
+                <option>Not sure yet</option>
+            </select>
+        </div>
+        <p id="inquiry-privacy">I'll use your details to respond to your inquiry. This form does not subscribe you to a newsletter.</p>
+        <button class="cta-button" type="submit">Send inquiry</button>
+    </form>
+    <p id="inquiry-status" role="status" aria-live="polite" tabindex="-1"></p>
+    <div id="inquiry-success" hidden tabindex="-1" role="status">
+        <h3>Thank you. Your inquiry has been sent.</h3>
+        <p>I'll reply to your work email to discuss your project and the next step.</p>
+    </div>
+    <p>Prefer email? Contact me at <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.</p>
+    <noscript><p>You can submit this form without JavaScript. You'll see the submission result on the next page.</p></noscript>
+</section>
+<script src="/services/inquiry.js" defer></script>
+{% endcomponent inquiry %}
