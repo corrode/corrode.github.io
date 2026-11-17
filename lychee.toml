@@ -35,6 +35,9 @@ exclude = [
   # links). After the CI remap to local files, the "?" becomes part of the
   # path and can't resolve. The target page is validated on its own.
   '^file://.*%3F',
+  # Contact form submission endpoint: GET returns 400 and asks for form data.
+  # Do not accept 400 globally; ordinary links with that status are broken.
+  '^https://submit-form\.com/r7PT0RxiL$',
   '^https?://(www\.)?linkedin\.com',
   '^https?://(www\.)?twitter\.com',
   '^https?://(www\.)?x\.com',
