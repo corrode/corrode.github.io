@@ -1,7 +1,7 @@
 +++
 title = "Rust Conferences 2027"
 date = 2026-10-01
-updated = 2026-10-29
+updated = 2026-11-17
 template = "article.html"
 draft = false
 [extra]
@@ -75,12 +75,14 @@ Hosted by the Rust Foundation, RustConf heads to Vancouver in 2027, with online 
 
 [![Oxidize](oxidize.jpg)](https://oxidizeconf.com/)
 
-Oxidize returns to Berlin in September 2027. The organizers announced the dates in their 2026 recap; the conference website still shows the previous edition, so don't use its venue or ticket details to plan your 2027 trip.
+Oxidize returns to Berlin at the WISTA Event Centre in Berlin-Adlershof. The event starts with a day of workshops and industry conversations, followed by two days of talks, panels, and networking. The program below the 2027 announcement on the website is still the 2026 archive.
 
 - **When**: September 14-16, 2027
-- **Where**: Berlin, Germany (venue to be announced)
+- **Where**: WISTA Event Centre, Berlin-Adlershof, Germany
+- **Format**: 1 day of workshops and industry conversations, 2 days of talks and panels
 - **Focus**: Applied Rust
-- **Links**: [2027 Announcement](https://www.linkedin.com/posts/oxidizeconf_rustlang-safetycritical-embedded-activity-7506330642297597952-ekNi) | [Website](https://oxidizeconf.com/)
+- **CFP**: Details to be announced.
+- **Links**: [Website and 2027 Announcement](https://oxidizeconf.com/)
 
 ## Q4 2027
 
@@ -103,15 +105,15 @@ EuroRust heads to Prague for two days of talks covering Rust patterns and idioms
 
 [![FOSDEM Rust Devroom](fosdem-rust.jpg)](https://rust-fosdem.github.io/)
 
-The Rust Devroom returns to FOSDEM for talks on the language, tooling, and Rust's use in free and open-source software. The organizers have confirmed the 2027 date, even though the devroom website still shows 2026.
+The Rust Devroom returns to FOSDEM for a full day of talks on the language, tooling, and Rust's use in free and open-source software.
 
-- **When**: January 31, 2027
-- **Where**: Brussels, Belgium
+- **When**: January 31, 2027, 09:00-17:00 CET
+- **Where**: ULB Solbosch campus, Brussels, Belgium
 - **Format**: Rust track within FOSDEM 2027
 - **Focus**: Rust in free and open-source software
 - **Pricing**: Free
-- **CFP**: Open. The announcement gives conflicting deadlines: November 20 and December 1, 2026. Check with the organizers before relying on either date.
-- **Links**: [2027 CFP Announcement](https://lists.fosdem.org/hyperkitty/list/fosdem@lists.fosdem.org/message/RSGU64NXAIXYVDNLB7SDLDOHUNP4BXCC/) | [Devroom Website](https://rust-fosdem.github.io/)
+- **CFP**: [Open](https://pretalx.fosdem.org/fosdem-2027/cfp) — closes November 20, 2026 at 23:59 CET. Select the Rust track when submitting. The organizers have corrected the December 1 deadline in the original announcement.
+- **Links**: [Devroom Website](https://rust-fosdem.github.io/) | [CFP Deadline Correction](https://lists.fosdem.org/hyperkitty/list/fosdem@lists.fosdem.org/message/ZZZZTV3WROFLN3ZCJIQB7PP2OY24SRA5/)
 
 ### Rust Verification Workshop (Copenhagen, Denmark)
 
@@ -131,12 +133,12 @@ ETAPS explicitly lists the Rust Verification Workshop as a co-located event for 
 
 The first Workshop on Programming Language Exploration into Rust brings together people working on Rust in programming language research, in academia and industry. Topics include ownership, borrow checking, formal methods, tooling, and education.
 
-- **When**: TBA
+- **When**: March 15, 2027
 - **Where**: Kyoto, Japan
 - **Format**: Research workshop alongside ‹Programming› 2027, with 20-25 minute talks
 - **Focus**: Programming language research involving Rust
-- **CFP**: Talk proposals are due December 14, 2026, Anywhere on Earth (UTC−12). The workshop page says the submission system is not open yet.
-- **Links**: [Workshop Website and Call for Talks](https://2027.programmingconference.org/home/plrust-2027) | [Event Listing](https://conf.researchr.org/series/plrust)
+- **CFP**: Talk proposals are due December 14, 2026, Anywhere on Earth (UTC−12). Submit via [EasyChair](https://easychair.org/conferences?conf=plrust2027).
+- **Links**: [Workshop Website and Call for Talks](https://2027.programmingconference.org/home/plrust-2027) | [Event Listing](https://2027.programmingconference.org/series/plrust)
 
 ## More conferences to watch
 
