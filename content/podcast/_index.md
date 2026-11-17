@@ -7,7 +7,8 @@ description = "This is 'Rust in Production', a podcast about companies who use R
 [extra]
 intro = """
 Stories of companies who bet big on Rust. Hear how they build reliable software,
-what they learned along the way, and what it takes to run Rust in production.
+what they learned along the way, and what it takes to to solve some of the most
+complex technical problems in the world.
 """
 schedule = "Every other Thursday at 4 pm UTC."
 +++
