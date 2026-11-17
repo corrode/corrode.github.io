@@ -1,173 +1,137 @@
-{% extends "base.html" %} {% block meta %}
+{% extends "base.html" %}
+{% block meta %}
+<link rel="alternate" type="application/rss+xml" title="Rust in Production podcast feed" href="https://letscast.fm/podcasts/rust-in-production-82281512/feed" />
 <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "PodcastSeries",
-        "name": "Rust in Production",
-        "description": "Rust in Production brings to light the real-world stories of companies using Rust in production, focusing on the challenges and complex technical problems solved with Rust. New episodes ever second Thursday.",
-        "url": "https://corrode.dev/podcast/",
-        "image": "https://corrode.dev/social/podcast.png",
-        "publisher": {
-            "@type": "Organization",
-            "name": "Corrode Consulting",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://corrode.dev/corrode.svg"
-            },
-            "location": {
-                "@type": "PostalAddress",
-                "addressLocality": "Düsseldorf",
-                "addressCountry": "DE"
-            }
-        },
-        "license": "https://creativecommons.org/licenses/by-nd/4.0/",
-        "potentialAction": {
-            "@type": "ListenAction",
-            "target": [
-                "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
-                "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
-                "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
-                "https://www.amazon.de/Rust-in-Production/dp/B0CPYJ725K",
-                "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
-            ],
-            "expectsAcceptanceOf": {
-                "@type": "Offer",
-                "eligibleRegion": [
-                    {
-                        "@type": "Country",
-                        "name": "Global"
-                    }
-                ]
-            }
-        }
+{
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    "@id": "https://corrode.dev/podcast/#series",
+    "name": "Rust in Production",
+    "description": {{ section.description | json_encode | safe }},
+    "url": "https://corrode.dev/podcast/",
+    "image": "https://corrode.dev/podcast/social.png",
+    "inLanguage": "en",
+    "isAccessibleForFree": true,
+    "publisher": {
+        "@type": "Organization",
+        "name": "corrode Rust Consulting",
+        "url": "https://corrode.dev/"
+    },
+    "license": "https://creativecommons.org/licenses/by-nd/4.0/",
+    "potentialAction": {
+        "@type": "ListenAction",
+        "target": [
+            "https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330",
+            "https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT",
+            "https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t",
+            "https://letscast.fm/podcasts/rust-in-production-82281512/feed"
+        ]
     }
+}
 </script>
-{% endblock %} {% block content %}
-<div class="hero">
-    <div class="hero-font">
-        {% set hero_font = load_data(path="/podcast/hero-font.svg") %} {{
-        hero_font | safe }}
-    </div>
-    <img class="hero-img" src="/podcast/hero.svg" alt="" />
-</div>
+{% endblock %}
+{% block content %}
+{% set episodes = [episode for episode in section.pages if not episode.draft] %}
+{% set seasons = episodes | group_by(attribute="extra.season") %}
+{# Grouped maps are unordered in Tera 2. #}
+{% set season_numbers = [episode.extra.season for episode in episodes] | unique | sort | reverse %}
+<article class="podcast-page" aria-labelledby="podcast-title">
+    <header class="podcast-hero" id="podcast-top">
+        <div class="podcast-hero-inner">
+            <div class="podcast-hero-copy">
+                <h1 id="podcast-title">
+                    <span class="highlight">Rust in</span>
+                    <span class="highlight">Production</span>
+                    <span class="highlight">Podcast</span>
+                </h1>
+                <div class="podcast-intro">{{ section.extra.intro | markdown | safe }}</div>
+                <ul class="podcast-hero-details" role="list">
+                    <li>
+                        <svg class="podcast-detail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <rect x="3" y="5" width="18" height="16" rx="2" />
+                            <path d="M16 3v4M8 3v4M3 11h18" />
+                        </svg>
+                        <span>{{ section.extra.schedule }}</span>
+                    </li>
+                    <li>
+                        <a class="podcast-browse" href="#episodes">
+                            <svg class="podcast-detail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M9 6h12M9 12h12M9 18h12M3 6h1M3 12h1M3 18h1" />
+                            </svg>
+                            <span>Browse episodes</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <img class="podcast-hero-art" src="/podcast/hero.svg" alt="" width="310" height="268" fetchpriority="high" />
+        </div>
+    </header>
 
-<article class="podcast-page">
-    <div class="article-heading">
-        <div>{{ section.content | safe }}</div>
-        <div class="podcast-subscribe-header">
-            <ul>
-                <li>Subscribe on</li>
+    <section class="podcast-listening skew-top" aria-labelledby="podcast-listening-title">
+        <div class="podcast-listening-inner">
+            <h2 id="podcast-listening-title">Listen and subscribe</h2>
+            <ul role="list">
                 <li>
-                    <a
-                        href="https://letscast.fm/podcasts/rust-in-production-82281512/feed"
-                    >
-                        <img
-                            class="invert"
-                            src="/podcast/rss.svg"
-                            alt="RSS"
-                            width="30"
-                            height="30"
-                        />
+                    <a href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330">
+                        <img src="/podcast/apple.svg" alt="" width="32" height="32" />
+                        <span>Apple Podcasts</span>
                     </a>
                 </li>
                 <li>
-                    <a
-                        href="https://podcasts.apple.com/us/podcast/rust-in-production/id1720771330"
-                    >
-                        <img
-                            class="invert"
-                            src="/podcast/apple.svg"
-                            alt="Apple Podcasts"
-                            width="30"
-                            height="30"
-                        />
+                    <a href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT">
+                        <img src="/podcast/spotify.svg" alt="" width="32" height="32" />
+                        <span>Spotify</span>
                     </a>
                 </li>
                 <li>
-                    <a
-                        href="https://open.spotify.com/show/0Hf6gWrzpSzXp1X0cebbsT"
-                    >
-                        <img
-                            class="invert"
-                            src="/podcast/spotify.svg"
-                            alt="Spotify"
-                            width="30"
-                            height="30"
-                        />
+                    <a href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t">
+                        <img src="/podcast/youtube.svg" alt="" width="32" height="32" />
+                        <span>YouTube</span>
                     </a>
                 </li>
                 <li>
-                    <a
-                        href="https://www.youtube.com/playlist?list=PLbWDhxwM_45lkJfL95zELDgO01mnrRQ6t"
-                    >
-                        <img
-                            class="invert"
-                            src="/podcast/youtube.svg"
-                            alt="YouTube"
-                            width="40"
-                            height="40"
-                        />
+                    <a href="https://letscast.fm/podcasts/rust-in-production-82281512/feed">
+                        <img src="/podcast/rss.svg" alt="" width="32" height="32" />
+                        <span>RSS feed</span>
                     </a>
                 </li>
             </ul>
         </div>
-    </div>
+    </section>
 
     <div class="article-content-wrapper">
-        <div class="article-content">
-            {% set episodes = [episode for episode in section.pages if not episode.draft] %}
-            {% set seasons = episodes | group_by(attribute="extra.season") %}
-            {# Grouped maps are unordered in Tera 2; keep seasons in descending order. #}
-            {% for season in [episode.extra.season for episode in episodes] | unique | sort | reverse %}
-            <h2 class="podcast-season-heading">Season {{ season }}</h2>
-            <ul class="list-row podcast-list">
-                {% for episode in seasons[season] %}
-                <li class="list-row-item">
-                    <a href="{{ episode.permalink }}" class="list-row-link podcast-link">
-                        <div class="podcast-logo-wrapper">
-                            <img
-                                class="podcast-logo-img invert"
-                                src="{{ episode.permalink }}/logo.svg"
-                                alt="{{ episode.title }} Logo"
-                            />
-                        </div>
-                        <div class="list-row-content">
-                            <h3 class="list-row-title podcast-item-title">
-                                {{ episode.title }} {% if episode.extra.guest %}
-                                <span class="podcast-guest"
-                                    >with {{ episode.extra.guest }}</span
-                                >
-                                {% endif %}
-                            </h3>
-                            <div class="list-row-meta podcast-item-meta">
-                                <time class="list-row-date"
-                                    >{{ episode.date }}</time
-                                >
-                                <code class="meta-code"
-                                    >S{{ episode.extra.season }} E{{
-                                    episode.extra.episode }}</code
-                                >
+        <div class="article-content" id="episodes" tabindex="-1">
+            {% for season in season_numbers %}
+                <h2 class="podcast-season-heading" id="season-{{ season }}">Season {{ season }}</h2>
+                <ul class="list-row podcast-list" role="list">
+                    {% for episode in seasons[season] %}
+                    <li class="list-row-item">
+                        <a href="{{ episode.permalink }}" class="list-row-link podcast-link">
+                            <div class="podcast-logo-wrapper">
+                                <img class="podcast-logo-img invert" src="{{ episode.path }}logo.svg" alt="" width="40" height="40" loading="lazy" decoding="async" />
                             </div>
-                        </div>
-                        <span
-                            class="chevron list-row-chevron podcast-item-chevron"
-                            aria-hidden="true"
-                        ></span>
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
+                            <div class="list-row-content">
+                                <h3 class="list-row-title podcast-item-title">
+                                    {{ episode.title }}
+                                    {% if episode.extra.guest %}
+                                    <span class="podcast-guest">with {{ episode.extra.guest }}</span>
+                                    {% endif %}
+                                </h3>
+                                <div class="list-row-meta podcast-item-meta">
+                                    <time class="list-row-date" datetime="{{ episode.date }}">{{ episode.date }}</time>
+                                    <code class="meta-code">S{{ episode.extra.season }} E{{ episode.extra.episode }}</code>
+                                </div>
+                            </div>
+                            <span class="chevron list-row-chevron podcast-item-chevron" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
             {% endfor %}
-
-            <p class="podcast-footer">
-                Podcast recordings are licensed under
-                <a href="https://creativecommons.org/licenses/by-nd/4.0"
-                    >CC BY-ND 4.0</a
-                >.
-            </p>
-            {% include "snippets/subscribe-podcast.html" %}
-            <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+            <aside class="podcast-sponsor" aria-label="Podcast sponsor">{{ section.content | safe }}</aside>
+            <p class="podcast-footer">Podcast recordings are licensed under <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>.</p>
+            <a class="podcast-back" href="#podcast-top">Back to top ↑</a>
         </div>
     </div>
 </article>
-{% endblock content %}
+{% endblock %}
