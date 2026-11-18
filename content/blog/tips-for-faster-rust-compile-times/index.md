@@ -203,8 +203,8 @@ This gives information about how long each crate takes to compile.
 
 ![Diagram of cargo build --timings](cargo-concurrency-over-time.png)
 
-The blue line in this diagram shows the number of units (crates) that are
-currently waiting to be compiled (and are blocked by another crate).
+The blue line in this diagram shows the number of units (crates) waiting for
+their dependencies to finish.
 If there are a large number of crates bottlenecked on a single crate, focus your
 attention on improving that one crate to improve parallelism.
 
