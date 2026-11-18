@@ -220,7 +220,7 @@ On nightly, Cargo's experimental [`build-analysis`](https://doc.rust-lang.org/ni
 can retain build-session data for later inspection through `cargo report sessions`,
 `cargo report timings`, and `cargo report rebuilds`. It's useful when you want to
 investigate a previous build rather than reproduce it. Follow the linked setup
-instructions; this isn't part of stable Cargo yet.
+instructions. As of November 18, 2026, this isn't part of stable Cargo yet.
 
 ### Profile Compile Times
 
