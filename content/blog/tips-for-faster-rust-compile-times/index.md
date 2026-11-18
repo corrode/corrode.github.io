@@ -1,7 +1,7 @@
 +++
 title = "Tips For Faster Rust Compile Times"
 date = 2024-01-12
-updated = 2026-03-14
+updated = 2026-11-17
 draft = false
 template = "article.html"
 [extra]
@@ -99,8 +99,10 @@ rustup update
 ```
 
 Making the Rust compiler faster is an [ongoing process](https://blog.mozilla.org/nnethercote/2020/04/24/how-to-speed-up-the-rust-compiler-in-2020/).
-Thanks to their hard work, compiler speed has improved [30-40% across the board
-year-to-date, with some projects seeing up to 45%+ improvements](https://www.reddit.com/r/rust/comments/cezxjn/compiler_speed_has_improved_3040_across_the_board/). It pays off to keep your toolchain up-to-date.
+The [Rust compiler performance dashboard](https://perf.rust-lang.org/) tracks those
+improvements. For example, [Rust 1.90 made LLD the default linker on
+`x86_64-unknown-linux-gnu`](https://blog.rust-lang.org/2025/09/18/Rust-1.90.0/).
+It pays off to keep your toolchain up-to-date.
 
 ### Use cargo check Instead Of cargo build
 
@@ -108,28 +110,35 @@ year-to-date, with some projects seeing up to 45%+ improvements](https://www.red
 # Slow 🐢
 cargo build
 
-# Fast 🐇 (2x-3x speedup)
+# Fast 🐇
 cargo check
 ```
 
 Most of the time, you don't even have to _compile_ your project at all; you just
-want to know if you messed up somewhere. Whenever you can, **skip compilation
-altogether**. What you need instead is laser-fast code linting, type- and
+want to know if you messed up somewhere. Whenever you can, **skip code generation
+and linking**. What you need instead is laser-fast code linting, type- and
 borrow-checking.
 
 Use `cargo check` instead of `cargo build` whenever possible.
 It will only check your code for errors, but not produce an executable binary.
 
 Consider the differences in the number of instructions between `cargo check` on
-the left and `cargo debug` in the middle. (Pay attention to the different
+the left and `cargo build` in the middle. (Pay attention to the different
 scales.)
 
 ![Speedup factors: check 1, debug 5, opt 20](cargo-check.png)
 
-A sweet trick I use is to run it in the background with [`cargo watch`](https://github.com/passcod/cargo-watch). This way, it will `cargo check`
-whenever you change a file.
+A sweet trick is to run it in the background with [`bacon`](https://dystroy.org/bacon/).
+This way, it will `cargo check` whenever you change a file:
 
-**Bonus**: Use `cargo watch -c` to clear the screen before every run.
+```sh
+cargo install --locked bacon
+bacon
+```
+
+This replaces `cargo watch`. Cargo Watch is archived,
+and its [final release recommends Bacon](https://github.com/watchexec/cargo-watch/releases/tag/v8.5.3).
+
 
 ### Remove Unused Dependencies
 
@@ -194,8 +203,8 @@ This gives information about how long each crate takes to compile.
 
 ![Diagram of cargo build --timings](cargo-concurrency-over-time.png)
 
-The red line in this diagram shows the number of units (crates) that are
-currently waiting to be compiled (and are blocked by another crate).
+The blue line in this diagram shows the number of units (crates) waiting for
+their dependencies to finish.
 If there are a large number of crates bottlenecked on a single crate, focus your
 attention on improving that one crate to improve parallelism.
 
@@ -207,9 +216,15 @@ The meaning of the colors:
 
 More info [in the documentation](https://doc.rust-lang.org/cargo/reference/timings.html).
 
+On nightly, Cargo's experimental [`build-analysis`](https://doc.rust-lang.org/nightly/cargo/reference/unstable.html#build-analysis)
+can retain build-session data for later inspection through `cargo report sessions`,
+`cargo report timings`, and `cargo report rebuilds`. It's useful when you want to
+investigate a previous build rather than reproduce it. Follow the linked setup
+instructions. As of November 18, 2026, this isn't part of stable Cargo yet.
+
 ### Profile Compile Times
 
-If you like to dig deeper than `cargo --timings`, Rust compilation can be profiled with [`cargo rustc -- -Zself-profile`](https://blog.rust-lang.org/inside-rust/2020/02/25/intro-rustc-self-profile.html#profiling-the-compiler).
+If you like to dig deeper than `cargo --timings`, Rust compilation can be profiled with [`cargo +nightly rustc -- -Zself-profile`](https://blog.rust-lang.org/inside-rust/2020/02/25/intro-rustc-self-profile.html#profiling-the-compiler).
 The resulting trace file can be visualized with a flamegraph or the Chromium
 profiler:
 
@@ -263,7 +278,7 @@ For more details on back-end parallelism in the Rust compiler, see [Nicholas Net
 Another useful flag is `-Zprint-mono-items=yes`, which prints all [monomorphized items](https://rustc-dev-guide.rust-lang.org/backend/monomorph.html) during compilation. This can help you understand what's being generated in each CGU.
 
 ```sh
-RUSTFLAGS="-Zprint-mono-items=yes" cargo +nightly build                                               ⏎
+RUSTFLAGS="-Zprint-mono-items=yes" cargo +nightly build
 ```
 
 _Thanks to [Caspar](https://slowrush.dev) (asparck on [Reddit](https://www.reddit.com/r/rust/comments/1q8x25s/debugging_a_slowcompiling_codegen_unit/)) for this tip!_
@@ -285,7 +300,7 @@ Here are a few examples:
 
 | Crate                                             | Alternative                                                                                          |
 | :------------------------------------------------ | :--------------------------------------------------------------------------------------------------- |
-| [serde](https://github.com/bnjbvr/cargo-machete)  | [miniserde](https://github.com/dtolnay/miniserde), [nanoserde](https://github.com/not-fl3/nanoserde) |
+| [serde](https://github.com/serde-rs/serde)  | [miniserde](https://github.com/dtolnay/miniserde), [nanoserde](https://github.com/not-fl3/nanoserde) |
 | [reqwest](https://github.com/seanmonstar/reqwest) | [ureq](https://github.com/algesten/ureq)                                                             |
 | [clap](https://github.com/clap-rs/clap)           | [lexopt](https://github.com/blyxxyz/lexopt)                                                          |
 
@@ -297,7 +312,8 @@ seconds](https://blog.kodewerx.org/2020/06/the-rust-compiler-isnt-slow-we-are.ht
 
 Cargo has that neat feature called [workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html), which allow you to split one
 big crate into multiple smaller ones. This code-splitting is great for avoiding
-repetitive compilation because only crates with changes have to be recompiled.
+repetitive compilation because unchanged dependencies don't have to be recompiled.
+Changing a crate can still trigger rebuilds of crates that depend on it.
 Bigger projects like
 [servo](https://github.com/servo/servo/blob/master/Cargo.toml) and
 [vector](https://github.com/timberio/vector/blob/1629f7f82e459ae87f699e931ca2b89b9080cfde/Cargo.toml#L28-L34)
@@ -382,7 +398,6 @@ Use cargo's fingerprint logging to identify exactly why rebuilds are triggered:
 
 ```bash
 export CARGO_LOG="cargo::core::compiler::fingerprint=info"
-export RUST_LOG=trace
 cargo build -vv
 ```
 
@@ -431,26 +446,49 @@ negligible, to be honest. It works best if you work on a lot of independent
 projects that share dependencies (in the same version). A common use-case is
 shared build servers.
 
-### Cranelift: The Alternative Rust Compiler
+To try it for a non-incremental build:
 
-Did you know that the Rust project is using an alternative
-compiler that runs in parallel with `rustc` for every CI build?
+```sh
+cargo install --locked sccache
+RUSTC_WRAPPER=sccache CARGO_INCREMENTAL=0 cargo build
+sccache --show-stats
+```
+
+There's an important catch: [sccache cannot cache incremental Rust compilations](https://github.com/mozilla/sccache/blob/main/docs/Rust.md).
+It also doesn't cache invocations that run the system linker, such as your final
+binary. 
+Before making this a global setting, compare the cache hits against your normal incremental workflow.
+For CI, account for cache transfer time too.
+
+### Cranelift: The Alternative Rust Compiler
 
 [rustc_codegen_cranelift](https://github.com/rust-lang/rustc_codegen_cranelift/),
 also called `CG_CLIF`, is an experimental backend for the Rust compiler that
 is based on the [Cranelift](https://cranelift.dev/) compiler framework.
 
-Here is a comparison between `rustc` and Cranelift for some popular crates (blue
-means better):
+Here is a comparison between rustc's LLVM backend and Cranelift for some popular
+crates from an [earlier write-up by Jason Williams](https://jason-williams.co.uk/a-possible-new-backend-for-rust)
+(blue means better):
 
 ![LLVM compile time comparison between rustc and cranelift in favor of cranelift](cranelift.png)
 
 The compiler creates fully working executable binaries. They won't be optimized
 as much, but they are great for local development.
 
-A more detailed write-up is on [Jason Williams'
-page](https://jason-williams.co.uk/a-possible-new-backend-for-rust), and the
-project code is [on Github](https://github.com/bjorn3/rustc_codegen_cranelift).
+You can try it with a nightly toolchain on supported platforms:
+
+```sh
+rustup component add rustc-codegen-cranelift-preview --toolchain nightly
+CARGO_PROFILE_DEV_CODEGEN_BACKEND=cranelift cargo +nightly build -Zcodegen-backend
+```
+
+This selects Cranelift for the development profile without changing your release
+profile. It won't remove the frontend work that dominates many `cargo check`
+builds.
+
+Check the project's [platform support and limitations](https://github.com/rust-lang/rustc_codegen_cranelift#platform-support)
+before adopting it. SIMD support is incomplete, and panic unwinding has
+limitations. Treat it as an experiment for your development loop and not a full replacement for LLVM.
 
 ### Switch To A Faster Linker
 
@@ -463,7 +501,6 @@ It's the last step in the compilation process.
 You can check if your linker is a bottleneck by running:
 
 ```
-cargo clean
 cargo +nightly rustc --bin <your_binary_name> -- -Z time-passes
 ```
 
@@ -486,32 +523,58 @@ time:   3.836   total
 
 If the `link` step is slow, you can try to switch to a faster alternative:
 
-| Linker   | Platform    | Production Ready | Description                                 |
-| :------- | :---------- | :--------------- | :------------------------------------------ |
-| [`lld`]  | Linux/macOS | Yes              | Drop-in replacement for system linkers      |
-| [`mold`] | Linux       | [Yes][mold_prod] | Optimized for Linux                         |
-| [`zld`]  | macOS       | No (deprecated)  | Drop-in replacement for Apple's `ld` linker |
+| Linker | Platform | Description |
+| :----- | :------- | :---------- |
+| [`lld`](https://lld.llvm.org/) | Linux/macOS/Windows | Default on `x86_64-unknown-linux-gnu` since Rust 1.90 |
+| [`mold`](https://github.com/rui314/mold) | Linux | Optimized for Linux |
+| [`Wild`](https://github.com/wild-linker/wild) | Linux/WebAssembly | Aimed at fast iterative development |
 
-[`lld`]: https://lld.llvm.org/
-[`mold`]: https://github.com/rui314/mold
-[mold_prod]: https://news.ycombinator.com/item?id=29568454
-[`zld`]: https://github.com/michaeleisel/zld
+Since [Rust 1.90](https://blog.rust-lang.org/2025/09/18/Rust-1.90.0/),
+`x86_64-unknown-linux-gnu` uses **LLD by default**, so you may already be using it.
+
+On Linux, [`mold`](https://github.com/rui314/mold) is another option worth
+benchmarking against your current linker. After installing `mold` and `clang`,
+you can select it for this target in your project's `.cargo/config.toml`:
+
+```toml
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-C", "link-arg=-fuse-ld=mold"]
+```
+
+Merge this with any existing target settings rather than discarding your other
+flags. Measure the rebuild after a small source edit: linking is often a larger
+share of that build than of a clean build.
+
+[`Wild`](https://github.com/wild-linker/wild) is another linker to benchmark,
+aimed at fast iterative development. For a supported Linux target, install it
+with `cargo install --locked wild-linker`, then use Clang with
+`rustflags = ["-C", "link-arg=--ld-path=wild"]` instead of the mold flags above.
+Both `clang` and `wild` need to be on your `PATH`.
+
+Wild's goal includes incremental linking, but **that feature isn't implemented
+yet**. Check its current platform and feature support before adopting it;
+it isn't a drop-in recommendation for macOS or Windows.
+
+On macOS, start by updating Xcode Command Line Tools.
+In the past, people recommended [`zld`](https://github.com/michaeleisel/zld), but it is no longer maintained. 
+The zld README recommends using Apple's new linker instead.
 
 ### macOS Only: Faster Incremental Debug Builds
 
 Rust 1.51 added a flag for faster incremental debug builds on
-macOS. It can make debug builds multiple seconds faster (depending on your use-case).
-Some engineers [report](https://jakedeichert.com/blog/reducing-rust-incremental-compilation-times-on-macos-by-70-percent/) that this flag alone reduces compilation times on macOS by **70%**.
+macOS. Some engineers [reported](https://jakedeichert.com/blog/reducing-rust-incremental-compilation-times-on-macos-by-70-percent/)
+that this flag alone reduced compilation times on macOS by **70%** with the older defaults.
 
-Add this to your `Cargo.toml`:
+The setting in `Cargo.toml` is:
 
 ```toml
 [profile.dev]
 split-debuginfo = "unpacked"
 ```
 
-The flag might become the standard for macOS soon. It is already the [default
-on nightly](https://github.com/rust-lang/cargo/pull/9298).
+This is already [Cargo's default on macOS](https://doc.rust-lang.org/cargo/reference/profiles.html#split-debuginfo)
+when debug info is enabled, so adding it on a current toolchain usually changes nothing.
 
 ### macOS Only: Exclude Rust Compilations From Gatekeeper 
 
@@ -538,15 +601,13 @@ According to Microsoft, [you can expect a speed boost of around 20-30%](https://
 
 To improve Rust compilation speed, move these to a Dev Drive:
 
-- Rust toolchain folder (`CARGO_HOME`)
+- Cargo's downloads and installed tools (`CARGO_HOME`)
+- Rust toolchains (`RUSTUP_HOME`)
 - Your project code
 - Cargo's `target` directory 
 
-You can go one step further and **add the above folders to your antivirus exclusions as well**
-for another potential speedup.
-You can find exclusion settings in Windows Security under Virus & threat protection settings.
-
-![Antivirus Exclusion Settings on Windows](windows-antivirus-exclusions.png)
+Prefer [Microsoft Defender's performance mode for Dev Drive](https://learn.microsoft.com/en-us/windows/dev-drive/) over broad antivirus exclusions. Keep in mind that excluding source, downloaded dependencies, and
+build tools from scanning weakens protection, so be selective about what you exclude.
 
 Thanks to the [nextest team](https://nexte.st/docs/installation/windows/) for the tip.
 
@@ -755,79 +816,90 @@ and the [tool's homepage](https://github.com/rksm/cargo-add-dynamic).
 
 ### Switch To The New Parallel Compiler Frontend
 
-**In nightly**, you can now enable the new parallel compiler frontend.
-To try it out, run the nightly compiler with the `-Z threads=8` option:
+**In nightly**, the parallel compiler frontend is now enabled by default with
+two threads, starting with `nightly-2026-11-14`. Stable still uses the sequential frontend.
+See the [November 2026 compiler-team announcement](https://blog.rust-lang.org/2026/11/16/enabling-parallel-frontend-on-nightly/).
+
+On a current nightly, compare eight frontend threads with a sequential run:
 
 ```sh
-RUSTFLAGS="-Z threads=8" cargo +nightly build
+RUSTFLAGS="-Zunstable-options --jobs-frontend=8" cargo +nightly check
+RUSTFLAGS="-Zunstable-options --jobs-frontend=1" cargo +nightly check
 ```
 
-If you find that it works well for you, you can make it the default by adding
-`-Z threads=8` to your `~/.cargo/config.toml` file:
+Repeat each configuration with the same source edit.
+Merely changing flags itself invalidates cached artifacts, so comparing a cold first run with a warm second run won't tell you much.
+
+If you find that it works well for you, you can add the flags to your project's
+`.cargo/config.toml`:
 
 ```toml
 [build]
-rustflags = ["-Z", "threads=8"]
+rustflags = ["-Zunstable-options", "--jobs-frontend=8"]
 ```
 
-Alternatively, you can set an alias for `cargo`
-in your shell's config file (e.g., `~/.bashrc` or `~/.zshrc`):
+Be warned that this requires nightly!
+Avoid adding it to your global config, where it would also affect projects using stable.
 
-```sh
-alias cargo="RUSTFLAGS='-Z threads=8' cargo +nightly"
-```
+This is different from Cargo's `-j` option, which controls build jobs across
+crates. Frontend parallelism works within a rustc process. More threads can also
+use more memory, so compare a few thread counts on your actual workload.
 
-When the front-end is executed in a multi-threaded setting using `-Z threads=8`,
-benchmarks on actual code indicate that compilation times may decrease by as
-much as [50%](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
-However, the gains fluctuate depending on the code being compiled. It is
+The compiler team's November benchmarks show substantial improvements for some
+individual crates, but smaller gains for whole dependency graphs and incremental
+rebuilds. However, the gains fluctuate depending on the code being compiled. It is
 certainly worth a try, though.
 
 Here is a visualization of the parallel compiler frontend in action:
 
 ![Result of the parallel compiler](samply-parallel.png)
 
-Find out more on the official announcement [on the Rust
-blog](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
+The image comes from the [original 2023 announcement](https://blog.rust-lang.org/2023/11/09/parallel-rustc.html).
+For current flags and known issues, including diagnostic ordering and some
+reproducibility issues, use the [2026 update](https://blog.rust-lang.org/2026/11/16/enabling-parallel-frontend-on-nightly/).
 
 ### Use A Scratch Disk For Faster Builds
 
 Your filesystem might be the bottleneck. Consider using an in-memory filesystem
-like for your build directory.
+for your build directory.
 
-Traditional temporary filesystem like `tmpfs` is limited to your RAM plus swap space and can be problematic for builds creating large intermediate artifacts.
+Traditional temporary filesystems like `tmpfs` are limited to your RAM plus swap space and can be problematic for builds creating large intermediate artifacts.
+A fast local SSD is another option. You can choose another output directory with
+`CARGO_TARGET_DIR`.
 
-Instead, on Linux, mount an `ext4` volume with the following options:
+Since Cargo 1.91, [`build.build-dir`](https://doc.rust-lang.org/cargo/reference/config.html#buildbuild-dir)
+can put intermediate artifacts elsewhere while leaving final binaries in the
+target directory. Cargo 1.100 also changed the [intermediate artifact layout](https://doc.rust-lang.org/cargo/reference/build-cache.html).
 
-```
--o noauto_da_alloc,data=writeback,lazytime,journal_async_commit,commit=999,nobarrier
-```
 
-This will store files in the page cache if you have enough RAM, with writebacks occurring later. Treat this as if it were a temporary filesystem, as data may be lost or corrupted after a crash or power loss.
+That doesn't mean that sharing a directory automatically makes the compilation cache available across workspaces. 
 
-Credits go to [/u/The_8472 on Reddit](https://www.reddit.com/r/rust/comments/1ddgatd/compile_rust_faster_some_tricks/l85gzy8/).
+Treat an in-memory build directory as temporary storage: the build cache will be lost when the filesystem is cleared. Keep source code on durable storage instead.
 
 ### Invest In Better Hardware
 
 If you reached this point, the easiest way to improve compile times even more is
 probably to spend money on top-of-the-line hardware.
 
-As for laptops, the `M-series` of Apple's new Macbooks perform really well
-for Rust compilation. 
+As for laptops, the `M-series` of Apple's Macbooks perform really well
+for Rust compilation.
 
 [![Rik Arends on Twitter](tweet.png)](https://twitter.com/rikarends/status/1328598935380910082)
 
-The [benchmarks](https://www.reddit.com/r/rust/comments/qgi421/doing_m1_macbook_pro_m1_max_64gb_compile/) for a Macbook Pro with M1 Max are absolutely _ridiculous_ &mdash; even in comparison to the already fast M1:
+These [Substrate workspace benchmarks](https://hackmd.io/@bkchr/B1G1FPdUp)
+compare clean builds on the M2 Max, M3 Pro, and M4 Max:
 
-| Project                                                   | M1 Max | M1 Air |
-| :-------------------------------------------------------- | :----- | :----- |
-| [Deno](https://github.com/denoland)                       | 6m11s  | 11m15s |
-| [MeiliSearch](https://github.com/meilisearch/MeiliSearch) | 1m28s  | 3m36s  |
-| [bat](https://github.com/sharkdp/bat)                     | 43s    | 1m23s  |
-| [hyperfine](https://github.com/sharkdp/hyperfine)         | 23s    | 42s    |
-| [ripgrep](https://github.com/BurntSushi/ripgrep)          | 16s    | 37s    |
+| CPU | RAM | Clean dev build | Clean release build |
+| :-- | :-- | :-------------- | :------------------ |
+| M2 Max, 12 cores | 64 GB | 19m35s | 29m29s |
+| M3 Pro, 12 cores | 36 GB | 17m25s | 26m41s |
+| M4 Max, 16 cores | 128 GB | 10m42s | 15m29s |
 
-That's a solid 2x performance improvement.
+That's almost twice as fast on the M4 Max compared to the M2 Max for this workload.
+The benchmark uses a fixed source revision and Rust 1.74.0, clearing `target`
+before each build. The machines differ in core count and RAM, so this isn't a
+comparison of chip generations alone. These are clean builds, not incremental
+rebuilds.
 
 But if you rather like to stick to Linux, people also had great success with a multicore CPU like an [AMD Ryzen
 Threadripper and 32 GB of RAM](https://www.reddit.com/r/rust/comments/chqu4c/building_a_computer_for_fastest_possible_rust/).
@@ -864,17 +936,16 @@ per-second so you only pay for actual build time.
 
 If you have a slow internet connection, a big part of the initial build
 process is fetching all those shiny crates from crates.io. To mitigate that,
-you can download **all** crates in advance to have them cached locally.
-[criner](https://github.com/the-lean-crate/criner) does just that:
+you can download your project's dependencies in advance to have them cached locally:
 
-```
-git clone https://github.com/the-lean-crate/criner
-cd criner
-cargo run --release -- mine
+```sh
+cargo fetch --locked
+cargo build --offline --locked
 ```
 
-The archive size is surprisingly reasonable, with roughly **50GB of required disk
-space** (as of today).
+[`cargo fetch`](https://doc.rust-lang.org/cargo/commands/cargo-fetch.html) fills
+Cargo's download cache; it doesn't compile dependencies. This helps when preparing
+to work offline, not when compilation itself is the bottleneck.
 
 ## Test Execution
 
@@ -886,9 +957,9 @@ cargo nextest run
 ```
 
 It's nice that `cargo` comes with its own little test runner, but especially if
-you have to build multiple test binaries, [`cargo nextest`](https://nexte.st/)
-can be up to 60% faster than `cargo test` thanks to its parallel execution
-model.
+you have to run multiple test binaries, [`cargo nextest`](https://nexte.st/)
+can be much faster than `cargo test` thanks to its parallel execution
+model. This speeds up test execution, not compilation.
 Here are some quick [benchmarks](https://nexte.st/book/benchmarks.html):
 
 | Project     | Revision   | Test count | cargo test (s) | nextest (s) | Improvement |
@@ -910,16 +981,15 @@ folder.)
 Did you know that the Rust compiler will create a binary for every single one of them?
 And every binary will have to be linked individually.
 This can take most of your build time because linking is slooow. 🐢
-The reason is that many system linkers (like `ld`) are [single
-threaded](https://stackoverflow.com/questions/5142753/can-gcc-use-multiple-cores-when-linking).
+Even with a parallel linker, linking many binaries can add up.
 
 To make the linker's job a little easier, you can put all your tests in one
-crate. (Basically create a `main.rs` in your test folder and add your
-test files as `mod` in there.)
+crate. (Basically create a `main.rs` in your test folder, move the other test
+files into a subdirectory, and add them as modules.)
 
 Then the linker will go ahead and build a single binary only. Sounds nice, but
-careful: it's still a trade-off as you'll need to expose your internal types and
-functions (i.e. make them `pub`).
+careful: it's still a trade-off as changing one test module means recompiling
+the combined test crate.
 
 If you have a lot of integration tests, this can [result in a 50% speedup](https://azriel.im/will/2019/10/08/dev-time-optimization-part-1-1.9x-speedup-65-less-disk-usage/).
 
@@ -988,45 +1058,67 @@ much on running the tests.
 
 ### Disable Incremental Compilation In CI
 
+**Cargo 1.99 already does this by default when it detects CI through the `CI`
+environment variable.** See the [Cargo changelog](https://doc.rust-lang.org/cargo/CHANGELOG.html#cargo-199-2026-10-01).
+For older toolchains, or to make the choice explicit:
+
 ```yaml
 env:
-  CARGO_INCREMENTAL: 0
+  CARGO_INCREMENTAL: "0"
 ```
 
 Since CI builds are more akin to from-scratch builds, incremental compilation adds unnecessary dependency-tracking and IO overhead, reducing caching effectiveness.
+Persistent runners that retain incremental state can still benefit from it.
 [Here's how to disable it.](https://github.com/rust-analyzer/rust-analyzer/blob/25368d24308d6a94ffe8b99f0122bcf5a2175322/.github/workflows/ci.yaml#L11)
 
 ### Turn Off Debuginfo
 
+Avoid generating debug info to speed up your build process, especially if you rarely use an actual debugger.
+
 ```toml
 [profile.dev]
 debug = 0
-strip = "debuginfo"
 ```
 
-Avoid linking debug info to speed up your build process, especially if you rarely use an actual debugger. There are two ways to avoid linking debug information: set `debug=0` to skip compiling it, or set `strip="debuginfo"` to skip linking it. Unfortunately, changing these options can trigger a full rebuild with Cargo.
+The test profile inherits from `dev` unless you override it. For a CI-only
+experiment, use `CARGO_PROFILE_DEV_DEBUG=0` instead of changing the manifest.
 
-* On Linux, set both for improved build times.
-* On Mac, use `debug=0` since rustc uses an external strip command.
-* On Windows, test both settings to see which is faster.
+For local development, there's a useful middle ground:
 
-Note that without debug info, backtraces will only show function names, not line numbers. If needed, use `split-debuginfo="unpacked"` for a compromise. 
+```toml
+[profile.dev]
+debug = "line-tables-only"
+```
+
+This retains filenames and line numbers for backtraces without the full type and
+variable information needed to inspect values in a debugger. It requires Rust
+1.71 or newer. See [Cargo's profile documentation](https://doc.rust-lang.org/cargo/reference/profiles.html#debug).
+
+`strip = "debuginfo"` removes debug information from the output; it doesn't avoid
+the work of generating it. And `split-debuginfo` controls where debug information
+is stored, not how much is generated. Neither is a substitute for lowering `debug`.
+
+Unfortunately, changing these options can trigger a full rebuild with Cargo.
 
 As a nice side-effect, this will also help shrink the size of `./target`, improving caching efficiency.
 
-Here is a
-[sample config](https://github.com/rust-analyzer/rust-analyzer/blob/48f84a7b60bcbd7ec5fa6434d92d9e7a8eb9731b/Cargo.toml#L6-L10) for how to apply the settings.
 ### Deny Warnings Through An Environment Variable
 
 Avoid using `#![deny(warnings)]` in your code to prevent repetitive declarations.
 Furthermore, it is fine to get warnings during local development.
 
-Instead, [add `-D warnings` to `RUSTFLAGS`](https://github.com/rust-analyzer/rust-analyzer/blob/3dae94bf2b3e496adb049da589c7efef272a39b8/.github/workflows/ci.yaml#L15) to globally deny warnings in all crates on CI.
+On Cargo 1.97 or newer, use [`build.warnings`](https://doc.rust-lang.org/cargo/reference/config.html#buildwarnings)
+to enforce warning-free local packages in CI:
 
 ```yaml
 env:
-  RUSTFLAGS: -D warnings
+  CARGO_BUILD_WARNINGS: deny
 ```
+
+This avoids changing `RUSTFLAGS` just to change your warnings policy. On older
+toolchains, `RUSTFLAGS: -D warnings` remains an option, but changing compiler flags
+can trigger rebuilds. Keep them consistent between steps that should share build
+artifacts.
 
 ### Switch To A Faster Github Actions Runner
 
@@ -1107,34 +1199,30 @@ Cloud.
 
 ### Consider Earthly For Better Build Caching
 
-Earthly is a relatively new build tool that is designed to be a replacement for
-Makefiles, Dockerfiles, and other build tools. It provides fast, incremental
-Rust builds for CI.
+**Update:** this is no longer a recommendation for new setups.
+[Earthly announced the end of active maintenance and the shutdown of its cloud
+services](https://earthly.dev/blog/shutting-down-earthfiles-cloud/), with Earthly
+Cloud and Satellites shutting down on July 16, 2025.
 
-> Earthly speeds up Rust builds in CI by effectively implementing Cargo's
-> caching and Rust's incremental compilation. This approach significantly
-> reduces unnecessary rebuilds in CI, mirroring the efficiency of local Rust
-> builds.
->
-> Source: [Earthly for Rust](https://earthly.dev/rust)
+The underlying idea still holds: persistent build workers can keep caches close
+to the compiler instead of uploading and downloading them for every job.
+Maintained alternatives include:
 
-They use a system called Satellites, which are persistent remote build
-runners that retain cache data locally. This can drastically speed up CI build
-times by eliminating cache uploads and downloads. Instead of bringing the cache
-data to the compute, they colocate the cache data and compute, eliminating cache
-transfers altogether. Less I/O means faster builds.
+- [Depot](https://depot.dev/docs/container-builds/overview) provides paid remote
+  BuildKit builders with persistent caches. If you already use Dockerfiles, its
+  [Rust example](https://depot.dev/docs/container-builds/optimal-dockerfiles/rust-dockerfile)
+  shows how to combine `cargo-chef` and `sccache`.
+- [Dagger](https://docs.dagger.io/self-hosting/) lets you write build pipelines in
+  code and run them on a persistent engine. You can host the engine yourself or
+  use paid Dagger Cloud engines. It requires rewriting your pipeline; it isn't a
+  drop-in replacement for Earthfiles.
+- [Self-hosted BuildKit](https://github.com/moby/buildkit) keeps you in control of
+  the builders and their storage, but you also handle maintenance and cache
+  cleanup. Keep the builder's disk persistent: [cache mounts aren't preserved by
+  default on fresh GitHub Actions runners](https://docs.docker.com/build/ci/github-actions/cache/).
 
-Earthly also provides a `lib/rust` library, which abstracts away cache
-configuration entirely. It ensures that Rust is caching correctly and building
-incrementally in CI. It can be used in your
-[`Earthfile`](https://docs.earthly.dev/docs/earthfile) like this:
-
-```Dockerfile
-IMPORT github.com/earthly/lib/rust
-```
-
-If you're curious, [Earthly’s Guide for Rust](https://earthly.dev/rust) details
-a simple Rust example with optimized caching and compilation steps.
+For a simpler Docker setup, start with `cargo-chef` above. Remote builders are
+worth considering when the time saved justifies the service or maintenance cost.
 
 ## IDE-Specific Optimizations
 
