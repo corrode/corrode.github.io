@@ -27,19 +27,7 @@ Here are some tips to speed up your compile times.
 This list was originally released on my [private blog](https://endler.dev/), but I decided to
 update it and move it here.
 
-Start with the build you actually want to speed up. A clean CI build, a rebuild
-after changing one function, and `cargo check` in your editor have different
-bottlenecks. A setting that helps one can make another slower.
-
-If you only have ten minutes: update Rust and run `cargo build --timings` to find
-slow crates and dependency bottlenecks. If you suspect linking, use the separate
-measurement in the [linker section](#switch-to-a-faster-linker).
-Then change one thing and measure again. Don't run `cargo clean` between every
-measurement unless clean builds are what you're trying to improve.
-
-Some older tips are now defaults: Rust 1.90 switched to LLD on
-`x86_64-unknown-linux-gnu`, and Cargo already uses unpacked debug info on macOS.
-You may get those improvements just by updating, without adding any flags.
+All tips are roughly ordered by impact so you can start from the top and work your way down.
 
 <h2>Table of Contents</h2>
 
