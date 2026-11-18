@@ -136,7 +136,7 @@ cargo install --locked bacon
 bacon
 ```
 
-This replaces the older `cargo watch` recommendation. Cargo Watch is archived,
+This replaces `cargo watch`. Cargo Watch is archived,
 and its [final release recommends Bacon](https://github.com/watchexec/cargo-watch/releases/tag/v8.5.3).
 
 
