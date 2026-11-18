@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    
+
+    <title>Why OTTO Chose Rust | corrode Rust Consulting</title>
+    <meta name="author" content="Corrode Rust Consulting">
+    <meta name="description" content="I recently had the pleasure of interviewing Falk Woldmann Lu about OTTO’s recent migration of TypeScript Lambdas and Kotlin/Spring services to Rust.
+For readers outside Germany: OTTO is one of the country’s largest online retailers, with around 13 mi…">
+    <link rel="canonical" href="https://corrode.dev/blog/otto-rust-interview/">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Why OTTO Chose Rust | corrode Rust Consulting">
+    <meta property="og:description" content="I recently had the pleasure of interviewing Falk Woldmann Lu about OTTO’s recent migration of TypeScript Lambdas and Kotlin/Spring services to Rust.
+For readers outside Germany: OTTO is one of the country’s largest online retailers, with around 13 mi…">
+    <meta name="image" property="og:image" content="https://corrode.dev/blog/otto-rust-interview/social.png">
+    <meta property="og:image:secure_url" content="https://corrode.dev/blog/otto-rust-interview/social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Why OTTO Chose Rust | corrode Rust Consulting">
+    <meta property="og:url" content="https://corrode.dev/blog/otto-rust-interview/">
+    <meta property="og:site_name" content="Corrode Rust Consulting">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2026-11-18">
+    <meta property="article:author" content="Matthias Endler">
+    <meta name="publish_date" property="og:publish_date" content="2026-11-18">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@matthiasendler">
+    <meta name="twitter:creator" content="@matthiasendler">
+    <meta name="twitter:title" content="Why OTTO Chose Rust | corrode Rust Consulting">
+    <meta name="twitter:description" content="I recently had the pleasure of interviewing Falk Woldmann Lu about OTTO’s recent migration of TypeScript Lambdas and Kotlin/Spring services to Rust.
+For readers outside Germany: OTTO is one of the country’s largest online retailers, with around 13 mi…">
+    <meta name="twitter:image" content="https://corrode.dev/blog/otto-rust-interview/social.png">
+    <meta name="twitter:image:alt" content="Why OTTO Chose Rust | corrode Rust Consulting">
+
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-dark-custom.css" media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" type="text/css" href="/syntax-theme-light-custom.css" media="(prefers-color-scheme: light)" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+
+    <link rel="me" href="https://mastodon.social/@mre">
+    <link rel="alternate" type="application/rss+xml" title="corrode RSS feed" href="/rss.xml">
+
+    <script type="module" src="https://oxitrack.corrode.dev/count.js"></script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    <script src="/scripts/clipboard.js" defer></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://corrode.dev/blog/otto-rust-interview/"
+      },
+      "headline": "Why OTTO Chose Rust",
+      "description": "I recently had the pleasure of interviewing Falk Woldmann Lu about OTTO’s recent migration of TypeScript Lambdas and Kotlin/Spring services to Rust.\nFor readers outside Germany: OTTO is one of the country’s largest online retailers, with around 13 mi…",
+      
+      "image": "https://corrode.dev/blog/otto-rust-interview/social.png",
+      
+      "author": {
+        "@type": "Person",
+        "name": "Matthias Endler",
+        "url": "https://endler.dev",
+        "sameAs": [
+          "https://github.com/mre",
+          "https://mastodon.social/@mre",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Corrode Consulting",
+        "url": "https://corrode.dev/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://corrode.dev/corrode.svg"
+        },
+        "sameAs": [
+          "https://github.com/corrode",
+          "https://www.linkedin.com/company/corrode",
+          "https://twitter.com/matthiasendler"
+        ]
+      },
+      "datePublished": "2026-11-18",
+      
+      "dateModified": "2026-11-18"
+      
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://corrode.dev/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://corrode.dev/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Why OTTO Chose Rust",
+          "item": "https://corrode.dev/blog/otto-rust-interview/"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <div class="app">
+        <nav aria-label="Main navigation">
+    <!-- Logo and Home Link -->
+    <div>
+        <a  class="nav-item" 
+            href="https://corrode.dev/">
+            <span class="logo">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="85" viewBox="0 0 200 85.5"><path d="m165.192 18.534-6.6.03v20.6c-8.634-5.485-23.28-1.166-23.28 12.48 0 20.182 30.335 18.865 29.88-.01zM43.093 36.7c-8.148 0-14.96 5.716-14.96 14.79 0 8.599 6.367 14.801 14.96 14.801 8.464 0 14.92-6.2 14.92-14.79 0-8.791-6.591-14.801-14.92-14.801m72.5 0c-6.784 0-14.614 4.16-14.97 14.79 0 8.748 6.556 14.801 14.97 14.801 8.474 0 14.93-6.212 14.93-14.79 0-8.87-6.698-14.801-14.93-14.801m-41.054.002c-6.02.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.31-7.39l2.9-4.657a11.5 11.5 0 0 0-5.936-1.593m17.917 0c-6.019.032-11.877 4.563-11.707 11.739v17.85l6.683-.022-.25-15.927c0-7.276 5.415-7.84 8.311-7.39l2.9-4.657a11.5 11.5 0 0 0-5.937-1.593m-74.936.002c-7.362.053-14.377 5.52-14.377 14.945 0 14.417 15.027 17.221 22.82 12.59-1.16-1.52-2.078-3.198-2.891-4.92-5.261 2.648-13.32.717-13.32-7.87 0-8.528 8.048-10.399 13.21-7.84.52-1.397 2.136-4.165 3.07-5.04-2.279-1.243-4.835-1.892-8.512-1.865m166.727.126c-6.922.155-14.114 5.18-14.114 14.8 0 14.198 14.814 17.353 22.83 12.588l-2.88-4.929c-5.135 2.544-11.713.7-13.04-5.21l19.7-2.829c1.078-9.86-5.574-14.575-12.496-14.42m.998 5.736c2.797-.086 5.255 1.465 6.568 4.8l-14.49 1.994c.679-4.107 4.325-6.683 7.922-6.794m-141.653.024c2.716 0 8.31 1.41 8.31 8.98 0 5.313-3.079 8.92-8.31 8.92-5.172 0-8.32-3.526-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m72.5 0c2.716 0 8.31 1.41 8.31 8.98 0 5.295-3.056 8.92-8.31 8.92-5.242 0-8.32-3.629-8.32-8.92 0-8.535 6.885-8.98 8.32-8.98m34.505.03c4.157.034 8.316 3.11 8.316 9.125 0 12.024-16.63 12.05-16.63 0 0-6.152 4.156-9.16 8.314-9.126m2226.692-755.486h6.52c0-12.105-1.226-24.512 8.22-21.981l3.6-5.43c-20.776-6.381-18.34 15.492-18.34 27.41"/></svg>
+            </span>
+        </a>
+    </div>
+
+    <input id="menu-toggle" type="checkbox" aria-label="Toggle navigation menu" />
+    <label class="menu-button-container" for="menu-toggle">
+        <span class="menu-button" aria-hidden="true"></span>
+    </label>
+
+    <!-- Menu Items -->
+    <ul class="menu">
+        <li class="nav-theme-toggle">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" type="button" aria-label="Toggle color scheme">
+                <span id="icon-moon" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#fff" d="M12 22c5.523 0 10-4.477 10-10 0-.463-.694-.54-.933-.143a6.5 6.5 0 1 1-8.924-8.924C12.54 2.693 12.463 2 12 2 6.477 2 2 6.477 2 12s4.477 10 10 10"/></svg>
+                </span>
+                <span id="icon-sun" aria-hidden="true">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path fill="#000" d="M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/><path fill="#000" fill-rule="evenodd" d="M12 1.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0V2a.75.75 0 0 1 .75-.75M3.669 3.716a.75.75 0 0 1 1.06-.047L6.95 5.7a.75.75 0 1 1-1.012 1.107L3.716 4.776a.75.75 0 0 1-.047-1.06m16.662 0a.75.75 0 0 1-.047 1.06l-2.222 2.031A.75.75 0 0 1 17.05 5.7l2.222-2.031a.75.75 0 0 1 1.06.047M1.25 12a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5H2a.75.75 0 0 1-.75-.75m18 0a.75.75 0 0 1 .75-.75h2a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1-.75-.75m-2.224 5.025a.75.75 0 0 1 1.06 0l2.222 2.223a.75.75 0 0 1-1.06 1.06l-2.222-2.222a.75.75 0 0 1 0-1.06m-10.051 0a.75.75 0 0 1 0 1.061l-2.223 2.222a.75.75 0 0 1-1.06-1.06l2.222-2.223a.75.75 0 0 1 1.06 0M12 19.25a.75.75 0 0 1 .75.75v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 1 .75-.75" clip-rule="evenodd"/></svg>
+                </span>
+            </button>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/"><span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item active" 
+                href="https://corrode.dev/blog">
+                <span>Blog</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/podcast">
+                <span>Podcast</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/learn/migration-guides">
+                <span>Migrate</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/workshops">
+                <span>Workshops</span>
+            </a>
+        </li>
+        <li>
+            <a  class="nav-item" 
+                href="https://corrode.dev/mentorship">
+                <span>Mentorship</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://corrode.dev/services" class="cta-button">
+                <span>Consulting&nbsp;→</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        <main class="container">
+            
+<article>
+  <header class="article-heading">
+    <p class="subheading">
+      <a href="https://corrode.dev/blog">Rust Insights</a>
+    </p>
+    <h1>Why OTTO Chose Rust</h1>
+    <div class="article-meta">
+      <a href="/services" class="author-link"><img src="/avatar.png" alt="Matthias Endler" class="author-avatar" /></a>
+      <span>by <a href="/services" class="author-name" rel="author">Matthias Endler</a></span>
+      <span class="article-date">
+        
+          Published: <time datetime="2026-11-18">2026-11-18</time>
+        
+      </span>
+    </div>
+    
+  </header>
+  <div class="article-content-wrapper article-content-with-resources">
+    
+    <section class="article-content prose">
+    
+
+      <link rel="stylesheet" href="quotes.css">
+<img src="hero.svg" alt="OTTO logo on a warm off-white background." class="noinvert" />
+<p>I recently had the pleasure of interviewing <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.linkedin.com/in/falk-woldmann/">Falk Woldmann Lu</a> about <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.otto.de/jobs/en/blogs/techblog/rust-migration-lambdas-microservices/">OTTO’s recent migration</a> of TypeScript Lambdas and Kotlin/Spring services to Rust.</p>
+<p>For readers outside Germany: OTTO is one of the country’s largest online retailers, with <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.otto.de/unternehmen/de/unternehmen/auf-einen-blick">around 13 million active customers and €7.5 billion in gross merchandise value in the 2025/26 financial year</a>.</p>
+<p>Falk is a Senior Fullstack Developer at OTTO and an Adjunct Rust Tutor at NORDAKADEMIE.</p>
+<h2 id="why-rust"><a class="zola-anchor" href="#why-rust" aria-label="Anchor link for: why-rust">Why Rust?</a></h2>
+<p><strong>Q: What was the recurring annoyance that made you start looking into Rust?</strong></p>
+<p>We used to write our AWS Lambda functions in TypeScript (around 2022), and a couple of things bugged us about it. First, the build process was annoying because you had to bundle external dependencies. If you just bundled your whole <code>node_modules</code> directory, you also shipped build-time dependencies like <code>esbuild</code> or test runners. We used the <code>serverless</code> framework, but had to drop it at some point when they switched to a commercial license.</p>
+<p>Next, the churn in TS/JS tooling got on our nerves. It felt like we had to switch to the newest hot tool every two weeks or so, and nothing ever worked out of the box.</p>
+<p>The last thing was the language itself. TypeScript only gives you type safety at build time, so you have to be really careful about parsing data at runtime. Just casting your deserialized data with <code>as Foo</code> obviously isn’t enough, and we shot ourselves in the foot with that a couple of times. On top of that, the ecosystem was still pretty fractured between ESM and CommonJS back then, which caused even more headaches until everything ran smoothly.</p>
+<hr />
+<p><strong>Q: But why Rust? You had plenty of less adventurous choices available like Kotlin or Go.</strong></p>
+<p>Kotlin was the obvious candidate. We knew it well and it’s a good language, but most of our pain was around it. We actually tried running Kotlin on Lambda, and the tooling was about as painful as with TypeScript. Getting thin JARs to build was a struggle, and Spring Cloud Function was too buggy to rely on. Our Spring Boot services gave us their own headaches too, more on that later. Some of that is on Spring and not on Kotlin. In practice, though, Kotlin on the backend means the JVM and usually Spring.</p>
+<p>With Rust we kept the expressiveness and got a few things on top. Errors are values you have to handle, data is immutable by default, ownership is explicit, and resource usage is predictable because there’s no garbage collector. We could also use one language for Lambdas and long-running services. <strong>In the end, Rust fixed both problems we actually had: the painful Lambda tooling and the unpredictable runtime behavior.</strong></p>
+<p><strong>Q: If an experienced Go team had been sitting in your chairs, do you think they could reasonably have made the opposite decision?</strong></p>
+<p>It really depends on what you focus on. At OTTO we mostly do brownfield product development, so for us it’s all about longevity. Go chose to keep the language small so you can ship fast. But most language complexity exists for a reason, and languages like Rust, Kotlin or Swift let us express more of our logic in code. That matters a lot to us, because we care about stability and predictability over many years.</p>
+<hr />
+<figure style="margin: 2em 0;">
+  <img src="falk-woldmann.webp" alt="Portrait of Falk Woldmann Lu." width="1530" height="1020" loading="lazy" style="display: block; width: 100%; max-width: 100%; height: auto; margin-left: 0;">
+  <figcaption>
+    <p><a href="https://woldmann.com/">Falk Woldmann Lu</a> specializes in Rust, distributed systems, cloud infrastructure, and DevOps. He's also a co-maintainer of <a href="https://github.com/httpmock/httpmock">httpmock</a>, the HTTP mocking library mentioned in this interview.</p>
+    <p>Photo: <a href="https://www.otto.de/jobs/en/blogs/techblog/authors/falk/">OTTO tech blog</a>.</p>
+  </figcaption>
+</figure>
+<h2 id="the-first-production-services"><a class="zola-anchor" href="#the-first-production-services" aria-label="Anchor link for: the-first-production-services">The First Production Services</a></h2>
+<p><strong>Q: Take us back to the first Rust service you actually deployed. What were you nervous about and what happened once it went live?</strong></p>
+<p>Rolling out our first Rust Lambda was exciting, since it was the first real test of our idea.</p>
+<p>The deployment itself was pretty unspectacular, though, because we started with a small internal Lambda. We could confirm right away that the Rust Lambda tooling works really well in production. Our hunch also held up: Lambdas are so high-level that a Rust Lambda doesn’t feel very different from a TypeScript one. The syntax is different, sure, but you get used to it quickly, and most of Rust’s more complex concepts like lifetime management just don’t come up.</p>
+<p>After those good experiences we migrated all our Lambdas. Execution time (warm and cold) and resource usage both went down a lot. That wasn’t a big deal for us, since our Lambdas weren’t particularly time-critical or expensive.</p>
+<p>Our first “real” web service in Rust was a different story. There’s a lot more to think about, like routing, scaling behavior and resource usage, so we were a lot more nervous. When we got our first <code>Hello World</code> back from the prototype, we were pretty ecstatic 😄</p>
+<p><strong>What helped with the actual migration was starting small.</strong> We took one piece of logic out of our big presentation service and rebuilt it in Rust. We had wanted to pull that logic out anyway, since it had little to do with presenting benefits, so it was a good candidate. The smaller scope kept the risk low and made it much easier to figure out how to set up a Rust web app properly.</p>
+<p><strong>Q: Was there one graph, metric, or moment where the team thought: “Okay, this is cool”?</strong></p>
+<p>That moment came when the service went live. The performance difference was massive. <strong>Our P99 roughly halved and resource usage dropped to a quarter</strong>, and that was with our first, pretty naive implementation. After a quick look at the code we removed an expensive clone on the hot path, which cut RAM usage in half again. That was great to watch and a really nice confirmation for us.</p>
+<blockquote class="otto-pullquote">
+  <p>“Our first Rust code was pretty much Spring with Rust syntax.”</p>
+</blockquote>
+<h2 id="learning-to-write-rust"><a class="zola-anchor" href="#learning-to-write-rust" aria-label="Anchor link for: learning-to-write-rust">Learning to Write Rust</a></h2>
+<p><strong>Q: You’ve said that some of your first Rust code was essentially Java or Spring thinking translated into Rust. What did you have to unlearn before you started writing Rust that actually felt like Rust?</strong></p>
+<p>Controllers, services and repositories, all as structs, with dependency injection rebuilt on top. At first we used traits as the abstraction so we could swap in test implementations. We dropped that quickly, because generics and trait bounds for static dispatch spread through every signature and the code got really hard to read. We moved to <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/nrxus/faux">faux</a>, which can mock concrete structs without traits. That felt very familiar, basically Mockito for Rust.</p>
+<p>That layering is still there today, but we’re moving more and more towards <em><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell">Functional Core, Imperative Shell</a></em>. Business logic goes into pure functions without side effects, which you can test without any mocks, and the I/O lives around them. So we need far fewer mocks now. What’s left we cover with integration tests against real components, like a containerized database or a real HTTP server via <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/httpmock/httpmock">httpmock</a>. Those give us a lot more confidence than a pile of mocks.</p>
+<p>The second big shift was actually using the type system: newtypes, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">“Parse, don’t validate”</a>, enums for domain states, and <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://cliffle.com/blog/rust-typestate/">typestate</a> where it pays off. We studied this together with NORDAKADEMIE in a <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://dl.acm.org/doi/10.1145/3830438.3830958">paper</a>, using exactly this production code.</p>
+<p>My favorite example is the <em>Dreson</em>. At OTTO that’s a small grammar for describing a set of products. Our tag handler renders the little badges like “-20%” on product tiles, and it receives two Dresons per request: the context a benefit was configured for, and the context the customer is looking at right now. In the original code, both were plain strings. The validation was copy-pasted inline in the handler, couldn’t be tested on its own, and other handlers couldn’t reuse it. Worst of all, a validated Dreson was still just a <code>String</code> afterwards. Nothing told you whether it had been checked, so code that skipped validation or ran it three times compiled just fine.</p>
+<p>For the paper, we refactored it into a newtype:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">pub</span><span>(</span><span style="color: #BD93F9;font-style: italic;">super</span><span>)</span><span style="color: #FF79C6;"> struct</span><span style="color: #8BE9FD;font-style: italic;"> Dreson</span><span>(</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>);</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">impl</span><span style="color: #8BE9FD;font-style: italic;"> Dreson</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    pub fn</span><span style="color: #50FA7B;"> from_string</span><span>(dreson</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> String</span><span>, exceptions</span><span style="color: #FF79C6;">: &amp;</span><span>[</span><span style="color: #8BE9FD;font-style: italic;">String</span><span>])</span><span style="color: #FF79C6;"> -&gt;</span><span> anyhow</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Result</span><span>&lt;</span><span style="color: #BD93F9;font-style: italic;">Self</span><span>&gt; {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">        if</span><span style="color: #50FA7B;"> is_valid</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>dreson)</span><span style="color: #FF79C6;"> ||</span><span> exceptions</span><span style="color: #FF79C6;">.</span><span style="color: #50FA7B;">contains</span><span>(</span><span style="color: #FF79C6;">&amp;</span><span>dreson) {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Ok</span><span>(</span><span style="color: #50FA7B;">Dreson</span><span>(dreson))</span></span>
+<span class="giallo-l"><span>        }</span><span style="color: #FF79C6;"> else</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">            Err</span><span>(anyhow</span><span style="color: #FF79C6;">::</span><span style="color: #50FA7B;">anyhow!</span><span>(</span><span style="color: #F1FA8C;">&quot;Invalid dreson format&quot;</span><span>))</span></span>
+<span class="giallo-l"><span>        }</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>It lives in its own private module, so the constructor is the only way to get one. Any function that takes a <code>Dreson</code> can trust the value is valid, and the signature tells you that without reading any docs. The validation is reusable and easy to test. In the refactoring, the handler’s cognitive complexity went from 17 to 8, and the runtime cost was too small to matter. <strong>For me, newtypes have the best cost/benefit ratio of any Rust pattern.</strong> The catch is that you have to use them consistently. As soon as someone goes back to the inner string, that code loses the guarantee. <strong>So we parse as early as we can, ideally right at the system boundary.</strong></p>
+<p>I’m more careful with typestate. In the paper we also modeled the flow of our Detailview service as a state machine, so the steps can’t be called in the wrong order anymore. Testability and correctness got a lot better, and the cyclomatic complexity of the main function dropped from 17 to 3. You pay for that with boilerplate, though, and even our experts disagreed on whether it’s more readable. Typestate pays off most with lots of branching and lots of invariants. For a linear flow it’s often overkill.</p>
+<p><strong>Q: What’s your favorite example of fighting the borrow checker only to finally realize that the compiler had exposed a problem in your design?</strong></p>
+<p>Almost all our fights with the borrow checker happened when our code wasn’t very rusty, mostly early on. Lots of mutable state, lots of imperative code, data passed around and changed along the way. The fix was rarely a clever lifetime annotation. Usually we had to restructure how data flowed, and looking back, the compiler was right almost every time.</p>
+<p>One of our Lambdas for product returns is a good example of how we used to write code. It had two mutable lists for results and errors, and every function got them as <code>&amp;mut</code> and modified them. That worked, but it was hard to tell what state the program was in at any point, and testing it was a pain. When we refactored it for the paper, the results and errors moved into the states themselves and each step became a pure function. Now that we write more idiomatic code, the borrow checker rarely gets in our way. Those fights were mostly a sign that our design was off.</p>
+<blockquote class="otto-pullquote">
+  <p>“Rust made us better developers, and I notice that in other languages too.”</p>
+</blockquote>
+<hr />
+<h2 id="bringing-the-team-along"><a class="zola-anchor" href="#bringing-the-team-along" aria-label="Anchor link for: bringing-the-team-along">Bringing the Team Along</a></h2>
+<p><strong>Q: What changed once the entire team had to work in Rust?</strong></p>
+<p>The biggest help was learning Rust as a team. For the basics we used the usual resources: <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/book/">the Rust Book</a>, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rustlings.rust-lang.org/">Rustlings</a> and <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://rust-exercises.com/100-exercises/">100 Exercises to Learn Rust</a>. <strong>What made the difference was applying it to production code right away, with small, self-contained changes while pairing.</strong> At first the compiler feels like one more opponent. Once someone sits next to you and explains why it’s complaining, it turns into a safety net pretty quickly.</p>
+<p>We also ran a format we called “Rust Watch and Learn”, which had two parts. In the first, people from the team showed something they had recently learned or built in Rust. In the second, we discussed a blog post or video everyone had read or watched beforehand, very often one of <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.youtube.com/@jonhoo">Jon Gjengset’s</a>. Since everyone came prepared, the discussion got into the details fast. Jon’s videos work really well for this because he explains why things are built the way they are.</p>
+<div class="info">
+  <div class="info-header">
+      <span class="icon icon-radio"></span>
+    <p class="callout-label">Jon Gjengset on Rust in Production</p>
+  </div>
+  <p>Hear more from Jon in our <a href="/podcast/s06e02-helsing/">Helsing episode of Rust in Production</a>, where he talks about building safety-critical software in Rust.</p>
+<div><script id="letscast-player-8654cc1e" src="https://letscast.fm/podcasts/rust-in-production-82281512/episodes/helsing-with-jon-gjengset/player.js?size=s"></script></div>
+</div>
+<p>How fast were people productive? A lot faster than Rust’s reputation suggests. That lines up with <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">Google’s numbers from 2022</a>. More than two-thirds of respondents felt confident contributing to a Rust codebase within two months, and within four months more than half were as productive as in their previous language. Google found no evidence of a productivity penalty for Rust among the developers surveyed. It also helps that we mostly write fairly high-level CRUD code, which rarely touches the hard parts of Rust.</p>
+<figure style="margin: 2em 0;">
+  <img src="google-rust-productivity.png" class="noinvert" alt="Google's survey: time until confident writing Rust. 27% reported 2–3 weeks, 39.8% 1–2 months, 15.6% 3–4 months, 9% more than 4 months, and 8.6% were still ramping up." width="1200" height="742" loading="lazy" style="display: block; width: 100%; max-width: 100%; height: auto; margin-left: 0;">
+  <figcaption>Time until confident writing Rust. Source: <a href="https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html">Google's 2022 Rust survey</a>.</figcaption>
+</figure>
+<p><strong>Q: Was there anyone on the team who initially disliked Rust and later changed their mind?</strong></p>
+<p>There was skepticism in the team and also from managers and other stakeholders, which is fair. We were pitching a language that was pretty unusual for our kind of backend at the time. <strong>Two things won people over. The team actually learned Rust, and the learning curve turned out to be much less scary than expected.</strong> And the results were better: fewer bugs, better performance, lower costs.</p>
+<p>My favorite example is a colleague who was the loudest critic at the start. Today he’s one of our biggest Rust evangelists 😄</p>
+<hr />
+<h2 id="reliability-and-its-limits"><a class="zola-anchor" href="#reliability-and-its-limits" aria-label="Anchor link for: reliability-and-its-limits">Reliability and Its Limits</a></h2>
+<p><strong>Q: What kinds of failures disappeared after the migration, and how much of that do you really attribute to Rust rather than to rewriting the system more carefully?</strong></p>
+<p>The unpredictable runtime behavior is gone. In our old Kotlin/Spring services we kept seeing weird memory behavior, sometimes leaks, sometimes out-of-memory errors. We had to restart one service every day just to free up memory. The other big category was context and bean exceptions on startup. Those showed up a lot, even after minor Spring Boot updates, often because some starter pulled in something we had never configured ourselves. Spring is huge, it has grown over many years, and a lot of it is a black box. We were done with those surprises.</p>
+<p>We count anything that has a negative impact on customers as an incident. On the system level, meaning a service crashing, leaking memory, slowing down or failing to start, we haven’t had a single one since the migration. With Kotlin we had those quite a lot: after Spring Boot updates, from memory leaks, from bad performance. The services run very reliably now, memory usage is flat and predictable, and nobody has to restart services daily anymore. Logic bugs are a different story; I’ll get to those in a second.</p>
+<p>How much of that is Rust and how much is the careful rewrite? Both, to be fair. Some of it simply comes from dropping Spring. But the Rust ecosystem works very differently. There’s no auto-configuration and nothing magic happening at runtime. You build your service from small pieces you picked yourself, and if something isn’t in the code, it doesn’t happen. There’s also no garbage collector to tune, and errors show up in the types, so you have to handle them. Sure, we cleaned up a lot during the rewrite, but Rust pushed us towards those decisions.</p>
+<blockquote class="otto-pullquote">
+  <p>“Rust is boring, and that's fantastic.”</p>
+</blockquote>
+<p><strong>Q: And the important counter-question: what kinds of bugs does Rust do absolutely nothing to protect you from?</strong></p>
+<p>Logic bugs, of course. We once showed the wrong headline on a customer benefit tile. The headline depends on whether you’re a guest, logged in, or also a member of OTTO Up, our loyalty program. Everything compiled, all the types lined up, and the customer still saw the wrong text.</p>
+<p>Here’s a simplified version I made up for this (our real code looks different), just to show how something like that can happen:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> headline</span><span>(is_logged_in</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>, is_up_member</span><span style="color: #FF79C6;">:</span><span style="color: #8BE9FD;font-style: italic;"> bool</span><span>)</span><span style="color: #FF79C6;"> -&gt; &amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">static str</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    match</span><span> (is_logged_in, is_up_member) {</span></span>
+<span class="giallo-l"><span>        (</span><span style="color: #BD93F9;">true</span><span>,</span><span style="color: #BD93F9;"> true</span><span>)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;Your Up benefit&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>        (</span><span style="color: #BD93F9;">true</span><span>,</span><span style="color: #BD93F9;"> false</span><span>)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;Join Up and save&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>        (</span><span style="color: #BD93F9;">false</span><span>, _)</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;Log in to claim your benefit&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #6272A4;">// Compiles just fine, but the arguments are swapped.</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">let</span><span> text</span><span style="color: #FF79C6;"> =</span><span style="color: #50FA7B;"> headline</span><span>(customer</span><span style="color: #FF79C6;">.</span><span>is_up_member, customer</span><span style="color: #FF79C6;">.</span><span>is_logged_in);</span></span></code></pre>
+<p>That’s perfectly valid Rust. Two <code>bool</code>s are interchangeable as far as the compiler cares, and the match is even exhaustive. This is where I think we could get more out of Rust. If you model the customer status as an enum, a whole class of mistakes goes away:</p>
+<pre class="giallo" style="color: #F8F8F2; background-color: #282A36;" ><code data-lang="rust"><span class="giallo-l"><span style="color: #FF79C6;">enum</span><span style="color: #8BE9FD;font-style: italic;"> CustomerStatus</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    Guest</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    LoggedIn</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">    UpMember</span><span>,</span></span>
+<span class="giallo-l"><span>}</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span style="color: #FF79C6;">fn</span><span style="color: #50FA7B;"> headline</span><span>(status</span><span style="color: #FF79C6;">: &amp;</span><span style="color: #8BE9FD;font-style: italic;">CustomerStatus</span><span>)</span><span style="color: #FF79C6;"> -&gt; &amp;</span><span>&#39;</span><span style="color: #8BE9FD;font-style: italic;">static str</span><span> {</span></span>
+<span class="giallo-l"><span style="color: #FF79C6;">    match</span><span> status {</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        CustomerStatus</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">Guest</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;Log in to claim your benefit&quot;</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        CustomerStatus</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">LoggedIn</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;Join Up and save&quot;</span><span>,</span></span>
+<span class="giallo-l"><span style="color: #8BE9FD;font-style: italic;">        CustomerStatus</span><span style="color: #FF79C6;">::</span><span style="color: #8BE9FD;font-style: italic;">UpMember</span><span style="color: #FF79C6;"> =&gt;</span><span style="color: #F1FA8C;"> &quot;Your Up benefit&quot;</span><span>,</span></span>
+<span class="giallo-l"><span>    }</span></span>
+<span class="giallo-l"><span>}</span></span></code></pre>
+<p>Now there’s nothing to swap, and every status has exactly one headline. If someone adds a new status later, the compiler points you to every match that needs updating. What Rust can’t catch is me putting the Up member text in the <code>LoggedIn</code> arm. That compiles just as well. Only a human knows what the headline should say, so we still need tests. With typestate you could go even further. We’re not there yet, we’re still learning to use Rust to its full extent. Compared to Kotlin or TypeScript, Rust gives me better tools to rule out these mistakes step by step, and when I refactor, the compiler walks me through every place that’s affected.</p>
+<hr />
+<h2 id="what-got-harder"><a class="zola-anchor" href="#what-got-harder" aria-label="Anchor link for: what-got-harder">What Got Harder</a></h2>
+<p><strong>Q: In your blog post, you’ve spent a lot of time talking about what improved. So make the case against your own decision: what became harder, slower, more annoying, or simply less pleasant after moving to Rust?</strong></p>
+<p>What I miss most is mocking from the JVM world. With <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://site.mockito.org/">Mockito</a> or <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://mockk.io/">MockK</a> you can mock pretty much anything in Kotlin and it just works. The JVM can generate bytecode at runtime. Rust has no reflection like that, so mocking concrete types relies on macros that rewrite your code at compile time. We use faux for that and it’s fine most of the time. You do notice the magic, though. It all happens at compile time, so it has never bitten us in production, but you feel it in the editor. In RustRover, autocompletion on mocked structs sometimes suggested the wrong things because the IDE got confused by the rewritten code. And some structures just don’t work. We <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/nrxus/faux/issues/66">ran into</a> a case where a newtype around a mocked struct stopped compiling in tests, because faux needs all fields to be private. The maintainer says that’s by design. Fair enough, but it means the mocking tool decides how you structure your code. Mocking in Kotlin feels a lot more mature and stable.</p>
+<p>The funny thing is that this pushed us in a good direction. Because mocking in Rust hurts, we leaned even harder into the functional core and the integration tests I talked about earlier.</p>
+<p><strong>Q: A bit of a loaded question, but what’s something that takes 30 lines in Rust that you still occasionally wish were five lines of Kotlin?</strong></p>
+<p>With MockK, stubbing a dependency is a single line. With faux in Rust, it often means more setup, or restructuring your code so it can be mocked at all.</p>
+<hr />
+<h2 id="when-not-to-rewrite"><a class="zola-anchor" href="#when-not-to-rewrite" aria-label="Anchor link for: when-not-to-rewrite">When Not to Rewrite</a></h2>
+<p><strong>Q: Imagine another team at OTTO comes to you and says: “We saw what you did. We want to migrate our backend to Rust too.” What would you ask them before saying yes?</strong></p>
+<p>That actually happened. My first question is always: what problems do you have with your current stack? Rust is very trendy right now, but <strong>FOMO is a bad reason to migrate.</strong> If a team is happy with Kotlin and Spring, their services run fine and nothing really hurts, a rewrite mostly means risk and effort. We had concrete problems, like painful tooling for our Lambdas and Spring behaving unpredictably at runtime. We picked Rust because it solved those.</p>
+<p>That said, I’ve become a lot more bullish on Rust as a default lately. For our kind of backend I see Rust clearly ahead of Java, Kotlin and Go, because none of them gives you an expressive type system, errors as values and no garbage collector all at once. And one of the big arguments against Rust, <a href="/blog/flattening-rusts-learning-curve/">the learning curve</a>, matters less every month. With agentic workflows you write fewer lines yourself. I’d even say Rust is one of the best languages for agents. The type system and the very descriptive compiler errors give an agent fast and precise feedback. It changes something, the compiler says exactly what’s wrong, it fixes it. Agents love that loop. What’s good for devs turns out to be good for agents too 😉</p>
+<hr />
+<h2 id="a-few-less-serious-questions"><a class="zola-anchor" href="#a-few-less-serious-questions" aria-label="Anchor link for: a-few-less-serious-questions">A Few Less Serious Questions</a></h2>
+<p>All right. Short answers now.</p>
+<p><strong>Q: Rust feature you initially hated but now love?</strong></p>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/reference/macros-by-example.html"><code>macro_rules!</code></a>. It was very confusing at first, but once you grok the syntax, it lets you get rid of a lot of boilerplate. For instance, we use it to generate lots of <em>newtype</em> structs.</p>
+<p><strong>Q: Rust feature you still hate? 😉</strong></p>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://doc.rust-lang.org/std/pin/struct.Pin.html"><code>Pin</code></a>. I know there are good reasons for it to exist, but as a lowly app developer, every time I see it pop up somewhere, I know I’m in trouble 😆</p>
+<p><strong>Q: One thing Java or Kotlin still does better than Rust?</strong></p>
+<p>The Kafka ecosystem is a lot more mature in the JVM world. In Rust, <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/fede1024/rust-rdkafka"><code>rdkafka</code></a> is pretty much the only viable option, and it’s just a wrapper around the native C library. That causes some issues with compile times and cross-compilation.</p>
+<p><strong>Q: Most underrated crate?</strong></p>
+<p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/oxidecomputer/typify">typify</a> and <a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://github.com/compio-rs/compio">compio</a></p>
+<p><strong>Q: How many crab-related items are currently visible in your office?</strong></p>
+<p>We obviously have a crab plushie. It was actually caught attacking the mascot of our sister team, which builds a lot of OTTO-internal JVM tooling. Their mascot is a symbol for that.</p>
+<p><img src="https://notes.corrode.dev/uploads/upload_9b51b59bb26493463974e21a703f6f64.JPG" alt="The crab plushie attacking the sister team’s mascot." /></p>
+<p><strong>That was fun! Thanks for the interview, Falk.</strong></p>
+<div class="info">
+  <div class="info-header">
+      <span class="icon icon-crab"></span>
+    <p class="callout-label">Planning a Rust migration?</p>
+  </div>
+  <p>Thinking about introducing Rust into your backend? We help teams assess where Rust makes sense and migrate incrementally, without rewriting everything at once. <a href="/services/">Learn about our Rust consulting services</a>.</p>
+</div>
+    </section>
+  </div>
+
+  <footer class="article-footer skew-top skew-top-reverse">
+    <div class="article-footer-inner">
+    
+    <div class="article-resources prose">
+      <h2>Additional Resources</h2>
+      <ul>
+        
+        <li><p><a class="external-link" rel="noopener noreferrer external" target="_blank" href="https://www.otto.de/jobs/en/blogs/techblog/rust-migration-lambdas-microservices/">OTTO’s Rust migration: Lambdas and microservices</a>: the original OTTO tech blog post</p>
+</li>
+        
+        <li><p><a href="/blog/named-arguments-at-home/">We Have Named Arguments at Home</a>: avoiding mistakes with interchangeable function arguments</p>
+</li>
+        
+        <li><p><a href="/blog/bugs-rust-wont-catch/">Bugs Rust Won’t Catch</a>: where Rust’s safety guarantees end</p>
+</li>
+        
+        <li><p><a href="/blog/flattening-rusts-learning-curve/">Flattening Rust’s Learning Curve</a>: practical approaches to learning Rust</p>
+</li>
+        
+      </ul>
+    </div>
+     
+    
+
+    <div class="social">
+      <div class="share-icons"><a
+  href="https://mastodonshare.com/?text=https%3A//corrode.dev/blog/otto-rust-interview/+%0A%23rust"
+  title="Share on Mastodon"
+  target="_blank"
+  rel="noopener"
+>
+  <svg
+    width="32px"
+    height="32px"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M480 174c0-105-68-135-68-135-35-16-94-22-155-23h-2c-61 1-120 7-155 23 0 0-68 30-68 135v82c3 102 19 202 113 227 44 12 81 14 111 13 55-3 85-20 85-20l-2-39s-39 12-82 10c-44-1-89-4-96-57a108 108 0 0 1-1-15 559 559 0 0 0 96 13c33 1 64-2 95-6 60-7 113-44 119-78 11-54 10-130 10-130Zm-81 134h-50V185c0-25-10-39-32-39-24 0-36 16-36 47v67h-50v-67c0-31-12-47-36-47-22 0-32 14-32 39v123h-50V182q0-39 19-62c14-15 32-23 54-23 25 0 45 10 58 30l12 21 12-21c13-20 33-30 58-30 22 0 40 8 54 23q20 23 19 62Z"
+    ></path>
+  </svg>
+</a>
+<a
+  href="https://reddit.com/r/rust/submit?url=https%3A//corrode.dev/blog/otto-rust-interview/&amp;title=Why%20OTTO%20Chose%20Rust"
+  onclick="window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+  title="Share on Reddit"
+  rel="noopener"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <path
+      d="M6.24 9.6c-.158 0-.313-.0469-.444-.135s-.234-.213-.295-.359c-.0606-.146-.0764-.307-.0455-.462.0309-.155.107-.298.219-.41s.254-.188.41-.219c.155-.0309.316-.0151.462.0455.146.0605.271.163.359.295.0879.132.135.286.135.444 0 .105-.0207.209-.0609.306-.0402.0971-.0991.185-.173.26s-.162.133-.26.173c-.097.0402-.201.0609-.306.0609zM16 8c0 1.58-.469 3.13-1.35 4.44-.879 1.32-2.13 2.34-3.59 2.95-1.46.606-3.07.764-4.62.455-1.55-.309-2.98-1.07-4.1-2.19-1.12-1.12-1.88-2.54-2.19-4.1-.309-1.55-.15-3.16.455-4.62.606-1.46 1.63-2.71 2.95-3.59s2.86-1.35 4.44-1.35c2.12 0 4.16.843 5.66 2.34 1.5 1.5 2.34 3.54 2.34 5.66zm-4.27-1.33c-.276.0162-.536.134-.73.33-.822-.544-1.78-.839-2.77-.85l.56-2.53 1.79.4c-.0013.105.0181.208.0572.305.0392.097.0971.185.171.26s.161.134.258.174c.0965.0403.2.0611.305.0611.213-.00263.417-.0891.566-.241.15-.152.234-.356.234-.569.006-.183-.0517-.362-.163-.507-.112-.145-.27-.247-.448-.288s-.365-.0195-.529.0618c-.164.0812-.294.217-.37.384l-2-.44c-.0476-.00913-.0969.00027-.138.0263s-.0703.0667-.0822.114l-.62 2.79c-.985.0141-1.95.309-2.77.85-.108-.112-.24-.199-.385-.254s-.301-.0793-.456-.0687c-.155.0105-.306.0547-.443.13-.136.0749-.255.179-.347.304-.0922.125-.156.269-.187.422s-.028.31.00821.461.105.293.202.415.219.222.358.292c-.0153.166-.0153.334 0 .5 0 1.69 1.91 3.07 4.26 3.07 2.35 0 4.26-1.38 4.26-3.07.0004-.172-.0198-.343-.06-.51.202-.114.362-.292.454-.505.0926-.213.113-.45.0592-.676-.0542-.226-.18-.428-.36-.576-.179-.148-.402-.233-.634-.244zm-2.22 3.75c-.449.282-.969.432-1.5.432s-1.05-.15-1.5-.432c-.0369-.0337-.085-.0524-.135-.0524s-.0981.0187-.135.0524c-.0194.0178-.0349.0394-.0455.0635s-.016.0502-.016.0765.0054.0524.016.0765.0261.0457.0455.0635c.525.356 1.15.547 1.78.547s1.25-.19 1.78-.547c.0194-.0178.0349-.0394.0455-.0635s.0161-.0502.0161-.0765-.0055-.0524-.0161-.0765-.0261-.0457-.0455-.0635c-.0187-.0197-.0412-.0353-.0661-.046s-.0518-.0163-.0789-.0163-.054.0056-.0789.0163-.0474.0263-.0661.046zM9.76 8c-.158 0-.313.0469-.444.135-.132.0879-.234.213-.295.359-.0605.146-.0764.307-.0455.462.0308.155.107.298.219.41s.254.188.41.219c.155.0309.316.0151.462-.0455.146-.0605.271-.163.359-.295.0879-.132.135-.286.135-.444 0-.212-.0843-.416-.234-.566s-.353-.234-.566-.234z"
+    />
+  </svg>
+</a>
+
+<a
+  href="https://news.ycombinator.com/submitlink?u=https%3A//corrode.dev/blog/otto-rust-interview/&amp;t=Why%20OTTO%20Chose%20Rust"
+  target="_blank"
+  title="Share on Hacker News"
+  rel="noopener"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <path
+      d="M32 32v448h448V32Zm249.67 250.83v84H235v-84l-77-140h55l46.32 97.54 44.33-97.54h52.73Z"
+    />
+  </svg>
+</a>
+
+<a href="/rss.xml" target="_blank" rel="noopener" title="Subscribe to RSS feed">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    image-rendering="optimizeQuality"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    viewBox="0 0 640 640"
+  >
+    <path
+      d="M116 449c-40.8 0-73.9 33.2-73.9 73.7 0 40.7 33.1 73.6 73.9 73.6 40.9 0 74-32.9 74-73.6 0-40.5-33.1-73.7-74-73.7zM42.2 231v106c69.3 0 134 27.1 183 76.2 49 48.9 76 114 76 184h107c0-202-164-366-366-366v-.0312zm.133-189v106c247 0 448 201 448 449l107 .0104c0-306-249-555-555-555z"
+    />
+  </svg>
+</a>
+</div>
+      <div class="editor-credits"><article class="metadata">
+    <div class="published">
+        <time datetime="2026-11-18">
+            Published: 2026-11-18
+        </time>
+    </div>
+
+    <div>
+        <a
+            href="https://github.com/corrode/corrode.github.io/commits/master/content/blog/otto-rust-interview/"
+            >Revision history</a
+        >
+    </div>
+
+    <div class="authors">
+        <span>Author:</span>
+        <a href="/services">Matthias Endler</a>
+    </div>
+
+    <div class="editor">
+        <span>Editor:</span>
+        <a
+            href="https://hachyderm.io/@m3t0r"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Simon Brüggen
+        </a>
+    </div>
+
+     
+</article>
+</div>
+    </div>
+
+    <div class="topbox">&uarr; <a href="#top">Back to top</a></div>
+    </div>
+  </footer>
+</article>
+
+        </main>
+    
+    </div>
+
+    <footer class="site-footer">
+    <section class="newsletter-callout skew-top" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="newsletter-inner">
+    <h2 class="callout-title" id="newsletter-title">Idiomatic Rust content. Straight to your inbox.</h2>
+    <p>
+        I regularly write new articles on idiomatic Rust. If you want to be
+        notified when I publish them, you should sign up to my newsletter here.
+        No spam. Unsubscribe at any time.
+    </p>
+    <div id="newsletter-subscription">
+        <form
+            id="newsletter-form"
+            action="https://newsletter.corrode.dev/subscribe"
+            method="post"
+        >
+            <label for="tlemail" class="visually-hidden">Email</label>
+            <input
+                id="tlemail"
+                type="email"
+                name="email"
+                placeholder="mail@example.com"
+                autocomplete="email"
+                required
+            />
+            <!-- honeypot: hidden from humans, irresistible to bots -->
+            <input
+                type="text"
+                name="hpfield"
+                style="display: none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+            <button type="submit" id="newsletter-submit" disabled>
+                Subscribe
+            </button>
+            <div id="newsletter-turnstile"></div>
+            <p id="newsletter-status" role="status" aria-live="polite"></p>
+        </form>
+    </div>
+  </div>
+</section>
+
+<script>
+    (() => {
+        const container = document.getElementById("newsletter-subscription");
+        const form = document.getElementById("newsletter-form");
+        const email = document.getElementById("tlemail");
+        const submit = document.getElementById("newsletter-submit");
+        const challenge = document.getElementById("newsletter-turnstile");
+        const status = document.getElementById("newsletter-status");
+        if (!container || !form || !email || !submit || !challenge || !status)
+            return;
+
+        const local = ["localhost", "127.0.0.1", "0.0.0.0", "[::1]"].includes(
+            window.location.hostname,
+        );
+        let loading = false;
+        let widgetId = null;
+        const disableSubmit = () => {
+            submit.disabled = true;
+        };
+        const loadTurnstile = () => {
+            if (loading || widgetId !== null) return;
+            loading = true;
+            const script = document.createElement("script");
+            script.src =
+                "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+            script.async = true;
+            script.onload = () => {
+                widgetId = window.turnstile.render(challenge, {
+                    sitekey: local
+                        ? "1x00000000000000000000AA"
+                        : "0x4AAAAAAEdVZvjmk2hw9PFR",
+                    action: "newsletter",
+                    appearance: "interaction-only",
+                    theme: "auto",
+                    callback: () => {
+                        submit.disabled = false;
+                        status.textContent = "";
+                    },
+                    "expired-callback": disableSubmit,
+                    "timeout-callback": disableSubmit,
+                    "error-callback": () => {
+                        disableSubmit();
+                        status.textContent =
+                            "Verification failed. Please try again.";
+                    },
+                });
+            };
+            script.onerror = () => {
+                loading = false;
+                status.textContent =
+                    "Verification could not be loaded. Please try again.";
+            };
+            document.head.appendChild(script);
+        };
+
+        const showError = (message) => {
+            status.textContent =
+                message ||
+                "There was a problem with your subscription. Please try again.";
+            submit.textContent = "Subscribe";
+            disableSubmit();
+            window.turnstile.reset(widgetId);
+        };
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            disableSubmit();
+            submit.textContent = "Subscribing…";
+            status.textContent = "";
+
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: new URLSearchParams(new FormData(form)),
+                });
+                const message = (await response.text()).trim();
+                if (!response.ok) {
+                    showError(message);
+                    return;
+                }
+
+                status.textContent = message
+                    ? `🎉 ${message}`
+                    : "🎉 You’re in! Please check your inbox.";
+                container.replaceChildren(status);
+            } catch {
+                showError();
+            }
+        });
+
+        email.addEventListener("focus", loadTurnstile);
+        email.addEventListener("input", loadTurnstile);
+    })();
+</script>
+
+    <div class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h2>Offerings</h2>
+                <ul class="footer-links">
+                    <li><a href="/services/">For Teams</a></li>
+                    <li><a href="/mentorship/">For Individuals</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Resources</h2>
+                <ul class="footer-links">
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="/podcast">Podcast</a></li>
+                    <li><a href="/workshops/">Workshops</a></li>
+                    <li><a href="/blog/why-rust/">Why Rust?</a></li>
+                    <li><a href="/learn/case-studies/">Case Studies</a></li>
+                    <li><a href="/blog/rust-conferences-2025/">Conferences</a></li>
+                    <li>
+                        <a href="/blog/idiomatic-rust-resources/"
+                            >Learning Resources</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Tools</h2>
+                <ul class="footer-links">
+                    <li>
+                        <a href="https://course.corrode.dev/" rel="noreferrer"
+                            >Learn Rust</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://search.corrode.dev/" rel="noreferrer"
+                            >Rust Search</a
+                        >
+                    </li>
+                    <li>
+                        <a href="https://tools.corrode.dev/" rel="noreferrer"
+                            >Rust Tool Index</a
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Migration Guides</h2>
+                <ul class="footer-links">
+                    <li>
+                        <a href="/learn/migration-guides/python-to-rust/">Python</a>
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/typescript-to-rust/"
+                            >TypeScript</a
+                        >
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/java-to-rust/">Java</a>
+                    </li>
+                    <li>
+                        <a href="/learn/migration-guides/scala-to-rust/">Scala</a>
+                    </li>
+                    <li><a href="/learn/migration-guides/cpp-to-rust/">C++</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h2>Company</h2>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/corrode">GitHub</a></li>
+                    <li>
+                        <a href="https://www.linkedin.com/company/corrode/"
+                            >LinkedIn</a
+                        >
+                    </li>
+                    <li><a href="/legal/">Legal Notice</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <script>
+        function getPreferredColorScheme() {
+            let systemScheme = 'light';
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+            let chosenScheme = systemScheme;
+
+            if (localStorage.getItem("scheme")) {
+                chosenScheme = localStorage.getItem("scheme");
+            }
+
+            if (systemScheme === chosenScheme) {
+                localStorage.removeItem("scheme");
+            }
+
+            return chosenScheme;
+        }
+
+        function savePreferredColorScheme(scheme) {
+            let systemScheme = 'light';
+
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                systemScheme = 'dark';
+            }
+
+            if (systemScheme === scheme) {
+                localStorage.removeItem("scheme");
+            }
+            else {
+                localStorage.setItem("scheme", scheme);
+            }
+        }
+
+        function toggleColorScheme() {
+            let newScheme = "light";
+            let scheme = getPreferredColorScheme();
+            if (scheme === "light") {
+                newScheme = "dark";
+            }
+
+            applyPreferredColorScheme(newScheme);
+            savePreferredColorScheme(newScheme);
+        }
+
+        const originalThemeMedia = new WeakMap();
+
+        function applyPreferredColorScheme(scheme) {
+            function themedMedia(owner, mediaText) {
+                if (!originalThemeMedia.has(owner)) {
+                    originalThemeMedia.set(owner, mediaText);
+                }
+                // Always start from the original query so repeated toggles preserve
+                // responsive conditions, comma-separated alternatives, and negation.
+                return originalThemeMedia.get(owner).replace(
+                    /\(prefers-color-scheme:\s*(light|dark)\)/gi,
+                    (_, preference) => preference.toLowerCase() === scheme
+                        ? '(min-width: 0px)'
+                        : '(not (min-width: 0px))'
+                );
+            }
+
+            function applyRules(rules) {
+                for (const rule of rules) {
+                    if (rule.media) {
+                        rule.media.mediaText = themedMedia(rule, rule.media.mediaText);
+                    }
+                    if (rule.cssRules) applyRules(rule.cssRules);
+                }
+            }
+
+            // Link media controls the entire syntax stylesheet, not its CSS rules.
+            // Update the element even if the inactive stylesheet has not loaded yet.
+            for (const link of document.querySelectorAll('link[rel="stylesheet"][media]')) {
+                link.media = themedMedia(link, link.media);
+            }
+            for (const sheet of document.styleSheets) {
+                let rules;
+                try {
+                    rules = sheet.cssRules;
+                } catch (e) {
+                    // Cross-origin stylesheets do not expose their rules.
+                    continue;
+                }
+                applyRules(rules);
+            }
+
+            if (scheme === "dark") {
+                document.getElementById("icon-moon").style.display = 'inline';
+                document.getElementById("icon-sun").style.display = 'none';
+            } else {
+                document.getElementById("icon-sun").style.display = 'inline';
+                document.getElementById("icon-moon").style.display = 'none';
+            }
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', toggleColorScheme);
+        applyPreferredColorScheme(getPreferredColorScheme());
+    </script>
+</body>
+</html>
