@@ -456,8 +456,9 @@ sccache --show-stats
 
 There's an important catch: [sccache cannot cache incremental Rust compilations](https://github.com/mozilla/sccache/blob/main/docs/Rust.md).
 It also doesn't cache invocations that run the system linker, such as your final
-binary. Compare its cache hits against your normal incremental workflow before
-making this a global setting. For CI, account for cache transfer time too.
+binary. 
+Before making this a global setting, compare the cache hits against your normal incremental workflow.
+For CI, account for cache transfer time too.
 
 ### Cranelift: The Alternative Rust Compiler
 
@@ -487,8 +488,7 @@ builds.
 
 Check the project's [platform support and limitations](https://github.com/rust-lang/rustc_codegen_cranelift#platform-support)
 before adopting it. SIMD support is incomplete, and panic unwinding has
-limitations. Treat it as an experiment for your development loop, not a blanket
-replacement for LLVM.
+limitations. Treat it as an experiment for your development loop and not a full replacement for LLVM.
 
 ### Switch To A Faster Linker
 
@@ -556,9 +556,9 @@ Wild's goal includes incremental linking, but **that feature isn't implemented
 yet**. Check its current platform and feature support before adopting it;
 it isn't a drop-in recommendation for macOS or Windows.
 
-On macOS, start by updating Xcode Command Line Tools. The old
-[`zld`](https://github.com/michaeleisel/zld) recommendation is obsolete; its own
-README recommends Apple's newer linker instead.
+On macOS, start by updating Xcode Command Line Tools.
+In the past, people recommended [`zld`](https://github.com/michaeleisel/zld), but it is no longer maintained. 
+The zld README recommends using Apple's new linker instead.
 
 ### macOS Only: Faster Incremental Debug Builds
 
@@ -606,10 +606,8 @@ To improve Rust compilation speed, move these to a Dev Drive:
 - Your project code
 - Cargo's `target` directory 
 
-Prefer [Microsoft Defender's performance mode for Dev Drive](https://learn.microsoft.com/en-us/windows/dev-drive/)
-over broad antivirus exclusions. Excluding source, downloaded dependencies, and
-build tools from scanning weakens protection; don't make that a default build
-optimization.
+Prefer [Microsoft Defender's performance mode for Dev Drive](https://learn.microsoft.com/en-us/windows/dev-drive/) over broad antivirus exclusions. Keep in mind that excluding source, downloaded dependencies, and
+build tools from scanning weakens protection, so be selective about what you exclude.
 
 Thanks to the [nextest team](https://nexte.st/docs/installation/windows/) for the tip.
 
@@ -829,9 +827,8 @@ RUSTFLAGS="-Zunstable-options --jobs-frontend=8" cargo +nightly check
 RUSTFLAGS="-Zunstable-options --jobs-frontend=1" cargo +nightly check
 ```
 
-Repeat each configuration with the same kind of source edit. Changing flags
-itself invalidates cached artifacts, so comparing a cold first run with a warm
-second run won't tell you much.
+Repeat each configuration with the same source edit.
+Merely changing flags itself invalidates cached artifacts, so comparing a cold first run with a warm second run won't tell you much.
 
 If you find that it works well for you, you can add the flags to your project's
 `.cargo/config.toml`:
@@ -841,8 +838,8 @@ If you find that it works well for you, you can add the flags to your project's
 rustflags = ["-Zunstable-options", "--jobs-frontend=8"]
 ```
 
-This requires nightly. Avoid adding it to your global config, where it would also
-affect projects using stable.
+Be warned that this requires nightly!
+Avoid adding it to your global config, where it would also affect projects using stable.
 
 This is different from Cargo's `-j` option, which controls build jobs across
 crates. Frontend parallelism works within a rustc process. More threads can also
@@ -873,12 +870,11 @@ A fast local SSD is another option. You can choose another output directory with
 Since Cargo 1.91, [`build.build-dir`](https://doc.rust-lang.org/cargo/reference/config.html#buildbuild-dir)
 can put intermediate artifacts elsewhere while leaving final binaries in the
 target directory. Cargo 1.100 also changed the [intermediate artifact layout](https://doc.rust-lang.org/cargo/reference/build-cache.html).
-Neither change means that sharing a directory automatically gives you a
-cross-workspace compilation cache. Avoid scripts that depend on Cargo's internal
-artifact paths.
 
-Treat an in-memory build directory as temporary storage: its build cache will be
-lost when the filesystem is cleared. Keep source code on durable storage.
+
+That doesn't mean that sharing a directory automatically makes the compilation cache available across workspaces. 
+
+Treat an in-memory build directory as temporary storage: the build cache will be lost when the filesystem is cleared. Keep source code on durable storage instead.
 
 ### Invest In Better Hardware
 
