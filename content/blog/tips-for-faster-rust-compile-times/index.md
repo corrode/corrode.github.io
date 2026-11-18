@@ -1205,9 +1205,24 @@ services](https://earthly.dev/blog/shutting-down-earthfiles-cloud/), with Earthl
 Cloud and Satellites shutting down on July 16, 2025.
 
 The underlying idea still holds: persistent build workers can keep caches close
-to the compiler instead of uploading and downloading them for every job. But
-choose a maintained solution, and compare the operational cost with the time it
-saves. For a simpler Docker setup, start with `cargo-chef` above.
+to the compiler instead of uploading and downloading them for every job.
+Maintained alternatives include:
+
+- [Depot](https://depot.dev/docs/container-builds/overview) provides paid remote
+  BuildKit builders with persistent caches. If you already use Dockerfiles, its
+  [Rust example](https://depot.dev/docs/container-builds/optimal-dockerfiles/rust-dockerfile)
+  shows how to combine `cargo-chef` and `sccache`.
+- [Dagger](https://docs.dagger.io/self-hosting/) lets you write build pipelines in
+  code and run them on a persistent engine. You can host the engine yourself or
+  use paid Dagger Cloud engines. It requires rewriting your pipeline; it isn't a
+  drop-in replacement for Earthfiles.
+- [Self-hosted BuildKit](https://github.com/moby/buildkit) keeps you in control of
+  the builders and their storage, but you also handle maintenance and cache
+  cleanup. Keep the builder's disk persistent: [cache mounts aren't preserved by
+  default on fresh GitHub Actions runners](https://docs.docker.com/build/ci/github-actions/cache/).
+
+For a simpler Docker setup, start with `cargo-chef` above. Remote builders are
+worth considering when the time saved justifies the service or maintenance cost.
 
 ## IDE-Specific Optimizations
 
