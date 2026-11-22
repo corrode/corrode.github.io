@@ -10,6 +10,7 @@ series = "Idiomatic Rust"
 
 A good metric for ergonomic API design is how much of a program you have to keep in your head at once to know what's going on. 
 It's empowering if you can understand a function by its type signature and get immediate feedback on whether you used it correctly.
+
 Other times, it feels like you're a code archaeologist:
 Was this value validated before?
 Is it safe to retry this call?
@@ -47,10 +48,8 @@ Actually, if you know Rust's lifetime elision rules, you know that the real sign
 fn first_line<'text>(text: &'text str) -> Option<&'text str>
 ```
 
-The input is tied to the output.
-That implies that the caller can't keep using the returned string after the borrow of `text` has ended.
-And by extension, the function can't return a temporary string either.
-The function is not making any long-lived allocations.
+The returned reference is constrained by the input's lifetime, so the caller can't keep using it after that borrow ends.
+The function can't return a reference to a local `String` that gets dropped when the function returns.
 
 That's a lot of useful information for just one function header! 
 
@@ -59,19 +58,28 @@ Take the function name: it suggests that the function returns "the first line of
 However, the type system does not enforce that. 
 It could return the last line for all we know, and the signature would be identical. 
 
-The function header also won't tell us whether anything is logged, how it performs, or whether it panics. 
+The function header also won't tell us whether anything is allocated or logged, how it performs, or whether it panics.
+
+For `first_line`, this signature is a good fit if any string is valid input and having no lines is an ordinary outcome.
+
+## Good API Design Makes Constraints Explicit
 
 Rust is often described as an explicit language.
 Yet it also uses type inference, lifetime elision, automatic borrowing of method receivers, and implicit coercions.
 That's because writing everything out would make many programs [harder to read](/blog/ugly).
-What you should make explicit depends on your context.
+The lesson is that what you should make explicit depends on your context.
 
-A good rule of thumb when designing an API is to look for relationships that callers would otherwise have to keep in their heads. 
-Does your function really take any `&str`, or does it expect a string that has been validated in some way?
-For example, is an empty string valid input? 
-What does `None` mean in the return value?
-Should it be treated as an error, or is it a valid case?
-Should it be a `Result` instead? 
+When designing your own APIs, look for relationships that callers would otherwise have to keep in their heads.
+
+Two examples:
+
+- Does your function really take *any* `&str`, or does it expect a string that
+  has been validated in some way? For example, is an empty string valid input?
+  If not, consider a newtype with a constructor that enforces the invariant.
+- What does `None` mean in the return value? Should it be treated as an error,
+  or is it a valid case?
+  Maybe you'd like to create your own enum to represent the different outcomes more explicitly.
+
 Good function signatures tell a story about the relationships between inputs and outputs.
 
 ## Keep Consequential Choices Visible
@@ -97,10 +105,10 @@ inspect(&text);
 ```
 
 The compiler applies a deref coercion automatically.
-I think that's a good compromise: the ownership decision is still visible, but the compiler handles the bookkeeping.
+I think that's a good compromise: the ownership decision is still visible, but the compiler takes care of the mechanical conversion from `&String` to `&str`.
 
 Some people argue that we could go one step further.
-Why not automatically borrow an owned argument in an ordinary function call?
+Why not *automatically* borrow an owned argument in an ordinary function call?
 We could then write `inspect(text)` instead of `inspect(&text)`, which seems convenient.
 But, as always, there's a cost to convenience.
 Saving the `&` would remove information readers currently get from the expression itself: that the value does not move.[^deref]
