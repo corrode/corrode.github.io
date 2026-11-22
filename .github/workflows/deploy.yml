@@ -37,6 +37,11 @@ jobs:
         if: github.event_name == 'pull_request'
         run: zola build --drafts
 
+      - name: Check social images
+        run: |
+          python3 -B scripts/test-social-images.py
+          python3 scripts/check-social-images.py public
+
       - name: Validate HTML
         run: >-
           npx --yes --package vnu-jar@26.8.21 vnu
