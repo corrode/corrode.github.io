@@ -117,7 +117,7 @@ In Java, defensive programming requires null checks at every public interface. I
 
 **Rust doesn't have class inheritance at all.** There's no equivalent to extending a class in Java. Instead, Rust uses traits, which are much closer to Java interfaces than to inheritance.
 
-This is actually the better approach. [Even James Gosling, Java's creator, has said he would have preferred pure interfaces over class inheritance if he could redesign Java.](https://softwareengineering.stackexchange.com/a/370519) Rust implements this vision through traits. You can even have trait inheritance by requiring one trait to implement another, but it's all trait-based composition rather than implementation inheritance.
+This is actually the better approach. [Even James Gosling, Java's creator, has said he would have preferred pure interfaces over class inheritance if he could redesign Java.](https://softwareengineering.stackexchange.com/questions/207126/explanation-of-the-definition-of-interface-inheritance-as-described-in-gof-book/370519#370519) Rust implements this vision through traits. You can even have trait inheritance by requiring one trait to implement another, but it's all trait-based composition rather than implementation inheritance.
 
 **Traits encourage more flexible and maintainable code design.** Rather than building rigid inheritance hierarchies, you **compose behavior** through trait implementations. This leads to systems that are easier to test, modify, and extend.
 
@@ -163,7 +163,7 @@ Pick a small, non-critical part of your application for the [first Rust implemen
 
 2. **Prepare Your Team**  
 Don't just decide this for your developers—decide together. Get the team ready with training or external expertise, and focus on integration with your existing Java system. Rust will likely need new dependencies, so research the ecosystem and be ready to roll up your sleeves to contribute if necessary.
-Take a look at [blessed.rs](https://blessed.rs), [lib.rs](https://lib.rs/std), and [awesome-rust](https://github.com/rust-unofficial/awesome-rust) for a curated list of libraries. 
+Take a look at [blessed.rs](https://blessed.rs/crates), [lib.rs](https://lib.rs/std), and [awesome-rust](https://github.com/rust-unofficial/awesome-rust) for a curated list of libraries.
 
 3. **Evaluate Dependencies Upfront**  
 Consider potential constraints like proprietary tools or databases that may complicate integration with Rust. Make sure the libraries you need are available, or be prepared to write your own.
@@ -229,7 +229,7 @@ The tooling is best in class, mature and easy to adopt. Here's how it stacks up:
 - **IDEs**: Rust's integration with VS Code and IntelliJ (via rust-analyzer) is seamless, making it easy for your developers to dive right in.
 - **CI/CD**: GitHub Actions and other CI tools work beautifully with Rust, with dedicated actions for testing and deployment.
 - **Debugging**: Debugging tools work out of the box, and IDE integrations are robust by now. 
-- **Linting and Formatting**: [Rustfmt](https://rust-lang.github.io/rust-clippy/) and [clippy](https://rust-lang.github.io/rust-clippy/stable/index.html) ensure consistent code style and catch common errors early. They actively help your team write better code.
+- **Linting and Formatting**: [Rustfmt](https://clippy.rust-lang.org/) and [clippy](https://clippy.rust-lang.org/stable/index.html) ensure consistent code style and catch common errors early. They actively help your team write better code.
 
 However, also consider the constraints and risks your project might face—proprietary tools, unusual databases, or special dependencies.
 Do the research upfront to avoid surprises.

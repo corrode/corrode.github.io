@@ -47,7 +47,7 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 - [Discord Blog: Why Discord is switching from Go to Rust](https://discord.com/blog/why-discord-is-switching-from-go-to-rust) - Always the #1 result in searches for Rust migrations
 - [Radar Blog: Introducing HorizonDB](https://radar.com/blog/introducing-horizondb) - A really nice write up of Horizon's architecture
 - [RocksDB](https://rocksdb.org/) - The primary storage layer used in HorizonDB
-- [MyRocks](https://github.com/facebook/mysql-5.6) - A MySQL Storage Engine using RocksDB, written by Facebook
+- [MyRocks](https://github.com/meta/mysql-5.6) - A MySQL Storage Engine using RocksDB, written by Facebook
 - [MongoRocks](https://github.com/mongodb-partners/mongo-rocks) - A MongoDB Storage Layer using RocksDB
 - [CockroachDB](https://www.cockroachlabs.com/) - PostgreSQL compatible, distributed, SQL Database
 - [InfluxDB](https://www.influxdata.com/) - A timeseries database that used RocksDB at one point, and our very first guest in this Podcast!
@@ -63,7 +63,7 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 - [Wikipedia: Trie](https://en.wikipedia.org/wiki/Trie) - A tree-structure using common prefixes
 - [Wikipedia: Levenshtein Distance](https://en.wikipedia.org/wiki/Levenshtein_distance) - The number of letters you have to change, add, or remove to turn word a into word b
 - [tantivy](https://github.com/quickwit-oss/tantivy) - A full-text search engine, written in Rust, inspired by Lucene
-- [LightGBM](https://github.com/microsoft/LightGBM) - A gradient boosted tree, similar to a decision tree
+- [LightGBM](https://github.com/lightgbm-org/LightGBM) - A gradient boosted tree, similar to a decision tree
 - [fastText](https://fasttext.cc/) - A text classification library from Meta
 - [Wikipedia: Inverted Index](https://en.wikipedia.org/wiki/Inverted_index) - An index used for e.g. full text search
 - [Wikipedia: Okapi BM25](https://en.wikipedia.org/wiki/Okapi_BM25) - The ranking algorithm used in tantivy
@@ -76,5 +76,5 @@ Jeff Kao is a Staff Engineer at Radar, where he led the development of HorizonDB
 
 - [Radar](https://radar.com/)
 - [Radar Blog](https://radar.com/blog)
-- [Radar Documentation](https://radar.com/documentation)
+- [Radar Documentation](https://docs.radar.com/)
 - [Jeff Kao on LinkedIn](https://www.linkedin.com/in/jeffreykao/)

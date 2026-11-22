@@ -48,7 +48,7 @@ Victor is a well-known C++ expert leading Microsoft's Rust adoption efforts. His
 - [Mu](https://github.com/microsoft/mu) - Open Source UEFI implementation in Rust
 - [Caliptra](https://github.com/chipsalliance/Caliptra) - Hardware Root of Trust implementation
 - [Azure Cloud HSM](https://learn.microsoft.com/en-gb/azure/cloud-hsm/overview) - Hardware Security Module using Rust
-- [HyperV](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/hyper-v-overview) - Microsoft's Hypervisor
+- [HyperV](https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/overview) - Microsoft's Hypervisor
 - [Google Security Study on using Rust](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html) - Research on memory safety improvements
 - [COM](https://en.wikipedia.org/wiki/Component_Object_Model) - The "grandfather of all inter-op technology"
 - [Direct Write Core](https://learn.microsoft.com/en-us/windows/win32/directwrite/dwritecore-overview) - Microsoft's text rendering implementation in Rust
@@ -56,12 +56,12 @@ Victor is a well-known C++ expert leading Microsoft's Rust adoption efforts. His
 - [LWN Article: Rust/Linux fallout](https://lwn.net/Articles/1006805/) - Discussion about Rust integration into the Linux kernel
 - [clippy](https://github.com/rust-lang/rust-clippy) - Static Analyzer for Rust code
 - [ABI Resilience](https://www.youtube.com/watch?v=EpJWD6HowKc) - Victor's talk at Rust Nation UK
-- [MSBuild](https://learn.microsoft.com/en-gb/visualstudio/msbuild/msbuild) - Microsoft's build tool
+- [MSBuild](https://learn.microsoft.com/en-gb/visualstudio/msbuild/msbuild?view=visualstudio) - Microsoft's build tool
 - [Miri](https://github.com/rust-lang/miri) - An interpreter for Rust's mid-level intermediate representation
 
 ### Official Links
 
-- [Microsoft Rust Documentation](https://learn.microsoft.com/en-us/windows/dev-environment/rust/)
+- [Microsoft Rust Documentation](https://learn.microsoft.com/en-us/windows/dev-environment/rust/overview)
 - [Victor Ciura's Blog](https://ciura.ro)
 - [Victor Ciura on Bluesky](https://bsky.app/profile/ciuravictor.bsky.social)
 - [Victor Ciura on Mastodon](https://hachyderm.io/@ciura_victor)

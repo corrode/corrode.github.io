@@ -153,7 +153,7 @@ Simon and me will discuss the results in more detail and see how we can incorpor
 ### Office Hours
 
 If you're interested in the topics we discuss, perhaps you'd like to join our
-[Corrode Office Hours](https://opentalk.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338)
+[Corrode Office Hours](https://meet.mailbox.org/room/9afe744f-5ded-432f-a714-771a699e604d?invite=9225fedc-03c7-4dd3-926f-a1f0d6a3d338)
 every Thursday at 4 PM UTC. Bring your questions, and we'll try to help you out!
 Mark your calendars and join us next time.
 

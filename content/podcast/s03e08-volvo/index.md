@@ -42,7 +42,7 @@ His master's thesis was about System-on-Chip (SoC) design.
 
 - [SPA2](https://en.wikipedia.org/wiki/Volvo_Scalable_Product_Architecture_platform) - The automotive platform using Rust
 - [ASIL](https://en.wikipedia.org/wiki/Automotive_Safety_Integrity_Level) - Automotive Safety Standard
-- [Ferrocene](https://ferrocene.dev/en/) - Rust toolchain for critical systems
+- [Ferrocene](https://ferrocene.dev/) - Rust toolchain for critical systems
 - [Rust 2018](https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html#domain-working-groups) - First edition with support for ARM in stable
 - [Grepit](https://www.grepit.se/) - Contractors who worked with Volvo
 - [UDS](https://en.wikipedia.org/wiki/Unified_Diagnostic_Services) - Universal automotive diagnostic standard
@@ -57,8 +57,8 @@ His master's thesis was about System-on-Chip (SoC) design.
 - [heapless](https://github.com/rust-embedded/heapless) - When you want a heap but only have a stack
 - [AUTOSAR Classic](https://www.autosar.org/standards/classic-platform/) - automotive framework with Rust support
 - [Volvo tech blog: Why Rust is actually good for your car](https://medium.com/volvo-cars-engineering/why-volvo-thinks-you-should-have-rust-in-your-car-4320bd639e09)
-- [Rust is rolling off the Volvo assembly line - Tweede Golf](https://tweedegolf.nl/en/blog/137/rust-is-rolling-off-the-volvo-assembly-line) - Blog post about Volvo Cars using Rust
-- [Safety Critical Rust Consortium](https://github.com/rustfoundation/safety-critical-rust-consortium?tab=readme-ov-file) - Aiming to make Rust a fully viable alternative for safety critical software
+- [Rust is rolling off the Volvo assembly line - Tweede Golf](https://tweedegolf.nl/en/blog/137/rust-is-rolling-off-the-volvo-assembly-line/) - Blog post about Volvo Cars using Rust
+- [Safety Critical Rust Consortium](https://github.com/Safety-Critical-Rust-Consortium/safety-critical-rust-consortium?tab=readme-ov-file) - Aiming to make Rust a fully viable alternative for safety critical software
 
 ### Official Links
 

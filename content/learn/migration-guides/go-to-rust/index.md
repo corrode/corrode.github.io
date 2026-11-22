@@ -752,7 +752,7 @@ They typically have a clear input/output boundary (a queue, a topic) and no shar
 
 ### 3. cgo Is Possible But Painful
 
-You *can* call Rust from Go via cgo, and [there are guides on how to do it](https://blog.arcjet.com/calling-rust-ffi-libraries-from-go/).
+You *can* call Rust from Go via cgo, and [there are guides on how to do it](https://arcjet.com/blog/calling-rust-ffi-libraries-from-go).
 (Reach out if you'd be interested in a guide on this from me.)
 In practice, I rarely recommend it for backend services.
 The build complexity and FFI overhead usually outweigh the benefits compared to "just stand up a Rust service and put it behind a network call."

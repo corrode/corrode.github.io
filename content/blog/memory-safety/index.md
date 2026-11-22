@@ -28,7 +28,7 @@ If you are responsible for software that powers critical infrastructure, handles
 
 Governments around the world are converging on a single message: **memory-unsafe code is a liability**. New regulations, executive guidance, and procurement requirements are making it clear that organizations that don't act now will face increasing legal, financial, and reputational risk.
 
-Rust eliminates the most common class of security vulnerabilities at compile time. That's not a marketing claim but a technical property of the language, [confirmed by Google](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html), [Microsoft](https://msrc.microsoft.com/blog/2019/07/we-need-a-safer-systems-programming-language/), and [the White House](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/).
+Rust eliminates the most common class of security vulnerabilities at compile time. That's not a marketing claim but a technical property of the language, [confirmed by Google](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html), [Microsoft](https://www.microsoft.com/en-us/msrc/blog/2019/07/we-need-a-safer-systems-programming-language), and [the White House](https://bidenwhitehouse.archives.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/).
 
 This post lays out the regulations, the mounting pressure, and why acting now, with expert guidance, is the smartest insurance your organization can buy.
 
@@ -177,7 +177,7 @@ The German Federal Office for Information Security (**BSI**) published [security
 
 This is part of a broader set of security-by-design requirements that the BSI considers essential for NIS-2 compliance, including input validation, encryption, minimizing attack surfaces, and secure coding practices. When a national cybersecurity authority names Rust in its regulatory guidance, that tells you where this is heading.
 
-On top of that, the [**Sovereign Tech Fund**](https://www.sovereigntechfund.de/), backed by the German Federal Ministry for Economic Affairs and Climate Action, has invested directly in [Rust ecosystem development](https://www.sovereigntechfund.de/news/on-rust-memory-safety-open-source-infrastructure).
+On top of that, the [**Sovereign Tech Fund**](https://www.sovereign.tech/), backed by the German Federal Ministry for Economic Affairs and Climate Action, has invested directly in [Rust ecosystem development](https://www.sovereign.tech/news/on-rust-memory-safety-open-source-infrastructure).
 
 ### NIST: Secure Software Development Framework
 

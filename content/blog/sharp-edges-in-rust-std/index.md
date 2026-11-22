@@ -7,7 +7,7 @@ template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 reviews = [ 
-    { name = "Wesley Moore (wezm)", url = "https://www.wezm.net" },
+    { name = "Wesley Moore (wezm)", url = "https://www.wezm.net/v2/" },
     { name = "Eshed Schacham", url = "https://ashdnazg.github.io/" },
     { name = "LeoniePhiline", url = "https://github.com/LeoniePhiline" },
 ]

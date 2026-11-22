@@ -38,7 +38,7 @@ As per tradition, they kick off the year of Rust conferences.
 </button>
 
 - **When**: February 19-20, 2025
-- **Where**: [The Brewery, 52 Chiswell Street, London, EC1Y 4SD, UK](https://maps.app.goo.gl/QakezC3gjkyo7sNr9)
+- **Where**: [The Brewery, 52 Chiswell Street, London, EC1Y 4SD, UK](https://www.google.com/maps/place/The+Brewery/@51.5205131,-0.0936457,16z/data=!3m2!4b1!5s0x48761ca98233a4f1:0x383d126baff9a847!4m6!3m5!1s0x48761ca99b36dc23:0xb8605024f3360e44!8m2!3d51.5205131!4d-0.0910654!16s%2Fg%2F1q6jf9r9j)
 - **Format**: 2 days (workshops + conference)
 - **Focus**: Rust ecosystem and community
 - **Pricing**: 
@@ -50,7 +50,7 @@ As per tradition, they kick off the year of Rust conferences.
 
 ### Rust in Paris (France)
 
-<a href="https://rustinparis.com/" target="_blank">
+<a href="https://www.rustinparis.com/" target="_blank">
   <img src="rustinparis.jpg" alt="Rust in Paris" />
 </a>
 
@@ -58,14 +58,14 @@ As per tradition, they kick off the year of Rust conferences.
 It features 12 speakers, 1 day of talks, and 250 attendees.
 
 - **When**: March 14, 2025
-- **Where**: [Maison.A Verso, 52 rue de la victoire, 75009 Paris - France](https://maps.app.goo.gl/VDAktMFd8KHMeZ36A)
+- **Where**: [Maison.A Verso, 52 rue de la victoire, 75009 Paris - France](https://www.google.com/maps/place/52+Rue+de+la+Victoire,+75009+Paris,+France/@48.8753597,2.3350004,17z/data=!4m6!3m5!1s0x47e66fe3534eb8e3:0x59293ca99e3230f2!8m2!3d48.8753597!4d2.3350004!16s%2Fg%2F11rff8ly9s)
 - **Format**: 1 day conference
 - **Focus**: Building secure, high-performing software with Rust
 - **Pricing**: 
   - Standard: $311 (early bird)
   - Student: $124
 - **CFP**: Closed
-- **Links**: [Website](https://rustinparis.com/) | [Schedule](https://rustinparis.com/schedule)
+- **Links**: [Website](https://www.rustinparis.com/) | [Schedule](https://www.rustinparis.com/schedule)
 
 ### RUSTMEET (Gliwice, Poland)
 
@@ -83,7 +83,7 @@ An event in Poland, actively co-created by Rust enthusiasts.
 </button>
 
 - **When**: March 15-16, 2025
-- **Where**: [Gliwice, Poland](https://maps.app.goo.gl/38cqAgQBnDG7nNvM7)
+- **Where**: [Gliwice, Poland](https://www.google.com/maps/place/Gliwice,+Poland/@50.3107286,12.0540397,5.55z/data=!4m6!3m5!1s0x471130606c66b15f:0x9bbca89f06cbea11!8m2!3d50.2921738!4d18.6673091!16zL20vMGp4MWg)
 - **Format**: 2 days (talks + workshops)
 - **Focus**: Rust programming language
 - **Pricing**: 
@@ -110,7 +110,7 @@ Expect a developer-friendly atmosphere with ~15 expert talks in a single-track f
 </button>
 
 - **When**: March 26, 2025
-- **Where**: [POLIN Conference Centre, Warsaw](https://maps.app.goo.gl/XKR76zuE2D8XbZMp6)
+- **Where**: [POLIN Conference Centre, Warsaw](https://www.google.com/maps/place/Polin+Conference+Center/@52.2495092,20.9933155,17z/data=!3m1!4b1!4m6!3m5!1s0x471ecdeacfac796d:0xffc514bd7c4e9e0b!8m2!3d52.2495092!4d20.9933155!16s%2Fg%2F11g3hc6zsg)
 - **Format**: 1 day conference
 - **Focus**: Rust adoption in Poland and beyond
 - **Pricing**:
@@ -128,7 +128,7 @@ Another first-time event, RUSTAsia is a conference for Rust developers in Asia.
 After many years without a Rust conference in Asia (the last one being RustCon Asia in 2019), the community is excited to have a new event in Hong Kong.
 
 - **When**: March 28, 2025
-- **Where**: [InnoCentre, Kowloon Tong, Hong Kong](https://maps.app.goo.gl/fcQqo9YCpnDgjjnP6)
+- **Where**: [InnoCentre, Kowloon Tong, Hong Kong](https://www.google.com/maps/dir//%E5%89%B5%E6%96%B0%E4%B8%AD%E5%BF%83+%E4%B9%9D%E9%BE%8D%E5%A1%98%E9%81%94%E4%B9%8B%E8%B7%AF72%E8%99%9F/@22.3353142,114.1349692,13z/data=!4m9!4m8!1m0!1m5!1m1!1s0x34040733d1064c37:0x10adc684c3666ee2!2m2!1d114.1761688!2d22.33524!3e0)
 - **Format**: Hybrid (in-person + online)
 - **Focus**: Rust in Asia
 - **Pricing**:
@@ -181,7 +181,7 @@ anniversary of Rust 1.0. All Rustaceans are welcome to attend and submit talks.
 </button>
 
 - **When**: May 12-17, 2025
-- **Where**: [Kinepolis Utrecht](https://maps.app.goo.gl/NfdQrMmPHEpy3ZZMA)
+- **Where**: [Kinepolis Utrecht](https://www.google.com/maps/place/Kinepolis+Utrecht/@52.0862184,5.1019411,17z/data=!3m1!4b1!4m6!3m5!1s0x47c66f612dbf63cd:0x87b8779ccbc68ed5!8m2!3d52.0862184!4d5.1045214!16s%2Fg%2F1hhw94_g9)
 - **Format**: Full week (2 days talks + 1 day workshops + social events)
 - **Focus**: Broad, open to everyone
 - **Pricing** (Early Bird):
@@ -233,13 +233,13 @@ RustForge is the first conference in the Asia/Pacific region that focuses on Rus
 </button>
 
 - **When**: August 27-30, 2025
-- **Where**: [Shed 6, Wellington, New Zealand](https://maps.app.goo.gl/PDbFTB5Gqs5iVmeNA)
+- **Where**: [Shed 6, Wellington, New Zealand](https://www.google.com/maps/place/Shed+6/@-41.2851544,174.7766655,17z/data=!3m1!4b1!4m6!3m5!1s0x6d38af007dc7b483:0x9235d8609c45cd40!8m2!3d-41.2851544!4d174.7792458!16s%2Fg%2F11y2775r48)
 - **Format**: 4 days (2 days workshops + 2 days conference)
 - **Focus**: Community-focused conference with emphasis on hallway track
 - **Pricing**: 
   - Conference: $225
   - Workshops: $425
-  - [Get tickets here](https://rust-forge-2025.lilregie.com/booking/attendees/new)
+  - [Get tickets here](https://rust-forge-2025.lilregie.com/closed)
 - **CFP**: [Closed](https://pretalx.com/rust-forge-2025/cfp) 
 - **Links**: [Website](https://rustforgeconf.com/)
 - **Social**: [Twitter](https://x.com/rustforgeconf) | [LinkedIn](https://www.linkedin.com/company/rustforgeconf/) | [Instagram](https://www.instagram.com/rustforgeconf/) 
@@ -290,7 +290,7 @@ Topics range from cross-platform GUI development to Rust in safety-critical syst
 </button>
 
 - **When**: September 16-18, 2025
-- **Where**: [Tagungswerk, Berlin, Germany](https://maps.app.goo.gl/Q3SzoU7EDJv4kxnHA)
+- **Where**: [Tagungswerk, Berlin, Germany](https://www.google.com/maps/place/Conference+Work/@52.5038185,13.3926564,17z/data=!3m1!4b1!4m6!3m5!1s0x47a851d5a5c5da65:0xaea5fb08c9aa4499!8m2!3d52.5038185!4d13.3952313!16s%2Fg%2F11b62nc8b4)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
 - **Pricing**:
@@ -325,7 +325,7 @@ This time, it's in Paris, France. 🥖
 </button>
 
 - **When**: October 9-10, 2025
-- **Where**: [Cité des Sciences et de l'Industrie, Paris, France](https://maps.app.goo.gl/4SNzfvFVF3VqMDY5A)
+- **Where**: [Cité des Sciences et de l'Industrie, Paris, France](https://www.google.com/maps/place/Cit%C3%A9+des+sciences+et+de+l%E2%80%99industrie/@48.8955983,2.3853247,578m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47e66c32df92aa0f:0x52d157d86ddecf27!8m2!3d48.8955948!4d2.3878996!16zL20vMDliaHY0)
 - **Format**: 2 days talks
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: Event concluded
@@ -343,7 +343,7 @@ The Italian Rust conference traditionally takes place in Florence.
 It's lovingly organized featuring delicious italian food and a great community.
 
 - **When**: November 2-4, 2025 
-- **Where**: [Grand Hotel Mediterraneo Lungarno del Tempio, 44, 50121 Florence, Italy](https://goo.gl/maps/8ZRuugSHEfebowwi7)
+- **Where**: [Grand Hotel Mediterraneo Lungarno del Tempio, 44, 50121 Florence, Italy](https://www.google.com/maps/place/FH55+Grand+Hotel+Mediterraneo/@43.7661521,11.2676959,17z/data=!3m2!4b1!5s0x132a540a8773df87:0xe2edcff48d9e5af4!4m9!3m8!1s0x132a540a7e35d65b:0x3ede620e40acc1cc!5m2!4m1!1i2!8m2!3d43.7661483!4d11.2721806!16s%2Fg%2F1tf4b7wr)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
 - **Pricing**:

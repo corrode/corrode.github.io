@@ -54,7 +54,7 @@ Jessie Frazelle is the CEO of Zoo and a former software engineer at Microsoft, D
 - [Vulkan](https://en.wikipedia.org/wiki/Vulkan) - low-level standardised graphics programming interface
 - [CUDA](https://en.wikipedia.org/wiki/CUDA) - Nvidia's parallel computing interface
 - [nTop](https://www.ntop.com/) - formerly nTopology, implicitly modelling application
-- [Nomad](https://www.nomadproject.io/) - container orchestration software from HashiCorp
+- [Nomad](https://developer.hashicorp.com/nomad) - container orchestration software from HashiCorp
 - [KCL examples](https://github.com/kittyCAD/kcl-samples) - Some examples of the KittyCAD Language
 - [CXX](https://cxx.rs/) - C++/Rust interop
 - [STEP](https://en.wikipedia.org/wiki/ISO_10303) - CAD file format

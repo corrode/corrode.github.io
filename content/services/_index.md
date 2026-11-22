@@ -25,7 +25,7 @@ Tell me about your system and your approximate project timing. I'll reply by ema
 {% <info title="Helping Your Team Own the Code" icon="heart"> %}
 
 <q>He didn't fix the code for us; he created a safe space for us to learn how to fix it ourselves.</q>
-<p style="text-align:right">&mdash; Ernie Prabhakar, Director of Product, <a href="https://www.quiltdata.com/">Quilt Data</a></p>
+<p style="text-align:right">&mdash; Ernie Prabhakar, Director of Product, <a href="https://www.quilt.bio/">Quilt Data</a></p>
 
 {% </info> %}
 
@@ -140,7 +140,7 @@ I'm thankful to be featured in various podcasts and interviews. Here are some of
 
 - SE Radio Interview - [Prototyping in Rust](https://se-radio.net/2025/05/se-radio-670-matthias-endler-on-prototype-in-rust/)
 - Rustacean Station Podcast - [lychee and Open Source Maintenance](https://rustacean-station.org/episode/matthias-endler/)
-- Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust-corrode-oct-23)
+- Filtra.io Interview - [Rust, Open Source, Consulting](https://filtra.io/rust/interviews/corrode-oct-23)
 - RustShip Podcast Episode 5 - [corrode.dev and lychee](https://www.marcoieni.com/2023/11/%EF%B8%8F-corrode.dev-and-lychee-with-matthias-endler-rustship-5/)
 - Engineering Kiosk Podcast - [Der Hype um Rust (German)](https://engineeringkiosk.dev/podcast/episode/98-der-hype-um-rust-mit-matthias-endler/)
 - Working Draft Podcast Revision 569 - [Von Link-Checkern und Rabbit Holes (German)](https://workingdraft.de/569/)
@@ -153,10 +153,10 @@ From time to time I give talks about Rust and open-source software.
 - code.talks 2025, Hamburg, Germany - [Rust Beyond The Hype](https://www.youtube.com/watch?v=AkBnXrKmcvw)
 - Softwerkskammer Cologne Meetup - [Testing in Rust](https://www.meetup.com/softwerkskammer-koln/events/300415441/)
 - inovex Meetup Cologne, Germany - [Rust in Production](https://speakerdeck.com/mre/rust-in-production)
-- FOSDEM 2024, Brussels, Belgium - [The Four Horsemen of Bad Rust Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
+- FOSDEM 2024, Brussels, Belgium - [The Four Horsemen of Bad Rust Code](https://archive.fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/)
 - RustLab 2023, Florence, Italy - [Writing a Link Checker in Rust](https://rustlab.it/talks/lychee-writing-a-link-checker-in-a-weekend-plus-two-short-years)
 - Rust Linz 2023, Linz, Austria - [Writing a Link Checker in Rust](https://www.youtube.com/watch?v=BIguvia6AvM)
-- FrOSCon 2023, Bonn, Germany - [Writing a Link Checker in Rust](https://programm.froscon.org/2023/events/2867.html)
+- FrOSCon 2023, Bonn, Germany - [Writing a Link Checker in Rust](https://media.ccc.de/v/froscon2023-2867-writing_a_link_checker_in_rust_in_a_weekend_plus_two_years)
 - [View Previous Talks →](https://endler.dev/talks/)
 
 

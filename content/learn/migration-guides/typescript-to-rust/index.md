@@ -417,7 +417,7 @@ NPM gives you more packages, but Rust's ecosystem is of excellent quality and gr
 "Rust really feels modern. There\'s a rich cargo crate ecosystem, a formatter, flame graphs, and the paradigms are very functional, but you\'re not forced to use them. Having a rich data structure ecosystem in the standard library, being able to process vectors with all the functions that many developers are used to these days, really felt refreshing. Especially for a team with largely a background in TypeScript."
 {% </podcast_quote> %}
 
-> In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/en/learn/getting-started/an-introduction-to-the-npm-package-manager)
+> In September 2022 over 2.1 million packages were reported being listed in the npm registry, making it the biggest single language code repository on Earth -- Source: [Nodejs.org](https://nodejs.org/learn/getting-started/an-introduction-to-the-npm-package-manager)
 
 A small portion of these packages provide type definitions (i.e. TypeScript support).
 Many packages are outdated or are no longer actively maintained.

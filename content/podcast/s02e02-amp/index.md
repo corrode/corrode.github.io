@@ -58,7 +58,7 @@ teaching and learning.
 - [C++ Templates are Turing Complete, T. Veldhuizen, 2003](https://web.archive.org/web/20131101122512/http://ubietylab.net/ubigraph/content/Papers/pdf/CppTuring.pdf)
 - [Modbus](https://en.wikipedia.org/wiki/Modbus)
 - [`tokio_tungstenite` crate](https://github.com/snapview/tokio-tungstenite)
-- [async mqtt crate](https://github.com/eclipse/paho.mqtt.rust)
+- [async mqtt crate](https://github.com/eclipse-paho/paho.mqtt.rust)
 - [serde](https://serde.rs/)
 - [`serde_rosmsg` crate](https://github.com/adnanademovic/serde_rosmsg)
 - [ts-rs](https://github.com/Aleph-Alpha/ts-rs)

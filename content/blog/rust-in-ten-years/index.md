@@ -9,7 +9,7 @@ series = "Rust Insights"
 hero = "hero.svg"
 hero_classes = "invert"
 authors = [
-  { name="Hugo van de Pol", url="https://tweedegolf.nl/en/about/9/hugo" },
+  { name="Hugo van de Pol", url="https://tweedegolf.nl/en/about/9/hugo/" },
   { name="Matthias Endler", url="https://corrode.dev/about/"}
 ]
 +++
@@ -18,7 +18,7 @@ authors = [
 
 We’ve been asked this question multiple times in the last year. It is a fair question, as adopting any new technology requires an investment and comes with uncertainties, one of them being the durability of the technology. This article explains why we expect Rust to stand the test of time.
 
-*This article is a friendly collaboration between Tweede golf (author: [Hugo](https://tweedegolf.nl/en/about/9/hugo)) and corrode Rust Consulting (author: [Matthias](/services/)). For more insights on Rust, also visit [the Tweede golf blog](https://tweedegolf.nl/en/blog).*
+*This article is a friendly collaboration between Tweede golf (author: [Hugo](https://tweedegolf.nl/en/about/9/hugo/)) and corrode Rust Consulting (author: [Matthias](/services/)). For more insights on Rust, also visit [the Tweede golf blog](https://tweedegolf.nl/en/blog/).*
 
 {% </info> %}
 
@@ -36,7 +36,7 @@ You might recognize the image below as the well-known  [Technology Adoption Life
 
 The question of Rust's exact adoption status is too broad to answer with any precision or validity. This is because Rust is being used in many different industries, for various purposes, and each of these industries and uses has its own timeline.
 
-Broadly speaking, we can say that Rust is somewhere in the Early Adopters stage in most domains like [web/backend](https://www.theregister.com/2024/03/31/rust_google_c/) and systems programming, as companies like Google, Facebook, and Microsoft are heavily investing in Rust and have large systems written in it, powering their cloud offerings.  For instance, Mark Russinovich, CTO of Microsoft Azure, [stated](https://x.com/markrussinovich/status/1571995117233504257) that new projects should be written in Rust in preference to C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) as well as the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) contain Rust code now.
+Broadly speaking, we can say that Rust is somewhere in the Early Adopters stage in most domains like [web/backend](https://www.theregister.com/software/2024/03/31/rust-developers-at-google-twice-as-productive-as-c-teams/504519) and systems programming, as companies like Google, Facebook, and Microsoft are heavily investing in Rust and have large systems written in it, powering their cloud offerings.  For instance, Mark Russinovich, CTO of Microsoft Azure, [stated](https://x.com/markrussinovich/status/1571995117233504257) that new projects should be written in Rust in preference to C or C++. Both the [Linux kernel](https://docs.kernel.org/rust/) as well as the [Windows kernel](https://x.com/markrussinovich/status/1656416376125538304) contain Rust code now.
 
 In embedded development, we have to separate the various industries. For example, in automotive projects, thanks to [Ferrocene](https://ferrocene.dev) and [OxidOS](https://oxidos.io), Rust is past the Innovators stage and into the Early Adopters stage.  As for other industries like the aerospace, defense, and medical industries, Rust is still in the Innovators stage.
 
@@ -46,7 +46,7 @@ We do think that [the broad penetration of Rust across industries](https://blog.
 
 For a technology to cross the chasm, or to become mainstream, it needs to be recognized for being [highly effective](https://youtu.be/4RFBdcJRdbA?feature=shared&t=299) in a very specific area or use case. 
 
-And it is; Enter the relevance of memory safety in our digital infrastructure. It has been established (by [Google](https://security.googleblog.com/2019/05/queue-hardening-enhancements.html), [Microsoft](https://msrc.microsoft.com/blog/2019/07/we-need-a-safer-systems-programming-language/), [Apple](https://langui.sh/2019/07/23/apple-memory-safety/), a.o.) that [~70% of all security bugs in large C/C++ code bases are memory safety issues](https://www.chromium.org/Home/chromium-security/memory-safety/), which means that memory unsafety is a problem that needs to be addressed in all the software we rely on. [Rust has proven to eliminate this class of bugs](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html) and this is why it can now count organizations such as the [Internet Security Research Group](https://www.memorysafety.org/docs/memory-safety/), [The White House](https://web.archive.org/web/2024*/https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/), and the German government-backed [Sovereign Tech Fund](https://www.sovereigntechfund.de/news/on-rust-memory-safety-open-source-infrastructure) among its advocates.
+And it is; Enter the relevance of memory safety in our digital infrastructure. It has been established (by [Google](https://security.googleblog.com/2019/05/queue-hardening-enhancements.html), [Microsoft](https://www.microsoft.com/en-us/msrc/blog/2019/07/we-need-a-safer-systems-programming-language), [Apple](https://langui.sh/2019/07/23/apple-memory-safety/), a.o.) that [~70% of all security bugs in large C/C++ code bases are memory safety issues](https://www.chromium.org/Home/chromium-security/memory-safety/), which means that memory unsafety is a problem that needs to be addressed in all the software we rely on. [Rust has proven to eliminate this class of bugs](https://security.googleblog.com/2022/12/memory-safe-languages-in-android-13.html) and this is why it can now count organizations such as the [Internet Security Research Group](https://www.memorysafety.org/docs/memory-safety/), [The White House](https://web.archive.org/web/2024*/https://www.whitehouse.gov/oncd/briefing-room/2024/02/26/press-release-technical-report/), and the German government-backed [Sovereign Tech Fund](https://www.sovereign.tech/news/on-rust-memory-safety-open-source-infrastructure) among its advocates.
 
 Having established that Rust is at least 'highly successful' in solving the memory safety issues prevalent in our critical infrastructure, and thus capable of growing beyond the chasm, the question remains: will Rust be alive in 10 years?
 
@@ -78,10 +78,10 @@ Some examples of recent investments:
 #### Commercial offerings and support
 
 Several safety-aimed toolchains have been developed in and for Rust and they come with long-term commercial support.
-- [Ferrocene](https://ferrous-systems.com/ferrocene/) is a Rust compiler for safety-critical use in the automotive industry and has been ISO 26262 certified.
-- AdaCore developed [Gnat Pro for Rust](https://www.adacore.com/gnatpro-rust) and are targeting the aerospace industry.
+- [Ferrocene](https://ferrocene.dev/) is a Rust compiler for safety-critical use in the automotive industry and has been ISO 26262 certified.
+- AdaCore developed [Gnat Pro for Rust](https://www.adacore.com/gnat-pro-for-rust) and are targeting the aerospace industry.
 - HighTec has developed an ISO 26262-certified Rust compiler development platform for Infineon AURIX, which is essential for the automotive industry.
-- Just this month, [The Safety-Critical Rust Consortium](https://foundation.rust-lang.org/news/announcing-the-safety-critical-rust-consortium/) was founded by AdaCore, Arm, Woven by Toyota, and others, with the goal of supporting the responsible use of the Rust programming language in safety-critical software.
+- Just this month, [The Safety-Critical Rust Consortium](https://rustfoundation.org/media/announcing-the-safety-critical-rust-consortium/) was founded by AdaCore, Arm, Woven by Toyota, and others, with the goal of supporting the responsible use of the Rust programming language in safety-critical software.
 
 
 ### Ecosystem maturity
@@ -92,13 +92,13 @@ The maturity of the Rust ecosystem is difficult to quantify, but it has been gro
 
 Let's quantify what we can.
 
-As is widely known, Rust has been Stack Overflows 'most loved language' since 2016, and [became 'most admired' in 2023](https://stackoverflow.blog/2024/03/04/in-rust-we-trust-white-house-office-urges-memory-safety/). In the same vein, Rust (together with Dart) was the fastest growing community (i.e. number of developers) in 2023, nearly doubling in size from 2022 to 2024:
+As is widely known, Rust has been Stack Overflows 'most loved language' since 2016, and [became 'most admired' in 2023](https://stackoverflow.blog/2024/12/30/in-rust-we-trust-white-house-office-urges-memory-safety/). In the same vein, Rust (together with Dart) was the fastest growing community (i.e. number of developers) in 2023, nearly doubling in size from 2022 to 2024:
 
 > "Dart and Rust grew at an average annual rate of more than 30% in 2023."  
-> &mdash; from [SlashData's State of the Developer Nation 25th Edition](https://research.slashdata.co/reports/65b90140343d024fbe70f369)
+> &mdash; from [SlashData's State of the Developer Nation 25th Edition](https://www.slashdata.co/reports/65b90140343d024fbe70f369)
 
 > "Rust has nearly doubled in size over the past two years, growing from 2M to 4M users."  
-> &mdash; from [SlashData's Sizing Programming Languages Communities](https://research.slashdata.co/reports/66546c6a78c13bcad12eac6e)
+> &mdash; from [SlashData's Sizing Programming Languages Communities](https://www.slashdata.co/reports/66546c6a78c13bcad12eac6e)
 
 In 2024 alone, there are 8 conferences dedicated to Rust: Rust Nation (London, UK), RustNL (Delft, the Netherlands), RustFest (Zürich, Switzerland), RustConf (Montreal, Canada), EuroRust (Vienna, Austria), RustLab (Florence, Italy), Oxidize (Berlin, Germany), Rust Summit (Belgrade, Serbia).
 
@@ -114,7 +114,7 @@ As of today, there are [355k](https://github.com/search?q=language%3Arust&type=r
 
 Most programming languages are backed by a single big-tech giant. Consider Go, curated by Google, and Swift, supported by Apple. 
 
-Rust is a different story, intentionally so. After the COVID pandemic had hit language creator Mozilla hard, they realized that the vulnerable position of the company (a quarter of its employees had to be fired) could directly affect the language. Mozilla joined forces with four(!) other big tech names (AWS, Huawei, Google and Microsoft) to create [the Rust Foundation](https://foundation.rust-lang.org/):
+Rust is a different story, intentionally so. After the COVID pandemic had hit language creator Mozilla hard, they realized that the vulnerable position of the company (a quarter of its employees had to be fired) could directly affect the language. Mozilla joined forces with four(!) other big tech names (AWS, Huawei, Google and Microsoft) to create [the Rust Foundation](https://rustfoundation.org/):
 
 > "The Rust Foundation is an independent non-profit organization dedicated to stewarding the Rust programming language, nurturing the Rust ecosystem, and supporting the set of maintainers governing and developing the project."
 
@@ -130,12 +130,12 @@ Clearly, memory safety is considered a national priority by the White House. (Of
 
 We're not the only ones who expect that Rust will continue to grow because of this:
 
- > The USA and its international partners have made the case in the last six months for adopting memory-safe languages. While Rust is not unique in this capability, its performance benefits alongside being memory-safe are likely to lead to further growth in this developer community. - *From [SlashData's Sizing Programming Languages Communities](https://research.slashdata.co/reports/66546c6a78c13bcad12eac6e)*
+ > The USA and its international partners have made the case in the last six months for adopting memory-safe languages. While Rust is not unique in this capability, its performance benefits alongside being memory-safe are likely to lead to further growth in this developer community. - *From [SlashData's Sizing Programming Languages Communities](https://www.slashdata.co/reports/66546c6a78c13bcad12eac6e)*
 
 
 ### Ongoing development
 
-Rust is a language with a wide surface area; engineers use it for projects ranging from embedded devices over backend services to high-performance storage engines and even space projects. This is possible due to Rust's high adaptability. It can be integrated into existing codebases thanks to its excellent C/C++-compatible foreign function interface. It also has best-in-class WebAssembly support through multiple runtimes like Wasmtime and Cloudflare's wrangler. And as we're learning how to use the language to its full potential, new areas of Rust usage keep popping up, such as game development (e.g. [Bevy](https://bevyengine.org/)).
+Rust is a language with a wide surface area; engineers use it for projects ranging from embedded devices over backend services to high-performance storage engines and even space projects. This is possible due to Rust's high adaptability. It can be integrated into existing codebases thanks to its excellent C/C++-compatible foreign function interface. It also has best-in-class WebAssembly support through multiple runtimes like Wasmtime and Cloudflare's wrangler. And as we're learning how to use the language to its full potential, new areas of Rust usage keep popping up, such as game development (e.g. [Bevy](https://bevy.org/)).
 
 We previously noted that Rust package downloads are growing at an exponential rate, but creators are getting more productive too; The number of crates available [doubles](https://lib.rs/stats) each year! And traffic on crates.io is 2.8x higher on weekdays than over the weekend, which indicates that most Rust development takes place in work-related projects. 
 
@@ -151,7 +151,7 @@ While it seems obvious to us that Rust does well on all three 'markers of longev
 - The ecosystem could split. It's happened before to the Node ecosystem (and there already was a [Rust fork](https://github.com/crablang/crab)). This is certainly not something for us to make any predictions about.
 - Something better comes around, weakening Rust's 'raison d'être'. but that would actually be great! It would improve the status quo of our digital world (which is really what we Rust developers want most of all) and a rising tide lifts all. It's highly unlikely that this would happen in the short term, as development of a language takes years. But we cannot guarantee that it won't happen, of course (and we wouldn't want to stop it if it did).
 - Rust might become too complex. While we acknowledge the potential for Rust to increase in complexity as it evolves, we have the impression that the Rust community actively works to balance new features with maintainability and usability. In fact, except for async Rust, the language has reached a point of relative maturity.
-- Hiring Rust devs is a challenge. This one, we have to cop to. The situation is getting better, there are solutions out there (train your own devs to use Rust, use educational materials like [Rust Edu](https://rust-edu.org/) and [teach-rs](https://github.com/tweedegolf/teach-rs)), and this is a growing market, underscoring the ecosystem maturity... But it still isn't easy.
+- Hiring Rust devs is a challenge. This one, we have to cop to. The situation is getting better, there are solutions out there (train your own devs to use Rust, use educational materials like [Rust Edu](https://rust-edu.org/) and [teach-rs](https://github.com/trifectatechfoundation/teach-rs)), and this is a growing market, underscoring the ecosystem maturity... But it still isn't easy.
 
 ## Conclusion
 
@@ -159,4 +159,4 @@ Rust is at an exciting point in its history. With large corporations investing h
 
 If your organization is considering migrating to Rust and is unsure about the language's long-term viability, we hope this information (be sure to check out some of the resources/links!) helps ease your decision-making process.
 
-And if you need assistance along the way, why not reach out to [Tweede golf](https://tweedegolf.nl/en/expertise/rust-engineering) and [corrode](/services)?
+And if you need assistance along the way, why not reach out to [Tweede golf](https://tweedegolf.nl/en/expertise/rust-engineering/) and [corrode](/services)?

@@ -43,7 +43,7 @@ Alexandru worked on the transition of Prime Video's user interface from JavaScri
 - [Leptos](https://www.leptos.dev/) - UI framework that makes reactive programming in Rust easier  
 - [tokio](https://tokio.rs/) - The de facto standard async runtime for Rust  
 - [SIMD](https://en.wikipedia.org/wiki/Single_instruction,_multiple_data) - A nice feature set some CPUs support  
-- [WebAssembly Micro Runtime](https://github.com/bytecodealliance/wasm-micro-runtime) - A tiny WASM runtime well suited for IoT platforms  
+- [WebAssembly Micro Runtime](https://github.com/wasm-micro-runtime/wasm-micro-runtime) - A tiny WASM runtime well suited for IoT platforms
 - [WebAssembly Working Group](https://www.w3.org/groups/wg/wasm/)
 
 ### Official Links

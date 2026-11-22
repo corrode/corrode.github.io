@@ -8,7 +8,7 @@ series = "Rust Insights"
 hero = "maintenance.svg"
 reviews = [
   { name = "Florian Bartels", url = "https://github.com/flba-eb" },
-  { name = "mo8it", url = "https://mastodon.social/@mo8it@fosstodon.org" },
+  { name = "mo8it", url = "https://fosstodon.org/@mo8it" },
 ]
 credits = [ 
   "<a href='http://www.freepik.com'>Hero image designed by vectorpouch / Freepik</a>" 
@@ -24,7 +24,7 @@ infrastructure, replacing legacy systems written in C or C++.
 This means, **some Rust projects need to be maintained for years or even decades to come**.
 
 By some estimates, the cost of maintaining a product is more than [90% of the
-software's total cost](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/).
+software's total cost](https://pmc.ncbi.nlm.nih.gov/articles/PMC3610582/).
 
 Critical software demands minimal downtime and high reliability, so it is
 reassuring that the Rust core team highlights its commitment to these values in
@@ -177,7 +177,7 @@ Here are a few examples of conservative use of Rust language features:
 
 I discussed these and other antipatterns in my talk [The Four Horsemen of Bad
 Rust
-Code](https://fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/).
+Code](https://archive.fosdem.org/2024/schedule/event/fosdem-2024-2434-the-four-horsemen-of-bad-rust-code/).
 
 ### Be Conservative About Async Rust
 
@@ -203,7 +203,7 @@ conservative about dependencies.
 Rust has a very active ecosystem, with thousands of crates available on
 [crates.io](https://crates.io/), but there is no guarantee that a crate will be
 maintained in the long term; and even if it is, you need to [trust the team
-behind it](https://tweedegolf.nl/en/blog/104/dealing-with-dependencies-in-rust).
+behind it](https://tweedegolf.nl/en/blog/104/dealing-with-dependencies-in-rust/).
 Security fixes in dependencies could take a long time to be released, and [the API of a dependency could change in undesirable ways](https://github.com/marshallpierce/rust-base64/issues/213).
 
 As a consequence, every dependency should be seen as a liability.
@@ -248,7 +248,7 @@ choose the right ones? Here are some factors to consider when choosing a crate:
   before adding them to your project.
   Run [cargo-audit](https://crates.io/crates/cargo-audit) for known vulnerabilities in your dependencies.
 
-Take a look at [blessed.rs](https://blessed.rs/) for a list of recommended
+Take a look at [blessed.rs](https://blessed.rs/crates) for a list of recommended
 crates in the Rust ecosystem. Use tools like
 [cargo-tree](https://doc.rust-lang.org/cargo/commands/cargo-tree.html) and
 [cargo udeps](https://github.com/est31/cargo-udeps) to find duplicate, outdated,
@@ -271,7 +271,7 @@ Instead, it is better to be proactive about keeping dependencies up-to-date:
 
 - **Use [`cargo outdated`](https://github.com/kbknapp/cargo-outdated)**: This command shows you which
   dependencies are out of date. Run it regularly to keep track of new versions.
-- **Automate dependency updates**: Use tools like [Dependabot](https://dependabot.com/)
+- **Automate dependency updates**: Use tools like [Dependabot](https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/dependabot-quickstart)
   or [Renovate](https://www.mend.io/renovate/) to receive automated pull
   requests for dependency updates.
 - **Regularly run [`cargo update`](https://doc.rust-lang.org/cargo/commands/cargo-update.html)**: It updates your dependencies
@@ -285,7 +285,7 @@ Instead, it is better to be proactive about keeping dependencies up-to-date:
   more recent alternative. 
 
 For major dependencies (like the web framework or your async runtime) it's a good idea to follow the release notes or blog posts to stay up-to-date with
-upcoming changes. For example, you [can watch for new releases (including the changelog) on GitHub](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions) or subscribe to the project's newsletter.
+upcoming changes. For example, you [can watch for new releases (including the changelog) on GitHub](https://docs.github.com/en/subscriptions-and-notifications/how-tos/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions) or subscribe to the project's newsletter.
 
 Keep in mind that it takes time for the broader ecosystem to catch up with new
 releases of these major dependencies, so it can take a while before you can
@@ -447,7 +447,7 @@ Some tooling can help you with this:
 - [Add mermaid diagrams to your documentation](https://frehberg.com/2022/12/docs-as-code-mermaid-inline-diagrams/) to visualize complex concepts.
 - Use [doc-comment](https://github.com/GuillaumeGomez/doc-comment) to ensure that your examples in the `README.md` are up-to-date.
 
-As an example, here is the documentation for the [Axum web framework]( https://docs.rs/axum/latest/axum), which is generated from comments in the code:
+As an example, here is the documentation for the [Axum web framework]( https://docs.rs/axum/latest/axum/), which is generated from comments in the code:
 
 [![Axum Documentation](axum-docs.png)](https://docs.rs/axum/latest/axum/)
 
@@ -526,7 +526,7 @@ Run your CI pipeline on a regular basis to ensure that your codebase is always
 in a deployable state. The worst time to find out that something is broken is when
 you're trying to deploy a fix.
 
-Look into [release-plz](https://github.com/MarcoIeni/release-plz) for release
+Look into [release-plz](https://github.com/release-plz/release-plz) for release
 automation. It can create pull requests for new releases, which you can review
 and merge when you're ready.
 
@@ -547,7 +547,7 @@ This can be done in a number of ways:
 - Report bugs and contribute code to the crates you use.
 - [Sponsor crates that you depend on](https://github.com/sponsors/explore?account=mre&ecosystems=RUST&sort_by=MOST_USED).
 - Give talks and write blog posts about your experiences with Rust.
-- Support the [Rust Foundation](https://foundation.rust-lang.org/) and core team members.
+- Support the [Rust Foundation](https://rustfoundation.org/) and core team members.
 - Encourage your team to contribute to the Rust ecosystem.
 
 ## Stick To A Regular Maintenance Schedule

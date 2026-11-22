@@ -595,7 +595,7 @@ This has changed in recent years with the rise of frameworks like [Axum](https:/
 Now, Rust is a viable option for building [high-performance APIs](/blog/why-rust/) and web applications.
 It is one key area the Rust team is investing in, and the ecosystem is maturing rapidly.
 
-In combination with [sqlx](https://github.com/launchbadge/sqlx) for database access and [serde](https://serde.rs/) for serialization, Rust is a very effective choice for web backends. 
+In combination with [sqlx](https://github.com/transact-rs/sqlx) for database access and [serde](https://serde.rs/) for serialization, Rust is a very effective choice for web backends.
 What surprises many Python developers is how similar it is to working with other web frameworks like Flask or FastAPI.
 Another surprise is how robust the final product is, as it catches many bugs at compile time and scales extremely well.
 Production Rust web applications are extremely robust.

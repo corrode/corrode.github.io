@@ -63,7 +63,7 @@ As per tradition, they kick off the year of Rust conferences.
 
 ### Rust in Paris (France)
 
-<a href="https://rustinparis.com/" target="_blank">
+<a href="https://www.rustinparis.com/" target="_blank">
   <img src="rustinparis.jpg" alt="Rust in Paris" />
 </a>
 
@@ -75,7 +75,7 @@ As per tradition, they kick off the year of Rust conferences.
 - **Focus**: Crafting safe & efficient futures
 - **Pricing**: Event concluded
 - **CFP**: Closed
-- **Links**: [Website](https://rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
+- **Links**: [Website](https://www.rustinparis.com/) | [Past Talks](https://www.youtube.com/@rustinparis)
 
 ### Rustikon (Warsaw, Poland)
 
@@ -87,7 +87,7 @@ Aims to bring together Rust developers from the region and beyond.
 Expect a developer-friendly atmosphere with expert talks in a single-track format, perfect for staying connected and engaged.
 
 - **When**: March 19-20, 2026 
-- **Where**: [POLIN Conference Centre, Warsaw, Poland](https://maps.app.goo.gl/tPT7GzRc7kUh4d3s5)
+- **Where**: [POLIN Conference Centre, Warsaw, Poland](https://www.google.com/maps/place/Polin+Conference+Center/@52.2495092,20.9907406,17z/data=!3m1!4b1!4m6!3m5!1s0x471ecdeacfac796d:0xffc514bd7c4e9e0b!8m2!3d52.2495092!4d20.9933155!16s%2Fg%2F11g3hc6zsg)
 - **Format**: 2 day conference
 - **Focus**: Rust adoption in Poland and beyond
 - **Pricing**: Event concluded
@@ -221,7 +221,7 @@ Two days of applied Rust insights from industry innovators.
 Topics range from cross-platform GUI development to Rust in safety-critical systems.
 
 - **When**: September 14-16, 2026
-- **Where**: [Tagungswerk, Berlin, Germany](https://maps.app.goo.gl/Q3SzoU7EDJv4kxnHA)
+- **Where**: [Tagungswerk, Berlin, Germany](https://www.google.com/maps/place/Conference+Work/@52.5038185,13.3926564,17z/data=!3m1!4b1!4m6!3m5!1s0x47a851d5a5c5da65:0xaea5fb08c9aa4499!8m2!3d52.5038185!4d13.3952313!16s%2Fg%2F11b62nc8b4)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Applied Rust insights
 - **Pricing**: [Registration closed](https://oxidizeconf.com/)
@@ -246,7 +246,7 @@ The conference travels to a different European city each year.
 This time, it's in Barcelona, Spain. 🇪🇸
 
 - **When**: October 14-17, 2026
-- **Where**: [Auditori L’illa, Barcelona, Spain](https://maps.app.goo.gl/nUzwZ1x7fahyD7aW9)
+- **Where**: [Auditori L’illa, Barcelona, Spain](https://www.google.com/maps/place/Auditori+L%E2%80%99illa/@41.3894659,2.1344726,1140m/data=!3m2!1e3!4b1!4m6!3m5!1s0x12a4987ac0f65621:0x36a3465ffbcb3b7a!8m2!3d41.3894619!4d2.1370475!16s%2Fg%2F1td2r0sk)
 - **Format**: 2 conference days (October 15-16, also online), plus workshops and side activities October 14 and an impl day/unconference October 17
 - **Focus**: Rust patterns, idioms, system programming, CLI tooling, servers, WASM, embedded systems
 - **Pricing**: [Current tickets and prices](https://www.tickettailor.com/events/eurorust/2022388) (side activities sold separately)
@@ -280,7 +280,7 @@ The Italian Rust conference traditionally takes place in Florence.
 It's lovingly organized featuring delicious Italian food and a great community.
 
 - **When**: November 1-3, 2026 
-- **Where**: [Savoia Regency Hotel, Bologna](https://maps.app.goo.gl/PFdKnc3hivvwjj6X7)
+- **Where**: [Savoia Regency Hotel, Bologna](https://www.google.com/maps/place/Hotel+Savoia+Regency/@44.5098536,11.3824096,17z/data=!4m9!3m8!1s0x477e2ca643db29ab:0x19c877e26a7b7526!5m2!4m1!1i2!8m2!3d44.5098536!4d11.3849845!16s%2Fg%2F1tdgt70_)
 - **Format**: 3 days (1 day workshops + 2 days talks)
 - **Focus**: Rust in Italy and beyond
 - **Pricing**: [€310 Regular Lite (talks) / €460 Regular Premium (talks + workshops)](https://rustlab.it/tickets26)

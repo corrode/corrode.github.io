@@ -176,7 +176,7 @@ Be explicit about whether a failure may take down a single task, a single thread
 
 Never panic in an uncontrolled manner.
 
-If you maintain a library, you have less control over where your code runs and what a panic can take down. Consider enabling stricter Clippy lints such as [`indexing_slicing`](https://rust-lang.github.io/rust-clippy/master/index.html#indexing_slicing) and [`arithmetic_side_effects`](https://rust-lang.github.io/rust-clippy/master/index.html#arithmetic_side_effects) to catch common panic sources before they become part of your public API. Those lints can be noisy in applications, but they are often useful when panic freedom matters more than convenience.
+If you maintain a library, you have less control over where your code runs and what a panic can take down. Consider enabling stricter Clippy lints such as [`indexing_slicing`](https://clippy.rust-lang.org/master/index.html#indexing_slicing) and [`arithmetic_side_effects`](https://clippy.rust-lang.org/master/index.html#arithmetic_side_effects) to catch common panic sources before they become part of your public API. Those lints can be noisy in applications, but they are often useful when panic freedom matters more than convenience.
 
 ## Observing Failures With Panic Hooks
 
@@ -334,7 +334,7 @@ fn factorial(n: u64) -> u64 {
 The problem is that recursion can quickly exhaust stack space.
 
 If you allow users to call this function with large inputs, it might crash your program.
-[Rust does not guarantee tail-call optimization on stable Rust](https://weitzel.dev/blog/rustlang-trampoline/). Some compilers and languages can turn certain tail-recursive functions into loops, but you should not rely on that transformation in Rust. If recursion depth depends on user input or external data, rewrite the algorithm iteratively or put an explicit bound on the depth.
+[Rust does not guarantee tail-call optimization on stable Rust](https://weitzel.dev/blog/rustlang-trampoline/index.html). Some compilers and languages can turn certain tail-recursive functions into loops, but you should not rely on that transformation in Rust. If recursion depth depends on user input or external data, rewrite the algorithm iteratively or put an explicit bound on the depth.
 
 It takes some experience, but for recursive algorithms where you're not in control of the input size, it's often safer to use an iterative approach:
 
@@ -435,7 +435,7 @@ Even if your service is compromised, the attacker has very limited tools at thei
 
 My recommendation is [Google's distroless images](https://github.com/GoogleContainerTools/distroless), but please do your own research[^distroless] as I'm not an expert on this.
 
-[^distroless]: Data sources I found useful for this topic include [this post](https://www.minimus.io/post/best-distroless-image-alternatives-2026) and [this comparison](https://safeguard.sh/resources/blog/distroless-vs-chainguard-vs-wolfi-base-images).
+[^distroless]: Data sources I found useful for this topic include [this post](https://www.echo.ai/blog/best-distroless-image-alternatives) and [this comparison](https://safeguard.sh/resources/blog/distroless-vs-chainguard-vs-wolfi-base-images).
 
 Distroless images are minimal Debian-based images stripped of everything unnecessary, while still including TLS certificates and a non-root user.
 For a typical Rust web service, start with `gcr.io/distroless/cc-debian13:nonroot`: it includes the C runtime libraries that a normal Debian-built Rust binary may dynamically link against, but no shell or package manager.

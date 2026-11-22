@@ -33,7 +33,7 @@ In this special episode, we look back at some of the memorable moments from the 
 - [Tembo with Adam Hendel (S04E05)](/podcast/s04e05-tembo/) - Software is never done
 - [Redis CVE-2025-49844](https://redis.io/blog/security-advisory-cve-2025-49844/) - Remote code execution vulnerability from use-after-free
 - [Canonical with John Seager (S05E05)](/podcast/s05e05-canonical/) - Ubuntu is optimistic about Rust 
-- [Rust in Android](https://security.googleblog.com/2025/11/rust-in-android-move-fast-fix-things.html) - Memory safety vulnerabilities below 20%
+- [Rust in Android](https://blog.google/security/rust-in-android-move-fast-fix-things/) - Memory safety vulnerabilities below 20%
 - [Android statistics](https://www.demandsage.com/android-statistics/) - 3.9 billion active devices worldwide
 - [Roc with Richard Feldman (S05E04)](/podcast/s05e04-roc/) - Focus on the end user
 - [Svix with Tom Hacohen (S04E02)](/podcast/s04e02-svix/) - Love it, but compile times...
@@ -48,8 +48,8 @@ In this special episode, we look back at some of the memorable moments from the 
 - [KSAT with Vegard Sandengen (S04E07)](/podcast/s04e07-ksat/) - Make async better
 - [1Password with Andrew Burkhart (S04E06)](/podcast/s04e06-1password/) - Make it easier to learn Rust
 - [Rust Book by Brown University](https://rust-book.cs.brown.edu/) - Interactive learning resource for Rust
-- [Clippy lints](https://rust-lang.github.io/rust-clippy/master/index.html) - All available linter rules for Rust
-- [C++ and Rust interop](https://github.com/rust-lang/rust-project-goals/blob/main/src/2025h2/interop-problem-map.md) - Safer language interoperability initiative
+- [Clippy lints](https://clippy.rust-lang.org/master/index.html) - All available linter rules for Rust
+- [C++ and Rust interop](https://github.com/rust-lang/goals/blob/main/src/2025h2/interop-problem-map.md) - Safer language interoperability initiative
 - [Microsoft with Victor Ciura (S04E01)](/podcast/s04e01-microsoft/) - C++ doesn't have to die for Rust to succeed
 - [BorrowSanitizer initiative](https://borrowsanitizer.com/) - LLVM instrumentation for detecting aliasing violations
 - [Polonius](https://github.com/rust-lang/goals/issues/118) - Next-generation borrow checker

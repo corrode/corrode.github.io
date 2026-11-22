@@ -159,7 +159,7 @@ let top_languages: Vec<Language> = languages
 
 ([Rust Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8c1d45de856b6a7980ea48ebeaf43290))
 
-Sorting the whole filtered list just to keep five elements can be wasteful. C++ has [`partial_sort`](https://en.cppreference.com/w/cpp/algorithm/partial_sort) in its standard library. Rust does not have the same operation in `std`, though third-party crates can fill the gap. A [BinaryHeap](https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html) is another option.
+Sorting the whole filtered list just to keep five elements can be wasteful. C++ has [`partial_sort`](https://en.cppreference.com/cpp/algorithm/partial_sort) in its standard library. Rust does not have the same operation in `std`, though third-party crates can fill the gap. A [BinaryHeap](https://doc.rust-lang.org/std/collections/struct.BinaryHeap.html) is another option.
 
 I still find this version easier to reason about. The operations line up under each other, and the code reads like a description of the result. It can feel strange at first if you are new to iterator-heavy Rust.
 

@@ -51,7 +51,7 @@ David Wood is a Principal Software Engineer at Arm, CE-SW Rust Team Lead, Compil
 - [Rust Embedded Working Group](https://rust-embedded.org/) - An official working group of the Rust language to improve usability of the language in hardware-constrained environments
 - [An AI Security Engineer in Residence for the Rust Ecosystem](https://rustfoundation.org/media/an-ai-security-engineer-in-residence-for-the-rust-ecosystem/) - Describing the position of the security engineer made possible by funding from Alpha-Omega
 - [Rust Foundation Maintainers Fund](https://rustfoundation.org/media/announcing-the-rust-foundation-maintainers-fund/) - The Foundation's fund to support Rust maintainers
-- [Rust Foundation Trusted Training](https://rustfoundation.org/training/) - The Foundation's accreditation program for Rust training providers
+- [Rust Foundation Trusted Training](https://rustfoundation.org/rust-foundation-trusted-training/) - The Foundation's accreditation program for Rust training providers
 
 ### Official Links
 

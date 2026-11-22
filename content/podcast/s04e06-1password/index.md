@@ -60,7 +60,7 @@ He specifically specialized in that synchronization process, getting data federa
 - [crane](https://github.com/ipetkov/crane) - Nix library for building Cargo projects
 - [Rust in Production: Zed](/podcast/s03e01-zed/) - High-performance code editor built in Rust
 - [tokio-console](https://github.com/tokio-rs/console) - Debugger for async Rust programs using tokio
-- [Rust Atomics and Locks by Mara Bos](https://marabos.nl/atomics/) - Free online book about low-level concurrency in Rust
+- [Rust Atomics and Locks by Mara Bos](https://mara.nl/atomics/) - Free online book about low-level concurrency in Rust
 - [The Rust Programming Language (Brown University Edition)](https://rust-book.cs.brown.edu/) - Interactive version of the Rust Book with quizzes
 - [Rustlings](https://github.com/rust-lang/rustlings) - Small exercises to get you used to reading and writing Rust code
 

@@ -54,7 +54,7 @@ You can sit with us.
 
 > We are committed to providing a friendly, safe and welcoming environment for all
 >
-> -- [The Rust Code of Conduct](https://www.rust-lang.org/policies/code-of-conduct)
+> -- [The Rust Code of Conduct](https://rust-lang.org/policies/code-of-conduct/)
 
 That is also where the idea for corrode comes from:
 To cut through red tape in the industry.

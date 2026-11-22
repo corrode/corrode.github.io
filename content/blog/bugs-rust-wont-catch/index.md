@@ -346,7 +346,7 @@ GNU coreutils has shipped CVEs in every single one of those categories. Take a p
 - `od --strings -N` writes a NUL byte past a heap buffer (9.8, 2025)
 - `sort` 1-byte read before a heap buffer with a `SIZE_MAX` key offset (9.8, 2025)
 - `ls -Z` and `ls -l` crashes with SELinux but no xattr support (9.7, 2025)
-- `split --line-bytes` heap overwrite ([CVE-2024-0684](https://nvd.nist.gov/vuln/detail/CVE-2024-0684), 9.5, 2024)
+- `split --line-bytes` heap overwrite ([CVE-2024-0684](https://nvd.nist.gov/vuln/detail/cve-2024-0684), 9.5, 2024)
 - `b2sum --check` reads unallocated memory on malformed input (9.4, 2023)
 - `tail -f` stack buffer overrun with many files and a high `ulimit -n` (9.0, 2021)
 
