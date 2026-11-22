@@ -60,7 +60,7 @@ With his calm and insightful demeanor, Eric is the ideal person to talk about Ru
 - [The Cargo Book: "features should be additive"](https://doc.rust-lang.org/cargo/reference/features.html#feature-unification)
 - [Jon Gjengset's YouTube channel](https://www.youtube.com/c/JonGjengset)
 - [Jon's book "Rust for Rusteaceans"](https://rust-for-rustaceans.com/)
-- [Mara Bos' book "Rust Atomics and Locks"](https://marabos.nl/atomics/)
+- [Mara Bos' book "Rust Atomics and Locks"](https://mara.nl/atomics/)
 - [Will Wilson from antithesis about FoundationDB: "Is something bugging you?"](https://antithesis.com/blog/is_something_bugging_you/)
 
 ### Official Links

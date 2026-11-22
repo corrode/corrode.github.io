@@ -46,7 +46,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [JavaOS](https://en.wikipedia.org/wiki/JavaOS) - Operating system written in Java
 - [D Programming Language](https://dlang.org/) - Systems programming language
 - [Garbage Collection in early Rust](https://pcwalton.github.io/_posts/2013-06-02-removing-garbage-collection-from-the-rust-language.html) - Historical Rust development
-- [Removing green threads RFC](https://github.com/rust-lang/rfcs/blob/master/text/0230-remove-runtime.md) - Major change in Rust's concurrency model
+- [Removing green threads RFC](https://github.com/rust-lang/rfcs/blob/main/text/0230-remove-runtime.md) - Major change in Rust's concurrency model
 - [Hubris](https://github.com/oxidecomputer/hubris) - Oxide's embedded operating system
 - [Tock OS](https://tockos.org/) - Embedded operating system in Rust predating Hubris
 - [cargo-xtask](https://github.com/matklad/cargo-xtask) - Build automation for Rust projects
@@ -56,7 +56,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [Omicron](https://github.com/oxidecomputer/omicron) - Oxide's manufacturing test framework
 - [illumos](https://illumos.org/) - Unix operating system
 - [bhyve](https://bhyve.org/) - BSD VM hypervisor
-- [About Self-hosted Runners](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners) - GitHub Actions documentation
+- [About Self-hosted Runners](https://docs.github.com/en/actions/concepts/runners/self-hosted-runners) - GitHub Actions documentation
 - [Async Drop Initiative](https://rust-lang.github.io/async-fundamentals-initiative/roadmap/async_drop.html) - Rust async development
 - [Rust Playground Example](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&code=async+fn+f()+%7B%0A++++await+f()%0A%7D) - Demonstrating helpful error when using prefix `await` operator
 - [Rust Book - Modules](https://doc.rust-lang.org/book/ch07-02-defining-modules-to-control-scope-and-privacy.html) - Rust module system
@@ -72,7 +72,7 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 - [TigerBeetle](https://tigerbeetle.com/) - Financial accounting database written in Zig
 - [Bun](https://bun.sh/) - JavaScript toolkit written in Zig
 - [CockroachDB](https://www.cockroachlabs.com/) - Distributed SQL database used in Oxide's backplane
-- [Oxide and Friends: Wither CockroachDB?](https://oxide.computer/podcasts/oxide-and-friends/2052742) - Discussing Cockroach's switch away from BUSL
+- [Oxide and Friends: Wither CockroachDB?](https://oxide-and-friends.transistor.fm/episodes/whither-cockroachdb) - Discussing Cockroach's switch away from BUSL
 - [Mozilla Public License](https://choosealicense.com/licenses/mpl-2.0/) - Oxide's default software license
 - [Asahi Linux](https://asahilinux.org/) - Linux on Apple Silicon with Rust drivers
 - [Buck2](https://buck2.build/) - Meta's build system
@@ -84,6 +84,6 @@ In the Rust community, Steve does not need any introduction. He is a prolific wr
 ### Official Links
 
 - [Oxide Computer Company](https://oxide.computer/) - Building servers as they should be
-- [On The Metal Podcast](https://oxide.computer/podcasts/on-the-metal) - Stories from the hardware/software boundary
+- [On The Metal Podcast](https://onthemetal.transistor.fm/) - Stories from the hardware/software boundary
 - [Steve Klabnik's Blog](https://steveklabnik.com/) - Thoughts on programming, Rust, and more
 - [Steve Klabnik on Bluesky](https://bsky.app/profile/steveklabnik.com) - Follow Steve for Rust updates and more

@@ -19,7 +19,7 @@ There's a particular kind of pressure that comes with maintaining software at th
 
 So what happens when you start introducing Rust into a codebase like that? Not as a rewrite, but linked into a C++ server with a CMake build process that has to be reproducible and FIPS compliant? In today's episode, we get into the messy, interesting reality. We talk about the question of whether the hardest part is Rust the language or Rust the ecosystem.
 
-My guests come at this from two very different angles. Alexey Milovidov is the creator of ClickHouse and its CTO. He started the project back in 2009 and has spent decades thinking about performance, correctness, and what it actually takes to build a production database. Austin Bonander is a Senior Software Engineer at ClickHouse and a renowned open-source maintainer of [sqlx](https://github.com/launchbadge/sqlx). He works on the official Rust client as well as other Rust-related tooling. Together we talk about where Rust fits inside a C++ monolith, what it would take for Rust to earn a rewrite of core components, supply-chain and compliance headaches, and whether Rust is heading for the same accumulation of regrets that every "trendy" language eventually accumulates.
+My guests come at this from two very different angles. Alexey Milovidov is the creator of ClickHouse and its CTO. He started the project back in 2009 and has spent decades thinking about performance, correctness, and what it actually takes to build a production database. Austin Bonander is a Senior Software Engineer at ClickHouse and a renowned open-source maintainer of [sqlx](https://github.com/transact-rs/sqlx). He works on the official Rust client as well as other Rust-related tooling. Together we talk about where Rust fits inside a C++ monolith, what it would take for Rust to earn a rewrite of core components, supply-chain and compliance headaches, and whether Rust is heading for the same accumulation of regrets that every "trendy" language eventually accumulates.
 
 {{ <svix /> }}
 
@@ -35,12 +35,12 @@ Alexey Milovidov is the creator of ClickHouse and the CTO of ClickHouse Inc. He 
 
 ### About Austin Bonander
 
-Austin Bonander is a Senior Software Engineer at ClickHouse, where he works on the official Rust client as well as other Rust-related tooling. He is a long-time member of the Rust community and a maintainer of [sqlx](https://github.com/launchbadge/sqlx), the async, pure-Rust SQL toolkit. Through that work he has thought deeply about database protocols, API ergonomics, and the long-term maintenance burden of widely used open-source libraries.
+Austin Bonander is a Senior Software Engineer at ClickHouse, where he works on the official Rust client as well as other Rust-related tooling. He is a long-time member of the Rust community and a maintainer of [sqlx](https://github.com/transact-rs/sqlx), the async, pure-Rust SQL toolkit. Through that work he has thought deeply about database protocols, API ergonomics, and the long-term maintenance burden of widely used open-source libraries.
 
 ### Links From The Episode
 
 - [OLAP](https://en.wikipedia.org/wiki/Online_analytical_processing) - A type of database used for analytics, not storing relational data
-- [sqlx](https://github.com/launchbadge/sqlx) - The async, pure-Rust SQL toolkit Austin maintains
+- [sqlx](https://github.com/transact-rs/sqlx) - The async, pure-Rust SQL toolkit Austin maintains
 - [Official /r/rust "Who's Hiring" thread for job-seekers and job-offerers](https://www.reddit.com/r/rust/search?sort=new&restrict_sr=on&q=flair%3A%F0%9F%92%BC%2Bjobs%2Bmegathread) - Where Austin found the Clickhouse job
 - [Clickhouse's C++ & Rust Journey](https://www.youtube.com/watch?v=cIXKsb0FYpc) - Alexeys talk at P99 CONF 2025
 - [No-Panic Rust: A Nice Technique for Systems Programming](https://blog.reverberate.org/2025/02/03/no-panic-rust.html) - Using linker checks to guarantee no panic calls in Rust code

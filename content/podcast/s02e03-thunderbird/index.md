@@ -34,7 +34,7 @@ the challenges of working on a legacy codebase, the new Rust-based Exchange prot
 ### About MZLA
 
 The MZLA Technologies Corporation is a fully-owned subsidiary of Mozilla that develops and maintains the Thunderbird email client.
-The project can be supported at [give.thunderbird.net](https://give.thunderbird.net).
+The project can be supported at [give.thunderbird.net](https://give.thunderbird.net/hc/en-us).
 
 ### About Brendan Abolivier
 
@@ -50,14 +50,14 @@ He is a strong advocate for open-source software and maintains projects written 
 - [State of Open conference London](https://stateofopencon.com/)
 - [Thunderbird as part of MZLA](https://blog.thunderbird.net/2020/01/thunderbirds-new-home/)
 - [Evolution Email Client](https://wiki.gnome.org/Apps/Evolution)
-- [FOSDEM'24: "Thunderbird: How to Exchange Rot For Rust"](https://fosdem.org/2024/schedule/event/fosdem-2024-2469-thunderbird-how-to-exchange-rot-for-rust/)
+- [FOSDEM'24: "Thunderbird: How to Exchange Rot For Rust"](https://archive.fosdem.org/2024/schedule/event/fosdem-2024-2469-thunderbird-how-to-exchange-rot-for-rust/)
 - [quick_xml crate](https://github.com/tafia/quick-xml)
 - [http crate](https://github.com/hyperium/http)
-- [Donate to Thunderbird](https://www.thunderbird.net/donate/)
+- [Donate to Thunderbird](https://www.thunderbird.net/en-US/donate/)
 
 ### Official Links
 
-- [Thunderbird](https://www.thunderbird.net)
+- [Thunderbird](https://www.thunderbird.net/en-US/)
 - [Brendan's Homepage](https://brendan.abolivier.bzh)
 - [Brendan on GitHub](https://github.com/babolivier)
 - [Brendan on Twitter](https://x.com/BrenAbolivier)

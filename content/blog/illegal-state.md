@@ -11,10 +11,10 @@ resources = [
     "[Compile-Time Invariants](/blog/compile-time-invariants/) - Explore advanced techniques for encoding invariants in the type system",
 ]
 reviews = [
-    { name = "Wesley Moore", url = "https://www.wezm.net" },
+    { name = "Wesley Moore", url = "https://www.wezm.net/v2/" },
     { name = "Nicolas Kosinski", url = "https://github.com/nicokosi" },
-    { name = "zSchön", url = "https://mastodon.social/@TheAlgorythm@chaos.social" },
-    { name = "mo8it", url = "https://mastodon.social/@mo8it@fosstodon.org" },
+    { name = "zSchön", url = "https://chaos.social/@TheAlgorythm" },
+    { name = "mo8it", url = "https://fosstodon.org/@mo8it" },
     { name = "Andreas Kröpelin", url = "https://www.andreaskroepelin.de" },
 ]
 +++

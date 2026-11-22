@@ -73,7 +73,7 @@ Edward Wang is a Systems Engineer at Cloudflare who has been instrumental in dev
 - [http crate](https://docs.rs/http/latest/http/) - HTTP types for Rust
 - [h2](https://github.com/hyperium/h2) - HTTP/2 implementation in Rust
 - [hyper](https://hyper.rs/) - Fast HTTP implementation for Rust
-- [ClickHouse Rust client](https://clickhouse.com/docs/integrations/rust) - Official Rust client by Paul Loyd
+- [ClickHouse Rust client](https://clickhouse.com/docs/integrations/language-clients/rust/index) - Official Rust client by Paul Loyd
 - [Pingap](https://crates.io/crates/pingap) - Reverse proxy built on Pingora
 - [PR: Add Rustls to Pingora](https://github.com/cloudflare/pingora/pull/336) - by Harald Gutmann
 - [PR: Add s2n-tls to Pingora](https://github.com/cloudflare/pingora/pull/675) - by Bryan Gilbert

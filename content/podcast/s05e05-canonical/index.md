@@ -32,7 +32,7 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 
 ### Links From The Episode
 
-- [Juju](https://juju.is/) - Jon's previous focus, a cloud orchestration tool
+- [Juju](https://canonical.com/juju) - Jon's previous focus, a cloud orchestration tool
 - [GNU coretuils](https://www.gnu.org/software/coreutils/) - The widest used implementation of commands like ls, rm, cp, and more
 - [uutils coreutils](https://github.com/uutils/coreutils) - coreutils implementation in Rust
 - [sudo-rs](https://github.com/trifectatechfoundation/sudo-rs) -  For your Rust based sandwiches needs
@@ -49,7 +49,7 @@ Jon Seager is VP Engineering for Ubuntu at Canonical, where he oversees the Ubun
 - [ntpd-rs](https://github.com/pendulum-project/ntpd-rs) - Timesynchronization daemon written in Rust which may land in Ubuntu 26.04
 - [Trifecta Tech Foundation](https://trifectatech.org/) - Foundation supporting sudo-rs development
 - [Sequioa PGP](https://sequoia-pgp.org/) - OpenPGP tools written in Rust
-- [Mir](https://mir-server.io/) - Canonicals wayland compositor library, uses some Rust
+- [Mir](https://canonical.com/mir) - Canonicals wayland compositor library, uses some Rust
 - [Anbox Cloud](https://canonical.com/anbox-cloud) - Canonical's Android streaming platform, includes Rust components
 - [Simon Fels](https://github.com/morphis) - Original creator of Anbox and Anbox Cloud team lead at Canonical
 - [LXD](https://canonical.com/lxd) - Container and VM hypervisor

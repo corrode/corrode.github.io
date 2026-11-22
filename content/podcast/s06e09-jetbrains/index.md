@@ -33,10 +33,10 @@ This episode is about where Rust fits into that world. We talk about why JetBrai
 - [Orhun's Arch Linux packages](https://archlinux.org/packages/?maintainer=orhun) - A great way to discover Rust projects through packaging work
 - [RustRover](https://www.jetbrains.com/rust/) - JetBrains' fully integrated Rust development suite
 - [IdeaVim](https://lp.jetbrains.com/ideavim/) - Vim mode for JetBrains IDEs
-- [LightEdit mode](https://www.jetbrains.com/help/idea/lightedit-mode.html) - Quick startup for simple editing tasks in JetBrains IDEs
+- [LightEdit mode](https://www.jetbrains.com/help/idea/2025.1/lightedit-mode.html) - Quick startup for simple editing tasks in JetBrains IDEs
 - [Welcome to Fleet!](https://blog.jetbrains.com/blog/2021/11/29/welcome-to-fleet/) - The original Fleet announcement
 - [Fleet Below Deck, Part I: Architecture Overview](https://blog.jetbrains.com/fleet/2022/01/fleet-below-deck-part-i-architecture-overview/) - Details on Fleet's hybrid architecture and Rust-based File System Daemon
-- [JetBrains Air](https://air.dev/) - The agentic successor to Fleet
+- [JetBrains Air](https://www.jetbrains.com/air/) - The agentic successor to Fleet
 - [Rust MIR](https://rustc-dev-guide.rust-lang.org/mir/index.html) - The Mid-level IR used as a hook point for RustRover's debugger integrations
 - [Fewer False Positives in RustRover 2026.1](https://blog.jetbrains.com/rust/2026/06/09/fewer-false-positives-rustrover/) - Background on JetBrains' Crate Rover-inspired diagnostics regression work
 - [Crater](https://crater.rust-lang.org/) - The Rust Project's CI tool for rebuilding public crates and catching regressions
@@ -66,6 +66,6 @@ This episode is about where Rust fits into that world. We talk about why JetBrai
 - [JetBrains Open Source Support](https://www.jetbrains.com/community/opensource/)
 - [Orhun's Website](https://orhun.dev/)
 - [Orhun on GitHub](https://github.com/orhun)
-- [Orhun on YouTube](https://youtube.com/@orhundev)
+- [Orhun on YouTube](https://www.youtube.com/@orhundev)
 - [Orhun on Bluesky](https://bsky.app/profile/orhun.dev)
 - [Orhun on LinkedIn](https://www.linkedin.com/in/orhunp/)

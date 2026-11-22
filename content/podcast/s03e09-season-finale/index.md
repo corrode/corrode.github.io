@@ -43,7 +43,7 @@ In the meantime, check out our dedicated [learn](/learn) page for additional con
 - [Chrome Rust Integration](https://security.googleblog.com/2023/01/supporting-use-of-rust-in-chromium.html) - Chrome team's integration of Rust into browser build system
 - [Google's Director of Engineering, Lars Bergstrom, on Rust](https://www.reddit.com/r/rust/comments/1bpwmud/media_lars_bergstrom_google_director_of/) - "Rust teams are twice as productive as teams using C++"
 - [Android memory vulnerabilities drop by 52% after switching to Rust](https://thehackernews.com/2024/09/googles-shift-to-rust-programming-cuts.html) - Google's adoption of Rust
-- [Bevy](https://bevyengine.org/) - Rust game engine with entity component system
+- [Bevy](https://bevy.org/) - Rust game engine with entity component system
 - [LogLog Games - Leaving Rust for gamedev](https://loglog.games/blog/leaving-rust-gamedev/) - Thoughtful article about why LogLog Games no longer uses Rust for game development 
 - [TinyGlade](https://pouncelight.games/tiny-glade/) - Game fully written in Rust, available on Steam
 - [One Of The Rust Linux Kernel Maintainers Steps Down - Cites "Nontechnical Nonsense"](https://www.reddit.com/r/rust/comments/1f3scn1/one_of_the_rust_linux_kernel_maintainers_steps/) - Discussion about Rust adoption in the Linux kernel
@@ -69,7 +69,7 @@ In the meantime, check out our dedicated [learn](/learn) page for additional con
 - [jj](https://github.com/jj-vcs/jj) - Alternative version control system in Rust
 - [Zed](https://zed.dev/) - New code editor written in Rust
 - [Ferrocene](https://ferrocene.dev) - Enterprise Rust support initiative
-- [Rust 2024 Edition](https://doc.rust-lang.org/edition-guide/rust-2024) - Set to release February 20th, 2025
+- [Rust 2024 Edition](https://doc.rust-lang.org/stable/edition-guide/rust-2024/) - Set to release February 20th, 2025
 - [Rust Week](https://rustweek.org) - Upcoming conference with available tickets
 - [Windows API Crate](https://crates.io/crates/windows) - Official Microsoft crate for Windows API
 - [Rust Conferences 2025](/blog/rust-conferences-2025/) - Calendar of Rust events

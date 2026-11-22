@@ -49,13 +49,13 @@ around the time Rust was created, he now works for
  - [hyper](https://hyper.rs/)
  - [rustls](https://github.com/rustls/rustls)
  - [curl's CI infrastructure](https://daniel.haxx.se/blog/2023/02/01/curls-use-of-many-ci-services/)
- - [coreutils in Rust](https://uutils.github.io/coreutils/)
+ - [coreutils in Rust](https://uutils.org/coreutils/)
  - [`curl -Z`](https://curl.se/docs/manpage.html#-Z)
- - [curl crate](https://github.com/alexcrichton/curl-rust)
+ - [curl crate](https://github.com/sagebind/curl-rust)
  - [curl's 101 supported OSes](https://curl.se/docs/install.html#101-operating-systems)
  - ["I could rewrite curl" post](https://daniel.haxx.se/blog/2021/05/20/i-could-rewrite-curl/)
  - [curl's CONTRIBUTE.md](https://github.com/curl/curl/blob/master/docs/CONTRIBUTE.md)
- - [Daniel's FOSDEM'24 talk](https://fosdem.org/2024/schedule/event/fosdem-2024-1931-you-too-could-have-made-curl-/)
+ - [Daniel's FOSDEM'24 talk](https://archive.fosdem.org/2024/schedule/event/fosdem-2024-1931-you-too-could-have-made-curl-/)
  - [Rust in curl](https://daniel.haxx.se/blog/2022/02/01/curl-with-rust/)
 
 

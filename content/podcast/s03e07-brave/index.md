@@ -39,10 +39,10 @@ In his free time, Anton enjoys working on like his fully open-source and Rust-ba
 - [VST](https://en.wikipedia.org/wiki/Virtual_Studio_Technology) - Audio plugin standard
 - [Azul](https://azul.rs/) - Early Rust UI library
 - [Rust subreddit "Who's Hiring"](https://www.reddit.com/r/rust/search?q=title%3A%22Who%27s+Hiring%22&restrict_sr=on&sort=new) - Looking for a Rust job?
-- [XPath](https://developer.mozilla.org/en-US/docs/Web/XPath) - Alternative to CSS style selectors
+- [XPath](https://developer.mozilla.org/en-US/docs/Web/XML/XPath) - Alternative to CSS style selectors
 - [CXX](https://cxx.rs/) - C/C++ Rust Interop crate
 - [CNAME cloaking](https://brave.com/privacy-updates/6-cname-trickery/) - Technique for disguising tracking domains
-- [Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/) - New extension platform specification
+- [Manifest V3](https://developer.chrome.com/docs/extensions/develop/migrate) - New extension platform specification
 - [uBlock Origin](https://github.com/gorhill/uBlock) - Popular content blocker
 - [adblock-rust](https://github.com/brave/adblock-rust) - Brave's adblock engine written in Rust
 - [Public Suffix List](https://publicsuffix.org/) - Explains what a "suffix" is compared to a TLD
@@ -63,8 +63,8 @@ In his free time, Anton enjoys working on like his fully open-source and Rust-ba
 ### Official Links
 
 - [Brave](https://brave.com)
-- [Brave Browser](https://brave.com/download)
+- [Brave Browser](https://brave.com/download/)
 - [Brave Search](https://search.brave.com)
 - [Anton Lazarev on GitHub](https://github.com/antonok-edm)
-- [Anton Lazarev on Mastodon](https://mastodon.social/@antonok@fosstodon.org)
+- [Anton Lazarev on Mastodon](https://fosstodon.org/@antonok)
 - [Anton's amazing Keyboard Project](https://kb2.antonok.com)

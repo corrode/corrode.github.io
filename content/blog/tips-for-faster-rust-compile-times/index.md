@@ -10,7 +10,7 @@ resources = [
  "[Tips for faster CI builds](/blog/tips-for-faster-ci-builds/) - My collection of tips to speed up your CI builds.",
  "[The Rust Perf Book](https://nnethercote.github.io/perf-book/compile-times.html) has a section on compile times.",
  "List of [articles on performance on Read Rust](https://readrust.net/performance).",
- "[8 Solutions for Troubleshooting Your Rust Build Times](https://medium.com/@jondot/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e) is a great article by Dotan Nahum that I fully agree with.",
+ "[8 Solutions for Troubleshooting Your Rust Build Times](https://jondot.medium.com/8-steps-for-troubleshooting-your-rust-build-times-2ffc965fd13e) is a great article by Dotan Nahum that I fully agree with.",
  "Improving the build times of a bigger Rust project (lemmy) [by 30%](https://lemmy.ml/post/50089).",
  "[arewefastyet](http://web.archive.org/web/20210510182416/https://arewefastyet.rs/) (offline) measures how long the Rust compiler takes to compile common Rust programs.",
  "[Speeding up the Rust edit-build-run cycle ](https://davidlattimore.github.io/posts/2024/02/04/speeding-up-the-rust-edit-build-run-cycle.html): A benchmark-driven approach to improving Rust compile times.",
@@ -189,7 +189,7 @@ Thanks for mentioning `cargo-shear` and `cargo-udeps` to reader [Nicholas Nether
 
 (Instructions by [/u/oherrala on Reddit](https://www.reddit.com/r/rust/comments/gi7v2v/is_it_wrong_of_me_to_think_that_rust_crates_have/fqe848y).)
 
-On top of that, use [`cargo audit`](https://github.com/RustSec/cargo-audit) to
+On top of that, use [`cargo audit`](https://github.com/rustsec/rustsec) to
 get notified about any vulnerabilities which need to be addressed, or deprecated
 crates which need a replacement.
 
@@ -281,7 +281,7 @@ Another useful flag is `-Zprint-mono-items=yes`, which prints all [monomorphized
 RUSTFLAGS="-Zprint-mono-items=yes" cargo +nightly build
 ```
 
-_Thanks to [Caspar](https://slowrush.dev) (asparck on [Reddit](https://www.reddit.com/r/rust/comments/1q8x25s/debugging_a_slowcompiling_codegen_unit/)) for this tip!_
+_Thanks to [Caspar](https://www.slowrush.dev/) (asparck on [Reddit](https://www.reddit.com/r/rust/comments/1q8x25s/debugging_a_slowcompiling_codegen_unit/)) for this tip!_
 
 ### Replace Heavy Dependencies
 
@@ -315,7 +315,7 @@ big crate into multiple smaller ones. This code-splitting is great for avoiding
 repetitive compilation because unchanged dependencies don't have to be recompiled.
 Changing a crate can still trigger rebuilds of crates that depend on it.
 Bigger projects like
-[servo](https://github.com/servo/servo/blob/master/Cargo.toml) and
+[servo](https://github.com/servo/servo/blob/main/Cargo.toml) and
 [vector](https://github.com/timberio/vector/blob/1629f7f82e459ae87f699e931ca2b89b9080cfde/Cargo.toml#L28-L34)
 make heavy use of workspaces to reduce compile times.
 
@@ -467,7 +467,7 @@ also called `CG_CLIF`, is an experimental backend for the Rust compiler that
 is based on the [Cranelift](https://cranelift.dev/) compiler framework.
 
 Here is a comparison between rustc's LLVM backend and Cranelift for some popular
-crates from an [earlier write-up by Jason Williams](https://jason-williams.co.uk/a-possible-new-backend-for-rust)
+crates from an [earlier write-up by Jason Williams](https://jason-williams.co.uk/posts/a-possible-new-backend-for-rust/)
 (blue means better):
 
 ![LLVM compile time comparison between rustc and cranelift in favor of cranelift](cranelift.png)
@@ -563,7 +563,7 @@ The zld README recommends using Apple's new linker instead.
 ### macOS Only: Faster Incremental Debug Builds
 
 Rust 1.51 added a flag for faster incremental debug builds on
-macOS. Some engineers [reported](https://jakedeichert.com/blog/reducing-rust-incremental-compilation-times-on-macos-by-70-percent/)
+macOS. Some engineers [reported](https://jacobdeichert.ca/blog/reducing-rust-incremental-compilation-times-on-macos-by-70-percent/)
 that this flag alone reduced compilation times on macOS by **70%** with the older defaults.
 
 The setting in `Cargo.toml` is:
@@ -614,11 +614,11 @@ Thanks to the [nextest team](https://nexte.st/docs/installation/windows/) for th
 ### Tweak Codegen Options And Compiler Flags
 
 Rust comes with a huge set of [settings for code
-generation](https://doc.rust-lang.org/rustc/codegen-options). It can help to
+generation](https://doc.rust-lang.org/stable/rustc/codegen-options/). It can help to
 look through the list and tweak the parameters for your project.
 
 There are **many** gems in the [full list of codegen
-options](https://doc.rust-lang.org/rustc/codegen-options). For inspiration,
+options](https://doc.rust-lang.org/stable/rustc/codegen-options/). For inspiration,
 here's [bevy's config for faster
 compilation](https://github.com/bevyengine/bevy/blob/3a2a68852c0a1298c0678a47adc59adebe259a6f/.cargo/config_fast_builds).
 
@@ -960,7 +960,7 @@ It's nice that `cargo` comes with its own little test runner, but especially if
 you have to run multiple test binaries, [`cargo nextest`](https://nexte.st/)
 can be much faster than `cargo test` thanks to its parallel execution
 model. This speeds up test execution, not compilation.
-Here are some quick [benchmarks](https://nexte.st/book/benchmarks.html):
+Here are some quick [benchmarks](https://nexte.st/docs/benchmarks/):
 
 | Project     | Revision   | Test count | cargo test (s) | nextest (s) | Improvement |
 | ----------- | ---------- | ---------: | -------------: | ----------: | ----------: |
@@ -1128,12 +1128,12 @@ artifacts.
 ```
 
 Services like [Ubicloud](https://www.ubicloud.com/use-cases/github-actions),
-[BuildJet](https://buildjet.com), or
+[BuildJet](https://buildjet.com/for-github-actions), or
 [RunsOn](https://github.com/runs-on/runs-on) provide you with faster workers for
 your Github Actions builds. Especially for Rust pipelines, the number of cores
 can have a significant big impact on compile times, so it might be worth a try.
 
-Here is an example from the [Facebook Folly](https://github.com/facebook/folly)
+Here is an example from the [Facebook Folly](https://github.com/meta/folly)
 project using Ubicloud. Granted, this is a C++ project, but it shows the
 potential of faster runners:
 

@@ -26,7 +26,7 @@ My guests sit on both sides of that interface. Anders Hellerup Madsen works clos
 
 ### About Veo
 
-[Veo](https://www.veo.co/) (Veo Technologies) is a Danish sports-tech company, headquartered in Copenhagen, that builds AI-powered cameras and a video platform for recording and analyzing matches. Instead of relying on a human camera operator, a Veo camera captures the entire pitch in panoramic video and uses computer vision to automatically follow the ball, generate highlights, and produce analysis that coaches, players, and clubs can use. What started in football has grown into a platform used by tens of thousands of teams across the world, spanning many sports, from amateur clubs to professional organizations.
+[Veo](https://www.veo.com/) (Veo Technologies) is a Danish sports-tech company, headquartered in Copenhagen, that builds AI-powered cameras and a video platform for recording and analyzing matches. Instead of relying on a human camera operator, a Veo camera captures the entire pitch in panoramic video and uses computer vision to automatically follow the ball, generate highlights, and produce analysis that coaches, players, and clubs can use. What started in football has grown into a platform used by tens of thousands of teams across the world, spanning many sports, from amateur clubs to professional organizations.
 
 ### About Anders Hellerup Madsen
 
@@ -44,7 +44,7 @@ Gorm Casper is a Software Engineer at Veo. After many years working on the front
 - [Nvidia Jetson](https://developer.nvidia.com/embedded-computing) - Like a Raspberry Pi, but with more video processing capabilities
 - [glib](https://docs.gtk.org/glib/) - The foundation of gstreamer, also of GTK, Gnome, and many more
 - [ffmpeg](https://ffmpeg.org/) - An easier video manipulation tool, but without good support for custom pipeline elements
-- [CUDA](https://developer.nvidia.com/cuda-toolkit) - Nvidia's tooling to run C++ code on the GPU
+- [CUDA](https://developer.nvidia.com/cuda/toolkit) - Nvidia's tooling to run C++ code on the GPU
 - [Sebastian Dröge](https://coaxion.net/) - Amazing Rust and GStreamer developer
 - [OCaml](https://ocaml.org/) - A really nice language and an inspiration for Rust
 - [Rustonomicon](https://doc.rust-lang.org/nomicon/) - The dark arts of unsafe Rust
@@ -59,7 +59,7 @@ Gorm Casper is a Software Engineer at Veo. After many years working on the front
 
 ### Official Links
 
-- [Veo Website](https://www.veo.co/)
+- [Veo Website](https://www.veo.com/)
 - [Anders Hellerup Madsen on LinkedIn](https://dk.linkedin.com/in/anders-hellerup-madsen-78751b3)
 - [Anders Hellerup Madsen on GitLab (freedesktop)](https://gitlab.freedesktop.org/ahem)
 - [Gorm Casper's Website](https://gormcasper.dk/)

@@ -47,7 +47,7 @@ and multiple moving parts.
 
 > A large fraction of the flaws in software development are due to programmers
 > not fully understanding all the possible states their code may execute in.  
-> &mdash; [John Carmack](http://www.sevangelatos.com/john-carmack-on/)
+> &mdash; [John Carmack](https://www.sevangelatos.com/john-carmack-on/)
 
 Immutability can help us reduce the cognitive load of keeping track of state.
 Instead of having to keep track of all the ways in which a variable can change,
@@ -59,7 +59,7 @@ This brings us to Rust, a language that has chosen to prioritize immutability.
 
 In Rust, variables are immutable by default, which means that once a
 variable is bound to a value, it cannot be changed
-(unless you [try excruciatingly hard to shoot yourself in the foot](https://stackoverflow.com/a/54242058/270334)).
+(unless you [try excruciatingly hard to shoot yourself in the foot](https://stackoverflow.com/questions/54237610/is-there-a-way-to-make-an-immutable-reference-mutable/54242058#54242058)).
 
 ```rust
 let x = 42;
@@ -403,7 +403,7 @@ On top of that, they are a common source of deadlocks.
 Immutable code is easier to test, parallelize, and reason about. It's also
 easier to refactor, because you don't have to worry about side effects.
 
-Where [C/C++ requires you to explicitly declare things as immutable](https://stackoverflow.com/a/29682542/270334), Rust requires you to explicitly declare things as mutable, making everything else immutable by default.
+Where [C/C++ requires you to explicitly declare things as immutable](https://stackoverflow.com/questions/28587698/whats-the-difference-between-placing-mut-before-a-variable-name-and-after-the/29682542#29682542), Rust requires you to explicitly declare things as mutable, making everything else immutable by default.
 
 Rust pushes you towards immutability and offers `mut` as an opt-in escape hatch
 for hot paths and tight loops. Many (perhaps most) other languages do the exact

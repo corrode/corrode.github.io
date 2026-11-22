@@ -8,8 +8,8 @@ template = "article.html"
 series = "Idiomatic Rust"
 reviews = [ 
     { name = "Alex Burka (durka)", url = "https://github.com/durka" },
-    { name = "Wesley Moore (wezm)", url = "https://www.wezm.net" },
-    { name = "Mo Bitar  (mo8it)", url = "https://mastodon.social/@mo8it@fosstodon.org" },
+    { name = "Wesley Moore (wezm)", url = "https://www.wezm.net/v2/" },
+    { name = "Mo Bitar  (mo8it)", url = "https://fosstodon.org/@mo8it" },
 ]
 resources = [
    "[The Four Horsemen of Bad Rust Code](https://github.com/corrode/four-horsemen-talk) -- My talk at FOSDEM 2024",
@@ -178,7 +178,7 @@ There are three main ways to convert between numeric types in Rust:
 2. use `TryFrom` when you need to handle potential data loss gracefully.
 3. only use `as` when you're comfortable with potential truncation or know the values will fit within the target type's range and when performance is absolutely critical.
 
-(*Adapted from [StackOverflow answer by delnan](https://stackoverflow.com/a/28280042/270334) and [additional context](https://stackoverflow.com/a/48795524/270334).*)
+(*Adapted from [StackOverflow answer by delnan](https://stackoverflow.com/questions/28273169/how-do-i-convert-between-numeric-types-safely-and-idiomatically/28280042#28280042) and [additional context](https://stackoverflow.com/questions/48795329/what-is-the-difference-between-fromfrom-and-as-in-rust/48795524#48795524).*)
 
 {% </info> %}
 
@@ -547,7 +547,7 @@ impl std::fmt::Debug for DatabaseURI {
 
 ([Rust playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=a2facbaa5290f9518072ac214df370aa))
 
-Thanks to [Wesley Moore (wezm)](https://www.wezm.net) for the hint and to [Simon Brüggen (m3t0r)](https://github.com/M3t0r) for the example.
+Thanks to [Wesley Moore (wezm)](https://www.wezm.net/v2/) for the hint and to [Simon Brüggen (m3t0r)](https://github.com/M3t0r) for the example.
 
 ## Careful With Serialization 
 

@@ -159,7 +159,7 @@ Beginning with **WebAssembly** can be challenging due to its complexity. The tea
 
 I saw some great results with Rust for **embedded systems**, where the tooling is excellent, and there is a clear project boundary. Tools like [probe-rs](https://probe.rs/) are often considered best-in-class.
 
-The **FFI layer** is a good choice if you have a large codebase in another language and want to gradually replace parts of it with Rust. For example, some teams rewrite a performance-critical section of their Java monolith in Rust for 2-3x performance improvements. The [jni crate](https://docs.rs/jni) allows you to create a compatible library.
+The **FFI layer** is a good choice if you have a large codebase in another language and want to gradually replace parts of it with Rust. For example, some teams rewrite a performance-critical section of their Java monolith in Rust for 2-3x performance improvements. The [jni crate](https://docs.rs/jni/latest/jni/) allows you to create a compatible library.
 
 ### Check the Ecosystem
 
@@ -167,7 +167,7 @@ Before starting a Rust project, check the ecosystem for libraries, tools, and re
 
 ### Set Standards for Crates
 
-Some companies are fine with using any crate from crates.io, while others are more conservative and only use crates that have been around for a while and have a good reputation. I find [blessed.rs](https://blessed.rs/) to be a good resource for finding high-quality crates.
+Some companies are fine with using any crate from crates.io, while others are more conservative and only use crates that have been around for a while and have a good reputation. I find [blessed.rs](https://blessed.rs/crates) to be a good resource for finding high-quality crates.
 
 Choosing the right crates can have a big impact on the [long-term maintainability](/blog/long-term-rust-maintenance/) of your project.
 
@@ -197,7 +197,7 @@ Document your position on these questions for future reference and to ensure tha
 
 ### Become An Active Member Of The Community
 
-If you're starting to get serious about Rust, don't stand on the sidelines! Engage with the Rust community through [forums](https://users.rust-lang.org/), and share your insights on your developer blog. Subscribe to [This Week in Rust](https://this-week-in-rust.org/) to stay up-to-date on the latest news and developments in the Rust ecosystem. Keep an eye on the announcements on the [Rust blog](https://blog.rust-lang.org/) as well as the [Rust Foundation](https://foundation.rust-lang.org/). Being an active community member can provide valuable support and keep you updated on best practices.
+If you're starting to get serious about Rust, don't stand on the sidelines! Engage with the Rust community through [forums](https://users.rust-lang.org/), and share your insights on your developer blog. Subscribe to [This Week in Rust](https://this-week-in-rust.org/) to stay up-to-date on the latest news and developments in the Rust ecosystem. Keep an eye on the announcements on the [Rust blog](https://blog.rust-lang.org/) as well as the [Rust Foundation](https://rustfoundation.org/). Being an active community member can provide valuable support and keep you updated on best practices.
 
 ## Project Setup
 

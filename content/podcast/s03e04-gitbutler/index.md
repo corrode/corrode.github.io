@@ -50,11 +50,11 @@ He is a YC alum and has a Master's degree in Computer Science.
 ### Links From The Episode (In Chronological Order)
 
 - [sturdy](https://archive.ph/LWnkz) - Kiril's earlier excursion into version control
-- [Why GitHub Actually Won](https://blog.gitbutler.com/why-github-actually-won/) - Comparing git to other version control software
+- [Why GitHub Actually Won](https://blog.gitbutler.com/why-github-actually-won) - Comparing git to other version control software
 - [git2-rs](https://github.com/rust-lang/git2-rs) - Rust bindings for libgit2
-- [gitoxide](https://github.com/Byron/gitoxide) - Pure Rust implementation of git
-- [jujutsu](https://github.com/martinvonz/jj) - Alternative frontend to git repositories
-- [jgit](https://www.eclipse.org/jgit/) - Java implementation of git
+- [gitoxide](https://github.com/GitoxideLabs/gitoxide) - Pure Rust implementation of git
+- [jujutsu](https://github.com/jj-vcs/jj) - Alternative frontend to git repositories
+- [jgit](https://projects.eclipse.org/projects/technology.jgit) - Java implementation of git
 - [Tauri](https://tauri.app/) - Desktop App toolkit used by GitButler
 - [The Rust Programming Language](https://doc.rust-lang.org/book/) - A very good introduction to Rust, co-authored by Steve Klabnik
 - [Rust in Production: Oxide with Steve Klabnik](/podcast/s03e03-oxide/) - Steve's Podcast episode
@@ -66,7 +66,7 @@ He is a YC alum and has a Master's degree in Computer Science.
 - [Don't Use Preludes And Globs](/blog/dont-use-preludes-and-globs/) - corrode's advice on not using preludes 
 - [Leptos](https://leptos.dev/) - Build interactive web applications in Rust
 - [Dioxus](https://dioxuslabs.com/) - Rust GUI toolkit for web, desktop, mobile, and more
-- [Slint](https://slint-ui.com/) - Declarative Rust GUI toolkit
+- [Slint](https://slint.dev/) - Declarative Rust GUI toolkit
 - [Svelte](https://svelte.dev/) - JS frontend framework used by GitButler
 - [Zed](https://zed.dev/) - An editor with their very own UI toolkit
 - [Rust in Production: Zed](/podcast/s03e01-zed) - Podcast episode with Conrad Irwin from Zed

@@ -20,7 +20,7 @@ resources = [
 
 I recently had the pleasure of interviewing [Falk Woldmann Lu](https://www.linkedin.com/in/falk-woldmann/) about [OTTO's recent migration](https://www.otto.de/jobs/en/blogs/techblog/rust-migration-lambdas-microservices/) of TypeScript Lambdas and Kotlin/Spring services to Rust.
 
-For readers outside Germany: OTTO is one of the country's largest online retailers, with [around 13 million active customers and €7.5 billion in gross merchandise value in the 2025/26 financial year](https://www.otto.de/unternehmen/de/unternehmen/auf-einen-blick).
+For readers outside Germany: OTTO is one of the country's largest online retailers, with [around 13 million active customers and €7.5 billion in gross merchandise value in the 2025/26 financial year](https://www.otto.de/unternehmen/ueber-uns/).
 
 Falk is a Senior Fullstack Developer at OTTO and an Adjunct Rust Tutor at NORDAKADEMIE.
 

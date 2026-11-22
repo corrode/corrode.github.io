@@ -47,7 +47,7 @@ Data pipelines are often slow, unreliable, and complex. [InfinyOn](https://infin
 - [OpenCV](https://opencv.org/)
 - [Old Rust syntax examples (click "start" to see changes over time!)](https://brson.github.io/archaea/)
 - [iced](https://iced.rs/)
-- [cosmic](https://github.com/pop-os/cosmic)
+- [cosmic](https://github.com/pop-os/gnome-shell-extension-pop-cosmic)
 - [softbuffer, a framebuffer crate](https://crates.io/crates/softbuffer)
 - [rust-boot](https://lib.rs/crates/rustboot)
 - [x86_64_unknown_none target triplet](https://doc.rust-lang.org/rustc/platform-support/x86_64-unknown-none.html)

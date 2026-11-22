@@ -56,7 +56,7 @@ and it was an honor to be part of it.
 - [RustWeek 2025](https://rustweek.org/) - Rust conference in Utrecht where we recorded this live episode
 - [DataPower](https://en.wikipedia.org/wiki/DataPower) - Niko's employer before working on Rust
 - [XSLT](https://en.wikipedia.org/wiki/XSLT) - Language to transform arbitrarily shaped XML into different arbitrary shapes
-- [ETH Zürich](https://ethz.ch/) - Niko's Alma Mater
+- [ETH Zürich](https://ethz.ch/de.html) - Niko's Alma Mater
 - [Mozilla](https://www.mozilla.org/en-GB/) - Niko's first employer while working on Rust
 - [rustboot](https://github.com/rust-lang/rust/tree/ef75860a0a72f79f97216f8aaa5b388d98da6480/src/boot) - Rust's first compiler written in OCaml
 - [Don Quixote](https://en.wikipedia.org/wiki/Don_Quixote) - Personification of impractical idealism, just like Rust was in the beginning
@@ -100,7 +100,7 @@ and it was an honor to be part of it.
 
 ### Official Links
 
-- [Rust Language](https://www.rust-lang.org/)
+- [Rust Language](https://rust-lang.org/)
 - [Rust Foundation](https://rustfoundation.org/)
 - [Niko Matsakis' Homepage](https://smallcultfollowing.com/babysteps/)
 - [Niko Matsakis on GitHub](https://github.com/nikomatsakis)

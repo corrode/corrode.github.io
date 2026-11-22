@@ -463,7 +463,7 @@ The goal is to make your API easier to understand and harder to misuse.
 
 {{ <next_steps context="Want a second pair of eyes on your Rust APIs? I can help you put these patterns to work in your codebase." source="local-reasoning-in-rust" /> }}
 
-[^deref]: [RFC 241: Deref coercions](https://github.com/rust-lang/rfcs/blob/master/text/0241-deref-conversions.md) discusses why automatically borrowing arguments would make local reasoning harder.
+[^deref]: [RFC 241: Deref coercions](https://github.com/rust-lang/rfcs/blob/main/text/0241-deref-conversions.md) discusses why automatically borrowing arguments would make local reasoning harder.
 
 [^impl-trait]: [RFC 1951: Expand `impl Trait`](https://rust-lang.github.io/rfcs/1951-expand-impl-trait.html) explains ergonomics in terms of how much you have to keep in your head, and discusses who chooses the concrete type.
 
@@ -472,7 +472,7 @@ The goal is to make your API easier to understand and harder to misuse.
 [^unsafe]: [RFC 2585: Unsafe blocks in unsafe functions](https://rust-lang.github.io/rfcs/2585-unsafe-block-in-unsafe-fn.html) separates defining safety obligations from satisfying them.
     The [Rust 2024 edition guide](https://doc.rust-lang.org/edition-guide/rust-2024/unsafe-op-in-unsafe-fn.html) covers the lint's current default.
 
-[^errors]: [RFC 236: Error conventions](https://github.com/rust-lang/rfcs/blob/master/text/0236-error-conventions.md) recommends expressing contracts through types where possible, and using `Result` or `Option` when a stricter contract is hard to justify.
+[^errors]: [RFC 236: Error conventions](https://github.com/rust-lang/rfcs/blob/main/text/0236-error-conventions.md) recommends expressing contracts through types where possible, and using `Result` or `Option` when a stricter contract is hard to justify.
     The discussion of task failure predates Rust 1.0; the advice about API contracts is the relevant part here.
 
 [^non-exhaustive]: [RFC 2008: Non-exhaustive enums and structs](https://rust-lang.github.io/rfcs/2008-non-exhaustive.html) discusses exhaustive matching and the freedom to add new variants.

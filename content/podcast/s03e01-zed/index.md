@@ -37,7 +37,7 @@ Before joining Zed, Conrad worked on Superhuman, an email client renowned for it
 - [Superhuman](https://superhuman.com/) - High-performance email client known for its speed and efficiency
 - [Visual Studio Code](https://code.visualstudio.com/) - Popular, extensible code editor
 - [Neovim](https://neovim.io/) - Vim-based text editor focused on extensibility and usability
-- [gpui crate](https://github.com/zed-industries/zed/blob/main/crates/gpui) - Zed's custom GUI toolkit for building fast, native user interfaces
+- [gpui crate](https://github.com/zed-industries/zed/tree/main/crates/gpui) - Zed's custom GUI toolkit for building fast, native user interfaces
 - [Leptos](https://leptos.dev/) - Rust framework for building reactive web applications
 - [Dioxus](https://dioxuslabs.com/) - Rust library for building cross-platform user interfaces
 - [Tokio](https://tokio.rs/) - Asynchronous runtime for Rust, powering many network applications

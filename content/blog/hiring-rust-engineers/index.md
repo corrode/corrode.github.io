@@ -32,15 +32,15 @@ The problem shows up when less experienced Rust developers try to get hired. In 
 
 When I talk to teams about Rust, one concern comes up again and again: "Can we even hire for this?" Behind that question is usually a fear that the community is too small.
 
-I don't think that matches the data. The Rust community has more than tripled in size over the past two years and now has [3.7M users, with 0.6M joining in the last six months alone.](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023)
+I don't think that matches the data. The Rust community has more than tripled in size over the past two years and now has [3.7M users, with 0.6M joining in the last six months alone.](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023/)
 
-<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
+<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023/" target="_blank">
 <img src="communities.svg" class="invert" alt="Programming Language Communities Size">
 </a>
 
 The hiring problem is real, but I think companies often look in the wrong place. Teams that have not adopted Rust worry that nobody is available. Teams that already use Rust in production often find that Rust attracts engineers who want to work with the language. If you're still weighing Rust for your organization, see [Why Rust in Production](/blog/why-rust/).
 
-The [season 1 finale of the Rust in Production podcast](/podcast/s01e07-season-finale/?t=23%3A06) had two examples. Paul Dix, Founder and CTO of [InfluxData](https://www.influxdata.com/), said InfluxData received a lot of inbound interest after announcing that its new database core was written in Rust. Micah Wylde, Founder of [Arroyo](https://arroyo.dev/), said Rust helped a small company stand out because people wanted to work with it.
+The [season 1 finale of the Rust in Production podcast](/podcast/s01e07-season-finale/?t=23%3A06) had two examples. Paul Dix, Founder and CTO of [InfluxData](https://www.influxdata.com/), said InfluxData received a lot of inbound interest after announcing that its new database core was written in Rust. Micah Wylde, Founder of [Arroyo](https://www.arroyo.dev/), said Rust helped a small company stand out because people wanted to work with it.
 
 I wrote this guide because I keep seeing companies make the same hiring mistakes. Hiring managers and team leads can use it to tighten job posts and interviews before concluding that Rust talent is impossible to find.
 
@@ -70,7 +70,7 @@ The hard part is fit. Location rules and salary range can filter out otherwise g
 
 For a larger candidate pool, sponsor Rust-focused events, [conferences](/blog/rust-conferences-2025/), or [podcasts](/podcast). Sponsorship is still underused, and it puts your company in front of people who already care about Rust.
 
-Post jobs where Rust developers already look. Good starting points are [Filtra.io](https://filtra.io/rust), [RustJobs.dev](https://rustjobs.dev/), [RustJobs.fyi](https://www.rustjobs.fyi/), and [RemoteOK](https://remoteok.com/remote-rust-jobs). The monthly "Who is hiring?" threads on [Hacker News](https://news.ycombinator.com/) and [Reddit](https://www.reddit.com/r/rust/comments/182f6dv/official_rrust_whos_hiring_thread_for_jobseekers/) can also work well.
+Post jobs where Rust developers already look. Good starting points are [Filtra.io](https://filtra.io/rust), [RustJobs.dev](https://rustjobs.dev/), [RustJobs.fyi](https://www.rustjobs.fyi/), and [RemoteOK](https://remoteok.com/). The monthly "Who is hiring?" threads on [Hacker News](https://news.ycombinator.com/) and [Reddit](https://www.reddit.com/r/rust/comments/182f6dv/official_rrust_whos_hiring_thread_for_jobseekers/) can also work well.
 
 ## Assessing Candidates for Rust Roles
 

@@ -57,8 +57,8 @@ to work on his own startup, but remains involved with the PGMQ project.
 - [Postgres Docs: PL/pgSQL](https://www.postgresql.org/docs/current/plpgsql.html) - Scripting with Procedural Language in PostgreSQL
 - [Postgres Docs: SPI](https://www.postgresql.org/docs/current/spi.html) - The Postgres Server Programming Interface
 - [pgmq](https://github.com/pgmq/pgmq) - A lightweight message queue extension, initially written in Rust
-- [Tembo Blog: Introducing PGMQ](https://www.tembo.io/blog/introducing-pgmq) - a blog post about the project
-- [sqlx](https://github.com/launchbadge/sqlx) - All of the great things of an ORM, without all of the bad things of an ORM
+- [Tembo Blog: Introducing PGMQ](https://temboio.substack.com/p/introducing-pgmq-simple-message-queues) - a blog post about the project
+- [sqlx](https://github.com/transact-rs/sqlx) - All of the great things of an ORM, without all of the bad things of an ORM
 - [tokio](https://tokio.rs/) - The de facto standard async runtime for Rust
 - [AWS SQS](https://aws.amazon.com/sqs/) - Amazon Web Services Simple Queue Service
 - [Postgres Docs: LISTEN](https://www.postgresql.org/docs/current/sql-listen.html) - The native Postgres `sub` part of of pubsub

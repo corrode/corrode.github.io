@@ -86,6 +86,10 @@ exclude = [
   # Returns 200 locally; timed out in consecutive CI runs (2026-09-24).
   '^https://www\.chiark\.greenend\.org\.uk/~ianmdlvl/rust-polyglot/async\.html$',
 
+  # Valid talk schedule, but times out in CI and repeated local checks (2026-11-22).
+  # The corresponding media.ccc.de recording currently returns 404.
+  '^https://frab\.froscon\.org/de/froscon2024/public/events/3105$',
+
   # Dead pages we can't repoint to a sensible replacement.
   '^https://kerkour\.com/bugs-rust-compiler-helps-prevent',          # post removed in site migration
   '^https://www\.influxdata\.com/products/influxdb-enterprise/',     # product page retired

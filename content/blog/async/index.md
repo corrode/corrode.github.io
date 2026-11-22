@@ -47,7 +47,7 @@ written against individual
 runtimes](https://github.com/rust-lang/areweasyncyet.rs/issues/34). Writing your
 async code in a runtime-agnostic fashion requires [conditional
 compilation](https://github.com/launchbadge/sqlx/blob/d0fbe7feff4b3a200cf0453417d5e53bd011643a/sqlx-core/src/rt/mod.rs#L116-L136),
-[compatibility layers](https://docs.rs/async-compat/latest/async_compat) and
+[compatibility layers](https://docs.rs/async-compat/latest/async_compat/) and
 [handling
 edge-cases](https://github.com/seanmonstar/reqwest/issues/719#issuecomment-558758637).
 
@@ -480,7 +480,7 @@ async Rust. Learn to walk before you run.
 
 If you have to use async Rust, stick to Tokio and well-established libraries
 like [reqwest](https://github.com/seanmonstar/reqwest) and
-[sqlx](https://github.com/launchbadge/sqlx).
+[sqlx](https://github.com/transact-rs/sqlx).
 
 While it may seem surprising given the context of this article, we can't
 overlook Tokio's stronghold within the ecosystem. A vast majority of libraries

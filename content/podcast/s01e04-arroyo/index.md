@@ -60,12 +60,12 @@ real-time data to companies that can't hire a streaming infra team.
 ### Tools and Services Mentioned
 
 - [Apache Flink](https://flink.apache.org/)
-- [Tokio Discord](https://discord.gg/tokio)
+- [Tokio Discord](https://discord.com/invite/tokio)
 - [Clippy](https://github.com/rust-lang/rust-clippy)
 - [Zero to Production in Rust by Luca Palmieri](https://www.zero2prod.com/)
-- [Apache DataFusion](https://github.com/apache/arrow-datafusion)
+- [Apache DataFusion](https://github.com/apache/datafusion)
 - [Axum web framework](https://github.com/tokio-rs/axum)
-- [`sqlx` crate](https://github.com/launchbadge/sqlx)
+- [`sqlx` crate](https://github.com/transact-rs/sqlx)
 - [`log` crate](https://github.com/rust-lang/log)
 - [`tokio tracing` crate](https://github.com/tokio-rs/tracing)
 - [wasmtime - A standalone runtime for WebAssembly](https://github.com/bytecodealliance/wasmtime)
@@ -78,7 +78,7 @@ real-time data to companies that can't hire a streaming infra team.
 
 - [Arroyo Homepage](https://www.arroyo.dev/)
 - [Arroyo Streaming Engine](https://github.com/ArroyoSystems/arroyo)
-- [Blog Post: Rust Is The Best Language For Data Infra](https://www.arroyo.dev/blog/rust-for-data-infra)
+- [Blog Post: Rust Is The Best Language For Data Infra](https://www.arroyo.dev/blog/rust-for-data-infra/)
 - [Micah Wylde on LinkedIn](https://www.linkedin.com/in/wylde/)
 - [Micah Wylde on GitHub](https://github.com/mwylde)
 - [Micah Wylde's Personal Homepage](https://www.micahw.com/)

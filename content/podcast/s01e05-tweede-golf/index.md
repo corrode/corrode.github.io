@@ -27,7 +27,7 @@ It provides accurate time synchronization on millions of devices, but its
 C-based implementation, which dates back to the
 1980s, is showing its age. In this episode, we talk to Folkert de Vries, Systems
 Software Engineer at Tweede Golf, about their work on reimplementing NTP in Rust
-as part of [Project Pendulum](https://tweedegolf.nl/en/pendulum).
+as part of [Project Pendulum](https://tweedegolf.nl/en/pendulum/).
 
 
 [`ntpd-rs`](https://github.com/pendulum-project/ntpd-rs) is an open-source
@@ -36,7 +36,7 @@ goal of creating a modern, memory-safe implementation of the NTP protocol.
 
 Funding for the project came from the [Internet Security Research
 Group](https://www.abetterinternet.org/) and the [Sovereign Tech
-Fund](https://www.sovereigntechfund.de/).
+Fund](https://www.sovereign.tech/).
 
 ### About Tweede Golf
 
@@ -63,19 +63,19 @@ working with and extending languages as diverse as Rust, Elm, and Roc.
 - [Network Time Protocol (NTP)](https://en.wikipedia.org/wiki/Network_Time_Protocol)
 - [Precision Time Protocol (PTP)](https://en.wikipedia.org/wiki/Precision_Time_Protocol)
 - [Simple Network Time Protocol (SNTP)](https://en.wikipedia.org/wiki/Network_Time_Protocol#SNTP)
-- [`sudo-rs` - A memory safe implementation of sudo and su](https://github.com/memorysafety/sudo-rs)
+- [`sudo-rs` - A memory safe implementation of sudo and su](https://github.com/trifectatechfoundation/sudo-rs)
 - [Fuzzing in Rust with `cargo-fuzz`](https://github.com/rust-fuzz/cargo-fuzz)
 - [Tokio Async Runtime](https://tokio.rs/)
 - [Internet Security Research Group](https://www.abetterinternet.org/)
-- [Sovereign Tech Fund](https://www.sovereigntechfund.de/)
+- [Sovereign Tech Fund](https://www.sovereign.tech/)
 
 ### Official Links
 
 - [Tweede Golf](https://tweedegolf.nl/)
-- [Tweede Golf - About Folkert de Vries](https://tweedegolf.nl/en/about/21/folkert)
+- [Tweede Golf - About Folkert de Vries](https://tweedegolf.nl/en/about/21/folkert/)
 - [Folkert de Vries on GitHub](https://github.com/folkertdev)
 - [Folkert de Vries on Twitter](https://twitter.com/flokkievids)
 - [Folkert de Vries on LinkedIn](https://www.linkedin.com/in/folkert-de-vries-24ab691b7/)
 - [Prossimo Project](https://www.memorysafety.org/)
-- [Project Pendulum](https://tweedegolf.nl/en/pendulum)
+- [Project Pendulum](https://tweedegolf.nl/en/pendulum/)
 - [RustNL Conference, May 7 & 8, 2024](https://2024.rustnl.org/)

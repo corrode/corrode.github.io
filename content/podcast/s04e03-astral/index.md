@@ -74,8 +74,8 @@ Charlie is an engaging speaker and a great communicator.
 - [samply](https://github.com/mstange/samply) - Sampling based profiler written in Rust
 - [cargo flamegraph](https://github.com/flamegraph-rs/flamegraph) - Cargo profiling plugin
 - [tokio](https://tokio.rs) - Asynchronous runtime for Rust
-- [curl-rust](https://github.com/alexcrichton/curl-rust) - Network API used in cargo
-- [tar-rs](https://github.com/alexcrichton/tar-rs) - Sync tar crate
+- [curl-rust](https://github.com/sagebind/curl-rust) - Network API used in cargo
+- [tar-rs](https://github.com/composefs/tar-rs) - Sync tar crate
 - [async-tar](https://github.com/dignifiedquire/async-tar) - Async tar crate based on the async_std runtime
 - [tokio-tar](https://github.com/vorot93/tokio-tar) - Async tar crate based on tokio
 - [astral-tokio-tar](https://github.com/astral-sh/tokio-tar) - Async tar crate based on tokio, maintained by Astral

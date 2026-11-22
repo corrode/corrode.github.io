@@ -97,14 +97,14 @@ From experience, the majority of companies care less about uncompromising
 performance and more about [reliability and
 stability](https://talks.osfc.io/osfc2021/talk/JTWYEH/) of their services.
 
-This is backed by the [*State of DevOps Report 2023*](https://cloud.google.com/devops/state-of-devops/)
+This is backed by the [*State of DevOps Report 2023*](https://dora.dev/research/2023/dora-report/)
 by Google Cloud, which states:
 
 > **Reliability unlocks performance.** [...]
 > Strong reliability practices predict better operational performance, team
 > performance, and organizational performance. [...]
 > Being able to operate the machine effectively allows teams to achieve more,
-> which allows organizations to thrive. - [*State of DevOps Report 2023*](https://cloud.google.com/devops/state-of-devops/)
+> which allows organizations to thrive. - [*State of DevOps Report 2023*](https://dora.dev/research/2023/dora-report/)
 
 More predictable and stable services are easier to maintain and cheaper to
 operate. Less time is spent on debugging and on-call, and more time on building
@@ -117,7 +117,7 @@ under load.
 > months with minimal supervision. - [xAI (formerly Twitter)](https://x.ai/)
 
 As another example, the npm registry migrated to Rust in 2019. (See their whitepaper
-[here](https://www.rust-lang.org/static/pdfs/Rust-npm-Whitepaper.pdf).) As the
+[here](https://rust-lang.org/static/pdfs/Rust-npm-Whitepaper.pdf).) As the
 largest software registry in the world, it sees upwards of 1.3 billion package
 downloads... *per day*. Npm is critical infrastructure for the JavaScript
 ecosystem, and the stability of its services is paramount. This focus on
@@ -135,7 +135,7 @@ during development. (Source: NIST [Costs of Software Defects](https://www.nist.g
 <img src="bug-costs.svg" class="invert" alt="Cost of fixing bugs over time">
 
 In a survey, [Microsoft found that 70% of their bugs are due to memory safety
-issues](https://msrc.microsoft.com/blog/2019/07/a-proactive-approach-to-more-secure-code/).
+issues](https://www.microsoft.com/en-us/msrc/blog/2019/07/a-proactive-approach-to-more-secure-code).
 In 2018, the number of CVEs (Common Vulnerabilities and Exposures) at Microsoft
 was 468. Each CVE costs an average of $150,000 to fix, which, as Microsoft
 points out, is a very conservative estimate. (Source: [Ryan Levick - Rust at
@@ -226,7 +226,7 @@ much more predictable and smooth.
 
 Another example is
 [Cloudflare](https://blog.cloudflare.com/big-pineapple-intro/),
-which uses Rust to power their DNS service, [1.1.1.1](https://1.1.1.1/). They
+which uses Rust to power their DNS service, [1.1.1.1](https://one.one.one.one/). They
 mention that Rust's predictable runtime behavior is a big reason for using it:
 
 > One of the things we’ve learned with the previous implementations is that, for
@@ -382,7 +382,7 @@ can focus on building features and growing their business before they need to wo
 performance bottlenecks.
 
 In his talk at FrOSCon 2024, [Daniél Kerkmann](https://github.com/kerkmann), software engineer at
-[OpenTalk](https://opentalk.eu) &ndash; a secure video conferencing platform written in Rust &ndash; shared that
+[OpenTalk](https://opentalk.eu/de) &ndash; a secure video conferencing platform written in Rust &ndash; shared that
 sentiment:
 
 > **The performance of Rust kept us afloat for a long time.**
@@ -524,9 +524,9 @@ For more insights on finding and hiring Rust talent, see our dedicated guide on 
 > Rust has more than tripled the size of its community over the past two years
 > and currently has 3.7M users, of which 0.6M joined in the last six months
 > alone.[...] Furthermore, Rust has built a loyal community of developers who care
-> about memory safety and security. - [State of the Developer Nation 24th Edition - Q1 2023 report](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023)
+> about memory safety and security. - [State of the Developer Nation 24th Edition - Q1 2023 report](https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023/)
 
-<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023" target="_blank">
+<a href="https://www.developernation.net/resources/reports/state-of-the-developer-nation-24th-edition-q1-2023/" target="_blank">
 <img src="communities.svg" class="invert" alt="Programming Language Communities Size">
 </a>
 
@@ -584,7 +584,7 @@ The time to become productive with Rust varies. Google's experience suggests:
 > languages in two months or less. **Within four months, that number increased to
 > over 50%.** - [Google](https://opensource.googleblog.com/2023/06/rust-fact-vs-fiction-5-insights-from-googles-rust-journey-2022.html)
 
-Microsoft also shared a [similar experience](https://msrc.microsoft.com/blog/2020/04/the-safety-boat-kubernetes-and-rust/):
+Microsoft also shared a [similar experience](https://www.microsoft.com/en-us/msrc/blog/2020/04/the-safety-boat-kubernetes-and-rust):
 
 > **It takes several weeks of hard effort** learning how to code properly in Rust
 > before the learning curve levels out. However, that hard effort up front pays
@@ -604,7 +604,7 @@ environment](https://mdwdotla.medium.com/using-rust-at-a-startup-a-cautionary-ta
 > then the answer is not clear-cut. [...] Development velocity and being able to
 > make rapid iterations is so important for an early stage startup that it
 > outweighs a lot of the benefits that Rust brings to the table. -
-> [Christos Hadjiaslanis - Founder of Shuttle](https://www.shuttle.rs/blog/2021/10/08/building-a-startup-with-rust)
+> [Christos Hadjiaslanis - Founder of Shuttle](https://www.shuttle.dev/blog/2021/10/08/building-a-startup-with-rust)
 
 
 ### Compile Times

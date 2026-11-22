@@ -7,7 +7,7 @@ template = "article.html"
 series = "Idiomatic Rust"
 reviews = [
     { name = "Tyler Stevens", url = "https://www.linkedin.com/in/tpstevens/" },
-    { name = "kat", url = "https://www.sakurakat.systems/" },
+    { name = "kat", url = "https://sakurakat.systems/" },
 ]
 resources = [
     "[Making illegal states unrepresentable](/blog/illegal-state/)",
@@ -701,12 +701,12 @@ Here are the most relevant ones:
 
 | Lint | Description |
 |------|-------------|
-| [`clippy::indexing_slicing`](https://rust-lang.github.io/rust-clippy/master/index.html#indexing_slicing) | Prevents direct indexing into slices and vectors |
-| [`clippy::fallible_impl_from`](https://rust-lang.github.io/rust-clippy/master/index.html#fallible_impl_from) | Warns about `From` implementations that can panic and should be `TryFrom` instead. |
-| [`clippy::wildcard_enum_match_arm`](https://rust-lang.github.io/rust-clippy/master/index.html#wildcard_enum_match_arm) | Disallows wildcard `_` patterns. |
-| [`clippy::unneeded_field_pattern`](https://rust-lang.github.io/rust-clippy/master/index.html#unneeded_field_pattern) | Identifies when you're ignoring too many struct fields with `..` unnecessarily. |
-| [`clippy::fn_params_excessive_bools`](https://rust-lang.github.io/rust-clippy/master/index.html#fn_params_excessive_bools) | Warns when a function has too many boolean parameters (4 or more by default). |
-| [`clippy::must_use_candidate`](https://rust-lang.github.io/rust-clippy/master/index.html#must_use_candidate) | Suggests adding `#[must_use]` to types that are good candidates for it. |
+| [`clippy::indexing_slicing`](https://clippy.rust-lang.org/master/index.html#indexing_slicing) | Prevents direct indexing into slices and vectors |
+| [`clippy::fallible_impl_from`](https://clippy.rust-lang.org/master/index.html#fallible_impl_from) | Warns about `From` implementations that can panic and should be `TryFrom` instead. |
+| [`clippy::wildcard_enum_match_arm`](https://clippy.rust-lang.org/master/index.html#wildcard_enum_match_arm) | Disallows wildcard `_` patterns. |
+| [`clippy::unneeded_field_pattern`](https://clippy.rust-lang.org/master/index.html#unneeded_field_pattern) | Identifies when you're ignoring too many struct fields with `..` unnecessarily. |
+| [`clippy::fn_params_excessive_bools`](https://clippy.rust-lang.org/master/index.html#fn_params_excessive_bools) | Warns when a function has too many boolean parameters (4 or more by default). |
+| [`clippy::must_use_candidate`](https://clippy.rust-lang.org/master/index.html#must_use_candidate) | Suggests adding `#[must_use]` to types that are good candidates for it. |
 
 You can enable these in your project by adding them at the top of your crate, e.g.
 

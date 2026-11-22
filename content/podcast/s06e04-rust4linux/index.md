@@ -16,7 +16,7 @@ series = "Podcast"
 
 ![Rust for Linux Live](./interview.jpg)
 
-Hot off the press: this episode is a live recording from [Rust Week](https://2026.rustweek.org/) in Utrecht, just two days ago. On stage with me are two people who hardly need an introduction in the Linux world: [Greg Kroah-Hartman](http://www.kroah.com/linux/), Linux Foundation Fellow, stable kernel maintainer and an embassador for the kernel, and [Alice Ryhl](https://www.ryhl.io/), core maintainer of [Tokio](https://tokio.rs/) and one of the driving forces behind Rust for Linux at Google.
+Hot off the press: this episode is a live recording from [Rust Week](https://2026.rustweek.org/) in Utrecht, just two days ago. On stage with me are two people who hardly need an introduction in the Linux world: [Greg Kroah-Hartman](http://www.kroah.com/linux/), Linux Foundation Fellow, stable kernel maintainer and an embassador for the kernel, and [Alice Ryhl](https://ryhl.io/), core maintainer of [Tokio](https://tokio.rs/) and one of the driving forces behind Rust for Linux at Google.
 
 I have to admit a bit of personal history here: I first wrote about Greg more than 20 years ago for the German online newspaper [Pro-Linux](https://web.archive.org/web/20200531000000/https://www.pro-linux.de/). Getting to sit down with him, and with Alice, in front of a live audience to talk about how Rust is reshaping the most important piece of infrastructure on the planet, was a genuine career highlight.
 
@@ -50,7 +50,7 @@ Learn more about Rust Week on their [website](https://rustweek.org/).
 - [Linux Docs: USB Subsystem Maintainer](https://docs.kernel.org/process/maintainers.html?highlight=Greg%20Kroah-Hartman#usb-subsystem) - Greg's first contribution led to him maintaining the USB subsystem, and much more
 - [The Register: Happy birthday, Linux: From a bedroom project to billions of devices in 30 years](https://www.theregister.com/software/2021/08/25/happy-birthday-linux-from-a-bedroom-project-to-billions-of-devices-in-30-years/1295876) - An interview with Greg celebrating the 30 year anniversary of the Linux kernel
 - [Tokio](https://tokio.rs/) - Another big project maintained by Alice
-- [RustWeek: Untrusted data in Linux — How Rust is going to save us](https://2026.rustweek.org/talks/greg) - Greg's talk at RustWeek; Rust is gonna save Linux?!
+- [RustWeek: Untrusted data in Linux — How Rust is going to save us](https://2026.rustweek.org/talks/greg/) - Greg's talk at RustWeek; Rust is gonna save Linux?!
 - [Rust in Production: Rust for Linux](https://corrode.dev/podcast/s05e06-rust4linux/) - With Danilo, one of the co-maintainers with Greg on the Driver Core subsystem and others
 - [Phoronix: New Linux Patch Confirms: Rust Experiment Is Done, Rust Is Here To Stay](https://www.phoronix.com/news/Rust-To-Stay-Linux-Kernel) - The official end of experimental Rust
 - [Linux Plumbers Conference](https://lpc.events/) - A big conference for all levels of kernel developers
@@ -63,7 +63,7 @@ Learn more about Rust Week on their [website](https://rustweek.org/).
 - [Linux Rust Architecture support](https://origin.kernel.org/doc/html/latest/rust/arch-support.html) - Missing some big platforms like S390 (IBM Mainframes) and MIPS (a lot of consumer networking hardware)
 - [sched_ext Schedulers written in Rust](https://sched-ext.com/docs/scheds/rust) - sched_lavd shows promise for video game performance, and servers?
 - [Aya](https://aya-rs.dev/) - Build eBPF programs with nothing more than Rust and the Linux kernel
-- [RustWeek: Completion-based IO](https://2026.rustweek.org/talks/alice) - Alice's talk at RustWeek about IO
+- [RustWeek: Completion-based IO](https://2026.rustweek.org/talks/alice/) - Alice's talk at RustWeek about IO
 - [WE DO NOT BREAK USERSPACE](https://lore.kernel.org/lkml/CA+55aFy98A+LJK4+GWMcbzaa1zsPBRo76q+ioEjbx-uaMKH6Uw@mail.gmail.com/t/) - An e-mail from Linus explaining the mantra in typical Linus fashion
 - [Linux clippy config](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/.clippy.toml) - It's not pedantic!
 - [Rust code style](https://origin.kernel.org/doc/html/latest/rust/coding-guidelines.html) - Coding guidelines of the Linux project for Rust code
@@ -78,5 +78,5 @@ Learn more about Rust Week on their [website](https://rustweek.org/).
 - [Greg Kroah-Hartman on Wikipedia](https://en.wikipedia.org/wiki/Greg_Kroah-Hartman)
 - [Greg Kroah-Hartman's homepage (momentarily offline)](https://web.archive.org/web/20260226054256/http://www.kroah.com/linux/)
 - [Greg Kroah-Hartman on Mastodon](https://social.kernel.org/gregkh)
-- [Alice Ryhl's website](https://www.ryhl.io/)
+- [Alice Ryhl's website](https://ryhl.io/)
 - [Alice Ryhl on GitHub](https://github.com/Darksonn)

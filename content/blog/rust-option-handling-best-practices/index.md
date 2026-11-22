@@ -6,7 +6,7 @@ template = "article.html"
 [extra]
 series = "Idiomatic Rust"
 reviews = [
-    { name = "woshilapin", url = "https://mastodon.social/@woshilapin@mamot.fr" },
+    { name = "woshilapin", url = "https://mamot.fr/@woshilapin" },
     { name = "Artur Jakubiec", url = "https://www.linkedin.com/in/artur-jakubiec" },
     { name = "Andrew Gallant (burntsushi)", url = "https://burntsushi.net/"},
     { name = "Demian Ferreiro", url = "https://demian.ferrei.ro/"},
@@ -103,7 +103,7 @@ And in production code, it sets a bad example:
 one `unwrap` attracts another and the codebase becomes more fragile as you continue down this path. [^2]
 
 [^2]: Sometimes, `unwrap()` can make code more readable by reducing noise, especially when the success case is overwhelmingly likely.
-It's okay to use `unwrap()` when you can prove that a failure is impossible or when a panic is actually the desired behavior for failures. Andrew Gallant [wrote an article on this](https://blog.burntsushi.net/unwrap/) where he goes into more detail.
+It's okay to use `unwrap()` when you can prove that a failure is impossible or when a panic is actually the desired behavior for failures. Andrew Gallant [wrote an article on this](https://burntsushi.net/unwrap/) where he goes into more detail.
 
 Okay, I've kept you waiting long enough. Let's demystify this error message.
 

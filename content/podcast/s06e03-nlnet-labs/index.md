@@ -25,7 +25,7 @@ In this episode, I talk to Arya Khanna and Martin Hoffmann from NLnet Labs about
 
 ### About NLnet Labs
 
-NLnet Labs is a non-profit foundation based in Amsterdam that develops open source software and open standards for the core infrastructure of the Internet. Since 1999, the small but dedicated team has built some of the most widely deployed building blocks of the modern web, including the authoritative DNS nameserver [NSD](https://nlnetlabs.nl/projects/nsd/about/), the recursive DNS resolver [Unbound](https://nlnetlabs.nl/projects/unbound/about/), and the RPKI tools [Krill](https://github.com/NLnetLabs/krill) and [Routinator](https://nlnetlabs.nl/projects/routing/routinator/), which secure global Internet routing. Their work is trusted by operators ranging from hobbyist Pi-Hole users to Let's Encrypt and major Internet service providers. In recent years, NLnet Labs has been steadily moving its new development to Rust, with projects like the [domain](https://nlnetlabs.nl/projects/domain/about/) crate and the [Cascade](https://nlnetlabs.nl/news/2025/Oct/07/cascade-0.1.0-released/) DNSSEC signer leading the way.
+NLnet Labs is a non-profit foundation based in Amsterdam that develops open source software and open standards for the core infrastructure of the Internet. Since 1999, the small but dedicated team has built some of the most widely deployed building blocks of the modern web, including the authoritative DNS nameserver [NSD](https://nlnetlabs.nl/projects/nsd/about/), the recursive DNS resolver [Unbound](https://nlnetlabs.nl/projects/unbound/about/), and the RPKI tools [Krill](https://github.com/NLnetLabs/krill) and [Routinator](https://nlnetlabs.nl/projects/routinator/about/), which secure global Internet routing. Their work is trusted by operators ranging from hobbyist Pi-Hole users to Let's Encrypt and major Internet service providers. In recent years, NLnet Labs has been steadily moving its new development to Rust, with projects like the [domain](https://nlnetlabs.nl/projects/domain/about/) crate and the [Cascade](https://nlnetlabs.nl/news/2025/Oct/07/cascade-0.1.0-released/) DNSSEC signer leading the way.
 
 
 ### Links From The Episode
@@ -46,7 +46,7 @@ NLnet Labs is a non-profit foundation based in Amsterdam that develops open sour
 - [Arc Welding](https://en.wikipedia.org/wiki/Arc_welding) - The other type of "fixing"
 - [Alejandra González' crate dependency analysis](https://tech.lgbt/@blyxyas/116252699616176134) - 46% of published crates depend directly on tokio
 - [RPKI](https://en.wikipedia.org/wiki/Resource_Public_Key_Infrastructure) - Signing and validating IPs and routing information
-- [Routinator](https://nlnetlabs.nl/projects/routing/routinator/) - A RPKI validator, one of the first Rust applications in production
+- [Routinator](https://nlnetlabs.nl/projects/routinator/about/) - A RPKI validator, one of the first Rust applications in production
 - [hyper](https://hyper.rs/) - The ubiquitous HTTP crate
 - [Krill](https://github.com/NLnetLabs/krill) - The RPKI Certificate Authority tool with "fun" shutdown code
 - [Roto](https://codeberg.org/NLnetLabs/roto) - Tert's scripting language, used by another NLNet Labs project, Rotonda

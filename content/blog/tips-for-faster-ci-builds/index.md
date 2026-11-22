@@ -277,7 +277,7 @@ They promise large speedups for Rust builds, but I haven't tested them myself.
 
 ## Automate Dependency Updates 
 
-Implement [dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide) or [Renovate](https://docs.renovatebot.com/)
+Implement [dependabot](https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/dependabot-quickstart) or [Renovate](https://docs.renovatebot.com/)
 to automate dependency updates.
 Instead of manually creating PRs for updates and waiting for CI, these bots handle this automatically, creating PRs that you can merge when ready.
 
