@@ -1,8 +1,8 @@
 +++
-title = "1-on-1 Rust Mentorship"
+title = "1-on-1 Rust Mentoring"
 template = "mentorship.html"
-description = "1-on-1 Rust mentorship for experienced engineers working on real projects. Build the expertise to design, review, and ship maintainable Rust systems."
-aliases = ["pro"]
+description = "1-on-1 Rust mentoring for experienced engineers working on real projects. Build the expertise to design, review, and ship maintainable Rust systems."
+aliases = ["pro", "mentorship"]
 +++
 
 <header class="pro-hero">
@@ -16,13 +16,13 @@ For experienced engineers moving from Python, Go, or another language into serio
 </p>
 
 <div class="pro-hero-cta">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=hero" data-cal-cta="hero" class="pro-btn pro-btn-primary">Book a Free Call</a>
+<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=hero" data-cal-cta="hero" class="pro-btn pro-btn-primary">Book a Free Call</a>
 <a href="#pricing" class="pro-btn pro-btn-secondary">See Sessions & Pricing</a>
 </div>
 <p class="pro-hero-note">We'll talk about your Rust work and decide whether I can help. No obligation or sales pressure.</p>
 </div>
 
-<video autoplay muted loop playsinline width="1024" height="576" poster="/pro-pairing-session-poster.jpg" class="pro-hero-video" aria-label="A Rust mentorship pairing session">
+<video autoplay muted loop playsinline width="1024" height="576" poster="/pro-pairing-session-poster.jpg" class="pro-hero-video" aria-label="A Rust mentoring pairing session">
     <source src="/pro-pairing-session.avif" type="video/mp4; codecs=av01" />
     <source src="/pro-pairing-session.mp4" type="video/mp4" />
 </video>
@@ -41,10 +41,10 @@ For experienced engineers moving from Python, Go, or another language into serio
 </ul>
 </div>
 
-<img src="/mentorship/mentor.svg" alt="Mentorship vs Self-learning chart" class="pro-mentor-chart" />
+<img src="/mentoring/mentor.svg" alt="Mentoring vs Self-learning chart" class="pro-mentor-chart" />
 
 <div class="pro-section-cta">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=audience" data-cal-cta="audience" class="pro-btn pro-btn-primary">Discuss Your Rust Project</a>
+<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=audience" data-cal-cta="audience" class="pro-btn pro-btn-primary">Discuss Your Rust Project</a>
 </div>
 </div>
 </section>
@@ -90,7 +90,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 </figure>
 </section>
 <div class="pro-section-cta">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=mentor" data-cal-cta="mentor" class="pro-btn pro-btn-primary">Book Your First Call</a>
+<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=mentor" data-cal-cta="mentor" class="pro-btn pro-btn-primary">Book Your First Call</a>
 </div>
 </div>
 </section>
@@ -102,20 +102,20 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <article class="pro-value-item">
 <h3>Recognize <span class="highlight">Good Rust</span></h3>
 <p>Bring a design you are unsure about, code you need to review, or a project you want to ship. We compare alternatives and make the trade-offs explicit.</p>
-<img src="/mentorship/ferris-master.png" alt="Ferris the Crab as a Wizard" class="pro-value-image" />
+<img src="/mentoring/ferris-master.png" alt="Ferris the Crab as a Wizard" class="pro-value-image" />
 <p>You leave with a clearer understanding and concrete next steps. The goal is for you to handle the implementation.</p>
 </article>
 
 <article class="pro-value-item">
 <h3><span class="highlight">Systems Design</span> & Project Structure</h3>
 <p>Learn how to choose API boundaries, ownership models, traits, dependencies, and crate structure that remain understandable as the system grows.</p>
-<img src="/mentorship/ferris-learn.png" alt="Ferris the Crab reading a book" class="pro-value-image" />
+<img src="/mentoring/ferris-learn.png" alt="Ferris the Crab reading a book" class="pro-value-image" />
 </article>
 
 <article class="pro-value-item">
 <h3><span class="highlight">Review Rust</span> With Confidence</h3>
 <p>Learn to spot accidental complexity, unnecessary clones, weak type models, and overly complex abstractions.</p>
-<img src="/mentorship/ferris-builder.png" alt="Ferris the Crab surfing" class="pro-value-image" />
+<img src="/mentoring/ferris-builder.png" alt="Ferris the Crab surfing" class="pro-value-image" />
 </article>
 
 </div>
@@ -126,7 +126,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <section class="pro-section">
 <div class="pro-container-narrow">
 <h2 class="pro-section-title">Why Work With a Mentor?</h2>
-<p class="pro-section-subtitle">You can read documentation to learn the syntax, but mentorship helps you build the judgment to make decisions with confidence.</p>
+<p class="pro-section-subtitle">You can read documentation to learn the syntax, but mentoring helps you build the judgment to make decisions with confidence.</p>
 
 <div class="pro-comparison-wrapper">
 <table class="pro-comparison-table">
@@ -187,7 +187,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <li>Clear next steps you can continue independently</li>
 </ul>
 <a href="https://corrode.dev/book/" class="pro-btn pro-btn-primary pro-btn-full">Book a Single Session</a>
-<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=single" data-cal-cta="single">Book a free call</a>.</p>
+<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=single" data-cal-cta="single">Book a free call</a>.</p>
 </article>
 
 <article class="pro-price-card featured">
@@ -202,7 +202,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <li>Brief questions by chat or email between sessions</li>
 </ul>
 <a href="https://buy.stripe.com/6oUfZigeKaubb4Xf5d9k401" class="pro-btn pro-btn-primary pro-btn-full">Buy the 5-Session Package</a>
-<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=five" data-cal-cta="five">Book a free call</a>.</p>
+<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=five" data-cal-cta="five">Book a free call</a>.</p>
 </article>
 
 <article class="pro-price-card">
@@ -217,7 +217,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <li>A long-term plan for owning the codebase confidently</li>
 </ul>
 <a href="https://buy.stripe.com/fZuaEY9Qm1XFb4X6yH9k402" class="pro-btn pro-btn-primary pro-btn-full">Buy the 10-Session Package</a>
-<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=ten" data-cal-cta="ten">Book a free call</a>.</p>
+<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=ten" data-cal-cta="ten">Book a free call</a>.</p>
 </article>
 </div>
 
@@ -236,18 +236,18 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 [
   {
     "q": "Is this for me?",
-    "a": "This mentorship is designed for experienced engineers who already know how to build software and now have a real Rust project, codebase, or review responsibility. It is especially useful when your experience comes from Python, Go, Java, C++, or another language whose familiar patterns do not translate directly to Rust. If you need organization-wide adoption support, team consulting and training are a better fit."
+    "a": "This mentoring is designed for experienced engineers who already know how to build software and now have a real Rust project, codebase, or review responsibility. It is especially useful when your experience comes from Python, Go, Java, C++, or another language whose familiar patterns do not translate directly to Rust. If you need organization-wide adoption support, team consulting and training are a better fit."
   },
   {
     "q": "What happens on the free call?",
-    "a": "We'll talk about your background, your current Rust work, and the decisions or skills you want to improve. I'll explain how I work and tell you honestly whether mentorship, a single session, a free resource, or a different kind of help makes the most sense. There is no obligation and no sales pressure."
+    "a": "We'll talk about your background, your current Rust work, and the decisions or skills you want to improve. I'll explain how I work and tell you honestly whether mentoring, a single session, a free resource, or a different kind of help makes the most sense. There is no obligation and no sales pressure."
   },
   {
     "q": "Do I need an existing Rust project?",
     "a": "A real project or codebase is ideal because it gives our work context, but it is not mandatory. We can choose a realistic project or use a design and review exercise based on the kind of Rust work you expect to do."
   },
   {
-    "q": "Can I use AI during mentorship?",
+    "q": "Can I use AI during mentoring?",
     "a": "Yes. AI can generate Rust quickly, but the difficult part is deciding whether the types, boundaries, dependencies, async behavior, and failure modes belong in a production system. We'll use tools where they help while strengthening the mental models you need to direct and review them. The goal is for you to remain responsible for the design."
   },
   {
@@ -297,7 +297,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 <p class="pro-section-subtitle">We'll use the free call to understand the problem and decide on the next steps.</p>
 
 <div class="pro-cta-buttons">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentorship&amp;utm_content=final" data-cal-cta="final" class="pro-btn pro-btn-primary">Book a Free Call</a>
+<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=final" data-cal-cta="final" class="pro-btn pro-btn-primary">Book a Free Call</a>
 </div>
 </div>
 </section>
