@@ -1,5 +1,7 @@
 <footer class="site-footer">
+    {% if not hide_newsletter | default(value=false) %}
     {% include "snippets/newsletter.html" %}
+    {% endif %}
     <div class="footer">
         <div class="footer-container">
             <div class="footer-column">

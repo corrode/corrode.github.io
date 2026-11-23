@@ -12,14 +12,13 @@ aliases = ["pro", "mentorship"]
 <span class="highlight">and Ship Better Rust</span>
 </h1>
 <p class="pro-hero-subtitle">
-For experienced engineers moving from Python, Go, or another language into serious Rust work. Bring your project or codebase and learn how to make sound design, architecture, and code-review decisions yourself.
+For experienced engineers moving from Python, Go, C++, or another language into serious Rust work. Bring your project or codebase and learn how to make sound design, architecture, and code-review decisions yourself.
 </p>
 
 <div class="pro-hero-cta">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=hero" data-cal-cta="hero" class="pro-btn pro-btn-primary">Book a Free Call</a>
-<a href="#pricing" class="pro-btn pro-btn-secondary">See Sessions & Pricing</a>
+<a href="#contact" class="pro-btn pro-btn-primary">Get Rust Mentoring</a>
 </div>
-<p class="pro-hero-note">We'll talk about your Rust work and decide whether I can help. No obligation or sales pressure.</p>
+<p class="pro-hero-note">Start with a short inquiry. If I think I can help, I'll invite you to a free 30-minute intro call.</p>
 </div>
 
 <video autoplay muted loop playsinline width="1024" height="576" poster="/pro-pairing-session-poster.jpg" class="pro-hero-video" aria-label="A Rust mentoring pairing session">
@@ -44,7 +43,37 @@ For experienced engineers moving from Python, Go, or another language into serio
 <img src="/mentoring/mentor.svg" alt="Mentoring vs Self-learning chart" class="pro-mentor-chart" />
 
 <div class="pro-section-cta">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=audience" data-cal-cta="audience" class="pro-btn pro-btn-primary">Discuss Your Rust Project</a>
+<a href="#contact" class="pro-btn pro-btn-primary">Get Rust Mentoring</a>
+</div>
+</div>
+</section>
+
+<section class="pro-section">
+<div class="pro-container-narrow">
+<h2 id="mentoring-journey" class="pro-section-title">Your Mentoring Journey</h2>
+<ol class="pro-timeline" role="list">
+<li>
+<h3><svg class="pro-timeline-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 11a8 8 0 0 1-8 8H7l-4 3V11a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z"/><path d="M8 9h8M8 13h5"/></svg><span>Tell Me About Your Goals</span></h3>
+<p>Share your background, what you'd like to achieve, and the time you have available in the form below. I'll review your answers and, if I think I can help, invite you to a free 30-minute intro call. We'll use that time to discuss your goals and decide whether working together makes sense.</p>
+</li>
+<li>
+<h3><svg class="pro-timeline-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 2v4M16 2v4M4 10h16m-12 5 3 3 5-5"/></svg><span>Make a Plan</span></h3>
+<p>We turn your goals into a plan around your project and experience. Together, we choose what to tackle first and set a regular session schedule that gives you time to apply what you learn. We agree on the scope and pricing before you commit.</p>
+</li>
+<li>
+<h3><svg class="pro-timeline-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m7 7-5 5 5 5m10-10 5 5-5 5M14 4l-4 16"/></svg><span>Work Through Real Problems</span></h3>
+<p>We typically meet every two or three weeks to discuss your Rust work.
+    Bring a pull request, architecture questions, or a piece of code you'd like feedback on. We'll discuss your questions and pair-program together. You leave with a clearer understanding and concrete next steps.</p>
+</li>
+<li>
+<h3><svg class="pro-timeline-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg><span>Achieve Your Goals</span></h3>
+<p>
+    Whether your goal is to find a Rust job, ship an ambitious project, or become better at reviewing Rust code, you'll leave with the mental models and a process for putting your knowledge into practice. What you learn will stay with you throughout your career.
+</p>
+</li>
+</ol>
+<div class="pro-section-cta">
+<a href="#contact" class="pro-btn pro-btn-primary">Get Rust Mentoring</a>
 </div>
 </div>
 </section>
@@ -90,14 +119,14 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 </figure>
 </section>
 <div class="pro-section-cta">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=mentor" data-cal-cta="mentor" class="pro-btn pro-btn-primary">Book Your First Call</a>
+<a href="#contact" class="pro-btn pro-btn-primary">Get Rust Mentoring</a>
 </div>
 </div>
 </section>
 
 <section class="pro-section">
 <div class="pro-container-narrow">
-<h2 id="how-it-works" class="pro-section-title">We'll Work on what matters to you</h2>
+<h2 id="how-it-works" class="pro-section-title">We'll Work on What Matters to You</h2>
 <div class="pro-value-content">
 <article class="pro-value-item">
 <h3>Recognize <span class="highlight">Good Rust</span></h3>
@@ -123,110 +152,7 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 </section>
 
 
-<section class="pro-section">
-<div class="pro-container-narrow">
-<h2 class="pro-section-title">Why Work With a Mentor?</h2>
-<p class="pro-section-subtitle">You can read documentation to learn the syntax, but mentoring helps you build the judgment to make decisions with confidence.</p>
-
-<div class="pro-comparison-wrapper">
-<table class="pro-comparison-table">
-<caption class="visually-hidden">Comparison of self-directed learning and personal mentoring</caption>
-<thead>
-<tr>
-<th scope="col"><span class="visually-hidden">Capability</span></th>
-<th scope="col" class="muted">Self-Directed</th>
-<th scope="col">Personal Mentoring</th>
-</tr>
-</thead>
-<tbody>
-
-<tr>
-<th scope="row">Resolve difficult implementation decisions</th>
-<td class="muted">Trial and error</td>
-<td class="highlight">✓</td>
-</tr>
-<tr>
-<th scope="row">Compare architecture trade-offs</th>
-<td class="muted">✗</td>
-<td class="highlight">✓</td>
-</tr>
-<tr>
-<th scope="row">Get direct feedback on code and design</th>
-<td class="muted">✗</td>
-<td class="highlight">✓</td>
-</tr>
-<tr>
-<th scope="row">Build a repeatable review process</th>
-<td class="muted">✗</td>
-<td class="highlight">✓</td>
-</tr>
-<tr>
-<th scope="row">Recognize your knowledge gaps</th>
-<td class="muted">✗</td>
-<td class="highlight">✓</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-
-<section class="pro-section">
-<div class="pro-container">
-<h2 id="pricing" class="pro-section-title">Start Making Real Progress With Rust</h2>
-<p class="pro-section-subtitle">Pick the session package that fits your project and goals. All sessions are live and 1-on-1. We work directly on your code and decisions.</p>
-
-<div class="pro-pricing">
-<article class="pro-price-card">
-<h3 class="pro-price-name"><code>Once::new()</code></h3>
-<p class="pro-price-amount"><data value="200">€200</data><span>/session</span></p>
-<p class="pro-price-context">1 session · 60 minutes</p>
-<ul class="pro-price-features">
-<li>Pick one design, review, or implementation problem</li>
-<li>Work directly in the context of your code and goals</li>
-<li>Clear next steps you can continue independently</li>
-</ul>
-<a href="https://corrode.dev/book/" class="pro-btn pro-btn-primary pro-btn-full">Book a Single Session</a>
-<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=single" data-cal-cta="single">Book a free call</a>.</p>
-</article>
-
-<article class="pro-price-card featured">
-<p class="pro-price-badge">Recommended</p>
-<h3 class="pro-price-name"><code>[Session; 5]</code></h3>
-<p class="pro-price-amount"><data value="900">€900</data><span> / 5 sessions</span></p>
-<p class="pro-price-context">€180/session · save €100 · valid 3 months</p>
-<ul class="pro-price-features">
-<li>Five live 1-on-1 sessions around your concrete goal</li>
-<li>A clear direction for your project and learning priorities</li>
-<li>Repeated design, implementation, and review cycles</li>
-<li>Brief questions by chat or email between sessions</li>
-</ul>
-<a href="https://buy.stripe.com/6oUfZigeKaubb4Xf5d9k401" class="pro-btn pro-btn-primary pro-btn-full">Buy the 5-Session Package</a>
-<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=five" data-cal-cta="five">Book a free call</a>.</p>
-</article>
-
-<article class="pro-price-card">
-<h3 class="pro-price-name"><code>Vec::with_capacity(10)</code></h3>
-<p class="pro-price-amount"><data value="1700">€1700</data><span> / 10 sessions</span></p>
-<p class="pro-price-context">€170/session · save €300 · valid 6 months</p>
-<ul class="pro-price-features">
-<li>Ten live 1-on-1 sessions for a larger system or transition</li>
-<li>Deeper architecture and code-review continuity</li>
-<li>Room for testing, async, performance, or operations work</li>
-<li>Brief questions by chat or email between sessions</li>
-<li>A long-term plan for owning the codebase confidently</li>
-</ul>
-<a href="https://buy.stripe.com/fZuaEY9Qm1XFb4X6yH9k402" class="pro-btn pro-btn-primary pro-btn-full">Buy the 10-Session Package</a>
-<p class="pro-price-note">Not sure yet? <a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=ten" data-cal-cta="ten">Book a free call</a>.</p>
-</article>
-</div>
-
-<aside class="pro-pricing-footer" aria-label="Payment and team options">
-<p><strong>Professional development budget available?</strong> I provide business invoices and can describe the learning goals for your manager. Many employers are happy to fund support tied directly to production work.</p>
-<p><strong>Looking for organization-wide help?</strong> See my <a href="/services/">team consulting and training</a>.</p>
-</aside>
-</div>
-</section>
+{{ <mentoring_inquiry /> }}
 
 <section class="pro-section">
 <div class="faq-container">
@@ -235,69 +161,38 @@ I host the <a href="/podcast">Rust in Production Podcast</a>, where I've had mor
 {% <faq> %}
 [
   {
-    "q": "Is this for me?",
-    "a": "This mentoring is designed for experienced engineers who already know how to build software and now have a real Rust project, codebase, or review responsibility. It is especially useful when your experience comes from Python, Go, Java, C++, or another language whose familiar patterns do not translate directly to Rust. If you need organization-wide adoption support, team consulting and training are a better fit."
-  },
-  {
-    "q": "What happens on the free call?",
-    "a": "We'll talk about your background, your current Rust work, and the decisions or skills you want to improve. I'll explain how I work and tell you honestly whether mentoring, a single session, a free resource, or a different kind of help makes the most sense. There is no obligation and no sales pressure."
+    "q": "Is this right for my experience level?",
+    "a": "This is for experienced software engineers who want to get better at working with Rust. You might be moving from Python, Go, C++, or another language, or already using Rust and looking for feedback on your design and code-review decisions. For organization-wide support, see my <a href=\"/services/\">team consulting and training</a>."
   },
   {
     "q": "Do I need an existing Rust project?",
-    "a": "A real project or codebase is ideal because it gives our work context, but it is not mandatory. We can choose a realistic project or use a design and review exercise based on the kind of Rust work you expect to do."
+    "a": "No. Your own project gives us useful context, but we can also choose a realistic project or work through design and review exercises based on the kind of Rust work you want to do."
   },
   {
-    "q": "Can I use AI during mentoring?",
-    "a": "Yes. AI can generate Rust quickly, but the difficult part is deciding whether the types, boundaries, dependencies, async behavior, and failure modes belong in a production system. We'll use tools where they help while strengthening the mental models you need to direct and review them. The goal is for you to remain responsible for the design."
+    "q": "What can I expect from a session?",
+    "a": "We work on a concrete problem that matters to you: pairing in your repository, reviewing a pull request, or comparing architecture options. I ask questions and explain trade-offs rather than just fixing the code for you. You leave with concrete next steps and an understanding you can apply to the next problem."
   },
   {
-    "q": "What outcomes should I expect?",
-    "a": "You should leave sessions with clearer mental models, concrete next steps, and a stronger process for making and reviewing Rust decisions. The goal is not dependence on a mentor; it is becoming able to explain the architecture, review the diff, and handle the next implementation with less help."
+    "q": "How often do we meet, and will it fit my schedule?",
+    "a": "We typically meet every two or three weeks, with time between sessions to apply what you learn. I'm based in Germany and usually work during European business hours, but we can discuss other time zones on the intro call. If you need to reschedule a session, just let me know."
   },
   {
-    "q": "What does a session look like?",
-    "a": "You set the agenda with my help. We might pair in your repository, review a pull request, compare architecture options, read library or standard-library source, or draw a design. I ask questions and explain trade-offs so that you leave understanding the decision rather than merely copying a fix."
+    "q": "How much does mentoring cost?",
+    "a": "The intro call is free. We'll discuss your goals and agree on the scope, session schedule, and pricing before you commit to paid mentoring. You don't need to choose or buy a package before we talk."
   },
   {
-    "q": "Which option should I start with?",
-    "a": "Choose a single session for one problem or to try the working style. Five sessions are the recommended path when you have a concrete project goal and want repeated implementation and review cycles. Ten sessions make sense for a larger system or a longer transition into serious Rust work."
+    "q": "Can my employer pay for mentoring?",
+    "a": "Yes. I provide business invoices and can describe the learning goals for your manager. If you have a professional development budget, mention it on the intro call."
   },
   {
-    "q": "What if I can't make a scheduled session?",
-    "a": "Life happens. Just let me know and we'll move your session to another slot. The 5-session block is valid for 3 months, and the 10-session block for 6 months, so there's plenty of flexibility."
+    "q": "What if mentoring isn't a good fit?",
+    "a": "The intro call gives us both a chance to find out whether working together makes sense, with no obligation to continue. If after your first paid session you don't feel it's a good fit, I'll refund you."
   },
   {
-    "q": "How do I know you're the right mentor?",
-    "a": "That's what the intro call is for. We'll talk, you'll get a feel for my style, and we'll both know if it's a good fit. You can also watch <a href=\"https://www.youtube.com/watch?v=aZ5sfhGmEVU\" target=\"_blank\" rel=\"noopener\">this video</a> beforehand to see if you like the way I work. And if after the first paid session it doesn't feel right, I'll refund you."
-  },
-  {
-    "q": "What timezone do you work in?",
-    "a": "I'm based in D\u00fcsseldorf, Germany (CET/UTC+1). I prefer to schedule sessions during European business hours, but I'm flexible to accommodate other timezones when possible. Some people prefer code reviews via Loom videos, which allows for more asynchronous communication. Please reach out to clarify the details."
-  },
-  {
-    "q": "Do you offer refunds?",
-    "a": "My goal is your success, not trapping you in a contract. If after your first session you don't feel it's a good fit, I'll refund you."
-  },
-  {
-    "q": "How do I schedule the five sessions?",
-    "a": "After purchasing the package, you'll receive a personal booking link by email. Use the same link whenever you're ready to schedule your next session. You can choose each date separately and use all five sessions at your own pace within three months."
-  },
-  {
-    "q": "How does payment work?",
-    "a": "You pay upfront for your session package via Stripe. After payment, I'll email you a personal link for booking the included sessions individually. You'll receive a receipt from Stripe; contact me if you also need an invoice for professional development expenses. Unused sessions are refunded if things don't work out."
+    "q": "How do I get started?",
+    "a": "Fill out the short inquiry form above with your background, goals, and availability. I'll review your answers and reply by email. If I think I can help, I'll invite you to a free 30-minute intro call to discuss fit, expectations, and next steps. There's no obligation to continue."
   }
 ]
 {% </faq> %}
-</div>
-</section>
-
-<section class="pro-section">
-<div class="pro-container-narrow">
-<h2 class="pro-section-title">A Clear Plan for Moving Forward With Rust</h2>
-<p class="pro-section-subtitle">We'll use the free call to understand the problem and decide on the next steps.</p>
-
-<div class="pro-cta-buttons">
-<a href="https://cal.com/corrode/intro-call?utm_source=corrode&amp;utm_medium=website&amp;utm_campaign=mentoring&amp;utm_content=final" data-cal-cta="final" class="pro-btn pro-btn-primary">Book a Free Call</a>
-</div>
 </div>
 </section>

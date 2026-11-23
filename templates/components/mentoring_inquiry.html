@@ -1,0 +1,43 @@
+{% component mentoring_inquiry() %}
+<section class="pro-section">
+<div id="contact" class="pro-container-narrow pro-intro-callout inquiry pro-mentoring-inquiry" aria-labelledby="inquiry-heading">
+    <h2 id="inquiry-heading" class="pro-section-title">Let’s Work on Your Rust Goals</h2>
+    <p class="pro-section-subtitle">Tell me about your background, your goals, and the time you have available. I'll review your answers and, if I think I can help, invite you to a free 30-minute intro call.</p>
+    <form id="inquiry-form" action="https://submit-form.com/r7PT0RxiL" method="post" aria-describedby="inquiry-help inquiry-privacy">
+        <input type="hidden" name="inquiryType" value="mentoring">
+        <p id="inquiry-help">All fields are required. A few sentences are enough. Please leave out confidential code or company information.</p>
+        <div class="inquiry-fields">
+            <label for="inquiry-name">Name</label>
+            <input id="inquiry-name" name="name" autocomplete="name" required maxlength="200">
+            <label for="inquiry-email">Email</label>
+            <input id="inquiry-email" name="email" type="email" autocomplete="email" required maxlength="254">
+            <label for="inquiry-background">What's your programming background, including Rust?</label>
+            <textarea id="inquiry-background" name="background" rows="3" required maxlength="2000"></textarea>
+            <label for="inquiry-goals">What would you like to achieve with Rust over the next few months?</label>
+            <textarea id="inquiry-goals" name="goals" rows="3" required maxlength="3000"></textarea>
+            <label for="inquiry-support">What kind of support are you looking for?</label>
+            <select id="inquiry-support" name="support" required>
+                <option value="">Select an option</option>
+                <option>Ongoing mentoring</option>
+                <option>Help with a specific problem</option>
+                <option>Not sure yet</option>
+            </select>
+            <label for="inquiry-availability">When would you like to start, and how much time can you realistically set aside between sessions?</label>
+            <textarea id="inquiry-availability" name="availability" rows="3" required maxlength="2000" aria-describedby="inquiry-availability-help"></textarea>
+            <small id="inquiry-availability-help">We typically meet every two or three weeks. A rough idea of your timing and available time is enough.</small>
+        </div>
+        <p id="inquiry-privacy">Your details are sent through Formspark so I can respond to your inquiry. This does not subscribe you to a newsletter.</p>
+        <button class="pro-btn pro-btn-primary" type="submit">Send mentoring inquiry</button>
+        <p class="pro-hero-note">No payment required. No obligation to continue.</p>
+    </form>
+    <p id="inquiry-status" role="status" aria-live="polite" tabindex="-1"></p>
+    <div id="inquiry-success" hidden tabindex="-1" role="status">
+        <h3>Thank you. Your inquiry has been sent.</h3>
+        <p>I'll</p> review your answers and reply by email. If I think I can help, I'll invite you to a free 30-minute intro call.</p>
+    </div>
+    <p>Prefer email? Send your background, goals, and availability to <a href="mailto:hi@corrode.dev">hi@corrode.dev</a>.</p>
+    <noscript><p>You can submit this form without JavaScript. You'll see the submission result on the next page.</p></noscript>
+</div>
+</section>
+<script src="/services/inquiry.js" defer></script>
+{% endcomponent mentoring_inquiry %}
