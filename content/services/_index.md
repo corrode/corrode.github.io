@@ -107,7 +107,7 @@ I help your team get productive with Rust by pairing, reviewing code, and discus
 Empathy and trust are important, so I meet the team where they are and adapt my guidance to the experience level of each engineer.
 My goal is to build up a group of excellent Rust engineers who can justify engineering decisions and learn how to navigate the Rust ecosystem.
 
-For an overview to share with your team, the services PDF is available in [English](corrode_rust_team_augmentation_en.pdf) and [German](corrode_rust_team_augmentation_de.pdf). For individual support, see [1-on-1 Rust mentorship](/mentorship).
+For an overview to share with your team, the services PDF is available in [English](corrode_rust_team_augmentation_en.pdf) and [German](corrode_rust_team_augmentation_de.pdf). For individual support, see [1-on-1 Rust mentoring](/mentoring).
 
 ## Let's Find The Right Support
 
