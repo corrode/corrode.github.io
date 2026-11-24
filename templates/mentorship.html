@@ -88,36 +88,8 @@
             <main class="pro-main">{{ section.content | safe }}</main>
         </div>
 
+        {% set hide_newsletter = true %}
         {% include "snippets/footer.html" %}
 
-        <script>
-            const landingParams = new URLSearchParams(window.location.search);
-            const source = landingParams.get("utm_source") || "corrode";
-            const medium = landingParams.get("utm_medium") || "website";
-            const campaign = landingParams.get("utm_campaign") || "mentoring";
-            const term = landingParams.get("utm_term");
-            const originContent = landingParams.get("utm_content");
-
-            document.querySelectorAll("a[data-cal-cta]").forEach((link) => {
-                const url = new URL(link.href);
-                const placement = link.dataset.calCta;
-
-                url.searchParams.set("utm_source", source);
-                url.searchParams.set("utm_medium", medium);
-                url.searchParams.set("utm_campaign", campaign);
-                url.searchParams.set(
-                    "utm_content",
-                    originContent
-                        ? `${originContent}-${placement}`
-                        : placement,
-                );
-
-                if (term) {
-                    url.searchParams.set("utm_term", term);
-                }
-
-                link.href = url.toString();
-            });
-        </script>
     </body>
 </html>
