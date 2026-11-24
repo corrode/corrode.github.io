@@ -82,7 +82,7 @@ def test_mentoring(page, width, theme, submissions, mode, held):
     assert form.locator("input, textarea, select").count() == 7
     button = form.get_by_role("button", name="Send mentoring inquiry", exact=True)
     before = len(submissions)
-    button.click()
+    submit_form(button)
     assert len(submissions) == before
     fill_mentoring(page)
     for name in ["name", "email", "background", "goals", "support", "availability"]:
@@ -102,12 +102,12 @@ def test_mentoring(page, width, theme, submissions, mode, held):
             if name in ["background", "goals", "availability"]:
                 assert field.evaluate("el => el.tagName") == "TEXTAREA"
             field.fill("")
-        button.click()
+        submit_form(button)
         assert len(submissions) == before
         assert not field.evaluate("el => el.checkValidity()")
         fill_mentoring(page)
     form.locator('[name="email"]').fill("invalid-email")
-    button.click()
+    submit_form(button)
     assert len(submissions) == before
     fill_mentoring(page)
     fits(page, "#contact input, #contact textarea, #contact select, #contact button", width)
@@ -118,7 +118,7 @@ def test_mentoring(page, width, theme, submissions, mode, held):
 
     for failure in ["failure", "offline"]:
         mode["value"] = failure
-        button.click()
+        submit_form(button)
         expect(page.locator("#inquiry-status")).to_contain_text("couldn't confirm")
         expect(form).to_be_visible()
         expect(page.locator("#inquiry-success")).to_be_hidden()
@@ -130,7 +130,7 @@ def test_mentoring(page, width, theme, submissions, mode, held):
 
     mode["value"] = "pending"
     before = len(submissions)
-    button.click()
+    submit_form(button)
     expect(button).to_be_disabled()
     expect(form).to_have_attribute("aria-busy", "true")
     expect(page.locator("#inquiry-success")).to_be_hidden()
@@ -149,9 +149,9 @@ def test_mentoring(page, width, theme, submissions, mode, held):
     print(f"PASS: mentoring {width}px {theme}: CTAs, required fields, validation, failure/retry, pending/double-submit, success/focus, layout")
 
 
-def submit_without_javascript(button):
+def submit_form(button):
     # Keyboard activation avoids Playwright's frame-based click stability wait,
-    # which can stall with JavaScript disabled in the cached Chromium build.
+    # which can stall in the cached headless Chromium build.
     # Unlike form.submit(), Enter still runs native constraint validation.
     expect(button).to_be_visible()
     expect(button).to_be_enabled()
@@ -215,11 +215,11 @@ with sync_playwright() as p:
 
                 form = page.locator("#inquiry-form")
                 button = form.get_by_role("button", name="Send inquiry", exact=True)
-                button.click()
+                submit_form(button)
                 assert not submissions
                 fill(page)
                 form.locator('[name="email"]').fill("invalid-email")
-                button.click()
+                submit_form(button)
                 assert not submissions
                 form.locator('[name="email"]').fill(payload["email"])
                 assert form.locator("input, textarea, select").count() == 6
@@ -230,7 +230,7 @@ with sync_playwright() as p:
 
                 for failure in ["failure", "offline"]:
                     mode["value"] = failure
-                    button.click()
+                    submit_form(button)
                     expect(page.locator("#inquiry-status")).to_contain_text("couldn't confirm")
                     expect(form).to_be_visible()
                     expect(page.locator("#inquiry-success")).to_be_hidden()
@@ -241,7 +241,7 @@ with sync_playwright() as p:
 
                 mode["value"] = "pending"
                 before = len(submissions)
-                button.click()
+                submit_form(button)
                 expect(button).to_be_disabled()
                 expect(page.locator("#inquiry-success")).to_be_hidden()
                 page.evaluate("document.getElementById('inquiry-form').requestSubmit()")
@@ -269,7 +269,7 @@ with sync_playwright() as p:
             route.fulfill(content_type="text/html", body="<h1>Provider confirmation (test)</h1>")
 
         context.route(endpoint, native_submit)
-        submit_without_javascript(page.locator('#inquiry-form button'))
+        submit_form(page.locator('#inquiry-form button'))
         expect(page.get_by_role("heading", name="Provider confirmation (test)")).to_be_visible()
         assert captured and "email=test%40example.com" in captured[0]
         print("PASS: no-JavaScript native POST; provider response mocked, not live delivery")
@@ -305,10 +305,10 @@ with sync_playwright() as p:
         expect(form).to_be_visible()
         expect(page.locator("#inquiry-success")).to_be_hidden()
         button = form.get_by_role("button", name="Send mentoring inquiry", exact=True)
-        submit_without_javascript(button)
+        submit_form(button)
         assert not captured
         fill_mentoring(page)
-        submit_without_javascript(button)
+        submit_form(button)
         expect(page.get_by_role("heading", name="Provider confirmation (test)")).to_be_visible()
         assert captured == [{name: [value] for name, value in mentoring_payload.items()}]
         print("PASS: mentoring no-JavaScript validation and native POST; provider response mocked, not live delivery")
