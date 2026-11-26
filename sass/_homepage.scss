@@ -195,12 +195,13 @@
     position: relative;
 }
 
+// Keep the angled edges inside the padding, regardless of quote height.
 .testimonial:nth-child(odd) .testimonial-text {
-    clip-path: polygon(2% 5%, 98% 5%, 96% 95%, 4% 85%);
+    clip-path: polygon(2% 0.5rem, 98% 0.5rem, 96% calc(100% - 0.25rem), 4% calc(100% - 1rem));
 }
 
 .testimonial:nth-child(even) .testimonial-text {
-    clip-path: polygon(0% 8%, 97% 5%, 98% 85%, 4% 95%);
+    clip-path: polygon(0% 1rem, 97% 0.5rem, 98% calc(100% - 1rem), 4% calc(100% - 0.25rem));
 }
 
 .testimonial-text::after {
