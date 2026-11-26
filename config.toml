@@ -28,5 +28,4 @@ author = "Corrode Rust Consulting"
 links = [
     { url = "https://www.linkedin.com/company/corrode", title = "LinkedIn", icon = "linkedin.svg" },
     { url = "mailto:&#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;", title = "&#104;&#105;&#064;&#099;&#111;&#114;&#114;&#111;&#100;&#101;&#046;&#100;&#101;&#118;", icon = "envelope.svg" },
-    { url = "https://twitter.com/matthiasendler", title = "X", icon = "x.svg" },
 ]
