@@ -618,6 +618,14 @@ ul {
     background-color: $darkBgrd;
 }
 
+.dark::selection,
+.dark ::selection,
+.call-to-action::selection,
+.call-to-action ::selection {
+    color: $brightPrim;
+    background: $brightBgrd;
+}
+
 .dark a {
     color: white;
     text-decoration: underline;

@@ -229,6 +229,12 @@
     font-style: italic;
 }
 
+.testimonial-text::selection,
+.testimonial-text ::selection {
+    color: white;
+    background: $brightPrim;
+}
+
 .testimonial-author {
     display: flex;
     align-items: center;
@@ -435,5 +441,11 @@
 
     .testimonial-text b {
         color: $brightBgrd;
+    }
+
+    .testimonial-text::selection,
+    .testimonial-text ::selection {
+        color: $brightPrim;
+        background: $brightBgrd;
     }
 }
