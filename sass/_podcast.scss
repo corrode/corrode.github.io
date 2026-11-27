@@ -11,7 +11,7 @@
 }
 
 .podcast-hero {
-    padding-block: clamp(3rem, 7vw, 6rem) 0;
+    padding-block: 0;
     padding-inline: max(1.25rem, calc((100% - 1200px) / 2));
 }
 
@@ -25,6 +25,7 @@
 
 .podcast-hero-copy {
     grid-area: copy;
+    padding-top: clamp(3rem, 7vw, 6rem);
     padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
@@ -97,12 +98,28 @@
 
 .podcast-hero-art {
     grid-area: art;
-    align-self: end;
+    align-self: stretch;
     justify-self: end;
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 32rem;
-    height: auto;
+
+    img {
+        display: block;
+        flex: none;
+        width: 100%;
+        height: auto;
+    }
+}
+
+// Stretch only the straight cables, leaving the illustration's proportions intact.
+.podcast-hero-cables {
+    display: block;
+    flex: 1 0 0;
+    width: 100%;
+    min-height: clamp(3rem, 7vw, 6rem);
+    height: 0;
 }
 
 // Overlay the artwork with the actual section edge rather than a separate clip.
@@ -361,16 +378,15 @@
 @media (max-width: 700px) {
     .podcast-hero-inner {
         grid-template-columns: minmax(0, 1fr);
-        grid-template-areas: "copy" "art";
+        grid-template-areas: "copy";
     }
 
     .podcast-hero-copy {
-        padding-bottom: 0;
+        padding-bottom: 3rem;
     }
 
     .podcast-hero-art {
-        max-width: 20rem;
-        justify-self: center;
+        display: none;
     }
 
     // Size the stacked title so its longest line fits between the page gutters.
