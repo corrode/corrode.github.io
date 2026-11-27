@@ -1,0 +1,55 @@
+#conference-map {
+  height: 500px;
+  width: 110%;
+  margin: 2rem 0 2rem -5%;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Article image rules must not override Leaflet's tile positioning. */
+#conference-map img.leaflet-tile {
+  position: absolute;
+  margin: 0;
+  max-width: none;
+  border-radius: 0;
+}
+
+#conference-map .conference-marker span {
+  display: block;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 4px solid #ff1493;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 0 10px rgba(255, 20, 147, 0.12);
+}
+
+#conference-map .leaflet-tooltip,
+#conference-map .leaflet-popup-content {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111;
+}
+
+#conference-map .leaflet-tooltip {
+  white-space: normal;
+  min-width: 180px;
+}
+
+#conference-map strong {
+  color: #c9006b;
+}
+
+#conference-map a {
+  box-shadow: none;
+}
+
+@media (max-width: 750px) {
+  #conference-map {
+    width: 100%;
+    height: 400px;
+    margin-left: 0;
+  }
+}

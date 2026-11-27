@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">OTTO</title>
+  <desc id="desc">The red OTTO logo on a warm off-white banner with subtle red curved accents.</desc>
+  <!-- Official logo: https://www.otto.de/assets-static/icons/pl_logo_otto.svg -->
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#fffaf8"/>
+      <stop offset="1" stop-color="#fceeea"/>
+    </linearGradient>
+    <clipPath id="frame"><rect width="1200" height="420" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="420" fill="url(#background)"/>
+    <g fill="none" stroke="#eb001f" stroke-width="1.5" opacity=".09">
+      <circle cx="20" cy="430" r="180"/>
+      <circle cx="20" cy="430" r="235"/>
+      <circle cx="20" cy="430" r="290"/>
+      <circle cx="1190" cy="-30" r="180"/>
+      <circle cx="1190" cy="-30" r="235"/>
+      <circle cx="1190" cy="-30" r="290"/>
+    </g>
+    <g transform="translate(385.8 138) scale(3.6)">
+      <path d="M103.419 0c-5.915 0-10.716 1.82-14.106 5.597.477-1.297.75-2.89.773-4.778H69.381c-4.505 0-7.1 1.98-8.874 7.1l.91-7.1H40.53c-3.823 0-6.462 1.843-7.418 5.415C30.542 2.071 25.922 0 20.097 0 9.018 0 1.805 6.394.53 20.046l-.16 1.729C-.766 33.97 5.65 40 15.593 40c11.081 0 18.271-6.462 19.568-20.114l.16-1.729c.295-3.14.09-5.848-.57-8.168h9.375L41.44 32.992c-.546 4.573 1.934 6.667 6.075 6.667 2.526 0 3.39-.16 4.346-.319L55.183 9.99h10.921L63.42 32.992c-.546 4.573 1.934 6.667 6.076 6.667 2.525 0 3.39-.16 4.345-.319L77.162 9.99h5.37c1.866 0 3.368-.433 4.528-1.297-1.684 2.98-2.799 6.757-3.231 11.33l-.16 1.73c-1.137 12.196 5.257 18.225 15.223 18.225 11.08 0 18.27-6.462 19.567-20.113l.16-1.73C119.756 6.03 113.363 0 103.419 0m-79.18 17.429-.114 1.297c-.751 9.238-3.754 12.105-7.463 12.105-3.345 0-5.688-2.253-5.21-8.283l.113-1.342c.728-9.215 3.754-12.127 7.463-12.127 3.277 0 5.688 2.32 5.21 8.35m83.344 0-.114 1.297c-.75 9.238-3.754 12.105-7.463 12.105-3.322 0-5.688-2.253-5.21-8.283l.114-1.342c.75-9.192 3.754-12.105 7.463-12.105 3.253-.023 5.665 2.298 5.21 8.328" fill="#eb001f"/>
+    </g>
+  </g>
+</svg>

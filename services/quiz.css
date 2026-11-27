@@ -1,0 +1,141 @@
+  .quiz-container {
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .quiz-progress-container {
+    width: 100%;
+    background-color: #ddd;
+    height: 5px;
+    margin-bottom: 20px;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background-color: #ee3856;
+    transition: width 0.5s ease-in-out;
+  }
+
+  #quiz-navigation-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .quiz-navbutton {
+    padding: 10px 20px;
+    background-color: #111;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+
+  .quiz-flex-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .quiz-button {
+    padding: 14px;
+    border-radius: 4px;
+    background-color: #111;
+    color: white;
+    white-space: nowrap;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: large;
+  }
+
+  .quiz-button:hover {
+    background-color: #ee3856;
+  }
+
+  input,
+  .checkbox-label,
+  .quiz-button:hover {
+    cursor: pointer;
+  }
+
+  #quiz-next-question:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .quiz-button input[type="radio"] {
+    display: none;
+  }
+
+  .quiz-container input[type="input"],
+  .quiz-container input[type="text"],
+  .quiz-container input[type="email"] {
+    font-size: larger;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .quiz-container input::placeholder {
+    color: #ccc;
+  }
+
+  .question h2 {
+    margin: 0;
+  }
+
+  .question .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .question input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #111;
+    border-radius: 4px;
+    margin: 0; /* Remove margin, we're using gap instead */
+  }
+
+  .question input[type="checkbox"]:checked {
+    border: 2px solid #111;
+    background-color: #ee3856;
+  }
+
+  @media (max-width: 600px) {
+    .quiz-container input[type="text"],
+    .quiz-container input[type="email"] {
+      width: calc(100% - 30px);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .quiz-button {
+      background-color: #fab71c;
+      color: #111;
+    }
+
+    .question input[type="checkbox"] {
+      border-color: #fff;
+    }
+
+    .question input[type="checkbox"]:checked {
+      border: 2px solid #fff;
+      background-color: #ee3856;
+    }
+  }
