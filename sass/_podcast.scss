@@ -11,15 +11,21 @@
 }
 
 .podcast-hero {
-    padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem);
+    padding-block: clamp(3rem, 7vw, 6rem) 0;
     padding-inline: max(1.25rem, calc((100% - 1200px) / 2));
 }
 
 .podcast-hero-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-areas: "art copy";
     align-items: center;
     gap: 2rem;
+}
+
+.podcast-hero-copy {
+    grid-area: copy;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .podcast-hero h1 {
@@ -90,13 +96,18 @@
 }
 
 .podcast-hero-art {
+    grid-area: art;
+    align-self: end;
+    justify-self: end;
     display: block;
     width: 100%;
+    max-width: 32rem;
     height: auto;
 }
 
+// Overlay the artwork with the actual section edge rather than a separate clip.
 .podcast-listening {
-    margin-top: 1.5rem;
+    margin-top: 0;
     padding: 3rem 1.25rem;
     background-color: $brightBgrdScnd;
     text-align: center;
@@ -350,10 +361,16 @@
 @media (max-width: 700px) {
     .podcast-hero-inner {
         grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "copy" "art";
+    }
+
+    .podcast-hero-copy {
+        padding-bottom: 0;
     }
 
     .podcast-hero-art {
-        display: none;
+        max-width: 20rem;
+        justify-self: center;
     }
 
     // Size the stacked title so its longest line fits between the page gutters.
