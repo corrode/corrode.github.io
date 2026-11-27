@@ -10,7 +10,7 @@
     "name": "Rust in Production",
     "description": {{ section.description | json_encode | safe }},
     "url": "https://corrode.dev/podcast/",
-    "image": "https://corrode.dev/podcast/social.png",
+    "image": "https://corrode.dev/podcast/cover.svg",
     "inLanguage": "en",
     "isAccessibleForFree": true,
     "publisher": {
@@ -39,6 +39,12 @@
 <article class="podcast-page" aria-labelledby="podcast-title">
     <header class="podcast-hero" id="podcast-top">
         <div class="podcast-hero-inner">
+            <div class="podcast-hero-art">
+                <svg class="podcast-hero-cables" viewBox="0 0 1224 1" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                    <path fill="#1a1613" d="M61.83 0h3.69v1h-3.69zM78.44 0h3.69v1h-3.69zM331.48 0h4.92v1h-4.92zM434.42 0h4.92v1h-4.92z" />
+                </svg>
+                <img src="/podcast/cover.svg" alt="A foundry pouring molten metal into a Rust gear" width="1224" height="1500" fetchpriority="high" />
+            </div>
             <div class="podcast-hero-copy">
                 <h1 id="podcast-title">
                     <span class="highlight">Rust in</span>
@@ -64,7 +70,6 @@
                     </li>
                 </ul>
             </div>
-            <img class="podcast-hero-art" src="/podcast/hero.svg" alt="" width="310" height="268" fetchpriority="high" />
         </div>
     </header>
 

@@ -11,15 +11,22 @@
 }
 
 .podcast-hero {
-    padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem);
+    padding-block: 0;
     padding-inline: max(1.25rem, calc((100% - 1200px) / 2));
 }
 
 .podcast-hero-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-areas: "art copy";
     align-items: center;
     gap: 2rem;
+}
+
+.podcast-hero-copy {
+    grid-area: copy;
+    padding-top: clamp(3rem, 7vw, 6rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .podcast-hero h1 {
@@ -90,13 +97,34 @@
 }
 
 .podcast-hero-art {
-    display: block;
+    grid-area: art;
+    align-self: stretch;
+    justify-self: end;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: auto;
+    max-width: 32rem;
+
+    img {
+        display: block;
+        flex: none;
+        width: 100%;
+        height: auto;
+    }
 }
 
+// Stretch only the straight cables, leaving the illustration's proportions intact.
+.podcast-hero-cables {
+    display: block;
+    flex: 1 0 0;
+    width: 100%;
+    min-height: clamp(3rem, 7vw, 6rem);
+    height: 0;
+}
+
+// Overlay the artwork with the actual section edge rather than a separate clip.
 .podcast-listening {
-    margin-top: 1.5rem;
+    margin-top: 0;
     padding: 3rem 1.25rem;
     background-color: $brightBgrdScnd;
     text-align: center;
@@ -350,6 +378,11 @@
 @media (max-width: 700px) {
     .podcast-hero-inner {
         grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "copy";
+    }
+
+    .podcast-hero-copy {
+        padding-bottom: 3rem;
     }
 
     .podcast-hero-art {
